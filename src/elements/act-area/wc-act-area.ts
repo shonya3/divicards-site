@@ -1,7 +1,7 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { html, css, PropertyValues, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IActArea } from '../data/poeData.types';
+import { IActArea } from '../../data/poeData.types';
 
 declare global {
 	interface HTMLElementTagNameMap {

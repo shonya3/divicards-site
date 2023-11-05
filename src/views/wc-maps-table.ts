@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, html, css } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import type { CardSize } from './divination-card/wc-divination-card';
-import './divination-card/wc-divination-card.js';
+import type { CardSize } from '../elements/divination-card/wc-divination-card.js';
+import '../elements/divination-card/wc-divination-card.js';
 
 declare global {
 	interface HTMLElementTagNameMap {

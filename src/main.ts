@@ -1,7 +1,7 @@
 import { ParsedDivcordTableRecord } from './data/ParsedDivcordTableRecord';
 import { poeData, divcordRecords as records } from './jsons/jsons';
-import './wc-cards-table';
-import { CardsTableElement } from './wc-cards-table';
+import './views/wc-cards-table';
+import { CardsTableElement } from './views/wc-cards-table';
 
 // const data = new Data(
 // 	new PoeData(poeData),
