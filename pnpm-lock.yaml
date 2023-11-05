@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@thepassle/app-tools':
+    specifier: ^0.9.9
+    version: 0.9.9
   lit:
     specifier: ^3.0.1
     version: 3.0.1
@@ -365,6 +368,10 @@ packages:
   /@swc/types@0.1.5:
     resolution: {integrity: sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==}
     dev: true
+
+  /@thepassle/app-tools@0.9.9:
+    resolution: {integrity: sha512-HiTHYXyK8etO9RvRbIBHd/hienOsBzVE1K20DSTLK4kEJwUuRNw9xYyiYoPpGTKYptGmPTVKOs52GsqzlQgkng==}
+    dev: false
 
   /@types/trusted-types@2.0.5:
     resolution: {integrity: sha512-I3pkr8j/6tmQtKV/ZzHtuaqYSQvyjGRKH4go60Rr0IDLlFxuRT5V32uvB1mecM5G1EVAUyF/4r4QZ1GHgz+mxA==}

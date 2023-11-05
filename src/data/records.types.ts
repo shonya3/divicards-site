@@ -1,12 +1,4 @@
-export type ISource =
-	| {
-			type: 'act';
-			id: string;
-	  }
-	| {
-			type: 'map' | 'mapBoss' | 'actBoss' | string;
-			name?: string;
-	  };
+import { ISource } from './ISource.interface.ts';
 
 export type IGreynote =
 	| 'monsterSpecific'

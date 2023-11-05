@@ -1,7 +1,10 @@
 import { LitElement, PropertyValueMap, html, css } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { CardSize } from './divination-card/wc-divination-card';
-import type { ISource } from './data/records.types';
+import { PoeData } from './data/poeData';
+import { ActAreaElement } from './act-area/wc-act-area.ts';
+import type { IPoeData } from './data/poeData.types';
+import type { ISource } from './data/ISource.interface.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -13,9 +16,11 @@ export class CardsTableElement extends LitElement {
 	static define(tag = 'wc-cards-table') {
 		if (!customElements.get(tag)) {
 			customElements.define(tag, this);
+			SourceElement.define();
 		}
 	}
 
+	@property({ type: Object }) poeData!: Readonly<IPoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards: Record<string, ISource[]> = Object.create({});
 	@property({ reflect: true }) cardSize: CardSize = 'small';
 	@state() filtered: (typeof this)['sourcesByCards'] = {};
@@ -103,7 +108,10 @@ export class CardsTableElement extends LitElement {
 									<ul>
 										${sources.map(
 											source => html`<li>
-												<wc-source-element .source=${source}></wc-source-element>
+												<wc-source-element
+													.poeData=${this.poeData}
+													.source=${source}
+												></wc-source-element>
 											</li>`
 										)}
 									</ul>
@@ -178,16 +186,33 @@ export class SourceElement extends LitElement {
 	static define(tag = 'wc-source-element') {
 		if (!customElements.get(tag)) {
 			customElements.define(tag, this);
+			ActAreaElement.define();
 		}
 	}
 
+	@property({ type: Object }) poeData!: IPoeData;
 	@property({ type: Object }) source!: ISource;
 
 	render() {
+		if (this.source.type === 'Act') {
+			return this.actArea(this.source.id);
+		}
+
+		return this.fallback();
+	}
+
+	fallback() {
 		return html`<pre
 			style="font-size: 18px; text-align: left; box-shadow: rgba(100, 100, 111, 0.2) 0px 2px 10px 0px;"
 		>
 ${JSON.stringify(this.source, null, 2)}</pre
 		> `;
+	}
+
+	actArea(actId: string) {
+		if (!this.poeData) {
+			console.warn('no poeData');
+		}
+		return html`<wc-act-area actId=${actId} .actsData=${this.poeData.acts}></wc-act-area>`;
 	}
 }
