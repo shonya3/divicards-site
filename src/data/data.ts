@@ -40,7 +40,7 @@ export class Data {
 
 		for (const record of this.records) {
 			for (const source of record?.sources ?? []) {
-				if (source.type === 'map' && source.name === map) {
+				if (source.type === 'Map' && source.id === map) {
 					cards.push(record.card);
 				}
 			}
@@ -68,7 +68,7 @@ export class Data {
 
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
-				if (source.type === 'mapBoss' && bossname == source.name) {
+				if (source.type === 'Map Boss' && bossname == source.id) {
 					cards.push(record.card);
 				}
 			}

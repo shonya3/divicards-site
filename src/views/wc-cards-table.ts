@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
-import type { IPoeData } from '../data/poeData.types.ts';
+import type { IMap, IPoeData } from '../data/poeData.types.ts';
 import type { ISource } from '../data/ISource.interface.ts.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/act-area/wc-act-area.js';
@@ -188,6 +188,23 @@ export class SourceElement extends LitElement {
 			return this.actArea(this.source.id);
 		}
 
+		if (this.source.type === 'Map') {
+			const map = this.poeData.maps.find(map => map.name === this.source.id);
+			if (!map) {
+				throw new Error(`No map found ${this.source.id}`);
+			}
+			return this.map(map.name, map.icon);
+		}
+
+		if (this.source.type === 'Map Boss') {
+			const boss = this.poeData.mapbosses.find(boss => boss.name === this.source.id);
+			if (!boss) {
+				throw new Error(`No mapboss ${this.source.id}`);
+			}
+			const maps = boss.maps.map(m => this.poeData.maps.find(map => map.name === m)!);
+			return this.mapboss(boss.name, maps);
+		}
+
 		return this.fallback();
 	}
 
@@ -199,7 +216,25 @@ ${JSON.stringify(this.source, null, 2)}</pre
 		> `;
 	}
 
-	actArea(actId: string) {
+	protected mapboss(name: string, iMaps: IMap[]) {
+		return html`
+			<div style="padding: 2rem; position: relative;">
+				<p>${name}</p>
+				<ul style="position: absolute; top: -1.6rem; right: -12px" class="maps">
+					${iMaps.map(m => this.map(m.name, m.icon))}
+				</ul>
+			</div>
+		`;
+	}
+
+	protected map(name: string, icon: string) {
+		return html`<div>
+			<!--<p>${name}</p>-->
+			<img src=${icon} />
+		</div>`;
+	}
+
+	protected actArea(actId: string) {
 		if (!this.poeData) {
 			console.warn('no poeData');
 		}

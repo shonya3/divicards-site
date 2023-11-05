@@ -28,6 +28,7 @@ export interface IMap {
 	tier: number;
 	available: boolean;
 	unique: boolean;
+	icon: string;
 }
 
 export interface IMapBoss {

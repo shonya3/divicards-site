@@ -33,6 +33,10 @@ export class DivinationCardElement extends LitElement {
 	@state() rewardHtml: string = '';
 
 	get imageUrl() {
+		if (!this.artFilename) {
+			// console.warn(`Divination Card. No artFilename ${this.name}`);
+			return '';
+		}
 		// return `/images/cards/${this.artFilename}.png`;
 		return `https://web.poecdn.com/image/divination-card/${this.artFilename}.png`;
 	}

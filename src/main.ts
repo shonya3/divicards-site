@@ -1,7 +1,6 @@
 import { ParsedDivcordTableRecord } from './data/ParsedDivcordTableRecord';
 import { poeData, divcordRecords as records } from './jsons/jsons';
 import './views/wc-cards-table';
-import { CardsTableElement } from './views/wc-cards-table';
 
 // const data = new Data(
 // 	new PoeData(poeData),
@@ -13,7 +12,7 @@ import { CardsTableElement } from './views/wc-cards-table';
 
 // document.body.append(app);
 
-const table: CardsTableElement = Object.assign(document.createElement('wc-cards-table'), {
+const table = Object.assign(document.createElement('wc-cards-table'), {
 	poeData,
 	sourcesByCards: ParsedDivcordTableRecord.sourcesByCard(records),
 });

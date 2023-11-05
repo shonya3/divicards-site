@@ -1,4 +1,5 @@
-import { IParsedDivcordTableRecord, IGreynote, IConfidence, IRemaininWork, ISource } from './records.types';
+import { ISource } from './ISource.interface.ts';
+import { IParsedDivcordTableRecord, IGreynote, IConfidence, IRemaininWork } from './records.types';
 
 export class ParsedDivcordTableRecord implements IParsedDivcordTableRecord {
 	id: number;
