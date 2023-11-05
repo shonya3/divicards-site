@@ -230,7 +230,7 @@ ${JSON.stringify(this.source, null, 2)}</pre
 	protected map(name: string, icon: string) {
 		return html`<div>
 			<!--<p>${name}</p>-->
-			<img src=${icon} />
+			<img loading="lazy" src=${icon} />
 		</div>`;
 	}
 
