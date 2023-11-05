@@ -109,6 +109,7 @@ export class CardsTableElement extends LitElement {
 										${sources.map(
 											source => html`<li>
 												<wc-source-element
+													.size=${this.cardSize}
 													.poeData=${this.poeData}
 													.source=${source}
 												></wc-source-element>
@@ -192,6 +193,7 @@ export class SourceElement extends LitElement {
 
 	@property({ type: Object }) poeData!: IPoeData;
 	@property({ type: Object }) source!: ISource;
+	@property() size: CardSize = 'small';
 
 	render() {
 		if (this.source.type === 'Act') {
@@ -213,6 +215,10 @@ ${JSON.stringify(this.source, null, 2)}</pre
 		if (!this.poeData) {
 			console.warn('no poeData');
 		}
-		return html`<wc-act-area actId=${actId} .actsData=${this.poeData.acts}></wc-act-area>`;
+		return html`<wc-act-area
+			.size=${this.size === 'medium' ? 'large' : this.size}
+			actId=${actId}
+			.actsData=${this.poeData.acts}
+		></wc-act-area>`;
 	}
 }
