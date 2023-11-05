@@ -1,8 +1,7 @@
 import { classMap } from 'lit/directives/class-map.js';
-import { html, css, PropertyValues, nothing } from 'lit';
+import { html, css, PropertyValues, nothing, LitElement } from 'lit';
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
-import { BaseElement } from '../base-element';
-import { property, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 declare global {
@@ -21,8 +20,8 @@ export interface Props {
 }
 export interface Events {}
 
-export class DivinationCardElement extends BaseElement {
-	static override tag = 'wc-divination-card';
+@customElement('wc-divination-card')
+export class DivinationCardElement extends LitElement {
 	static override styles = styles();
 
 	@property({ reflect: true }) name: string = '';

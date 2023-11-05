@@ -1,6 +1,7 @@
 import { LitElement, PropertyValueMap, html, css } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { CardSize } from './divination-card/wc-divination-card';
+import './divination-card/wc-divination-card.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -9,12 +10,6 @@ declare global {
 }
 
 export class MapsTableElement extends LitElement {
-	static define(tag = 'wc-maps-table') {
-		if (!customElements.get(tag)) {
-			customElements.define(tag, this);
-		}
-	}
-
 	@property({ type: Object, attribute: false }) cardsByMaps: Record<string, string[]> = Object.create({});
 	@property({ reflect: true }) cardSize: CardSize = 'small';
 	@state() filteredMaps: Record<string, string[]> = {};

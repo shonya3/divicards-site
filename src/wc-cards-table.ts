@@ -1,10 +1,10 @@
 import { LitElement, PropertyValueMap, html, css } from 'lit';
-import { property, state } from 'lit/decorators.js';
-import type { CardSize } from './divination-card/wc-divination-card';
-import { PoeData } from './data/poeData';
-import { ActAreaElement } from './act-area/wc-act-area.ts';
+import { customElement, property, state } from 'lit/decorators.js';
+import { type CardSize } from './divination-card/wc-divination-card';
 import type { IPoeData } from './data/poeData.types';
 import type { ISource } from './data/ISource.interface.ts';
+import './divination-card/wc-divination-card.js';
+import './act-area/wc-act-area.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -12,14 +12,8 @@ declare global {
 	}
 }
 
+@customElement('wc-cards-table')
 export class CardsTableElement extends LitElement {
-	static define(tag = 'wc-cards-table') {
-		if (!customElements.get(tag)) {
-			customElements.define(tag, this);
-			SourceElement.define();
-		}
-	}
-
 	@property({ type: Object }) poeData!: Readonly<IPoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards: Record<string, ISource[]> = Object.create({});
 	@property({ reflect: true }) cardSize: CardSize = 'small';
@@ -183,14 +177,8 @@ declare global {
 	}
 }
 
+@customElement('wc-source-element')
 export class SourceElement extends LitElement {
-	static define(tag = 'wc-source-element') {
-		if (!customElements.get(tag)) {
-			customElements.define(tag, this);
-			ActAreaElement.define();
-		}
-	}
-
 	@property({ type: Object }) poeData!: IPoeData;
 	@property({ type: Object }) source!: ISource;
 	@property() size: CardSize = 'small';
@@ -217,7 +205,7 @@ ${JSON.stringify(this.source, null, 2)}</pre
 		}
 		return html`<wc-act-area
 			.size=${this.size === 'medium' ? 'large' : this.size}
-			actId=${actId}
+			.actId=${actId}
 			.actsData=${this.poeData.acts}
 		></wc-act-area>`;
 	}

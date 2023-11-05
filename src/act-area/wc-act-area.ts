@@ -1,7 +1,6 @@
 import { classMap } from 'lit/directives/class-map.js';
-import { html, css, PropertyValues } from 'lit';
-import { BaseElement } from '../base-element';
-import { property } from 'lit/decorators.js';
+import { html, css, PropertyValues, LitElement } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { IActArea } from '../data/poeData.types';
 
 declare global {
@@ -12,8 +11,8 @@ declare global {
 
 export type Size = 'small' | 'large';
 
-export class ActAreaElement extends BaseElement {
-	static override tag = 'wc-act-area';
+@customElement('wc-act-area')
+export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
 
 	@property({ type: Array, attribute: false }) actsData: Readonly<IActArea[]> = [];
