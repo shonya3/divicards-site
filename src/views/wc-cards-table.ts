@@ -1,10 +1,11 @@
 import { LitElement, PropertyValueMap, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
-import type { IMap, IPoeData } from '../data/poeData.types.ts';
+import type { IPoeData } from '../data/poeData.types.ts';
 import type { ISource } from '../data/ISource.interface.ts.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/act-area/wc-act-area.js';
+import './wc-source.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -166,82 +167,7 @@ export class CardsTableElement extends LitElement {
 		ul {
 			display: flex;
 			flex-wrap: wrap;
-			gap: 0.4rem;
+			gap: 1.5rem;
 		}
 	`;
-}
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'wc-source-element': SourceElement;
-	}
-}
-
-@customElement('wc-source-element')
-export class SourceElement extends LitElement {
-	@property({ type: Object }) poeData!: IPoeData;
-	@property({ type: Object }) source!: ISource;
-	@property() size: CardSize = 'small';
-
-	render() {
-		if (this.source.type === 'Act') {
-			return this.actArea(this.source.id);
-		}
-
-		if (this.source.type === 'Map') {
-			const map = this.poeData.maps.find(map => map.name === this.source.id);
-			if (!map) {
-				throw new Error(`No map found ${this.source.id}`);
-			}
-			return this.map(map.name, map.icon);
-		}
-
-		if (this.source.type === 'Map Boss') {
-			const boss = this.poeData.mapbosses.find(boss => boss.name === this.source.id);
-			if (!boss) {
-				throw new Error(`No mapboss ${this.source.id}`);
-			}
-			const maps = boss.maps.map(m => this.poeData.maps.find(map => map.name === m)!);
-			return this.mapboss(boss.name, maps);
-		}
-
-		return this.fallback();
-	}
-
-	fallback() {
-		return html`<pre
-			style="font-size: 18px; text-align: left; box-shadow: rgba(100, 100, 111, 0.2) 0px 2px 10px 0px;"
-		>
-${JSON.stringify(this.source, null, 2)}</pre
-		> `;
-	}
-
-	protected mapboss(name: string, iMaps: IMap[]) {
-		return html`
-			<div style="padding: 2rem; position: relative;">
-				<p>${name}</p>
-				<ul style="position: absolute; top: -1.6rem; right: -12px" class="maps">
-					${iMaps.map(m => this.map(m.name, m.icon))}
-				</ul>
-			</div>
-		`;
-	}
-
-	protected map(name: string, icon: string) {
-		return html`<div>
-			<!--<p>${name}</p>-->
-			<img loading="lazy" src=${icon} />
-		</div>`;
-	}
-
-	protected actArea(actId: string) {
-		if (!this.poeData) {
-			console.warn('no poeData');
-		}
-		return html`<wc-act-area
-			.size=${this.size === 'medium' ? 'large' : this.size}
-			.actId=${actId}
-			.actsData=${this.poeData.acts}
-		></wc-act-area>`;
-	}
 }
