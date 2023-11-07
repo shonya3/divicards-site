@@ -15,10 +15,10 @@ export class MapBossElement extends LitElement {
 	@property({ type: Array }) maps: IMap[] = [];
 	protected render() {
 		return html`<div class="mapboss">
-			<p>${this.boss.name}</p>
 			<ul class="maplist" style="" class="maps">
 				${this.maps.map(m => html`<wc-map .map=${m}></wc-map>`)}
 			</ul>
+			<p>${this.boss.name}</p>
 		</div>`;
 	}
 	static styles = css`
@@ -27,18 +27,11 @@ export class MapBossElement extends LitElement {
 			margin: 0;
 		}
 
-		.mapboss {
-			margin-top: 20px;
-
-			position: relative;
-			padding-top: 3rem;
-			padding-right: 4rem;
-		}
-
 		.maplist {
-			position: absolute;
-			top: 0rem;
-			right: 0rem;
+			width: fit-content;
+			margin-left: auto;
+			display: flex;
+			gap: 1rem;
 		}
 	`;
 }

@@ -39,18 +39,20 @@ export class MapElement extends LitElement {
 			})}
 		>
 			${this.renderName()}
-			<div
-				class=${classMap({
-					'map-background': !this.map.unique,
-				})}
-			>
-				<img
-					class=${classMap({ img: true, 'img--with-background': !this.map.unique })}
-					width=${this.imageWidth}
-					height=${this.imageWidth}
-					loading="lazy"
-					src=${this.map.icon}
-				/>
+			<div class="img-wrapper">
+				<div
+					class=${classMap({
+						'map-background': !this.map.unique,
+					})}
+				>
+					<img
+						class=${classMap({ 'img-map-glyph': true, 'img--with-background': !this.map.unique })}
+						width=${this.imageWidth}
+						height=${this.imageWidth}
+						loading="lazy"
+						src=${this.map.icon}
+					/>
+				</div>
 			</div>
 		</div>`;
 	}
@@ -65,6 +67,10 @@ export class MapElement extends LitElement {
 			margin: 0;
 		}
 
+		.map {
+			width: fit-content;
+		}
+
 		.map--yellow {
 			--filter: contrast(1000%) sepia(100%) saturate(10000%);
 		}
@@ -72,7 +78,12 @@ export class MapElement extends LitElement {
 			--filter: contrast(1000%) sepia(100%) saturate(10000%) hue-rotate(300deg) saturate(10000%);
 		}
 
-		.img {
+		.img-wrapper {
+			display: flex;
+			justify-content: center;
+		}
+
+		.img-map-glyph {
 			filter: var(--filter, initial);
 		}
 
