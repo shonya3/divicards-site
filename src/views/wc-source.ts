@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface.ts';
 import type { IPoeData, IMap } from '../data/poeData.types';
@@ -19,14 +19,7 @@ export class SourceElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
 	@property() size: CardSize = 'small';
 
-	static styles = css`
-		* {
-			margin: 0;
-			padding: 0;
-		}
-	`;
-
-	render() {
+	protected sourceElement() {
 		if (this.source.type === 'Act') {
 			return this.actArea(this.source.id);
 		}
@@ -49,8 +42,31 @@ export class SourceElement extends LitElement {
 			return html`<wc-mapboss .boss=${boss} .maps=${maps}></wc-mapboss>`;
 		}
 
-		return html`<wc-general-source .source=${this.source}></wc-general-source>`;
+		return html`<p>${this.source.id ?? nothing}</p>`;
+		// return html`<wc-general-source .source=${this.source}></wc-general-source>`;
 	}
+
+	render() {
+		return html`
+			<div class="source">
+				<div class="source-type">${this.source.type}</div>
+				<div class="inner">${this.sourceElement()}</div>
+			</div>
+		`;
+	}
+
+	static styles = css`
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.source-type {
+			color: darkviolet;
+			font-family: sans-serif;
+			font-size: 16px;
+		}
+	`;
 
 	fallback() {}
 
