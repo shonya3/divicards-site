@@ -38,8 +38,6 @@ export class SourceElement extends LitElement {
 					return { area, bossfight };
 				});
 
-			console.log(area, bossfight);
-
 			return html`<wc-actboss .boss=${bossfight} .actArea=${area}></wc-actboss>`;
 		}
 

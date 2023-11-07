@@ -13,7 +13,7 @@ export type IGreynote =
 export type IConfidence = 'none' | 'low' | 'ok' | 'done';
 export type IRemaininWork = 'confirm' | 'unclearHypothesis' | 'noHypothesis' | 'storyOnly' | 'legacyTag' | 'openEnded';
 
-export interface IParsedDivcordTableRecord {
+export interface ISourcefulDivcordTableRecord {
 	id: number;
 	card: string;
 	greynote?: IGreynote;

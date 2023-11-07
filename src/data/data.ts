@@ -1,4 +1,4 @@
-import { ParsedDivcordTableRecord } from './ParsedDivcordTableRecord';
+import { SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
 import { PoeData } from './poeData';
 import { ICard, IMap } from './poeData.types';
 
@@ -15,8 +15,8 @@ export const includesMap = (name: string, maps: string[]): boolean => {
 export class Data {
 	#cardsByMaps: Record<IMap['name'], Array<ICard['name']>> = {};
 	poeData: PoeData;
-	records: ParsedDivcordTableRecord[];
-	constructor(poeData: PoeData, records: ParsedDivcordTableRecord[]) {
+	records: SourcefulDivcordTableRecord[];
+	constructor(poeData: PoeData, records: SourcefulDivcordTableRecord[]) {
 		this.poeData = poeData;
 		this.records = records;
 
