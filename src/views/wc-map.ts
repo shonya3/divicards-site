@@ -23,7 +23,7 @@ export class MapElement extends LitElement {
 			const name = this.map.name;
 			let special = ['Phoenix', 'Hydra', 'Chimra', 'Minotaur', 'Vaal Temple'].some(b => name.includes(b));
 			if (special) {
-				return 'none';
+				return 'special';
 			} else {
 				return 'red';
 			}
@@ -33,13 +33,13 @@ export class MapElement extends LitElement {
 		return html`<div
 			class=${classMap({
 				map: true,
+				[`map--${this.mapColor()}`]: !this.map.unique,
 			})}
 		>
 			${this.renderName()}
 			<div
 				class=${classMap({
 					'map-background': !this.map.unique,
-					[`map-background--${this.mapColor()}`]: !this.map.unique,
 				})}
 			>
 				<img
@@ -63,6 +63,13 @@ export class MapElement extends LitElement {
 			margin: 0;
 		}
 
+		.map--yellow {
+			--filter: contrast(1000%) sepia(100%) saturate(10000%);
+		}
+		.map--red {
+			--filter: contrast(1000%) sepia(100%) saturate(10000%) hue-rotate(300deg) saturate(10000%);
+		}
+
 		.img {
 			filter: var(--filter);
 		}
@@ -79,13 +86,6 @@ export class MapElement extends LitElement {
 			background-size: 40px;
 			width: 40px;
 			height: 40px;
-		}
-
-		.map-background--yellow {
-			--filter: contrast(1000%) sepia(100%) saturate(10000%);
-		}
-		.map-background--red {
-			--filter: contrast(1000%) sepia(100%) saturate(10000%) hue-rotate(300deg) saturate(10000%);
 		}
 	`;
 }
