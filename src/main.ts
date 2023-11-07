@@ -1,6 +1,8 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
-import { poeData, divcordRecords } from './jsons/jsons';
+import { divcordRecords, poeData } from './jsons/jsons';
 import './views/wc-cards-table';
+import './views/wc-sourceful-divcord-record';
+import './views/wc-card-with-divcord-records-view';
 
 // const data = new Data(
 // 	new PoeData(poeData),
@@ -19,3 +21,11 @@ const table = Object.assign(document.createElement('wc-cards-table'), {
 	sourcesByCards: divcordTable.sourcesByCards(),
 });
 document.body.append(table);
+
+// const DIVINATION_CARD = 'Desperate Crusade';
+// const view = Object.assign(document.createElement('wc-card-with-divcord-records-view'), {
+// 	poeData,
+// 	card: DIVINATION_CARD,
+// 	records: divcordTable.recordsByCard(DIVINATION_CARD),
+// });
+// document.body.append(view);
