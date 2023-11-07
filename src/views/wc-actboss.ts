@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IMapBoss, IMap, IActArea, IBossfight } from '../data/poeData.types';
-import './wc-map.js';
+import type { IActArea, IBossfight } from '../data/poeData.types';
 import '../elements/act-area/wc-act-area.js';
 
 declare global {
@@ -13,13 +12,11 @@ declare global {
 @customElement('wc-actboss')
 export class ActBossElement extends LitElement {
 	@property({ type: Object }) boss!: IBossfight;
-	@property() actAreaId = '';
+	@property({ type: Object }) actArea!: IActArea;
 	protected render() {
-		return html`<div class="mapboss">
-			<p>${this.boss.name}</p>
-			<ul class="maplist" style="" class="maps">
-				<wc-act-area .actId=${this.actAreaId}></wc-act-area>
-			</ul>
+		return html`<div class="actboss">
+			<wc-act-area class="act-area" size="small" .actArea=${this.actArea}></wc-act-area>
+			<p class="bossname">${this.boss.name}</p>
 		</div>`;
 	}
 	static styles = css`
@@ -28,18 +25,13 @@ export class ActBossElement extends LitElement {
 			margin: 0;
 		}
 
-		.mapboss {
-			margin-top: 20px;
-
-			position: relative;
-			padding-top: 3rem;
-			padding-right: 4rem;
+		.bossname {
+			width: fit-content;
 		}
 
-		.maplist {
-			position: absolute;
-			top: 0rem;
-			right: 0rem;
+		.act-area {
+			margin-left: 4rem;
+			transform: translateY(0.4rem);
 		}
 	`;
 }

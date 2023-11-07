@@ -1,7 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface.ts';
-import type { IPoeData, IMap, IActArea, IBossfight } from '../data/poeData.types';
+import type { IPoeData, IMap } from '../data/poeData.types';
 import type { CardSize } from '../elements/divination-card/wc-divination-card';
 import '../elements/act-area/wc-act-area.js';
 import './wc-map.js';
@@ -27,7 +27,6 @@ export class SourceElement extends LitElement {
 				.actArea=${area}
 				.size=${this.size === 'medium' ? 'large' : this.size}
 			></wc-act-area>`;
-			// return this.actArea(this.source.id);
 		}
 
 		if (this.source.type === 'Act Boss') {
@@ -41,7 +40,7 @@ export class SourceElement extends LitElement {
 
 			console.log(area, bossfight);
 
-			return html`<wc-actboss .boss=${bossfight} .actAreaId=${area.id}></wc-actboss>`;
+			return html`<wc-actboss .boss=${bossfight} .actArea=${area}></wc-actboss>`;
 		}
 
 		if (this.source.type === 'Map') {
@@ -82,7 +81,8 @@ export class SourceElement extends LitElement {
 		}
 
 		.source-type {
-			color: darkviolet;
+			color: orange;
+			font-weight: 700;
 			font-family: sans-serif;
 			font-size: 16px;
 		}
@@ -99,20 +99,6 @@ export class SourceElement extends LitElement {
 				</ul>
 			</div>
 		`;
-	}
-
-	protected map(name: string, icon: string) {
-		return html`<div>
-			<p style="font-size: 14px">${name}</p>
-			<img width="40" height="40" loading="lazy" src=${icon} />
-		</div>`;
-	}
-
-	protected actArea(actId: string) {
-		if (!this.poeData) {
-			console.warn('no poeData');
-		}
-		return html`<wc-act-area .size=${this.size === 'medium' ? 'large' : this.size}></wc-act-area>`;
 	}
 }
 
