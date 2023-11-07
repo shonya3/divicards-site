@@ -1,7 +1,7 @@
 import { classMap } from 'lit/directives/class-map.js';
-import { html, css, PropertyValues, LitElement } from 'lit';
+import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IActArea } from '../../data/poeData.types';
+import type { IActArea } from '../../data/poeData.types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -15,37 +15,20 @@ export type Size = 'small' | 'large';
 export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
 
-	@property({ type: Array, attribute: false }) actsData: Readonly<IActArea[]> = [];
-	@property({ reflect: true }) name: string = '';
+	@property({ type: Object }) actArea!: IActArea;
 	@property({ reflect: true }) size: Size = 'large';
-	@property({ type: Number, reflect: true }) act: number = 0;
-	@property({ type: Number, reflect: true }) monsterLevel: number = 0;
-	@property() actId: string = '';
-	@property() img: string = '';
-
-	protected willUpdate(changedProperties: PropertyValues<this>): void {
-		if (changedProperties.has('actId')) {
-			const actAreaData = this.actsData.find(a => a.id === this.actId);
-			if (actAreaData) {
-				this.name = actAreaData.name;
-				this.act = actAreaData.act;
-				this.img = actAreaData.imageUrl;
-				this.monsterLevel = actAreaData.areaLevel;
-			}
-		}
-	}
 
 	protected override render() {
 		return html`<div
-			style="--act-area-background-image: url(${this.img})"
+			style="--act-area-background-image: url(${this.actArea.imageUrl})"
 			class=${classMap({
 				'act-area': true,
 				'act-area--small': this.size === 'small',
 				'act-area--large': this.size === 'large',
 			})}
 		>
-			<div class="name">${this.name} (Act ${this.act})</div>
-			<div class="monster-level">Monster level: ${this.monsterLevel}</div>
+			<div class="name">${this.actArea.name} (Act ${this.actArea.act})</div>
+			<div class="area-level">Monster level: ${this.actArea.areaLevel}</div>
 		</div>`;
 	}
 }
@@ -78,9 +61,9 @@ function styles() {
 			--act-area-font-size: var(--act-area-font-size-small);
 			--act-area-name-top: 8px;
 			--act-area-name-left: 20px;
-			--act-area-monster-level-top: 32px;
-			--act-area-monster-level-left: 20px;
-			--act-area-monster-level-font-size: 12px;
+			--act-area-area-level-top: 32px;
+			--act-area-area-level-left: 20px;
+			--act-area-area-level-font-size: 12px;
 		}
 
 		.act-area--large {
@@ -88,9 +71,9 @@ function styles() {
 			--act-area-font-size: var(--act-area-font-size-large);
 			--act-area-name-top: 20px;
 			--act-area-name-left: 44px;
-			--act-area-monster-level-top: 62px;
-			--act-area-monster-level-left: 44px;
-			--act-area-monster-level-font-size: 20px;
+			--act-area-area-level-top: 62px;
+			--act-area-area-level-left: 44px;
+			--act-area-area-level-font-size: 20px;
 		}
 
 		img {
@@ -105,11 +88,11 @@ function styles() {
 			color: var(--act-area-name-color, red);
 		}
 
-		.monster-level {
+		.area-level {
 			position: absolute;
-			top: var(--act-area-monster-level-top);
-			left: var(--act-area-monster-level-left);
-			font-size: var(--act-area-monster-level-font-size);
+			top: var(--act-area-area-level-top);
+			left: var(--act-area-area-level-left);
+			font-size: var(--act-area-area-level-font-size);
 		}
 	`;
 }
