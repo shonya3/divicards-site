@@ -78,7 +78,12 @@ export class SourceElement extends LitElement {
 			padding: 0;
 		}
 
+		.source {
+			width: fit-content;
+		}
+
 		.source-type {
+			text-align: center;
 			color: orange;
 			font-weight: 700;
 			font-family: sans-serif;

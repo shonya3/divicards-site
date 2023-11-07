@@ -18,7 +18,7 @@ export class MapBossElement extends LitElement {
 			<ul class="maplist" style="" class="maps">
 				${this.maps.map(m => html`<wc-map .map=${m}></wc-map>`)}
 			</ul>
-			<p>${this.boss.name}</p>
+			<p class="name">${this.boss.name}</p>
 		</div>`;
 	}
 	static styles = css`
@@ -27,11 +27,19 @@ export class MapBossElement extends LitElement {
 			margin: 0;
 		}
 
+		.mapboss {
+			width: fit-content;
+		}
+
 		.maplist {
 			width: fit-content;
 			margin-left: auto;
 			display: flex;
 			gap: 1rem;
+		}
+
+		.name {
+			font-size: 1.5rem;
 		}
 	`;
 }
