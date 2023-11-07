@@ -13,6 +13,7 @@ declare global {
 export class MapElement extends LitElement {
 	@property({ type: Object }) map!: IMap;
 	@property() mode: 'normal' | 'boss-tooltip' = 'normal';
+	@property({ type: Number }) imageWidth: number = 40;
 
 	mapColor() {
 		if (this.map.tier < 6) {
@@ -31,6 +32,7 @@ export class MapElement extends LitElement {
 	}
 	protected render() {
 		return html`<div
+			style="--image-width: ${this.imageWidth}px"
 			class=${classMap({
 				map: true,
 				[`map--${this.mapColor()}`]: !this.map.unique,
@@ -44,8 +46,8 @@ export class MapElement extends LitElement {
 			>
 				<img
 					class=${classMap({ img: true, 'img--with-background': !this.map.unique })}
-					width="40"
-					height="40"
+					width=${this.imageWidth}
+					height=${this.imageWidth}
 					loading="lazy"
 					src=${this.map.icon}
 				/>
@@ -54,7 +56,7 @@ export class MapElement extends LitElement {
 	}
 
 	protected renderName() {
-		return this.mode === 'normal' ? html` <p style="font-size:14px">${this.map.name}</p> ` : nothing;
+		return this.mode === 'normal' ? html` <p class="name">${this.map.name}</p> ` : nothing;
 	}
 
 	static styles = css`
@@ -71,21 +73,20 @@ export class MapElement extends LitElement {
 		}
 
 		.img {
-			filter: var(--filter);
-		}
-
-		img {
-			width: 40px;
-			height: 40px;
+			filter: var(--filter, initial);
 		}
 
 		.map-background {
 			background-image: url(/images/map-background-image.png);
 			background-position: center;
 			background-repeat: no-repeat;
-			background-size: 40px;
-			width: 40px;
-			height: 40px;
+			background-size: var(--image-width);
+			width: var(--image-width);
+			height: var(--image-width);
+		}
+
+		.name {
+			font-size: var(--font-size, 14px);
 		}
 	`;
 }
