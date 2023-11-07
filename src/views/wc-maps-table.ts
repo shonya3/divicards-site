@@ -139,9 +139,6 @@ export class MapsTableElement extends LitElement {
 			list-style: none;
 		}
 
-		wc-divination-card {
-		}
-
 		ul {
 			display: flex;
 			flex-wrap: wrap;
