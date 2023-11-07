@@ -88,7 +88,7 @@ export class DivinationCardElement extends LitElement {
 				style=${sizeMap}
 			></div>
 			<header class="${classMap({ name: true, size22: this.size === 'small' })}" style=${nameTopPadding}>
-				${this.name}
+				<a href="/card/${this.name}"> ${this.name} </a>
 			</header>
 			<div class="imageWrapper">
 				<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="" />
@@ -194,6 +194,10 @@ function styles() {
 
 			width: var(--card-width, var(--card-width-medium));
 			aspect-ratio: var(--card-aspect-ratio);
+		}
+
+		a {
+			color: #111;
 		}
 
 		.name {

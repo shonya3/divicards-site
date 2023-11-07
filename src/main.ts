@@ -1,31 +1,39 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 import { divcordRecords, poeData } from './jsons/jsons';
-import './views/wc-cards-table';
 import './views/wc-sourceful-divcord-record';
-import './views/wc-card-with-divcord-records-view';
-
-// const data = new Data(
-// 	new PoeData(poeData),
-// 	records.map(r => new SourcefulDivcordTableRecord(r))
-// );
-
-// const app = document.createElement('wc-maps-table');
-// app.cardsByMaps = structuredClone(data.cardsByMaps());
-
-// document.body.append(app);
+import './views/wc-cards-table.js';
+import { Router } from '@thepassle/app-tools/router.js';
+import { html, render } from 'lit';
+import './views/wc-card-with-divcord-records-view.js';
 
 const divcordTable = new SourcefulDivcordTable(divcordRecords.map(r => new SourcefulDivcordTableRecord(r)));
 
-const table = Object.assign(document.createElement('wc-cards-table'), {
-	poeData,
-	sourcesByCards: divcordTable.sourcesByCards(),
+const router = new Router({
+	routes: [
+		{
+			path: '/',
+			title: 'Divicards',
+			render: () =>
+				html`<wc-cards-table
+					.poeData=${poeData}
+					.sourcesByCards=${divcordTable.sourcesByCards()}
+				></wc-cards-table>`,
+		},
+		{
+			path: '/card/:name',
+			title: context => decodeURI(context.params!.name),
+			render: context => {
+				const name = decodeURI(context.params.name);
+				return html`<wc-card-with-divcord-records-view
+					.card=${name}
+					.records=${divcordTable.recordsByCard(name)}
+					.poeData=${poeData}
+				></wc-card-with-divcord-records-view>`;
+			},
+		},
+	],
 });
-document.body.append(table);
 
-// const DIVINATION_CARD = 'Desperate Crusade';
-// const view = Object.assign(document.createElement('wc-card-with-divcord-records-view'), {
-// 	poeData,
-// 	card: DIVINATION_CARD,
-// 	records: divcordTable.recordsByCard(DIVINATION_CARD),
-// });
-// document.body.append(view);
+router.addEventListener('route-changed', () => {
+	render(router.render(), document.body);
+});
