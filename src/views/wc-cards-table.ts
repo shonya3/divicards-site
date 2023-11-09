@@ -136,8 +136,6 @@ export class CardsTableElement extends LitElement {
 	}
 
 	protected table() {
-		const t0 = performance.now();
-
 		const width = this.cardSize === 'small' ? '134px' : this.cardSize === 'medium' ? '268px' : '326px';
 		const markup = html`<table>
 			<thead>
@@ -174,8 +172,6 @@ export class CardsTableElement extends LitElement {
 				)}
 			</tbody>
 		</table> `;
-
-		console.log(performance.now() - t0);
 
 		return markup;
 	}
