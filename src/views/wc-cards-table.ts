@@ -6,7 +6,6 @@ import '../elements/divination-card/wc-divination-card.js';
 import '../elements/act-area/wc-act-area.js';
 import './wc-source.js';
 import { PoeData } from '../PoeData.ts';
-import { router } from '../main.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
