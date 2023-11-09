@@ -24,7 +24,7 @@ export const router = new Router({
 			title: 'Divicards',
 			render: ({ query }) =>
 				html`<wc-cards-table
-					page=${query.page}
+					page=${query.page ?? 1}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
 				></wc-cards-table>`,
