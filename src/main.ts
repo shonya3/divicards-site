@@ -5,7 +5,7 @@ import './views/wc-cards-table.js';
 import { Router } from '@thepassle/app-tools/router.js';
 import { html, render } from 'lit';
 import './views/wc-card-with-divcord-records-view.js';
-import { PoeData } from './data/PoeData.js';
+import { PoeData } from './PoeData.js';
 
 declare global {
 	interface Document {

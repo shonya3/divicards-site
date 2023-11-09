@@ -6,7 +6,7 @@ import '../elements/act-area/wc-act-area.js';
 import './wc-map.js';
 import './wc-mapboss.js';
 import './wc-actboss.js';
-import { PoeData } from '../data/PoeData';
+import { PoeData } from '../PoeData.ts';
 import type { IMap } from '../data/poeData.types';
 
 declare global {

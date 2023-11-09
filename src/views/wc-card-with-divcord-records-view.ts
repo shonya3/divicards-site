@@ -4,7 +4,7 @@ import '../elements/act-area/wc-act-area.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
 import '../elements/divination-card/wc-divination-card.js';
 import './wc-sourceful-divcord-record.js';
-import { PoeData } from '../data/PoeData.js';
+import { PoeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {

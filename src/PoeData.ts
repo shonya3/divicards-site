@@ -1,5 +1,5 @@
-import { includesMap } from './data';
-import { IActArea, ICard, IMap, IMapBoss, IPoeData } from './poeData.types';
+import { includesMap } from './data/data';
+import { IActArea, ICard, IMap, IMapBoss, IPoeData } from './data/poeData.types';
 
 export class PoeData implements IPoeData {
 	acts: IActArea[];

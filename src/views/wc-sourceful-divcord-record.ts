@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord';
 import './wc-source.js';
-import { PoeData } from '../data/PoeData.js';
+import { PoeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {

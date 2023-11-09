@@ -5,7 +5,7 @@ import type { ISource } from '../data/ISource.interface.ts.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/act-area/wc-act-area.js';
 import './wc-source.js';
-import { PoeData } from '../data/PoeData.ts';
+import { PoeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
