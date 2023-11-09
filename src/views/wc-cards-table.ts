@@ -21,11 +21,11 @@ const paginate = <T>(arr: T[], page: number, perPage: number) => {
 
 @customElement('wc-cards-table')
 export class CardsTableElement extends LitElement {
-	@property({ type: Object }) poeData!: Readonly<PoeData>;
-	@property({ type: Object, attribute: false }) sourcesByCards: Record<string, ISource[]> = Object.create({});
-	@property({ reflect: true }) cardSize: CardSize = 'medium';
-	@property({ reflect: true, type: Number }) perPage = 10;
 	@property({ reflect: true, type: Number }) page = 1;
+	@property({ reflect: true, type: Number }) perPage = 10;
+	@property({ reflect: true }) cardSize: CardSize = 'medium';
+	@property({ type: Object }) poeData!: Readonly<PoeData>;
+	@property({ type: Object, attribute: false }) sourcesByCards!: Readonly<Record<string, ISource[]>>;
 
 	@state() nameQuery: string = '';
 
