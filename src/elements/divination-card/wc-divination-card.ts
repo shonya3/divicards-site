@@ -182,11 +182,13 @@ function styles() {
 		.divination-card--medium {
 			--reward-font-size: 1rem;
 			--card-width: var(--card-width-medium);
+			--name-font-size: 20px;
 		}
 
 		.divination-card--large {
 			--reward-font-size: 1rem;
 			--card-width: var(--card-width-large);
+			--name-font-size: 24px;
 		}
 
 		.skeleton {
@@ -205,8 +207,9 @@ function styles() {
 
 		.name {
 			line-height: 24px;
-			font-size: var(--card-font-size);
+			font-size: var(--name-font-size, 1rem);
 			z-index: 4;
+			font-weight: 600;
 			color: #111;
 		}
 
