@@ -176,13 +176,16 @@ function styles() {
 
 		.divination-card--small {
 			--card-width: var(--card-width-small);
+			--reward-font-size: 0.8rem;
 		}
 
 		.divination-card--medium {
+			--reward-font-size: 1rem;
 			--card-width: var(--card-width-medium);
 		}
 
 		.divination-card--large {
+			--reward-font-size: 1rem;
 			--card-width: var(--card-width-large);
 		}
 
@@ -244,7 +247,7 @@ function styles() {
 		}
 
 		.reward {
-			font-size: 0.8rem;
+			font-size: var(--reward-font-size, 0.8rem);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
