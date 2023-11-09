@@ -204,8 +204,8 @@ export class CardsTableElement extends LitElement {
 			border-bottom: none;
 		}
 		table {
+			min-width: 100%;
 			table-layout: fixed;
-			width: 100%;
 			border-collapse: collapse;
 		}
 
