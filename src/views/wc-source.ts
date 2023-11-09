@@ -1,3 +1,4 @@
+import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface.ts';
@@ -27,6 +28,10 @@ export class SourceElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
 	@property() size: CardSize = 'small';
 
+	get sourceHasSpecialElement() {
+		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
+	}
+
 	protected sourceElement() {
 		switch (this.source.type) {
 			case 'Act': {
@@ -45,7 +50,7 @@ export class SourceElement extends LitElement {
 			case 'Map': {
 				const map = this.poeData.findMap(this.source.id);
 				if (!map) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-map .map=${map}></wc-map>`;
+				return html`<wc-map .size=${this.size} .map=${map}></wc-map>`;
 			}
 			case 'Map Boss': {
 				const res = this.poeData.findMapbossAndMaps(this.source.id);
@@ -60,7 +65,13 @@ export class SourceElement extends LitElement {
 
 	render() {
 		return html`
-			<div class="source">
+			<div
+				class=${classMap({
+					source: true,
+					[`source--${this.size}`]: true,
+					'font--larger': !this.sourceHasSpecialElement,
+				})}
+			>
 				<div class="source-type">${this.source.type}</div>
 				<div class="inner">${this.sourceElement()}</div>
 			</div>
@@ -74,6 +85,16 @@ export class SourceElement extends LitElement {
 		}
 
 		.source {
+			--source-font-size: 20px;
+			font-size: var(--source-font-size);
+		}
+
+		.source--medium,
+		.source--large {
+			--source-font-size: 24px;
+		}
+
+		.source {
 			width: fit-content;
 		}
 
@@ -82,7 +103,7 @@ export class SourceElement extends LitElement {
 			color: orange;
 			font-weight: 700;
 			font-family: sans-serif;
-			font-size: 16px;
+			font-size: var(--source-font-size);
 		}
 	`;
 

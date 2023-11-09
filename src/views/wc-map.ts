@@ -13,7 +13,20 @@ declare global {
 export class MapElement extends LitElement {
 	@property({ type: Object }) map!: IMap;
 	@property() mode: 'normal' | 'boss-tooltip' = 'normal';
-	@property({ type: Number }) imageWidth: number = 40;
+	// @property({ type: Number }) imageWidth: number = 40;
+	@property({ reflect: true }) size: 'small' | 'medium' = 'medium';
+
+	get imageWidth() {
+		switch (this.size) {
+			case 'small': {
+				return 40;
+			}
+
+			case 'medium': {
+				return 60;
+			}
+		}
+	}
 
 	mapColor() {
 		if (this.map.tier < 6) {
@@ -36,6 +49,7 @@ export class MapElement extends LitElement {
 			class=${classMap({
 				map: true,
 				[`map--${this.mapColor()}`]: !this.map.unique,
+				[`map--${this.size}`]: true,
 			})}
 		>
 			${this.renderName()}
@@ -68,8 +82,17 @@ export class MapElement extends LitElement {
 		}
 
 		.map {
+            font-size: var(--map-font-size, 1rem)
 			width: fit-content;
 		}
+
+        .name{
+            font-size: var(--map-font-size, 1rem)
+        }
+
+        .map--medium, .map--large{
+            --map-font-size: 24px;
+        }
 
 		.map--yellow {
 			--filter: contrast(1000%) sepia(100%) saturate(10000%);
@@ -94,10 +117,6 @@ export class MapElement extends LitElement {
 			background-size: var(--image-width);
 			width: var(--image-width);
 			height: var(--image-width);
-		}
-
-		.name {
-			font-size: var(--font-size, 14px);
 		}
 	`;
 }
