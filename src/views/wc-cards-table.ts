@@ -143,6 +143,7 @@ export class CardsTableElement extends LitElement {
 			<thead>
 				<tr>
 					<th style="width:${width}" scope="col">Cards</th>
+					<th style="width: 20px" scope="col">Min Level</th>
 					<th scope="col">Sources</th>
 				</tr>
 			</thead>
@@ -154,6 +155,7 @@ export class CardsTableElement extends LitElement {
 								<td>
 									<wc-divination-card size=${this.cardSize} name=${card}></wc-divination-card>
 								</td>
+								<td>${this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0}</td>
 								<td>
 									<ul>
 										${sources.map(
@@ -212,6 +214,7 @@ export class CardsTableElement extends LitElement {
 		}
 
 		th {
+			font-size: 20px;
 			padding: 1rem;
 		}
 
