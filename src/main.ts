@@ -17,12 +17,17 @@ const divcordTable = new SourcefulDivcordTable(divcordRecords.map(r => new Sourc
 const poeData = new PoeData(poeDataJson);
 const sourcesByCards = divcordTable.sourcesByCards();
 
-const router = new Router({
+export const router = new Router({
 	routes: [
 		{
 			path: '/',
 			title: 'Divicards',
-			render: () => html`<wc-cards-table .poeData=${poeData} .sourcesByCards=${sourcesByCards}></wc-cards-table>`,
+			render: ({ query }) =>
+				html`<wc-cards-table
+					page=${query.page}
+					.poeData=${poeData}
+					.sourcesByCards=${sourcesByCards}
+				></wc-cards-table>`,
 		},
 		{
 			path: '/card/:name',
@@ -39,7 +44,8 @@ const router = new Router({
 	],
 });
 
-router.addEventListener('route-changed', () => {
+router.addEventListener('route-changed', e => {
+	console.log(e);
 	document.startViewTransition(() => {
 		render(router.render(), document.body);
 	});

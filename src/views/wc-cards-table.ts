@@ -6,6 +6,7 @@ import '../elements/divination-card/wc-divination-card.js';
 import '../elements/act-area/wc-act-area.js';
 import './wc-source.js';
 import { PoeData } from '../PoeData.ts';
+import { router } from '../main.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -37,6 +38,11 @@ export class CardsTableElement extends LitElement {
 	}
 
 	get paginated() {
+		const url = new URL(window.location.href);
+		url.searchParams.set('per-page', String(this.perPage));
+		url.searchParams.set('page', String(this.page));
+		window.history.pushState({}, '', url);
+
 		return paginate(this.filtered, this.page, this.perPage);
 	}
 
@@ -55,6 +61,21 @@ export class CardsTableElement extends LitElement {
 			if (['small', 'medium', 'large'].some(size => size === value)) {
 				this.cardSize = value as CardSize;
 			}
+		}
+	}
+
+	#onPageInput() {}
+	#onPerPageInput(e: InputEvent) {
+		const target = e.composedPath()[0] as HTMLInputElement;
+		this.perPage = Number(target.value);
+	}
+	increasePage() {
+		this.page++;
+	}
+
+	decreasePage() {
+		if (this.page > 1) {
+			this.page--;
 		}
 	}
 
@@ -80,6 +101,19 @@ export class CardsTableElement extends LitElement {
 						</div>
 					</fieldset>
 				</form>
+				<div class="page-controls" v-if="shouldFilter">
+					<button ?disabled=${this.page === 1} @click=${this.decreasePage}>prev</button>
+					<input id="page" type="text" .value=${String(this.page)} @input=${this.#onPageInput} />
+					<button @click=${this.increasePage}>next</button>
+					<label for="per-page">per page</label>
+					<input
+						id="per-page"
+						type="number"
+						min="0"
+						.value=${String(this.perPage)}
+						@input=${this.#onPerPageInput}
+					/>
+				</div>
 			</header>
 			${this.table()}
 		`;
