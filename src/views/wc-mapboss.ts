@@ -13,10 +13,11 @@ declare global {
 export class MapBossElement extends LitElement {
 	@property({ type: Object }) boss!: IMapBoss;
 	@property({ type: Array }) maps: IMap[] = [];
+	@property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
 	protected render() {
 		return html`<div class="mapboss">
 			<ul class="maplist" style="" class="maps">
-				${this.maps.map(m => html`<wc-map .map=${m}></wc-map>`)}
+				${this.maps.map(m => html`<wc-map .size=${this.size} .map=${m}></wc-map>`)}
 			</ul>
 			<p class="name">${this.boss.name}</p>
 		</div>`;
@@ -39,7 +40,6 @@ export class MapBossElement extends LitElement {
 		}
 
 		.name {
-			font-size: 1.5rem;
 		}
 	`;
 }

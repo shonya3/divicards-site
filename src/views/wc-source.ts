@@ -55,7 +55,7 @@ export class SourceElement extends LitElement {
 			case 'Map Boss': {
 				const res = this.poeData.findMapbossAndMaps(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-mapboss .boss=${res.mapboss} .maps=${res.maps}></wc-mapboss>`;
+				return html`<wc-mapboss .size=${this.size} .boss=${res.mapboss} .maps=${res.maps}></wc-mapboss>`;
 			}
 			default: {
 				return html`<p>${this.source.id ?? nothing}</p>`;
