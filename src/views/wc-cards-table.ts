@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
 import type { ISource } from '../data/ISource.interface.ts.ts';
@@ -22,36 +22,53 @@ const paginate = <T>(arr: T[], page: number, perPage: number) => {
 @customElement('wc-cards-table')
 export class CardsTableElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
-	@property({ reflect: true, type: Number }) perPage = 10;
+	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) cardSize: CardSize = 'medium';
 	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards!: Readonly<Record<string, ISource[]>>;
-
-	@state() nameQuery: string = '';
+	@property({ reflect: true }) filter: string = '';
 
 	get filtered() {
-		const mapQuery = this.nameQuery.trim().toLowerCase();
+		const filter = this.filter.trim().toLowerCase();
 		return Object.entries(this.sourcesByCards)
-			.filter(([map]) => map.toLowerCase().includes(mapQuery.trim().toLowerCase()))
+			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
 			.sort((a, b) => a[0].localeCompare(b[0]));
 	}
 
-	get paginated() {
+	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
 		const url = new URL(window.location.href);
-		url.searchParams.set('per-page', String(this.perPage));
-		url.searchParams.set('page', String(this.page));
-		window.history.pushState({}, '', url);
 
+		if (_changedProperties.has('page')) {
+			url.searchParams.set('page', String(this.page));
+			window.history.pushState({}, '', url);
+		}
+
+		if (_changedProperties.has('perPage')) {
+			url.searchParams.set('per-page', String(this.perPage));
+			window.history.pushState({}, '', url);
+		}
+
+		if (_changedProperties.has('filter')) {
+			if (this.filter) {
+				url.searchParams.set('filter', this.filter);
+				window.history.pushState({}, '', url);
+			}
+		}
+	}
+
+	get paginated() {
 		return paginate(this.filtered, this.page, this.perPage);
 	}
 
-	#onCardnameInput(e: InputEvent) {
+	async #onCardnameInput(e: InputEvent) {
 		const input = e.target;
 		if (!(input instanceof HTMLInputElement)) {
 			return;
 		}
 
-		this.nameQuery = input.value;
+		this.page = 1;
+
+		this.filter = input.value;
 	}
 
 	#oncardSizeSelect(e: InputEvent) {
@@ -163,8 +180,6 @@ export class CardsTableElement extends LitElement {
 
 	static styles = css`
 		* {
-			padding: 0;
-			margin: 0;
 		}
 		:host {
 			--card-width-small: 134px;
@@ -176,6 +191,11 @@ export class CardsTableElement extends LitElement {
 		form {
 			width: fit-content;
 			margin: auto;
+		}
+
+		legend {
+			padding: initial;
+			margin: initial;
 		}
 
 		header {

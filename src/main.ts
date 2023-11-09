@@ -6,6 +6,7 @@ import { Router } from '@thepassle/app-tools/router.js';
 import { html, render } from 'lit';
 import './views/wc-card-with-divcord-records-view.js';
 import { PoeData } from './PoeData.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 declare global {
 	interface Document {
@@ -24,7 +25,9 @@ export const router = new Router({
 			title: 'Divicards',
 			render: ({ query }) =>
 				html`<wc-cards-table
-					page=${query.page ?? 1}
+					page=${ifDefined(query.page)}
+					per-page=${ifDefined(query['per-page'])}
+					filter=${ifDefined(query.filter)}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
 				></wc-cards-table>`,
