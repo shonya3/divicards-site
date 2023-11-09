@@ -1,66 +1,61 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface.ts';
-import type { IPoeData, IMap } from '../data/poeData.types';
 import type { CardSize } from '../elements/divination-card/wc-divination-card';
 import '../elements/act-area/wc-act-area.js';
 import './wc-map.js';
 import './wc-mapboss.js';
-import './wc-actboss.ts';
+import './wc-actboss.js';
+import { PoeData } from '../data/PoeData';
+import type { IMap } from '../data/poeData.types';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-source-element': SourceElement;
+		'wc-source': SourceElement;
 	}
 }
 
-@customElement('wc-source-element')
+export class NoSourceInPoeDataError extends Error {
+	constructor(source: ISource) {
+		super(`No ${source.type} in poeData ${source.id}`);
+	}
+}
+
+@customElement('wc-source')
 export class SourceElement extends LitElement {
-	@property({ type: Object }) poeData!: IPoeData;
+	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) source!: ISource;
 	@property() size: CardSize = 'small';
 
 	protected sourceElement() {
-		if (this.source.type === 'Act') {
-			const area = this.poeData.acts.find(area => area.id === this.source.id)!;
-			return html`<wc-act-area
-				.actArea=${area}
-				.size=${this.size === 'medium' ? 'large' : this.size}
-			></wc-act-area>`;
-		}
-
-		if (this.source.type === 'Act Boss') {
-			const name = this.source.id;
-			const [{ area, bossfight }] = this.poeData.acts
-				.filter(area => area.bossfights.some(bossfight => bossfight.name === name))
-				.map(area => {
-					const bossfight = area.bossfights.find(fight => fight.name === name)!;
-					return { area, bossfight };
-				});
-
-			return html`<wc-actboss .boss=${bossfight} .actArea=${area}></wc-actboss>`;
-		}
-
-		if (this.source.type === 'Map') {
-			const map = this.poeData.maps.find(map => map.name === this.source.id);
-			if (!map) {
-				throw new Error(`No map found ${this.source.id}`);
+		switch (this.source.type) {
+			case 'Act': {
+				const area = this.poeData.findActAreaById(this.source.id);
+				if (!area) throw new NoSourceInPoeDataError(this.source);
+				return html`<wc-act-area
+					.actArea=${area}
+					.size=${this.size === 'medium' ? 'large' : this.size}
+				></wc-act-area>`;
 			}
-			// return this.map(map.name, map.icon);
-			return html`<wc-map .map=${map}></wc-map>`;
-		}
-
-		if (this.source.type === 'Map Boss') {
-			const boss = this.poeData.mapbosses.find(boss => boss.name === this.source.id);
-			if (!boss) {
-				throw new Error(`No mapboss ${this.source.id}`);
+			case 'Act Boss': {
+				const res = this.poeData.findActbossAndArea(this.source.id);
+				if (!res) throw new NoSourceInPoeDataError(this.source);
+				return html`<wc-actboss .boss=${res.actAreaBoss} .actArea=${res.area}></wc-actboss>`;
 			}
-			const maps = boss.maps.map(m => this.poeData.maps.find(map => map.name === m)!);
-			return html`<wc-mapboss .boss=${boss} .maps=${maps}></wc-mapboss>`;
+			case 'Map': {
+				const map = this.poeData.findMap(this.source.id);
+				if (!map) throw new NoSourceInPoeDataError(this.source);
+				return html`<wc-map .map=${map}></wc-map>`;
+			}
+			case 'Map Boss': {
+				const res = this.poeData.findMapbossAndMaps(this.source.id);
+				if (!res) throw new NoSourceInPoeDataError(this.source);
+				return html`<wc-mapboss .boss=${res.mapboss} .maps=${res.maps}></wc-mapboss>`;
+			}
+			default: {
+				return html`<p>${this.source.id ?? nothing}</p>`;
+			}
 		}
-
-		return html`<p>${this.source.id ?? nothing}</p>`;
-		// return html`<wc-general-source .source=${this.source}></wc-general-source>`;
 	}
 
 	render() {

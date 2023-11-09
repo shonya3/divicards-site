@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord';
 import './wc-source.js';
-import type { IPoeData } from '../data/poeData.types.js';
+import { PoeData } from '../data/PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -13,7 +13,7 @@ declare global {
 @customElement('wc-sourceful-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: SourcefulDivcordTableRecord;
-	@property({ type: Object }) poeData!: IPoeData;
+	@property({ type: Object }) poeData!: PoeData;
 	protected render() {
 		return html`<div class="record">
 			${this.greynote()}

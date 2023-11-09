@@ -1,11 +1,11 @@
-import { LitElement, PropertyValueMap, html, css } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
-import type { IPoeData } from '../data/poeData.types.ts';
 import type { ISource } from '../data/ISource.interface.ts.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/act-area/wc-act-area.js';
 import './wc-source.js';
+import { PoeData } from '../data/PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -13,28 +13,31 @@ declare global {
 	}
 }
 
+const paginate = <T>(arr: T[], page: number, perPage: number) => {
+	const start = (page - 1) * perPage;
+	const end = start + perPage;
+	return arr.slice(start, end);
+};
+
 @customElement('wc-cards-table')
 export class CardsTableElement extends LitElement {
-	@property({ type: Object }) poeData!: Readonly<IPoeData>;
+	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards: Record<string, ISource[]> = Object.create({});
-	@property({ reflect: true }) cardSize: CardSize = 'small';
-	@state() filtered: (typeof this)['sourcesByCards'] = {};
+	@property({ reflect: true }) cardSize: CardSize = 'medium';
+	@property({ reflect: true, type: Number }) perPage = 10;
+	@property({ reflect: true, type: Number }) page = 1;
+
 	@state() nameQuery: string = '';
 
-	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-		console.log('FIRST UPDATED');
+	get filtered() {
+		const mapQuery = this.nameQuery.trim().toLowerCase();
+		return Object.entries(this.sourcesByCards)
+			.filter(([map]) => map.toLowerCase().includes(mapQuery.trim().toLowerCase()))
+			.sort((a, b) => a[0].localeCompare(b[0]));
 	}
 
-	protected willUpdate(changed: PropertyValueMap<this>): void {
-		if (changed.has('nameQuery')) {
-			console.log('CHANGED');
-			const mapQuery = this.nameQuery.trim().toLowerCase();
-
-			const filtered = Object.entries(this.sourcesByCards)
-				.filter(([map]) => map.toLowerCase().includes(mapQuery.trim().toLowerCase()))
-				.sort((a, b) => a[0].localeCompare(b[0]));
-			this.filtered = Object.fromEntries(filtered);
-		}
+	get paginated() {
+		return paginate(this.filtered, this.page, this.perPage);
 	}
 
 	#onCardnameInput(e: InputEvent) {
@@ -83,8 +86,10 @@ export class CardsTableElement extends LitElement {
 	}
 
 	protected table() {
+		const t0 = performance.now();
+
 		const width = this.cardSize === 'small' ? '134px' : this.cardSize === 'medium' ? '268px' : '326px';
-		return html`<table>
+		const markup = html`<table>
 			<thead>
 				<tr>
 					<th style="width:${width}" scope="col">Cards</th>
@@ -92,7 +97,7 @@ export class CardsTableElement extends LitElement {
 				</tr>
 			</thead>
 			<tbody>
-				${Object.entries(this.filtered).map(
+				${this.paginated.map(
 					([card, sources]) =>
 						html`
 							<tr>
@@ -103,11 +108,11 @@ export class CardsTableElement extends LitElement {
 									<ul>
 										${sources.map(
 											source => html`<li>
-												<wc-source-element
+												<wc-source
 													.size=${this.cardSize}
 													.poeData=${this.poeData}
 													.source=${source}
-												></wc-source-element>
+												></wc-source>
 											</li>`
 										)}
 									</ul>
@@ -117,6 +122,10 @@ export class CardsTableElement extends LitElement {
 				)}
 			</tbody>
 		</table> `;
+
+		console.log(performance.now() - t0);
+
+		return markup;
 	}
 
 	static styles = css`

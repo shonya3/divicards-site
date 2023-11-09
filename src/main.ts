@@ -1,23 +1,28 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
-import { divcordRecords, poeData } from './jsons/jsons';
+import { divcordRecords, poeDataJson } from './jsons/jsons';
 import './views/wc-sourceful-divcord-record';
 import './views/wc-cards-table.js';
 import { Router } from '@thepassle/app-tools/router.js';
 import { html, render } from 'lit';
 import './views/wc-card-with-divcord-records-view.js';
+import { PoeData } from './data/PoeData.js';
+
+declare global {
+	interface Document {
+		startViewTransition: (cb: (...args: any[]) => any) => Promise<unknown>;
+	}
+}
 
 const divcordTable = new SourcefulDivcordTable(divcordRecords.map(r => new SourcefulDivcordTableRecord(r)));
+const poeData = new PoeData(poeDataJson);
+const sourcesByCards = divcordTable.sourcesByCards();
 
 const router = new Router({
 	routes: [
 		{
 			path: '/',
 			title: 'Divicards',
-			render: () =>
-				html`<wc-cards-table
-					.poeData=${poeData}
-					.sourcesByCards=${divcordTable.sourcesByCards()}
-				></wc-cards-table>`,
+			render: () => html`<wc-cards-table .poeData=${poeData} .sourcesByCards=${sourcesByCards}></wc-cards-table>`,
 		},
 		{
 			path: '/card/:name',
@@ -35,5 +40,7 @@ const router = new Router({
 });
 
 router.addEventListener('route-changed', () => {
-	render(router.render(), document.body);
+	document.startViewTransition(() => {
+		render(router.render(), document.body);
+	});
 });

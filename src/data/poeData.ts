@@ -14,6 +14,42 @@ export class PoeData implements IPoeData {
 		this.mapbosses = mapbosses;
 	}
 
+	findActAreaById(actId: string) {
+		return this.acts.find(area => area.id === actId);
+	}
+
+	findMap(name: string) {
+		return this.maps.find(map => map.name.toLowerCase() === name.trim().toLowerCase());
+	}
+
+	findActbossAndArea(name: string) {
+		for (const area of this.acts) {
+			const actAreaBoss = area.bossfights.find(boss => boss.name === name);
+			if (actAreaBoss) {
+				return {
+					area,
+					actAreaBoss,
+				};
+			}
+		}
+	}
+
+	findMapbossAndMaps(name: string) {
+		const mapboss = this.mapboss(name);
+		if (!mapboss) return null;
+		const maps = mapboss.maps.map(m => {
+			const map = this.findMap(m);
+			if (!map) {
+				throw new Error(`No map for ${map}`);
+			}
+			return map;
+		});
+		return {
+			mapboss,
+			maps,
+		};
+	}
+
 	card(name: string): ICard | null {
 		return this.cards.find(c => c.name.trim().toLowerCase() === name.trim().toLowerCase()) ?? null;
 	}
