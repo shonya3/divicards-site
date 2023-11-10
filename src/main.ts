@@ -1,5 +1,5 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
-import { divcordRecords, poeDataJson } from './jsons/jsons';
+import { divcordRecords as divcordRecordsJson, poeDataJson } from './jsons/jsons';
 import './views/wc-sourceful-divcord-record';
 import './views/wc-cards-table.js';
 import { Router } from '@thepassle/app-tools/router.js';
@@ -8,7 +8,9 @@ import './views/wc-card-with-divcord-records-view.js';
 import { PoeData } from './PoeData.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { customElement, property, query } from 'lit/decorators.js';
-import { ISource } from './data/ISource.interface.ts.js';
+import { ISource, SourceType } from './data/ISource.interface.ts.js';
+import { cardsByMaps } from './data/data.js';
+import './views/wc-source-page.js';
 
 declare global {
 	interface Document {
@@ -20,9 +22,11 @@ declare global {
 	}
 }
 
-const divcordTable = new SourcefulDivcordTable(divcordRecords.map(r => new SourcefulDivcordTableRecord(r)));
+const divcordRecords = divcordRecordsJson.map(r => new SourcefulDivcordTableRecord(r));
+const divcordTable = new SourcefulDivcordTable(divcordRecords);
 const poeData = new PoeData(poeDataJson);
 const sourcesByCards = divcordTable.sourcesByCards();
+const _cardsByMaps = cardsByMaps(poeData, divcordRecords);
 
 export const router = new Router({
 	routes: [
@@ -48,6 +52,28 @@ export const router = new Router({
 					.records=${divcordTable.recordsByCard(name)}
 					.poeData=${poeData}
 				></wc-card-with-divcord-records-view>`;
+			},
+		},
+		{
+			path: '/source/',
+			title: context => decodeURI(context.params!.id),
+			render: context => {
+				const id: ISource['id'] = context.query.id;
+				const type = context.query.type as SourceType;
+
+				if (type === 'Map') {
+					return html`<wc-source-page
+						.source=${{ id, type }}
+						.poeData=${poeData}
+						.cards=${_cardsByMaps[id]}
+					></wc-source-page>`;
+				}
+
+				console.log(context.query);
+				// const id = decodeURI(context.params.id);
+
+				return html`${id}`;
+				// return html`<wc-source-page .poeData=${poeData}></wc-source-page>`;
 			},
 		},
 	],

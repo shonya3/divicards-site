@@ -22,7 +22,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			<div>${this.record.confidence}</div>
 			<ul class="dropsources">
 				${(this.record.sources ?? []).map(
-					source => html`<wc-source-element .poeData=${this.poeData} .source=${source}></wc-source-element>`
+					source => html`<wc-source .poeData=${this.poeData} .source=${source}></wc-source>`
 				)}
 			</ul>
 			${this.wikiDisagreements()} ${this.sourcesWithTagButNotOnWiki()} ${this.notes()}

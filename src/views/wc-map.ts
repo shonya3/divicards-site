@@ -72,7 +72,9 @@ export class MapElement extends LitElement {
 	}
 
 	protected renderName() {
-		return this.mode === 'normal' ? html` <p class="name">${this.map.name}</p> ` : nothing;
+		return this.mode === 'normal'
+			? html` <a href="/source/?type=Map&id=${this.map.name}" class="name">${this.map.name}</a> `
+			: nothing;
 	}
 
 	static styles = css`

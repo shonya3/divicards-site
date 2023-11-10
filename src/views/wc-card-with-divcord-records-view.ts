@@ -21,19 +21,27 @@ export class CardWithDivcordRecordsViewElement extends LitElement {
 	render() {
 		return html`<div class="view">
 			<wc-divination-card size="large" .name=${this.card}></wc-divination-card>
-			${this.records.map(
-				record =>
-					html`<wc-sourceful-divcord-record
-						.poeData=${this.poeData}
-						.record=${record}
-					></wc-sourceful-divcord-record>`
-			)}
+			<ul>
+				${this.records.map(
+					record =>
+						html`<li>
+							<wc-sourceful-divcord-record
+								.poeData=${this.poeData}
+								.record=${record}
+							></wc-sourceful-divcord-record>
+						</li>`
+				)}
+			</ul>
 		</div>`;
 	}
 
 	static styles = css`
 		wc-divination-card {
 			view-transition-name: card;
+		}
+
+		ul {
+			list-style: none;
 		}
 	`;
 }

@@ -12,6 +12,10 @@ export const includesMap = (name: string, maps: string[]): boolean => {
 	);
 };
 
+export const cardsByMaps = (poeData: PoeData, records: SourcefulDivcordTableRecord[]) => {
+	return new Data(poeData, records).cardsByMaps();
+};
+
 export class Data {
 	#cardsByMaps: Record<IMap['name'], Array<ICard['name']>> = {};
 	poeData: PoeData;
