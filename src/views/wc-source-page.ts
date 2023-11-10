@@ -19,7 +19,7 @@ export class SourcePage extends LitElement {
 
 	render() {
 		return html`<div>
-			<wc-source .poeData=${this.poeData} .source=${this.source}></wc-source>
+			<wc-source size="large" .poeData=${this.poeData} .source=${this.source}></wc-source>
 			<ul>
 				${this.cards.map(card => {
 					return html`<li>
