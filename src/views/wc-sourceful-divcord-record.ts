@@ -59,5 +59,11 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			padding: 0;
 			margin: 0;
 		}
+
+		.dropsources {
+			display: flex;
+			gap: 0.8rem;
+			flex-wrap: wrap;
+		}
 	`;
 }

@@ -28,6 +28,10 @@ export class MapElement extends LitElement {
 		}
 	}
 
+	#onNavigation() {
+		this.style.setProperty('view-transition-name', 'source');
+	}
+
 	mapColor() {
 		if (this.map.tier < 6) {
 			return 'white';
@@ -73,11 +77,22 @@ export class MapElement extends LitElement {
 
 	protected renderName() {
 		return this.mode === 'normal'
-			? html` <a href="/source/?type=Map&id=${this.map.name}" class="name">${this.map.name}</a> `
+			? html`
+					<a @click=${this.#onNavigation} href="/source/?type=Map&id=${this.map.name}" class="name"
+						>${this.map.name}</a
+					>
+			  `
 			: nothing;
 	}
 
 	static styles = css`
+        :root {
+            display: block;
+            width: fit-content;
+            object-fit: contain;
+            contain: content;
+        }
+
 		* {
 			padding: 0;
 			margin: 0;

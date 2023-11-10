@@ -69,7 +69,6 @@ export const router = new Router({
 					></wc-source-page>`;
 				}
 
-				console.log(context.query);
 				// const id = decodeURI(context.params.id);
 
 				return html`${id}`;

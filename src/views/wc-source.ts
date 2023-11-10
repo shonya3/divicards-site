@@ -84,18 +84,25 @@ export class SourceElement extends LitElement {
 			padding: 0;
 		}
 
+		:host {
+			display: inline-block;
+			max-width: fit-content;
+			object-fit: contain;
+			contain: paint;
+		}
+
 		.source {
 			--source-font-size: 20px;
 			font-size: var(--source-font-size);
+			display: block;
+			width: fit-content;
+			object-fit: contain;
+			contain: paint;
 		}
 
 		.source--medium,
 		.source--large {
 			--source-font-size: 24px;
-		}
-
-		.source {
-			width: fit-content;
 		}
 
 		.source-type {
@@ -104,6 +111,10 @@ export class SourceElement extends LitElement {
 			font-weight: 700;
 			font-family: sans-serif;
 			font-size: var(--source-font-size);
+		}
+
+		.inner {
+			width: fit-content;
 		}
 	`;
 
