@@ -64,6 +64,10 @@ export class DivinationCardElement extends LitElement {
 		}
 	}
 
+	#onNavigation() {
+		this.style.setProperty('view-transition-name', 'card');
+	}
+
 	protected override render() {
 		const sizeMap = styleMap({
 			'--card-width': `var(--card-width-${this.size})`,
@@ -88,7 +92,7 @@ export class DivinationCardElement extends LitElement {
 				style=${sizeMap}
 			></div>
 			<header class="${classMap({ name: true, size22: this.size === 'small' })}" style=${nameTopPadding}>
-				<a href="/card/${this.name}"> ${this.name} </a>
+				<a @click=${this.#onNavigation} href="/card/${this.name}"> ${this.name} </a>
 			</header>
 			<div class="imageWrapper">
 				<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="" />
@@ -118,6 +122,8 @@ function styles() {
 	return css`
 		:host {
 			display: block;
+			object-fit: contain;
+			contain: paint;
 
 			--card-width-small: 134px;
 			--card-width-medium: 268px;
@@ -152,6 +158,8 @@ function styles() {
 			--item-chaos: 322, 73%, 47%;
 			--item-augmented: rgb(138, 138, 255);
 			--coolgrey-1000: 206, 24%, 7%;
+
+			width: fit-content;
 		}
 
 		* {

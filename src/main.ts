@@ -63,12 +63,10 @@ export class AppElement extends LitElement {
 
 	constructor() {
 		super();
-		router.addEventListener('route-changed', e => {
-			// document.startViewTransition(() => {
-			console.log(e);
-
-			render(router.render(), document.body);
-			// });
+		router.addEventListener('route-changed', _e => {
+			document.startViewTransition(() => {
+				render(router.render(), document.body);
+			});
 		});
 	}
 

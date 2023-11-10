@@ -31,5 +31,9 @@ export class CardWithDivcordRecordsViewElement extends LitElement {
 		</div>`;
 	}
 
-	static styles = css``;
+	static styles = css`
+		wc-divination-card {
+			view-transition-name: card;
+		}
+	`;
 }
