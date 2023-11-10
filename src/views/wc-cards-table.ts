@@ -5,6 +5,7 @@ import type { ISource } from '../data/ISource.interface.ts.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/act-area/wc-act-area.js';
 import './wc-source.js';
+import './wc-page-controls.ts';
 import { PoeData } from '../PoeData.ts';
 
 declare global {
@@ -36,19 +37,9 @@ export class CardsTableElement extends LitElement {
 	}
 
 	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
-		const url = new URL(window.location.href);
-
-		if (_changedProperties.has('page')) {
-			url.searchParams.set('page', String(this.page));
-			window.history.pushState({}, '', url);
-		}
-
-		if (_changedProperties.has('perPage')) {
-			url.searchParams.set('per-page', String(this.perPage));
-			window.history.pushState({}, '', url);
-		}
-
 		if (_changedProperties.has('filter')) {
+			const url = new URL(window.location.href);
+
 			if (this.filter) {
 				url.searchParams.set('filter', this.filter);
 				window.history.pushState({}, '', url);
@@ -80,24 +71,6 @@ export class CardsTableElement extends LitElement {
 		}
 	}
 
-	#onPageInput(e: InputEvent) {
-		const target = e.composedPath()[0] as HTMLInputElement;
-		this.page = Number(target.value);
-	}
-	#onPerPageInput(e: InputEvent) {
-		const target = e.composedPath()[0] as HTMLInputElement;
-		this.perPage = Number(target.value);
-	}
-	increasePage() {
-		this.page++;
-	}
-
-	decreasePage() {
-		if (this.page > 1) {
-			this.page--;
-		}
-	}
-
 	protected render() {
 		return html`
 			<header>
@@ -120,19 +93,7 @@ export class CardsTableElement extends LitElement {
 						</div>
 					</fieldset>
 				</form>
-				<div class="page-controls" v-if="shouldFilter">
-					<button ?disabled=${this.page === 1} @click=${this.decreasePage}>prev</button>
-					<input id="page" type="text" .value=${String(this.page)} @input=${this.#onPageInput} />
-					<button @click=${this.increasePage}>next</button>
-					<label for="per-page">per page</label>
-					<input
-						id="per-page"
-						type="number"
-						min="0"
-						.value=${String(this.perPage)}
-						@input=${this.#onPerPageInput}
-					/>
-				</div>
+				<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
 			</header>
 			${this.table()}
 		`;
