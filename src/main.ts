@@ -28,7 +28,7 @@ const sourcesByCards = divcordTable.sourcesByCards();
 export class AppElement extends LitElement {
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 	@property({ type: Object }) poeData!: PoeData;
-	@property({ type: Object }) sourecesByCards!: Record<string, ISource[]>;
+	@property({ type: Object }) sourcesByCards!: Record<string, ISource[]>;
 
 	@query('#outlet') outlet!: HTMLElement;
 
@@ -76,6 +76,6 @@ export class AppElement extends LitElement {
 }
 
 render(
-	html`<wc-app .poeData=${poeData} .divcordTable=${divcordTable} .sourecesByCards=${sourcesByCards}></wc-app>`,
+	html`<wc-app .poeData=${poeData} .divcordTable=${divcordTable} .sourcesByCards=${sourcesByCards}></wc-app>`,
 	document.body
 );

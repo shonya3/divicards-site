@@ -80,7 +80,10 @@ export class CardsTableElement extends LitElement {
 		}
 	}
 
-	#onPageInput() {}
+	#onPageInput(e: InputEvent) {
+		const target = e.composedPath()[0] as HTMLInputElement;
+		this.page = Number(target.value);
+	}
 	#onPerPageInput(e: InputEvent) {
 		const target = e.composedPath()[0] as HTMLInputElement;
 		this.perPage = Number(target.value);
