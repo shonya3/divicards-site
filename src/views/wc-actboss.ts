@@ -13,10 +13,20 @@ declare global {
 export class ActBossElement extends LitElement {
 	@property({ type: Object }) boss!: IBossfight;
 	@property({ type: Object }) actArea!: IActArea;
+
+	#askToSetTransitionName() {
+		this.dispatchEvent(new CustomEvent<string>('set-transition-name', { detail: 'source', composed: true }));
+	}
+
 	protected render() {
 		return html`<div class="actboss">
 			<wc-act-area class="act-area" size="small" .actArea=${this.actArea}></wc-act-area>
-			<p class="bossname">${this.boss.name}</p>
+			<a
+				href="/source/?type=Act Boss&id=${this.boss.name}"
+				@click=${this.#askToSetTransitionName}
+				class="bossname"
+				>${this.boss.name}</a
+			>
 		</div>`;
 	}
 	static styles = css`

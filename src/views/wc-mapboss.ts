@@ -14,12 +14,19 @@ export class MapBossElement extends LitElement {
 	@property({ type: Object }) boss!: IMapBoss;
 	@property({ type: Array }) maps: IMap[] = [];
 	@property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
+
+	#askToSetTransitionName() {
+		this.dispatchEvent(new CustomEvent<string>('set-transition-name', { detail: 'source', composed: true }));
+	}
+
 	protected render() {
 		return html`<div class="mapboss">
 			<ul class="maplist" style="" class="maps">
 				${this.maps.map(m => html`<wc-map .size=${this.size} .map=${m}></wc-map>`)}
 			</ul>
-			<p class="name">${this.boss.name}</p>
+			<a @click=${this.#askToSetTransitionName} href="/source/?type=Map Boss&id=${this.boss.name}" class="name"
+				>${this.boss.name}</a
+			>
 		</div>`;
 	}
 	static styles = css`
