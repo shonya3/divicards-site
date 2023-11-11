@@ -39,7 +39,7 @@ export class MapElement extends LitElement {
 			return 'yellow';
 		} else {
 			const name = this.map.name;
-			let special = ['Phoenix', 'Hydra', 'Chimra', 'Minotaur', 'Vaal Temple'].some(b => name.includes(b));
+			let special = ['Phoenix', 'Hydra', 'Chimera', 'Minotaur', 'Vaal Temple'].some(b => name.includes(b));
 			if (special) {
 				return 'special';
 			} else {
