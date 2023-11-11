@@ -9,7 +9,7 @@ import { PoeData } from './PoeData.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { customElement, property, query } from 'lit/decorators.js';
 import { ISource, SourceType } from './data/ISource.interface.ts.js';
-import { CardsFinder } from './data/data.js';
+import { CardsFinder } from './data/CardsFinder.js';
 import './views/wc-source-page.js';
 
 declare global {
@@ -78,6 +78,12 @@ export const router = new Router({
 				}
 
 				// const id = decodeURI(context.params.id);
+
+				return html`<wc-source-page
+					.source=${{ id, type }}
+					.poeData=${poeData}
+					.cards=${cardsFinder.cardsByIdSource({ id, type })}
+				></wc-source-page>`;
 
 				return html`${id}`;
 				// return html`<wc-source-page .poeData=${poeData}></wc-source-page>`;

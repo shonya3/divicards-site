@@ -37,10 +37,15 @@ export class SourceElement extends LitElement {
 		this.addEventListener('set-transition-name', e => {
 			if (e instanceof CustomEvent) {
 				if (typeof e.detail === 'string') {
-					this.style.setProperty('view-transition-name', e.detail);
+					this.#setViewTransitionName(e.detail);
 				}
 			}
 		});
+	}
+
+	#setViewTransitionName(transitionName = 'source') {
+		console.log(transitionName);
+		this.style.setProperty('view-transition-name', transitionName);
 	}
 
 	protected sourceElement() {
@@ -69,7 +74,12 @@ export class SourceElement extends LitElement {
 				return html`<wc-mapboss .size=${this.size} .boss=${res.mapboss} .maps=${res.maps}></wc-mapboss>`;
 			}
 			default: {
-				return html`<p>${this.source.id ?? nothing}</p>`;
+				if (!this.source.id) return nothing;
+				return html`<a
+					@click=${this.#setViewTransitionName.bind(this, 'source')}
+					href="/source/?type=${this.source.type}&id=${this.source.id}"
+					>${this.source.id}</a
+				>`;
 			}
 		}
 	}

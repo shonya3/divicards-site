@@ -1,4 +1,4 @@
-import { includesMap } from './data/data';
+import { includesMap } from './data/CardsFinder';
 import { IActArea, ICard, IMap, IMapBoss, IPoeData } from './data/poeData.types';
 
 export class PoeData implements IPoeData {

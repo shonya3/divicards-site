@@ -1,6 +1,7 @@
 import { SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
 import { PoeData } from '../PoeData';
 import { ICard, IMap } from './poeData.types';
+import { ISource } from './ISource.interface.ts';
 
 export const includesMap = (name: string, maps: string[]): boolean => {
 	const short = name.replace('Map', '').trim();
@@ -11,10 +12,6 @@ export const includesMap = (name: string, maps: string[]): boolean => {
 			m.toLowerCase().trim().includes(short.toLowerCase().trim())
 	);
 };
-
-// export const cardsByMaps = (poeData: PoeData, records: SourcefulDivcordTableRecord[]) => {
-// 	return new Data(poeData, records).cardsByMaps();
-// };
 
 export type CardByActArea = FromArea | FromAreaBoss;
 export type FromAreaBoss = {
@@ -127,6 +124,24 @@ export class CardsFinder {
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
 				if (source.type === 'Act Boss' && bossname == source.id) {
+					cards.push(record.card);
+				}
+			}
+		}
+
+		return cards;
+	}
+
+	cardsByIdSource(source: ISource): string[] {
+		const cards: string[] = [];
+
+		if (!source.id) {
+			return cards;
+		}
+
+		for (const record of this.records) {
+			for (const s of record.sources ?? []) {
+				if (s.type === source.type && s.id == source.id) {
 					cards.push(record.card);
 				}
 			}
