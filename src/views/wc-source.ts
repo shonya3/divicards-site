@@ -32,6 +32,17 @@ export class SourceElement extends LitElement {
 		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
 	}
 
+	constructor() {
+		super();
+		this.addEventListener('set-transition-name', e => {
+			if (e instanceof CustomEvent) {
+				if (typeof e.detail === 'string') {
+					this.style.setProperty('view-transition-name', e.detail);
+				}
+			}
+		});
+	}
+
 	protected sourceElement() {
 		switch (this.source.type) {
 			case 'Act': {

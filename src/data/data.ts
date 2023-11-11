@@ -12,11 +12,23 @@ export const includesMap = (name: string, maps: string[]): boolean => {
 	);
 };
 
-export const cardsByMaps = (poeData: PoeData, records: SourcefulDivcordTableRecord[]) => {
-	return new Data(poeData, records).cardsByMaps();
+// export const cardsByMaps = (poeData: PoeData, records: SourcefulDivcordTableRecord[]) => {
+// 	return new Data(poeData, records).cardsByMaps();
+// };
+
+export type CardByActArea = FromArea | FromAreaBoss;
+export type FromAreaBoss = {
+	from: 'Act Boss';
+	card: string;
+	actBoss: string;
 };
 
-export class Data {
+export type FromArea = {
+	from: 'Act';
+	card: string;
+};
+
+export class CardsFinder {
 	#cardsByMaps: Record<IMap['name'], Array<ICard['name']>> = {};
 	poeData: PoeData;
 	records: SourcefulDivcordTableRecord[];
@@ -73,6 +85,48 @@ export class Data {
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
 				if (source.type === 'Map Boss' && bossname == source.id) {
+					cards.push(record.card);
+				}
+			}
+		}
+
+		return cards;
+	}
+
+	cardsByActArea(actId: string): CardByActArea[] {
+		const cards: CardByActArea[] = [];
+
+		for (const record of this.records) {
+			for (const source of record?.sources ?? []) {
+				if (source.type === 'Act' && source.id === actId) {
+					cards.push({ from: 'Act', card: record.card });
+				}
+			}
+		}
+
+		const area = this.poeData.acts.find(act => act.id === actId);
+		if (area) {
+			for (const bossfight of area.bossfights) {
+				const cardsByActBoss = this.cardsByActBoss(bossfight.name);
+				for (const card of cardsByActBoss) {
+					cards.push({
+						actBoss: bossfight.name,
+						card: card,
+						from: 'Act Boss',
+					});
+				}
+			}
+		}
+
+		return cards;
+	}
+
+	cardsByActBoss(bossname: string): string[] {
+		const cards: string[] = [];
+
+		for (const record of this.records) {
+			for (const source of record.sources ?? []) {
+				if (source.type === 'Act Boss' && bossname == source.id) {
 					cards.push(record.card);
 				}
 			}

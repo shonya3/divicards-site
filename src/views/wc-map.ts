@@ -28,8 +28,10 @@ export class MapElement extends LitElement {
 		}
 	}
 
-	#onNavigation() {
-		this.style.setProperty('view-transition-name', 'source');
+	#askToSetTransitionName() {
+		this.dispatchEvent(
+			new CustomEvent<string>('set-transition-name', { detail: 'source', bubbles: true, composed: true })
+		);
 	}
 
 	mapColor() {
@@ -78,7 +80,7 @@ export class MapElement extends LitElement {
 	protected renderName() {
 		return this.mode === 'normal'
 			? html`
-					<a @click=${this.#onNavigation} href="/source/?type=Map&id=${this.map.name}" class="name"
+					<a @click=${this.#askToSetTransitionName} href="/source/?type=Map&id=${this.map.name}" class="name"
 						>${this.map.name}</a
 					>
 			  `

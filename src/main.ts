@@ -9,7 +9,7 @@ import { PoeData } from './PoeData.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { customElement, property, query } from 'lit/decorators.js';
 import { ISource, SourceType } from './data/ISource.interface.ts.js';
-import { cardsByMaps } from './data/data.js';
+import { CardsFinder } from './data/data.js';
 import './views/wc-source-page.js';
 
 declare global {
@@ -26,7 +26,7 @@ const divcordRecords = divcordRecordsJson.map(r => new SourcefulDivcordTableReco
 const divcordTable = new SourcefulDivcordTable(divcordRecords);
 const poeData = new PoeData(poeDataJson);
 const sourcesByCards = divcordTable.sourcesByCards();
-const _cardsByMaps = cardsByMaps(poeData, divcordRecords);
+const cardsFinder = new CardsFinder(poeData, divcordRecords);
 
 export const router = new Router({
 	routes: [
@@ -65,7 +65,15 @@ export const router = new Router({
 					return html`<wc-source-page
 						.source=${{ id, type }}
 						.poeData=${poeData}
-						.cards=${_cardsByMaps[id]}
+						.cards=${cardsFinder.cardsByMap(id)}
+					></wc-source-page>`;
+				}
+
+				if (type === 'Act') {
+					return html`<wc-source-page
+						.source=${{ id, type }}
+						.poeData=${poeData}
+						.cards=${cardsFinder.cardsByActArea(id).map(a => a.card)}
 					></wc-source-page>`;
 				}
 

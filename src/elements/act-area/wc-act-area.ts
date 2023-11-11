@@ -18,6 +18,10 @@ export class ActAreaElement extends LitElement {
 	@property({ type: Object }) actArea!: IActArea;
 	@property({ reflect: true }) size: Size = 'large';
 
+	#askToSetTransitionName() {
+		this.dispatchEvent(new CustomEvent<string>('set-transition-name', { detail: 'source', composed: true }));
+	}
+
 	protected override render() {
 		return html`<div
 			style="--act-area-background-image: url(${this.actArea.imageUrl})"
@@ -27,7 +31,9 @@ export class ActAreaElement extends LitElement {
 				'act-area--large': this.size === 'large',
 			})}
 		>
-			<div class="name">${this.actArea.name} (Act ${this.actArea.act})</div>
+			<a @click=${this.#askToSetTransitionName} href="/source/?type=Act&id=${this.actArea.id}" class="name"
+				>${this.actArea.name} (Act ${this.actArea.act})</a
+			>
 			<div class="area-level">Monster level: ${this.actArea.areaLevel}</div>
 		</div>`;
 	}
