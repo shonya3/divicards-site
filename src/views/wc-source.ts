@@ -44,7 +44,6 @@ export class SourceElement extends LitElement {
 	}
 
 	#setViewTransitionName(transitionName = 'source') {
-		console.log(transitionName);
 		this.style.setProperty('view-transition-name', transitionName);
 	}
 
