@@ -109,7 +109,6 @@ export class SourceElement extends LitElement {
 			text-align: center;
 			color: orange;
 			font-weight: 700;
-			font-family: sans-serif;
 			font-size: var(--source-font-size);
 		}
 

@@ -86,12 +86,12 @@ export class MapElement extends LitElement {
 	}
 
 	static styles = css`
-        :root {
-            display: block;
-            width: fit-content;
-            object-fit: contain;
-            contain: content;
-        }
+		:root {
+			display: block;
+			width: fit-content;
+			object-fit: contain;
+			contain: content;
+		}
 
 		* {
 			padding: 0;
@@ -99,17 +99,19 @@ export class MapElement extends LitElement {
 		}
 
 		.map {
-            font-size: var(--map-font-size, 1rem)
+			font-size: var(--map-font-size, 1rem);
 			width: fit-content;
 		}
 
-        .name{
-            font-size: var(--map-font-size, 1rem)
-        }
+		.name {
+			font-weight: 400;
+			font-size: var(--map-font-size, 1rem);
+		}
 
-        .map--medium, .map--large{
-            --map-font-size: 24px;
-        }
+		.map--medium,
+		.map--large {
+			--map-font-size: 24px;
+		}
 
 		.map--yellow {
 			--filter: contrast(1000%) sepia(100%) saturate(10000%);
