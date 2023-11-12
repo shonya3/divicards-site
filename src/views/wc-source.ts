@@ -35,11 +35,7 @@ export class SourceElement extends LitElement {
 	constructor() {
 		super();
 		this.addEventListener('set-transition-name', e => {
-			if (e instanceof CustomEvent) {
-				if (typeof e.detail === 'string') {
-					this.#setViewTransitionName(e.detail);
-				}
-			}
+			this.#setViewTransitionName(e.detail);
 		});
 	}
 

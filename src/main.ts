@@ -77,16 +77,11 @@ export const router = new Router({
 					></wc-source-page>`;
 				}
 
-				// const id = decodeURI(context.params.id);
-
 				return html`<wc-source-page
 					.source=${{ id, type }}
 					.poeData=${poeData}
 					.cards=${cardsFinder.cardsByIdSource({ id, type })}
 				></wc-source-page>`;
-
-				return html`${id}`;
-				// return html`<wc-source-page .poeData=${poeData}></wc-source-page>`;
 			},
 		},
 	],

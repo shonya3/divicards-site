@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { IActArea, IBossfight } from '../data/poeData.types';
 import '../elements/act-area/wc-act-area.js';
+import { dispatchSetTransitionName } from '../events.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -13,18 +14,13 @@ declare global {
 export class ActBossElement extends LitElement {
 	@property({ type: Object }) boss!: IBossfight;
 	@property({ type: Object }) actArea!: IActArea;
-
-	#askToSetTransitionName() {
-		this.dispatchEvent(new CustomEvent<string>('set-transition-name', { detail: 'source', composed: true }));
-	}
+	@property({ reflect: true }) href: string = '';
 
 	protected render() {
 		return html`<div class="actboss">
 			<wc-act-area class="act-area" size="small" .actArea=${this.actArea}></wc-act-area>
-			<a
-				href="/source/?type=Act Boss&id=${this.boss.name}"
-				@click=${this.#askToSetTransitionName}
-				class="bossname"
+
+			<a href=${this.href} @click=${dispatchSetTransitionName.bind(this, 'source')} class="bossname"
 				>${this.boss.name}</a
 			>
 		</div>`;

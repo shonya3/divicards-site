@@ -2,6 +2,7 @@ import { LitElement, html, nothing, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import type { IMap } from '../data/poeData.types';
+import { dispatchSetTransitionName } from '../events';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -13,8 +14,8 @@ declare global {
 export class MapElement extends LitElement {
 	@property({ type: Object }) map!: IMap;
 	@property() mode: 'normal' | 'boss-tooltip' = 'normal';
-	// @property({ type: Number }) imageWidth: number = 40;
 	@property({ reflect: true }) size: 'small' | 'medium' = 'medium';
+	@property({ reflect: true }) href = '';
 
 	get imageWidth() {
 		switch (this.size) {
@@ -26,12 +27,6 @@ export class MapElement extends LitElement {
 				return 60;
 			}
 		}
-	}
-
-	#askToSetTransitionName() {
-		this.dispatchEvent(
-			new CustomEvent<string>('set-transition-name', { detail: 'source', bubbles: true, composed: true })
-		);
 	}
 
 	mapColor() {
@@ -80,7 +75,7 @@ export class MapElement extends LitElement {
 	protected renderName() {
 		return this.mode === 'normal'
 			? html`
-					<a @click=${this.#askToSetTransitionName} href="/source/?type=Map&id=${this.map.name}" class="name"
+					<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
 						>${this.map.name}</a
 					>
 			  `

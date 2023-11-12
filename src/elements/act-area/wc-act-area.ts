@@ -2,6 +2,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { IActArea } from '../../data/poeData.types';
+import { dispatchSetTransitionName } from '../../events';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -17,10 +18,7 @@ export class ActAreaElement extends LitElement {
 
 	@property({ type: Object }) actArea!: IActArea;
 	@property({ reflect: true }) size: Size = 'large';
-
-	#askToSetTransitionName() {
-		this.dispatchEvent(new CustomEvent<string>('set-transition-name', { detail: 'source', composed: true }));
-	}
+	@property({ reflect: true }) href = '';
 
 	protected override render() {
 		return html`<div
@@ -31,7 +29,7 @@ export class ActAreaElement extends LitElement {
 				'act-area--large': this.size === 'large',
 			})}
 		>
-			<a @click=${this.#askToSetTransitionName} href="/source/?type=Act&id=${this.actArea.id}" class="name"
+			<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
 				>${this.actArea.name} (Act ${this.actArea.act})</a
 			>
 			<div class="area-level">Monster level: ${this.actArea.areaLevel}</div>

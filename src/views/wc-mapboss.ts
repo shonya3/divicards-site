@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { IMapBoss, IMap } from '../data/poeData.types';
 import './wc-map.js';
+import { dispatchSetTransitionName } from '../events.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,17 +15,14 @@ export class MapBossElement extends LitElement {
 	@property({ type: Object }) boss!: IMapBoss;
 	@property({ type: Array }) maps: IMap[] = [];
 	@property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
-
-	#askToSetTransitionName() {
-		this.dispatchEvent(new CustomEvent<string>('set-transition-name', { detail: 'source', composed: true }));
-	}
+	@property({ reflect: true }) href = '';
 
 	protected render() {
 		return html`<div class="mapboss">
 			<ul class="maplist" style="" class="maps">
 				${this.maps.map(m => html`<wc-map .size=${this.size} .map=${m}></wc-map>`)}
 			</ul>
-			<a @click=${this.#askToSetTransitionName} href="/source/?type=Map Boss&id=${this.boss.name}" class="name"
+			<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
 				>${this.boss.name}</a
 			>
 		</div>`;
