@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/wc-divination-card.js';
 import '../elements/divination-card/wc-divination-card.js';
@@ -31,6 +31,15 @@ export class MapsTableElement extends LitElement {
 		return Object.entries(this.cardsByMaps)
 			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
 			.sort((a, b) => a[0].localeCompare(b[0]));
+	}
+
+	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
+		if (_changedProperties.has('filter')) {
+			const url = new URL(window.location.href);
+
+			url.searchParams.set('filter', this.filter);
+			window.history.pushState({}, '', url);
+		}
 	}
 
 	get paginated() {

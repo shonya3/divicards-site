@@ -36,19 +36,17 @@ export class CardsTableElement extends LitElement {
 			.sort((a, b) => a[0].localeCompare(b[0]));
 	}
 
+	get paginated() {
+		return paginate(this.filtered, this.page, this.perPage);
+	}
+
 	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
 		if (_changedProperties.has('filter')) {
 			const url = new URL(window.location.href);
 
-			if (this.filter) {
-				url.searchParams.set('filter', this.filter);
-				window.history.pushState({}, '', url);
-			}
+			url.searchParams.set('filter', this.filter);
+			window.history.pushState({}, '', url);
 		}
-	}
-
-	get paginated() {
-		return paginate(this.filtered, this.page, this.perPage);
 	}
 
 	async #onCardnameInput(e: InputEvent) {
