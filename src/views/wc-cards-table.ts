@@ -3,9 +3,9 @@ import { customElement, property } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
 import type { ISource } from '../data/ISource.interface.ts.ts';
 import '../elements/divination-card/wc-divination-card.js';
-import '../elements/act-area/wc-act-area.js';
-import './wc-source.js';
-import './wc-page-controls.ts';
+import '../elements/wc-act-area.js';
+import '../elements/wc-source.js';
+import '../elements/wc-page-controls.ts';
 import { PoeData } from '../PoeData.ts';
 
 declare global {

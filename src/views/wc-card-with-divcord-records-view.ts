@@ -1,9 +1,9 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import '../elements/act-area/wc-act-area.js';
+import '../elements/wc-act-area.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
 import '../elements/divination-card/wc-divination-card.js';
-import './wc-sourceful-divcord-record.js';
+import '../elements/wc-sourceful-divcord-record.js';
 import { PoeData } from '../PoeData.js';
 
 declare global {

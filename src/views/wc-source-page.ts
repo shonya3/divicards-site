@@ -1,9 +1,9 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource } from '../data/ISource.interface.ts';
+import type { ISource } from '../data/ISource.interface.ts.ts';
 import { PoeData } from '../PoeData.ts';
 import '../elements/divination-card/wc-divination-card.js';
-import '../views/wc-source.js';
+import '../elements/wc-source.js';
 import { CardsFinder } from '../data/CardsFinder.ts';
 
 declare global {

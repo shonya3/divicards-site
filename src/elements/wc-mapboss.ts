@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IMapBoss, IMap } from '../data/poeData.types';
+import type { IMapBoss, IMap } from '../data/poeData.types.js';
 import './wc-map.js';
 import { dispatchSetTransitionName } from '../events.js';
 

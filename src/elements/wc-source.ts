@@ -1,14 +1,14 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource } from '../data/ISource.interface.ts';
-import type { CardSize } from '../elements/divination-card/wc-divination-card';
-import '../elements/act-area/wc-act-area.js';
+import type { ISource } from '../data/ISource.interface.ts.ts';
+import type { CardSize } from './divination-card/wc-divination-card.ts';
+import './wc-act-area.js';
 import './wc-map.js';
 import './wc-mapboss.js';
 import './wc-actboss.js';
 import { PoeData } from '../PoeData.ts';
-import type { IMap } from '../data/poeData.types';
+import type { IMap } from '../data/poeData.types.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {

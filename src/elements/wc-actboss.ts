@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IActArea, IBossfight } from '../data/poeData.types';
-import '../elements/act-area/wc-act-area.js';
+import type { IActArea, IBossfight } from '../data/poeData.types.js';
+import './wc-act-area.js';
 import { dispatchSetTransitionName } from '../events.js';
 
 declare global {

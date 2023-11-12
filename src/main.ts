@@ -1,6 +1,6 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 import { divcordRecords as divcordRecordsJson, poeDataJson } from './jsons/jsons';
-import './views/wc-sourceful-divcord-record';
+import './elements/wc-sourceful-divcord-record.js';
 import './views/wc-cards-table.js';
 import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, css, html, render } from 'lit';
