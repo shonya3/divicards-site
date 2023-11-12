@@ -10,7 +10,24 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { ISource, SourceType } from './data/ISource.interface.ts.js';
 import { CardsFinder } from './data/CardsFinder.js';
 import './views/wc-source-page.js';
+import './views/wc-maps-table.js';
 import { customElement, query } from 'lit/decorators.js';
+
+// @ts-expect-error
+if (!globalThis.URLPattern) {
+	await import('urlpattern-polyfill');
+}
+
+export async function startViewTransition(cb: (...args: any[]) => any): Promise<unknown> {
+	console.log('StartViewTransition');
+	if (Object.hasOwn(Document.prototype, 'startViewTransition')) {
+		return document.startViewTransition(() => {
+			cb();
+		});
+	} else {
+		cb();
+	}
+}
 
 declare global {
 	interface Document {
@@ -101,11 +118,18 @@ export const router = new Router({
 				></wc-source-page>`;
 			},
 		},
+		{
+			path: '/maps',
+			title: 'Maps',
+			render: () => {
+				return html`<wc-maps-table .cardsByMaps=${cardsFinder.cardsByMaps()}></wc-maps-table>`;
+			},
+		},
 	],
 });
 
 router.addEventListener('route-changed', _e => {
-	document.startViewTransition(() => {
+	startViewTransition(() => {
 		render(router.render(), rootElement.outlet);
 	});
 });

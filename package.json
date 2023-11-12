@@ -17,6 +17,7 @@
 	},
 	"dependencies": {
 		"@thepassle/app-tools": "^0.9.9",
-		"lit": "^3.0.1"
+		"lit": "^3.0.1",
+		"urlpattern-polyfill": "^9.0.0"
 	}
 }
