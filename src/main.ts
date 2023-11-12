@@ -60,27 +60,12 @@ export const router = new Router({
 			render: context => {
 				const id: ISource['id'] = context.query.id;
 				const type = context.query.type as SourceType;
-
-				if (type === 'Map') {
-					return html`<wc-source-page
-						.source=${{ id, type }}
-						.poeData=${poeData}
-						.cards=${cardsFinder.cardsByMap(id)}
-					></wc-source-page>`;
-				}
-
-				if (type === 'Act') {
-					return html`<wc-source-page
-						.source=${{ id, type }}
-						.poeData=${poeData}
-						.cards=${cardsFinder.cardsByActArea(id).map(a => a.card)}
-					></wc-source-page>`;
-				}
+				const source: ISource = { id, type };
 
 				return html`<wc-source-page
-					.source=${{ id, type }}
+					.cardsFinder=${cardsFinder}
+					.source=${source}
 					.poeData=${poeData}
-					.cards=${cardsFinder.cardsByIdSource({ id, type })}
 				></wc-source-page>`;
 			},
 		},

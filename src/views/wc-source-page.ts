@@ -4,6 +4,7 @@ import type { ISource } from '../data/ISource.interface.ts';
 import { PoeData } from '../PoeData.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../views/wc-source.js';
+import { CardsFinder } from '../data/CardsFinder.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,8 +15,22 @@ declare global {
 @customElement('wc-source-page')
 export class SourcePage extends LitElement {
 	@property({ type: Object }) source!: ISource;
-	@property({ type: Array }) cards!: string[];
 	@property({ type: Object }) poeData!: PoeData;
+	@property({ type: Object }) cardsFinder!: CardsFinder;
+
+	get cards() {
+		switch (this.source.type) {
+			case 'Map': {
+				return this.cardsFinder.cardsByMap(this.source.id);
+			}
+			case 'Act': {
+				return this.cardsFinder.cardsByActArea(this.source.id).map(a => a.card);
+			}
+			default: {
+				return this.cardsFinder.cardsByIdSource(this.source);
+			}
+		}
+	}
 
 	render() {
 		return html`<div>
