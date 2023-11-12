@@ -55,7 +55,7 @@ export const router = new Router({
 			},
 		},
 		{
-			path: '/source/',
+			path: '/source',
 			title: context => decodeURI(context.query!.id),
 			render: context => {
 				const id: ISource['id'] = context.query.id;

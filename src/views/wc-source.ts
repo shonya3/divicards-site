@@ -43,12 +43,20 @@ export class SourceElement extends LitElement {
 		this.style.setProperty('view-transition-name', transitionName);
 	}
 
+	href() {
+		if (!this.source.id) {
+			return '';
+		}
+		return `/source?type=${this.source.type}&id=${this.source.id}`;
+	}
+
 	protected sourceElement() {
 		switch (this.source.type) {
 			case 'Act': {
 				const area = this.poeData.findActAreaById(this.source.id);
 				if (!area) throw new NoSourceInPoeDataError(this.source);
 				return html`<wc-act-area
+					.href=${this.href()}
 					.actArea=${area}
 					.size=${this.size === 'medium' ? 'large' : this.size}
 				></wc-act-area>`;
@@ -56,23 +64,30 @@ export class SourceElement extends LitElement {
 			case 'Act Boss': {
 				const res = this.poeData.findActbossAndArea(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-actboss .boss=${res.actAreaBoss} .actArea=${res.area}></wc-actboss>`;
+				return html`<wc-actboss
+					.href=${this.href()}
+					.boss=${res.actAreaBoss}
+					.actArea=${res.area}
+				></wc-actboss>`;
 			}
 			case 'Map': {
 				const map = this.poeData.findMap(this.source.id);
 				if (!map) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-map .size=${this.size} .map=${map}></wc-map>`;
+				return html`<wc-map .href=${this.href()} .size=${this.size} .map=${map}></wc-map>`;
 			}
 			case 'Map Boss': {
 				const res = this.poeData.findMapbossAndMaps(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-mapboss .size=${this.size} .boss=${res.mapboss} .maps=${res.maps}></wc-mapboss>`;
+				return html`<wc-mapboss
+					.href=${this.href()}
+					.size=${this.size}
+					.boss=${res.mapboss}
+					.maps=${res.maps}
+				></wc-mapboss>`;
 			}
 			default: {
 				if (!this.source.id) return nothing;
-				return html`<a
-					@click=${this.#setViewTransitionName.bind(this, 'source')}
-					href="/source/?type=${this.source.type}&id=${this.source.id}"
+				return html`<a @click=${this.#setViewTransitionName.bind(this, 'source')} href=${this.href()}
 					>${this.source.id}</a
 				>`;
 			}
