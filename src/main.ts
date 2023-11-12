@@ -3,14 +3,14 @@ import { divcordRecords as divcordRecordsJson, poeDataJson } from './jsons/jsons
 import './views/wc-sourceful-divcord-record';
 import './views/wc-cards-table.js';
 import { Router } from '@thepassle/app-tools/router.js';
-import { LitElement, html, render } from 'lit';
+import { LitElement, css, html, render } from 'lit';
 import './views/wc-card-with-divcord-records-view.js';
 import { PoeData } from './PoeData.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { customElement, property, query } from 'lit/decorators.js';
 import { ISource, SourceType } from './data/ISource.interface.ts.js';
 import { CardsFinder } from './data/CardsFinder.js';
 import './views/wc-source-page.js';
+import { customElement, query } from 'lit/decorators.js';
 
 declare global {
 	interface Document {
@@ -18,9 +18,41 @@ declare global {
 	}
 
 	interface HTMLElementTagNameMap {
-		'wc-app': AppElement;
+		'wc-root': RootElement;
 	}
 }
+
+@customElement('wc-root')
+export class RootElement extends LitElement {
+	@query('#outlet') outlet!: HTMLElement;
+
+	render() {
+		return html`<header>
+				<nav>
+					<ul>
+						<li>
+							<a href="/">Home</a>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			<div id="outlet"></div>`;
+	}
+
+	static styles = css`
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		ul {
+			list-style: none;
+		}
+	`;
+}
+
+const rootElement = document.createElement('wc-root');
+document.body.append(rootElement);
 
 const divcordRecords = divcordRecordsJson.map(r => new SourcefulDivcordTableRecord(r));
 const divcordTable = new SourcefulDivcordTable(divcordRecords);
@@ -35,8 +67,8 @@ export const router = new Router({
 			title: 'Divicards',
 			render: ({ query }) =>
 				html`<wc-cards-table
-					page=${ifDefined(query.page)}
-					per-page=${ifDefined(query['per-page'])}
+					page=${query.page ?? 1}
+					per-page=${query['per-page'] ?? 10}
 					filter=${ifDefined(query.filter)}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
@@ -72,29 +104,8 @@ export const router = new Router({
 	],
 });
 
-@customElement('wc-app')
-export class AppElement extends LitElement {
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
-	@property({ type: Object }) poeData!: PoeData;
-	@property({ type: Object }) sourcesByCards!: Record<string, ISource[]>;
-
-	@query('#outlet') outlet!: HTMLElement;
-
-	constructor() {
-		super();
-		router.addEventListener('route-changed', _e => {
-			document.startViewTransition(() => {
-				render(router.render(), document.body);
-			});
-		});
-	}
-
-	render() {
-		html`<div id="outlet"></div>`;
-	}
-}
-
-render(
-	html`<wc-app .poeData=${poeData} .divcordTable=${divcordTable} .sourcesByCards=${sourcesByCards}></wc-app>`,
-	document.body
-);
+router.addEventListener('route-changed', _e => {
+	document.startViewTransition(() => {
+		render(router.render(), rootElement.outlet);
+	});
+});
