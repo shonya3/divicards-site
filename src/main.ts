@@ -19,7 +19,6 @@ if (!globalThis.URLPattern) {
 }
 
 export async function startViewTransition(cb: (...args: any[]) => any): Promise<unknown> {
-	console.log('StartViewTransition');
 	if (Object.hasOwn(Document.prototype, 'startViewTransition')) {
 		return document.startViewTransition(() => {
 			cb();
@@ -44,11 +43,14 @@ export class RootElement extends LitElement {
 	@query('#outlet') outlet!: HTMLElement;
 
 	render() {
-		return html`<header>
+		return html`<header style="padding:1rem;">
 				<nav>
-					<ul>
+					<ul style="display:flex;gap:0.4rem;width:fit-content;margin-left:3rem;">
 						<li>
 							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="/maps">Maps</a>
 						</li>
 					</ul>
 				</nav>
@@ -121,8 +123,14 @@ export const router = new Router({
 		{
 			path: '/maps',
 			title: 'Maps',
-			render: () => {
-				return html`<wc-maps-table .cardsByMaps=${cardsFinder.cardsByMaps()}></wc-maps-table>`;
+			render: ({ query }) => {
+				return html`<wc-maps-table
+					page=${query.page ?? 1}
+					per-page=${query['per-page'] ?? 10}
+					filter=${ifDefined(query.filter)}
+					.poeData=${poeData}
+					.cardsByMaps=${cardsFinder.cardsByMaps()}
+				></wc-maps-table>`;
 			},
 		},
 	],

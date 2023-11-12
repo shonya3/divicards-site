@@ -1,7 +1,9 @@
-import { LitElement, PropertyValueMap, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/wc-divination-card.js';
 import '../elements/divination-card/wc-divination-card.js';
+import '../elements/wc-source.js';
+import { PoeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -9,27 +11,30 @@ declare global {
 	}
 }
 
+const paginate = <T>(arr: T[], page: number, perPage: number) => {
+	const start = (page - 1) * perPage;
+	const end = start + perPage;
+	return arr.slice(start, end);
+};
+
 @customElement('wc-maps-table')
 export class MapsTableElement extends LitElement {
+	@property({ reflect: true, type: Number }) page = 1;
+	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
+	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Object, attribute: false }) cardsByMaps: Record<string, string[]> = Object.create({});
-	@property({ reflect: true }) cardSize: CardSize = 'small';
-	@state() filteredMaps: Record<string, string[]> = {};
-	@state() mapnameQuery: string = '';
+	@property({ reflect: true }) size: CardSize = 'small';
+	@property({ reflect: true }) filter: string = '';
 
-	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-		console.log('FIRST UPDATED');
+	get filtered() {
+		const filter = this.filter.trim().toLowerCase();
+		return Object.entries(this.cardsByMaps)
+			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
+			.sort((a, b) => a[0].localeCompare(b[0]));
 	}
 
-	protected willUpdate(changed: PropertyValueMap<this>): void {
-		if (changed.has('mapnameQuery')) {
-			console.log('CHANGED');
-			const mapQuery = this.mapnameQuery.trim().toLowerCase();
-
-			const filtered = Object.entries(this.cardsByMaps)
-				.filter(([map, cards]) => map.toLowerCase().includes(mapQuery.trim().toLowerCase()) && cards.length > 0)
-				.sort((a, b) => a[0].localeCompare(b[0]));
-			this.filteredMaps = Object.fromEntries(filtered);
-		}
+	get paginated() {
+		return paginate(this.filtered, this.page, this.perPage);
 	}
 
 	#onMapnameInput(e: InputEvent) {
@@ -38,38 +43,36 @@ export class MapsTableElement extends LitElement {
 			return;
 		}
 
-		this.mapnameQuery = input.value;
+		this.filter = input.value;
 	}
 
 	#oncardSizeSelect(e: InputEvent) {
 		if (e.target instanceof HTMLSelectElement) {
 			const value = e.target.value;
 			if (['small', 'medium', 'large'].some(size => size === value)) {
-				this.cardSize = value as CardSize;
+				this.size = value as CardSize;
 			}
 		}
 	}
 
 	protected render() {
-		console.log('here');
 		return html`
 			<header>
 				<form>
-					<fieldset>
-						<legend>Find map</legend>
-						<div>
-							<label for="input-mapname">Input map name</label>
-							<input @input="${this.#onMapnameInput}" type="text" id="input-mapname" />
-						</div>
-						<div>
-							<select @input=${this.#oncardSizeSelect} .value=${this.cardSize} name="" id="">
-								<option value="small">small</option>
-								<option value="medium">medium</option>
-								<option value="large">large</option>
-							</select>
-						</div>
-					</fieldset>
+					<div>
+						<label for="input-mapname">Input map name</label>
+						<input @input="${this.#onMapnameInput}" type="text" id="input-mapname" />
+					</div>
+					<div>
+						<label for="select-size">Select size</label>
+						<select @input=${this.#oncardSizeSelect} .value=${this.size} name="" id="select-size">
+							<option value="small">small</option>
+							<option value="medium">medium</option>
+							<option value="large">large</option>
+						</select>
+					</div>
 				</form>
+				<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
 			</header>
 			${this.table()}
 		`;
@@ -84,19 +87,22 @@ export class MapsTableElement extends LitElement {
 				</tr>
 			</thead>
 			<tbody>
-				${Object.entries(this.filteredMaps).map(
+				${this.paginated.map(
 					([map, cards]) =>
 						html`
 							<tr>
-								<td>${map}</td>
+								<td>
+									<wc-source
+										.size=${this.size}
+										.poeData=${this.poeData}
+										.source=${{ id: map, type: 'Map' }}
+									></wc-source>
+								</td>
 								<td>
 									<ul>
 										${cards.map(
 											card => html`<li>
-												<wc-divination-card
-													size=${this.cardSize}
-													name=${card}
-												></wc-divination-card>
+												<wc-divination-card size=${this.size} name=${card}></wc-divination-card>
 											</li>`
 										)}
 									</ul>
@@ -110,14 +116,29 @@ export class MapsTableElement extends LitElement {
 
 	static styles = css`
 		:host {
-			font-size: 1.5rem;
 		}
+		* {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+		form {
+			padding: 1rem;
+			display: grid;
+			gap: 0.25rem;
+			width: fit-content;
+		}
+
+		fieldset {
+			padding: 0.8rem;
+		}
+
 		header {
 			border-bottom: none;
 		}
 		table {
+			min-width: 100%;
 			table-layout: fixed;
-			width: 100%;
 			border-collapse: collapse;
 		}
 
@@ -126,12 +147,15 @@ export class MapsTableElement extends LitElement {
 		}
 
 		th {
+			font-size: 20px;
 			padding: 1rem;
 		}
 
+		/*
 		th:first-child {
-			width: 10%;
+			width: 356px;
 		}
+        */
 
 		td {
 			text-align: center;
@@ -142,9 +166,10 @@ export class MapsTableElement extends LitElement {
 		}
 
 		ul {
+			padding: 0.4rem;
 			display: flex;
 			flex-wrap: wrap;
-			gap: 0.4rem;
+			gap: 0.6rem;
 		}
 	`;
 }
