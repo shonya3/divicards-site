@@ -11,6 +11,7 @@ import { ISource, SourceType } from './data/ISource.interface.ts.js';
 import { CardsFinder } from './data/CardsFinder.js';
 import './views/wc-source-page.js';
 import './views/wc-maps-table.js';
+import './views/wc-sources-table.js';
 import { customElement, query } from 'lit/decorators.js';
 
 // @ts-expect-error
@@ -51,6 +52,9 @@ export class RootElement extends LitElement {
 						</li>
 						<li>
 							<a href="/maps">Maps</a>
+						</li>
+						<li>
+							<a href="/sources">Sources</a>
 						</li>
 					</ul>
 				</nav>
@@ -121,6 +125,19 @@ export const router = new Router({
 			},
 		},
 		{
+			path: '/sources',
+			title: 'Sources',
+			render: ({ query }) => {
+				return html`<wc-sources-table
+					page=${query.page ?? 1}
+					per-page=${query['per-page'] ?? 10}
+					filter=${ifDefined(query.filter)}
+					.poeData=${poeData}
+					.cardsBySources=${cardsFinder.cardsBySources()}
+				></wc-sources-table>`;
+			},
+		},
+		{
 			path: '/maps',
 			title: 'Maps',
 			render: ({ query }) => {
@@ -141,3 +158,5 @@ router.addEventListener('route-changed', _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
+
+console.log(cardsFinder.cardsBySources());

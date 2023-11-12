@@ -149,4 +149,32 @@ export class CardsFinder {
 
 		return cards;
 	}
+
+	cardsBySources(): [ISource, string[]][] {
+		const map: Map<string, string[]> = new Map();
+		for (const record of this.records) {
+			for (const source of record.sources ?? []) {
+				const json = JSON.stringify(source);
+				const arr = map.get(json) ?? [];
+				arr.push(record.card);
+				map.set(json, arr);
+			}
+		}
+
+		// const resultMap: Map<ISource, string[]> = new Map();
+		// for (const [sourceJson, cards] of map) {
+		// 	const source = JSON.parse(sourceJson);
+		// 	resultMap.set(source, cards);
+		// }
+
+		// return resultMap;
+
+		const arr: [ISource, string[]][] = [];
+		for (const [sourceJson, cards] of map) {
+			const source = JSON.parse(sourceJson);
+			arr.push([source, cards]);
+		}
+
+		return arr;
+	}
 }

@@ -26,6 +26,7 @@ export class DivinationCardElement extends LitElement {
 
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'small';
+	@property({ type: Number }) minLevel?: number = 55;
 
 	@state() stackSize: number = 0;
 	@state() flavourText: string = ``;
@@ -104,6 +105,7 @@ export class DivinationCardElement extends LitElement {
 				${staticHtml`${unsafeStatic(this.rewardHtml)}`}
 				${this.size !== 'small' ? html`${this.divider()}${this.footer()}` : nothing}
 			</div>
+			${this.minLevel ? html` <div class="min-level">Min Level: ${this.minLevel}</div> ` : nothing}
 		</div>`;
 	}
 
@@ -165,6 +167,12 @@ function styles() {
 		* {
 			margin: 0;
 			padding: 0;
+		}
+
+		.min-level {
+			position: absolute;
+			z-index: 4;
+			bottom: 0;
 		}
 
 		.divination-card {

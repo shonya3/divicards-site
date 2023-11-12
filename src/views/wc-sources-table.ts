@@ -4,34 +4,39 @@ import type { CardSize } from '../elements/divination-card/wc-divination-card.js
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/wc-source.js';
 import { PoeData } from '../PoeData.js';
+import { ISource } from '../data/ISource.interface.ts.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-maps-table': MapsTableElement;
+		'wc-sources-table': SourcesTableElement;
 	}
 }
 
-const paginate = <T>(arr: T[], page: number, perPage: number) => {
+export const paginate = <T>(arr: T[], page: number, perPage: number) => {
 	const start = (page - 1) * perPage;
 	const end = start + perPage;
 	return arr.slice(start, end);
 };
 
-@customElement('wc-maps-table')
-export class MapsTableElement extends LitElement {
+@customElement('wc-sources-table')
+export class SourcesTableElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ type: Object }) poeData!: Readonly<PoeData>;
-	@property({ type: Object, attribute: false }) cardsByMaps: Record<string, string[]> = Object.create({});
+	@property({ type: Array, attribute: false }) cardsBySources: [ISource, string[]][] = Object.create({});
 	@property({ reflect: true }) size: CardSize = 'small';
 	@property({ reflect: true }) filter: string = '';
 
-	get filtered() {
-		const filter = this.filter.trim().toLowerCase();
-		return Object.entries(this.cardsByMaps)
-			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
-			.sort((a, b) => a[0].localeCompare(b[0]));
-	}
+	// get filtered() {
+	// 	const filter = this.filter.trim().toLowerCase();
+	// 	return this.cardsBySources
+	// 		.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
+	// 		.sort((a, b) => a[0].localeCompare(b[0]));
+	// }
+
+	// get paginated() {
+	// 	return paginate(this.filtered, this.page, this.perPage);
+	// }
 
 	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
 		if (_changedProperties.has('filter')) {
@@ -40,10 +45,6 @@ export class MapsTableElement extends LitElement {
 			url.searchParams.set('filter', this.filter);
 			window.history.pushState({}, '', url);
 		}
-	}
-
-	get paginated() {
-		return paginate(this.filtered, this.page, this.perPage);
 	}
 
 	#onMapnameInput(e: InputEvent) {
@@ -66,6 +67,7 @@ export class MapsTableElement extends LitElement {
 
 	protected render() {
 		return html`
+			<!--
 			<header>
 				<form>
 					<div>
@@ -83,6 +85,8 @@ export class MapsTableElement extends LitElement {
 				</form>
 				<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
 			</header>
+
+			!-->
 			${this.table()}
 		`;
 	}
@@ -91,20 +95,20 @@ export class MapsTableElement extends LitElement {
 		return html`<table>
 			<thead>
 				<tr>
-					<th scope="col">Map</th>
+					<th scope="col">Source</th>
 					<th scope="col">Cards</th>
 				</tr>
 			</thead>
 			<tbody>
-				${this.paginated.map(
-					([map, cards]) =>
+				${this.cardsBySources.map(
+					([source, cards]) =>
 						html`
 							<tr>
 								<td>
 									<wc-source
 										.size=${this.size}
 										.poeData=${this.poeData}
-										.source=${{ id: map, type: 'Map' }}
+										.source=${source}
 									></wc-source>
 								</td>
 								<td>
@@ -112,7 +116,6 @@ export class MapsTableElement extends LitElement {
 										${cards.map(card => {
 											const minLevel =
 												this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
-											//
 											return html`<li>
 												<wc-divination-card
 													.minLevel=${minLevel}
