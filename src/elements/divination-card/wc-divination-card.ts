@@ -26,7 +26,7 @@ export class DivinationCardElement extends LitElement {
 
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'small';
-	@property({ type: Number }) minLevel?: number = 55;
+	@property({ type: Number }) minLevel?: number;
 
 	@state() stackSize: number = 0;
 	@state() flavourText: string = ``;

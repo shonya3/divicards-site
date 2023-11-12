@@ -95,7 +95,7 @@ export class SourcesTableElement extends LitElement {
 		return html`<table>
 			<thead>
 				<tr>
-					<th scope="col">Source</th>
+					<th style="width: 100px" scope="col">Source</th>
 					<th scope="col">Cards</th>
 				</tr>
 			</thead>
@@ -114,14 +114,10 @@ export class SourcesTableElement extends LitElement {
 								<td>
 									<ul>
 										${cards.map(card => {
-											const minLevel =
-												this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
+											// const minLevel =
+											// 	this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
 											return html`<li>
-												<wc-divination-card
-													.minLevel=${minLevel}
-													size=${this.size}
-													name=${card}
-												></wc-divination-card>
+												<wc-divination-card size=${this.size} name=${card}></wc-divination-card>
 											</li>`;
 										})}
 									</ul>
