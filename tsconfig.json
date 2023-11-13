@@ -20,8 +20,7 @@
 
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
-		"useDefineForClassFields": false,
-		"allowJs": true
+		"useDefineForClassFields": false
 	},
 	"include": ["src"]
 }
