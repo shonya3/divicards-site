@@ -1,5 +1,5 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
-import { divcordRecords as divcordRecordsJson, poeDataJson } from './jsons/jsons';
+import { poeDataJson } from './jsons/jsons';
 import './elements/wc-sourceful-divcord-record.js';
 import './views/wc-cards-table.js';
 import { Router } from '@thepassle/app-tools/router.js';
@@ -13,6 +13,7 @@ import './views/wc-source-page.js';
 import './views/wc-maps-table.js';
 import './views/wc-sources-table.js';
 import { customElement, query } from 'lit/decorators.js';
+import { loadDivcordRecords } from './loadDivcordRecords.js';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -77,9 +78,10 @@ export class RootElement extends LitElement {
 const rootElement = document.createElement('wc-root');
 document.body.append(rootElement);
 
-const divcordRecords = divcordRecordsJson.map(r => new SourcefulDivcordTableRecord(r));
+const divcordRecordsJson = await loadDivcordRecords();
+let divcordRecords = divcordRecordsJson.map(r => new SourcefulDivcordTableRecord(r));
 const divcordTable = new SourcefulDivcordTable(divcordRecords);
-const poeData = new PoeData(poeDataJson);
+let poeData = new PoeData(poeDataJson);
 const sourcesByCards = divcordTable.sourcesByCards();
 const cardsFinder = new CardsFinder(poeData, divcordRecords);
 
@@ -90,9 +92,9 @@ export const router = new Router({
 			title: 'Divicards',
 			render: ({ query }) =>
 				html`<wc-cards-table
-					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 10}
-					filter=${ifDefined(query.filter)}
+					page=${query.page ?? '1'}
+					per-page=${query['per-page'] ?? '10'}
+					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
 				></wc-cards-table>`,
@@ -129,8 +131,8 @@ export const router = new Router({
 			title: 'Sources',
 			render: ({ query }) => {
 				return html`<wc-sources-table
-					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 10}
+					page=${query.page ?? '1'}
+					per-page=${query['per-page'] ?? '10'}
 					filter=${ifDefined(query.filter)}
 					.poeData=${poeData}
 					.cardsBySources=${cardsFinder.cardsBySources()}
@@ -142,8 +144,8 @@ export const router = new Router({
 			title: 'Maps',
 			render: ({ query }) => {
 				return html`<wc-maps-table
-					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 10}
+					page=${query.page ?? '1'}
+					per-page=${query['per-page'] ?? '10'}
 					filter=${ifDefined(query.filter)}
 					.poeData=${poeData}
 					.cardsByMaps=${cardsFinder.cardsByMaps()}
@@ -158,5 +160,3 @@ router.addEventListener('route-changed', _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
-
-console.log(cardsFinder.cardsBySources());
