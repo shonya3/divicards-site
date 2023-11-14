@@ -1,6 +1,5 @@
 import { ISourcefulDivcordTableRecord } from './data/records.types.js';
 import { poeDataJson } from './jsons/jsons.js';
-import initWasmPackage, { parsed_records } from './pkg/sources_wasm.js';
 const ONE_DAY_MILLISECONDS = 86_400_000;
 
 const sheetUrl = () => {
@@ -51,7 +50,8 @@ export async function updateDivcordRecords(cache: Cache) {
 	const { richResponse, sheetResponse } = await loadCachedResponses(cache);
 
 	const divcordTableData = await serializeResponses(richResponse!, sheetResponse!);
-	await initWasmPackage();
+	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
+	await initWasmModule();
 	const records = parsed_records(divcordTableData, poeDataJson) as ISourcefulDivcordTableRecord[];
 	localStorage.setItem('records', JSON.stringify(records));
 	return records;
