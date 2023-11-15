@@ -70,6 +70,7 @@ export class CardsTableElement extends LitElement {
 	}
 
 	protected render() {
+		console.log('Per page');
 		return html`
 			<header>
 				<form>

@@ -91,8 +91,8 @@ export const router = new Router({
 			title: 'Divicards',
 			render: ({ query }) =>
 				html`<wc-cards-table
-					.page=${Number(query.page ?? 1)}
-					.per-page=${Number(query['per-page'] ?? 10)}
+					page=${query.page ?? 1}
+					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
@@ -126,29 +126,29 @@ export const router = new Router({
 			},
 		},
 		{
-			path: '/sources',
-			title: 'Sources',
-			render: ({ query }) => {
-				return html`<wc-sources-table
-					.page=${Number(query.page ?? 1)}
-					.per-page=${Number(query['per-page'] ?? 10)}
-					filter=${query.filter}
-					.poeData=${poeData}
-					.cardsBySources=${cardsFinder.cardsBySources()}
-				></wc-sources-table>`;
-			},
-		},
-		{
 			path: '/maps',
 			title: 'Maps',
 			render: ({ query }) => {
 				return html`<wc-maps-table
-					.page=${Number(query.page ?? 1)}
-					.per-page=${Number(query['per-page'] ?? 10)}
+					page=${query.page ?? 1}
+					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter}
 					.poeData=${poeData}
 					.cardsByMaps=${cardsFinder.cardsByMaps()}
 				></wc-maps-table>`;
+			},
+		},
+		{
+			path: '/sources',
+			title: 'Sources',
+			render: ({ query }) => {
+				return html`<wc-sources-table
+					page=${query.page ?? 1}
+					per-page=${query['per-page'] ?? 10}
+					filter=${query.filter}
+					.poeData=${poeData}
+					.cardsBySources=${cardsFinder.cardsBySources()}
+				></wc-sources-table>`;
 			},
 		},
 	],
