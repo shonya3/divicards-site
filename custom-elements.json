@@ -170,22 +170,13 @@
               "type": {
                 "text": "HTMLElement"
               }
-            },
-            {
-              "kind": "method",
-              "name": "render"
-            },
-            {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t* {\r\n\t\t\tpadding: 0;\r\n\t\t\tmargin: 0;\r\n\t\t}\r\n\r\n\t\tul {\r\n\t\t\tlist-style: none;\r\n\t\t}\r\n\t`"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-root",
           "customElement": true
         },
         {
@@ -206,6 +197,14 @@
         {
           "kind": "js",
           "name": "RootElement",
+          "declaration": {
+            "name": "RootElement",
+            "module": "src/main.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-root",
           "declaration": {
             "name": "RootElement",
             "module": "src/main.ts"
@@ -405,45 +404,12 @@
     },
     {
       "kind": "javascript-module",
-      "path": "dist/assets/index-326f28d4.js",
+      "path": "dist/assets/index-673ca956.js",
       "declarations": [
         {
           "kind": "variable",
-          "name": "e2",
-          "default": "new Event(\"vite:preloadError\", {\n        cancelable: true\n      })"
-        },
-        {
-          "kind": "variable",
-          "name": "t2"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "t2",
-          "declaration": {
-            "name": "e2",
-            "module": "dist/assets/index-326f28d4.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "t2",
-          "declaration": {
-            "name": "e2",
-            "module": "dist/assets/index-326f28d4.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/assets/index-4f39ada0.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "me",
-          "default": "class{#i;#n={};#t={};#e={};#s={};constructor(t={},r,n){try{let o;if(typeof r==\"string\"?o=r:n=r,typeof t==\"string\"){let i=new U(t);if(i.parse(),t=i.result,o===void 0&&typeof t.protocol!=\"string\")throw new TypeError(\"A base URL must be provided for a relative constructor string.\");t.baseURL=o;}else {if(!t||typeof t!=\"object\")throw new TypeError(\"parameter 1 is not of type 'string' and cannot convert to dictionary.\");if(o)throw new TypeError(\"parameter 1 is not of type 'string'.\")}typeof n>\"u\"&&(n={ignoreCase:!1});let c={ignoreCase:n.ignoreCase===!0},l={pathname:E,protocol:E,username:E,password:E,hostname:E,port:E,search:E,hash:E};this.#i=w(l,t,!0),_(this.#i.protocol)===this.#i.port&&(this.#i.port=\"\");let s;for(s of V){if(!(s in this.#i))continue;let i={},a=this.#i[s];switch(this.#t[s]=[],s){case\"protocol\":Object.assign(i,b),i.encodePart=A;break;case\"username\":Object.assign(i,b),i.encodePart=le;break;case\"password\":Object.assign(i,b),i.encodePart=he;break;case\"hostname\":Object.assign(i,B),W(a)?i.encodePart=j:i.encodePart=z;break;case\"port\":Object.assign(i,b),i.encodePart=K;break;case\"pathname\":N(this.#n.protocol)?(Object.assign(i,q,c),i.encodePart=fe):(Object.assign(i,b,c),i.encodePart=ue);break;case\"search\":Object.assign(i,b,c),i.encodePart=pe;break;case\"hash\":Object.assign(i,b,c),i.encodePart=de;break}try{this.#s[s]=D(a,i),this.#n[s]=F(this.#s[s],this.#t[s],i),this.#e[s]=ye(this.#s[s],i);}catch{throw new TypeError(`invalid ${s} pattern '${this.#i[s]}'.`)}}}catch(o){throw new TypeError(`Failed to construct 'URLPattern': ${o.message}`)}}test(t={},r){let n={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&r)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return !1;try{typeof t==\"object\"?n=w(n,t,!1):n=w(n,ge(t,r),!1);}catch{return !1}let o;for(o of V)if(!this.#n[o].exec(n[o]))return !1;return !0}exec(t={},r){let n={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&r)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return;try{typeof t==\"object\"?n=w(n,t,!1):n=w(n,ge(t,r),!1);}catch{return null}let o={};r?o.inputs=[t,r]:o.inputs=[t];let c;for(c of V){let l=this.#n[c].exec(n[c]);if(!l)return null;let s={};for(let[i,a]of this.#t[c].entries())if(typeof a==\"string\"||typeof a==\"number\"){let h=l[i+1];s[a]=h;}o[c]={input:n[c]??\"\",groups:s};}return o}static compareComponent(t,r,n){let o=(i,a)=>{for(let h of [\"type\",\"modifier\",\"prefix\",\"value\",\"suffix\"]){if(i[h]<a[h])return -1;if(i[h]===a[h])continue;return 1}return 0},c=new k(3,\"\",\"\",\"\",\"\",3),l=new k(0,\"\",\"\",\"\",\"\",3),s=(i,a)=>{let h=0;for(;h<Math.min(i.length,a.length);++h){let p=o(i[h],a[h]);if(p)return p}return i.length===a.length?0:o(i[h]??c,a[h]??c)};return !r.#e[t]&&!n.#e[t]?0:r.#e[t]&&!n.#e[t]?s(r.#s[t],[l]):!r.#e[t]&&n.#e[t]?s([l],n.#s[t]):s(r.#s[t],n.#s[t])}get protocol(){return this.#e.protocol}get username(){return this.#e.username}get password(){return this.#e.password}get hostname(){return this.#e.hostname}get port(){return this.#e.port}get pathname(){return this.#e.pathname}get search(){return this.#e.search}get hash(){return this.#e.hash}}"
+          "name": "Et",
+          "default": "class{#n;#r={};#e={};#t={};#i={};constructor(t={},e,s){try{let i;if(typeof e==\"string\"?i=e:s=e,typeof t==\"string\"){let r=new bt(t);if(r.parse(),t=r.result,i===void 0&&typeof t.protocol!=\"string\")throw new TypeError(\"A base URL must be provided for a relative constructor string.\");t.baseURL=i}else{if(!t||typeof t!=\"object\")throw new TypeError(\"parameter 1 is not of type 'string' and cannot convert to dictionary.\");if(i)throw new TypeError(\"parameter 1 is not of type 'string'.\")}typeof s>\"u\"&&(s={ignoreCase:!1});let a={ignoreCase:s.ignoreCase===!0},o={pathname:$,protocol:$,username:$,password:$,hostname:$,port:$,search:$,hash:$};this.#n=L(o,t,!0),z(this.#n.protocol)===this.#n.port&&(this.#n.port=\"\");let h;for(h of S){if(!(h in this.#n))continue;let r={},n=this.#n[h];switch(this.#e[h]=[],h){case\"protocol\":Object.assign(r,E),r.encodePart=N;break;case\"username\":Object.assign(r,E),r.encodePart=lt;break;case\"password\":Object.assign(r,E),r.encodePart=mt;break;case\"hostname\":Object.assign(r,et),G(n)?r.encodePart=q:r.encodePart=Z;break;case\"port\":Object.assign(r,E),r.encodePart=B;break;case\"pathname\":V(this.#r.protocol)?(Object.assign(r,st,a),r.encodePart=gt):(Object.assign(r,E,a),r.encodePart=dt);break;case\"search\":Object.assign(r,E,a),r.encodePart=wt;break;case\"hash\":Object.assign(r,E,a),r.encodePart=yt;break}try{this.#i[h]=F(n,r),this.#r[h]=W(this.#i[h],this.#e[h],r),this.#t[h]=$t(this.#i[h],r)}catch{throw new TypeError(`invalid ${h} pattern '${this.#n[h]}'.`)}}}catch(i){throw new TypeError(`Failed to construct 'URLPattern': ${i.message}`)}}test(t={},e){let s={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&e)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return!1;try{typeof t==\"object\"?s=L(s,t,!1):s=L(s,H(t,e),!1)}catch{return!1}let i;for(i of S)if(!this.#r[i].exec(s[i]))return!1;return!0}exec(t={},e){let s={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&e)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return;try{typeof t==\"object\"?s=L(s,t,!1):s=L(s,H(t,e),!1)}catch{return null}let i={};e?i.inputs=[t,e]:i.inputs=[t];let a;for(a of S){let o=this.#r[a].exec(s[a]);if(!o)return null;let h={};for(let[r,n]of this.#e[a].entries())if(typeof n==\"string\"||typeof n==\"number\"){let u=o[r+1];h[n]=u}i[a]={input:s[a]??\"\",groups:h}}return i}static compareComponent(t,e,s){let i=(r,n)=>{for(let u of[\"type\",\"modifier\",\"prefix\",\"value\",\"suffix\"]){if(r[u]<n[u])return-1;if(r[u]!==n[u])return 1}return 0},a=new O(3,\"\",\"\",\"\",\"\",3),o=new O(0,\"\",\"\",\"\",\"\",3),h=(r,n)=>{let u=0;for(;u<Math.min(r.length,n.length);++u){let f=i(r[u],n[u]);if(f)return f}return r.length===n.length?0:i(r[u]??a,n[u]??a)};return!e.#t[t]&&!s.#t[t]?0:e.#t[t]&&!s.#t[t]?h(e.#i[t],[o]):!e.#t[t]&&s.#t[t]?h([o],s.#i[t]):h(e.#i[t],s.#i[t])}get protocol(){return this.#t.protocol}get username(){return this.#t.username}get password(){return this.#t.password}get hostname(){return this.#t.hostname}get port(){return this.#t.port}get pathname(){return this.#t.pathname}get search(){return this.#t.search}get hash(){return this.#t.hash}}"
         }
       ],
       "exports": [
@@ -451,54 +417,80 @@
           "kind": "js",
           "name": "URLPattern",
           "declaration": {
-            "name": "me",
-            "module": "dist/assets/index-4f39ada0.js"
+            "name": "Et",
+            "module": "dist/assets/index-673ca956.js"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "dist/assets/sources_wasm-57e59415.js",
+      "path": "dist/assets/index-e30228cb.js",
       "declarations": [
         {
-          "kind": "function",
-          "name": "parsed_records",
-          "parameters": [
-            {
-              "name": "divcord_table",
-              "type": {
-                "text": "any"
-              }
-            },
-            {
-              "name": "poe_data",
-              "type": {
-                "text": "any"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": "any"
-            }
-          }
+          "kind": "variable",
+          "name": "t"
         },
         {
           "kind": "function",
-          "name": "initSync",
+          "name": "e",
           "parameters": [
             {
-              "name": "module"
+              "name": "i"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "t",
+          "declaration": {
+            "name": "e",
+            "module": "dist/assets/index-e30228cb.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "t",
+          "declaration": {
+            "name": "e",
+            "module": "dist/assets/index-e30228cb.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "dist/assets/sources_wasm-30addb85.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "$",
+          "parameters": [
+            {
+              "name": "e"
+            },
+            {
+              "name": "n"
             }
           ]
         },
         {
           "kind": "function",
-          "name": "__wbg_init",
+          "name": "N",
           "parameters": [
             {
-              "name": "input"
+              "name": "e"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "F",
+          "parameters": [
+            {
+              "name": "e"
             }
           ]
         }
@@ -508,24 +500,24 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "__wbg_init",
-            "module": "dist/assets/sources_wasm-57e59415.js"
+            "name": "F",
+            "module": "dist/assets/sources_wasm-30addb85.js"
           }
         },
         {
           "kind": "js",
           "name": "initSync",
           "declaration": {
-            "name": "initSync",
-            "module": "dist/assets/sources_wasm-57e59415.js"
+            "name": "N",
+            "module": "dist/assets/sources_wasm-30addb85.js"
           }
         },
         {
           "kind": "js",
           "name": "parsed_records",
           "declaration": {
-            "name": "parsed_records",
-            "module": "dist/assets/sources_wasm-57e59415.js"
+            "name": "$",
+            "module": "dist/assets/sources_wasm-30addb85.js"
           }
         }
       ]
@@ -982,19 +974,11 @@
           "members": [
             {
               "kind": "field",
-              "name": "styles",
-              "type": {
-                "text": "array"
-              },
-              "static": true,
-              "default": "[styles()]"
-            },
-            {
-              "kind": "field",
               "name": "actArea",
               "type": {
                 "text": "IActArea"
-              }
+              },
+              "attribute": "actArea"
             },
             {
               "kind": "field",
@@ -1002,7 +986,9 @@
               "type": {
                 "text": "Size"
               },
-              "default": "'large'"
+              "default": "'large'",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1010,18 +996,41 @@
               "type": {
                 "text": "string"
               },
-              "default": "''"
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "actArea",
+              "type": {
+                "text": "IActArea"
+              },
+              "fieldName": "actArea"
             },
             {
-              "kind": "method",
-              "name": "render",
-              "privacy": "protected"
+              "name": "size",
+              "type": {
+                "text": "Size"
+              },
+              "default": "'large'",
+              "fieldName": "size"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-act-area",
           "customElement": true
         }
       ],
@@ -1029,6 +1038,14 @@
         {
           "kind": "js",
           "name": "ActAreaElement",
+          "declaration": {
+            "name": "ActAreaElement",
+            "module": "src/elements/wc-act-area.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-act-area",
           "declaration": {
             "name": "ActAreaElement",
             "module": "src/elements/wc-act-area.ts"
@@ -1050,14 +1067,16 @@
               "name": "boss",
               "type": {
                 "text": "IBossfight"
-              }
+              },
+              "attribute": "boss"
             },
             {
               "kind": "field",
               "name": "actArea",
               "type": {
                 "text": "IActArea"
-              }
+              },
+              "attribute": "actArea"
             },
             {
               "kind": "field",
@@ -1065,24 +1084,40 @@
               "type": {
                 "text": "string"
               },
-              "default": "''"
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "boss",
+              "type": {
+                "text": "IBossfight"
+              },
+              "fieldName": "boss"
             },
             {
-              "kind": "method",
-              "name": "render",
-              "privacy": "protected"
+              "name": "actArea",
+              "type": {
+                "text": "IActArea"
+              },
+              "fieldName": "actArea"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t* {\r\n\t\t\tpadding: 0;\r\n\t\t\tmargin: 0;\r\n\t\t}\r\n\r\n\t\t.bossname {\r\n\t\t\twidth: fit-content;\r\n\t\t}\r\n\r\n\t\t.act-area {\r\n\t\t\tmargin-left: 4rem;\r\n\t\t\ttransform: translateY(0.4rem);\r\n\t\t}\r\n\t`"
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-actboss",
           "customElement": true
         }
       ],
@@ -1090,6 +1125,14 @@
         {
           "kind": "js",
           "name": "ActBossElement",
+          "declaration": {
+            "name": "ActBossElement",
+            "module": "src/elements/wc-actboss.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-actboss",
           "declaration": {
             "name": "ActBossElement",
             "module": "src/elements/wc-actboss.ts"
@@ -1111,7 +1154,8 @@
               "name": "map",
               "type": {
                 "text": "IMap"
-              }
+              },
+              "attribute": "map"
             },
             {
               "kind": "field",
@@ -1119,7 +1163,8 @@
               "type": {
                 "text": "'normal' | 'boss-tooltip'"
               },
-              "default": "'normal'"
+              "default": "'normal'",
+              "attribute": "mode"
             },
             {
               "kind": "field",
@@ -1127,7 +1172,9 @@
               "type": {
                 "text": "'small' | 'medium'"
               },
-              "default": "'medium'"
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1135,7 +1182,9 @@
               "type": {
                 "text": "string"
               },
-              "default": "''"
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1148,25 +1197,48 @@
             },
             {
               "kind": "method",
-              "name": "render",
-              "privacy": "protected"
-            },
-            {
-              "kind": "method",
               "name": "renderName",
               "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "map",
+              "type": {
+                "text": "IMap"
+              },
+              "fieldName": "map"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t:root {\r\n\t\t\tdisplay: block;\r\n\t\t\twidth: fit-content;\r\n\t\t\tobject-fit: contain;\r\n\t\t\tcontain: content;\r\n\t\t}\r\n\r\n\t\t* {\r\n\t\t\tpadding: 0;\r\n\t\t\tmargin: 0;\r\n\t\t}\r\n\r\n\t\t.map {\r\n\t\t\tfont-size: var(--map-font-size, 1rem);\r\n\t\t\twidth: fit-content;\r\n\t\t}\r\n\r\n\t\t.name {\r\n\t\t\tfont-weight: 400;\r\n\t\t\tfont-size: var(--map-font-size, 1rem);\r\n\t\t}\r\n\r\n\t\t.map--medium,\r\n\t\t.map--large {\r\n\t\t\t--map-font-size: 24px;\r\n\t\t}\r\n\r\n\t\t.map--yellow {\r\n\t\t\t--filter: contrast(1000%) sepia(100%) saturate(10000%);\r\n\t\t}\r\n\t\t.map--red {\r\n\t\t\t--filter: contrast(1000%) sepia(100%) saturate(10000%) hue-rotate(300deg) saturate(10000%);\r\n\t\t}\r\n\r\n\t\t.img-wrapper {\r\n\t\t\tdisplay: flex;\r\n\t\t\tjustify-content: center;\r\n\t\t}\r\n\r\n\t\t.img-map-glyph {\r\n\t\t\tfilter: var(--filter, initial);\r\n\t\t}\r\n\r\n\t\t.map-background {\r\n\t\t\tbackground-image: url(/images/map-background-image.png);\r\n\t\t\tbackground-position: center;\r\n\t\t\tbackground-repeat: no-repeat;\r\n\t\t\tbackground-size: var(--image-width);\r\n\t\t\twidth: var(--image-width);\r\n\t\t\theight: var(--image-width);\r\n\t\t}\r\n\t`"
+              "name": "mode",
+              "type": {
+                "text": "'normal' | 'boss-tooltip'"
+              },
+              "default": "'normal'",
+              "fieldName": "mode"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium'"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-map",
           "customElement": true
         }
       ],
@@ -1174,6 +1246,14 @@
         {
           "kind": "js",
           "name": "MapElement",
+          "declaration": {
+            "name": "MapElement",
+            "module": "src/elements/wc-map.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-map",
           "declaration": {
             "name": "MapElement",
             "module": "src/elements/wc-map.ts"
@@ -1195,7 +1275,8 @@
               "name": "boss",
               "type": {
                 "text": "IMapBoss"
-              }
+              },
+              "attribute": "boss"
             },
             {
               "kind": "field",
@@ -1203,7 +1284,8 @@
               "type": {
                 "text": "IMap[]"
               },
-              "default": "[]"
+              "default": "[]",
+              "attribute": "maps"
             },
             {
               "kind": "field",
@@ -1211,7 +1293,9 @@
               "type": {
                 "text": "'small' | 'medium' | 'large'"
               },
-              "default": "'medium'"
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1219,24 +1303,49 @@
               "type": {
                 "text": "string"
               },
-              "default": "''"
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "boss",
+              "type": {
+                "text": "IMapBoss"
+              },
+              "fieldName": "boss"
             },
             {
-              "kind": "method",
-              "name": "render",
-              "privacy": "protected"
+              "name": "maps",
+              "type": {
+                "text": "IMap[]"
+              },
+              "default": "[]",
+              "fieldName": "maps"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t* {\r\n\t\t\tpadding: 0;\r\n\t\t\tmargin: 0;\r\n\t\t}\r\n\r\n\t\t.mapboss {\r\n\t\t\twidth: fit-content;\r\n\t\t}\r\n\r\n\t\t.maplist {\r\n\t\t\twidth: fit-content;\r\n\t\t\tmargin-left: auto;\r\n\t\t\tdisplay: flex;\r\n\t\t\tgap: 1rem;\r\n\t\t}\r\n\t`"
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium' | 'large'"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-mapboss",
           "customElement": true
         }
       ],
@@ -1244,6 +1353,14 @@
         {
           "kind": "js",
           "name": "MapBossElement",
+          "declaration": {
+            "name": "MapBossElement",
+            "module": "src/elements/wc-mapboss.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-mapboss",
           "declaration": {
             "name": "MapBossElement",
             "module": "src/elements/wc-mapboss.ts"
@@ -1266,7 +1383,9 @@
               "type": {
                 "text": "number"
               },
-              "default": "1"
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1274,25 +1393,9 @@
               "type": {
                 "text": "number"
               },
-              "default": "10"
-            },
-            {
-              "kind": "method",
-              "name": "willUpdate",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "_changedProperties",
-                  "type": {
-                    "text": "PropertyValueMap<this>"
-                  }
-                }
-              ]
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -1325,22 +1428,31 @@
             {
               "kind": "method",
               "name": "decreasePage"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
             },
             {
-              "kind": "method",
-              "name": "render"
-            },
-            {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t.page-controls {\r\n\t\t\tdisplay: flex;\r\n\t\t\tgap: 0.4rem;\r\n\t\t\talign-items: center;\r\n\t\t}\r\n\r\n\t\t.page-controls > input {\r\n\t\t\twidth: 5ch;\r\n\t\t\ttext-align: center;\r\n\t\t}\r\n\t`"
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-page-controls",
           "customElement": true
         }
       ],
@@ -1348,6 +1460,14 @@
         {
           "kind": "js",
           "name": "PageControlsElement",
+          "declaration": {
+            "name": "PageControlsElement",
+            "module": "src/elements/wc-page-controls.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-page-controls",
           "declaration": {
             "name": "PageControlsElement",
             "module": "src/elements/wc-page-controls.ts"
@@ -1378,14 +1498,16 @@
               "name": "poeData",
               "type": {
                 "text": "PoeData"
-              }
+              },
+              "attribute": "poeData"
             },
             {
               "kind": "field",
               "name": "source",
               "type": {
                 "text": "ISource"
-              }
+              },
+              "attribute": "source"
             },
             {
               "kind": "field",
@@ -1393,7 +1515,8 @@
               "type": {
                 "text": "CardSize"
               },
-              "default": "'small'"
+              "default": "'small'",
+              "attribute": "size"
             },
             {
               "kind": "field",
@@ -1414,16 +1537,6 @@
               "kind": "method",
               "name": "sourceElement",
               "privacy": "protected"
-            },
-            {
-              "kind": "method",
-              "name": "render"
-            },
-            {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t* {\r\n\t\t\tmargin: 0;\r\n\t\t\tpadding: 0;\r\n\t\t}\r\n\r\n\t\t:host {\r\n\t\t\tdisplay: inline-block;\r\n\t\t\tmax-width: fit-content;\r\n\t\t\tobject-fit: contain;\r\n\t\t\tcontain: paint;\r\n\t\t}\r\n\r\n\t\t.source {\r\n\t\t\t--source-font-size: 20px;\r\n\t\t\tfont-size: var(--source-font-size);\r\n\t\t\tdisplay: block;\r\n\t\t\twidth: fit-content;\r\n\t\t\tobject-fit: contain;\r\n\t\t\tcontain: paint;\r\n\t\t}\r\n\r\n\t\t.source--medium,\r\n\t\t.source--large {\r\n\t\t\t--source-font-size: 24px;\r\n\t\t}\r\n\r\n\t\t.source-type {\r\n\t\t\ttext-align: center;\r\n\t\t\tcolor: orange;\r\n\t\t\tfont-weight: 700;\r\n\t\t\tfont-size: var(--source-font-size);\r\n\t\t}\r\n\r\n\t\t.inner {\r\n\t\t\twidth: fit-content;\r\n\t\t}\r\n\t`"
             },
             {
               "kind": "method",
@@ -1449,10 +1562,35 @@
               ]
             }
           ],
+          "attributes": [
+            {
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
+              },
+              "fieldName": "poeData"
+            },
+            {
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "fieldName": "source"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "fieldName": "size"
+            }
+          ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-source",
           "customElement": true
         },
         {
@@ -1465,7 +1603,8 @@
               "name": "source",
               "type": {
                 "text": "ISource"
-              }
+              },
+              "attribute": "source"
             },
             {
               "kind": "method",
@@ -1476,17 +1615,22 @@
               "kind": "method",
               "name": "noId",
               "privacy": "protected"
-            },
+            }
+          ],
+          "attributes": [
             {
-              "kind": "method",
-              "name": "render",
-              "privacy": "protected"
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "fieldName": "source"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-general-source",
           "customElement": true
         }
       ],
@@ -1508,8 +1652,24 @@
           }
         },
         {
+          "kind": "custom-element-definition",
+          "name": "wc-source",
+          "declaration": {
+            "name": "SourceElement",
+            "module": "src/elements/wc-source.ts"
+          }
+        },
+        {
           "kind": "js",
           "name": "GeneralSourceElement",
+          "declaration": {
+            "name": "GeneralSourceElement",
+            "module": "src/elements/wc-source.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-general-source",
           "declaration": {
             "name": "GeneralSourceElement",
             "module": "src/elements/wc-source.ts"
@@ -1531,19 +1691,16 @@
               "name": "record",
               "type": {
                 "text": "SourcefulDivcordTableRecord"
-              }
+              },
+              "attribute": "record"
             },
             {
               "kind": "field",
               "name": "poeData",
               "type": {
                 "text": "PoeData"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "render",
-              "privacy": "protected"
+              },
+              "attribute": "poeData"
             },
             {
               "kind": "method",
@@ -1569,18 +1726,29 @@
               "kind": "method",
               "name": "notes",
               "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "record",
+              "type": {
+                "text": "SourcefulDivcordTableRecord"
+              },
+              "fieldName": "record"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t* {\r\n\t\t\tpadding: 0;\r\n\t\t\tmargin: 0;\r\n\t\t}\r\n\r\n\t\t.dropsources {\r\n\t\t\tdisplay: flex;\r\n\t\t\tgap: 0.8rem;\r\n\t\t\tflex-wrap: wrap;\r\n\t\t}\r\n\t`"
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
+              },
+              "fieldName": "poeData"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-sourceful-divcord-record",
           "customElement": true
         }
       ],
@@ -1588,6 +1756,14 @@
         {
           "kind": "js",
           "name": "SourcefulDivcordRecordElement",
+          "declaration": {
+            "name": "SourcefulDivcordRecordElement",
+            "module": "src/elements/wc-sourceful-divcord-record.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-sourceful-divcord-record",
           "declaration": {
             "name": "SourcefulDivcordRecordElement",
             "module": "src/elements/wc-sourceful-divcord-record.ts"
@@ -1729,37 +1905,55 @@
               "name": "poeData",
               "type": {
                 "text": "PoeData"
-              }
+              },
+              "attribute": "poeData"
             },
             {
               "kind": "field",
               "name": "card",
               "type": {
                 "text": "string"
-              }
+              },
+              "attribute": "card",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "records",
               "type": {
                 "text": "SourcefulDivcordTableRecord[]"
-              }
+              },
+              "attribute": "records"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
+              },
+              "fieldName": "poeData"
             },
             {
-              "kind": "method",
-              "name": "render"
+              "name": "card",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "card"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\twc-divination-card {\r\n\t\t\tview-transition-name: card;\r\n\t\t}\r\n\r\n\t\tul {\r\n\t\t\tlist-style: none;\r\n\t\t}\r\n\t`"
+              "name": "records",
+              "type": {
+                "text": "SourcefulDivcordTableRecord[]"
+              },
+              "fieldName": "records"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-card-with-divcord-records-view",
           "customElement": true
         }
       ],
@@ -1767,6 +1961,14 @@
         {
           "kind": "js",
           "name": "CardWithDivcordRecordsViewElement",
+          "declaration": {
+            "name": "CardWithDivcordRecordsViewElement",
+            "module": "src/views/wc-card-with-divcord-records-view.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-card-with-divcord-records-view",
           "declaration": {
             "name": "CardWithDivcordRecordsViewElement",
             "module": "src/views/wc-card-with-divcord-records-view.ts"
@@ -1789,7 +1991,9 @@
               "type": {
                 "text": "number"
               },
-              "default": "1"
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1797,7 +2001,9 @@
               "type": {
                 "text": "number"
               },
-              "default": "10"
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1805,14 +2011,17 @@
               "type": {
                 "text": "CardSize"
               },
-              "default": "'medium'"
+              "default": "'medium'",
+              "attribute": "cardSize",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "poeData",
               "type": {
                 "text": "Readonly<PoeData>"
-              }
+              },
+              "attribute": "poeData"
             },
             {
               "kind": "field",
@@ -1827,7 +2036,9 @@
               "type": {
                 "text": "string"
               },
-              "default": "''"
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1838,24 +2049,6 @@
               "kind": "field",
               "name": "paginated",
               "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "willUpdate",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "_changedProperties",
-                  "type": {
-                    "text": "PropertyValueMap<this>"
-                  }
-                }
-              ]
             },
             {
               "kind": "method",
@@ -1883,25 +2076,56 @@
             },
             {
               "kind": "method",
-              "name": "render",
-              "privacy": "protected"
-            },
-            {
-              "kind": "method",
               "name": "table",
               "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t:host {\r\n\t\t\t--card-width-small: 134px;\r\n\t\t\t--card-width-medium: 268px;\r\n\t\t\t--card-width-large: 326px;\r\n\t\t\tfont-size: 1.5rem;\r\n\t\t}\r\n\r\n\t\tform {\r\n\t\t\twidth: fit-content;\r\n\t\t\tmargin: auto;\r\n\t\t}\r\n\r\n\t\tlegend {\r\n\t\t\tpadding: initial;\r\n\t\t\tmargin: initial;\r\n\t\t}\r\n\r\n\t\theader {\r\n\t\t\tborder-bottom: none;\r\n\t\t}\r\n\t\ttable {\r\n\t\t\tmin-width: 100%;\r\n\t\t\ttable-layout: fixed;\r\n\t\t\tborder-collapse: collapse;\r\n\t\t}\r\n\r\n\t\ttbody tr:nth-child(odd) {\r\n\t\t\tbackground-color: #222;\r\n\t\t}\r\n\r\n\t\tth {\r\n\t\t\tfont-size: 20px;\r\n\t\t\tpadding: 1rem;\r\n\t\t}\r\n\r\n\t\tth:first-child {\r\n\t\t\twidth: 356px;\r\n\t\t}\r\n\r\n\t\ttd {\r\n\t\t\ttext-align: center;\r\n\t\t}\r\n\r\n\t\tli {\r\n\t\t\tlist-style: none;\r\n\t\t}\r\n\r\n\t\tul {\r\n\t\t\tdisplay: flex;\r\n\t\t\tflex-wrap: wrap;\r\n\t\t\tgap: 1.5rem;\r\n\t\t}\r\n\t`"
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "cardSize",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "fieldName": "cardSize"
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "Readonly<PoeData>"
+              },
+              "fieldName": "poeData"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-cards-table",
           "customElement": true
         }
       ],
@@ -1909,6 +2133,14 @@
         {
           "kind": "js",
           "name": "CardsTableElement",
+          "declaration": {
+            "name": "CardsTableElement",
+            "module": "src/views/wc-cards-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-cards-table",
           "declaration": {
             "name": "CardsTableElement",
             "module": "src/views/wc-cards-table.ts"
@@ -1931,7 +2163,9 @@
               "type": {
                 "text": "number"
               },
-              "default": "1"
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1939,14 +2173,17 @@
               "type": {
                 "text": "number"
               },
-              "default": "10"
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "poeData",
               "type": {
                 "text": "Readonly<PoeData>"
-              }
+              },
+              "attribute": "poeData"
             },
             {
               "kind": "field",
@@ -1961,7 +2198,9 @@
               "type": {
                 "text": "CardSize"
               },
-              "default": "'small'"
+              "default": "'small'",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -1969,30 +2208,14 @@
               "type": {
                 "text": "string"
               },
-              "default": "''"
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "filtered",
               "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "willUpdate",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "_changedProperties",
-                  "type": {
-                    "text": "PropertyValueMap<this>"
-                  }
-                }
-              ]
             },
             {
               "kind": "field",
@@ -2025,25 +2248,56 @@
             },
             {
               "kind": "method",
-              "name": "render",
-              "privacy": "protected"
-            },
-            {
-              "kind": "method",
               "name": "table",
               "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t:host {\r\n\t\t}\r\n\t\t* {\r\n\t\t\tpadding: 0;\r\n\t\t\tmargin: 0;\r\n\t\t\tbox-sizing: border-box;\r\n\t\t}\r\n\t\tform {\r\n\t\t\tpadding: 1rem;\r\n\t\t\tdisplay: grid;\r\n\t\t\tgap: 0.25rem;\r\n\t\t\twidth: fit-content;\r\n\t\t}\r\n\r\n\t\tfieldset {\r\n\t\t\tpadding: 0.8rem;\r\n\t\t}\r\n\r\n\t\theader {\r\n\t\t\tborder-bottom: none;\r\n\t\t}\r\n\t\ttable {\r\n\t\t\tmin-width: 100%;\r\n\t\t\ttable-layout: fixed;\r\n\t\t\tborder-collapse: collapse;\r\n\t\t}\r\n\r\n\t\ttbody tr:nth-child(odd) {\r\n\t\t\tbackground-color: #222;\r\n\t\t}\r\n\r\n\t\tth {\r\n\t\t\tfont-size: 20px;\r\n\t\t\tpadding: 1rem;\r\n\t\t}\r\n\r\n\t\t/*\r\n\t\tth:first-child {\r\n\t\t\twidth: 356px;\r\n\t\t}\r\n        */\r\n\r\n\t\ttd {\r\n\t\t\ttext-align: center;\r\n\t\t}\r\n\r\n\t\tli {\r\n\t\t\tlist-style: none;\r\n\t\t}\r\n\r\n\t\tul {\r\n\t\t\tpadding: 0.4rem;\r\n\t\t\tdisplay: flex;\r\n\t\t\tflex-wrap: wrap;\r\n\t\t\tgap: 0.6rem;\r\n\t\t}\r\n\t`"
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "Readonly<PoeData>"
+              },
+              "fieldName": "poeData"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "fieldName": "size"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-maps-table",
           "customElement": true
         }
       ],
@@ -2051,6 +2305,14 @@
         {
           "kind": "js",
           "name": "MapsTableElement",
+          "declaration": {
+            "name": "MapsTableElement",
+            "module": "src/views/wc-maps-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-maps-table",
           "declaration": {
             "name": "MapsTableElement",
             "module": "src/views/wc-maps-table.ts"
@@ -2072,42 +2334,59 @@
               "name": "source",
               "type": {
                 "text": "ISource"
-              }
+              },
+              "attribute": "source"
             },
             {
               "kind": "field",
               "name": "poeData",
               "type": {
                 "text": "PoeData"
-              }
+              },
+              "attribute": "poeData"
             },
             {
               "kind": "field",
               "name": "cardsFinder",
               "type": {
                 "text": "CardsFinder"
-              }
+              },
+              "attribute": "cardsFinder"
             },
             {
               "kind": "field",
               "name": "cards",
               "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "fieldName": "source"
             },
             {
-              "kind": "method",
-              "name": "render"
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
+              },
+              "fieldName": "poeData"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\tul {\r\n\t\t\tlist-style: none;\r\n\t\t\tdisplay: flex;\r\n\t\t\tflex-wrap: wrap;\r\n\t\t}\r\n\r\n\t\twc-source {\r\n\t\t\tview-transition-name: source;\r\n\t\t}\r\n\t`"
+              "name": "cardsFinder",
+              "type": {
+                "text": "CardsFinder"
+              },
+              "fieldName": "cardsFinder"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-source-page",
           "customElement": true
         }
       ],
@@ -2115,6 +2394,14 @@
         {
           "kind": "js",
           "name": "SourcePage",
+          "declaration": {
+            "name": "SourcePage",
+            "module": "src/views/wc-source-page.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-source-page",
           "declaration": {
             "name": "SourcePage",
             "module": "src/views/wc-source-page.ts"
@@ -2161,7 +2448,9 @@
               "type": {
                 "text": "number"
               },
-              "default": "1"
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2169,14 +2458,17 @@
               "type": {
                 "text": "number"
               },
-              "default": "10"
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "poeData",
               "type": {
                 "text": "Readonly<PoeData>"
-              }
+              },
+              "attribute": "poeData"
             },
             {
               "kind": "field",
@@ -2191,7 +2483,9 @@
               "type": {
                 "text": "CardSize"
               },
-              "default": "'small'"
+              "default": "'small'",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2199,25 +2493,9 @@
               "type": {
                 "text": "string"
               },
-              "default": "''"
-            },
-            {
-              "kind": "method",
-              "name": "willUpdate",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "_changedProperties",
-                  "type": {
-                    "text": "PropertyValueMap<this>"
-                  }
-                }
-              ]
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -2245,25 +2523,56 @@
             },
             {
               "kind": "method",
-              "name": "render",
-              "privacy": "protected"
-            },
-            {
-              "kind": "method",
               "name": "table",
               "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
             },
             {
-              "kind": "field",
-              "name": "styles",
-              "static": true,
-              "default": "css`\r\n\t\t:host {\r\n\t\t}\r\n\t\t* {\r\n\t\t\tpadding: 0;\r\n\t\t\tmargin: 0;\r\n\t\t\tbox-sizing: border-box;\r\n\t\t}\r\n\t\tform {\r\n\t\t\tpadding: 1rem;\r\n\t\t\tdisplay: grid;\r\n\t\t\tgap: 0.25rem;\r\n\t\t\twidth: fit-content;\r\n\t\t}\r\n\r\n\t\tfieldset {\r\n\t\t\tpadding: 0.8rem;\r\n\t\t}\r\n\r\n\t\theader {\r\n\t\t\tborder-bottom: none;\r\n\t\t}\r\n\t\ttable {\r\n\t\t\tmin-width: 100%;\r\n\t\t\ttable-layout: fixed;\r\n\t\t\tborder-collapse: collapse;\r\n\t\t}\r\n\r\n\t\ttbody tr:nth-child(odd) {\r\n\t\t\tbackground-color: #222;\r\n\t\t}\r\n\r\n\t\tth {\r\n\t\t\tfont-size: 20px;\r\n\t\t\tpadding: 1rem;\r\n\t\t}\r\n\r\n\t\t/*\r\n\t\tth:first-child {\r\n\t\t\twidth: 356px;\r\n\t\t}\r\n        */\r\n\r\n\t\ttd {\r\n\t\t\ttext-align: center;\r\n\t\t}\r\n\r\n\t\tli {\r\n\t\t\tlist-style: none;\r\n\t\t}\r\n\r\n\t\tul {\r\n\t\t\tpadding: 0.4rem;\r\n\t\t\tdisplay: flex;\r\n\t\t\tflex-wrap: wrap;\r\n\t\t\tgap: 0.6rem;\r\n\t\t}\r\n\t`"
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "Readonly<PoeData>"
+              },
+              "fieldName": "poeData"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "fieldName": "size"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-sources-table",
           "customElement": true
         }
       ],
@@ -2279,6 +2588,14 @@
         {
           "kind": "js",
           "name": "SourcesTableElement",
+          "declaration": {
+            "name": "SourcesTableElement",
+            "module": "src/views/wc-sources-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-sources-table",
           "declaration": {
             "name": "SourcesTableElement",
             "module": "src/views/wc-sources-table.ts"
@@ -2318,16 +2635,13 @@
           "members": [
             {
               "kind": "field",
-              "name": "styles",
-              "static": true
-            },
-            {
-              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
               },
-              "default": "''"
+              "default": "''",
+              "attribute": "name",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2335,14 +2649,17 @@
               "type": {
                 "text": "CardSize"
               },
-              "default": "'small'"
+              "default": "'small'",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "minLevel",
               "type": {
                 "text": "number | undefined"
-              }
+              },
+              "attribute": "minLevel"
             },
             {
               "kind": "field",
@@ -2396,30 +2713,7 @@
             },
             {
               "kind": "method",
-              "name": "willUpdate",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "changedProperties",
-                  "type": {
-                    "text": "PropertyValues<this>"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
               "name": "#onNavigation"
-            },
-            {
-              "kind": "method",
-              "name": "render",
-              "privacy": "protected"
             },
             {
               "kind": "method",
@@ -2432,10 +2726,36 @@
               "privacy": "protected"
             }
           ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "fieldName": "size"
+            },
+            {
+              "name": "minLevel",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "minLevel"
+            }
+          ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
+          "tagName": "wc-divination-card",
           "customElement": true
         }
       ],
@@ -2443,6 +2763,14 @@
         {
           "kind": "js",
           "name": "DivinationCardElement",
+          "declaration": {
+            "name": "DivinationCardElement",
+            "module": "src/elements/divination-card/wc-divination-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-divination-card",
           "declaration": {
             "name": "DivinationCardElement",
             "module": "src/elements/divination-card/wc-divination-card.ts"

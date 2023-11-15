@@ -19,6 +19,9 @@ devDependencies:
   '@custom-elements-manifest/analyzer':
     specifier: ^0.9.0
     version: 0.9.0
+  custom-element-vs-code-integration:
+    specifier: ^1.2.1
+    version: 1.2.1
   typescript:
     specifier: ^5.2.2
     version: 5.2.2
@@ -502,6 +505,12 @@ packages:
     engines: {node: '>= 12.0.0'}
     dev: true
 
+  /custom-element-vs-code-integration@1.2.1:
+    resolution: {integrity: sha512-eIQabFnx0AU0FqwOSxSqv0qRB1ZBaPC/5eeTbvjvrdmKWKck58rcmycL0ia65nrfg7s0GJcrJsQAAuiXdTzpiw==}
+    dependencies:
+      prettier: 2.8.8
+    dev: true
+
   /custom-elements-manifest@1.0.0:
     resolution: {integrity: sha512-j59k0ExGCKA8T6Mzaq+7axc+KVHwpEphEERU7VZ99260npu/p/9kd+Db+I3cGKxHkM5y6q5gnlXn00mzRQkX2A==}
     dev: true
@@ -716,6 +725,12 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: true
+
+  /prettier@2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /queue-microtask@1.2.3:
