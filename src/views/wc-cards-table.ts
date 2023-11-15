@@ -139,8 +139,6 @@ export class CardsTableElement extends LitElement {
 	}
 
 	static styles = css`
-		* {
-		}
 		:host {
 			--card-width-small: 134px;
 			--card-width-medium: 268px;

@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IActArea, IBossfight } from '../data/poeData.types.js';
-import './wc-act-area.js';
-import { dispatchSetTransitionName } from '../events.js';
-import { sourceHref } from '../utils.js';
+import type { IActArea, IBossfight } from '../data/poeData.types';
+import './wc-act-area';
+import { dispatchSetTransitionName } from '../events';
+import { sourceHref } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {

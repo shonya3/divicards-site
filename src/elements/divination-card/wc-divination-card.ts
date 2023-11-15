@@ -399,8 +399,5 @@ function styles() {
 		p:has(.size30) {
 			line-height: 1.15rem;
 		}
-
-		footer {
-		}
 	`;
 }
