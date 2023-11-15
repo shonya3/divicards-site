@@ -6,7 +6,6 @@ import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, css, html, render } from 'lit';
 import './views/wc-card-with-divcord-records-view';
 import { PoeData } from './PoeData';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { ISource, SourceType } from './data/ISource.interface';
 import { CardsFinder } from './data/CardsFinder';
 import './views/wc-source-page';
@@ -146,7 +145,7 @@ export const router = new Router({
 				return html`<wc-maps-table
 					page=${Number(query.page)}
 					per-page=${Number(query['per-page'])}
-					filter=${ifDefined(query.filter)}
+					filter=${query.filter}
 					.poeData=${poeData}
 					.cardsByMaps=${cardsFinder.cardsByMaps()}
 				></wc-maps-table>`;
