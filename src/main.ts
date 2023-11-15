@@ -92,8 +92,8 @@ export const router = new Router({
 			title: 'Divicards',
 			render: ({ query }) =>
 				html`<wc-cards-table
-					page=${query.page ?? '1'}
-					per-page=${query['per-page'] ?? '10'}
+					page=${Number(query.page)}
+					per-page=${Number(query['per-page'] ?? '10')}
 					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
@@ -131,9 +131,9 @@ export const router = new Router({
 			title: 'Sources',
 			render: ({ query }) => {
 				return html`<wc-sources-table
-					page=${query.page ?? '1'}
-					per-page=${query['per-page'] ?? '10'}
-					filter=${ifDefined(query.filter)}
+					page=${Number(query.page)}
+					per-page=${Number(query['per-page'])}
+					filter=${query.filter}
 					.poeData=${poeData}
 					.cardsBySources=${cardsFinder.cardsBySources()}
 				></wc-sources-table>`;
@@ -144,8 +144,8 @@ export const router = new Router({
 			title: 'Maps',
 			render: ({ query }) => {
 				return html`<wc-maps-table
-					page=${query.page ?? '1'}
-					per-page=${query['per-page'] ?? '10'}
+					page=${Number(query.page)}
+					per-page=${Number(query['per-page'])}
 					filter=${ifDefined(query.filter)}
 					.poeData=${poeData}
 					.cardsByMaps=${cardsFinder.cardsByMaps()}
