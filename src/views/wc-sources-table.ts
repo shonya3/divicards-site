@@ -4,7 +4,7 @@ import type { CardSize } from '../elements/divination-card/wc-divination-card.js
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/wc-source.js';
 import { PoeData } from '../PoeData.js';
-import { ISource } from '../data/ISource.interface.ts.js';
+import { ISource } from '../data/ISource.interface.js';
 
 declare global {
 	interface HTMLElementTagNameMap {

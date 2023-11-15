@@ -1,14 +1,15 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource } from '../data/ISource.interface.ts.ts';
-import type { CardSize } from './divination-card/wc-divination-card.ts';
-import './wc-act-area.js';
-import './wc-map.js';
-import './wc-mapboss.js';
-import './wc-actboss.js';
-import { PoeData } from '../PoeData.ts';
-import type { IMap } from '../data/poeData.types.ts';
+import type { ISource } from '../data/ISource.interface';
+import type { CardSize } from './divination-card/wc-divination-card';
+import './wc-act-area';
+import './wc-map';
+import './wc-mapboss';
+import './wc-actboss';
+import { PoeData } from '../PoeData';
+import type { IMap } from '../data/poeData.types';
+import { sourceHref } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -43,20 +44,13 @@ export class SourceElement extends LitElement {
 		this.style.setProperty('view-transition-name', transitionName);
 	}
 
-	href() {
-		if (!this.source.id) {
-			return '';
-		}
-		return `/source?type=${this.source.type}&id=${this.source.id}`;
-	}
-
 	protected sourceElement() {
 		switch (this.source.type) {
 			case 'Act': {
 				const area = this.poeData.findActAreaById(this.source.id);
 				if (!area) throw new NoSourceInPoeDataError(this.source);
 				return html`<wc-act-area
-					.href=${this.href()}
+					.href=${sourceHref(this.source)}
 					.actArea=${area}
 					.size=${this.size === 'medium' ? 'large' : this.size}
 				></wc-act-area>`;
@@ -65,7 +59,7 @@ export class SourceElement extends LitElement {
 				const res = this.poeData.findActbossAndArea(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<wc-actboss
-					.href=${this.href()}
+					.href=${sourceHref(this.source)}
 					.boss=${res.actAreaBoss}
 					.actArea=${res.area}
 				></wc-actboss>`;
@@ -73,13 +67,17 @@ export class SourceElement extends LitElement {
 			case 'Map': {
 				const map = this.poeData.findMap(this.source.id);
 				if (!map) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-map .href=${this.href()} .size=${this.size} .map=${map}></wc-map>`;
+				return html`<wc-map
+					.href=${sourceHref(this.source)}
+					.size=${this.size === 'large' ? 'medium' : this.size}
+					.map=${map}
+				></wc-map>`;
 			}
 			case 'Map Boss': {
 				const res = this.poeData.findMapbossAndMaps(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<wc-mapboss
-					.href=${this.href()}
+					.href=${sourceHref(this.source)}
 					.size=${this.size}
 					.boss=${res.mapboss}
 					.maps=${res.maps}
@@ -87,7 +85,9 @@ export class SourceElement extends LitElement {
 			}
 			default: {
 				if (!this.source.id) return nothing;
-				return html`<a @click=${this.#setViewTransitionName.bind(this, 'source')} href=${this.href()}
+				return html`<a
+					@click=${this.#setViewTransitionName.bind(this, 'source')}
+					href=${sourceHref(this.source)}
 					>${this.source.id}</a
 				>`;
 			}

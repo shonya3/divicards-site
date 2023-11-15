@@ -1,5 +1,5 @@
-import { ISource } from './ISource.interface.ts.ts';
-import { ISourcefulDivcordTableRecord, IGreynote, IConfidence, IRemaininWork } from './records.types.ts';
+import { ISource } from './ISource.interface';
+import { ISourcefulDivcordTableRecord, IGreynote, IConfidence, IRemaininWork } from './records.types';
 
 export const createDivcordTable = (recordsData: ISourcefulDivcordTableRecord[]) => {
 	return new SourcefulDivcordTable(recordsData.map(r => new SourcefulDivcordTableRecord(r)));

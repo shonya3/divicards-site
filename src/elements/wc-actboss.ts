@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import type { IActArea, IBossfight } from '../data/poeData.types.js';
 import './wc-act-area.js';
 import { dispatchSetTransitionName } from '../events.js';
+import { sourceHref } from '../utils.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -18,7 +19,12 @@ export class ActBossElement extends LitElement {
 
 	protected render() {
 		return html`<div class="actboss">
-			<wc-act-area class="act-area" size="small" .actArea=${this.actArea}></wc-act-area>
+			<wc-act-area
+				.href=${sourceHref({ type: 'Act', id: this.actArea.id })}
+				class="act-area"
+				size="small"
+				.actArea=${this.actArea}
+			></wc-act-area>
 
 			<a href=${this.href} @click=${dispatchSetTransitionName.bind(this, 'source')} class="bossname"
 				>${this.boss.name}</a

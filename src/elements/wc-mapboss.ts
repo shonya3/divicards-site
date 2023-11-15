@@ -1,8 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IMapBoss, IMap } from '../data/poeData.types.js';
+import type { IMapBoss, IMap } from '../data/poeData.types';
 import './wc-map.js';
-import { dispatchSetTransitionName } from '../events.js';
+import { dispatchSetTransitionName } from '../events';
+import { sourceHref } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -20,7 +21,14 @@ export class MapBossElement extends LitElement {
 	protected render() {
 		return html`<div class="mapboss">
 			<ul class="maplist" style="" class="maps">
-				${this.maps.map(m => html`<wc-map .size=${this.size} .map=${m}></wc-map>`)}
+				${this.maps.map(
+					m =>
+						html`<wc-map
+							.href=${sourceHref({ type: 'Map', id: m.name })}
+							.size=${this.size === 'large' ? 'medium' : this.size}
+							.map=${m}
+						></wc-map>`
+				)}
 			</ul>
 			<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
 				>${this.boss.name}</a
@@ -42,9 +50,6 @@ export class MapBossElement extends LitElement {
 			margin-left: auto;
 			display: flex;
 			gap: 1rem;
-		}
-
-		.name {
 		}
 	`;
 }

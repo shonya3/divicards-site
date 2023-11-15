@@ -1,7 +1,7 @@
 import { SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
 import { PoeData } from '../PoeData';
 import { ICard, IMap } from './poeData.types';
-import { ISource } from './ISource.interface.ts';
+import { ISource } from './ISource.interface';
 
 export const includesMap = (name: string, maps: string[]): boolean => {
 	const short = name.replace('Map', '').trim();

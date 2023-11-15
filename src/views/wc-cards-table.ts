@@ -1,7 +1,7 @@
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
-import type { ISource } from '../data/ISource.interface.ts.ts';
+import type { ISource } from '../data/ISource.interface.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/wc-act-area.js';
 import '../elements/wc-source.js';

@@ -1,19 +1,19 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 import { poeDataJson } from './jsons/jsons';
-import './elements/wc-sourceful-divcord-record.js';
-import './views/wc-cards-table.js';
+import './elements/wc-sourceful-divcord-record';
+import './views/wc-cards-table';
 import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, css, html, render } from 'lit';
-import './views/wc-card-with-divcord-records-view.js';
-import { PoeData } from './PoeData.js';
+import './views/wc-card-with-divcord-records-view';
+import { PoeData } from './PoeData';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { ISource, SourceType } from './data/ISource.interface.ts.js';
-import { CardsFinder } from './data/CardsFinder.js';
-import './views/wc-source-page.js';
-import './views/wc-maps-table.js';
-import './views/wc-sources-table.js';
+import { ISource, SourceType } from './data/ISource.interface';
+import { CardsFinder } from './data/CardsFinder';
+import './views/wc-source-page';
+import './views/wc-maps-table';
+import './views/wc-sources-table';
 import { customElement, query } from 'lit/decorators.js';
-import { loadDivcordRecords } from './loadDivcordRecords.js';
+import { loadDivcordRecords } from './loadDivcordRecords';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
