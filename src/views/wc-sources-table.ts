@@ -27,6 +27,7 @@ export class SourcesTableElement extends LitElement {
 	@property({ reflect: true }) size: CardSize = 'small';
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) showSourceType = true;
+	@property() firstColumnName = 'Source';
 
 	// get filtered() {
 	// 	const filter = this.filter.trim().toLowerCase();
@@ -96,7 +97,9 @@ export class SourcesTableElement extends LitElement {
 		return html`<table>
 			<thead>
 				<tr>
-					<th style="width: 300px" scope="col">Source</th>
+					<th style="width: 300px" scope="col">
+						<slot>Source</slot>
+					</th>
 					<th scope="col">Cards</th>
 				</tr>
 			</thead>

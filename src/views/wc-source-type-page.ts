@@ -22,31 +22,32 @@ export class SourceTypePage extends LitElement {
 	protected mainBlock() {
 		const { cards, kind } = this.divcordTable.cardsBySourceType(this.sourceType);
 		if (kind === 'empty-source') {
-			return html`<ul>
-				${cards.map(card => {
-					return html`<li>
-						<wc-divination-card size="medium" .name=${card}></wc-divination-card>
-					</li>`;
-				})}
-			</ul>`;
+			return html` <wc-source-type .sourceType=${this.sourceType}></wc-source-type>
+				<ul>
+					${cards.map(card => {
+						return html`<li>
+							<wc-divination-card size="medium" .name=${card}></wc-divination-card>
+						</li>`;
+					})}
+				</ul>`;
 		} else if (kind === 'source-with-member') {
 			const cardsBySources = cards.map(([sourceId, cards]) => {
 				return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards];
 			});
 			return html`<wc-sources-table
+				.firstColumnName=${this.sourceType}
 				size="medium"
 				.showSourceType=${false}
 				.poeData=${this.poeData}
 				.cardsBySources=${cardsBySources}
-			></wc-sources-table>`;
+			>
+				<wc-source-type .sourceType=${this.sourceType}></wc-source-type>
+			</wc-sources-table>`;
 		} else throw new Error('Unsupported source kind');
 	}
 
 	render() {
-		return html`<div>
-			<wc-source-type .sourceType=${this.sourceType}></wc-source-type>
-			${this.mainBlock()}
-		</div>`;
+		return html`<div>${this.mainBlock()}</div>`;
 	}
 
 	static styles = css`
