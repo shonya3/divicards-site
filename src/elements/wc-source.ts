@@ -28,6 +28,7 @@ export class NoSourceInPoeDataError extends Error {
 export class SourceElement extends LitElement {
 	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) source!: ISource;
+	@property({ type: Boolean }) showSourceType = true;
 	@property() size: CardSize = 'small';
 
 	get sourceHasSpecialElement() {
@@ -110,7 +111,9 @@ export class SourceElement extends LitElement {
 					'font--larger': !this.sourceHasSpecialElement,
 				})}
 			>
-				<wc-source-type .sourceType=${this.source.type}></wc-source-type>
+				${this.showSourceType
+					? html`<wc-source-type class="source-type" .sourceType=${this.source.type}></wc-source-type>`
+					: nothing}
 				<div class="inner">${this.sourceElement()}</div>
 			</div>
 		`;
@@ -132,10 +135,16 @@ export class SourceElement extends LitElement {
 		.source {
 			--source-font-size: 20px;
 			font-size: var(--source-font-size);
-			display: block;
+			display: flex;
 			width: fit-content;
 			object-fit: contain;
 			contain: paint;
+			flex-direction: column;
+		}
+
+		.source-type {
+			width: fit-content;
+			margin-inline: auto;
 		}
 
 		.source--medium,

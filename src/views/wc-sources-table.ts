@@ -26,6 +26,7 @@ export class SourcesTableElement extends LitElement {
 	@property({ type: Array, attribute: false }) cardsBySources: [ISource, string[]][] = Object.create({});
 	@property({ reflect: true }) size: CardSize = 'small';
 	@property({ reflect: true }) filter: string = '';
+	@property({ type: Boolean }) showSourceType = true;
 
 	// get filtered() {
 	// 	const filter = this.filter.trim().toLowerCase();
@@ -95,7 +96,7 @@ export class SourcesTableElement extends LitElement {
 		return html`<table>
 			<thead>
 				<tr>
-					<th style="width: 100px" scope="col">Source</th>
+					<th style="width: 300px" scope="col">Source</th>
 					<th scope="col">Cards</th>
 				</tr>
 			</thead>
@@ -106,6 +107,7 @@ export class SourcesTableElement extends LitElement {
 							<tr>
 								<td>
 									<wc-source
+										.showSourceType=${this.showSourceType}
 										.size=${this.size}
 										.poeData=${this.poeData}
 										.source=${source}

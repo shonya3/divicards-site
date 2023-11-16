@@ -158,6 +158,7 @@ export const router = new Router({
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
 				return html`<wc-source-type-page
+					.poeData=${poeData}
 					.divcordTable=${divcordTable}
 					.sourceType=${sourceType}
 				></wc-source-type-page>`;
@@ -171,10 +172,3 @@ router.addEventListener('route-changed', _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
-
-const cards = divcordTable.cardsBySourceTypes('Abyss Lich Boss', 'All Invasion Bosses');
-console.log(cards);
-console.log(customElements.get('wc-source-type'));
-console.log(divcordTable.cardsBySourceType('Map Boss'));
-const map = divcordTable.cardsBySourceType('Map Boss');
-// console.log(Array.from(map.cards));

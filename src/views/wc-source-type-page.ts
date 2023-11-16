@@ -19,22 +19,27 @@ export class SourceTypePage extends LitElement {
 	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
-	get cards() {
-		return this.divcordTable.cardsBySourceType(this.sourceType);
-	}
-
 	protected mainBlock() {
-		if (Array.isArray(this.cards)) {
+		const { cards, kind } = this.divcordTable.cardsBySourceType(this.sourceType);
+		if (kind === 'empty-source') {
 			return html`<ul>
-				${this.cards.map(card => {
+				${cards.map(card => {
 					return html`<li>
 						<wc-divination-card size="medium" .name=${card}></wc-divination-card>
 					</li>`;
 				})}
 			</ul>`;
-		}
-
-		return 'Hi';
+		} else if (kind === 'source-with-member') {
+			const cardsBySources = cards.map(([sourceId, cards]) => {
+				return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards];
+			});
+			return html`<wc-sources-table
+				size="medium"
+				.showSourceType=${false}
+				.poeData=${this.poeData}
+				.cardsBySources=${cardsBySources}
+			></wc-sources-table>`;
+		} else throw new Error('Unsupported source kind');
 	}
 
 	render() {
