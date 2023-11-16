@@ -19,6 +19,9 @@ export class SourcePage extends LitElement {
 	@property({ type: Object }) cardsFinder!: CardsFinder;
 
 	get cards() {
+		if (this.source.kind === 'empty-source') {
+			throw new Error('Not supported source');
+		}
 		switch (this.source.type) {
 			case 'Map': {
 				return this.cardsFinder.cardsByMap(this.source.id);

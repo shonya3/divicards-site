@@ -24,7 +24,7 @@ export class MapBossElement extends LitElement {
 				${this.maps.map(
 					m =>
 						html`<wc-map
-							.href=${sourceHref({ type: 'Map', id: m.name })}
+							.href=${sourceHref({ type: 'Map', id: m.name, kind: 'source-with-member' })}
 							.size=${this.size === 'large' ? 'medium' : this.size}
 							.map=${m}
 						></wc-map>`

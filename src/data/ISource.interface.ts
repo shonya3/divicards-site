@@ -2,7 +2,7 @@ export type SourceWithMember = { type: SourceType; id: string; kind: 'source-wit
 export type EmptySource = { type: SourceType; kind: 'empty-source' };
 export type ISource = SourceWithMember | EmptySource;
 
-export type SourceType = 
+export type SourceType =
 	| 'Expedition Logbook'
 	| 'Chest'
 	| 'Delirium'
@@ -58,4 +58,3 @@ export type SourceType =
 	| 'Vaal Side Areas'
 	| 'Atziri Area'
 	| 'Area-Specific';
-    
