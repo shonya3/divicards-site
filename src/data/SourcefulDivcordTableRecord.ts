@@ -1,4 +1,4 @@
-import { ISource } from './ISource.interface';
+import { ISource, SourceType } from './ISource.interface';
 import { ISourcefulDivcordTableRecord, IGreynote, IConfidence, IRemaininWork } from './records.types';
 
 export const createDivcordTable = (recordsData: ISourcefulDivcordTableRecord[]) => {
@@ -25,6 +25,20 @@ export class SourcefulDivcordTable {
 
 	recordsByCard(card: string): SourcefulDivcordTableRecord[] {
 		return this.records.filter(record => record.card === card);
+	}
+
+	cardsBySourceTypes(...types: SourceType[]) {
+		const cards: string[] = [];
+		for (const record of this.records) {
+			const cardHasSomeSourceType = (record.sources ?? []).some(source => {
+				return types.some(type => source.type === type);
+			});
+			if (cardHasSomeSourceType) {
+				cards.push(record.card);
+			}
+		}
+
+		return Array.from(new Set(cards));
 	}
 }
 

@@ -151,6 +151,14 @@ export const router = new Router({
 				></wc-sources-table>`;
 			},
 		},
+		{
+			path: '/source-type/:id',
+			title: context => context.params!.id,
+			render: ({ params }) => {
+				const sourceType = decodeURI(params.id) as SourceType;
+				return html`${sourceType}`;
+			},
+		},
 	],
 });
 
@@ -159,3 +167,7 @@ router.addEventListener('route-changed', _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
+
+const cards = divcordTable.cardsBySourceTypes('Abyss Lich Boss', 'All Invasion Bosses');
+console.log(cards);
+console.log(customElements.get('wc-source-type'));

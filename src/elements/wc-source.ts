@@ -7,6 +7,7 @@ import './wc-act-area';
 import './wc-map';
 import './wc-mapboss';
 import './wc-actboss';
+import './wc-source-type';
 import { PoeData } from '../PoeData';
 import type { IMap } from '../data/poeData.types';
 import { sourceHref } from '../utils';
@@ -95,6 +96,8 @@ export class SourceElement extends LitElement {
 	}
 
 	render() {
+		customElements.get('wc-source-type');
+
 		return html`
 			<div
 				class=${classMap({
@@ -103,7 +106,7 @@ export class SourceElement extends LitElement {
 					'font--larger': !this.sourceHasSpecialElement,
 				})}
 			>
-				<div class="source-type">${this.source.type}</div>
+				<wc-source-type .sourceType=${this.source.type}></wc-source-type>
 				<div class="inner">${this.sourceElement()}</div>
 			</div>
 		`;
@@ -134,13 +137,6 @@ export class SourceElement extends LitElement {
 		.source--medium,
 		.source--large {
 			--source-font-size: 24px;
-		}
-
-		.source-type {
-			text-align: center;
-			color: orange;
-			font-weight: 700;
-			font-size: var(--source-font-size);
 		}
 
 		.inner {
