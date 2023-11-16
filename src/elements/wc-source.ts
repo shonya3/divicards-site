@@ -1,7 +1,7 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource } from '../data/ISource.interface';
+import type { ISource, SourceWithMember } from '../data/ISource.interface';
 import type { CardSize } from './divination-card/wc-divination-card';
 import './wc-act-area';
 import './wc-map';
@@ -19,7 +19,7 @@ declare global {
 }
 
 export class NoSourceInPoeDataError extends Error {
-	constructor(source: ISource) {
+	constructor(source: SourceWithMember) {
 		super(`No ${source.type} in poeData ${source.id}`);
 	}
 }
@@ -46,6 +46,10 @@ export class SourceElement extends LitElement {
 	}
 
 	protected sourceElement() {
+		if (this.source.kind === 'empty-source') {
+			return nothing;
+		}
+
 		switch (this.source.type) {
 			case 'Act': {
 				const area = this.poeData.findActAreaById(this.source.id);
@@ -155,34 +159,5 @@ export class SourceElement extends LitElement {
 				</ul>
 			</div>
 		`;
-	}
-}
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'wc-general-source': GeneralSourceElement;
-	}
-}
-
-@customElement('wc-general-source')
-export class GeneralSourceElement extends LitElement {
-	@property({ type: Object }) source!: ISource;
-
-	protected withId() {
-		return html``;
-	}
-	protected noId() {
-		return html``;
-	}
-
-	protected render() {
-		return html`<pre
-			style="font-size: 18px; text-align: left; box-shadow: rgba(100, 100, 111, 0.2) 0px 2px 10px 0px;"
-		>
-${JSON.stringify(this.source, null, 2)}</pre
-		> `;
-
-		const el = this.source.id === undefined ? this.noId() : this.withId();
-		return el;
 	}
 }

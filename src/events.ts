@@ -1,4 +1,4 @@
-export type TransitionName = 'source' | 'card';
+export type TransitionName = 'source' | 'card' | 'source-type';
 export class SetTransitionNameEvent extends CustomEvent<TransitionName> {
 	constructor(transitionName: TransitionName) {
 		super('set-transition-name', { detail: transitionName, bubbles: true, composed: true });

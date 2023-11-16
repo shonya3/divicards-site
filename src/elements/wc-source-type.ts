@@ -16,8 +16,14 @@ export function sourceTypeHref(sourceType: SourceType) {
 export class SourceTypeElement extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
 
+	#setViewTransitionName() {
+		this.style.setProperty('view-transition-name', 'source-type');
+	}
+
 	render() {
-		return html`<a href=${sourceTypeHref(this.sourceType)} class="source-type">${this.sourceType}</a>`;
+		return html`<a @click=${this.#setViewTransitionName} href=${sourceTypeHref(this.sourceType)} class="source-type"
+			>${this.sourceType}</a
+		>`;
 	}
 
 	static styles = css`

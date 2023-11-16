@@ -1,7 +1,7 @@
 import { SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
 import { PoeData } from '../PoeData';
 import { ICard, IMap } from './poeData.types';
-import { ISource } from './ISource.interface';
+import { ISource, SourceWithMember } from './ISource.interface';
 
 export const includesMap = (name: string, maps: string[]): boolean => {
 	const short = name.replace('Map', '').trim();
@@ -53,7 +53,7 @@ export class CardsFinder {
 
 		for (const record of this.records) {
 			for (const source of record?.sources ?? []) {
-				if (source.type === 'Map' && source.id === map) {
+				if (source.type === 'Map' && source.kind === 'source-with-member' && source.id === map) {
 					cards.push(record.card);
 				}
 			}
@@ -81,7 +81,7 @@ export class CardsFinder {
 
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
-				if (source.type === 'Map Boss' && bossname == source.id) {
+				if (source.type === 'Map Boss' && source.kind === 'source-with-member' && bossname == source.id) {
 					cards.push(record.card);
 				}
 			}
@@ -95,7 +95,7 @@ export class CardsFinder {
 
 		for (const record of this.records) {
 			for (const source of record?.sources ?? []) {
-				if (source.type === 'Act' && source.id === actId) {
+				if (source.type === 'Act' && source.kind === 'source-with-member' && source.id === actId) {
 					cards.push({ from: 'Act', card: record.card });
 				}
 			}
@@ -123,7 +123,7 @@ export class CardsFinder {
 
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
-				if (source.type === 'Act Boss' && bossname == source.id) {
+				if (source.type === 'Act Boss' && source.kind === 'source-with-member' && bossname == source.id) {
 					cards.push(record.card);
 				}
 			}
@@ -132,7 +132,7 @@ export class CardsFinder {
 		return cards;
 	}
 
-	cardsByIdSource(source: ISource): string[] {
+	cardsByIdSource(source: SourceWithMember): string[] {
 		const cards: string[] = [];
 
 		if (!source.id) {
@@ -141,7 +141,7 @@ export class CardsFinder {
 
 		for (const record of this.records) {
 			for (const s of record.sources ?? []) {
-				if (s.type === source.type && s.id == source.id) {
+				if (s.type === source.type && s.kind === 'source-with-member' && s.id == source.id) {
 					cards.push(record.card);
 				}
 			}

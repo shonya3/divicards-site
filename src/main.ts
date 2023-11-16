@@ -11,6 +11,7 @@ import { CardsFinder } from './data/CardsFinder';
 import './views/wc-source-page';
 import './views/wc-maps-table';
 import './views/wc-sources-table';
+import './views/wc-source-type-page';
 import { customElement, query } from 'lit/decorators.js';
 import { loadDivcordRecords } from './loadDivcordRecords';
 
@@ -114,9 +115,9 @@ export const router = new Router({
 			path: '/source',
 			title: context => decodeURI(context.query!.id),
 			render: context => {
-				const id: ISource['id'] = context.query.id;
+				const id: string = context.query.id;
 				const type = context.query.type as SourceType;
-				const source: ISource = { id, type };
+				const source: ISource = { id, type, kind: 'source-with-member' };
 
 				return html`<wc-source-page
 					.cardsFinder=${cardsFinder}
@@ -156,7 +157,10 @@ export const router = new Router({
 			title: context => context.params!.id,
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
-				return html`${sourceType}`;
+				return html`<wc-source-type-page
+					.divcordTable=${divcordTable}
+					.sourceType=${sourceType}
+				></wc-source-type-page>`;
 			},
 		},
 	],
@@ -171,3 +175,4 @@ router.addEventListener('route-changed', _e => {
 const cards = divcordTable.cardsBySourceTypes('Abyss Lich Boss', 'All Invasion Bosses');
 console.log(cards);
 console.log(customElements.get('wc-source-type'));
+console.log(divcordTable.cardsBySourceType('Map Boss'));

@@ -1,8 +1,8 @@
-export interface ISource {
-	type: SourceType;
-	id: string;
-}
-export type SourceType =
+export type SourceWithMember = { type: SourceType; id: string; kind: 'source-with-member' };
+export type EmptySource = { type: SourceType; kind: 'empty-source' };
+export type ISource = SourceWithMember | EmptySource;
+
+export type SourceType = 
 	| 'Expedition Logbook'
 	| 'Chest'
 	| 'Delirium'
@@ -58,3 +58,4 @@ export type SourceType =
 	| 'Vaal Side Areas'
 	| 'Atziri Area'
 	| 'Area-Specific';
+    
