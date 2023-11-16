@@ -1,5 +1,8 @@
-export type SourceWithMember = { type: SourceType; id: string; kind: 'source-with-member' };
-export type EmptySource = { type: SourceType; kind: 'empty-source' };
+export type SourceWithMember = { type: SourceType; id: string; kind: SourceWithMemberKind };
+export type EmptySourceKind = 'empty-source';
+export type SourceWithMemberKind = 'source-with-member';
+export type Kind = EmptySourceKind | SourceWithMemberKind;
+export type EmptySource = { type: SourceType; kind: EmptySourceKind };
 export type ISource = SourceWithMember | EmptySource;
 
 export type SourceType =

@@ -176,3 +176,5 @@ const cards = divcordTable.cardsBySourceTypes('Abyss Lich Boss', 'All Invasion B
 console.log(cards);
 console.log(customElements.get('wc-source-type'));
 console.log(divcordTable.cardsBySourceType('Map Boss'));
+const map = divcordTable.cardsBySourceType('Map Boss');
+// console.log(Array.from(map.cards));

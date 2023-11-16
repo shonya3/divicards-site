@@ -20,19 +20,27 @@ export class SourceTypePage extends LitElement {
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	get cards() {
-		return this.divcordTable.cardsBySourceTypes(this.sourceType);
+		return this.divcordTable.cardsBySourceType(this.sourceType);
 	}
 
-	render() {
-		return html`<div>
-			<wc-source-type .sourceType=${this.sourceType}></wc-source-type>
-			<ul>
+	protected mainBlock() {
+		if (Array.isArray(this.cards)) {
+			return html`<ul>
 				${this.cards.map(card => {
 					return html`<li>
 						<wc-divination-card size="medium" .name=${card}></wc-divination-card>
 					</li>`;
 				})}
-			</ul>
+			</ul>`;
+		}
+
+		return 'Hi';
+	}
+
+	render() {
+		return html`<div>
+			<wc-source-type .sourceType=${this.sourceType}></wc-source-type>
+			${this.mainBlock()}
 		</div>`;
 	}
 

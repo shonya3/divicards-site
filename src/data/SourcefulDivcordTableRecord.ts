@@ -1,4 +1,4 @@
-import { ISource, SourceType } from './ISource.interface';
+import { EmptySourceKind, ISource, SourceType, SourceWithMemberKind } from './ISource.interface';
 import { ISourcefulDivcordTableRecord, IGreynote, IConfidence, IRemaininWork } from './records.types';
 
 export const createDivcordTable = (recordsData: ISourcefulDivcordTableRecord[]) => {
@@ -76,16 +76,20 @@ export class SourcefulDivcordTable {
 			return this.cardsBySourceWithMember(type);
 		} else throw new Error('Unsupported source kind');
 	}
-	cardsByEmptySource(type: SourceType) {
+	cardsByEmptySource(type: SourceType): { kind: EmptySourceKind; cards: string[] } {
 		const cards: string[] = [];
 		for (const record of this.records) {
 			if ((record.sources ?? []).some(s => s.type === type)) {
 				cards.push(record.card);
 			}
 		}
-		return Array.from(new Set(cards));
+
+		return {
+			kind: 'empty-source',
+			cards: Array.from(new Set(cards)),
+		};
 	}
-	cardsBySourceWithMember(type: SourceType) {
+	cardsBySourceWithMember(type: SourceType): { kind: SourceWithMemberKind; cards: [string, string[]][] } {
 		const map: Map<string, Set<string>> = new Map();
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
@@ -102,7 +106,10 @@ export class SourcefulDivcordTable {
 			outMap.set(id, Array.from(cards));
 		}
 
-		return outMap;
+		return {
+			kind: 'source-with-member',
+			cards: Array.from(outMap),
+		};
 	}
 }
 
