@@ -111,12 +111,9 @@ export class MapsTableElement extends LitElement {
 								<td>
 									<ul>
 										${cards.map(card => {
-											const minLevel =
-												this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
-											//
 											return html`<li>
 												<wc-divination-card
-													.minLevel=${minLevel}
+													.minLevel=${this.poeData.minLevel(card)}
 													size=${this.size}
 													name=${card}
 												></wc-divination-card>

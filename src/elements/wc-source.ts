@@ -127,16 +127,16 @@ export class SourceElement extends LitElement {
 
 		:host {
 			display: inline-block;
-			max-width: fit-content;
 			object-fit: contain;
 			contain: paint;
+			--source-width: fit-content;
 		}
 
 		.source {
 			--source-font-size: 20px;
 			font-size: var(--source-font-size);
 			display: flex;
-			width: fit-content;
+			width: var(--source-width);
 			object-fit: contain;
 			contain: paint;
 			flex-direction: column;

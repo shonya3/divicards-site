@@ -6,6 +6,7 @@ import '../elements/divination-card/wc-divination-card.js';
 import '../elements/wc-act-area.js';
 import '../elements/wc-source.js';
 import '../elements/wc-page-controls.ts';
+import './wc-cards-list.ts';
 import { PoeData } from '../PoeData.ts';
 
 declare global {
@@ -28,17 +29,6 @@ export class CardsTableElement extends LitElement {
 	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards!: Readonly<Record<string, ISource[]>>;
 	@property({ reflect: true }) filter: string = '';
-
-	get filtered() {
-		const filter = this.filter.trim().toLowerCase();
-		return Object.entries(this.sourcesByCards)
-			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
-			.sort((a, b) => a[0].localeCompare(b[0]));
-	}
-
-	get paginated() {
-		return paginate(this.filtered, this.page, this.perPage);
-	}
 
 	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
 		if (_changedProperties.has('filter')) {
@@ -93,49 +83,15 @@ export class CardsTableElement extends LitElement {
 				</form>
 				<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
 			</header>
-			${this.table()}
+			<wc-cards-list
+				.filter=${this.filter}
+				.sourcesByCards=${this.sourcesByCards}
+				.poeData=${this.poeData}
+				.page=${this.page}
+				.perPage=${this.perPage}
+				.cardSize=${this.cardSize}
+			></wc-cards-list>
 		`;
-	}
-
-	protected table() {
-		const width = this.cardSize === 'small' ? '134px' : this.cardSize === 'medium' ? '268px' : '326px';
-		const markup = html`<table>
-			<thead>
-				<tr>
-					<th style="width:${width}" scope="col">Cards</th>
-					<th style="width: 20px" scope="col">Min Level</th>
-					<th scope="col">Sources</th>
-				</tr>
-			</thead>
-			<tbody>
-				${this.paginated.map(
-					([card, sources]) =>
-						html`
-							<tr>
-								<td>
-									<wc-divination-card size=${this.cardSize} name=${card}></wc-divination-card>
-								</td>
-								<td>${this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0}</td>
-								<td>
-									<ul>
-										${sources.map(
-											source => html`<li>
-												<wc-source
-													.size=${this.cardSize}
-													.poeData=${this.poeData}
-													.source=${source}
-												></wc-source>
-											</li>`
-										)}
-									</ul>
-								</td>
-							</tr>
-						`
-				)}
-			</tbody>
-		</table> `;
-
-		return markup;
 	}
 
 	static styles = css`

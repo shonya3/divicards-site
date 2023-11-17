@@ -86,11 +86,11 @@ export class MapElement extends LitElement {
 	}
 
 	static styles = css`
-		:root {
-			display: block;
-			width: fit-content;
+		:host {
+			display: inline-block;
 			object-fit: contain;
 			contain: content;
+			--map-width: 250px;
 		}
 
 		* {
@@ -100,7 +100,8 @@ export class MapElement extends LitElement {
 
 		.map {
 			font-size: var(--map-font-size, 1rem);
-			width: fit-content;
+			width: var(--map-width);
+			text-align: center;
 		}
 
 		.name {

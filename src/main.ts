@@ -14,6 +14,7 @@ import './views/wc-sources-table';
 import './views/wc-source-type-page';
 import { customElement, query } from 'lit/decorators.js';
 import { loadDivcordRecords } from './loadDivcordRecords';
+import './views/wc-simple-table';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -93,7 +94,7 @@ export const router = new Router({
 			render: ({ query }) =>
 				html`<wc-cards-table
 					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 10}
+					per-page=${query['per-page'] ?? 3}
 					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}

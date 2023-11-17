@@ -79,7 +79,7 @@ export class DivinationCardElement extends LitElement {
 			'margin-top': this.nameMarginTop(this.size),
 		});
 
-		return html`<div
+		return html` <div
 			class=${classMap({
 				'divination-card': true,
 				[`divination-card--${this.size}`]: true,
@@ -96,7 +96,9 @@ export class DivinationCardElement extends LitElement {
 				<a @click=${this.#onNavigation} href="/card/${this.name}"> ${this.name} </a>
 			</header>
 			<div class="imageWrapper">
-				<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="" />
+				<a @click=${this.#onNavigation} href="/card/${this.name}">
+					<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="" />
+				</a>
 			</div>
 			<div class=${classMap({ stackSize: true, 'stackSize--small': this.size === 'small' })}>
 				${this.stackSize}

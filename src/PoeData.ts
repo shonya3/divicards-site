@@ -54,7 +54,7 @@ export class PoeData implements IPoeData {
 		return this.cards.find(c => c.name.trim().toLowerCase() === name.trim().toLowerCase()) ?? null;
 	}
 
-	minLevel(card: string): number | null {
+	minLevel(card: string): number {
 		return this.card(card)?.minLevel ?? 0;
 	}
 
