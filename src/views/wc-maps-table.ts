@@ -105,6 +105,7 @@ export class MapsTableElement extends LitElement {
 										.size=${this.size}
 										.poeData=${this.poeData}
 										.source=${{ id: map, type: 'Map' }}
+										.showSourceType=${false}
 									></wc-source>
 								</td>
 								<td>

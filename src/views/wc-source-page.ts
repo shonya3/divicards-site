@@ -58,5 +58,9 @@ export class SourcePage extends LitElement {
 		wc-source {
 			view-transition-name: source;
 		}
+
+		wc-source-type {
+			view-transition-name: source-type;
+		}
 	`;
 }

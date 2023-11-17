@@ -89,6 +89,7 @@ export class SourcesTableElement extends LitElement {
 			</header>
 
 			!-->
+
 			${this.table()}
 		`;
 	}
