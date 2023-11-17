@@ -62,13 +62,14 @@ export class MapElement extends LitElement {
 						'map-background': !this.map.unique,
 					})}
 				>
-					<img
-						class=${classMap({ 'img-map-glyph': true, 'img--with-background': !this.map.unique })}
-						width=${this.imageWidth}
-						height=${this.imageWidth}
-						loading="lazy"
-						src=${this.map.icon}
-					/>
+					<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
+						><img
+							class=${classMap({ 'img-map-glyph': true, 'img--with-background': !this.map.unique })}
+							width=${this.imageWidth}
+							height=${this.imageWidth}
+							loading="lazy"
+							src=${this.map.icon}
+					/></a>
 				</div>
 			</div>
 		</div>`;
