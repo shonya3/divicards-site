@@ -15,12 +15,6 @@ declare global {
 	}
 }
 
-const paginate = <T>(arr: T[], page: number, perPage: number) => {
-	const start = (page - 1) * perPage;
-	const end = start + perPage;
-	return arr.slice(start, end);
-};
-
 @customElement('wc-cards-table')
 export class CardsTableElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;

@@ -1,4 +1,4 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
 import type { ISource } from '../data/ISource.interface.ts';
