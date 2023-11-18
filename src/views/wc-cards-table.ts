@@ -55,8 +55,10 @@ export class CardsTableElement extends LitElement {
 
 	protected render() {
 		return html`
-			<header>
-				<form>
+			<div class="wrapper">
+				<header>
+					<!--
+                <form>
 					<fieldset>
 						<legend>Find card</legend>
 						<div>
@@ -75,16 +77,18 @@ export class CardsTableElement extends LitElement {
 						</div>
 					</fieldset>
 				</form>
-				<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
-			</header>
-			<wc-cards-list
-				.filter=${this.filter}
-				.sourcesByCards=${this.sourcesByCards}
-				.poeData=${this.poeData}
-				.page=${this.page}
-				.perPage=${this.perPage}
-				.cardSize=${this.cardSize}
-			></wc-cards-list>
+                !-->
+					<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
+				</header>
+				<wc-cards-list
+					.filter=${this.filter}
+					.sourcesByCards=${this.sourcesByCards}
+					.poeData=${this.poeData}
+					.page=${this.page}
+					.perPage=${this.perPage}
+					.cardSize=${this.cardSize}
+				></wc-cards-list>
+			</div>
 		`;
 	}
 
@@ -94,6 +98,7 @@ export class CardsTableElement extends LitElement {
 			--card-width-medium: 268px;
 			--card-width-large: 326px;
 			font-size: 1.5rem;
+			display: block;
 		}
 
 		form {

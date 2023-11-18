@@ -43,10 +43,11 @@ declare global {
 
 @customElement('wc-root')
 export class RootElement extends LitElement {
-	@query('#outlet') outlet!: HTMLElement;
+	@query('.outlet') outlet!: HTMLElement;
 
 	render() {
-		return html`<header style="padding:1rem;">
+		return html`<div class="wrapper">
+			<header class="header">
 				<nav>
 					<ul style="display:flex;gap:0.4rem;width:fit-content;margin-left:3rem;">
 						<li>
@@ -61,17 +62,40 @@ export class RootElement extends LitElement {
 					</ul>
 				</nav>
 			</header>
-			<div id="outlet"></div>`;
+			<div class="outlet"></div>
+		</div>`;
 	}
 
 	static styles = css`
 		* {
 			padding: 0;
 			margin: 0;
+			box-sizing: border-box;
+		}
+
+		:host {
+			display: block;
+			height: 100vh;
+		}
+
+		.wrapper {
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.outlet {
+			flex-grow: 1;
+			height: 90vh;
 		}
 
 		ul {
 			list-style: none;
+		}
+
+		.outlet > * {
+			height: 100%;
+			overflow-y: scroll;
 		}
 	`;
 }
