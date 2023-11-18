@@ -87,6 +87,7 @@ export class RootElement extends LitElement {
 		.outlet {
 			flex-grow: 1;
 			height: 90vh;
+			border: 1px solid white;
 		}
 
 		ul {
@@ -95,6 +96,7 @@ export class RootElement extends LitElement {
 
 		.outlet > * {
 			height: 100%;
+			display: block;
 			overflow-y: scroll;
 		}
 	`;
