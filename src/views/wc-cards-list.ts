@@ -44,25 +44,23 @@ export class CardsListElement extends LitElement {
 		const newMarkup = html`<ul class="cards-list">
 			${this.paginated.map(
 				([card, sources]) => html`
-					<li class="card-entry">
-						<div class="card-list_item">
-							<wc-divination-card
-								.minLevel=${this.poeData.minLevel(card)}
-								size=${this.cardSize}
-								name=${card}
-							></wc-divination-card>
-							<ul class="sources-list">
-								${sources.map(
-									source => html`<li class="sources-list_item">
-										<wc-source
-											.size=${this.cardSize}
-											.poeData=${this.poeData}
-											.source=${source}
-										></wc-source>
-									</li>`
-								)}
-							</ul>
-						</div>
+					<li class="cards-list_item">
+						<wc-divination-card
+							.minLevel=${this.poeData.minLevel(card)}
+							size=${this.cardSize}
+							name=${card}
+						></wc-divination-card>
+						<ul class="sources-list">
+							${sources.map(
+								source => html`<li class="sources-list_item">
+									<wc-source
+										.size=${this.cardSize}
+										.poeData=${this.poeData}
+										.source=${source}
+									></wc-source>
+								</li>`
+							)}
+						</ul>
 					</li>
 				`
 			)}
@@ -84,20 +82,25 @@ export class CardsListElement extends LitElement {
 			margin: 0;
 		}
 
-		@media (max-width: 800px) {
+		ul {
+			list-style: none;
+		}
+
+		.cards-list {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.cards-list_item:nth-child(odd) {
+			background-color: #222;
+		}
+
+		@media (max-width: 500px) {
 			.cards-list {
-				display: flex;
-				flex-direction: column;
-				gap: 6rem;
 				justify-content: center;
-				align-items: center;
 			}
 
-			ul {
-				list-style: none;
-			}
-
-			.card-list_item {
+			.cards-list_item {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -114,7 +117,25 @@ export class CardsListElement extends LitElement {
 			}
 		}
 
-		wc-source {
+		@media (min-width: 500px) {
+			.cards-list {
+			}
+
+			.sources-list {
+				display: flex;
+				flex-wrap: wrap;
+				align-self: start;
+				gap: 1rem;
+			}
+
+			.cards-list_item {
+				display: flex;
+				gap: 2rem;
+			}
+
+			wc-source {
+				--map-width: fit-content;
+			}
 		}
 	`;
 }

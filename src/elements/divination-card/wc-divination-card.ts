@@ -107,7 +107,7 @@ export class DivinationCardElement extends LitElement {
 				${staticHtml`${unsafeStatic(this.rewardHtml)}`}
 				${this.size !== 'small' ? html`${this.divider()}${this.footer()}` : nothing}
 			</div>
-			${this.minLevel ? html` <div class="min-level">Min Level: ${this.minLevel}</div> ` : nothing}
+			${this.minLevel ? html` <div title="Min. Level" class="min-level">${this.minLevel}</div> ` : nothing}
 		</div>`;
 	}
 
@@ -175,6 +175,8 @@ function styles() {
 			position: absolute;
 			z-index: 4;
 			bottom: 0;
+			right: 0.75rem;
+			font-size: var(--digits-font-size);
 		}
 
 		.divination-card {
@@ -195,12 +197,14 @@ function styles() {
 		.divination-card--small {
 			--card-width: var(--card-width-small);
 			--reward-font-size: 0.8rem;
+			--digits-font-size: 0.6rem;
 		}
 
 		.divination-card--medium {
 			--reward-font-size: 1rem;
 			--card-width: var(--card-width-medium);
 			--name-font-size: 20px;
+			--digits-font-size: ;
 		}
 
 		.divination-card--large {

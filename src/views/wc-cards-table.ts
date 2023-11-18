@@ -19,7 +19,7 @@ declare global {
 export class CardsTableElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
-	@property({ reflect: true }) cardSize: CardSize = 'medium';
+	@property({ reflect: true }) cardSize: CardSize = 'small';
 	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards!: Readonly<Record<string, ISource[]>>;
 	@property({ reflect: true }) filter: string = '';
@@ -57,27 +57,20 @@ export class CardsTableElement extends LitElement {
 		return html`
 			<div class="wrapper">
 				<header>
-					<!--
-                <form>
-					<fieldset>
-						<legend>Find card</legend>
+					<form>
 						<div>
-							<label for="input-cardname">Input card name</label>
+							<label for="input-cardname">search card</label>
 							<input @input="${this.#onCardnameInput}" type="text" id="input-cardname" />
 						</div>
-					</fieldset>
-					<fieldset>
-						<legend>card size</legend>
 						<div>
-							<select @input=${this.#oncardSizeSelect} .value=${this.cardSize} name="" id="">
+							<label for="size-select">size</label>
+							<select @input=${this.#oncardSizeSelect} .value=${this.cardSize} name="" id="size-select">
 								<option value="small">small</option>
 								<option value="medium">medium</option>
 								<option value="large">large</option>
 							</select>
 						</div>
-					</fieldset>
-				</form>
-                !-->
+					</form>
 					<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
 				</header>
 				<wc-cards-list
@@ -103,7 +96,11 @@ export class CardsTableElement extends LitElement {
 
 		form {
 			width: fit-content;
-			margin: auto;
+			margin-left: auto;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			font-size: 1rem;
 		}
 
 		legend {

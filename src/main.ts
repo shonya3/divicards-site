@@ -87,7 +87,6 @@ export class RootElement extends LitElement {
 		.outlet {
 			flex-grow: 1;
 			height: 90vh;
-			border: 1px solid white;
 		}
 
 		ul {
@@ -120,7 +119,7 @@ export const router = new Router({
 			render: ({ query }) =>
 				html`<wc-cards-table
 					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 3}
+					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}

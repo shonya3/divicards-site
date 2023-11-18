@@ -90,7 +90,6 @@ export class MapElement extends LitElement {
 			display: inline-block;
 			object-fit: contain;
 			contain: content;
-			--map-width: 250px;
 		}
 
 		* {
@@ -100,7 +99,7 @@ export class MapElement extends LitElement {
 
 		.map {
 			font-size: var(--map-font-size, 1rem);
-			width: var(--map-width);
+			width: var(--map-width, fit-content);
 			text-align: center;
 		}
 
