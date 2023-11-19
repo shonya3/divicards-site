@@ -60,12 +60,14 @@ export class CardsCompactPage extends LitElement {
 			<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
 			<ul class="cards">
 				${this.paginated.map(card => {
-					return html`<e-card-with-sources
-						.name=${card}
-						.poeData=${this.poeData}
-						.divcordTable=${this.divcordTable}
-						.size=${this.size}
-					></e-card-with-sources>`;
+					return html`<li>
+						<e-card-with-sources
+							.name=${card}
+							.poeData=${this.poeData}
+							.divcordTable=${this.divcordTable}
+							.size=${this.size}
+						></e-card-with-sources>
+					</li>`;
 				})}
 			</ul>`;
 	}
