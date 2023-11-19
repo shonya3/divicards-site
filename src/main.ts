@@ -77,6 +77,7 @@ export class RootElement extends LitElement {
 		:host {
 			display: block;
 			height: 100vh;
+			--source-color: #eeeeee;
 		}
 
 		.wrapper {
