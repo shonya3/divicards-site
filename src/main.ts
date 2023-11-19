@@ -50,14 +50,14 @@ export class RootElement extends LitElement {
 		return html`<div class="wrapper">
 			<header class="header">
 				<nav>
-					<ul style="display:flex;gap:0.4rem;width:fit-content;margin-left:3rem;">
-						<li>
+					<ul class="navlist">
+						<li class="navlist_item">
 							<a href="/">Home</a>
 						</li>
-						<li>
+						<li class="navlist_item">
 							<a href="/maps">Maps</a>
 						</li>
-						<li>
+						<li class="navlist_item">
 							<a href="/sources">Sources</a>
 						</li>
 					</ul>
@@ -91,11 +91,29 @@ export class RootElement extends LitElement {
 			height: 90vh;
 		}
 
-		ul {
+		.navlist {
 			list-style: none;
+			padding: 1rem;
+
+			display: flex;
+			gap: 1.5rem;
+			background-color: #222;
 		}
 
-		.outlet > * {
+		.navlist_item {
+			font-size: 1.2rem;
+		}
+
+		.navlist_item:first-child {
+			margin-left: 2rem;
+		}
+
+		a,
+		a:visited {
+			color: #fff;
+		}
+
+		.navlist .outlet > * {
 			height: 100%;
 			display: block;
 			overflow-y: scroll;
