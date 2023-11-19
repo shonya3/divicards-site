@@ -69,7 +69,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	protected sourcesWithTagButNotOnWiki() {
 		const markup = html`<div class="sourcesWithTagButNotOnWiki">
 			<h3>Sources with Tag but not on wiki. Need to verify</h3>
-			${this.record.sourcesWithTagButNotOnWiki}
+			<p>${this.record.sourcesWithTagButNotOnWiki}</p>
 		</div>`;
 		return this.record.sourcesWithTagButNotOnWiki ? markup : nothing;
 	}
@@ -86,6 +86,14 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		* {
 			padding: 0;
 			margin: 0;
+		}
+
+		h3 {
+			color: #fff;
+		}
+
+		p {
+			color: #bcbcbc;
 		}
 
 		.record {
