@@ -29,16 +29,19 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			>
 				${this.record.confidence}
 			</div>
-			<div class="wiki-agreements">
-				<h3>Wiki agreements</h3>
-				<ul class="wiki-agreements_sources">
-					${(this.record.sources ?? []).map(
-						source => html`<li>
-							<e-source .poeData=${this.poeData} .source=${source}></e-source>
-						</li>`
-					)}
-				</ul>
-			</div>
+
+			${(this.record.sources ?? []).length > 0
+				? html`<div class="wiki-agreements">
+						<h3>Wiki agreements</h3>
+						<ul class="wiki-agreements_sources">
+							${(this.record.sources ?? []).map(
+								source => html`<li>
+									<e-source .poeData=${this.poeData} .source=${source}></e-source>
+								</li>`
+							)}
+						</ul>
+				  </div>`
+				: nothing}
 			${this.wikiDisagreements()} ${this.sourcesWithTagButNotOnWiki()} ${this.notes()}
 		</div>`;
 	}
@@ -98,19 +101,22 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		.confidence {
 			padding: 2rem;
+			font-size: 18px;
 		}
 
 		.confidence--done {
 			background-color: green;
 		}
 		.confidence--ok {
-			background-color: lightblue;
+			background-color: #93c47d;
+			color: black;
 		}
 		.confidence--none {
 			background-color: red;
 		}
 		.confidence--low {
-			background-color: orange;
+			background-color: #f1c232;
+			color: black;
 		}
 
 		.wiki-agreements {
