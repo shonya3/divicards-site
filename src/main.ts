@@ -113,7 +113,7 @@ export class RootElement extends LitElement {
 			color: #fff;
 		}
 
-		.navlist .outlet > * {
+		.outlet > * {
 			height: 100%;
 			display: block;
 			overflow-y: scroll;
