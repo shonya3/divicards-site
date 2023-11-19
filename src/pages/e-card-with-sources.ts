@@ -60,6 +60,7 @@ export class CardWithSourcesElement extends LitElement {
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
+			margin-top: 0.25rem;
 		}
 	`;
 }
