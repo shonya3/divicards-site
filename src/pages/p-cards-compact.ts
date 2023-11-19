@@ -87,6 +87,9 @@ export class CardsCompactPage extends LitElement {
 			display: flex;
 			flex-wrap: wrap;
 			list-style: none;
+			gap: 4rem;
+			max-width: 1600px;
+			margin-inline: auto;
 		}
 	`;
 }
