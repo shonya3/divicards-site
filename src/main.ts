@@ -14,6 +14,7 @@ import './pages/p-sources-table';
 import './pages/p-source-type';
 import './pages/e-card-with-sources';
 import './pages/p-cards-compact';
+import './pages/p-divcord-table';
 import { customElement, query } from 'lit/decorators.js';
 import { loadDivcordRecords } from './loadDivcordRecords';
 
@@ -59,6 +60,9 @@ export class RootElement extends LitElement {
 						</li>
 						<li class="navlist_item">
 							<a href="/sources">Sources</a>
+						</li>
+						<li class="navlist_item">
+							<a href="/divcord">Divcord</a>
 						</li>
 					</ul>
 				</nav>
@@ -172,6 +176,19 @@ export const router = new Router({
 					name="A Fate Worse Than Death"
 					.divcordTable=${divcordTable}
 				></e-card-with-sources>`,
+		},
+		{
+			path: '/divcord',
+			title: 'Divicards',
+			render: ({ query }) =>
+				html`<p-divcord-table
+					page=${query.page ?? 1}
+					per-page=${query['per-page'] ?? 14}
+					filter=${query.filter ?? ''}
+					.poeData=${poeData}
+					.sourcesByCards=${sourcesByCards}
+					.divcordTable=${divcordTable}
+				></p-divcord-table>`,
 		},
 		{
 			path: '/card/:name',
