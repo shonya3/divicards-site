@@ -1,8 +1,8 @@
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { CardSize } from '../elements/divination-card/wc-divination-card.js';
-import '../elements/divination-card/wc-divination-card.js';
-import '../elements/wc-source.js';
+import type { CardSize } from '../elements/divination-card/e-divination-card.js';
+import '../elements/divination-card/e-divination-card.js';
+import '../elements/e-source.js';
 import { PoeData } from '../PoeData.js';
 import { ISource } from '../data/ISource.interface.js';
 
@@ -110,12 +110,12 @@ export class SourcesTablePage extends LitElement {
 						html`
 							<tr>
 								<td>
-									<wc-source
+									<e-source
 										.showSourceType=${this.showSourceType}
 										.size=${this.size}
 										.poeData=${this.poeData}
 										.source=${source}
-									></wc-source>
+									></e-source>
 								</td>
 								<td>
 									<ul>
@@ -123,11 +123,11 @@ export class SourcesTablePage extends LitElement {
 											// const minLevel =
 											// 	this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
 											return html`<li>
-												<wc-divination-card
+												<e-divination-card
 													.minLevel=${this.poeData.minLevel(card)}
 													size=${this.size}
 													name=${card}
-												></wc-divination-card>
+												></e-divination-card>
 											</li>`;
 										})}
 									</ul>

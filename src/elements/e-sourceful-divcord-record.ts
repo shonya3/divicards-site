@@ -1,16 +1,16 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
-import './wc-source.js';
+import './e-source.js';
 import { PoeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-sourceful-divcord-record': SourcefulDivcordRecordElement;
+		'e-sourceful-divcord-record': SourcefulDivcordRecordElement;
 	}
 }
 
-@customElement('wc-sourceful-divcord-record')
+@customElement('e-sourceful-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: SourcefulDivcordTableRecord;
 	@property({ type: Object }) poeData!: PoeData;
@@ -22,7 +22,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			<div>${this.record.confidence}</div>
 			<ul class="dropsources">
 				${(this.record.sources ?? []).map(
-					source => html`<wc-source .poeData=${this.poeData} .source=${source}></wc-source>`
+					source => html`<e-source .poeData=${this.poeData} .source=${source}></e-source>`
 				)}
 			</ul>
 			${this.wikiDisagreements()} ${this.sourcesWithTagButNotOnWiki()} ${this.notes()}

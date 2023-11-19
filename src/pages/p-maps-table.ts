@@ -1,8 +1,8 @@
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { CardSize } from '../elements/divination-card/wc-divination-card.js';
-import '../elements/divination-card/wc-divination-card.js';
-import '../elements/wc-source.js';
+import type { CardSize } from '../elements/divination-card/e-divination-card.js';
+import '../elements/divination-card/e-divination-card.js';
+import '../elements/e-source.js';
 import { PoeData } from '../PoeData.js';
 
 declare global {
@@ -101,22 +101,22 @@ export class MapsTablePage extends LitElement {
 						html`
 							<tr>
 								<td>
-									<wc-source
+									<e-source
 										.size=${this.size}
 										.poeData=${this.poeData}
 										.source=${{ id: map, type: 'Map' }}
 										.showSourceType=${false}
-									></wc-source>
+									></e-source>
 								</td>
 								<td>
 									<ul>
 										${cards.map(card => {
 											return html`<li>
-												<wc-divination-card
+												<e-divination-card
 													.minLevel=${this.poeData.minLevel(card)}
 													size=${this.size}
 													name=${card}
-												></wc-divination-card>
+												></e-divination-card>
 											</li>`;
 										})}
 									</ul>

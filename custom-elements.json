@@ -182,7 +182,7 @@
 				{
 					"kind": "variable",
 					"name": "router",
-					"default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<wc-cards-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.sourcesByCards=${sourcesByCards}\r\n\t\t\t\t></wc-cards-table>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<wc-card-with-divcord-records-view\r\n\t\t\t\t\t.card=${name}\r\n\t\t\t\t\t.records=${divcordTable.recordsByCard(name)}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t></wc-card-with-divcord-records-view>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: ISource['id'] = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type };\r\n\r\n\t\t\t\treturn html`<wc-source-page\r\n\t\t\t\t\t.cardsFinder=${cardsFinder}\r\n\t\t\t\t\t.source=${source}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t></wc-source-page>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.cardsByMaps=${cardsFinder.cardsByMaps()}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<wc-sources-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.cardsBySources=${cardsFinder.cardsBySources()}\r\n\t\t\t\t></wc-sources-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
+					"default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<wc-cards-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.sourcesByCards=${sourcesByCards}\r\n\t\t\t\t></wc-cards-table>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<wc-card-with-divcord-records-view\r\n\t\t\t\t\t.card=${name}\r\n\t\t\t\t\t.records=${divcordTable.recordsByCard(name)}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t></wc-card-with-divcord-records-view>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: ISource['id'] = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type };\r\n\r\n\t\t\t\treturn html`<e-source-page\r\n\t\t\t\t\t.cardsFinder=${cardsFinder}\r\n\t\t\t\t\t.source=${source}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t></e-source-page>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.cardsByMaps=${cardsFinder.cardsByMaps()}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<e-sources-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.cardsBySources=${cardsFinder.cardsBySources()}\r\n\t\t\t\t></e-sources-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
 				}
 			],
 			"exports": [
@@ -1477,7 +1477,7 @@
 		},
 		{
 			"kind": "javascript-module",
-			"path": "src/elements/wc-source.ts",
+			"path": "src/elements/e-source.ts",
 			"declarations": [
 				{
 					"kind": "class",
@@ -1485,7 +1485,7 @@
 					"name": "NoSourceInPoeDataError",
 					"superclass": {
 						"name": "Error",
-						"module": "src/elements/wc-source.ts"
+						"module": "src/elements/e-source.ts"
 					}
 				},
 				{
@@ -1590,7 +1590,7 @@
 						"name": "LitElement",
 						"package": "lit"
 					},
-					"tagName": "wc-source",
+					"tagName": "e-source",
 					"customElement": true
 				},
 				{
@@ -1640,7 +1640,7 @@
 					"name": "NoSourceInPoeDataError",
 					"declaration": {
 						"name": "NoSourceInPoeDataError",
-						"module": "src/elements/wc-source.ts"
+						"module": "src/elements/e-source.ts"
 					}
 				},
 				{
@@ -1648,15 +1648,15 @@
 					"name": "SourceElement",
 					"declaration": {
 						"name": "SourceElement",
-						"module": "src/elements/wc-source.ts"
+						"module": "src/elements/e-source.ts"
 					}
 				},
 				{
 					"kind": "custom-element-definition",
-					"name": "wc-source",
+					"name": "e-source",
 					"declaration": {
 						"name": "SourceElement",
-						"module": "src/elements/wc-source.ts"
+						"module": "src/elements/e-source.ts"
 					}
 				},
 				{
@@ -1664,7 +1664,7 @@
 					"name": "GeneralSourceElement",
 					"declaration": {
 						"name": "GeneralSourceElement",
-						"module": "src/elements/wc-source.ts"
+						"module": "src/elements/e-source.ts"
 					}
 				},
 				{
@@ -1672,14 +1672,14 @@
 					"name": "wc-general-source",
 					"declaration": {
 						"name": "GeneralSourceElement",
-						"module": "src/elements/wc-source.ts"
+						"module": "src/elements/e-source.ts"
 					}
 				}
 			]
 		},
 		{
 			"kind": "javascript-module",
-			"path": "src/elements/wc-sourceful-divcord-record.ts",
+			"path": "src/elements/e-sourceful-divcord-record.ts",
 			"declarations": [
 				{
 					"kind": "class",
@@ -1748,7 +1748,7 @@
 						"name": "LitElement",
 						"package": "lit"
 					},
-					"tagName": "wc-sourceful-divcord-record",
+					"tagName": "e-sourceful-divcord-record",
 					"customElement": true
 				}
 			],
@@ -1758,15 +1758,15 @@
 					"name": "SourcefulDivcordRecordElement",
 					"declaration": {
 						"name": "SourcefulDivcordRecordElement",
-						"module": "src/elements/wc-sourceful-divcord-record.ts"
+						"module": "src/elements/e-sourceful-divcord-record.ts"
 					}
 				},
 				{
 					"kind": "custom-element-definition",
-					"name": "wc-sourceful-divcord-record",
+					"name": "e-sourceful-divcord-record",
 					"declaration": {
 						"name": "SourcefulDivcordRecordElement",
-						"module": "src/elements/wc-sourceful-divcord-record.ts"
+						"module": "src/elements/e-sourceful-divcord-record.ts"
 					}
 				}
 			]
@@ -2322,7 +2322,7 @@
 		},
 		{
 			"kind": "javascript-module",
-			"path": "src/views/wc-source-page.ts",
+			"path": "src/views/e-source-page.ts",
 			"declarations": [
 				{
 					"kind": "class",
@@ -2386,7 +2386,7 @@
 						"name": "LitElement",
 						"package": "lit"
 					},
-					"tagName": "wc-source-page",
+					"tagName": "e-source-page",
 					"customElement": true
 				}
 			],
@@ -2396,22 +2396,22 @@
 					"name": "SourcePage",
 					"declaration": {
 						"name": "SourcePage",
-						"module": "src/views/wc-source-page.ts"
+						"module": "src/views/e-source-page.ts"
 					}
 				},
 				{
 					"kind": "custom-element-definition",
-					"name": "wc-source-page",
+					"name": "e-source-page",
 					"declaration": {
 						"name": "SourcePage",
-						"module": "src/views/wc-source-page.ts"
+						"module": "src/views/e-source-page.ts"
 					}
 				}
 			]
 		},
 		{
 			"kind": "javascript-module",
-			"path": "src/views/wc-sources-table.ts",
+			"path": "src/views/e-sources-table.ts",
 			"declarations": [
 				{
 					"kind": "function",
@@ -2572,7 +2572,7 @@
 						"name": "LitElement",
 						"package": "lit"
 					},
-					"tagName": "wc-sources-table",
+					"tagName": "e-sources-table",
 					"customElement": true
 				}
 			],
@@ -2582,7 +2582,7 @@
 					"name": "paginate",
 					"declaration": {
 						"name": "paginate",
-						"module": "src/views/wc-sources-table.ts"
+						"module": "src/views/e-sources-table.ts"
 					}
 				},
 				{
@@ -2590,15 +2590,15 @@
 					"name": "SourcesTableElement",
 					"declaration": {
 						"name": "SourcesTableElement",
-						"module": "src/views/wc-sources-table.ts"
+						"module": "src/views/e-sources-table.ts"
 					}
 				},
 				{
 					"kind": "custom-element-definition",
-					"name": "wc-sources-table",
+					"name": "e-sources-table",
 					"declaration": {
 						"name": "SourcesTableElement",
-						"module": "src/views/wc-sources-table.ts"
+						"module": "src/views/e-sources-table.ts"
 					}
 				}
 			]
@@ -2626,7 +2626,7 @@
 		},
 		{
 			"kind": "javascript-module",
-			"path": "src/elements/divination-card/wc-divination-card.ts",
+			"path": "src/elements/divination-card/e-divination-card.ts",
 			"declarations": [
 				{
 					"kind": "class",
@@ -2755,7 +2755,7 @@
 						"name": "LitElement",
 						"package": "lit"
 					},
-					"tagName": "wc-divination-card",
+					"tagName": "e-divination-card",
 					"customElement": true
 				}
 			],
@@ -2765,15 +2765,15 @@
 					"name": "DivinationCardElement",
 					"declaration": {
 						"name": "DivinationCardElement",
-						"module": "src/elements/divination-card/wc-divination-card.ts"
+						"module": "src/elements/divination-card/e-divination-card.ts"
 					}
 				},
 				{
 					"kind": "custom-element-definition",
-					"name": "wc-divination-card",
+					"name": "e-divination-card",
 					"declaration": {
 						"name": "DivinationCardElement",
-						"module": "src/elements/divination-card/wc-divination-card.ts"
+						"module": "src/elements/divination-card/e-divination-card.ts"
 					}
 				}
 			]

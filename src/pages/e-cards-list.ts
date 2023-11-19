@@ -1,16 +1,16 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
+import { type CardSize } from '../elements/divination-card/e-divination-card.ts';
 import type { ISource } from '../data/ISource.interface.ts';
-import '../elements/divination-card/wc-divination-card.js';
+import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-act-area.js';
-import '../elements/wc-source.js';
+import '../elements/e-source.js';
 import '../elements/e-page-controls.ts';
 import { PoeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-cards-list': CardsListElement;
+		'e-cards-list': CardsListElement;
 	}
 }
 
@@ -20,7 +20,7 @@ const paginate = <T>(arr: T[], page: number, perPage: number) => {
 	return arr.slice(start, end);
 };
 
-@customElement('wc-cards-list')
+@customElement('e-cards-list')
 export class CardsListElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
@@ -45,19 +45,19 @@ export class CardsListElement extends LitElement {
 			${this.paginated.map(
 				([card, sources]) => html`
 					<li class="cards-list_item">
-						<wc-divination-card
+						<e-divination-card
 							.minLevel=${this.poeData.minLevel(card)}
 							size=${this.cardSize}
 							name=${card}
-						></wc-divination-card>
+						></e-divination-card>
 						<ul class="sources-list">
 							${sources.map(
 								source => html`<li class="sources-list_item">
-									<wc-source
+									<e-source
 										.size=${this.cardSize}
 										.poeData=${this.poeData}
 										.source=${source}
-									></wc-source>
+									></e-source>
 								</li>`
 							)}
 						</ul>
@@ -133,7 +133,7 @@ export class CardsListElement extends LitElement {
 				gap: 2rem;
 			}
 
-			wc-source {
+			e-source {
 				--map-width: fit-content;
 			}
 		}

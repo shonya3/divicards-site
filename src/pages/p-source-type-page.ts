@@ -2,8 +2,8 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { SourceType } from '../data/ISource.interface.ts';
 import { PoeData } from '../PoeData.ts';
-import '../elements/divination-card/wc-divination-card.js';
-import '../elements/wc-source.js';
+import '../elements/divination-card/e-divination-card.js';
+import '../elements/e-source.js';
 import '../elements/e-source-type.ts';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord.ts';
 
@@ -26,7 +26,7 @@ export class SourceTypePage extends LitElement {
 				<ul>
 					${cards.map(card => {
 						return html`<li>
-							<wc-divination-card size="medium" .name=${card}></wc-divination-card>
+							<e-divination-card size="medium" .name=${card}></e-divination-card>
 						</li>`;
 					})}
 				</ul>`;
@@ -34,7 +34,7 @@ export class SourceTypePage extends LitElement {
 			const cardsBySources = cards.map(([sourceId, cards]) => {
 				return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards];
 			});
-			return html`<wc-sources-table
+			return html`<e-sources-table
 				.firstColumnName=${this.sourceType}
 				size="medium"
 				.showSourceType=${false}
@@ -42,7 +42,7 @@ export class SourceTypePage extends LitElement {
 				.cardsBySources=${cardsBySources}
 			>
 				<e-source-type .sourceType=${this.sourceType}></e-source-type>
-			</wc-sources-table>`;
+			</e-sources-table>`;
 		} else throw new Error('Unsupported source kind');
 	}
 

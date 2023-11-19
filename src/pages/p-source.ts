@@ -2,8 +2,8 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface.ts';
 import { PoeData } from '../PoeData.ts';
-import '../elements/divination-card/wc-divination-card.js';
-import '../elements/wc-source.js';
+import '../elements/divination-card/e-divination-card.js';
+import '../elements/e-source.js';
 import { CardsFinder } from '../data/CardsFinder.ts';
 
 declare global {
@@ -37,11 +37,11 @@ export class SourcePage extends LitElement {
 
 	render() {
 		return html`<div>
-			<wc-source size="large" .poeData=${this.poeData} .source=${this.source}></wc-source>
+			<e-source size="large" .poeData=${this.poeData} .source=${this.source}></e-source>
 			<ul>
 				${this.cards.map(card => {
 					return html`<li>
-						<wc-divination-card size="medium" .name=${card}></wc-divination-card>
+						<e-divination-card size="medium" .name=${card}></e-divination-card>
 					</li>`;
 				})}
 			</ul>
@@ -55,7 +55,7 @@ export class SourcePage extends LitElement {
 			flex-wrap: wrap;
 		}
 
-		wc-source {
+		e-source {
 			view-transition-name: source;
 		}
 

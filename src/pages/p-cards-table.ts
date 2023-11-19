@@ -1,12 +1,12 @@
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
+import { type CardSize } from '../elements/divination-card/e-divination-card.ts';
 import type { ISource } from '../data/ISource.interface.ts';
-import '../elements/divination-card/wc-divination-card.js';
+import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-act-area.js';
-import '../elements/wc-source.js';
+import '../elements/e-source.js';
 import '../elements/e-page-controls.ts';
-import './wc-cards-list.ts';
+import './e-cards-list.ts';
 import { PoeData } from '../PoeData.ts';
 
 declare global {
@@ -73,14 +73,14 @@ export class CardsTablePage extends LitElement {
 					</form>
 					<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
 				</header>
-				<wc-cards-list
+				<e-cards-list
 					.filter=${this.filter}
 					.sourcesByCards=${this.sourcesByCards}
 					.poeData=${this.poeData}
 					.page=${this.page}
 					.perPage=${this.perPage}
 					.cardSize=${this.cardSize}
-				></wc-cards-list>
+				></e-cards-list>
 			</div>
 		`;
 	}

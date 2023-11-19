@@ -2,7 +2,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ISource, SourceWithMember } from '../data/ISource.interface';
-import type { CardSize } from './divination-card/wc-divination-card';
+import type { CardSize } from './divination-card/e-divination-card';
 import './e-act-area';
 import './e-map';
 import './e-mapboss';
@@ -14,7 +14,7 @@ import { sourceHref } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-source': SourceElement;
+		'e-source': SourceElement;
 	}
 }
 
@@ -24,7 +24,7 @@ export class NoSourceInPoeDataError extends Error {
 	}
 }
 
-@customElement('wc-source')
+@customElement('e-source')
 export class SourceElement extends LitElement {
 	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) source!: ISource;

@@ -6,7 +6,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-divination-card': DivinationCardElement;
+		'e-divination-card': DivinationCardElement;
 	}
 }
 
@@ -20,7 +20,7 @@ export interface Props {
 }
 export interface Events {}
 
-@customElement('wc-divination-card')
+@customElement('e-divination-card')
 export class DivinationCardElement extends LitElement {
 	static override styles = styles();
 

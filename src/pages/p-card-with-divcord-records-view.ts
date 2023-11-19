@@ -2,8 +2,8 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '../elements/e-act-area.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
-import '../elements/divination-card/wc-divination-card.js';
-import '../elements/wc-sourceful-divcord-record.js';
+import '../elements/divination-card/e-divination-card.js';
+import '../elements/e-sourceful-divcord-record.js';
 import { PoeData } from '../PoeData.js';
 
 declare global {
@@ -20,19 +20,19 @@ export class CardWithDivcordRecordsPage extends LitElement {
 
 	render() {
 		return html`<div class="view">
-			<wc-divination-card
+			<e-divination-card
 				.minLevel=${this.poeData.minLevel(this.card)}
 				size="large"
 				.name=${this.card}
-			></wc-divination-card>
+			></e-divination-card>
 			<ul>
 				${this.records.map(
 					record =>
 						html`<li>
-							<wc-sourceful-divcord-record
+							<e-sourceful-divcord-record
 								.poeData=${this.poeData}
 								.record=${record}
-							></wc-sourceful-divcord-record>
+							></e-sourceful-divcord-record>
 						</li>`
 				)}
 			</ul>
@@ -40,7 +40,7 @@ export class CardWithDivcordRecordsPage extends LitElement {
 	}
 
 	static styles = css`
-		wc-divination-card {
+		e-divination-card {
 			view-transition-name: card;
 		}
 
