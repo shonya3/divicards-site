@@ -31,11 +31,13 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			</div>
 			<div class="wiki-agreements">
 				<h3>Wiki agreements</h3>
-				${(this.record.sources ?? []).map(
-					source => html`<li>
-						<e-source .poeData=${this.poeData} .source=${source}></e-source>
-					</li>`
-				)}
+				<ul class="wiki-agreements_sources">
+					${(this.record.sources ?? []).map(
+						source => html`<li>
+							<e-source .poeData=${this.poeData} .source=${source}></e-source>
+						</li>`
+					)}
+				</ul>
 			</div>
 			${this.wikiDisagreements()} ${this.sourcesWithTagButNotOnWiki()} ${this.notes()}
 		</div>`;
@@ -62,7 +64,10 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	}
 
 	protected sourcesWithTagButNotOnWiki() {
-		const markup = html`<div class="sourcesWithTagButNotOnWiki">${this.record.sourcesWithTagButNotOnWiki}</div>`;
+		const markup = html`<div class="sourcesWithTagButNotOnWiki">
+			<h3>Sources with Tag but not on wiki. Need to verify</h3>
+			${this.record.sourcesWithTagButNotOnWiki}
+		</div>`;
 		return this.record.sourcesWithTagButNotOnWiki ? markup : nothing;
 	}
 
@@ -109,10 +114,16 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		}
 
 		.wiki-agreements {
+			margin-top: 2rem;
+			margin-bottom: 4rem;
+		}
+
+		.wiki-agreements_sources {
+			margin-top: 0.5rem;
+			list-style: none;
 			display: flex;
 			gap: 0.8rem;
 			flex-wrap: wrap;
-			margin-top: 2rem;
 		}
 
 		.wikiDisagreements {
@@ -122,6 +133,9 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			margin-top: 2rem;
 		}
 
+		.sourcesWithTagButNotOnWiki {
+			margin-top: 2rem;
+		}
 		.notes {
 			max-width: 65ch;
 			font-size: 1rem;
