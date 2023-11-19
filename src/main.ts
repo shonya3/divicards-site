@@ -12,6 +12,8 @@ import './pages/p-source';
 import './pages/p-maps-table';
 import './pages/p-sources-table';
 import './pages/p-source-type-page';
+import './pages/e-card-with-sources';
+import './pages/p-cards-compact';
 import { customElement, query } from 'lit/decorators.js';
 import { loadDivcordRecords } from './loadDivcordRecords';
 
@@ -112,29 +114,45 @@ const cardsFinder = new CardsFinder(poeData, divcordRecords);
 
 export const router = new Router({
 	routes: [
+		// {
+		// 	path: '/',
+		// 	title: 'Divicards',
+		// 	render: ({ query }) =>
+		// 		html`<p-cards-table
+		// 			page=${query.page ?? 1}
+		// 			per-page=${query['per-page'] ?? 10}
+		// 			filter=${query.filter ?? ''}
+		// 			.poeData=${poeData}
+		// 			.sourcesByCards=${sourcesByCards}
+		// 		></p-cards-table>`,
+		// },
 		{
 			path: '/',
 			title: 'Divicards',
 			render: ({ query }) =>
-				html`<p-cards-table
+				html`<p-cards-compact
 					page=${query.page ?? 1}
 					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
-				></p-cards-table>`,
+					name="A Fate Worse Than Death"
+					.divcordTable=${divcordTable}
+				></p-cards-compact>`,
 		},
 		{
 			path: '/compact',
 			title: 'Divicards',
 			render: ({ query }) =>
-				html`<p-cards-table
+				html`<e-card-with-sources
 					page=${query.page ?? 1}
 					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
-				></p-cards-table>`,
+					name="A Fate Worse Than Death"
+					.divcordTable=${divcordTable}
+				></e-card-with-sources>`,
 		},
 		{
 			path: '/card/:name',

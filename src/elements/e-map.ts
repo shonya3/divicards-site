@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import type { IMap } from '../data/poeData.types';
 import { dispatchSetTransitionName } from '../events';
+import type { RenderMode } from './types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -13,11 +14,15 @@ declare global {
 @customElement('e-map')
 export class MapElement extends LitElement {
 	@property({ type: Object }) map!: IMap;
-	@property() mode: 'normal' | 'boss-tooltip' = 'normal';
 	@property({ reflect: true }) size: 'small' | 'medium' = 'medium';
 	@property({ reflect: true }) href = '';
+	@property() renderMode: RenderMode = 'normal';
+	@property({ type: Number }) imgWidth?: number;
 
 	get imageWidth() {
+		if (this.imgWidth !== undefined) {
+			return this.imgWidth;
+		}
 		switch (this.size) {
 			case 'small': {
 				return 40;
@@ -64,7 +69,7 @@ export class MapElement extends LitElement {
 				>
 					<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
 						><img
-							class=${classMap({ 'img-map-glyph': true, 'img--with-background': !this.map.unique })}
+							class=${classMap({ 'img-map-glyph': true })}
 							width=${this.imageWidth}
 							height=${this.imageWidth}
 							loading="lazy"
@@ -76,7 +81,7 @@ export class MapElement extends LitElement {
 	}
 
 	protected renderName() {
-		return this.mode === 'normal'
+		return this.renderMode === 'normal'
 			? html`
 					<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
 						>${this.map.name}</a
@@ -123,6 +128,9 @@ export class MapElement extends LitElement {
 		.img-wrapper {
 			display: flex;
 			justify-content: center;
+			width: var(--image-width, fit-content);
+			height: var(--image-width, fit-content);
+			margin-inline: auto;
 		}
 
 		.img-map-glyph {

@@ -11,6 +11,10 @@ export class SourcefulDivcordTable {
 		this.records = records;
 	}
 
+	cards() {
+		return Array.from(new Set(this.records.map(r => r.card)));
+	}
+
 	sourcesByCard(card: string): ISource[] {
 		const sources: ISource[] = [];
 		for (const record of this.records) {

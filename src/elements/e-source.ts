@@ -11,6 +11,7 @@ import './e-source-type';
 import { PoeData } from '../PoeData';
 import type { IMap } from '../data/poeData.types';
 import { sourceHref } from '../utils';
+import type { RenderMode } from './types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -30,6 +31,7 @@ export class SourceElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
 	@property({ type: Boolean }) showSourceType = true;
 	@property() size: CardSize = 'small';
+	@property() renderMode: RenderMode = 'normal';
 
 	get sourceHasSpecialElement() {
 		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
@@ -55,11 +57,12 @@ export class SourceElement extends LitElement {
 			case 'Act': {
 				const area = this.poeData.findActAreaById(this.source.id);
 				if (!area) throw new NoSourceInPoeDataError(this.source);
-				return html`<e-act-area
-					.href=${sourceHref(this.source)}
-					.actArea=${area}
-					.size=${this.size === 'medium' ? 'large' : this.size}
-				></e-act-area>`;
+				let size: CardSize = this.size === 'medium' ? 'large' : this.size;
+				if (this.renderMode === 'compact') {
+					size = 'small';
+				}
+
+				return html`<e-act-area .href=${sourceHref(this.source)} .actArea=${area} .size=${size}></e-act-area>`;
 			}
 			case 'Act Boss': {
 				const res = this.poeData.findActbossAndArea(this.source.id);
@@ -68,6 +71,7 @@ export class SourceElement extends LitElement {
 					.href=${sourceHref(this.source)}
 					.boss=${res.actAreaBoss}
 					.actArea=${res.area}
+					.renderMode=${this.renderMode}
 				></e-actboss>`;
 			}
 			case 'Map': {
@@ -77,6 +81,7 @@ export class SourceElement extends LitElement {
 					.href=${sourceHref(this.source)}
 					.size=${this.size === 'large' ? 'medium' : this.size}
 					.map=${map}
+					.renderMode=${this.renderMode}
 				></e-map>`;
 			}
 			case 'Map Boss': {
@@ -87,6 +92,7 @@ export class SourceElement extends LitElement {
 					.size=${this.size}
 					.boss=${res.mapboss}
 					.maps=${res.maps}
+					.renderMode=${this.renderMode}
 				></e-mapboss>`;
 			}
 			default: {
@@ -111,7 +117,7 @@ export class SourceElement extends LitElement {
 					'font--larger': !this.sourceHasSpecialElement,
 				})}
 			>
-				${this.showSourceType
+				${this.showSourceType && (this.renderMode === 'normal' || this.source.kind === 'empty-source')
 					? html`<e-source-type class="source-type" .sourceType=${this.source.type}></e-source-type>`
 					: nothing}
 				<div class="inner">${this.sourceElement()}</div>
@@ -133,8 +139,7 @@ export class SourceElement extends LitElement {
 		}
 
 		.source {
-			--source-font-size: 20px;
-			font-size: var(--source-font-size);
+			font-size: var(--source-font-size, 1rem);
 			display: flex;
 			width: var(--source-width);
 			object-fit: contain;
@@ -149,7 +154,7 @@ export class SourceElement extends LitElement {
 
 		.source--medium,
 		.source--large {
-			--source-font-size: 24px;
+			--source-font-size: 1rem;
 		}
 
 		.inner {
