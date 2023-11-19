@@ -74,6 +74,7 @@ export class MapElement extends LitElement {
 							height=${this.imageWidth}
 							loading="lazy"
 							src=${this.map.icon}
+							alt=${this.map.name}
 					/></a>
 				</div>
 			</div>
