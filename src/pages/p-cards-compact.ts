@@ -90,6 +90,7 @@ export class CardsCompactPage extends LitElement {
 			gap: 4rem;
 			max-width: 1600px;
 			margin-inline: auto;
+			justify-content: center;
 		}
 	`;
 }
