@@ -132,7 +132,7 @@ export const router = new Router({
 			render: ({ query }) =>
 				html`<p-cards-compact
 					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 10}
+					per-page=${query['per-page'] ?? 14}
 					filter=${query.filter ?? ''}
 					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}

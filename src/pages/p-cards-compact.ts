@@ -26,6 +26,17 @@ export class CardsCompactPage extends LitElement {
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 	@property({ reflect: true }) filter: string = '';
 
+	async #onCardnameInput(e: InputEvent) {
+		const input = e.target;
+		if (!(input instanceof HTMLInputElement)) {
+			return;
+		}
+
+		this.page = 1;
+
+		this.filter = input.value;
+	}
+
 	get filtered() {
 		const filter = this.filter.trim().toLowerCase();
 		// return Object.entries(this.divcordTable.cards())
@@ -40,7 +51,13 @@ export class CardsCompactPage extends LitElement {
 	}
 
 	render() {
-		return html` <e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
+		return html` <form>
+				<div>
+					<label for="input-cardname">search card</label>
+					<input @input="${this.#onCardnameInput}" type="text" id="input-cardname" />
+				</div>
+			</form>
+			<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
 			<ul class="cards">
 				${this.paginated.map(card => {
 					return html`<e-card-with-sources
