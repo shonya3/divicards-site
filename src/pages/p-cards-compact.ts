@@ -86,6 +86,7 @@ export class CardsCompactPage extends LitElement {
 		.cards {
 			display: flex;
 			flex-wrap: wrap;
+			list-style: none;
 		}
 	`;
 }
