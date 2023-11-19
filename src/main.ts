@@ -11,7 +11,7 @@ import { CardsFinder } from './data/CardsFinder';
 import './pages/p-source';
 import './pages/p-maps-table';
 import './pages/p-sources-table';
-import './pages/p-source-type-page';
+import './pages/p-source-type';
 import './pages/e-card-with-sources';
 import './pages/p-cards-compact';
 import { customElement, query } from 'lit/decorators.js';
@@ -208,11 +208,11 @@ export const router = new Router({
 			title: context => context.params!.id,
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
-				return html`<e-source-type-page
+				return html`<p-source-type
 					.poeData=${poeData}
 					.divcordTable=${divcordTable}
 					.sourceType=${sourceType}
-				></e-source-type-page>`;
+				></p-source-type>`;
 			},
 		},
 	],

@@ -5,6 +5,7 @@ import { PoeData } from '../PoeData.ts';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import '../elements/e-source-type.ts';
+import './p-sources-table.ts';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord.ts';
 
 declare global {
@@ -34,7 +35,7 @@ export class SourceTypePage extends LitElement {
 			const cardsBySources = cards.map(([sourceId, cards]) => {
 				return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards];
 			});
-			return html`<e-sources-table
+			return html`<p-sources-table
 				.firstColumnName=${this.sourceType}
 				size="medium"
 				.showSourceType=${false}
@@ -42,7 +43,7 @@ export class SourceTypePage extends LitElement {
 				.cardsBySources=${cardsBySources}
 			>
 				<e-source-type .sourceType=${this.sourceType}></e-source-type>
-			</e-sources-table>`;
+			</p-sources-table>`;
 		} else throw new Error('Unsupported source kind');
 	}
 
