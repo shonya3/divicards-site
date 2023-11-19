@@ -48,6 +48,15 @@ export class ActBossElement extends LitElement {
 			margin: 0;
 		}
 
+		:host {
+			color: var(--source-color, #bbbbbb);
+		}
+
+		a,
+		a:visited {
+			color: var(--source-color, #bbbbbb);
+		}
+
 		.bossname {
 			width: fit-content;
 		}

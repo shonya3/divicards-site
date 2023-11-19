@@ -96,11 +96,17 @@ export class MapElement extends LitElement {
 			display: inline-block;
 			object-fit: contain;
 			contain: content;
+			color: var(--source-color, #bbbbbb);
 		}
 
 		* {
 			padding: 0;
 			margin: 0;
+		}
+
+		a,
+		a:visited {
+			color: var(--source-color, #bbbbbb);
 		}
 
 		.map {

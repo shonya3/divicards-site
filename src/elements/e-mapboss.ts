@@ -56,6 +56,15 @@ export class MapBossElement extends LitElement {
 			margin: 0;
 		}
 
+		:host {
+			color: var(--source-color, #bbbbbb);
+		}
+
+		a,
+		a:visited {
+			color: var(--source-color, #bbbbbb);
+		}
+
 		.mapboss {
 			width: fit-content;
 		}

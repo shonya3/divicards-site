@@ -147,6 +147,11 @@ export class SourceElement extends LitElement {
 			flex-direction: column;
 		}
 
+		a,
+		a:visited {
+			color: var(--source-color, #bbbbbb);
+		}
+
 		.source-type {
 			width: fit-content;
 			margin-inline: auto;
