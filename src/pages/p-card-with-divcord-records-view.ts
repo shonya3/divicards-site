@@ -40,12 +40,29 @@ export class CardWithDivcordRecordsPage extends LitElement {
 	}
 
 	static styles = css`
+		.view {
+			display: flex;
+		}
+
 		e-divination-card {
 			view-transition-name: card;
 		}
 
 		ul {
 			list-style: none;
+			display: flex;
+			gap: 2rem;
+			flex-wrap: wrap;
+		}
+
+		@media (max-width: 600px) {
+			.view {
+				flex-direction: column;
+			}
+
+			ul {
+				flex-direction: column;
+			}
 		}
 	`;
 }

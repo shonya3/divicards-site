@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
 import './e-source.js';
 import { PoeData } from '../PoeData.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,17 +15,28 @@ declare global {
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: SourcefulDivcordTableRecord;
 	@property({ type: Object }) poeData!: PoeData;
+
 	protected render() {
 		return html`<div class="record">
 			${this.greynote()}
 			<div>${this.record.card}</div>
 			${this.tagHypothesis()}
-			<div>${this.record.confidence}</div>
-			<ul class="dropsources">
+			<div
+				class=${classMap({
+					confidence: true,
+					[`confidence--${this.record.confidence}`]: true,
+				})}
+			>
+				${this.record.confidence}
+			</div>
+			<div class="wiki-agreements">
+				<h3>Wiki agreements</h3>
 				${(this.record.sources ?? []).map(
-					source => html`<e-source .poeData=${this.poeData} .source=${source}></e-source>`
+					source => html`<li>
+						<e-source .poeData=${this.poeData} .source=${source}></e-source>
+					</li>`
 				)}
-			</ul>
+			</div>
 			${this.wikiDisagreements()} ${this.sourcesWithTagButNotOnWiki()} ${this.notes()}
 		</div>`;
 	}
@@ -35,12 +47,17 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	}
 
 	protected tagHypothesis() {
-		const markup = html`<div class="tagHypothesis">${this.record.tagHypothesis}</div>`;
+		const markup = html`<div class="tagHypothesis">
+			<h2>${this.record.tagHypothesis}</h2>
+		</div>`;
 		return this.record.tagHypothesis ? markup : nothing;
 	}
 
 	protected wikiDisagreements() {
-		const markup = html`<div class="wikiDisagreements">${this.record.wikiDisagreements}</div>`;
+		const markup = html`<div class="wikiDisagreements">
+			<h3>Wiki disagreements</h3>
+			<p>${this.record.wikiDisagreements}</p>
+		</div>`;
 		return this.record.wikiDisagreements ? markup : nothing;
 	}
 
@@ -50,7 +67,10 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	}
 
 	protected notes() {
-		const markup = html`<div class="notes">${this.record.notes}</div>`;
+		const markup = html`<div class="notes">
+			<h3>notes</h3>
+			<p>${this.record.notes}</p>
+		</div>`;
 		return this.record.notes ? markup : nothing;
 	}
 
@@ -60,10 +80,52 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			margin: 0;
 		}
 
-		.dropsources {
+		.record {
+			max-width: 600px;
+		}
+
+		.greynote {
+			color: #bbb;
+			font-style: italic;
+		}
+
+		/** Confidence */
+
+		.confidence {
+			padding: 2rem;
+		}
+
+		.confidence--done {
+			background-color: green;
+		}
+		.confidence--ok {
+			background-color: lightblue;
+		}
+		.confidence--none {
+			background-color: red;
+		}
+		.confidence--low {
+			background-color: orange;
+		}
+
+		.wiki-agreements {
 			display: flex;
 			gap: 0.8rem;
 			flex-wrap: wrap;
+			margin-top: 2rem;
+		}
+
+		.wikiDisagreements {
+			display: flex;
+			gap: 0.8rem;
+			flex-wrap: wrap;
+			margin-top: 2rem;
+		}
+
+		.notes {
+			max-width: 65ch;
+			font-size: 1rem;
+			margin-top: 2rem;
 		}
 	`;
 }
