@@ -123,7 +123,11 @@ export class SourcesTableElement extends LitElement {
 											// const minLevel =
 											// 	this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
 											return html`<li>
-												<wc-divination-card size=${this.size} name=${card}></wc-divination-card>
+												<wc-divination-card
+													.minLevel=${this.poeData.minLevel(card)}
+													size=${this.size}
+													name=${card}
+												></wc-divination-card>
 											</li>`;
 										})}
 									</ul>

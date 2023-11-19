@@ -20,7 +20,11 @@ export class CardWithDivcordRecordsViewElement extends LitElement {
 
 	render() {
 		return html`<div class="view">
-			<wc-divination-card size="large" .name=${this.card}></wc-divination-card>
+			<wc-divination-card
+				.minLevel=${this.poeData.minLevel(this.card)}
+				size="large"
+				.name=${this.card}
+			></wc-divination-card>
 			<ul>
 				${this.records.map(
 					record =>
