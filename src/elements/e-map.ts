@@ -6,11 +6,11 @@ import { dispatchSetTransitionName } from '../events';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-map': MapElement;
+		'e-map': MapElement;
 	}
 }
 
-@customElement('wc-map')
+@customElement('e-map')
 export class MapElement extends LitElement {
 	@property({ type: Object }) map!: IMap;
 	@property() mode: 'normal' | 'boss-tooltip' = 'normal';

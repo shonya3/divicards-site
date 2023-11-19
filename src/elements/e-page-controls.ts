@@ -4,11 +4,11 @@ import { router } from '../main';
 
 declare global {
 	interface HTMlElementTagNameMap {
-		'wc-page-controls': PageControlsElement;
+		'e-page-controls': PageControlsElement;
 	}
 }
 
-@customElement('wc-page-controls')
+@customElement('e-page-controls')
 export class PageControlsElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;

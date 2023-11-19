@@ -8,7 +8,7 @@ import { ISource } from '../data/ISource.interface.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-sources-table': SourcesTableElement;
+		'p-sources-table': SourcesTablePage;
 	}
 }
 
@@ -18,8 +18,8 @@ export const paginate = <T>(arr: T[], page: number, perPage: number) => {
 	return arr.slice(start, end);
 };
 
-@customElement('wc-sources-table')
-export class SourcesTableElement extends LitElement {
+@customElement('p-sources-table')
+export class SourcesTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ type: Object }) poeData!: Readonly<PoeData>;
@@ -85,7 +85,7 @@ export class SourcesTableElement extends LitElement {
 						</select>
 					</div>
 				</form>
-				<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
+				<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
 			</header>
 
 			!-->

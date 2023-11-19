@@ -4,16 +4,16 @@ import type { SourceType } from '../data/ISource.interface.ts';
 import { PoeData } from '../PoeData.ts';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/wc-source.js';
-import '../elements/wc-source-type.ts';
+import '../elements/e-source-type.ts';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-source-type-page': SourceTypePage;
+		'p-source-type': SourceTypePage;
 	}
 }
 
-@customElement('wc-source-type-page')
+@customElement('p-source-type')
 export class SourceTypePage extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
 	@property({ type: Object }) poeData!: PoeData;
@@ -22,7 +22,7 @@ export class SourceTypePage extends LitElement {
 	protected mainBlock() {
 		const { cards, kind } = this.divcordTable.cardsBySourceType(this.sourceType);
 		if (kind === 'empty-source') {
-			return html` <wc-source-type .sourceType=${this.sourceType}></wc-source-type>
+			return html` <e-source-type .sourceType=${this.sourceType}></e-source-type>
 				<ul>
 					${cards.map(card => {
 						return html`<li>
@@ -41,7 +41,7 @@ export class SourceTypePage extends LitElement {
 				.poeData=${this.poeData}
 				.cardsBySources=${cardsBySources}
 			>
-				<wc-source-type .sourceType=${this.sourceType}></wc-source-type>
+				<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			</wc-sources-table>`;
 		} else throw new Error('Unsupported source kind');
 	}
@@ -57,7 +57,7 @@ export class SourceTypePage extends LitElement {
 			flex-wrap: wrap;
 		}
 
-		wc-source-type {
+		e-source-type {
 			view-transition-name: source-type;
 		}
 	`;

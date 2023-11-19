@@ -1,17 +1,17 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { IActArea, IBossfight } from '../data/poeData.types';
-import './wc-act-area';
+import './e-act-area';
 import { dispatchSetTransitionName } from '../events';
 import { sourceHref } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-actboss': ActBossElement;
+		'e-actboss': ActBossElement;
 	}
 }
 
-@customElement('wc-actboss')
+@customElement('e-actboss')
 export class ActBossElement extends LitElement {
 	@property({ type: Object }) boss!: IBossfight;
 	@property({ type: Object }) actArea!: IActArea;
@@ -19,12 +19,12 @@ export class ActBossElement extends LitElement {
 
 	protected render() {
 		return html`<div class="actboss">
-			<wc-act-area
+			<e-act-area
 				.href=${sourceHref({ type: 'Act', id: this.actArea.id, kind: 'source-with-member' })}
 				class="act-area"
 				size="small"
 				.actArea=${this.actArea}
-			></wc-act-area>
+			></e-act-area>
 
 			<a href=${this.href} @click=${dispatchSetTransitionName.bind(this, 'source')} class="bossname"
 				>${this.boss.name}</a

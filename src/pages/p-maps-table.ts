@@ -7,7 +7,7 @@ import { PoeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-maps-table': MapsTableElement;
+		'p-maps-table': MapsTablePage;
 	}
 }
 
@@ -17,8 +17,8 @@ const paginate = <T>(arr: T[], page: number, perPage: number) => {
 	return arr.slice(start, end);
 };
 
-@customElement('wc-maps-table')
-export class MapsTableElement extends LitElement {
+@customElement('p-maps-table')
+export class MapsTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ type: Object }) poeData!: Readonly<PoeData>;
@@ -81,7 +81,7 @@ export class MapsTableElement extends LitElement {
 						</select>
 					</div>
 				</form>
-				<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
+				<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
 			</header>
 			${this.table()}
 		`;

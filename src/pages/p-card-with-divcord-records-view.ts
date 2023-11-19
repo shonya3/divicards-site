@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import '../elements/wc-act-area.js';
+import '../elements/e-act-area.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
 import '../elements/divination-card/wc-divination-card.js';
 import '../elements/wc-sourceful-divcord-record.js';
@@ -8,12 +8,12 @@ import { PoeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-card-with-divcord-records-view': CardWithDivcordRecordsViewElement;
+		'p-card-with-divcord-records': CardWithDivcordRecordsPage;
 	}
 }
 
-@customElement('wc-card-with-divcord-records-view')
-export class CardWithDivcordRecordsViewElement extends LitElement {
+@customElement('p-card-with-divcord-records')
+export class CardWithDivcordRecordsPage extends LitElement {
 	@property({ type: Object }) poeData!: PoeData;
 	@property({ reflect: true }) card!: string;
 	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];

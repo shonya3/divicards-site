@@ -4,7 +4,7 @@ import { LitElement, css, html } from 'lit';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-source-type': SourceTypeElement;
+		'e-source-type': SourceTypeElement;
 	}
 }
 
@@ -12,7 +12,7 @@ export function sourceTypeHref(sourceType: SourceType) {
 	return `/source-type/${sourceType}`;
 }
 
-@customElement('wc-source-type')
+@customElement('e-source-type')
 export class SourceTypeElement extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
 

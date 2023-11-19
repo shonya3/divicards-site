@@ -3,11 +3,11 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ISource, SourceWithMember } from '../data/ISource.interface';
 import type { CardSize } from './divination-card/wc-divination-card';
-import './wc-act-area';
-import './wc-map';
-import './wc-mapboss';
-import './wc-actboss';
-import './wc-source-type';
+import './e-act-area';
+import './e-map';
+import './e-mapboss';
+import './e-actboss';
+import './e-source-type';
 import { PoeData } from '../PoeData';
 import type { IMap } from '../data/poeData.types';
 import { sourceHref } from '../utils';
@@ -55,39 +55,39 @@ export class SourceElement extends LitElement {
 			case 'Act': {
 				const area = this.poeData.findActAreaById(this.source.id);
 				if (!area) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-act-area
+				return html`<e-act-area
 					.href=${sourceHref(this.source)}
 					.actArea=${area}
 					.size=${this.size === 'medium' ? 'large' : this.size}
-				></wc-act-area>`;
+				></e-act-area>`;
 			}
 			case 'Act Boss': {
 				const res = this.poeData.findActbossAndArea(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-actboss
+				return html`<e-actboss
 					.href=${sourceHref(this.source)}
 					.boss=${res.actAreaBoss}
 					.actArea=${res.area}
-				></wc-actboss>`;
+				></e-actboss>`;
 			}
 			case 'Map': {
 				const map = this.poeData.findMap(this.source.id);
 				if (!map) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-map
+				return html`<e-map
 					.href=${sourceHref(this.source)}
 					.size=${this.size === 'large' ? 'medium' : this.size}
 					.map=${map}
-				></wc-map>`;
+				></e-map>`;
 			}
 			case 'Map Boss': {
 				const res = this.poeData.findMapbossAndMaps(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
-				return html`<wc-mapboss
+				return html`<e-mapboss
 					.href=${sourceHref(this.source)}
 					.size=${this.size}
 					.boss=${res.mapboss}
 					.maps=${res.maps}
-				></wc-mapboss>`;
+				></e-mapboss>`;
 			}
 			default: {
 				if (!this.source.id) return nothing;
@@ -101,7 +101,7 @@ export class SourceElement extends LitElement {
 	}
 
 	render() {
-		customElements.get('wc-source-type');
+		customElements.get('e-source-type');
 
 		return html`
 			<div
@@ -112,7 +112,7 @@ export class SourceElement extends LitElement {
 				})}
 			>
 				${this.showSourceType
-					? html`<wc-source-type class="source-type" .sourceType=${this.source.type}></wc-source-type>`
+					? html`<e-source-type class="source-type" .sourceType=${this.source.type}></e-source-type>`
 					: nothing}
 				<div class="inner">${this.sourceElement()}</div>
 			</div>
@@ -164,7 +164,7 @@ export class SourceElement extends LitElement {
 			<div style="padding: 2rem; position: relative;">
 				<p>${name}</p>
 				<ul style="position: absolute; top: -1.6rem; right: -12px" class="maps">
-					${iMaps.map(m => html`<wc-map .map=${m}></wc-map>`)}
+					${iMaps.map(m => html`<e-map .map=${m}></e-map>`)}
 				</ul>
 			</div>
 		`;

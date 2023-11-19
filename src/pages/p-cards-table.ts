@@ -3,20 +3,20 @@ import { customElement, property } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/wc-divination-card.ts';
 import type { ISource } from '../data/ISource.interface.ts';
 import '../elements/divination-card/wc-divination-card.js';
-import '../elements/wc-act-area.js';
+import '../elements/e-act-area.js';
 import '../elements/wc-source.js';
-import '../elements/wc-page-controls.ts';
+import '../elements/e-page-controls.ts';
 import './wc-cards-list.ts';
 import { PoeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-cards-table': CardsTableElement;
+		'p-cards-table': CardsTablePage;
 	}
 }
 
-@customElement('wc-cards-table')
-export class CardsTableElement extends LitElement {
+@customElement('p-cards-table')
+export class CardsTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) cardSize: CardSize = 'small';
@@ -71,7 +71,7 @@ export class CardsTableElement extends LitElement {
 							</select>
 						</div>
 					</form>
-					<wc-page-controls page=${this.page} per-page=${this.perPage}></wc-page-controls>
+					<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
 				</header>
 				<wc-cards-list
 					.filter=${this.filter}

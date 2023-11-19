@@ -8,11 +8,11 @@ import { CardsFinder } from '../data/CardsFinder.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-source-page': SourcePage;
+		'p-source': SourcePage;
 	}
 }
 
-@customElement('wc-source-page')
+@customElement('p-source')
 export class SourcePage extends LitElement {
 	@property({ type: Object }) source!: ISource;
 	@property({ type: Object }) poeData!: PoeData;
@@ -59,7 +59,7 @@ export class SourcePage extends LitElement {
 			view-transition-name: source;
 		}
 
-		wc-source-type {
+		e-source-type {
 			view-transition-name: source-type;
 		}
 	`;

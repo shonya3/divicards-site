@@ -1,17 +1,17 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IMapBoss, IMap } from '../data/poeData.types';
-import './wc-map.js';
-import { dispatchSetTransitionName } from '../events';
-import { sourceHref } from '../utils';
+import type { IMapBoss, IMap } from '../data/poeData.types.js';
+import './e-map.js';
+import { dispatchSetTransitionName } from '../events.js';
+import { sourceHref } from '../utils.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-mapboss': MapBossElement;
+		'e-mapboss': MapBossElement;
 	}
 }
 
-@customElement('wc-mapboss')
+@customElement('e-mapboss')
 export class MapBossElement extends LitElement {
 	@property({ type: Object }) boss!: IMapBoss;
 	@property({ type: Array }) maps: IMap[] = [];
@@ -23,11 +23,11 @@ export class MapBossElement extends LitElement {
 			<ul class="maplist" style="" class="maps">
 				${this.maps.map(
 					m =>
-						html`<wc-map
+						html`<e-map
 							.href=${sourceHref({ type: 'Map', id: m.name, kind: 'source-with-member' })}
 							.size=${this.size === 'large' ? 'medium' : this.size}
 							.map=${m}
-						></wc-map>`
+						></e-map>`
 				)}
 			</ul>
 			<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"

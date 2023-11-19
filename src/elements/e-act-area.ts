@@ -6,13 +6,13 @@ import { dispatchSetTransitionName } from '../events';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'wc-act-area': ActAreaElement;
+		'e-act-area': ActAreaElement;
 	}
 }
 
 export type Size = 'small' | 'large';
 
-@customElement('wc-act-area')
+@customElement('e-act-area')
 export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
 
