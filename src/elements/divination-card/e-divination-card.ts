@@ -213,6 +213,7 @@ function styles() {
 			--reward-letter-spacing: -0.4px;
 			--card-width: var(--card-width-large);
 			--name-font-size: 24px;
+			--name-line-height: 17px;
 		}
 
 		.skeleton {
@@ -230,10 +231,10 @@ function styles() {
 		}
 
 		.name {
-			line-height: 24px;
+			line-height: var(--name-line-height, 1.5rem);
 			font-size: var(--name-font-size, 1rem);
+			letter-spacing: -0.6px;
 			z-index: 4;
-			font-weight: 600;
 			color: #111;
 		}
 
