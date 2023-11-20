@@ -227,7 +227,7 @@ function styles() {
 		}
 
 		a {
-			color: #111;
+			color: #000;
 		}
 
 		.name {
@@ -235,7 +235,6 @@ function styles() {
 			font-size: var(--name-font-size, 1rem);
 			letter-spacing: -0.6px;
 			z-index: 4;
-			color: #111;
 		}
 
 		.stackSize {
