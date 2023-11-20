@@ -4,6 +4,7 @@ import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord
 import './e-source.js';
 import { PoeData } from '../PoeData.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -15,6 +16,11 @@ declare global {
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: SourcefulDivcordTableRecord;
 	@property({ type: Object }) poeData!: PoeData;
+
+	formattedNotes() {
+		const text = this.record.notes?.replaceAll('\n', '<br>');
+		return unsafeHTML(text);
+	}
 
 	protected render() {
 		return html`<div class="record">
@@ -77,7 +83,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	protected notes() {
 		const markup = html`<div class="notes">
 			<h3>notes</h3>
-			<p>${this.record.notes}</p>
+			<p>${this.formattedNotes()}</p>
 		</div>`;
 		return this.record.notes ? markup : nothing;
 	}
