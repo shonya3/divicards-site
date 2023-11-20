@@ -210,6 +210,7 @@ function styles() {
 		.divination-card--large {
 			--reward-font-size: 1.2rem;
 			--reward-line-height: 1.15rem;
+			--reward-letter-spacing: -0.4px;
 			--card-width: var(--card-width-large);
 			--name-font-size: 24px;
 		}
@@ -275,6 +276,7 @@ function styles() {
 		.reward {
 			font-size: var(--reward-font-size, 0.8rem);
 			line-height: var(--reward-line-height);
+			letter-spacing: var(--reward-letter-spacing);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
