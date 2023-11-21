@@ -12,7 +12,6 @@ import './pages/p-source';
 import './pages/p-maps-table';
 import './pages/p-sources-table';
 import './pages/p-source-type';
-import './pages/e-card-with-sources';
 import './pages/p-home';
 import './pages/p-divcord';
 import { customElement, query } from 'lit/decorators.js';
@@ -173,6 +172,7 @@ export const router = new Router({
 					.card=${name}
 					.records=${divcordTable.recordsByCard(name)}
 					.poeData=${poeData}
+					.divcordTable=${divcordTable}
 				></p-card>`;
 			},
 		},

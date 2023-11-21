@@ -4,6 +4,7 @@ import type { CardSize } from '../elements/divination-card/e-divination-card';
 import { PoeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import '../elements/e-page-controls';
+import './e-card-with-sources';
 
 declare global {
 	interface HTMLElementTagNameMap {

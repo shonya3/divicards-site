@@ -4,6 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import { PoeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
+import type { RenderMode } from '../elements/types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -18,6 +19,7 @@ export class CardWithSourcesElement extends LitElement {
 	@property({ type: Number }) minLevel?: number;
 	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
+	@property() renderMode: RenderMode = 'compact';
 
 	render() {
 		const wrapperStyles = styleMap({
@@ -34,7 +36,7 @@ export class CardWithSourcesElement extends LitElement {
 				<ul class="sources">
 					${this.divcordTable.sourcesByCard(this.name).map(source => {
 						return html`<e-source
-							renderMode="compact"
+							renderMode=${this.renderMode}
 							.poeData=${this.poeData}
 							.source=${source}
 							.size=${this.size}

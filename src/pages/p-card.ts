@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
+import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
 import { PoeData } from '../PoeData';
 
 declare global {
@@ -14,18 +14,42 @@ export class CardPage extends LitElement {
 	@property({ type: Object }) poeData!: PoeData;
 	@property({ reflect: true }) card!: string;
 	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];
+	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	render() {
-		return html`<e-card-with-divcord-records
-			.poeData=${this.poeData}
-			.card=${this.card}
-			.records=${this.records}
-		></e-card-with-divcord-records>`;
+		return html`<div class="page">
+			<e-card-with-divcord-records .poeData=${this.poeData} .card=${this.card} .records=${this.records}>
+				<e-card-with-sources
+					slot="card"
+					.name=${this.card}
+					size="large"
+					.minLevel=${this.poeData.minLevel(this.card)}
+					.poeData=${this.poeData}
+					.divcordTable=${this.divcordTable}
+				></e-card-with-sources>
+			</e-card-with-divcord-records>
+		</div>`;
 	}
 
 	static styles = css`
-		e-card-with-divcord-records::part(card) {
+		e-card-with-sources {
 			view-transition-name: card;
+		}
+
+		.page {
+			padding: 2rem;
+		}
+
+		@media (width < 600px) {
+			.page {
+				margin-top: 1rem;
+				padding: 0.5rem;
+			}
+
+			e-card-with-sources {
+				width: fit-content;
+				margin-inline: auto;
+			}
 		}
 	`;
 }

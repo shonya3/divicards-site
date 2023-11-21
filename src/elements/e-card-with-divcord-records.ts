@@ -20,12 +20,14 @@ export class CardWithDivcordRecordsElement extends LitElement {
 
 	render() {
 		return html`<div class="view">
-			<e-divination-card
-				part="card"
-				.minLevel=${this.poeData.minLevel(this.card)}
-				size="large"
-				.name=${this.card}
-			></e-divination-card>
+			<slot name="card">
+				<e-divination-card
+					part="card"
+					.minLevel=${this.poeData.minLevel(this.card)}
+					size="large"
+					.name=${this.card}
+				></e-divination-card>
+			</slot>
 			<ul>
 				${this.records.map(
 					record =>
@@ -43,6 +45,13 @@ export class CardWithDivcordRecordsElement extends LitElement {
 	static styles = css`
 		.view {
 			display: flex;
+			gap: 2rem;
+		}
+
+		* {
+			padding: 0rem;
+			margin: 0rem;
+			box-sizing: border-box;
 		}
 
 		ul {
