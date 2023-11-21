@@ -7,7 +7,7 @@ import '../elements/e-page-controls';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'p-cards-compact': CardsCompactPage;
+		'p-home': HomePage;
 	}
 }
 
@@ -17,8 +17,8 @@ const paginate = <T>(arr: T[], page: number, perPage: number) => {
 	return arr.slice(start, end);
 };
 
-@customElement('p-cards-compact')
-export class CardsCompactPage extends LitElement {
+@customElement('p-home')
+export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'medium';

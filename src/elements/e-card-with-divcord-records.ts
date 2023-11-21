@@ -1,19 +1,19 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import '../elements/e-act-area.js';
+import './e-act-area.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
-import '../elements/divination-card/e-divination-card.js';
-import '../elements/e-sourceful-divcord-record.js';
+import './divination-card/e-divination-card.js';
+import './e-sourceful-divcord-record.js';
 import { PoeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'p-card-with-divcord-records': CardWithDivcordRecordsPage;
+		'e-card-with-divcord-records': CardWithDivcordRecordsElement;
 	}
 }
 
-@customElement('p-card-with-divcord-records')
-export class CardWithDivcordRecordsPage extends LitElement {
+@customElement('e-card-with-divcord-records')
+export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ type: Object }) poeData!: PoeData;
 	@property({ reflect: true }) card!: string;
 	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];
@@ -21,6 +21,7 @@ export class CardWithDivcordRecordsPage extends LitElement {
 	render() {
 		return html`<div class="view">
 			<e-divination-card
+				part="card"
 				.minLevel=${this.poeData.minLevel(this.card)}
 				size="large"
 				.name=${this.card}
@@ -42,10 +43,6 @@ export class CardWithDivcordRecordsPage extends LitElement {
 	static styles = css`
 		.view {
 			display: flex;
-		}
-
-		e-divination-card {
-			view-transition-name: card;
 		}
 
 		ul {
