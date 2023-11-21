@@ -135,7 +135,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		.wiki-agreements {
 			margin-top: 2rem;
-			margin-bottom: 4rem;
 		}
 
 		.wiki-agreements_sources {
