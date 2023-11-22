@@ -1,11 +1,11 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IActArea, IBossfight } from '../data/poeData.types';
 import './e-act-area';
 import { dispatchSetTransitionName } from '../events';
 import { sourceHref } from '../utils';
 import type { RenderMode } from './types';
+import type { IActArea, IBossfight } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

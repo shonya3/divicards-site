@@ -1,6 +1,5 @@
 import { SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
-import { PoeData } from '../PoeData';
-import { ICard, IMap } from './poeData.types';
+import { ICard, IMap, PoeData } from '../PoeData';
 import { ISource, SourceWithMember } from './ISource.interface';
 
 export const includesMap = (name: string, maps: string[]): boolean => {

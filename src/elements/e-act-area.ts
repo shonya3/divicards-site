@@ -1,8 +1,8 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { IActArea } from '../data/poeData.types';
 import { dispatchSetTransitionName } from '../events';
+import type { IActArea } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

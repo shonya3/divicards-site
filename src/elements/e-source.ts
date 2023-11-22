@@ -8,8 +8,7 @@ import './e-map';
 import './e-mapboss';
 import './e-actboss';
 import './e-source-type';
-import { PoeData } from '../PoeData';
-import type { IMap } from '../data/poeData.types';
+import { IMap, PoeData } from '../PoeData';
 import { sourceHref } from '../utils';
 import type { RenderMode } from './types';
 

@@ -1,5 +1,5 @@
-import { ISourcefulDivcordTableRecord } from './data/records.types.js';
-import { poeDataJson } from './jsons/jsons.js';
+import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import { poeDataJson } from './jsons/jsons';
 const ONE_DAY_MILLISECONDS = 86_400_000;
 
 const sheetUrl = () => {
