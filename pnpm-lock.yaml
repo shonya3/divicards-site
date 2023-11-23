@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@lit/task':
+    specifier: ^1.0.0
+    version: 1.0.0
   '@thepassle/app-tools':
     specifier: ^0.9.9
     version: 0.9.9
@@ -269,6 +272,12 @@ packages:
     resolution: {integrity: sha512-eu50SQXHRthFwWJMp0oAFg95Rvm6MTPjxSXWuvAu7It90WVFLFpNBoIno7XOXSDvVgTrtKnUV4OLJqys2Svn4g==}
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.1.2
+    dev: false
+
+  /@lit/task@1.0.0:
+    resolution: {integrity: sha512-7jocGBh3yGlo3kKxQggZph2txK4X5GYNWp2FAsmV9u2spzUypwrzRzXe8I72icAb02B00+k2nlvxVcrQB6vyrw==}
+    dependencies:
+      '@lit/reactive-element': 2.0.1
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:

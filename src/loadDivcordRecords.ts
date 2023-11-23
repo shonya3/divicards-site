@@ -34,7 +34,10 @@ async function serializeResponses(richResponse: Response, sheetResponse: Respons
 	return { rich_sources_column, sheet };
 }
 
-export async function divcordDataAgeMilliseconds(cache: Cache) {
+export async function divcordDataAgeMilliseconds(cache?: Cache) {
+	if (!cache) {
+		cache = await caches.open('divcord');
+	}
 	const { richResponse, sheetResponse } = await loadCachedResponses(cache);
 	if (!richResponse || !sheetResponse) return null;
 

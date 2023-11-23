@@ -19,6 +19,7 @@
 		"vite-plugin-wasm": "^3.2.2"
 	},
 	"dependencies": {
+		"@lit/task": "^1.0.0",
 		"@thepassle/app-tools": "^0.9.9",
 		"lit": "^3.0.1",
 		"urlpattern-polyfill": "^9.0.0"
