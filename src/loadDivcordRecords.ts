@@ -1,5 +1,5 @@
 import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
-import { poeDataJson } from './jsons/jsons';
+import { IDivcordData, poeDataJson } from './jsons/jsons';
 const ONE_DAY_MILLISECONDS = 86_400_000;
 
 const sheetUrl = () => {
@@ -19,18 +19,20 @@ const richUrl = () => {
 	return url;
 };
 
-async function loadCachedResponses(cache: Cache) {
-	const _richUrl = richUrl();
-	const _sheetUrl = sheetUrl();
+export type DivcordResponses = {
+	rich: Response;
+	sheet: Response;
+};
 
-	const richResponse = await cache.match(_richUrl);
-	const sheetResponse = await cache.match(_sheetUrl);
-
-	return { richResponse, sheetResponse };
+async function loadCachedResponses(cache: Cache): Promise<DivcordResponses | null> {
+	const rich = await cache.match(richUrl());
+	const sheet = await cache.match(sheetUrl());
+	if (!rich || !sheet) return null;
+	return { rich, sheet };
 }
 
-async function serializeResponses(richResponse: Response, sheetResponse: Response) {
-	const [rich_sources_column, sheet] = await Promise.all([richResponse.json(), sheetResponse.json()]);
+async function serializeDivcordResponses(responses: DivcordResponses): Promise<IDivcordData> {
+	const [rich_sources_column, sheet] = await Promise.all([responses.rich.json(), responses.sheet.json()]);
 	return { rich_sources_column, sheet };
 }
 
@@ -38,11 +40,12 @@ export async function divcordDataAgeMilliseconds(cache?: Cache) {
 	if (!cache) {
 		cache = await caches.open('divcord');
 	}
-	const { richResponse, sheetResponse } = await loadCachedResponses(cache);
-	if (!richResponse || !sheetResponse) return null;
+	const responses = await loadCachedResponses(cache);
+	if (!responses) return null;
+	const { rich, sheet } = responses;
 
-	const richTimestamp = new Date(richResponse.headers.get('date')!).getTime();
-	const sheetTimestamp = new Date(sheetResponse.headers.get('date')!).getTime();
+	const richTimestamp = new Date(rich.headers.get('date')!).getTime();
+	const sheetTimestamp = new Date(sheet.headers.get('date')!).getTime();
 	const oldest = Math.min(richTimestamp, sheetTimestamp);
 	const difference = Date.now() - oldest;
 	return difference;
@@ -50,9 +53,9 @@ export async function divcordDataAgeMilliseconds(cache?: Cache) {
 
 export async function updateDivcordRecords(cache: Cache) {
 	await Promise.all([cache.add(richUrl()), cache.add(sheetUrl())]);
-	const { richResponse, sheetResponse } = await loadCachedResponses(cache);
+	const responses = await loadCachedResponses(cache);
 
-	const divcordTableData = await serializeResponses(richResponse!, sheetResponse!);
+	const divcordTableData = await serializeDivcordResponses(responses!);
 	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
 	await initWasmModule();
 	const records = parsed_records(divcordTableData, poeDataJson) as ISourcefulDivcordTableRecord[];
