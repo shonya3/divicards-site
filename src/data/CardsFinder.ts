@@ -1,5 +1,5 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
-import { IMap, PoeData } from '../PoeData';
+import { IMap, PoeData, poeData } from '../PoeData';
 import { ISource, SourceWithMember } from './ISource.interface';
 
 export const includesMap = (name: string, maps: string[]): boolean => {
@@ -16,12 +16,9 @@ export type CardFromSource = { card: string; boss?: SourceWithMember };
 
 export class CardsFinder {
 	#cardsByMaps: Record<IMap['name'], CardFromSource[]> = {};
-	poeData: PoeData;
 	divcordTable: SourcefulDivcordTable;
-	constructor(poeData: PoeData, divcordTable: SourcefulDivcordTable) {
-		this.poeData = poeData;
+	constructor(divcordTable: SourcefulDivcordTable) {
 		this.divcordTable = divcordTable;
-
 		this.#cardsByMaps = this.#createCardsByMaps();
 	}
 
@@ -38,7 +35,7 @@ export class CardsFinder {
 	}
 
 	mapnames() {
-		return this.poeData.maps.map(m => m.name);
+		return poeData.maps.map(m => m.name);
 	}
 
 	#cardsByMap(map: string): CardFromSource[] {
@@ -52,7 +49,7 @@ export class CardsFinder {
 			}
 		}
 
-		const bosses = this.poeData.bossesByMap(map);
+		const bosses = poeData.bossesByMap(map);
 		for (const bossname of bosses) {
 			for (const card of this.cardsByBoss(bossname)) {
 				cards.push({ card, boss: { id: bossname, kind: 'source-with-member', type: 'Map Boss' } });
@@ -66,7 +63,7 @@ export class CardsFinder {
 		const map: Map<string, CardFromSource[]> = new Map();
 		for (const m of this.mapnames()) {
 			const cards = this.#cardsByMap(m);
-			sortByWeight(cards, this.poeData);
+			sortByWeight(cards, poeData);
 			map.set(m, this.#cardsByMap(m));
 		}
 
@@ -98,7 +95,7 @@ export class CardsFinder {
 			}
 		}
 
-		const area = this.poeData.acts.find(act => act.id === actId);
+		const area = poeData.acts.find(act => act.id === actId);
 		if (area) {
 			for (const bossfight of area.bossfights) {
 				const cardsByActBoss = this.cardsByActBoss(bossfight.name);
@@ -205,7 +202,7 @@ export class CardsFinder {
 		const unique: CardFromSource[] = Array.from(new Set(cardsFromSource.map(el => JSON.stringify(el)))).map(el =>
 			JSON.parse(el)
 		);
-		sortByWeight(unique, this.poeData);
+		sortByWeight(unique, poeData);
 
 		return unique;
 	}

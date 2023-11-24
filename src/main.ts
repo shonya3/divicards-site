@@ -14,7 +14,6 @@ import './pages/p-home';
 import './pages/p-divcord';
 import { customElement, query } from 'lit/decorators.js';
 import { loadDivcordRecords } from './loadDivcordRecords';
-import { poeData } from './PoeData';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -129,7 +128,7 @@ document.body.append(rootElement);
 const divcordTable = new SourcefulDivcordTable(await loadDivcordRecords());
 
 const sourcesByCards = divcordTable.sourcesByCards();
-const cardsFinder = new CardsFinder(poeData, divcordTable);
+const cardsFinder = new CardsFinder(divcordTable);
 
 const cardsByMaps = cardsFinder.cardsByMaps();
 
