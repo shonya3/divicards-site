@@ -1,4 +1,4 @@
-import { SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
 import { IMap, PoeData } from '../PoeData';
 import { ISource, SourceWithMember } from './ISource.interface';
 
@@ -17,12 +17,16 @@ export type CardFromSource = { card: string; boss?: SourceWithMember };
 export class CardsFinder {
 	#cardsByMaps: Record<IMap['name'], CardFromSource[]> = {};
 	poeData: PoeData;
-	records: SourcefulDivcordTableRecord[];
-	constructor(poeData: PoeData, records: SourcefulDivcordTableRecord[]) {
+	divcordTable: SourcefulDivcordTable;
+	constructor(poeData: PoeData, divcordTable: SourcefulDivcordTable) {
 		this.poeData = poeData;
-		this.records = records;
+		this.divcordTable = divcordTable;
 
 		this.#cardsByMaps = this.#createCardsByMaps();
+	}
+
+	get records(): SourcefulDivcordTableRecord[] {
+		return this.divcordTable.records;
 	}
 
 	cardsByMaps() {
@@ -61,6 +65,8 @@ export class CardsFinder {
 	#createCardsByMaps(): Record<string, CardFromSource[]> {
 		const map: Map<string, CardFromSource[]> = new Map();
 		for (const m of this.mapnames()) {
+			const cards = this.#cardsByMap(m);
+			sortByWeight(cards, this.poeData);
 			map.set(m, this.#cardsByMap(m));
 		}
 
@@ -196,6 +202,19 @@ export class CardsFinder {
 			}
 		}
 
-		return Array.from(new Set(cardsFromSource.map(el => JSON.stringify(el)))).map(el => JSON.parse(el));
+		const unique: CardFromSource[] = Array.from(new Set(cardsFromSource.map(el => JSON.stringify(el)))).map(el =>
+			JSON.parse(el)
+		);
+		sortByWeight(unique, this.poeData);
+
+		return unique;
 	}
+}
+
+export function sortByWeight(cards: CardFromSource[], poeData: Readonly<PoeData>): void {
+	cards.sort((a, b) => {
+		const aWeight = poeData.card(a.card)?.weight;
+		const bWeight = poeData.card(b.card)?.weight;
+		return Number(aWeight) - Number(bWeight);
+	});
 }

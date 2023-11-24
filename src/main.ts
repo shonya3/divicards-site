@@ -128,10 +128,10 @@ const rootElement = document.createElement('wc-root');
 document.body.append(rootElement);
 
 const poeData = new PoeData(poeDataJson);
-const records = await loadDivcordRecords();
-const divcordTable = new SourcefulDivcordTable(records);
+const divcordTable = new SourcefulDivcordTable(await loadDivcordRecords());
+
 const sourcesByCards = divcordTable.sourcesByCards();
-const cardsFinder = new CardsFinder(poeData, records);
+const cardsFinder = new CardsFinder(poeData, divcordTable);
 
 const cardsByMaps = cardsFinder.cardsByMaps();
 
@@ -234,7 +234,3 @@ router.addEventListener('route-changed', _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
-
-// console.log(cardsFinder.cardsBySources2());
-
-console.log(cardsFinder.cardsFromSource({ kind: 'source-with-member', type: 'Map', id: 'Academy Map' }));
