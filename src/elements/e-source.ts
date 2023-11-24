@@ -106,8 +106,6 @@ export class SourceElement extends LitElement {
 	}
 
 	render() {
-		customElements.get('e-source-type');
-
 		return html`
 			<div
 				class=${classMap({
@@ -165,8 +163,6 @@ export class SourceElement extends LitElement {
 			width: fit-content;
 		}
 	`;
-
-	fallback() {}
 
 	protected mapboss(name: string, iMaps: IMap[]) {
 		return html`
