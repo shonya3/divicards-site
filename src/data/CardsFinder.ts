@@ -1,5 +1,5 @@
 import { SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
-import { ICard, IMap, PoeData } from '../PoeData';
+import { IMap, PoeData } from '../PoeData';
 import { ISource, SourceWithMember } from './ISource.interface';
 
 export const includesMap = (name: string, maps: string[]): boolean => {
@@ -12,20 +12,10 @@ export const includesMap = (name: string, maps: string[]): boolean => {
 	);
 };
 
-export type CardByActArea = FromArea | FromAreaBoss;
-export type FromAreaBoss = {
-	from: 'Act Boss';
-	card: string;
-	actBoss: string;
-};
-
-export type FromArea = {
-	from: 'Act';
-	card: string;
-};
+export type CardFromSource = { card: string; boss?: SourceWithMember };
 
 export class CardsFinder {
-	#cardsByMaps: Record<IMap['name'], Array<ICard['name']>> = {};
+	#cardsByMaps: Record<IMap['name'], CardFromSource[]> = {};
 	poeData: PoeData;
 	records: SourcefulDivcordTableRecord[];
 	constructor(poeData: PoeData, records: SourcefulDivcordTableRecord[]) {
@@ -47,27 +37,29 @@ export class CardsFinder {
 		return this.poeData.maps.map(m => m.name);
 	}
 
-	#cardsByMap(map: string): string[] {
-		const cards: string[] = [];
+	#cardsByMap(map: string): CardFromSource[] {
+		const cards: CardFromSource[] = [];
 
 		for (const record of this.records) {
 			for (const source of record?.sources ?? []) {
 				if (source.type === 'Map' && source.kind === 'source-with-member' && source.id === map) {
-					cards.push(record.card);
+					cards.push({ card: record.card });
 				}
 			}
 		}
 
 		const bosses = this.poeData.bossesByMap(map);
 		for (const bossname of bosses) {
-			cards.push(...this.cardsByBoss(bossname));
+			for (const card of this.cardsByBoss(bossname)) {
+				cards.push({ card, boss: { id: bossname, kind: 'source-with-member', type: 'Map Boss' } });
+			}
 		}
 
-		return Array.from(new Set(cards));
+		return cards;
 	}
 
-	#createCardsByMaps(): Record<string, string[]> {
-		const map = new Map();
+	#createCardsByMaps(): Record<string, CardFromSource[]> {
+		const map: Map<string, CardFromSource[]> = new Map();
 		for (const m of this.mapnames()) {
 			map.set(m, this.#cardsByMap(m));
 		}
@@ -89,13 +81,13 @@ export class CardsFinder {
 		return cards;
 	}
 
-	cardsByActArea(actId: string): CardByActArea[] {
-		const cards: CardByActArea[] = [];
+	cardsByActArea(actId: string): CardFromSource[] {
+		const cards: CardFromSource[] = [];
 
 		for (const record of this.records) {
 			for (const source of record?.sources ?? []) {
 				if (source.type === 'Act' && source.kind === 'source-with-member' && source.id === actId) {
-					cards.push({ from: 'Act', card: record.card });
+					cards.push({ card: record.card });
 				}
 			}
 		}
@@ -106,9 +98,8 @@ export class CardsFinder {
 				const cardsByActBoss = this.cardsByActBoss(bossfight.name);
 				for (const card of cardsByActBoss) {
 					cards.push({
-						actBoss: bossfight.name,
-						card: card,
-						from: 'Act Boss',
+						card,
+						boss: { id: bossfight.name, type: 'Act Boss', kind: 'source-with-member' },
 					});
 				}
 			}
@@ -175,5 +166,36 @@ export class CardsFinder {
 		}
 
 		return arr;
+	}
+
+	cardsFromSource(source: ISource): CardFromSource[] {
+		const cardsFromSource: CardFromSource[] = [];
+		for (const record of this.records) {
+			for (const s of record.sources ?? []) {
+				if (s.kind === 'source-with-member') {
+					if (s.kind === source.kind && s.type === source.type && s.id === source.id) {
+						if (s.type === 'Map') {
+							const cards = this.cardsByMap(s.id);
+							for (const card of cards) {
+								cardsFromSource.push(card);
+							}
+						} else if (s.type === 'Act') {
+							const cards = this.cardsByActArea(s.id);
+							for (const card of cards) {
+								cardsFromSource.push(card);
+							}
+						} else {
+							cardsFromSource.push({ card: record.card });
+						}
+					}
+				} else {
+					if (s.type === source.type) {
+						cardsFromSource.push({ card: record.card });
+					}
+				}
+			}
+		}
+
+		return Array.from(new Set(cardsFromSource.map(el => JSON.stringify(el)))).map(el => JSON.parse(el));
 	}
 }

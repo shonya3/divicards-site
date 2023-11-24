@@ -25,8 +25,9 @@ export class DivinationCardElement extends LitElement {
 	static override styles = styles();
 
 	@property({ reflect: true }) name: string = '';
-	@property({ reflect: true }) size: CardSize = 'small';
+	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ type: Number }) minLevel?: number;
+	@property({ reflect: true }) boss?: string;
 
 	@state() stackSize: number = 0;
 	@state() flavourText: string = ``;
@@ -108,6 +109,10 @@ export class DivinationCardElement extends LitElement {
 				${this.size !== 'small' ? html`${this.divider()}${this.footer()}` : nothing}
 			</div>
 			${this.minLevel ? html` <div title="Min. Level" class="min-level">${this.minLevel}</div> ` : nothing}
+
+			<div class="boss">
+				<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>
+			</div>
 		</div>`;
 	}
 
@@ -176,6 +181,14 @@ function styles() {
 			z-index: 4;
 			bottom: 0;
 			right: 0.75rem;
+			font-size: var(--digits-font-size);
+		}
+
+		.boss {
+			position: absolute;
+			z-index: 4;
+			bottom: 0;
+			left: 0rem;
 			font-size: var(--digits-font-size);
 		}
 

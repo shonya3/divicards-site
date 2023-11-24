@@ -1,9 +1,10 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card.js';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import { PoeData } from '../PoeData.js';
+import { CardFromSource } from '../data/CardsFinder.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,8 +23,8 @@ export class MapsTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ type: Object }) poeData!: Readonly<PoeData>;
-	@property({ type: Object, attribute: false }) cardsByMaps: Record<string, string[]> = Object.create({});
-	@property({ reflect: true }) size: CardSize = 'small';
+	@property({ type: Object, attribute: false }) cardsByMaps: Record<string, CardFromSource[]> = Object.create({});
+	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
 
 	get filtered() {
@@ -104,19 +105,29 @@ export class MapsTablePage extends LitElement {
 									<e-source
 										.size=${this.size}
 										.poeData=${this.poeData}
-										.source=${{ id: map, type: 'Map' }}
+										.source=${{ id: map, type: 'Map', kind: 'source-with-member' }}
 										.showSourceType=${false}
 									></e-source>
 								</td>
 								<td>
 									<ul>
-										${cards.map(card => {
+										${cards.map(({ card, boss }) => {
 											return html`<li>
 												<e-divination-card
 													.minLevel=${this.poeData.minLevel(card)}
 													size=${this.size}
 													name=${card}
-												></e-divination-card>
+													.boss=${boss?.id}
+												>
+													${boss
+														? html`<e-source
+																.poeData=${this.poeData}
+																.renderMode=${'compact'}
+																.source=${boss}
+																slot="boss"
+														  ></e-source>`
+														: nothing}
+												</e-divination-card>
 											</li>`;
 										})}
 									</ul>

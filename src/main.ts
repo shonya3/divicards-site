@@ -133,6 +133,8 @@ const divcordTable = new SourcefulDivcordTable(records);
 const sourcesByCards = divcordTable.sourcesByCards();
 const cardsFinder = new CardsFinder(poeData, records);
 
+const cardsByMaps = cardsFinder.cardsByMaps();
+
 export const router = new Router({
 	routes: [
 		{
@@ -195,7 +197,7 @@ export const router = new Router({
 					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter}
 					.poeData=${poeData}
-					.cardsByMaps=${cardsFinder.cardsByMaps()}
+					.cardsByMaps=${cardsByMaps}
 				></p-maps-table>`;
 			},
 		},
@@ -232,3 +234,7 @@ router.addEventListener('route-changed', _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
+
+// console.log(cardsFinder.cardsBySources2());
+
+console.log(cardsFinder.cardsFromSource({ kind: 'source-with-member', type: 'Map', id: 'Academy Map' }));

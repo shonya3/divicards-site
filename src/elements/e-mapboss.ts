@@ -87,8 +87,5 @@ export class MapBossElement extends LitElement {
 		.mapboss.rendermode--compact .maplist {
 			order: 2;
 		}
-
-		.mapboss.rendermode--compact e-map {
-		}
 	`;
 }

@@ -118,9 +118,6 @@ export class CardsListElement extends LitElement {
 		}
 
 		@media (min-width: 500px) {
-			.cards-list {
-			}
-
 			.sources-list {
 				display: flex;
 				flex-wrap: wrap;

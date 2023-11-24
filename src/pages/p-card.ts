@@ -40,7 +40,7 @@ export class CardPage extends LitElement {
 			padding: 2rem;
 		}
 
-		@media (width < 600px) {
+		@media (max-width: 600px) {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
