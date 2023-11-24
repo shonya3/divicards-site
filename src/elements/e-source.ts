@@ -8,7 +8,7 @@ import './e-map';
 import './e-mapboss';
 import './e-actboss';
 import './e-source-type';
-import { IMap, PoeData } from '../PoeData';
+import { IMap, poeData } from '../PoeData';
 import { sourceHref } from '../utils';
 import type { RenderMode } from './types';
 
@@ -26,7 +26,6 @@ export class NoSourceInPoeDataError extends Error {
 
 @customElement('e-source')
 export class SourceElement extends LitElement {
-	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) source!: ISource;
 	@property({ type: Boolean }) showSourceType = true;
 	@property() size: CardSize = 'small';
@@ -54,7 +53,7 @@ export class SourceElement extends LitElement {
 
 		switch (this.source.type) {
 			case 'Act': {
-				const area = this.poeData.findActAreaById(this.source.id);
+				const area = poeData.findActAreaById(this.source.id);
 				if (!area) throw new NoSourceInPoeDataError(this.source);
 				let size: CardSize = this.size === 'medium' ? 'large' : this.size;
 				if (this.renderMode === 'compact') {
@@ -64,7 +63,7 @@ export class SourceElement extends LitElement {
 				return html`<e-act-area .href=${sourceHref(this.source)} .actArea=${area} .size=${size}></e-act-area>`;
 			}
 			case 'Act Boss': {
-				const res = this.poeData.findActbossAndArea(this.source.id);
+				const res = poeData.findActbossAndArea(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-actboss
 					.href=${sourceHref(this.source)}
@@ -74,7 +73,7 @@ export class SourceElement extends LitElement {
 				></e-actboss>`;
 			}
 			case 'Map': {
-				const map = this.poeData.findMap(this.source.id);
+				const map = poeData.findMap(this.source.id);
 				if (!map) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-map
 					.href=${sourceHref(this.source)}
@@ -84,7 +83,7 @@ export class SourceElement extends LitElement {
 				></e-map>`;
 			}
 			case 'Map Boss': {
-				const res = this.poeData.findMapbossAndMaps(this.source.id);
+				const res = poeData.findMapbossAndMaps(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-mapboss
 					.href=${sourceHref(this.source)}

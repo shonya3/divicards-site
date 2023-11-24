@@ -7,7 +7,7 @@ import '../elements/e-act-area.js';
 import '../elements/e-source.js';
 import '../elements/e-page-controls.ts';
 import './e-cards-list.ts';
-import { PoeData } from '../PoeData.ts';
+import { poeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -20,7 +20,6 @@ export class CardsTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) cardSize: CardSize = 'small';
-	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards!: Readonly<Record<string, ISource[]>>;
 	@property({ reflect: true }) filter: string = '';
 
@@ -76,7 +75,7 @@ export class CardsTablePage extends LitElement {
 				<e-cards-list
 					.filter=${this.filter}
 					.sourcesByCards=${this.sourcesByCards}
-					.poeData=${this.poeData}
+					.poeData=${poeData}
 					.page=${this.page}
 					.perPage=${this.perPage}
 					.cardSize=${this.cardSize}

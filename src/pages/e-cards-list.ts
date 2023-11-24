@@ -6,7 +6,7 @@ import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-act-area.js';
 import '../elements/e-source.js';
 import '../elements/e-page-controls.ts';
-import { PoeData } from '../PoeData.ts';
+import { poeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -25,7 +25,6 @@ export class CardsListElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) cardSize: CardSize = 'medium';
-	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Object, attribute: false }) sourcesByCards!: Readonly<Record<string, ISource[]>>;
 	@property({ reflect: true }) filter: string = '';
 
@@ -46,18 +45,14 @@ export class CardsListElement extends LitElement {
 				([card, sources]) => html`
 					<li class="cards-list_item">
 						<e-divination-card
-							.minLevel=${this.poeData.minLevel(card)}
+							.minLevel=${poeData.minLevel(card)}
 							size=${this.cardSize}
 							name=${card}
 						></e-divination-card>
 						<ul class="sources-list">
 							${sources.map(
 								source => html`<li class="sources-list_item">
-									<e-source
-										.size=${this.cardSize}
-										.poeData=${this.poeData}
-										.source=${source}
-									></e-source>
+									<e-source .size=${this.cardSize} .source=${source}></e-source>
 								</li>`
 							)}
 						</ul>

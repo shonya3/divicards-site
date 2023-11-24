@@ -1,10 +1,10 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import './e-act-area.js';
-import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
-import './divination-card/e-divination-card.js';
-import './e-sourceful-divcord-record.js';
-import { PoeData } from '../PoeData.js';
+import './e-act-area';
+import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord';
+import './divination-card/e-divination-card';
+import './e-sourceful-divcord-record';
+import { poeData } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,7 +14,6 @@ declare global {
 
 @customElement('e-card-with-divcord-records')
 export class CardWithDivcordRecordsElement extends LitElement {
-	@property({ type: Object }) poeData!: PoeData;
 	@property({ reflect: true }) card!: string;
 	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];
 
@@ -23,7 +22,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			<slot name="card">
 				<e-divination-card
 					part="card"
-					.minLevel=${this.poeData.minLevel(this.card)}
+					.minLevel=${poeData.minLevel(this.card)}
 					size="large"
 					.name=${this.card}
 				></e-divination-card>
@@ -32,10 +31,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 				${this.records.map(
 					record =>
 						html`<li>
-							<e-sourceful-divcord-record
-								.poeData=${this.poeData}
-								.record=${record}
-							></e-sourceful-divcord-record>
+							<e-sourceful-divcord-record .record=${record}></e-sourceful-divcord-record>
 						</li>`
 				)}
 			</ul>

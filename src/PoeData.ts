@@ -1,4 +1,5 @@
 import { includesMap } from './data/CardsFinder';
+import { poeDataJson } from './jsons/jsons';
 
 export interface IActArea {
 	id: string;
@@ -116,3 +117,5 @@ export class PoeData implements IPoeData {
 		return bossnames;
 	}
 }
+
+export const poeData = new PoeData(poeDataJson);

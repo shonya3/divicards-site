@@ -3,8 +3,8 @@ import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card.js';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
-import { PoeData } from '../PoeData.js';
 import { ISource } from '../data/ISource.interface.js';
+import { poeData } from '../PoeData.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,7 +22,6 @@ export const paginate = <T>(arr: T[], page: number, perPage: number) => {
 export class SourcesTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
-	@property({ type: Object }) poeData!: Readonly<PoeData>;
 	@property({ type: Array, attribute: false }) cardsBySources: [ISource, string[]][] = Object.create({});
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
@@ -113,7 +112,6 @@ export class SourcesTablePage extends LitElement {
 									<e-source
 										.showSourceType=${this.showSourceType}
 										.size=${this.size}
-										.poeData=${this.poeData}
 										.source=${source}
 									></e-source>
 								</td>
@@ -124,7 +122,7 @@ export class SourcesTablePage extends LitElement {
 											// 	this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
 											return html`<li>
 												<e-divination-card
-													.minLevel=${this.poeData.minLevel(card)}
+													.minLevel=${poeData.minLevel(card)}
 													size=${this.size}
 													name=${card}
 												></e-divination-card>

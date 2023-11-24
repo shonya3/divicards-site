@@ -1,7 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { SourceType } from '../data/ISource.interface.ts';
-import { PoeData } from '../PoeData.ts';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import '../elements/e-source-type.ts';
@@ -17,7 +16,6 @@ declare global {
 @customElement('p-source-type')
 export class SourceTypePage extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
-	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	protected mainBlock() {
@@ -39,7 +37,6 @@ export class SourceTypePage extends LitElement {
 				.firstColumnName=${this.sourceType}
 				size="medium"
 				.showSourceType=${false}
-				.poeData=${this.poeData}
 				.cardsBySources=${cardsBySources}
 			>
 				<e-source-type .sourceType=${this.sourceType}></e-source-type>

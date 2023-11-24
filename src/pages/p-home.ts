@@ -1,7 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
-import { PoeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import '../elements/e-page-controls';
 import './e-card-with-sources';
@@ -23,7 +22,6 @@ export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'medium';
-	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 	@property({ reflect: true }) filter: string = '';
 
@@ -64,7 +62,6 @@ export class HomePage extends LitElement {
 					return html`<li>
 						<e-card-with-sources
 							.name=${card}
-							.poeData=${this.poeData}
 							.divcordTable=${this.divcordTable}
 							.size=${this.size}
 						></e-card-with-sources>

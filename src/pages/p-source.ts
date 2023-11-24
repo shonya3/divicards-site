@@ -1,7 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface.ts';
-import { PoeData } from '../PoeData.ts';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import { CardsFinder } from '../data/CardsFinder.ts';
@@ -15,7 +14,6 @@ declare global {
 @customElement('p-source')
 export class SourcePage extends LitElement {
 	@property({ type: Object }) source!: ISource;
-	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) cardsFinder!: CardsFinder;
 
 	@query('.source') mainSourceElement!: HTMLElement;
@@ -36,7 +34,6 @@ export class SourcePage extends LitElement {
 					${boss
 						? html`<e-source
 								@click=${this.#onBossNavigation}
-								.poeData=${this.poeData}
 								.renderMode=${'compact'}
 								.source=${boss}
 								slot="boss"
@@ -49,7 +46,7 @@ export class SourcePage extends LitElement {
 
 	render() {
 		return html`<div class="page">
-			<e-source class="source" size="large" .poeData=${this.poeData} .source=${this.source}></e-source>
+			<e-source class="source" size="large" .source=${this.source}></e-source>
 			${this.cardsList()}
 		</div>`;
 	}

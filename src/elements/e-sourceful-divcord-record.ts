@@ -2,7 +2,6 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
 import './e-source.js';
-import { PoeData } from '../PoeData.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
@@ -15,7 +14,6 @@ declare global {
 @customElement('e-sourceful-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: SourcefulDivcordTableRecord;
-	@property({ type: Object }) poeData!: PoeData;
 
 	formattedNotes() {
 		const text = this.record.notes?.replaceAll('\n', '<br>');
@@ -42,7 +40,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 						<ul class="wiki-agreements_sources">
 							${(this.record.sources ?? []).map(
 								source => html`<li>
-									<e-source .poeData=${this.poeData} .source=${source}></e-source>
+									<e-source .source=${source}></e-source>
 								</li>`
 							)}
 						</ul>

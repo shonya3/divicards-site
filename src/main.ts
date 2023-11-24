@@ -1,11 +1,9 @@
 import { SourcefulDivcordTable } from './data/SourcefulDivcordTableRecord';
-import { poeDataJson } from './jsons/jsons';
 import './elements/e-sourceful-divcord-record';
 import './pages/p-cards-table';
 import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, css, html, render } from 'lit';
 import './pages/p-card';
-import { PoeData } from './PoeData';
 import { ISource, SourceType } from './data/ISource.interface';
 import { CardsFinder } from './data/CardsFinder';
 import './pages/p-source';
@@ -16,6 +14,7 @@ import './pages/p-home';
 import './pages/p-divcord';
 import { customElement, query } from 'lit/decorators.js';
 import { loadDivcordRecords } from './loadDivcordRecords';
+import { poeData } from './PoeData';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -127,7 +126,6 @@ export class RootElement extends LitElement {
 const rootElement = document.createElement('wc-root');
 document.body.append(rootElement);
 
-const poeData = new PoeData(poeDataJson);
 const divcordTable = new SourcefulDivcordTable(await loadDivcordRecords());
 
 const sourcesByCards = divcordTable.sourcesByCards();
@@ -145,7 +143,6 @@ export const router = new Router({
 					page=${query.page ?? 1}
 					per-page=${query['per-page'] ?? 14}
 					filter=${query.filter ?? ''}
-					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
 					name="A Fate Worse Than Death"
 					.divcordTable=${divcordTable}
@@ -159,7 +156,6 @@ export const router = new Router({
 					page=${query.page ?? 1}
 					per-page=${query['per-page'] ?? 14}
 					filter=${query.filter ?? ''}
-					.poeData=${poeData}
 					.sourcesByCards=${sourcesByCards}
 					.divcordTable=${divcordTable}
 				></p-divcord>`,
@@ -172,7 +168,6 @@ export const router = new Router({
 				return html`<p-card
 					.card=${name}
 					.records=${divcordTable.recordsByCard(name)}
-					.poeData=${poeData}
 					.divcordTable=${divcordTable}
 				></p-card>`;
 			},
@@ -185,7 +180,7 @@ export const router = new Router({
 				const type = context.query.type as SourceType;
 				const source: ISource = { id, type, kind: 'source-with-member' };
 
-				return html`<p-source .cardsFinder=${cardsFinder} .source=${source} .poeData=${poeData}></p-source>`;
+				return html`<p-source .cardsFinder=${cardsFinder} .source=${source}></p-source>`;
 			},
 		},
 		{
@@ -196,7 +191,6 @@ export const router = new Router({
 					page=${query.page ?? 1}
 					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter}
-					.poeData=${poeData}
 					.cardsByMaps=${cardsByMaps}
 				></p-maps-table>`;
 			},
@@ -209,7 +203,6 @@ export const router = new Router({
 					page=${query.page ?? 1}
 					per-page=${query['per-page'] ?? 10}
 					filter=${query.filter}
-					.poeData=${poeData}
 					.cardsBySources=${cardsFinder.cardsBySources()}
 				></p-sources-table>`;
 			},
@@ -219,11 +212,7 @@ export const router = new Router({
 			title: context => context.params!.id,
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
-				return html`<p-source-type
-					.poeData=${poeData}
-					.divcordTable=${divcordTable}
-					.sourceType=${sourceType}
-				></p-source-type>`;
+				return html`<p-source-type .divcordTable=${divcordTable} .sourceType=${sourceType}></p-source-type>`;
 			},
 		},
 	],

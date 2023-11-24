@@ -2,7 +2,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
-import { PoeData } from '../PoeData';
+import { poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import type { RenderMode } from '../elements/types';
 
@@ -17,7 +17,6 @@ export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ type: Number }) minLevel?: number;
-	@property({ type: Object }) poeData!: PoeData;
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 
@@ -31,13 +30,12 @@ export class CardWithSourcesElement extends LitElement {
 				<e-divination-card
 					.name=${this.name}
 					.size=${this.size}
-					minLevel=${this.minLevel ?? this.poeData.minLevel(this.name)}
+					minLevel=${this.minLevel ?? poeData.minLevel(this.name)}
 				></e-divination-card>
 				<ul class="sources">
 					${this.divcordTable.sourcesByCard(this.name).map(source => {
 						return html`<e-source
 							renderMode=${this.renderMode}
-							.poeData=${this.poeData}
 							.source=${source}
 							.size=${this.size}
 						></e-source>`;
