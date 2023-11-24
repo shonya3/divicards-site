@@ -1,4 +1,4 @@
-import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable } from './data/SourcefulDivcordTableRecord';
 import { poeDataJson } from './jsons/jsons';
 import './elements/e-sourceful-divcord-record';
 import './pages/p-cards-table';
@@ -127,12 +127,11 @@ export class RootElement extends LitElement {
 const rootElement = document.createElement('wc-root');
 document.body.append(rootElement);
 
-const divcordRecordsJson = await loadDivcordRecords();
-let divcordRecords = divcordRecordsJson.map(r => new SourcefulDivcordTableRecord(r));
-const divcordTable = new SourcefulDivcordTable(divcordRecords);
-let poeData = new PoeData(poeDataJson);
+const poeData = new PoeData(poeDataJson);
+const records = await loadDivcordRecords();
+const divcordTable = new SourcefulDivcordTable(records);
 const sourcesByCards = divcordTable.sourcesByCards();
-const cardsFinder = new CardsFinder(poeData, divcordRecords);
+const cardsFinder = new CardsFinder(poeData, records);
 
 export const router = new Router({
 	routes: [

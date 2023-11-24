@@ -1,5 +1,6 @@
 import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 import { IDivcordData, poeDataJson } from './jsons/jsons';
+import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 const ONE_DAY_MILLISECONDS = 86_400_000;
 
 const sheetUrl = () => {
@@ -63,19 +64,23 @@ export async function updateDivcordRecords(cache: Cache) {
 	return records;
 }
 
-export async function loadDivcordRecords() {
+export async function loadDivcordRecords(): Promise<SourcefulDivcordTableRecord[]> {
 	const cache = await caches.open('divcord');
 	const recordsFromLocalStorage = localStorage.getItem('records');
 
 	if (!recordsFromLocalStorage) {
 		updateDivcordRecords(cache);
-		return await import('../src/jsons/jsons').then(r => r.divcordRecords);
+		return (await import('../src/jsons/jsons').then(r => r.divcordRecords)).map(
+			r => new SourcefulDivcordTableRecord(r)
+		);
 	} else {
 		const age = await divcordDataAgeMilliseconds(cache);
 		if (age! >= ONE_DAY_MILLISECONDS) {
 			updateDivcordRecords(cache);
 		}
 
-		return JSON.parse(recordsFromLocalStorage) as ISourcefulDivcordTableRecord[];
+		return (JSON.parse(recordsFromLocalStorage) as ISourcefulDivcordTableRecord[]).map(
+			r => new SourcefulDivcordTableRecord(r)
+		);
 	}
 }
