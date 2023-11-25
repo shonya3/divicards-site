@@ -2,6 +2,9 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import '../elements/e-card-with-divcord-records';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/alert/alert.js';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
