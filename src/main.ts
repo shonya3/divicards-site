@@ -142,14 +142,12 @@ export const router = new Router({
 					page=${query.page ?? 1}
 					per-page=${query['per-page'] ?? 14}
 					filter=${query.filter ?? ''}
-					.sourcesByCards=${sourcesByCards}
-					name="A Fate Worse Than Death"
 					.divcordTable=${divcordTable}
 				></p-home>`,
 		},
 		{
 			path: '/divcord',
-			title: 'Divicards',
+			title: 'Divcord',
 			render: ({ query }) =>
 				html`<p-divcord
 					page=${query.page ?? 1}

@@ -1,7 +1,9 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord.js';
+import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord';
 import { poeData } from '../PoeData';
+import './e-card-with-sources';
+import '../elements/e-card-with-divcord-records';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -17,13 +19,12 @@ export class CardPage extends LitElement {
 
 	render() {
 		return html`<div class="page">
-			<e-card-with-divcord-records .poeData=${poeData} .card=${this.card} .records=${this.records}>
+			<e-card-with-divcord-records .card=${this.card} .records=${this.records}>
 				<e-card-with-sources
 					slot="card"
 					.name=${this.card}
 					size="large"
 					.minLevel=${poeData.minLevel(this.card)}
-					.poeData=${poeData}
 					.divcordTable=${this.divcordTable}
 				></e-card-with-sources>
 			</e-card-with-divcord-records>

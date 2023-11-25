@@ -19,7 +19,7 @@ const paginate = <T>(arr: T[], page: number, perPage: number) => {
 
 @customElement('p-home')
 export class HomePage extends LitElement {
-	@property({ reflect: true, type: Number }) page = 1;
+	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;

@@ -1,6 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import '../elements/e-card-with-divcord-records';
 
@@ -35,7 +34,6 @@ export class DivcordTablePage extends LitElement {
 			<ul>
 				${this.divcordTable.cards().map(card => {
 					return html`<e-card-with-divcord-records
-						.poeData=${poeData}
 						.card=${card}
 						.records=${this.divcordTable.recordsByCard(card)}
 					></e-card-with-divcord-records>`;

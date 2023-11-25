@@ -7,7 +7,6 @@ import '../elements/e-act-area.js';
 import '../elements/e-source.js';
 import '../elements/e-page-controls.ts';
 import './e-cards-list.ts';
-import { poeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -75,7 +74,6 @@ export class CardsTablePage extends LitElement {
 				<e-cards-list
 					.filter=${this.filter}
 					.sourcesByCards=${this.sourcesByCards}
-					.poeData=${poeData}
 					.page=${this.page}
 					.perPage=${this.perPage}
 					.cardSize=${this.cardSize}

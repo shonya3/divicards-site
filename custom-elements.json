@@ -1,2782 +1,3757 @@
 {
-	"schemaVersion": "1.0.0",
-	"readme": "",
-	"modules": [
-		{
-			"kind": "javascript-module",
-			"path": "src/api.ts",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "fetchTableSheet"
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "fetchTableSheet",
-					"declaration": {
-						"name": "fetchTableSheet",
-						"module": "src/api.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/events.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "SetTransitionNameEvent",
-					"superclass": {
-						"name": "CustomEvent",
-						"module": "src/events.ts"
-					}
-				},
-				{
-					"kind": "function",
-					"name": "dispatchSetTransitionName",
-					"return": {
-						"type": {
-							"text": "void"
-						}
-					},
-					"parameters": [
-						{
-							"name": "this",
-							"type": {
-								"text": "HTMLElement & { href?: string }"
-							}
-						},
-						{
-							"name": "transitionName",
-							"type": {
-								"text": "TransitionName"
-							}
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "SetTransitionNameEvent",
-					"declaration": {
-						"name": "SetTransitionNameEvent",
-						"module": "src/events.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "dispatchSetTransitionName",
-					"declaration": {
-						"name": "dispatchSetTransitionName",
-						"module": "src/events.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/loadDivcordRecords.ts",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "divcordDataAgeMilliseconds",
-					"parameters": [
-						{
-							"name": "cache",
-							"type": {
-								"text": "Cache"
-							}
-						}
-					]
-				},
-				{
-					"kind": "function",
-					"name": "updateDivcordRecords",
-					"parameters": [
-						{
-							"name": "cache",
-							"type": {
-								"text": "Cache"
-							}
-						}
-					]
-				},
-				{
-					"kind": "function",
-					"name": "loadDivcordRecords"
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "divcordDataAgeMilliseconds",
-					"declaration": {
-						"name": "divcordDataAgeMilliseconds",
-						"module": "src/loadDivcordRecords.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "updateDivcordRecords",
-					"declaration": {
-						"name": "updateDivcordRecords",
-						"module": "src/loadDivcordRecords.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "loadDivcordRecords",
-					"declaration": {
-						"name": "loadDivcordRecords",
-						"module": "src/loadDivcordRecords.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/main.ts",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "startViewTransition",
-					"return": {
-						"type": {
-							"text": "Promise<unknown>"
-						}
-					},
-					"parameters": [
-						{
-							"name": "cb",
-							"type": {
-								"text": "(...args: any[]) => any"
-							}
-						}
-					]
-				},
-				{
-					"kind": "class",
-					"description": "",
-					"name": "RootElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "outlet",
-							"type": {
-								"text": "HTMLElement"
-							}
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "wc-root",
-					"customElement": true
-				},
-				{
-					"kind": "variable",
-					"name": "router",
-					"default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<wc-cards-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.sourcesByCards=${sourcesByCards}\r\n\t\t\t\t></wc-cards-table>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<wc-card-with-divcord-records-view\r\n\t\t\t\t\t.card=${name}\r\n\t\t\t\t\t.records=${divcordTable.recordsByCard(name)}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t></wc-card-with-divcord-records-view>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: ISource['id'] = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type };\r\n\r\n\t\t\t\treturn html`<e-source-page\r\n\t\t\t\t\t.cardsFinder=${cardsFinder}\r\n\t\t\t\t\t.source=${source}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t></e-source-page>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.cardsByMaps=${cardsFinder.cardsByMaps()}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<e-sources-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.poeData=${poeData}\r\n\t\t\t\t\t.cardsBySources=${cardsFinder.cardsBySources()}\r\n\t\t\t\t></e-sources-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "startViewTransition",
-					"declaration": {
-						"name": "startViewTransition",
-						"module": "src/main.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "RootElement",
-					"declaration": {
-						"name": "RootElement",
-						"module": "src/main.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "wc-root",
-					"declaration": {
-						"name": "RootElement",
-						"module": "src/main.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "router",
-					"declaration": {
-						"name": "router",
-						"module": "src/main.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/PoeData.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "PoeData",
-					"members": [
-						{
-							"kind": "field",
-							"name": "acts",
-							"type": {
-								"text": "IActArea[]"
-							},
-							"default": "acts"
-						},
-						{
-							"kind": "field",
-							"name": "cards",
-							"type": {
-								"text": "ICard[]"
-							},
-							"default": "cards"
-						},
-						{
-							"kind": "field",
-							"name": "maps",
-							"type": {
-								"text": "IMap[]"
-							},
-							"default": "maps"
-						},
-						{
-							"kind": "field",
-							"name": "mapbosses",
-							"type": {
-								"text": "IMapBoss[]"
-							},
-							"default": "mapbosses"
-						},
-						{
-							"kind": "method",
-							"name": "findActAreaById",
-							"parameters": [
-								{
-									"name": "actId",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "findMap",
-							"parameters": [
-								{
-									"name": "name",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "findActbossAndArea",
-							"parameters": [
-								{
-									"name": "name",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "findMapbossAndMaps",
-							"parameters": [
-								{
-									"name": "name",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "card",
-							"return": {
-								"type": {
-									"text": "ICard | null"
-								}
-							},
-							"parameters": [
-								{
-									"name": "name",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "mapboss",
-							"return": {
-								"type": {
-									"text": "IMapBoss | null"
-								}
-							},
-							"parameters": [
-								{
-									"name": "name",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "bossesByMap",
-							"return": {
-								"type": {
-									"text": "string[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "map",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "PoeData",
-					"declaration": {
-						"name": "PoeData",
-						"module": "src/PoeData.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/utils.ts",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "sourceHref",
-					"parameters": [
-						{
-							"name": "source",
-							"type": {
-								"text": "ISource"
-							}
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "sourceHref",
-					"declaration": {
-						"name": "sourceHref",
-						"module": "src/utils.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "dist/assets/index-673ca956.js",
-			"declarations": [
-				{
-					"kind": "variable",
-					"name": "Et",
-					"default": "class{#n;#r={};#e={};#t={};#i={};constructor(t={},e,s){try{let i;if(typeof e==\"string\"?i=e:s=e,typeof t==\"string\"){let r=new bt(t);if(r.parse(),t=r.result,i===void 0&&typeof t.protocol!=\"string\")throw new TypeError(\"A base URL must be provided for a relative constructor string.\");t.baseURL=i}else{if(!t||typeof t!=\"object\")throw new TypeError(\"parameter 1 is not of type 'string' and cannot convert to dictionary.\");if(i)throw new TypeError(\"parameter 1 is not of type 'string'.\")}typeof s>\"u\"&&(s={ignoreCase:!1});let a={ignoreCase:s.ignoreCase===!0},o={pathname:$,protocol:$,username:$,password:$,hostname:$,port:$,search:$,hash:$};this.#n=L(o,t,!0),z(this.#n.protocol)===this.#n.port&&(this.#n.port=\"\");let h;for(h of S){if(!(h in this.#n))continue;let r={},n=this.#n[h];switch(this.#e[h]=[],h){case\"protocol\":Object.assign(r,E),r.encodePart=N;break;case\"username\":Object.assign(r,E),r.encodePart=lt;break;case\"password\":Object.assign(r,E),r.encodePart=mt;break;case\"hostname\":Object.assign(r,et),G(n)?r.encodePart=q:r.encodePart=Z;break;case\"port\":Object.assign(r,E),r.encodePart=B;break;case\"pathname\":V(this.#r.protocol)?(Object.assign(r,st,a),r.encodePart=gt):(Object.assign(r,E,a),r.encodePart=dt);break;case\"search\":Object.assign(r,E,a),r.encodePart=wt;break;case\"hash\":Object.assign(r,E,a),r.encodePart=yt;break}try{this.#i[h]=F(n,r),this.#r[h]=W(this.#i[h],this.#e[h],r),this.#t[h]=$t(this.#i[h],r)}catch{throw new TypeError(`invalid ${h} pattern '${this.#n[h]}'.`)}}}catch(i){throw new TypeError(`Failed to construct 'URLPattern': ${i.message}`)}}test(t={},e){let s={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&e)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return!1;try{typeof t==\"object\"?s=L(s,t,!1):s=L(s,H(t,e),!1)}catch{return!1}let i;for(i of S)if(!this.#r[i].exec(s[i]))return!1;return!0}exec(t={},e){let s={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&e)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return;try{typeof t==\"object\"?s=L(s,t,!1):s=L(s,H(t,e),!1)}catch{return null}let i={};e?i.inputs=[t,e]:i.inputs=[t];let a;for(a of S){let o=this.#r[a].exec(s[a]);if(!o)return null;let h={};for(let[r,n]of this.#e[a].entries())if(typeof n==\"string\"||typeof n==\"number\"){let u=o[r+1];h[n]=u}i[a]={input:s[a]??\"\",groups:h}}return i}static compareComponent(t,e,s){let i=(r,n)=>{for(let u of[\"type\",\"modifier\",\"prefix\",\"value\",\"suffix\"]){if(r[u]<n[u])return-1;if(r[u]!==n[u])return 1}return 0},a=new O(3,\"\",\"\",\"\",\"\",3),o=new O(0,\"\",\"\",\"\",\"\",3),h=(r,n)=>{let u=0;for(;u<Math.min(r.length,n.length);++u){let f=i(r[u],n[u]);if(f)return f}return r.length===n.length?0:i(r[u]??a,n[u]??a)};return!e.#t[t]&&!s.#t[t]?0:e.#t[t]&&!s.#t[t]?h(e.#i[t],[o]):!e.#t[t]&&s.#t[t]?h([o],s.#i[t]):h(e.#i[t],s.#i[t])}get protocol(){return this.#t.protocol}get username(){return this.#t.username}get password(){return this.#t.password}get hostname(){return this.#t.hostname}get port(){return this.#t.port}get pathname(){return this.#t.pathname}get search(){return this.#t.search}get hash(){return this.#t.hash}}"
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "URLPattern",
-					"declaration": {
-						"name": "Et",
-						"module": "dist/assets/index-673ca956.js"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "dist/assets/index-e30228cb.js",
-			"declarations": [
-				{
-					"kind": "variable",
-					"name": "t"
-				},
-				{
-					"kind": "function",
-					"name": "e",
-					"parameters": [
-						{
-							"name": "i"
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "custom-element-definition",
-					"name": "t",
-					"declaration": {
-						"name": "e",
-						"module": "dist/assets/index-e30228cb.js"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "t",
-					"declaration": {
-						"name": "e",
-						"module": "dist/assets/index-e30228cb.js"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "dist/assets/sources_wasm-30addb85.js",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "$",
-					"parameters": [
-						{
-							"name": "e"
-						},
-						{
-							"name": "n"
-						}
-					]
-				},
-				{
-					"kind": "function",
-					"name": "N",
-					"parameters": [
-						{
-							"name": "e"
-						}
-					]
-				},
-				{
-					"kind": "function",
-					"name": "F",
-					"parameters": [
-						{
-							"name": "e"
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "default",
-					"declaration": {
-						"name": "F",
-						"module": "dist/assets/sources_wasm-30addb85.js"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "initSync",
-					"declaration": {
-						"name": "N",
-						"module": "dist/assets/sources_wasm-30addb85.js"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "parsed_records",
-					"declaration": {
-						"name": "$",
-						"module": "dist/assets/sources_wasm-30addb85.js"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/data/CardsFinder.ts",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "includesMap",
-					"return": {
-						"type": {
-							"text": "boolean"
-						}
-					},
-					"parameters": [
-						{
-							"name": "name",
-							"type": {
-								"text": "string"
-							}
-						},
-						{
-							"name": "maps",
-							"type": {
-								"text": "string[]"
-							}
-						}
-					]
-				},
-				{
-					"kind": "class",
-					"description": "",
-					"name": "CardsFinder",
-					"members": [
-						{
-							"kind": "field",
-							"name": "#cardsByMaps",
-							"privacy": "private",
-							"type": {
-								"text": "Record<IMap['name'], Array<ICard['name']>>"
-							},
-							"default": "{}"
-						},
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"default": "poeData"
-						},
-						{
-							"kind": "field",
-							"name": "records",
-							"type": {
-								"text": "SourcefulDivcordTableRecord[]"
-							},
-							"default": "records"
-						},
-						{
-							"kind": "method",
-							"name": "cardsByMaps"
-						},
-						{
-							"kind": "method",
-							"name": "cardsByMap",
-							"parameters": [
-								{
-									"name": "map",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "mapnames"
-						},
-						{
-							"kind": "method",
-							"name": "#cardsByMap",
-							"return": {
-								"type": {
-									"text": "string[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "map",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "#createCardsByMaps",
-							"return": {
-								"type": {
-									"text": "Record<string, string[]>"
-								}
-							}
-						},
-						{
-							"kind": "method",
-							"name": "cardsByBoss",
-							"return": {
-								"type": {
-									"text": "string[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "bossname",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "cardsByActArea",
-							"return": {
-								"type": {
-									"text": "CardByActArea[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "actId",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "cardsByActBoss",
-							"return": {
-								"type": {
-									"text": "string[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "bossname",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "cardsByIdSource",
-							"return": {
-								"type": {
-									"text": "string[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "source",
-									"type": {
-										"text": "ISource"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "cardsBySources",
-							"return": {
-								"type": {
-									"text": "[ISource, string[]][]"
-								}
-							}
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "includesMap",
-					"declaration": {
-						"name": "includesMap",
-						"module": "src/data/CardsFinder.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "CardsFinder",
-					"declaration": {
-						"name": "CardsFinder",
-						"module": "src/data/CardsFinder.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/data/ISource.interface.ts",
-			"declarations": [],
-			"exports": []
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/data/poeData.types.ts",
-			"declarations": [],
-			"exports": []
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/data/records.types.ts",
-			"declarations": [],
-			"exports": []
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/data/SourcefulDivcordTableRecord.ts",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "createDivcordTable",
-					"parameters": [
-						{
-							"name": "recordsData",
-							"type": {
-								"text": "ISourcefulDivcordTableRecord[]"
-							}
-						}
-					]
-				},
-				{
-					"kind": "class",
-					"description": "",
-					"name": "SourcefulDivcordTable",
-					"members": [
-						{
-							"kind": "field",
-							"name": "records",
-							"type": {
-								"text": "SourcefulDivcordTableRecord[]"
-							},
-							"default": "records"
-						},
-						{
-							"kind": "method",
-							"name": "sourcesByCards",
-							"return": {
-								"type": {
-									"text": "Record<string, ISource[]>"
-								}
-							}
-						},
-						{
-							"kind": "method",
-							"name": "recordsByCard",
-							"return": {
-								"type": {
-									"text": "SourcefulDivcordTableRecord[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "card",
-									"type": {
-										"text": "string"
-									}
-								}
-							]
-						}
-					]
-				},
-				{
-					"kind": "class",
-					"description": "",
-					"name": "SourcefulDivcordTableRecord",
-					"members": [
-						{
-							"kind": "field",
-							"name": "id",
-							"type": {
-								"text": "number"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "card",
-							"type": {
-								"text": "string"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "greynote",
-							"type": {
-								"text": "IGreynote | undefined | undefined"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "tagHypothesis",
-							"type": {
-								"text": "string | undefined | undefined"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "confidence",
-							"type": {
-								"text": "IConfidence"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "remainingWork",
-							"type": {
-								"text": "IRemaininWork | undefined | undefined"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "sources",
-							"type": {
-								"text": "ISource[] | undefined | undefined"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "wikiDisagreements",
-							"type": {
-								"text": "string | undefined | undefined"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "sourcesWithTagButNotOnWiki",
-							"type": {
-								"text": "string | undefined | undefined"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "notes",
-							"type": {
-								"text": "string | undefined | undefined"
-							}
-						},
-						{
-							"kind": "method",
-							"name": "source",
-							"return": {
-								"type": {
-									"text": "ISource[]"
-								}
-							},
-							"parameters": [
-								{
-									"name": "type",
-									"type": {
-										"text": "'mapBoss' | 'map' | 'act' | 'actBoss'"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "mapBosses",
-							"return": {
-								"type": {
-									"text": "ISource[]"
-								}
-							}
-						},
-						{
-							"kind": "method",
-							"name": "maps",
-							"return": {
-								"type": {
-									"text": "ISource[]"
-								}
-							}
-						},
-						{
-							"kind": "method",
-							"name": "acts",
-							"return": {
-								"type": {
-									"text": "ISource[]"
-								}
-							}
-						},
-						{
-							"kind": "method",
-							"name": "actBosses",
-							"return": {
-								"type": {
-									"text": "ISource[]"
-								}
-							}
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "createDivcordTable",
-					"declaration": {
-						"name": "createDivcordTable",
-						"module": "src/data/SourcefulDivcordTableRecord.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "SourcefulDivcordTable",
-					"declaration": {
-						"name": "SourcefulDivcordTable",
-						"module": "src/data/SourcefulDivcordTableRecord.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "SourcefulDivcordTableRecord",
-					"declaration": {
-						"name": "SourcefulDivcordTableRecord",
-						"module": "src/data/SourcefulDivcordTableRecord.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/data/types.ts",
-			"declarations": [],
-			"exports": []
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/e-act-area.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "ActAreaElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "actArea",
-							"type": {
-								"text": "IActArea"
-							},
-							"attribute": "actArea"
-						},
-						{
-							"kind": "field",
-							"name": "size",
-							"type": {
-								"text": "Size"
-							},
-							"default": "'large'",
-							"attribute": "size",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "href",
-							"reflects": true
-						}
-					],
-					"attributes": [
-						{
-							"name": "actArea",
-							"type": {
-								"text": "IActArea"
-							},
-							"fieldName": "actArea"
-						},
-						{
-							"name": "size",
-							"type": {
-								"text": "Size"
-							},
-							"default": "'large'",
-							"fieldName": "size"
-						},
-						{
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "href"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-act-area",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "ActAreaElement",
-					"declaration": {
-						"name": "ActAreaElement",
-						"module": "src/elements/e-act-area.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-act-area",
-					"declaration": {
-						"name": "ActAreaElement",
-						"module": "src/elements/e-act-area.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/e-actboss.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "ActBossElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "boss",
-							"type": {
-								"text": "IBossfight"
-							},
-							"attribute": "boss"
-						},
-						{
-							"kind": "field",
-							"name": "actArea",
-							"type": {
-								"text": "IActArea"
-							},
-							"attribute": "actArea"
-						},
-						{
-							"kind": "field",
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "href",
-							"reflects": true
-						}
-					],
-					"attributes": [
-						{
-							"name": "boss",
-							"type": {
-								"text": "IBossfight"
-							},
-							"fieldName": "boss"
-						},
-						{
-							"name": "actArea",
-							"type": {
-								"text": "IActArea"
-							},
-							"fieldName": "actArea"
-						},
-						{
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "href"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-actboss",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "ActBossElement",
-					"declaration": {
-						"name": "ActBossElement",
-						"module": "src/elements/e-actboss.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-actboss",
-					"declaration": {
-						"name": "ActBossElement",
-						"module": "src/elements/e-actboss.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/e-map.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "MapElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "map",
-							"type": {
-								"text": "IMap"
-							},
-							"attribute": "map"
-						},
-						{
-							"kind": "field",
-							"name": "mode",
-							"type": {
-								"text": "'normal' | 'boss-tooltip'"
-							},
-							"default": "'normal'",
-							"attribute": "mode"
-						},
-						{
-							"kind": "field",
-							"name": "size",
-							"type": {
-								"text": "'small' | 'medium'"
-							},
-							"default": "'medium'",
-							"attribute": "size",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "href",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "imageWidth",
-							"readonly": true
-						},
-						{
-							"kind": "method",
-							"name": "mapColor"
-						},
-						{
-							"kind": "method",
-							"name": "renderName",
-							"privacy": "protected"
-						}
-					],
-					"attributes": [
-						{
-							"name": "map",
-							"type": {
-								"text": "IMap"
-							},
-							"fieldName": "map"
-						},
-						{
-							"name": "mode",
-							"type": {
-								"text": "'normal' | 'boss-tooltip'"
-							},
-							"default": "'normal'",
-							"fieldName": "mode"
-						},
-						{
-							"name": "size",
-							"type": {
-								"text": "'small' | 'medium'"
-							},
-							"default": "'medium'",
-							"fieldName": "size"
-						},
-						{
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "href"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-map",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "MapElement",
-					"declaration": {
-						"name": "MapElement",
-						"module": "src/elements/e-map.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-map",
-					"declaration": {
-						"name": "MapElement",
-						"module": "src/elements/e-map.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/e-mapboss.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "MapBossElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "boss",
-							"type": {
-								"text": "IMapBoss"
-							},
-							"attribute": "boss"
-						},
-						{
-							"kind": "field",
-							"name": "maps",
-							"type": {
-								"text": "IMap[]"
-							},
-							"default": "[]",
-							"attribute": "maps"
-						},
-						{
-							"kind": "field",
-							"name": "size",
-							"type": {
-								"text": "'small' | 'medium' | 'large'"
-							},
-							"default": "'medium'",
-							"attribute": "size",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "href",
-							"reflects": true
-						}
-					],
-					"attributes": [
-						{
-							"name": "boss",
-							"type": {
-								"text": "IMapBoss"
-							},
-							"fieldName": "boss"
-						},
-						{
-							"name": "maps",
-							"type": {
-								"text": "IMap[]"
-							},
-							"default": "[]",
-							"fieldName": "maps"
-						},
-						{
-							"name": "size",
-							"type": {
-								"text": "'small' | 'medium' | 'large'"
-							},
-							"default": "'medium'",
-							"fieldName": "size"
-						},
-						{
-							"name": "href",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "href"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-mapboss",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "MapBossElement",
-					"declaration": {
-						"name": "MapBossElement",
-						"module": "src/elements/e-mapboss.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-mapboss",
-					"declaration": {
-						"name": "MapBossElement",
-						"module": "src/elements/e-mapboss.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/e-page-controls.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "PageControlsElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"attribute": "page",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "perPage",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"attribute": "per-page",
-							"reflects": true
-						},
-						{
-							"kind": "method",
-							"name": "#onPageInput",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "#onPerPageInput",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "increasePage"
-						},
-						{
-							"kind": "method",
-							"name": "decreasePage"
-						}
-					],
-					"attributes": [
-						{
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"fieldName": "page"
-						},
-						{
-							"name": "per-page",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"fieldName": "perPage"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-page-controls",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "PageControlsElement",
-					"declaration": {
-						"name": "PageControlsElement",
-						"module": "src/elements/e-page-controls.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-page-controls",
-					"declaration": {
-						"name": "PageControlsElement",
-						"module": "src/elements/e-page-controls.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/e-source.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "NoSourceInPoeDataError",
-					"superclass": {
-						"name": "Error",
-						"module": "src/elements/e-source.ts"
-					}
-				},
-				{
-					"kind": "class",
-					"description": "",
-					"name": "SourceElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"attribute": "poeData"
-						},
-						{
-							"kind": "field",
-							"name": "source",
-							"type": {
-								"text": "ISource"
-							},
-							"attribute": "source"
-						},
-						{
-							"kind": "field",
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"attribute": "size"
-						},
-						{
-							"kind": "field",
-							"name": "sourceHasSpecialElement",
-							"readonly": true
-						},
-						{
-							"kind": "method",
-							"name": "#setViewTransitionName",
-							"parameters": [
-								{
-									"name": "transitionName",
-									"default": "'source'"
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "sourceElement",
-							"privacy": "protected"
-						},
-						{
-							"kind": "method",
-							"name": "fallback"
-						},
-						{
-							"kind": "method",
-							"name": "mapboss",
-							"privacy": "protected",
-							"parameters": [
-								{
-									"name": "name",
-									"type": {
-										"text": "string"
-									}
-								},
-								{
-									"name": "iMaps",
-									"type": {
-										"text": "IMap[]"
-									}
-								}
-							]
-						}
-					],
-					"attributes": [
-						{
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"fieldName": "poeData"
-						},
-						{
-							"name": "source",
-							"type": {
-								"text": "ISource"
-							},
-							"fieldName": "source"
-						},
-						{
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"fieldName": "size"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-source",
-					"customElement": true
-				},
-				{
-					"kind": "class",
-					"description": "",
-					"name": "GeneralSourceElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "source",
-							"type": {
-								"text": "ISource"
-							},
-							"attribute": "source"
-						},
-						{
-							"kind": "method",
-							"name": "withId",
-							"privacy": "protected"
-						},
-						{
-							"kind": "method",
-							"name": "noId",
-							"privacy": "protected"
-						}
-					],
-					"attributes": [
-						{
-							"name": "source",
-							"type": {
-								"text": "ISource"
-							},
-							"fieldName": "source"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "wc-general-source",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "NoSourceInPoeDataError",
-					"declaration": {
-						"name": "NoSourceInPoeDataError",
-						"module": "src/elements/e-source.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "SourceElement",
-					"declaration": {
-						"name": "SourceElement",
-						"module": "src/elements/e-source.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-source",
-					"declaration": {
-						"name": "SourceElement",
-						"module": "src/elements/e-source.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "GeneralSourceElement",
-					"declaration": {
-						"name": "GeneralSourceElement",
-						"module": "src/elements/e-source.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "wc-general-source",
-					"declaration": {
-						"name": "GeneralSourceElement",
-						"module": "src/elements/e-source.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/e-sourceful-divcord-record.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "SourcefulDivcordRecordElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "record",
-							"type": {
-								"text": "SourcefulDivcordTableRecord"
-							},
-							"attribute": "record"
-						},
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"attribute": "poeData"
-						},
-						{
-							"kind": "method",
-							"name": "greynote",
-							"privacy": "protected"
-						},
-						{
-							"kind": "method",
-							"name": "tagHypothesis",
-							"privacy": "protected"
-						},
-						{
-							"kind": "method",
-							"name": "wikiDisagreements",
-							"privacy": "protected"
-						},
-						{
-							"kind": "method",
-							"name": "sourcesWithTagButNotOnWiki",
-							"privacy": "protected"
-						},
-						{
-							"kind": "method",
-							"name": "notes",
-							"privacy": "protected"
-						}
-					],
-					"attributes": [
-						{
-							"name": "record",
-							"type": {
-								"text": "SourcefulDivcordTableRecord"
-							},
-							"fieldName": "record"
-						},
-						{
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"fieldName": "poeData"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-sourceful-divcord-record",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "SourcefulDivcordRecordElement",
-					"declaration": {
-						"name": "SourcefulDivcordRecordElement",
-						"module": "src/elements/e-sourceful-divcord-record.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-sourceful-divcord-record",
-					"declaration": {
-						"name": "SourcefulDivcordRecordElement",
-						"module": "src/elements/e-sourceful-divcord-record.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/jsons/jsons.ts",
-			"declarations": [
-				{
-					"kind": "variable",
-					"name": "divcordRecords",
-					"default": "divcordRecordsJson"
-				},
-				{
-					"kind": "variable",
-					"name": "poeDataJson",
-					"default": "_poeDataJson"
-				},
-				{
-					"kind": "variable",
-					"name": "divcordData",
-					"default": "divcordDataJson"
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "divcordRecords",
-					"declaration": {
-						"name": "divcordRecords",
-						"module": "src/jsons/jsons.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "poeDataJson",
-					"declaration": {
-						"name": "poeDataJson",
-						"module": "src/jsons/jsons.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "divcordData",
-					"declaration": {
-						"name": "divcordData",
-						"module": "src/jsons/jsons.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/pkg/sources_wasm.js",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "parsed_records",
-					"parameters": [
-						{
-							"name": "divcord_table",
-							"type": {
-								"text": "any"
-							}
-						},
-						{
-							"name": "poe_data",
-							"type": {
-								"text": "any"
-							}
-						}
-					],
-					"return": {
-						"type": {
-							"text": "any"
-						}
-					}
-				},
-				{
-					"kind": "function",
-					"name": "initSync",
-					"parameters": [
-						{
-							"name": "module"
-						}
-					]
-				},
-				{
-					"kind": "function",
-					"name": "__wbg_init",
-					"parameters": [
-						{
-							"name": "input"
-						}
-					]
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "parsed_records",
-					"declaration": {
-						"name": "parsed_records",
-						"module": "src/pkg/sources_wasm.js"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "initSync",
-					"declaration": {
-						"name": "initSync",
-						"module": "src/pkg/sources_wasm.js"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "default",
-					"declaration": {
-						"name": "__wbg_init",
-						"module": "src/pkg/sources_wasm.js"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/views/wc-card-with-divcord-records-view.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "CardWithDivcordRecordsViewElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"attribute": "poeData"
-						},
-						{
-							"kind": "field",
-							"name": "card",
-							"type": {
-								"text": "string"
-							},
-							"attribute": "card",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "records",
-							"type": {
-								"text": "SourcefulDivcordTableRecord[]"
-							},
-							"attribute": "records"
-						}
-					],
-					"attributes": [
-						{
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"fieldName": "poeData"
-						},
-						{
-							"name": "card",
-							"type": {
-								"text": "string"
-							},
-							"fieldName": "card"
-						},
-						{
-							"name": "records",
-							"type": {
-								"text": "SourcefulDivcordTableRecord[]"
-							},
-							"fieldName": "records"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "wc-card-with-divcord-records-view",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "CardWithDivcordRecordsViewElement",
-					"declaration": {
-						"name": "CardWithDivcordRecordsViewElement",
-						"module": "src/views/wc-card-with-divcord-records-view.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "wc-card-with-divcord-records-view",
-					"declaration": {
-						"name": "CardWithDivcordRecordsViewElement",
-						"module": "src/views/wc-card-with-divcord-records-view.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/views/wc-cards-table.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "CardsTableElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"attribute": "page",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "perPage",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"attribute": "per-page",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "cardSize",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'medium'",
-							"attribute": "cardSize",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "Readonly<PoeData>"
-							},
-							"attribute": "poeData"
-						},
-						{
-							"kind": "field",
-							"name": "sourcesByCards",
-							"type": {
-								"text": "Readonly<Record<string, ISource[]>>"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "filter",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "filter",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "filtered",
-							"readonly": true
-						},
-						{
-							"kind": "field",
-							"name": "paginated",
-							"readonly": true
-						},
-						{
-							"kind": "method",
-							"name": "#onCardnameInput",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "#oncardSizeSelect",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "table",
-							"privacy": "protected"
-						}
-					],
-					"attributes": [
-						{
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"fieldName": "page"
-						},
-						{
-							"name": "per-page",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"fieldName": "perPage"
-						},
-						{
-							"name": "cardSize",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'medium'",
-							"fieldName": "cardSize"
-						},
-						{
-							"name": "poeData",
-							"type": {
-								"text": "Readonly<PoeData>"
-							},
-							"fieldName": "poeData"
-						},
-						{
-							"name": "filter",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "filter"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "wc-cards-table",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "CardsTableElement",
-					"declaration": {
-						"name": "CardsTableElement",
-						"module": "src/views/wc-cards-table.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "wc-cards-table",
-					"declaration": {
-						"name": "CardsTableElement",
-						"module": "src/views/wc-cards-table.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/views/p-maps-table.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "MapsTableElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"attribute": "page",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "perPage",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"attribute": "per-page",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "Readonly<PoeData>"
-							},
-							"attribute": "poeData"
-						},
-						{
-							"kind": "field",
-							"name": "cardsByMaps",
-							"type": {
-								"text": "Record<string, string[]>"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"attribute": "size",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "filter",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "filter",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "filtered",
-							"readonly": true
-						},
-						{
-							"kind": "field",
-							"name": "paginated",
-							"readonly": true
-						},
-						{
-							"kind": "method",
-							"name": "#onMapnameInput",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "#oncardSizeSelect",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "table",
-							"privacy": "protected"
-						}
-					],
-					"attributes": [
-						{
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"fieldName": "page"
-						},
-						{
-							"name": "per-page",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"fieldName": "perPage"
-						},
-						{
-							"name": "poeData",
-							"type": {
-								"text": "Readonly<PoeData>"
-							},
-							"fieldName": "poeData"
-						},
-						{
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"fieldName": "size"
-						},
-						{
-							"name": "filter",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "filter"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "p-maps-table",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "MapsTableElement",
-					"declaration": {
-						"name": "MapsTableElement",
-						"module": "src/views/p-maps-table.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "p-maps-table",
-					"declaration": {
-						"name": "MapsTableElement",
-						"module": "src/views/p-maps-table.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/views/e-source-page.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "SourcePage",
-					"members": [
-						{
-							"kind": "field",
-							"name": "source",
-							"type": {
-								"text": "ISource"
-							},
-							"attribute": "source"
-						},
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"attribute": "poeData"
-						},
-						{
-							"kind": "field",
-							"name": "cardsFinder",
-							"type": {
-								"text": "CardsFinder"
-							},
-							"attribute": "cardsFinder"
-						},
-						{
-							"kind": "field",
-							"name": "cards",
-							"readonly": true
-						}
-					],
-					"attributes": [
-						{
-							"name": "source",
-							"type": {
-								"text": "ISource"
-							},
-							"fieldName": "source"
-						},
-						{
-							"name": "poeData",
-							"type": {
-								"text": "PoeData"
-							},
-							"fieldName": "poeData"
-						},
-						{
-							"name": "cardsFinder",
-							"type": {
-								"text": "CardsFinder"
-							},
-							"fieldName": "cardsFinder"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-source-page",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "SourcePage",
-					"declaration": {
-						"name": "SourcePage",
-						"module": "src/views/e-source-page.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-source-page",
-					"declaration": {
-						"name": "SourcePage",
-						"module": "src/views/e-source-page.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/views/e-sources-table.ts",
-			"declarations": [
-				{
-					"kind": "function",
-					"name": "paginate",
-					"parameters": [
-						{
-							"name": "arr",
-							"type": {
-								"text": "T[]"
-							}
-						},
-						{
-							"name": "page",
-							"type": {
-								"text": "number"
-							}
-						},
-						{
-							"name": "perPage",
-							"type": {
-								"text": "number"
-							}
-						}
-					]
-				},
-				{
-					"kind": "class",
-					"description": "",
-					"name": "SourcesTableElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"attribute": "page",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "perPage",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"attribute": "per-page",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "poeData",
-							"type": {
-								"text": "Readonly<PoeData>"
-							},
-							"attribute": "poeData"
-						},
-						{
-							"kind": "field",
-							"name": "cardsBySources",
-							"type": {
-								"text": "[ISource, string[]][]"
-							}
-						},
-						{
-							"kind": "field",
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"attribute": "size",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "filter",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "filter",
-							"reflects": true
-						},
-						{
-							"kind": "method",
-							"name": "#onMapnameInput",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "#oncardSizeSelect",
-							"parameters": [
-								{
-									"name": "e",
-									"type": {
-										"text": "InputEvent"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "table",
-							"privacy": "protected"
-						}
-					],
-					"attributes": [
-						{
-							"name": "page",
-							"type": {
-								"text": "number"
-							},
-							"default": "1",
-							"fieldName": "page"
-						},
-						{
-							"name": "per-page",
-							"type": {
-								"text": "number"
-							},
-							"default": "10",
-							"fieldName": "perPage"
-						},
-						{
-							"name": "poeData",
-							"type": {
-								"text": "Readonly<PoeData>"
-							},
-							"fieldName": "poeData"
-						},
-						{
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"fieldName": "size"
-						},
-						{
-							"name": "filter",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "filter"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-sources-table",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "paginate",
-					"declaration": {
-						"name": "paginate",
-						"module": "src/views/e-sources-table.ts"
-					}
-				},
-				{
-					"kind": "js",
-					"name": "SourcesTableElement",
-					"declaration": {
-						"name": "SourcesTableElement",
-						"module": "src/views/e-sources-table.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-sources-table",
-					"declaration": {
-						"name": "SourcesTableElement",
-						"module": "src/views/e-sources-table.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/divination-card/data.ts",
-			"declarations": [
-				{
-					"kind": "variable",
-					"name": "cardsDataMap",
-					"default": "new Map<string, CardData>()"
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "cardsDataMap",
-					"declaration": {
-						"name": "cardsDataMap",
-						"module": "src/elements/divination-card/data.ts"
-					}
-				}
-			]
-		},
-		{
-			"kind": "javascript-module",
-			"path": "src/elements/divination-card/e-divination-card.ts",
-			"declarations": [
-				{
-					"kind": "class",
-					"description": "",
-					"name": "DivinationCardElement",
-					"members": [
-						{
-							"kind": "field",
-							"name": "name",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"attribute": "name",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"attribute": "size",
-							"reflects": true
-						},
-						{
-							"kind": "field",
-							"name": "minLevel",
-							"type": {
-								"text": "number | undefined"
-							},
-							"attribute": "minLevel"
-						},
-						{
-							"kind": "field",
-							"name": "stackSize",
-							"type": {
-								"text": "number"
-							},
-							"default": "0"
-						},
-						{
-							"kind": "field",
-							"name": "flavourText",
-							"type": {
-								"text": "string"
-							},
-							"default": "``"
-						},
-						{
-							"kind": "field",
-							"name": "artFilename",
-							"type": {
-								"text": "string"
-							},
-							"default": "''"
-						},
-						{
-							"kind": "field",
-							"name": "rewardHtml",
-							"type": {
-								"text": "string"
-							},
-							"default": "''"
-						},
-						{
-							"kind": "field",
-							"name": "imageUrl",
-							"readonly": true
-						},
-						{
-							"kind": "method",
-							"name": "nameMarginTop",
-							"privacy": "protected",
-							"parameters": [
-								{
-									"name": "size",
-									"type": {
-										"text": "CardSize"
-									}
-								}
-							]
-						},
-						{
-							"kind": "method",
-							"name": "#onNavigation"
-						},
-						{
-							"kind": "method",
-							"name": "divider",
-							"privacy": "protected"
-						},
-						{
-							"kind": "method",
-							"name": "footer",
-							"privacy": "protected"
-						}
-					],
-					"attributes": [
-						{
-							"name": "name",
-							"type": {
-								"text": "string"
-							},
-							"default": "''",
-							"fieldName": "name"
-						},
-						{
-							"name": "size",
-							"type": {
-								"text": "CardSize"
-							},
-							"default": "'small'",
-							"fieldName": "size"
-						},
-						{
-							"name": "minLevel",
-							"type": {
-								"text": "number | undefined"
-							},
-							"fieldName": "minLevel"
-						}
-					],
-					"superclass": {
-						"name": "LitElement",
-						"package": "lit"
-					},
-					"tagName": "e-divination-card",
-					"customElement": true
-				}
-			],
-			"exports": [
-				{
-					"kind": "js",
-					"name": "DivinationCardElement",
-					"declaration": {
-						"name": "DivinationCardElement",
-						"module": "src/elements/divination-card/e-divination-card.ts"
-					}
-				},
-				{
-					"kind": "custom-element-definition",
-					"name": "e-divination-card",
-					"declaration": {
-						"name": "DivinationCardElement",
-						"module": "src/elements/divination-card/e-divination-card.ts"
-					}
-				}
-			]
-		}
-	]
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/events.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SetTransitionNameEvent",
+          "superclass": {
+            "name": "CustomEvent",
+            "module": "src/events.ts"
+          }
+        },
+        {
+          "kind": "function",
+          "name": "dispatchSetTransitionName",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "this",
+              "type": {
+                "text": "HTMLElement & { href?: string }"
+              }
+            },
+            {
+              "name": "transitionName",
+              "type": {
+                "text": "TransitionName"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SetTransitionNameEvent",
+          "declaration": {
+            "name": "SetTransitionNameEvent",
+            "module": "src/events.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "dispatchSetTransitionName",
+          "declaration": {
+            "name": "dispatchSetTransitionName",
+            "module": "src/events.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loadDivcordRecords.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "divcordDataAgeMilliseconds",
+          "parameters": [
+            {
+              "name": "cache",
+              "optional": true,
+              "type": {
+                "text": "Cache"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "updateDivcordRecords",
+          "parameters": [
+            {
+              "name": "cache",
+              "type": {
+                "text": "Cache"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "loadDivcordRecords",
+          "return": {
+            "type": {
+              "text": "Promise<SourcefulDivcordTableRecord[]>"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "divcordDataAgeMilliseconds",
+          "declaration": {
+            "name": "divcordDataAgeMilliseconds",
+            "module": "src/loadDivcordRecords.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "updateDivcordRecords",
+          "declaration": {
+            "name": "updateDivcordRecords",
+            "module": "src/loadDivcordRecords.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadDivcordRecords",
+          "declaration": {
+            "name": "loadDivcordRecords",
+            "module": "src/loadDivcordRecords.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/main.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "startViewTransition",
+          "return": {
+            "type": {
+              "text": "Promise<unknown>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "cb",
+              "type": {
+                "text": "(...args: any[]) => any"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "RootElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "outlet",
+              "type": {
+                "text": "HTMLElement"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "wc-root",
+          "customElement": true
+        },
+        {
+          "kind": "variable",
+          "name": "router",
+          "default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-home\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 14}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-home>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/divcord',\r\n\t\t\ttitle: 'Divcord',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-divcord\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 14}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.sourcesByCards=${sourcesByCards}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-divcord>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<p-card\r\n\t\t\t\t\t.card=${name}\r\n\t\t\t\t\t.records=${divcordTable.recordsByCard(name)}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-card>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: string = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type, kind: 'source-with-member' };\r\n\r\n\t\t\t\treturn html`<p-source .cardsFinder=${cardsFinder} .source=${source}></p-source>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsByMaps=${cardsByMaps}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-sources-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsBySources=${cardsFinder.cardsBySources()}\r\n\t\t\t\t></p-sources-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source-type/:id',\r\n\t\t\ttitle: context => context.params!.id,\r\n\t\t\trender: ({ params }) => {\r\n\t\t\t\tconst sourceType = decodeURI(params.id) as SourceType;\r\n\t\t\t\treturn html`<p-source-type .cardsFinder=${cardsFinder} .sourceType=${sourceType}></p-source-type>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "startViewTransition",
+          "declaration": {
+            "name": "startViewTransition",
+            "module": "src/main.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RootElement",
+          "declaration": {
+            "name": "RootElement",
+            "module": "src/main.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "wc-root",
+          "declaration": {
+            "name": "RootElement",
+            "module": "src/main.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "router",
+          "declaration": {
+            "name": "router",
+            "module": "src/main.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/PoeData.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "PoeData",
+          "members": [
+            {
+              "kind": "field",
+              "name": "acts",
+              "type": {
+                "text": "IActArea[]"
+              },
+              "default": "acts"
+            },
+            {
+              "kind": "field",
+              "name": "cards",
+              "type": {
+                "text": "ICard[]"
+              },
+              "default": "cards"
+            },
+            {
+              "kind": "field",
+              "name": "maps",
+              "type": {
+                "text": "IMap[]"
+              },
+              "default": "maps"
+            },
+            {
+              "kind": "field",
+              "name": "mapbosses",
+              "type": {
+                "text": "IMapBoss[]"
+              },
+              "default": "mapbosses"
+            },
+            {
+              "kind": "method",
+              "name": "findActAreaById",
+              "parameters": [
+                {
+                  "name": "actId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "findMap",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "findActbossAndArea",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "findMapbossAndMaps",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "card",
+              "return": {
+                "type": {
+                  "text": "ICard | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "minLevel",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "card",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "mapboss",
+              "return": {
+                "type": {
+                  "text": "IMapBoss | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "bossesByMap",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "map",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "variable",
+          "name": "poeData",
+          "default": "new PoeData(poeDataJson)"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PoeData",
+          "declaration": {
+            "name": "PoeData",
+            "module": "src/PoeData.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "poeData",
+          "declaration": {
+            "name": "poeData",
+            "module": "src/PoeData.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/utils.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "sourceHref",
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "sourceHref",
+          "declaration": {
+            "name": "sourceHref",
+            "module": "src/utils.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "dist/assets/index-673ca956.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "Et",
+          "default": "class{#n;#r={};#e={};#t={};#i={};constructor(t={},e,s){try{let i;if(typeof e==\"string\"?i=e:s=e,typeof t==\"string\"){let r=new bt(t);if(r.parse(),t=r.result,i===void 0&&typeof t.protocol!=\"string\")throw new TypeError(\"A base URL must be provided for a relative constructor string.\");t.baseURL=i}else{if(!t||typeof t!=\"object\")throw new TypeError(\"parameter 1 is not of type 'string' and cannot convert to dictionary.\");if(i)throw new TypeError(\"parameter 1 is not of type 'string'.\")}typeof s>\"u\"&&(s={ignoreCase:!1});let a={ignoreCase:s.ignoreCase===!0},o={pathname:$,protocol:$,username:$,password:$,hostname:$,port:$,search:$,hash:$};this.#n=L(o,t,!0),z(this.#n.protocol)===this.#n.port&&(this.#n.port=\"\");let h;for(h of S){if(!(h in this.#n))continue;let r={},n=this.#n[h];switch(this.#e[h]=[],h){case\"protocol\":Object.assign(r,E),r.encodePart=N;break;case\"username\":Object.assign(r,E),r.encodePart=lt;break;case\"password\":Object.assign(r,E),r.encodePart=mt;break;case\"hostname\":Object.assign(r,et),G(n)?r.encodePart=q:r.encodePart=Z;break;case\"port\":Object.assign(r,E),r.encodePart=B;break;case\"pathname\":V(this.#r.protocol)?(Object.assign(r,st,a),r.encodePart=gt):(Object.assign(r,E,a),r.encodePart=dt);break;case\"search\":Object.assign(r,E,a),r.encodePart=wt;break;case\"hash\":Object.assign(r,E,a),r.encodePart=yt;break}try{this.#i[h]=F(n,r),this.#r[h]=W(this.#i[h],this.#e[h],r),this.#t[h]=$t(this.#i[h],r)}catch{throw new TypeError(`invalid ${h} pattern '${this.#n[h]}'.`)}}}catch(i){throw new TypeError(`Failed to construct 'URLPattern': ${i.message}`)}}test(t={},e){let s={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&e)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return!1;try{typeof t==\"object\"?s=L(s,t,!1):s=L(s,H(t,e),!1)}catch{return!1}let i;for(i of S)if(!this.#r[i].exec(s[i]))return!1;return!0}exec(t={},e){let s={pathname:\"\",protocol:\"\",username:\"\",password:\"\",hostname:\"\",port:\"\",search:\"\",hash:\"\"};if(typeof t!=\"string\"&&e)throw new TypeError(\"parameter 1 is not of type 'string'.\");if(typeof t>\"u\")return;try{typeof t==\"object\"?s=L(s,t,!1):s=L(s,H(t,e),!1)}catch{return null}let i={};e?i.inputs=[t,e]:i.inputs=[t];let a;for(a of S){let o=this.#r[a].exec(s[a]);if(!o)return null;let h={};for(let[r,n]of this.#e[a].entries())if(typeof n==\"string\"||typeof n==\"number\"){let u=o[r+1];h[n]=u}i[a]={input:s[a]??\"\",groups:h}}return i}static compareComponent(t,e,s){let i=(r,n)=>{for(let u of[\"type\",\"modifier\",\"prefix\",\"value\",\"suffix\"]){if(r[u]<n[u])return-1;if(r[u]!==n[u])return 1}return 0},a=new O(3,\"\",\"\",\"\",\"\",3),o=new O(0,\"\",\"\",\"\",\"\",3),h=(r,n)=>{let u=0;for(;u<Math.min(r.length,n.length);++u){let f=i(r[u],n[u]);if(f)return f}return r.length===n.length?0:i(r[u]??a,n[u]??a)};return!e.#t[t]&&!s.#t[t]?0:e.#t[t]&&!s.#t[t]?h(e.#i[t],[o]):!e.#t[t]&&s.#t[t]?h([o],s.#i[t]):h(e.#i[t],s.#i[t])}get protocol(){return this.#t.protocol}get username(){return this.#t.username}get password(){return this.#t.password}get hostname(){return this.#t.hostname}get port(){return this.#t.port}get pathname(){return this.#t.pathname}get search(){return this.#t.search}get hash(){return this.#t.hash}}"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "URLPattern",
+          "declaration": {
+            "name": "Et",
+            "module": "dist/assets/index-673ca956.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "dist/assets/index-dd553300.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "r"
+        },
+        {
+          "kind": "function",
+          "name": "e",
+          "parameters": [
+            {
+              "name": "i"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "r",
+          "declaration": {
+            "name": "e",
+            "module": "dist/assets/index-dd553300.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "r",
+          "declaration": {
+            "name": "e",
+            "module": "dist/assets/index-dd553300.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "dist/assets/sources_wasm-9ec33509.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "$",
+          "parameters": [
+            {
+              "name": "e"
+            },
+            {
+              "name": "n"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "N",
+          "parameters": [
+            {
+              "name": "e"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "F",
+          "parameters": [
+            {
+              "name": "e"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "F",
+            "module": "dist/assets/sources_wasm-9ec33509.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "initSync",
+          "declaration": {
+            "name": "N",
+            "module": "dist/assets/sources_wasm-9ec33509.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "parsed_records",
+          "declaration": {
+            "name": "$",
+            "module": "dist/assets/sources_wasm-9ec33509.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/data/CardsFinder.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "includesMap",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "maps",
+              "type": {
+                "text": "string[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CardsFinder",
+          "members": [
+            {
+              "kind": "field",
+              "name": "#cardsByMaps",
+              "privacy": "private",
+              "type": {
+                "text": "Record<IMap['name'], CardFromSource[]>"
+              },
+              "default": "{}"
+            },
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "default": "divcordTable"
+            },
+            {
+              "kind": "field",
+              "name": "records",
+              "type": {
+                "text": "SourcefulDivcordTableRecord[]"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "cardsByMaps"
+            },
+            {
+              "kind": "method",
+              "name": "cardsByMap",
+              "parameters": [
+                {
+                  "name": "map",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "mapnames"
+            },
+            {
+              "kind": "method",
+              "name": "#cardsByMap",
+              "return": {
+                "type": {
+                  "text": "CardFromSource[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "map",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#createCardsByMaps",
+              "return": {
+                "type": {
+                  "text": "Record<string, CardFromSource[]>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "cardsByBoss",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "bossname",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsByActArea",
+              "return": {
+                "type": {
+                  "text": "CardFromSource[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "actId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsByActBoss",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "bossname",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsByIdSource",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "source",
+                  "type": {
+                    "text": "SourceWithMember"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsBySources",
+              "return": {
+                "type": {
+                  "text": "[ISource, string[]][]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "cardsFromSource",
+              "return": {
+                "type": {
+                  "text": "CardFromSource[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "source",
+                  "type": {
+                    "text": "ISource"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsBySourceType",
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "SourceType"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsByEmptySource",
+              "return": {
+                "type": {
+                  "text": "{ kind: EmptySourceKind; cards: string[] }"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "SourceType"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsBySourceWithMember",
+              "return": {
+                "type": {
+                  "text": "{ kind: SourceWithMemberKind; cards: [string, string[]][] }"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "SourceType"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "sortByWeight",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "cards",
+              "type": {
+                "text": "CardFromSource[] | string[]"
+              }
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "Readonly<PoeData>"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "includesMap",
+          "declaration": {
+            "name": "includesMap",
+            "module": "src/data/CardsFinder.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CardsFinder",
+          "declaration": {
+            "name": "CardsFinder",
+            "module": "src/data/CardsFinder.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "sortByWeight",
+          "declaration": {
+            "name": "sortByWeight",
+            "module": "src/data/CardsFinder.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/data/ISource.interface.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/data/SourcefulDivcordTableRecord.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "createDivcordTable",
+          "parameters": [
+            {
+              "name": "recordsData",
+              "type": {
+                "text": "ISourcefulDivcordTableRecord[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourcefulDivcordTable",
+          "members": [
+            {
+              "kind": "field",
+              "name": "records",
+              "type": {
+                "text": "SourcefulDivcordTableRecord[]"
+              },
+              "default": "records"
+            },
+            {
+              "kind": "method",
+              "name": "cards"
+            },
+            {
+              "kind": "method",
+              "name": "sourcesByCard",
+              "return": {
+                "type": {
+                  "text": "ISource[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "card",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "sourcesByCards",
+              "return": {
+                "type": {
+                  "text": "Record<string, ISource[]>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "recordsByCard",
+              "return": {
+                "type": {
+                  "text": "SourcefulDivcordTableRecord[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "card",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cardsBySourceTypes",
+              "parameters": [
+                {
+                  "name": "types",
+                  "type": {
+                    "text": "SourceType[]"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourcefulDivcordTableRecord",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "card",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "greynote",
+              "type": {
+                "text": "IGreynote | undefined | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "tagHypothesis",
+              "type": {
+                "text": "string | undefined | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "confidence",
+              "type": {
+                "text": "IConfidence"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "remainingWork",
+              "type": {
+                "text": "IRemaininWork | undefined | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "sources",
+              "type": {
+                "text": "ISource[] | undefined | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "wikiDisagreements",
+              "type": {
+                "text": "string | undefined | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "sourcesWithTagButNotOnWiki",
+              "type": {
+                "text": "string | undefined | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "notes",
+              "type": {
+                "text": "string | undefined | undefined"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "source",
+              "return": {
+                "type": {
+                  "text": "ISource[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "'mapBoss' | 'map' | 'act' | 'actBoss'"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "mapBosses",
+              "return": {
+                "type": {
+                  "text": "ISource[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "maps",
+              "return": {
+                "type": {
+                  "text": "ISource[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "acts",
+              "return": {
+                "type": {
+                  "text": "ISource[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "actBosses",
+              "return": {
+                "type": {
+                  "text": "ISource[]"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "createDivcordTable",
+          "declaration": {
+            "name": "createDivcordTable",
+            "module": "src/data/SourcefulDivcordTableRecord.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SourcefulDivcordTable",
+          "declaration": {
+            "name": "SourcefulDivcordTable",
+            "module": "src/data/SourcefulDivcordTableRecord.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SourcefulDivcordTableRecord",
+          "declaration": {
+            "name": "SourcefulDivcordTableRecord",
+            "module": "src/data/SourcefulDivcordTableRecord.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-act-area.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ActAreaElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "actArea",
+              "type": {
+                "text": "IActArea"
+              },
+              "attribute": "actArea"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "Size"
+              },
+              "default": "'large'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "actArea",
+              "type": {
+                "text": "IActArea"
+              },
+              "fieldName": "actArea"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "Size"
+              },
+              "default": "'large'",
+              "fieldName": "size"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-act-area",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ActAreaElement",
+          "declaration": {
+            "name": "ActAreaElement",
+            "module": "src/elements/e-act-area.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-act-area",
+          "declaration": {
+            "name": "ActAreaElement",
+            "module": "src/elements/e-act-area.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-actboss.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "ActBossElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "boss",
+              "type": {
+                "text": "IBossfight"
+              },
+              "attribute": "boss"
+            },
+            {
+              "kind": "field",
+              "name": "actArea",
+              "type": {
+                "text": "IActArea"
+              },
+              "attribute": "actArea"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "attribute": "renderMode",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "boss",
+              "type": {
+                "text": "IBossfight"
+              },
+              "fieldName": "boss"
+            },
+            {
+              "name": "actArea",
+              "type": {
+                "text": "IActArea"
+              },
+              "fieldName": "actArea"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "fieldName": "renderMode"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-actboss",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ActBossElement",
+          "declaration": {
+            "name": "ActBossElement",
+            "module": "src/elements/e-actboss.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-actboss",
+          "declaration": {
+            "name": "ActBossElement",
+            "module": "src/elements/e-actboss.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-card-with-divcord-records.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CardWithDivcordRecordsElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "card",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "card",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "records",
+              "type": {
+                "text": "SourcefulDivcordTableRecord[]"
+              },
+              "attribute": "records"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "card",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "card"
+            },
+            {
+              "name": "records",
+              "type": {
+                "text": "SourcefulDivcordTableRecord[]"
+              },
+              "fieldName": "records"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-card-with-divcord-records",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CardWithDivcordRecordsElement",
+          "declaration": {
+            "name": "CardWithDivcordRecordsElement",
+            "module": "src/elements/e-card-with-divcord-records.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-card-with-divcord-records",
+          "declaration": {
+            "name": "CardWithDivcordRecordsElement",
+            "module": "src/elements/e-card-with-divcord-records.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-map.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MapElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "map",
+              "type": {
+                "text": "IMap"
+              },
+              "attribute": "map"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium'"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "attribute": "renderMode"
+            },
+            {
+              "kind": "field",
+              "name": "imgWidth",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "imgWidth"
+            },
+            {
+              "kind": "field",
+              "name": "imageWidth",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "mapColor"
+            },
+            {
+              "kind": "method",
+              "name": "renderName",
+              "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "map",
+              "type": {
+                "text": "IMap"
+              },
+              "fieldName": "map"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium'"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "fieldName": "renderMode"
+            },
+            {
+              "name": "imgWidth",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "imgWidth"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-map",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MapElement",
+          "declaration": {
+            "name": "MapElement",
+            "module": "src/elements/e-map.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-map",
+          "declaration": {
+            "name": "MapElement",
+            "module": "src/elements/e-map.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-mapboss.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MapBossElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "boss",
+              "type": {
+                "text": "IMapBoss"
+              },
+              "attribute": "boss"
+            },
+            {
+              "kind": "field",
+              "name": "maps",
+              "type": {
+                "text": "IMap[]"
+              },
+              "default": "[]",
+              "attribute": "maps"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium' | 'large'"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "attribute": "renderMode",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "boss",
+              "type": {
+                "text": "IMapBoss"
+              },
+              "fieldName": "boss"
+            },
+            {
+              "name": "maps",
+              "type": {
+                "text": "IMap[]"
+              },
+              "default": "[]",
+              "fieldName": "maps"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium' | 'large'"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "fieldName": "renderMode"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-mapboss",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MapBossElement",
+          "declaration": {
+            "name": "MapBossElement",
+            "module": "src/elements/e-mapboss.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-mapboss",
+          "declaration": {
+            "name": "MapBossElement",
+            "module": "src/elements/e-mapboss.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-page-controls.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "PageControlsElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "#onPageInput",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onPerPageInput",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "increasePage"
+            },
+            {
+              "kind": "method",
+              "name": "decreasePage"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-page-controls",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PageControlsElement",
+          "declaration": {
+            "name": "PageControlsElement",
+            "module": "src/elements/e-page-controls.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-page-controls",
+          "declaration": {
+            "name": "PageControlsElement",
+            "module": "src/elements/e-page-controls.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-source-type.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "sourceTypeHref",
+          "parameters": [
+            {
+              "name": "sourceType",
+              "type": {
+                "text": "SourceType"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourceTypeElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "sourceType",
+              "type": {
+                "text": "SourceType"
+              },
+              "attribute": "sourceType",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "#setViewTransitionName"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "sourceType",
+              "type": {
+                "text": "SourceType"
+              },
+              "fieldName": "sourceType"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-source-type",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "sourceTypeHref",
+          "declaration": {
+            "name": "sourceTypeHref",
+            "module": "src/elements/e-source-type.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SourceTypeElement",
+          "declaration": {
+            "name": "SourceTypeElement",
+            "module": "src/elements/e-source-type.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-source-type",
+          "declaration": {
+            "name": "SourceTypeElement",
+            "module": "src/elements/e-source-type.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-source.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "NoSourceInPoeDataError",
+          "superclass": {
+            "name": "Error",
+            "module": "src/elements/e-source.ts"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourceElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "attribute": "source"
+            },
+            {
+              "kind": "field",
+              "name": "showSourceType",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "showSourceType"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "attribute": "renderMode"
+            },
+            {
+              "kind": "field",
+              "name": "sourceHasSpecialElement",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "#setViewTransitionName",
+              "parameters": [
+                {
+                  "name": "transitionName",
+                  "default": "'source'"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "sourceElement",
+              "privacy": "protected"
+            },
+            {
+              "kind": "method",
+              "name": "mapboss",
+              "privacy": "protected",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "iMaps",
+                  "type": {
+                    "text": "IMap[]"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "fieldName": "source"
+            },
+            {
+              "name": "showSourceType",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showSourceType"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "fieldName": "size"
+            },
+            {
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'normal'",
+              "fieldName": "renderMode"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-source",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NoSourceInPoeDataError",
+          "declaration": {
+            "name": "NoSourceInPoeDataError",
+            "module": "src/elements/e-source.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SourceElement",
+          "declaration": {
+            "name": "SourceElement",
+            "module": "src/elements/e-source.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-source",
+          "declaration": {
+            "name": "SourceElement",
+            "module": "src/elements/e-source.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/e-sourceful-divcord-record.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourcefulDivcordRecordElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "record",
+              "type": {
+                "text": "SourcefulDivcordTableRecord"
+              },
+              "attribute": "record"
+            },
+            {
+              "kind": "method",
+              "name": "formattedNotes"
+            },
+            {
+              "kind": "method",
+              "name": "greynote",
+              "privacy": "protected"
+            },
+            {
+              "kind": "method",
+              "name": "tagHypothesis",
+              "privacy": "protected"
+            },
+            {
+              "kind": "method",
+              "name": "wikiDisagreements",
+              "privacy": "protected"
+            },
+            {
+              "kind": "method",
+              "name": "sourcesWithTagButNotOnWiki",
+              "privacy": "protected"
+            },
+            {
+              "kind": "method",
+              "name": "notes",
+              "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "record",
+              "type": {
+                "text": "SourcefulDivcordTableRecord"
+              },
+              "fieldName": "record"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-sourceful-divcord-record",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SourcefulDivcordRecordElement",
+          "declaration": {
+            "name": "SourcefulDivcordRecordElement",
+            "module": "src/elements/e-sourceful-divcord-record.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-sourceful-divcord-record",
+          "declaration": {
+            "name": "SourcefulDivcordRecordElement",
+            "module": "src/elements/e-sourceful-divcord-record.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/types.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/jsons/jsons.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "divcordRecords",
+          "default": "divcordRecordsJson"
+        },
+        {
+          "kind": "variable",
+          "name": "poeDataJson",
+          "default": "_poeDataJson"
+        },
+        {
+          "kind": "variable",
+          "name": "divcordData",
+          "default": "divcordDataJson"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "divcordRecords",
+          "declaration": {
+            "name": "divcordRecords",
+            "module": "src/jsons/jsons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "poeDataJson",
+          "declaration": {
+            "name": "poeDataJson",
+            "module": "src/jsons/jsons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "divcordData",
+          "declaration": {
+            "name": "divcordData",
+            "module": "src/jsons/jsons.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/e-card-with-sources.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CardWithSourcesElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "minLevel",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "minLevel"
+            },
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "attribute": "divcordTable"
+            },
+            {
+              "kind": "field",
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'compact'",
+              "attribute": "renderMode"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "minLevel",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "minLevel"
+            },
+            {
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "fieldName": "divcordTable"
+            },
+            {
+              "name": "renderMode",
+              "type": {
+                "text": "RenderMode"
+              },
+              "default": "'compact'",
+              "fieldName": "renderMode"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-card-with-sources",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CardWithSourcesElement",
+          "declaration": {
+            "name": "CardWithSourcesElement",
+            "module": "src/pages/e-card-with-sources.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-card-with-sources",
+          "declaration": {
+            "name": "CardWithSourcesElement",
+            "module": "src/pages/e-card-with-sources.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/e-cards-list.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CardsListElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cardSize",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "attribute": "cardSize",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "sourcesByCards",
+              "type": {
+                "text": "Readonly<Record<string, ISource[]>>"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "filtered",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "paginated",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "cardSize",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "fieldName": "cardSize"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-cards-list",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CardsListElement",
+          "declaration": {
+            "name": "CardsListElement",
+            "module": "src/pages/e-cards-list.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-cards-list",
+          "declaration": {
+            "name": "CardsListElement",
+            "module": "src/pages/e-cards-list.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CardPage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "card",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "card",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "records",
+              "type": {
+                "text": "SourcefulDivcordTableRecord[]"
+              },
+              "attribute": "records"
+            },
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "attribute": "divcordTable"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "card",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "card"
+            },
+            {
+              "name": "records",
+              "type": {
+                "text": "SourcefulDivcordTableRecord[]"
+              },
+              "fieldName": "records"
+            },
+            {
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "fieldName": "divcordTable"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-card",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CardPage",
+          "declaration": {
+            "name": "CardPage",
+            "module": "src/pages/p-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-card",
+          "declaration": {
+            "name": "CardPage",
+            "module": "src/pages/p-card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-cards-table.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CardsTablePage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cardSize",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "attribute": "cardSize",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "sourcesByCards",
+              "type": {
+                "text": "Readonly<Record<string, ISource[]>>"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "#onCardnameInput",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#oncardSizeSelect",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "cardSize",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'small'",
+              "fieldName": "cardSize"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-cards-table",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CardsTablePage",
+          "declaration": {
+            "name": "CardsTablePage",
+            "module": "src/pages/p-cards-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-cards-table",
+          "declaration": {
+            "name": "CardsTablePage",
+            "module": "src/pages/p-cards-table.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-divcord.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DivcordTablePage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "attribute": "divcordTable"
+            },
+            {
+              "kind": "field",
+              "name": "ageEl",
+              "type": {
+                "text": "DivcordRecordsAgeElement"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#onRecordsUpdated"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "fieldName": "divcordTable"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-divcord",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DateElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "#fmt",
+              "privacy": "private",
+              "default": "new Intl.RelativeTimeFormat('en')"
+            },
+            {
+              "kind": "field",
+              "name": "date",
+              "type": {
+                "text": "Date"
+              },
+              "attribute": "date"
+            },
+            {
+              "kind": "field",
+              "name": "unit",
+              "type": {
+                "text": "'seconds' | 'minutes' | undefined"
+              },
+              "attribute": "unit"
+            },
+            {
+              "kind": "method",
+              "name": "minutes"
+            },
+            {
+              "kind": "method",
+              "name": "seconds"
+            },
+            {
+              "kind": "method",
+              "name": "minutesRelativeString"
+            },
+            {
+              "kind": "method",
+              "name": "secondsRelativeString"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              },
+              "fieldName": "date"
+            },
+            {
+              "name": "unit",
+              "type": {
+                "text": "'seconds' | 'minutes' | undefined"
+              },
+              "fieldName": "unit"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-relative-time",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DivcordRecordsAgeElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "date",
+              "type": {
+                "text": "Date | undefined"
+              },
+              "attribute": "date"
+            },
+            {
+              "kind": "field",
+              "name": "lastLoaded",
+              "default": "new Task(this, {\r\n\t\tasync task() {\r\n\t\t\tconst millis = await divcordDataAgeMilliseconds();\r\n\t\t\tif (millis === null) {\r\n\t\t\t\treturn null;\r\n\t\t\t}\r\n\t\t\treturn new Date(Date.now() - millis);\r\n\t\t},\r\n\t\targs: () => [],\r\n\t})"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date | undefined"
+              },
+              "fieldName": "date"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-divcord-records-age",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "UpdateDivcordDataElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "task",
+              "default": "new Task<never, void>(this, {\r\n\t\ttask: async () => {\r\n\t\t\tconst cache = await caches.open('divcord');\r\n\t\t\tawait updateDivcordRecords(cache);\r\n\t\t\tthis.dispatchEvent(new Event('records-updated'));\r\n\t\t},\r\n\t})"
+            },
+            {
+              "kind": "method",
+              "name": "loadBtn",
+              "privacy": "protected"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "update-divcord-data",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "DivcordTablePage",
+          "declaration": {
+            "name": "DivcordTablePage",
+            "module": "src/pages/p-divcord.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-divcord",
+          "declaration": {
+            "name": "DivcordTablePage",
+            "module": "src/pages/p-divcord.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DateElement",
+          "declaration": {
+            "name": "DateElement",
+            "module": "src/pages/p-divcord.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-relative-time",
+          "declaration": {
+            "name": "DateElement",
+            "module": "src/pages/p-divcord.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DivcordRecordsAgeElement",
+          "declaration": {
+            "name": "DivcordRecordsAgeElement",
+            "module": "src/pages/p-divcord.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-divcord-records-age",
+          "declaration": {
+            "name": "DivcordRecordsAgeElement",
+            "module": "src/pages/p-divcord.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "UpdateDivcordDataElement",
+          "declaration": {
+            "name": "UpdateDivcordDataElement",
+            "module": "src/pages/p-divcord.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "update-divcord-data",
+          "declaration": {
+            "name": "UpdateDivcordDataElement",
+            "module": "src/pages/p-divcord.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-home.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "HomePage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "attribute": "divcordTable"
+            },
+            {
+              "kind": "field",
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "#onCardnameInput",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "filtered",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "paginated",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "fieldName": "divcordTable"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-home",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HomePage",
+          "declaration": {
+            "name": "HomePage",
+            "module": "src/pages/p-home.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-home",
+          "declaration": {
+            "name": "HomePage",
+            "module": "src/pages/p-home.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-maps-table.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "MapsTablePage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cardsByMaps",
+              "type": {
+                "text": "Record<string, CardFromSource[]>"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "filtered",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "paginated",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "#onMapnameInput",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#oncardSizeSelect",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "table",
+              "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-maps-table",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MapsTablePage",
+          "declaration": {
+            "name": "MapsTablePage",
+            "module": "src/pages/p-maps-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-maps-table",
+          "declaration": {
+            "name": "MapsTablePage",
+            "module": "src/pages/p-maps-table.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-source-type.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourceTypePage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "sourceType",
+              "type": {
+                "text": "SourceType"
+              },
+              "attribute": "sourceType",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cardsFinder",
+              "type": {
+                "text": "CardsFinder"
+              },
+              "attribute": "cardsFinder"
+            },
+            {
+              "kind": "method",
+              "name": "mainBlock",
+              "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "sourceType",
+              "type": {
+                "text": "SourceType"
+              },
+              "fieldName": "sourceType"
+            },
+            {
+              "name": "cardsFinder",
+              "type": {
+                "text": "CardsFinder"
+              },
+              "fieldName": "cardsFinder"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-source-type",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SourceTypePage",
+          "declaration": {
+            "name": "SourceTypePage",
+            "module": "src/pages/p-source-type.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-source-type",
+          "declaration": {
+            "name": "SourceTypePage",
+            "module": "src/pages/p-source-type.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-source.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourcePage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "attribute": "source"
+            },
+            {
+              "kind": "field",
+              "name": "cardsFinder",
+              "type": {
+                "text": "CardsFinder"
+              },
+              "attribute": "cardsFinder"
+            },
+            {
+              "kind": "field",
+              "name": "mainSourceElement",
+              "type": {
+                "text": "HTMLElement"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#onBossNavigation"
+            },
+            {
+              "kind": "method",
+              "name": "cardsList"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "fieldName": "source"
+            },
+            {
+              "name": "cardsFinder",
+              "type": {
+                "text": "CardsFinder"
+              },
+              "fieldName": "cardsFinder"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-source",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SourcePage",
+          "declaration": {
+            "name": "SourcePage",
+            "module": "src/pages/p-source.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-source",
+          "declaration": {
+            "name": "SourcePage",
+            "module": "src/pages/p-source.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pages/p-sources-table.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "paginate",
+          "parameters": [
+            {
+              "name": "arr",
+              "type": {
+                "text": "T[]"
+              }
+            },
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourcesTablePage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "per-page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cardsBySources",
+              "type": {
+                "text": "[ISource, string[]][]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "filter",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showSourceType",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "showSourceType"
+            },
+            {
+              "kind": "field",
+              "name": "firstColumnName",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Source'",
+              "attribute": "firstColumnName"
+            },
+            {
+              "kind": "method",
+              "name": "#onMapnameInput",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#oncardSizeSelect",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "InputEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "table",
+              "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "per-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "perPage"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "filter"
+            },
+            {
+              "name": "showSourceType",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showSourceType"
+            },
+            {
+              "name": "firstColumnName",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Source'",
+              "fieldName": "firstColumnName"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "p-sources-table",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "paginate",
+          "declaration": {
+            "name": "paginate",
+            "module": "src/pages/p-sources-table.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SourcesTablePage",
+          "declaration": {
+            "name": "SourcesTablePage",
+            "module": "src/pages/p-sources-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "p-sources-table",
+          "declaration": {
+            "name": "SourcesTablePage",
+            "module": "src/pages/p-sources-table.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/pkg/sources_wasm.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "parsed_records",
+          "parameters": [
+            {
+              "name": "divcord_table",
+              "type": {
+                "text": "any"
+              }
+            },
+            {
+              "name": "poe_data",
+              "type": {
+                "text": "any"
+              }
+            }
+          ],
+          "return": {
+            "type": {
+              "text": "any"
+            }
+          }
+        },
+        {
+          "kind": "function",
+          "name": "initSync",
+          "parameters": [
+            {
+              "name": "module"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "__wbg_init",
+          "parameters": [
+            {
+              "name": "input"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "parsed_records",
+          "declaration": {
+            "name": "parsed_records",
+            "module": "src/pkg/sources_wasm.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "initSync",
+          "declaration": {
+            "name": "initSync",
+            "module": "src/pkg/sources_wasm.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "__wbg_init",
+            "module": "src/pkg/sources_wasm.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/divination-card/data.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "cardsDataMap",
+          "default": "new Map<string, CardData>()"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "cardsDataMap",
+          "declaration": {
+            "name": "cardsDataMap",
+            "module": "src/elements/divination-card/data.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/divination-card/e-divination-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DivinationCardElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "minLevel",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "minLevel"
+            },
+            {
+              "kind": "field",
+              "name": "boss",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "boss",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "stackSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "flavourText",
+              "type": {
+                "text": "string"
+              },
+              "default": "``"
+            },
+            {
+              "kind": "field",
+              "name": "artFilename",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "rewardHtml",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "imageUrl",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "nameMarginTop",
+              "privacy": "protected",
+              "parameters": [
+                {
+                  "name": "size",
+                  "type": {
+                    "text": "CardSize"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onNavigation"
+            },
+            {
+              "kind": "method",
+              "name": "divider",
+              "privacy": "protected"
+            },
+            {
+              "kind": "method",
+              "name": "footer",
+              "privacy": "protected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CardSize"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "minLevel",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "minLevel"
+            },
+            {
+              "name": "boss",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "boss"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-divination-card",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "DivinationCardElement",
+          "declaration": {
+            "name": "DivinationCardElement",
+            "module": "src/elements/divination-card/e-divination-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-divination-card",
+          "declaration": {
+            "name": "DivinationCardElement",
+            "module": "src/elements/divination-card/e-divination-card.ts"
+          }
+        }
+      ]
+    }
+  ]
 }

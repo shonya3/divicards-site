@@ -47,7 +47,7 @@ export class PageControlsElement extends LitElement {
 
 	render() {
 		return html`
-			<div class="page-controls" v-if="shouldFilter">
+			<div class="page-controls">
 				<button ?disabled=${this.page === 1} @click=${this.decreasePage}>prev</button>
 				<input id="page" type="text" .value=${String(this.page)} @input=${this.#onPageInput} />
 				<button @click=${this.increasePage}>next</button>
