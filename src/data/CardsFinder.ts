@@ -64,7 +64,7 @@ export class CardsFinder {
 		for (const m of this.mapnames()) {
 			const cards = this.#cardsByMap(m);
 			sortByWeight(cards, poeData);
-			map.set(m, this.#cardsByMap(m));
+			map.set(m, cards);
 		}
 
 		return Object.fromEntries(map);
