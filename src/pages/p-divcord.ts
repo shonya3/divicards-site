@@ -57,9 +57,6 @@ export class DivcordTablePage extends LitElement {
 			font-size: 14px;
 		}
 
-		.load {
-		}
-
 		.load_btn-and-status {
 			display: flex;
 			align-items: center;

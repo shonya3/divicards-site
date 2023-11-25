@@ -137,8 +137,6 @@ export class MapsTablePage extends LitElement {
 	}
 
 	static styles = css`
-		:host {
-		}
 		* {
 			padding: 0;
 			margin: 0;
