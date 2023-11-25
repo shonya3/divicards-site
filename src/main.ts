@@ -139,8 +139,8 @@ export const router = new Router({
 			title: 'Divicards',
 			render: ({ query }) =>
 				html`<p-home
-					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 14}
+					.page=${Number(query.page ?? 1)}
+					.perPage=${Number(query['per-page'] ?? 14)}
 					filter=${query.filter ?? ''}
 					.divcordTable=${divcordTable}
 				></p-home>`,
@@ -150,9 +150,9 @@ export const router = new Router({
 			title: 'Divcord',
 			render: ({ query }) =>
 				html`<p-divcord
-					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 14}
-					filter=${query.filter ?? ''}
+					.page=${Number(query.page ?? 1)}
+					.perPage=${Number(query['per-page'] ?? 14)}
+					.filter=${query.filter ?? ''}
 					.sourcesByCards=${sourcesByCards}
 					.divcordTable=${divcordTable}
 				></p-divcord>`,
@@ -185,8 +185,8 @@ export const router = new Router({
 			title: 'Maps',
 			render: ({ query }) => {
 				return html`<p-maps-table
-					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 10}
+					.page=${Number(query.page ?? 1)}
+					.perPage=${Number(query['per-page'] ?? 10)}
 					filter=${query.filter}
 					.cardsByMaps=${cardsByMaps}
 				></p-maps-table>`;
@@ -197,8 +197,8 @@ export const router = new Router({
 			title: 'Sources',
 			render: ({ query }) => {
 				return html`<p-sources-table
-					page=${query.page ?? 1}
-					per-page=${query['per-page'] ?? 10}
+					.page=${Number(query.page ?? 1)}
+					.perPage=${Number(query['per-page'] ?? 10)}
 					filter=${query.filter}
 					.cardsBySources=${cardsFinder.cardsBySources()}
 				></p-sources-table>`;

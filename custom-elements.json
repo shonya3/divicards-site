@@ -168,7 +168,7 @@
         {
           "kind": "variable",
           "name": "router",
-          "default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-home\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 14}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-home>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/divcord',\r\n\t\t\ttitle: 'Divcord',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-divcord\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 14}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.sourcesByCards=${sourcesByCards}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-divcord>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<p-card\r\n\t\t\t\t\t.card=${name}\r\n\t\t\t\t\t.records=${divcordTable.recordsByCard(name)}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-card>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: string = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type, kind: 'source-with-member' };\r\n\r\n\t\t\t\treturn html`<p-source .cardsFinder=${cardsFinder} .source=${source}></p-source>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsByMaps=${cardsByMaps}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-sources-table\r\n\t\t\t\t\tpage=${query.page ?? 1}\r\n\t\t\t\t\tper-page=${query['per-page'] ?? 10}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsBySources=${cardsFinder.cardsBySources()}\r\n\t\t\t\t></p-sources-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source-type/:id',\r\n\t\t\ttitle: context => context.params!.id,\r\n\t\t\trender: ({ params }) => {\r\n\t\t\t\tconst sourceType = decodeURI(params.id) as SourceType;\r\n\t\t\t\treturn html`<p-source-type .cardsFinder=${cardsFinder} .sourceType=${sourceType}></p-source-type>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
+          "default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-home\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 14)}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-home>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/divcord',\r\n\t\t\ttitle: 'Divcord',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-divcord\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 14)}\r\n\t\t\t\t\t.filter=${query.filter ?? ''}\r\n\t\t\t\t\t.sourcesByCards=${sourcesByCards}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-divcord>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<p-card\r\n\t\t\t\t\t.card=${name}\r\n\t\t\t\t\t.records=${divcordTable.recordsByCard(name)}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-card>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: string = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type, kind: 'source-with-member' };\r\n\r\n\t\t\t\treturn html`<p-source .cardsFinder=${cardsFinder} .source=${source}></p-source>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 10)}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsByMaps=${cardsByMaps}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-sources-table\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 10)}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsBySources=${cardsFinder.cardsBySources()}\r\n\t\t\t\t></p-sources-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source-type/:id',\r\n\t\t\ttitle: context => context.params!.id,\r\n\t\t\trender: ({ params }) => {\r\n\t\t\t\tconst sourceType = decodeURI(params.id) as SourceType;\r\n\t\t\t\treturn html`<p-source-type .cardsFinder=${cardsFinder} .sourceType=${sourceType}></p-source-type>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
         }
       ],
       "exports": [
@@ -2622,7 +2622,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "DateElement",
+          "name": "RelativeTimeElement",
           "members": [
             {
               "kind": "field",
@@ -2741,7 +2741,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "update-divcord-data",
+          "tagName": "e-update-divcord-data",
           "customElement": true
         }
       ],
@@ -2764,9 +2764,9 @@
         },
         {
           "kind": "js",
-          "name": "DateElement",
+          "name": "RelativeTimeElement",
           "declaration": {
-            "name": "DateElement",
+            "name": "RelativeTimeElement",
             "module": "src/pages/p-divcord.ts"
           }
         },
@@ -2774,7 +2774,7 @@
           "kind": "custom-element-definition",
           "name": "e-relative-time",
           "declaration": {
-            "name": "DateElement",
+            "name": "RelativeTimeElement",
             "module": "src/pages/p-divcord.ts"
           }
         },
@@ -2804,7 +2804,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "update-divcord-data",
+          "name": "e-update-divcord-data",
           "declaration": {
             "name": "UpdateDivcordDataElement",
             "module": "src/pages/p-divcord.ts"

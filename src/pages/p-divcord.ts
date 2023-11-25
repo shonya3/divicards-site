@@ -23,7 +23,7 @@ export class DivcordTablePage extends LitElement {
 		return html`<div class="page">
 			<div class="load">
 				<div class="load_btn-and-status">
-					<update-divcord-data @records-updated=${this.#onRecordsUpdated}></update-divcord-data>
+					<e-update-divcord-data @records-updated=${this.#onRecordsUpdated}></e-update-divcord-data>
 					<e-divcord-records-age> </e-divcord-records-age>
 				</div>
 				<sl-alert class="load_tip" open>
@@ -91,8 +91,14 @@ export class DivcordTablePage extends LitElement {
 import { Task } from '@lit/task';
 import { divcordDataAgeMilliseconds, updateDivcordRecords } from '../loadDivcordRecords';
 
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-relative-time': RelativeTimeElement;
+	}
+}
+
 @customElement('e-relative-time')
-export class DateElement extends LitElement {
+export class RelativeTimeElement extends LitElement {
 	#fmt = new Intl.RelativeTimeFormat('en');
 
 	@property({ type: Object }) date!: Date;
@@ -151,6 +157,12 @@ export class DateElement extends LitElement {
 	`;
 }
 
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-divcord-records-age': DivcordRecordsAgeElement;
+	}
+}
+
 @customElement('e-divcord-records-age')
 export class DivcordRecordsAgeElement extends LitElement {
 	@property({ type: Object }) date?: Date;
@@ -185,7 +197,13 @@ export class DivcordRecordsAgeElement extends LitElement {
 	`;
 }
 
-@customElement('update-divcord-data')
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-update-divcord-data': UpdateDivcordDataElement;
+	}
+}
+
+@customElement('e-update-divcord-data')
 export class UpdateDivcordDataElement extends LitElement {
 	task = new Task<never, void>(this, {
 		task: async () => {

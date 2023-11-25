@@ -1,11 +1,11 @@
 import { LitElement, html, css, PropertyValueMap, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { CardSize } from '../elements/divination-card/e-divination-card.js';
-import '../elements/divination-card/e-divination-card.js';
-import '../elements/e-source.js';
-import '../elements/e-page-controls.js';
-import { poeData } from '../PoeData.js';
-import { CardFromSource } from '../data/CardsFinder.js';
+import type { CardSize } from '../elements/divination-card/e-divination-card';
+import '../elements/divination-card/e-divination-card';
+import '../elements/e-source';
+import '../elements/e-page-controls';
+import { poeData } from '../PoeData';
+import { CardFromSource } from '../data/CardsFinder';
 
 declare global {
 	interface HTMLElementTagNameMap {
