@@ -127,9 +127,9 @@ document.body.append(rootElement);
 
 const divcordTable = new SourcefulDivcordTable(await loadDivcordRecords());
 
-const sourcesByCards = divcordTable.sourcesByCards();
 const cardsFinder = new CardsFinder(divcordTable);
 
+const sourcesByCards = divcordTable.sourcesByCards();
 const cardsByMaps = cardsFinder.cardsByMaps();
 
 export const router = new Router({
@@ -211,7 +211,7 @@ export const router = new Router({
 			title: context => context.params!.id,
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
-				return html`<p-source-type .divcordTable=${divcordTable} .sourceType=${sourceType}></p-source-type>`;
+				return html`<p-source-type .cardsFinder=${cardsFinder} .sourceType=${sourceType}></p-source-type>`;
 			},
 		},
 	],

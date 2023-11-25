@@ -5,7 +5,7 @@ import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import '../elements/e-source-type.ts';
 import './p-sources-table.ts';
-import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord.ts';
+import { CardsFinder } from '../data/CardsFinder.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -16,10 +16,10 @@ declare global {
 @customElement('p-source-type')
 export class SourceTypePage extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
+	@property({ type: Object }) cardsFinder!: CardsFinder;
 
 	protected mainBlock() {
-		const { cards, kind } = this.divcordTable.cardsBySourceType(this.sourceType);
+		const { cards, kind } = this.cardsFinder.cardsBySourceType(this.sourceType);
 		if (kind === 'empty-source') {
 			return html` <e-source-type .sourceType=${this.sourceType}></e-source-type>
 				<ul>

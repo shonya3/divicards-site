@@ -1,6 +1,6 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './SourcefulDivcordTableRecord';
 import { IMap, PoeData, poeData } from '../PoeData';
-import { ISource, SourceWithMember } from './ISource.interface';
+import { EmptySourceKind, ISource, SourceType, SourceWithMember, SourceWithMemberKind } from './ISource.interface';
 
 export const includesMap = (name: string, maps: string[]): boolean => {
 	const short = name.replace('Map', '').trim();
@@ -168,6 +168,10 @@ export class CardsFinder {
 			arr.push([source, cards]);
 		}
 
+		for (const [_source, cards] of arr) {
+			sortByWeight(cards, poeData);
+		}
+
 		return arr;
 	}
 
@@ -206,12 +210,75 @@ export class CardsFinder {
 
 		return unique;
 	}
+
+	cardsBySourceType(type: SourceType) {
+		let kind: ISource['kind'];
+		for (const record of this.records) {
+			for (const source of record.sources ?? []) {
+				if (source.type === type) {
+					kind = source.kind;
+					break;
+				}
+			}
+		}
+
+		if (!kind!) {
+			throw new Error('Kind is not defined');
+		}
+
+		if (kind === 'empty-source') {
+			const c = this.cardsByEmptySource(type);
+			sortByWeight(c.cards, poeData);
+			return c;
+		} else if (kind === 'source-with-member') {
+			const c = this.cardsBySourceWithMember(type);
+			for (const [_map, cards] of c.cards) {
+				sortByWeight(cards, poeData);
+			}
+			return c;
+		} else throw new Error('Unsupported source kind');
+	}
+	cardsByEmptySource(type: SourceType): { kind: EmptySourceKind; cards: string[] } {
+		const cards: string[] = [];
+		for (const record of this.records) {
+			if ((record.sources ?? []).some(s => s.type === type)) {
+				cards.push(record.card);
+			}
+		}
+
+		return {
+			kind: 'empty-source',
+			cards: Array.from(new Set(cards)),
+		};
+	}
+	cardsBySourceWithMember(type: SourceType): { kind: SourceWithMemberKind; cards: [string, string[]][] } {
+		const map: Map<string, Set<string>> = new Map();
+		for (const record of this.records) {
+			for (const source of record.sources ?? []) {
+				if (source.kind === 'source-with-member' && source.type === type) {
+					const set = map.get(source.id) ?? new Set();
+					set.add(record.card);
+					map.set(source.id, set);
+				}
+			}
+		}
+
+		const outMap: Map<string, string[]> = new Map();
+		for (const [id, cards] of map) {
+			outMap.set(id, Array.from(cards));
+		}
+
+		return {
+			kind: 'source-with-member',
+			cards: Array.from(outMap),
+		};
+	}
 }
 
-export function sortByWeight(cards: CardFromSource[], poeData: Readonly<PoeData>): void {
+export function sortByWeight(cards: CardFromSource[] | string[], poeData: Readonly<PoeData>): void {
 	cards.sort((a, b) => {
-		const aWeight = poeData.card(a.card)?.weight;
-		const bWeight = poeData.card(b.card)?.weight;
+		const aWeight = poeData.card(typeof a === 'string' ? a : a.card)?.weight;
+		const bWeight = poeData.card(typeof b === 'string' ? b : b.card)?.weight;
 		return Number(aWeight) - Number(bWeight);
 	});
 }
