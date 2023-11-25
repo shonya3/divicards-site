@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { router } from '../main';
 
 declare global {
-	interface HTMlElementTagNameMap {
+	interface HTMLElementTagNameMap {
 		'e-page-controls': PageControlsElement;
 	}
 }
