@@ -31,7 +31,7 @@ export class SourceTypePage extends LitElement {
 				</ul>`;
 		} else if (kind === 'source-with-member') {
 			const cardsBySources = cards.map(([sourceId, cards]) => {
-				return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards];
+				return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards] as const;
 			});
 			return html`<p-sources-table
 				.firstColumnName=${this.sourceType}

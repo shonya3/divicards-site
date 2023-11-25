@@ -103,7 +103,7 @@ export class MapsTablePage extends LitElement {
 								<td>
 									<e-source
 										.size=${this.size}
-										.source=${{ id: map, type: 'Map', kind: 'source-with-member' }}
+										.source=${{ id: map, type: 'Map', kind: 'source-with-member' } as const}
 										.showSourceType=${false}
 									></e-source>
 								</td>
