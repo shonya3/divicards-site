@@ -39,7 +39,7 @@ export class MapsTablePage extends LitElement {
 			const url = new URL(window.location.href);
 
 			url.searchParams.set('filter', this.filter);
-			window.history.pushState({}, '', url);
+			window.history.replaceState({}, '', url);
 		}
 	}
 

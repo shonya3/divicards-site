@@ -17,11 +17,9 @@ export class PageControlsElement extends LitElement {
 		const url = new URL(window.location.href);
 		if (_changedProperties.has('page')) {
 			url.searchParams.set('page', String(this.page));
-			window.history.pushState({}, '', url);
 		}
 		if (_changedProperties.has('perPage')) {
 			url.searchParams.set('per-page', String(this.perPage));
-			window.history.pushState({}, '', url);
 		}
 
 		router.navigate(url);
