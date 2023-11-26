@@ -42,7 +42,7 @@ export class DivcordLoader {
 	}
 
 	async cacheAge(cache?: Cache): Promise<number | null> {
-		if (!cache) cache = await caches.open(CACHE_KEY);
+		if (!cache) cache = await this.#cache();
 		const resp = await this.#cachedResponses();
 		if (!resp) {
 			return null;
@@ -53,7 +53,7 @@ export class DivcordLoader {
 	}
 
 	async checkValidity(cache?: Cache): Promise<CacheValidity> {
-		if (!cache) cache = await caches.open(CACHE_KEY);
+		if (!cache) cache = await this.#cache();
 		const millis = await this.cacheAge(cache);
 		if (millis === null || localStorage.getItem(CACHE_KEY) === null) {
 			return 'not exist';
