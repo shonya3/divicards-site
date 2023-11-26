@@ -25,7 +25,7 @@ export class DivcordTablePage extends LitElement {
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
 	#onRecordsUpdated() {
-		this.ageEl.lastLoaded.run();
+		this.ageEl.lastUpdated.run();
 	}
 
 	render() {
@@ -180,12 +180,12 @@ export class DivcordRecordsAgeElement extends LitElement {
 		super();
 		divcordService.addEventListener('state-updated', () => {
 			if (divcordService.state === 'updated') {
-				this.lastLoaded.run();
+				this.lastUpdated.run();
 			}
 		});
 	}
 
-	lastLoaded = new Task(this, {
+	lastUpdated = new Task(this, {
 		async task() {
 			return await divcordService.cacheDate();
 		},
@@ -193,13 +193,13 @@ export class DivcordRecordsAgeElement extends LitElement {
 	});
 
 	render() {
-		return this.lastLoaded.render({
+		return this.lastUpdated.render({
 			complete: date => {
 				if (date === null) {
 					return nothing;
 				}
 
-				return html`<p>Last loaded: <e-relative-time .date=${date}></e-relative-time> <slot></slot></p> `;
+				return html`<p>Last updated: <e-relative-time .date=${date}></e-relative-time> <slot></slot></p> `;
 			},
 		});
 	}
