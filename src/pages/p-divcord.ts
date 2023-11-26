@@ -9,7 +9,7 @@ import '../elements/e-card-with-divcord-records';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { type DivcordLoaderState, divcordLoader } from '../DivcordLoader';
+import { type DivcordServiceState, divcordService } from '../DivcordService';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -41,12 +41,15 @@ export class DivcordTablePage extends LitElement {
 				</sl-alert>
 			</div>
 			<ul>
-				${this.divcordTable.cards().map(card => {
-					return html`<e-card-with-divcord-records
-						.card=${card}
-						.records=${this.divcordTable.recordsByCard(card)}
-					></e-card-with-divcord-records>`;
-				})}
+				${this.divcordTable
+					.cards()
+					.slice(0, 5)
+					.map(card => {
+						return html`<e-card-with-divcord-records
+							.card=${card}
+							.records=${this.divcordTable.recordsByCard(card)}
+						></e-card-with-divcord-records>`;
+					})}
 			</ul>
 		</div>`;
 	}
@@ -172,9 +175,19 @@ declare global {
 @customElement('e-divcord-records-age')
 export class DivcordRecordsAgeElement extends LitElement {
 	@property({ type: Object }) date?: Date;
+
+	constructor() {
+		super();
+		divcordService.addEventListener('state-updated', () => {
+			if (divcordService.state === 'updated') {
+				this.lastLoaded.run();
+			}
+		});
+	}
+
 	lastLoaded = new Task(this, {
 		async task() {
-			return await divcordLoader.cacheDate();
+			return await divcordService.cacheDate();
 		},
 		args: () => [],
 	});
@@ -207,19 +220,19 @@ declare global {
 
 @customElement('e-update-divcord-data')
 export class UpdateDivcordDataElement extends LitElement {
-	@state() loaderState!: DivcordLoaderState;
+	@state() loaderState!: DivcordServiceState;
 
 	constructor() {
 		super();
-		this.loaderState = divcordLoader.state;
-		divcordLoader.addEventListener('state-updated', () => {
-			this.loaderState = divcordLoader.state;
+		this.loaderState = divcordService.state;
+		divcordService.addEventListener('state-updated', () => {
+			this.loaderState = divcordService.state;
 		});
 	}
 
 	task = new Task<never, void>(this, {
 		task: async () => {
-			const records = await divcordLoader.update();
+			const records = await divcordService.update();
 			const event = new CustomEvent('records-updated', { detail: records, bubbles: true, composed: true });
 			this.dispatchEvent(event);
 		},

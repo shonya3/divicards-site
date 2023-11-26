@@ -12,18 +12,18 @@ const ONE_DAY_MILLISECONDS = 86_400_000;
 const CACHE_KEY = 'divcord';
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
 
-export type DivcordLoaderEventType = 'state-updated';
-export type DivcordLoaderState = 'idle' | 'updating' | 'updated' | 'error';
+export type DivcordServiceEventType = 'state-updated';
+export type DivcordServiceState = 'idle' | 'updating' | 'updated' | 'error';
 
-export class DivcordLoaderEvent extends Event {
-	constructor(type: DivcordLoaderEventType) {
+export class DivcordServiceEvent extends Event {
+	constructor(type: DivcordServiceEventType) {
 		super(type);
 	}
 }
 
-export class DivcordLoader extends EventTarget {
-	#state: DivcordLoaderState = 'idle';
-	addEventListener(type: DivcordLoaderEventType, callback: (e: DivcordLoaderEvent) => void): void {
+export class DivcordService extends EventTarget {
+	#state: DivcordServiceState = 'idle';
+	addEventListener(type: DivcordServiceEventType, callback: (e: DivcordServiceEvent) => void): void {
 		super.addEventListener(type, callback);
 	}
 
@@ -31,13 +31,14 @@ export class DivcordLoader extends EventTarget {
 		return this.#state;
 	}
 
-	set state(val: DivcordLoaderState) {
+	set state(val: DivcordServiceState) {
 		this.#state = val;
-		this.dispatchEvent(new DivcordLoaderEvent('state-updated'));
+		this.dispatchEvent(new DivcordServiceEvent('state-updated'));
 	}
 
-	async load(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
+	async read(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
 		if (!cache) cache = await this.#cache();
+
 		const validity = await this.checkValidity(cache);
 		switch (validity) {
 			case 'valid': {
@@ -167,4 +168,4 @@ async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<I
 	return records;
 }
 
-export const divcordLoader = new DivcordLoader();
+export const divcordService = new DivcordService();
