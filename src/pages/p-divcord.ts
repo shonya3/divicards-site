@@ -3,13 +3,13 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { consume } from '@lit/context';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
-import { divcordDataAgeMilliseconds, updateDivcordRecords } from '../loadDivcordRecords';
 import { divcordTableContext } from '../context';
 
 import '../elements/e-card-with-divcord-records';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import { divcordLoader } from '../loadDivcordRecords';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -174,7 +174,7 @@ export class DivcordRecordsAgeElement extends LitElement {
 	@property({ type: Object }) date?: Date;
 	lastLoaded = new Task(this, {
 		async task() {
-			const millis = await divcordDataAgeMilliseconds();
+			const millis = await divcordLoader.cacheAge();
 			if (millis === null) {
 				return null;
 			}
@@ -213,9 +213,7 @@ declare global {
 export class UpdateDivcordDataElement extends LitElement {
 	task = new Task<never, void>(this, {
 		task: async () => {
-			const cache = await caches.open('divcord');
-			const records = await updateDivcordRecords(cache);
-
+			const records = await divcordLoader.update();
 			const event = new CustomEvent('records-updated', { detail: records, bubbles: true, composed: true });
 			this.dispatchEvent(event);
 		},

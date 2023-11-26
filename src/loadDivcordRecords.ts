@@ -1,86 +1,129 @@
 import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 import { IDivcordData, poeDataJson } from './jsons/jsons';
 import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
-const ONE_DAY_MILLISECONDS = 86_400_000;
-
-const sheetUrl = () => {
-	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
-	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
-	const sheet = 'Cards_and_Hypotheses';
-	const range = `${sheet}!A3:Z`;
-	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${range}?key=${key}`;
-	return url;
-};
-
-const richUrl = () => {
-	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
-	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
-	const sheet = 'Cards_and_Hypotheses';
-	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}?&ranges=${sheet}!F3:F&includeGridData=true&key=${key}`;
-	return url;
-};
+import { IPoeData } from './PoeData.js';
 
 export type DivcordResponses = {
 	rich: Response;
 	sheet: Response;
 };
 
-async function loadCachedResponses(cache: Cache): Promise<DivcordResponses | null> {
-	const rich = await cache.match(richUrl());
-	const sheet = await cache.match(sheetUrl());
-	if (!rich || !sheet) return null;
-	return { rich, sheet };
-}
+const ONE_DAY_MILLISECONDS = 86_400_000;
+const CACHE_KEY = 'divcord';
+export type CacheValidity = 'valid' | 'stale' | 'not exist';
 
-async function serializeDivcordResponses(responses: DivcordResponses): Promise<IDivcordData> {
-	const [rich_sources_column, sheet] = await Promise.all([responses.rich.json(), responses.sheet.json()]);
-	return { rich_sources_column, sheet };
-}
-
-export async function divcordDataAgeMilliseconds(cache?: Cache) {
-	if (!cache) {
-		cache = await caches.open('divcord');
+export class DivcordLoader {
+	async load(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
+		if (!cache) cache = await this.#cache();
+		const validity = await this.checkValidity(cache);
+		switch (validity) {
+			case 'valid': {
+				return this.#fromLocalStorage();
+			}
+			case 'stale': {
+				this.update();
+				return this.#fromLocalStorage();
+			}
+			case 'not exist': {
+				this.update();
+				return await this.#fromStaticJson();
+			}
+		}
 	}
-	const responses = await loadCachedResponses(cache);
-	if (!responses) return null;
-	const { rich, sheet } = responses;
 
-	const richTimestamp = new Date(rich.headers.get('date')!).getTime();
-	const sheetTimestamp = new Date(sheet.headers.get('date')!).getTime();
-	const oldest = Math.min(richTimestamp, sheetTimestamp);
-	const difference = Date.now() - oldest;
-	return difference;
-}
+	async update(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
+		if (!cache) cache = await this.#cache();
+		await Promise.all([cache.add(richUrl()), cache.add(sheetUrl())]);
+		const resp = await this.#cachedResponses();
+		const divcordData = await this.#serializeResponses(resp!);
+		const records = await parseRecords(divcordData, poeDataJson);
+		this.#saveLocalStorage(records);
+		return records.map(r => new SourcefulDivcordTableRecord(r));
+	}
 
-export async function updateDivcordRecords(cache: Cache) {
-	await Promise.all([cache.add(richUrl()), cache.add(sheetUrl())]);
-	const responses = await loadCachedResponses(cache);
-
-	const divcordTableData = await serializeDivcordResponses(responses!);
-	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
-	await initWasmModule();
-	const records = parsed_records(divcordTableData, poeDataJson) as ISourcefulDivcordTableRecord[];
-	localStorage.setItem('records', JSON.stringify(records));
-	return records.map(r => new SourcefulDivcordTableRecord(r));
-}
-
-export async function loadDivcordRecords(): Promise<SourcefulDivcordTableRecord[]> {
-	const cache = await caches.open('divcord');
-	const recordsFromLocalStorage = localStorage.getItem('records');
-
-	if (!recordsFromLocalStorage) {
-		updateDivcordRecords(cache);
-		return (await import('../src/jsons/jsons').then(r => r.divcordRecords)).map(
-			r => new SourcefulDivcordTableRecord(r)
-		);
-	} else {
-		const age = await divcordDataAgeMilliseconds(cache);
-		if (age! >= ONE_DAY_MILLISECONDS) {
-			updateDivcordRecords(cache);
+	async cacheAge(cache?: Cache): Promise<number | null> {
+		if (!cache) cache = await caches.open(CACHE_KEY);
+		const resp = await this.#cachedResponses();
+		if (!resp) {
+			return null;
 		}
 
-		return (JSON.parse(recordsFromLocalStorage) as ISourcefulDivcordTableRecord[]).map(
-			r => new SourcefulDivcordTableRecord(r)
-		);
+		const cachedDate = new Date(resp.rich.headers.get('date')!).getTime();
+		return Date.now() - cachedDate;
+	}
+
+	async checkValidity(cache?: Cache): Promise<CacheValidity> {
+		if (!cache) cache = await caches.open(CACHE_KEY);
+		const millis = await this.cacheAge(cache);
+		if (millis === null || localStorage.getItem(CACHE_KEY) === null) {
+			return 'not exist';
+		}
+
+		return millis < ONE_DAY_MILLISECONDS ? 'valid' : 'stale';
+	}
+
+	async #cache(): Promise<Cache> {
+		return await caches.open(CACHE_KEY);
+	}
+
+	async #cachedResponses(cache?: Cache): Promise<DivcordResponses | null> {
+		if (!cache) cache = await this.#cache();
+		const rich = await cache.match(richUrl());
+		const sheet = await cache.match(sheetUrl());
+		if (!rich || !sheet) return null;
+		return {
+			rich,
+			sheet,
+		};
+	}
+
+	async #serializeResponses(r: DivcordResponses): Promise<IDivcordData> {
+		const [rich_sources_column, sheet] = await Promise.all([r.rich.json(), r.sheet.json()]);
+		return { rich_sources_column, sheet };
+	}
+
+	#fromLocalStorage(): SourcefulDivcordTableRecord[] {
+		const records = localStorage.getItem(CACHE_KEY);
+		if (!records) {
+			throw new Error(`No divcord in LocalStorage, key: ${CACHE_KEY}`);
+		}
+
+		const iRecords = JSON.parse(records) as ISourcefulDivcordTableRecord[];
+		return iRecords.map(r => new SourcefulDivcordTableRecord(r));
+	}
+
+	async #fromStaticJson(): Promise<SourcefulDivcordTableRecord[]> {
+		const { divcordRecords } = await import('../src/jsons/jsons');
+		return divcordRecords.map(r => new SourcefulDivcordTableRecord(r));
+	}
+
+	#saveLocalStorage(records: ISourcefulDivcordTableRecord[]) {
+		localStorage.setItem(CACHE_KEY, JSON.stringify(records));
 	}
 }
+
+function sheetUrl(): string {
+	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
+	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
+	const sheet = 'Cards_and_Hypotheses';
+	const range = `${sheet}!A3:Z`;
+	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${range}?key=${key}`;
+	return url;
+}
+
+function richUrl(): string {
+	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
+	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
+	const sheet = 'Cards_and_Hypotheses';
+	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}?&ranges=${sheet}!F3:F&includeGridData=true&key=${key}`;
+	return url;
+}
+
+async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<ISourcefulDivcordTableRecord[]> {
+	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
+	await initWasmModule();
+	const records = parsed_records(divcord, poeData) as ISourcefulDivcordTableRecord[];
+	return records;
+}
+
+export const divcordLoader = new DivcordLoader();

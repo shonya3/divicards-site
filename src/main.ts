@@ -13,9 +13,9 @@ import './pages/p-source-type';
 import './pages/p-home';
 import './pages/p-divcord';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { loadDivcordRecords } from './loadDivcordRecords';
 import { provide } from '@lit/context';
 import { cardsFinderContext, divcordTableContext } from './context';
+import { divcordLoader } from './loadDivcordRecords';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -146,8 +146,7 @@ export class RootElement extends LitElement {
 }
 
 const rootElement = document.createElement('wc-root');
-
-const divcordTable = new SourcefulDivcordTable(await loadDivcordRecords());
+const divcordTable = new SourcefulDivcordTable(await divcordLoader.load());
 const cardsFinder = new CardsFinder(divcordTable);
 
 rootElement.divcordTable = divcordTable;
