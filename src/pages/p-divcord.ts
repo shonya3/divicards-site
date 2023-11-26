@@ -174,11 +174,7 @@ export class DivcordRecordsAgeElement extends LitElement {
 	@property({ type: Object }) date?: Date;
 	lastLoaded = new Task(this, {
 		async task() {
-			const millis = await divcordLoader.cacheAge();
-			if (millis === null) {
-				return null;
-			}
-			return new Date(Date.now() - millis);
+			return await divcordLoader.cacheDate();
 		},
 		args: () => [],
 	});

@@ -41,15 +41,24 @@ export class DivcordLoader {
 		return records.map(r => new SourcefulDivcordTableRecord(r));
 	}
 
-	async cacheAge(cache?: Cache): Promise<number | null> {
+	async cacheDate(cache?: Cache): Promise<Date | null> {
 		if (!cache) cache = await this.#cache();
 		const resp = await this.#cachedResponses();
 		if (!resp) {
 			return null;
 		}
 
-		const cachedDate = new Date(resp.rich.headers.get('date')!).getTime();
-		return Date.now() - cachedDate;
+		return new Date(resp.rich.headers.get('date')!);
+	}
+
+	async cacheAge(cache?: Cache): Promise<number | null> {
+		if (!cache) cache = await this.#cache();
+		const date = await this.cacheDate(cache);
+		if (!date) {
+			return null;
+		}
+
+		return Date.now() - date.getTime();
 	}
 
 	async checkValidity(cache?: Cache): Promise<CacheValidity> {
