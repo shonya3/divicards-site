@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { consume } from '@lit/context';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
@@ -9,7 +9,7 @@ import '../elements/e-card-with-divcord-records';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { divcordLoader } from '../loadDivcordRecords';
+import { type DivcordLoaderState, divcordLoader } from '../DivcordLoader';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -207,6 +207,16 @@ declare global {
 
 @customElement('e-update-divcord-data')
 export class UpdateDivcordDataElement extends LitElement {
+	@state() loaderState!: DivcordLoaderState;
+
+	constructor() {
+		super();
+		this.loaderState = divcordLoader.state;
+		divcordLoader.addEventListener('state-updated', () => {
+			this.loaderState = divcordLoader.state;
+		});
+	}
+
 	task = new Task<never, void>(this, {
 		task: async () => {
 			const records = await divcordLoader.update();
@@ -216,7 +226,7 @@ export class UpdateDivcordDataElement extends LitElement {
 	});
 
 	protected loadBtn() {
-		return html`<sl-button @click=${this.task.run.bind(this.task)}>
+		return html`<sl-button .loading=${this.loaderState === 'updating'} @click=${this.task.run.bind(this.task)}>
 			<p class="reload">Load divcord data</p>
 		</sl-button>`;
 	}

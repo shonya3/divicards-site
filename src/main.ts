@@ -15,7 +15,7 @@ import './pages/p-divcord';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { provide } from '@lit/context';
 import { cardsFinderContext, divcordTableContext } from './context';
-import { divcordLoader } from './loadDivcordRecords';
+import { divcordLoader } from './DivcordLoader';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {

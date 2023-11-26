@@ -1,6 +1,6 @@
-import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
-import { IDivcordData, poeDataJson } from './jsons/jsons';
-import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord.js';
+import { IDivcordData, poeDataJson } from './jsons/jsons.js';
+import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord.js';
 import { IPoeData } from './PoeData.js';
 
 export type DivcordResponses = {
@@ -12,7 +12,30 @@ const ONE_DAY_MILLISECONDS = 86_400_000;
 const CACHE_KEY = 'divcord';
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
 
-export class DivcordLoader {
+export type DivcordLoaderEventType = 'state-updated';
+export type DivcordLoaderState = 'idle' | 'updating' | 'updated' | 'error';
+
+export class DivcordLoaderEvent extends Event {
+	constructor(type: DivcordLoaderEventType) {
+		super(type);
+	}
+}
+
+export class DivcordLoader extends EventTarget {
+	#state: DivcordLoaderState = 'idle';
+	addEventListener(type: DivcordLoaderEventType, callback: (e: DivcordLoaderEvent) => void): void {
+		super.addEventListener(type, callback);
+	}
+
+	get state() {
+		return this.#state;
+	}
+
+	set state(val: DivcordLoaderState) {
+		this.#state = val;
+		this.dispatchEvent(new DivcordLoaderEvent('state-updated'));
+	}
+
 	async load(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
 		if (!cache) cache = await this.#cache();
 		const validity = await this.checkValidity(cache);
@@ -33,12 +56,21 @@ export class DivcordLoader {
 
 	async update(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
 		if (!cache) cache = await this.#cache();
-		await Promise.all([cache.add(richUrl()), cache.add(sheetUrl())]);
-		const resp = await this.#cachedResponses();
-		const divcordData = await this.#serializeResponses(resp!);
-		const records = await parseRecords(divcordData, poeDataJson);
-		this.#saveLocalStorage(records);
-		return records.map(r => new SourcefulDivcordTableRecord(r));
+
+		try {
+			this.state = 'updating';
+			await Promise.all([cache.add(richUrl()), cache.add(sheetUrl())]);
+			const resp = await this.#cachedResponses();
+			const divcordData = await this.#serializeResponses(resp!);
+			const records = await parseRecords(divcordData, poeDataJson);
+			this.#saveLocalStorage(records);
+			const recs = records.map(r => new SourcefulDivcordTableRecord(r));
+			this.state = 'updated';
+			return recs;
+		} catch (err) {
+			this.state = 'error';
+			throw err;
+		}
 	}
 
 	async cacheDate(cache?: Cache): Promise<Date | null> {
@@ -102,7 +134,7 @@ export class DivcordLoader {
 	}
 
 	async #fromStaticJson(): Promise<SourcefulDivcordTableRecord[]> {
-		const { divcordRecords } = await import('../src/jsons/jsons');
+		const { divcordRecords } = await import('./jsons/jsons.js');
 		return divcordRecords.map(r => new SourcefulDivcordTableRecord(r));
 	}
 
