@@ -3,8 +3,10 @@ import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card.js';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
-import { ISource } from '../data/ISource.interface.js';
 import { poeData } from '../PoeData.js';
+import { cardsFinderContext } from '../context.js';
+import { CardsFinder } from '../data/CardsFinder.js';
+import { consume } from '@lit/context';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,11 +24,13 @@ export const paginate = <T>(arr: T[], page: number, perPage: number) => {
 export class SourcesTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
-	@property({ type: Array, attribute: false }) cardsBySources: [ISource, string[]][] = Object.create({});
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) showSourceType = true;
 	@property() firstColumnName = 'Source';
+
+	@consume({ context: cardsFinderContext, subscribe: true })
+	cardsFinder!: CardsFinder;
 
 	// get filtered() {
 	// 	const filter = this.filter.trim().toLowerCase();
@@ -104,7 +108,7 @@ export class SourcesTablePage extends LitElement {
 				</tr>
 			</thead>
 			<tbody>
-				${this.cardsBySources.map(
+				${this.cardsFinder.cardsBySources().map(
 					([source, cards]) =>
 						html`
 							<tr>

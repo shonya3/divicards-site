@@ -1,6 +1,11 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { Task } from '@lit/task';
+import { consume } from '@lit/context';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
+import { divcordDataAgeMilliseconds, updateDivcordRecords } from '../loadDivcordRecords';
+import { divcordTableContext } from '../context';
+
 import '../elements/e-card-with-divcord-records';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
@@ -14,12 +19,13 @@ declare global {
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
+	@consume({ context: divcordTableContext, subscribe: true })
+	divcordTable!: SourcefulDivcordTable;
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
-	async #onRecordsUpdated() {
-		await this.ageEl.lastLoaded.run();
-		window.location.reload();
+
+	#onRecordsUpdated() {
+		this.ageEl.lastLoaded.run();
 	}
 
 	render() {
@@ -90,9 +96,6 @@ export class DivcordTablePage extends LitElement {
 		}
 	`;
 }
-
-import { Task } from '@lit/task';
-import { divcordDataAgeMilliseconds, updateDivcordRecords } from '../loadDivcordRecords';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -211,8 +214,10 @@ export class UpdateDivcordDataElement extends LitElement {
 	task = new Task<never, void>(this, {
 		task: async () => {
 			const cache = await caches.open('divcord');
-			await updateDivcordRecords(cache);
-			this.dispatchEvent(new Event('records-updated'));
+			const records = await updateDivcordRecords(cache);
+
+			const event = new CustomEvent('records-updated', { detail: records, bubbles: true, composed: true });
+			this.dispatchEvent(event);
 		},
 	});
 

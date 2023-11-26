@@ -61,7 +61,7 @@ export async function updateDivcordRecords(cache: Cache) {
 	await initWasmModule();
 	const records = parsed_records(divcordTableData, poeDataJson) as ISourcefulDivcordTableRecord[];
 	localStorage.setItem('records', JSON.stringify(records));
-	return records;
+	return records.map(r => new SourcefulDivcordTableRecord(r));
 }
 
 export async function loadDivcordRecords(): Promise<SourcefulDivcordTableRecord[]> {

@@ -1,8 +1,8 @@
-import { SourcefulDivcordTable } from './data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 import './elements/e-sourceful-divcord-record';
 import './pages/p-cards-table';
 import { Router } from '@thepassle/app-tools/router.js';
-import { LitElement, css, html, render } from 'lit';
+import { LitElement, PropertyValueMap, css, html, render } from 'lit';
 import './pages/p-card';
 import { ISource, SourceType } from './data/ISource.interface';
 import { CardsFinder } from './data/CardsFinder';
@@ -12,8 +12,10 @@ import './pages/p-sources-table';
 import './pages/p-source-type';
 import './pages/p-home';
 import './pages/p-divcord';
-import { customElement, query } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { loadDivcordRecords } from './loadDivcordRecords';
+import { provide } from '@lit/context';
+import { cardsFinderContext, divcordTableContext } from './context';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -43,6 +45,27 @@ declare global {
 @customElement('wc-root')
 export class RootElement extends LitElement {
 	@query('.outlet') outlet!: HTMLElement;
+
+	@provide({ context: divcordTableContext })
+	@property({ type: Object })
+	divcordTable!: SourcefulDivcordTable;
+
+	@provide({ context: cardsFinderContext })
+	@state()
+	cardsFinder!: CardsFinder;
+
+	protected willUpdate(changedProperties: PropertyValueMap<this>): void {
+		if (changedProperties.has('divcordTable')) {
+			this.cardsFinder = new CardsFinder(this.divcordTable);
+		}
+	}
+
+	constructor() {
+		super();
+		this.addEventListener('records-updated', e => {
+			this.divcordTable = new SourcefulDivcordTable((e as CustomEvent<SourcefulDivcordTableRecord[]>).detail);
+		});
+	}
 
 	render() {
 		return html`<div class="wrapper">
@@ -123,14 +146,14 @@ export class RootElement extends LitElement {
 }
 
 const rootElement = document.createElement('wc-root');
-document.body.append(rootElement);
 
 const divcordTable = new SourcefulDivcordTable(await loadDivcordRecords());
-
 const cardsFinder = new CardsFinder(divcordTable);
 
-const sourcesByCards = divcordTable.sourcesByCards();
-const cardsByMaps = cardsFinder.cardsByMaps();
+rootElement.divcordTable = divcordTable;
+rootElement.cardsFinder = cardsFinder;
+
+document.body.append(rootElement);
 
 export const router = new Router({
 	routes: [
@@ -142,31 +165,19 @@ export const router = new Router({
 					.page=${Number(query.page ?? 1)}
 					.perPage=${Number(query['per-page'] ?? 14)}
 					filter=${query.filter ?? ''}
-					.divcordTable=${divcordTable}
 				></p-home>`,
 		},
 		{
 			path: '/divcord',
 			title: 'Divcord',
-			render: ({ query }) =>
-				html`<p-divcord
-					.page=${Number(query.page ?? 1)}
-					.perPage=${Number(query['per-page'] ?? 14)}
-					.filter=${query.filter ?? ''}
-					.sourcesByCards=${sourcesByCards}
-					.divcordTable=${divcordTable}
-				></p-divcord>`,
+			render: () => html`<p-divcord></p-divcord>`,
 		},
 		{
 			path: '/card/:name',
 			title: context => decodeURI(context.params!.name),
 			render: context => {
 				const name = decodeURI(context.params.name);
-				return html`<p-card
-					.card=${name}
-					.records=${divcordTable.recordsByCard(name)}
-					.divcordTable=${divcordTable}
-				></p-card>`;
+				return html`<p-card .card=${name}></p-card>`;
 			},
 		},
 		{
@@ -176,8 +187,7 @@ export const router = new Router({
 				const id: string = context.query.id;
 				const type = context.query.type as SourceType;
 				const source: ISource = { id, type, kind: 'source-with-member' };
-
-				return html`<p-source .cardsFinder=${cardsFinder} .source=${source}></p-source>`;
+				return html`<p-source .source=${source}></p-source>`;
 			},
 		},
 		{
@@ -188,7 +198,6 @@ export const router = new Router({
 					.page=${Number(query.page ?? 1)}
 					.perPage=${Number(query['per-page'] ?? 10)}
 					filter=${query.filter}
-					.cardsByMaps=${cardsByMaps}
 				></p-maps-table>`;
 			},
 		},
@@ -200,7 +209,6 @@ export const router = new Router({
 					.page=${Number(query.page ?? 1)}
 					.perPage=${Number(query['per-page'] ?? 10)}
 					filter=${query.filter}
-					.cardsBySources=${cardsFinder.cardsBySources()}
 				></p-sources-table>`;
 			},
 		},
@@ -209,7 +217,7 @@ export const router = new Router({
 			title: context => context.params!.id,
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
-				return html`<p-source-type .cardsFinder=${cardsFinder} .sourceType=${sourceType}></p-source-type>`;
+				return html`<p-source-type .sourceType=${sourceType}></p-source-type>`;
 			},
 		},
 	],

@@ -1,9 +1,11 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import { poeData } from '../PoeData';
 import './e-card-with-sources';
 import '../elements/e-card-with-divcord-records';
+import { consume } from '@lit/context';
+import { divcordTableContext } from '../context';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,12 +16,13 @@ declare global {
 @customElement('p-card')
 export class CardPage extends LitElement {
 	@property({ reflect: true }) card!: string;
-	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
+
+	@consume({ context: divcordTableContext, subscribe: true })
+	divcordTable!: SourcefulDivcordTable;
 
 	render() {
 		return html`<div class="page">
-			<e-card-with-divcord-records .card=${this.card} .records=${this.records}>
+			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
 				<e-card-with-sources
 					slot="card"
 					.name=${this.card}

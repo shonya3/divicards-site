@@ -6,6 +6,8 @@ import '../elements/e-source.js';
 import '../elements/e-source-type.ts';
 import './p-sources-table.ts';
 import { CardsFinder } from '../data/CardsFinder.ts';
+import { cardsFinderContext } from '../context.ts';
+import { consume } from '@lit/context';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -16,7 +18,9 @@ declare global {
 @customElement('p-source-type')
 export class SourceTypePage extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
-	@property({ type: Object }) cardsFinder!: CardsFinder;
+
+	@consume({ context: cardsFinderContext, subscribe: true })
+	cardsFinder!: CardsFinder;
 
 	protected mainBlock() {
 		const { cards, kind } = this.cardsFinder.cardsBySourceType(this.sourceType);

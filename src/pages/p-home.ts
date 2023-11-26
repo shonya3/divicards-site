@@ -4,6 +4,8 @@ import type { CardSize } from '../elements/divination-card/e-divination-card';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import '../elements/e-page-controls';
 import './e-card-with-sources';
+import { consume } from '@lit/context';
+import { divcordTableContext } from '../context';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,8 +24,10 @@ export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'medium';
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 	@property({ reflect: true }) filter: string = '';
+
+	@consume({ context: divcordTableContext, subscribe: true })
+	divcordTable!: SourcefulDivcordTable;
 
 	async #onCardnameInput(e: InputEvent) {
 		const input = e.target;

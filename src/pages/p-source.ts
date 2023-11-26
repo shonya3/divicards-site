@@ -4,6 +4,8 @@ import type { ISource } from '../data/ISource.interface.ts';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import { CardsFinder } from '../data/CardsFinder.ts';
+import { consume } from '@lit/context';
+import { cardsFinderContext } from '../context.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,7 +16,9 @@ declare global {
 @customElement('p-source')
 export class SourcePage extends LitElement {
 	@property({ type: Object }) source!: ISource;
-	@property({ type: Object }) cardsFinder!: CardsFinder;
+
+	@consume({ context: cardsFinderContext, subscribe: true })
+	cardsFinder!: CardsFinder;
 
 	@query('.source') mainSourceElement!: HTMLElement;
 

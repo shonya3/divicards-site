@@ -5,7 +5,9 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
 import '../elements/e-page-controls';
 import { poeData } from '../PoeData';
-import { CardFromSource } from '../data/CardsFinder';
+import { CardsFinder } from '../data/CardsFinder';
+import { consume } from '@lit/context';
+import { cardsFinderContext } from '../context';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -23,9 +25,15 @@ const paginate = <T>(arr: T[], page: number, perPage: number) => {
 export class MapsTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
-	@property({ type: Object, attribute: false }) cardsByMaps: Record<string, CardFromSource[]> = Object.create({});
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
+
+	@consume({ context: cardsFinderContext, subscribe: true })
+	cardsFinder!: CardsFinder;
+
+	get cardsByMaps() {
+		return this.cardsFinder.cardsByMaps();
+	}
 
 	get filtered() {
 		const filter = this.filter.trim().toLowerCase();
