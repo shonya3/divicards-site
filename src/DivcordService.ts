@@ -98,7 +98,7 @@ export class DivcordService extends EventTarget {
 
 	async checkValidity(): Promise<CacheValidity> {
 		const millis = await this.cacheAge();
-		if (millis === null || localStorage.getItem(CACHE_KEY) === null) {
+		if (millis === null || localStorage.getItem(LOCAL_STORAGE_KEY) === null) {
 			return 'not exist';
 		}
 
