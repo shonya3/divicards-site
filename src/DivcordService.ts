@@ -24,6 +24,13 @@ export class DivcordServiceEvent extends Event {
 
 export class DivcordService extends EventTarget {
 	#state: DivcordServiceState = 'idle';
+	#cache: Cache;
+
+	constructor(cache: Cache) {
+		super();
+		this.#cache = cache;
+	}
+
 	addEventListener(type: DivcordServiceEventType, callback: (e: DivcordServiceEvent) => void): void {
 		super.addEventListener(type, callback);
 	}
@@ -37,32 +44,28 @@ export class DivcordService extends EventTarget {
 		this.dispatchEvent(new DivcordServiceEvent('state-updated'));
 	}
 
-	async read(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
-		if (!cache) cache = await this.#cache();
-
-		const validity = await this.checkValidity(cache);
+	async read(): Promise<SourcefulDivcordTableRecord[]> {
+		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
 				return this.#fromLocalStorage();
 			}
 			case 'stale': {
-				this.update(cache);
+				this.update();
 				return this.#fromLocalStorage();
 			}
 			case 'not exist': {
-				this.update(cache);
+				this.update();
 				return await this.#fromStaticJson();
 			}
 		}
 	}
 
-	async update(cache?: Cache): Promise<SourcefulDivcordTableRecord[]> {
-		if (!cache) cache = await this.#cache();
-
+	async update(): Promise<SourcefulDivcordTableRecord[]> {
 		try {
 			this.state = 'updating';
-			await Promise.all([cache.add(richUrl()), cache.add(sheetUrl())]);
-			const resp = await this.#cachedResponses(cache);
+			await Promise.all([this.#cache.add(richUrl()), this.#cache.add(sheetUrl())]);
+			const resp = await this.#cachedResponses();
 			const divcordData = await this.#serializeResponses(resp!);
 			const records = await parseRecords(divcordData, poeDataJson);
 			this.#saveLocalStorage(records);
@@ -75,9 +78,8 @@ export class DivcordService extends EventTarget {
 		}
 	}
 
-	async cacheDate(cache?: Cache): Promise<Date | null> {
-		if (!cache) cache = await this.#cache();
-		const resp = await this.#cachedResponses(cache);
+	async cacheDate(): Promise<Date | null> {
+		const resp = await this.#cachedResponses();
 		if (!resp) {
 			return null;
 		}
@@ -85,9 +87,8 @@ export class DivcordService extends EventTarget {
 		return new Date(resp.rich.headers.get('date')!);
 	}
 
-	async cacheAge(cache?: Cache): Promise<number | null> {
-		if (!cache) cache = await this.#cache();
-		const date = await this.cacheDate(cache);
+	async cacheAge(): Promise<number | null> {
+		const date = await this.cacheDate();
 		if (!date) {
 			return null;
 		}
@@ -95,9 +96,8 @@ export class DivcordService extends EventTarget {
 		return Date.now() - date.getTime();
 	}
 
-	async checkValidity(cache?: Cache): Promise<CacheValidity> {
-		if (!cache) cache = await this.#cache();
-		const millis = await this.cacheAge(cache);
+	async checkValidity(): Promise<CacheValidity> {
+		const millis = await this.cacheAge();
 		if (millis === null || localStorage.getItem(CACHE_KEY) === null) {
 			return 'not exist';
 		}
@@ -105,14 +105,9 @@ export class DivcordService extends EventTarget {
 		return millis < ONE_DAY_MILLISECONDS ? 'valid' : 'stale';
 	}
 
-	async #cache(): Promise<Cache> {
-		return await caches.open(CACHE_KEY);
-	}
-
-	async #cachedResponses(cache?: Cache): Promise<DivcordResponses | null> {
-		if (!cache) cache = await this.#cache();
-		const rich = await cache.match(richUrl());
-		const sheet = await cache.match(sheetUrl());
+	async #cachedResponses(): Promise<DivcordResponses | null> {
+		const rich = await this.#cache.match(richUrl());
+		const sheet = await this.#cache.match(sheetUrl());
 		if (!rich || !sheet) return null;
 		return {
 			rich,
@@ -169,4 +164,5 @@ async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<I
 	return records;
 }
 
-export const divcordService = new DivcordService();
+const cache = await caches.open(CACHE_KEY);
+export const divcordService = new DivcordService(cache);
