@@ -9,9 +9,10 @@ export type DivcordResponses = {
 };
 
 const ONE_DAY_MILLISECONDS = 86_400_000;
-const CACHE_KEY = 'divcord';
-export type CacheValidity = 'valid' | 'stale' | 'not exist';
+const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
+const LOCAL_STORAGE_KEY = 'divcord';
 
+export type CacheValidity = 'valid' | 'stale' | 'not exist';
 export type DivcordServiceEventType = 'state-updated';
 export type DivcordServiceState = 'idle' | 'updating' | 'updated' | 'error';
 
@@ -45,11 +46,11 @@ export class DivcordService extends EventTarget {
 				return this.#fromLocalStorage();
 			}
 			case 'stale': {
-				this.update();
+				this.update(cache);
 				return this.#fromLocalStorage();
 			}
 			case 'not exist': {
-				this.update();
+				this.update(cache);
 				return await this.#fromStaticJson();
 			}
 		}
@@ -61,7 +62,7 @@ export class DivcordService extends EventTarget {
 		try {
 			this.state = 'updating';
 			await Promise.all([cache.add(richUrl()), cache.add(sheetUrl())]);
-			const resp = await this.#cachedResponses();
+			const resp = await this.#cachedResponses(cache);
 			const divcordData = await this.#serializeResponses(resp!);
 			const records = await parseRecords(divcordData, poeDataJson);
 			this.#saveLocalStorage(records);
@@ -76,7 +77,7 @@ export class DivcordService extends EventTarget {
 
 	async cacheDate(cache?: Cache): Promise<Date | null> {
 		if (!cache) cache = await this.#cache();
-		const resp = await this.#cachedResponses();
+		const resp = await this.#cachedResponses(cache);
 		if (!resp) {
 			return null;
 		}
@@ -125,7 +126,7 @@ export class DivcordService extends EventTarget {
 	}
 
 	#fromLocalStorage(): SourcefulDivcordTableRecord[] {
-		const records = localStorage.getItem(CACHE_KEY);
+		const records = localStorage.getItem(LOCAL_STORAGE_KEY);
 		if (!records) {
 			throw new Error(`No divcord in LocalStorage, key: ${CACHE_KEY}`);
 		}
@@ -140,7 +141,7 @@ export class DivcordService extends EventTarget {
 	}
 
 	#saveLocalStorage(records: ISourcefulDivcordTableRecord[]) {
-		localStorage.setItem(CACHE_KEY, JSON.stringify(records));
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(records));
 	}
 }
 
