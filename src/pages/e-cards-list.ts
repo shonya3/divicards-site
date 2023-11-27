@@ -7,18 +7,13 @@ import '../elements/e-act-area.js';
 import '../elements/e-source.js';
 import '../elements/e-page-controls.ts';
 import { poeData } from '../PoeData.ts';
+import { paginate } from '../utils.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'e-cards-list': CardsListElement;
 	}
 }
-
-const paginate = <T>(arr: T[], page: number, perPage: number) => {
-	const start = (page - 1) * perPage;
-	const end = start + perPage;
-	return arr.slice(start, end);
-};
 
 @customElement('e-cards-list')
 export class CardsListElement extends LitElement {

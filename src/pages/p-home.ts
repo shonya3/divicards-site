@@ -6,18 +6,13 @@ import '../elements/e-page-controls';
 import './e-card-with-sources';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
+import { paginate } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-home': HomePage;
 	}
 }
-
-const paginate = <T>(arr: T[], page: number, perPage: number) => {
-	const start = (page - 1) * perPage;
-	const end = start + perPage;
-	return arr.slice(start, end);
-};
 
 @customElement('p-home')
 export class HomePage extends LitElement {

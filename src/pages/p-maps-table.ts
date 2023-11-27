@@ -8,18 +8,13 @@ import { poeData } from '../PoeData';
 import { CardsFinder } from '../data/CardsFinder';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
+import { paginate } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-maps-table': MapsTablePage;
 	}
 }
-
-const paginate = <T>(arr: T[], page: number, perPage: number) => {
-	const start = (page - 1) * perPage;
-	const end = start + perPage;
-	return arr.slice(start, end);
-};
 
 @customElement('p-maps-table')
 export class MapsTablePage extends LitElement {
