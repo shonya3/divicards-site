@@ -1,7 +1,8 @@
-import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord.js';
-import { IDivcordData, poeDataJson } from './jsons/jsons.js';
-import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord.js';
-import { IPoeData } from './PoeData.js';
+import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import { IDivcordData, poeDataJson } from './jsons/jsons';
+import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import { IPoeData } from './PoeData';
+import { LocalStorageManager, Serde } from './storage';
 
 export type DivcordResponses = {
 	rich: Response;
@@ -25,10 +26,11 @@ export class DivcordServiceEvent extends Event {
 export class DivcordService extends EventTarget {
 	#state: DivcordServiceState = 'idle';
 	#cache: Cache;
-
+	localStorageManager: DivcordLocalStorageManager;
 	constructor(cache: Cache) {
 		super();
 		this.#cache = cache;
+		this.localStorageManager = new DivcordLocalStorageManager();
 	}
 
 	addEventListener(type: DivcordServiceEventType, callback: (e: DivcordServiceEvent) => void): void {
@@ -48,11 +50,11 @@ export class DivcordService extends EventTarget {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
-				return this.#fromLocalStorage();
+				return this.localStorageManager.load()!;
 			}
 			case 'stale': {
 				this.update();
-				return this.#fromLocalStorage();
+				return this.localStorageManager.load()!;
 			}
 			case 'not exist': {
 				this.update();
@@ -66,12 +68,11 @@ export class DivcordService extends EventTarget {
 			this.state = 'updating';
 			await Promise.all([this.#cache.add(richUrl()), this.#cache.add(sheetUrl())]);
 			const resp = await this.#cachedResponses();
-			const divcordData = await this.#serializeResponses(resp!);
+			const divcordData = await this.#serderesponses(resp!);
 			const records = await parseRecords(divcordData, poeDataJson);
-			this.#saveLocalStorage(records);
-			const recs = records.map(r => new SourcefulDivcordTableRecord(r));
+			this.localStorageManager.save(records);
 			this.state = 'updated';
-			return recs;
+			return records;
 		} catch (err) {
 			this.state = 'error';
 			throw err;
@@ -98,7 +99,7 @@ export class DivcordService extends EventTarget {
 
 	async checkValidity(): Promise<CacheValidity> {
 		const millis = await this.cacheAge();
-		if (millis === null || localStorage.getItem(LOCAL_STORAGE_KEY) === null) {
+		if (millis === null || !this.localStorageManager.exists()) {
 			return 'not exist';
 		}
 
@@ -115,28 +116,38 @@ export class DivcordService extends EventTarget {
 		};
 	}
 
-	async #serializeResponses(r: DivcordResponses): Promise<IDivcordData> {
+	async #serderesponses(r: DivcordResponses): Promise<IDivcordData> {
 		const [rich_sources_column, sheet] = await Promise.all([r.rich.json(), r.sheet.json()]);
 		return { rich_sources_column, sheet };
-	}
-
-	#fromLocalStorage(): SourcefulDivcordTableRecord[] {
-		const records = localStorage.getItem(LOCAL_STORAGE_KEY);
-		if (!records) {
-			throw new Error(`No divcord in LocalStorage, key: ${CACHE_KEY}`);
-		}
-
-		const iRecords = JSON.parse(records) as ISourcefulDivcordTableRecord[];
-		return iRecords.map(r => new SourcefulDivcordTableRecord(r));
 	}
 
 	async #fromStaticJson(): Promise<SourcefulDivcordTableRecord[]> {
 		const { divcordRecords } = await import('./jsons/jsons.js');
 		return divcordRecords.map(r => new SourcefulDivcordTableRecord(r));
 	}
+}
 
-	#saveLocalStorage(records: ISourcefulDivcordTableRecord[]) {
-		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(records));
+class DivcordSerde extends Serde<
+	SourcefulDivcordTableRecord[],
+	SourcefulDivcordTableRecord[] | ISourcefulDivcordTableRecord[]
+> {
+	serialize(value: SourcefulDivcordTableRecord[] | ISourcefulDivcordTableRecord[]): string {
+		return super.serialize(value);
+	}
+
+	deserialize(s: string): SourcefulDivcordTableRecord[] {
+		const iRecords = super.deserialize(s) as ISourcefulDivcordTableRecord[];
+		return iRecords.map(r => new SourcefulDivcordTableRecord(r));
+	}
+}
+
+export class DivcordLocalStorageManager extends LocalStorageManager<
+	SourcefulDivcordTableRecord[],
+	typeof LOCAL_STORAGE_KEY,
+	SourcefulDivcordTableRecord[] | ISourcefulDivcordTableRecord[]
+> {
+	constructor() {
+		super(LOCAL_STORAGE_KEY, new DivcordSerde());
 	}
 }
 
@@ -157,11 +168,11 @@ function richUrl(): string {
 	return url;
 }
 
-async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<ISourcefulDivcordTableRecord[]> {
+async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<SourcefulDivcordTableRecord[]> {
 	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
 	await initWasmModule();
 	const records = parsed_records(divcord, poeData) as ISourcefulDivcordTableRecord[];
-	return records;
+	return records.map(r => new SourcefulDivcordTableRecord(r));
 }
 
 const cache = await caches.open(CACHE_KEY);
