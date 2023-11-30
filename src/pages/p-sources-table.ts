@@ -26,17 +26,6 @@ export class SourcesTablePage extends LitElement {
 	@consume({ context: cardsFinderContext, subscribe: true })
 	cardsFinder!: CardsFinder;
 
-	// get filtered() {
-	// 	const filter = this.filter.trim().toLowerCase();
-	// 	return this.cardsBySources
-	// 		.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
-	// 		.sort((a, b) => a[0].localeCompare(b[0]));
-	// }
-
-	// get paginated() {
-	// 	return paginate(this.filtered, this.page, this.perPage);
-	// }
-
 	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
 		if (_changedProperties.has('filter')) {
 			const url = new URL(window.location.href);
@@ -46,49 +35,8 @@ export class SourcesTablePage extends LitElement {
 		}
 	}
 
-	#onMapnameInput(e: InputEvent) {
-		const input = e.target;
-		if (!(input instanceof HTMLInputElement)) {
-			return;
-		}
-
-		this.filter = input.value;
-	}
-
-	#oncardSizeSelect(e: InputEvent) {
-		if (e.target instanceof HTMLSelectElement) {
-			const value = e.target.value;
-			if (['small', 'medium', 'large'].some(size => size === value)) {
-				this.size = value as CardSize;
-			}
-		}
-	}
-
 	protected render() {
-		return html`
-			<!--
-			<header>
-				<form>
-					<div>
-						<label for="input-mapname">Input map name</label>
-						<input @input="${this.#onMapnameInput}" type="text" id="input-mapname" />
-					</div>
-					<div>
-						<label for="select-size">Select size</label>
-						<select @input=${this.#oncardSizeSelect} .value=${this.size} name="" id="select-size">
-							<option value="small">small</option>
-							<option value="medium">medium</option>
-							<option value="large">large</option>
-						</select>
-					</div>
-				</form>
-				<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
-			</header>
-
-			!-->
-
-			${this.table()}
-		`;
+		return html` ${this.table()} `;
 	}
 
 	protected table() {
@@ -116,8 +64,6 @@ export class SourcesTablePage extends LitElement {
 								<td>
 									<ul>
 										${cards.map(card => {
-											// const minLevel =
-											// 	this.poeData.cards.find(c => c.name === card)?.minLevel ?? 0;
 											return html`<li>
 												<e-divination-card
 													.minLevel=${poeData.minLevel(card)}
