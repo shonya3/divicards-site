@@ -4,6 +4,7 @@ import type { CardFromSource } from '../data/CardsFinder';
 import type { ISource } from '../data/ISource.interface';
 import './divination-card/e-divination-card';
 import './e-source';
+import { poeData } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -26,7 +27,12 @@ export class SourceAndCardsElement extends LitElement {
 	cardsList() {
 		return html`<ul>
 			${this.cards.map(({ card, boss }) => {
-				return html`<e-divination-card size="large" .name=${card} .boss=${boss?.id}>
+				return html`<e-divination-card
+					.minLevel=${poeData.minLevel(card)}
+					size="large"
+					.name=${card}
+					.boss=${boss?.id}
+				>
 					${boss
 						? html`<e-source
 								@click=${this.#onBossNavigation}
