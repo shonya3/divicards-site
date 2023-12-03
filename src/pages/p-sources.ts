@@ -46,7 +46,7 @@ export class SourcesPage extends LitElement {
 				this.records,
 				poeData
 			);
-			this.sourcesAndCards = sourcesAndCards.slice(0, 5);
+			this.sourcesAndCards = sourcesAndCards;
 			this.sourcetypesCountsMap = sourcetypesCountsMap;
 		}
 
@@ -88,8 +88,6 @@ export class SourcesPage extends LitElement {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
-			--source-type-font-size: 1rem;
-			--source-type-text-color: lightyellow;
 		}
 
 		.page {
@@ -114,6 +112,8 @@ export class SourcesPage extends LitElement {
 		.sourcetypes-list {
 			display: flex;
 			flex-direction: column;
+			--source-type-font-size: 1rem;
+			--source-type-text-color: lightyellow;
 		}
 	`;
 }
