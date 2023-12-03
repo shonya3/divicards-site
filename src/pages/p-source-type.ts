@@ -42,15 +42,11 @@ export class SourceTypePage extends LitElement {
 					})}
 				</ul>`;
 		} else if (kind === 'source-with-member') {
-			// const cardsBySources = cards.map(([sourceId, cards]) => {
-			// 	return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards] as const;
-			// });
-			const cardsBySources: any[] = [];
 			return html`<p-sources-table
 				.firstColumnName=${this.sourceType}
 				size="medium"
 				.showSourceType=${false}
-				.cardsBySources=${cardsBySources}
+				.sourceTypes=${[this.sourceType]}
 			>
 				<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			</p-sources-table>`;
