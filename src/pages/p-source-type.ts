@@ -37,7 +37,7 @@ export class SourceTypePage extends LitElement {
 		return html`<div class="page">
 			<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			<ul>
-				${this.sourcesAndCards.slice(0, 1).map(
+				${this.sourcesAndCards.map(
 					({ source, cards }) =>
 						html`<li>
 							<e-source-and-cards
