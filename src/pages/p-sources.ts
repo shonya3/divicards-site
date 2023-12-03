@@ -64,7 +64,7 @@ export class SourcesPage extends LitElement {
 
 	protected render() {
 		return html`<div class="page">
-			<details open>
+			<details>
 				<summary>List of sourcetypes</summary>
 				<ul class="sourcetypes-list">
 					${Array.from(this.sourcetypesCountsMap.keys()).map(type => {
