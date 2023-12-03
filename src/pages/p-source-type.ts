@@ -5,7 +5,7 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
 import '../elements/e-source-type';
 import './p-sources.ts';
-import { SourceAndCards, cardsBySourceTypes } from '../data/CardsFinder';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../data/CardsFinder';
 import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
@@ -38,6 +38,10 @@ export class SourceTypePage extends LitElement {
 						return this.sourceType === 'Act' ? bLevel - aLevel : aLevel - bLevel;
 					} else return 0;
 				});
+			}
+
+			for (const { cards } of sourcesAndCards) {
+				sortByWeight(cards, poeData);
 			}
 
 			this.sourcesAndCards = sourcesAndCards;

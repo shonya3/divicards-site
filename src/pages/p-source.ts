@@ -1,12 +1,13 @@
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
 import '../elements/e-source-and-cards';
-import { CardsFinder } from '../data/CardsFinder';
+import { CardFromSource, CardsFinder, sortByWeight } from '../data/CardsFinder';
+import { poeData } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -19,13 +20,22 @@ export class SourcePage extends LitElement {
 	@property({ type: Object }) source!: ISource;
 
 	@consume({ context: cardsFinderContext, subscribe: true })
+	@state()
 	cardsFinder!: CardsFinder;
 
-	render() {
-		const cards = this.cardsFinder.cardsFromSource(this.source);
+	@state() cards: CardFromSource[] = [];
 
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('cardsFinder')) {
+			const cards = this.cardsFinder.cardsFromSource(this.source);
+			sortByWeight(cards, poeData);
+			this.cards = cards;
+		}
+	}
+
+	render() {
 		return html`<div class="page">
-			<e-source-and-cards .source=${this.source} .cards=${cards}></e-source-and-cards>
+			<e-source-and-cards .source=${this.source} .cards=${this.cards}></e-source-and-cards>
 		</div>`;
 	}
 
