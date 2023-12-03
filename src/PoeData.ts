@@ -116,6 +116,20 @@ export class PoeData implements IPoeData {
 		}
 		return bossnames;
 	}
+
+	level(name: string, type: 'Map' | 'Act'): number | null {
+		switch (type) {
+			case 'Map': {
+				const tier = this.findMap(name)?.tier;
+				return typeof tier === 'number' ? tier + 67 : null;
+			}
+			case 'Act': {
+				return this.findActAreaById(name)?.areaLevel ?? null;
+			}
+			default:
+				throw new Error('Type should be Act or Map');
+		}
+	}
 }
 
 export const poeData = new PoeData(poeDataJson);
