@@ -29,7 +29,7 @@ export class CardsFinder {
 	}
 
 	cardsByMaps(): Record<string, CardFromSource[]> {
-		const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
+		const { sourcesAndCards } = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
 		const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
 		return Object.fromEntries(entries);
 	}
@@ -137,7 +137,7 @@ export function cardsBySourceTypes(
 	sourceTypes: SourceType[],
 	records: ISourcefulDivcordTableRecord[],
 	poeData: PoeData
-): SourceAndCards[] {
+): { sourcetypesCountsMap: Map<SourceType, number>; sourcesAndCards: SourceAndCards[] } {
 	const map: Map<string, CardFromSource[]> = new Map();
 	const sourceMap: Map<string, ISource> = new Map();
 	const set: Set<string> = new Set();
@@ -179,8 +179,13 @@ export function cardsBySourceTypes(
 		}
 	}
 
-	return Array.from(map.entries()).map(([sourceId, cards]) => {
+	const sourcetypesCountsMap: Map<SourceType, number> = new Map();
+	const sourcesAndCards = Array.from(map.entries()).map(([sourceId, cards]) => {
 		const source = sourceMap.get(sourceId)!;
+		const count = sourcetypesCountsMap.get(source.type) ?? 0;
+		sourcetypesCountsMap.set(source.type, count + 1);
 		return { source, cards };
 	});
+
+	return { sourcetypesCountsMap, sourcesAndCards };
 }

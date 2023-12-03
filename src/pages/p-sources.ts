@@ -3,6 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
+import '../elements/e-source-type';
 import { poeData } from '../PoeData';
 import { divcordTableContext } from '../context';
 import { SourceAndCards, cardsBySourceTypes } from '../data/CardsFinder';
@@ -32,6 +33,7 @@ export class SourcesPage extends LitElement {
 	divcordTable!: SourcefulDivcordTable;
 
 	@state() sourcesAndCards: SourceAndCards[] = [];
+	@state() sourcetypesCountsMap!: Map<SourceType, number>;
 
 	get records() {
 		return this.divcordTable.records;
@@ -39,7 +41,13 @@ export class SourcesPage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			this.sourcesAndCards = cardsBySourceTypes(this.sourceTypes, this.records, poeData);
+			const { sourcesAndCards, sourcetypesCountsMap } = cardsBySourceTypes(
+				this.sourceTypes,
+				this.records,
+				poeData
+			);
+			this.sourcesAndCards = sourcesAndCards.slice(0, 5);
+			this.sourcetypesCountsMap = sourcetypesCountsMap;
 		}
 
 		if (map.has('filter')) {
@@ -50,9 +58,23 @@ export class SourcesPage extends LitElement {
 		}
 	}
 
+	// <li>
+	// 					<e-source-type .sourceType=${}></e-source-type>
+	// 				</li>
+
 	protected render() {
 		return html`<div class="page">
-			<ul>
+			<details open>
+				<summary>List of sourcetypes</summary>
+				<ul class="sourcetypes-list">
+					${Array.from(this.sourcetypesCountsMap.keys()).map(type => {
+						//
+						return html`<e-source-type .sourceType=${type}></e-source-type>`;
+					})}
+				</ul>
+			</details>
+
+			<ul style="padding-top: 4rem">
 				${this.sourcesAndCards.map(
 					({ source, cards }) =>
 						html`<li><e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards></li>`
@@ -66,6 +88,8 @@ export class SourcesPage extends LitElement {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
+			--source-type-font-size: 1rem;
+			--source-type-text-color: lightyellow;
 		}
 
 		.page {
@@ -85,6 +109,11 @@ export class SourcesPage extends LitElement {
 
 		li {
 			list-style: none;
+		}
+
+		.sourcetypes-list {
+			display: flex;
+			flex-direction: column;
 		}
 	`;
 }

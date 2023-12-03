@@ -29,7 +29,7 @@ export class SourceTypePage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			const sourcesAndCards = cardsBySourceTypes([this.sourceType], this.divcordTable.records, poeData);
+			const { sourcesAndCards } = cardsBySourceTypes([this.sourceType], this.divcordTable.records, poeData);
 			if (this.sourceType === 'Act' || this.sourceType === 'Map') {
 				sourcesAndCards.sort((a, b) => {
 					const aLevel = poeData.level(a.source.id, this.sourceType as 'Act' | 'Map');
@@ -67,11 +67,14 @@ export class SourceTypePage extends LitElement {
 	}
 
 	static styles = css`
+		:host {
+			--source-type-font-size: 1.8rem;
+		}
+
 		* {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
-			--source-type-font-size: 1.8rem;
 		}
 
 		.page {

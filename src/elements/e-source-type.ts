@@ -27,9 +27,14 @@ export class SourceTypeElement extends LitElement {
 	}
 
 	static styles = css`
+		:host {
+			width: fit-content;
+			margin-inline: auto;
+			display: block;
+		}
 		.source-type {
 			text-align: center;
-			color: orange;
+			color: var(--source-type-text-color, orange);
 			font-weight: 500;
 			font-size: var(--source-type-font-size, 20px);
 		}
