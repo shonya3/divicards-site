@@ -19,7 +19,7 @@ declare global {
 export class SourcesTablePage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
-	@property({ reflect: true }) size: CardSize = 'medium';
+	@property({ reflect: true }) size: CardSize = 'large';
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) showSourceType = true;
 	@property() firstColumnName = 'Source';
