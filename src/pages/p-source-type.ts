@@ -1,14 +1,15 @@
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import type { SourceType } from '../data/ISource.interface.ts';
-import '../elements/divination-card/e-divination-card.js';
-import '../elements/e-source.js';
-import '../elements/e-source-type.ts';
+import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import type { SourceType } from '../data/ISource.interface';
+import '../elements/divination-card/e-divination-card';
+import '../elements/e-source';
+import '../elements/e-source-type';
 import './p-sources.ts';
-import { CardsFinder, cardsBySourceTypes, sortByWeight } from '../data/CardsFinder.ts';
-import { cardsFinderContext } from '../context.ts';
+import { SourceAndCards, cardsBySourceTypes } from '../data/CardsFinder';
+import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
-import { poeData } from '../PoeData.ts';
+import { poeData } from '../PoeData';
+import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -20,52 +21,53 @@ declare global {
 export class SourceTypePage extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
 
-	@consume({ context: cardsFinderContext, subscribe: true })
-	cardsFinder!: CardsFinder;
+	@consume({ context: divcordTableContext, subscribe: true })
+	@state()
+	divcordTable!: SourcefulDivcordTable;
 
-	protected mainBlock() {
-		const sourceAndCardsArr = cardsBySourceTypes([this.sourceType], this.cardsFinder.divcordTable.records, poeData);
-		const kind = sourceAndCardsArr[0].source.kind;
-		if (kind === 'empty-source') {
-			const cards = sourceAndCardsArr[0].cards;
-			sortByWeight(cards, poeData);
-			return html` <e-source-type .sourceType=${this.sourceType}></e-source-type>
-				<ul>
-					${cards.map(card => {
-						return html`<li>
-							<e-divination-card
-								size="medium"
-								.boss=${card.boss?.id}
-								.name=${card.card}
-							></e-divination-card>
-						</li>`;
-					})}
-				</ul>`;
-		} else if (kind === 'source-with-member') {
-			return html`<p-sources-table
-				.firstColumnName=${this.sourceType}
-				size="medium"
-				.showSourceType=${false}
-				.sourceTypes=${[this.sourceType]}
-			>
-				<e-source-type .sourceType=${this.sourceType}></e-source-type>
-			</p-sources-table>`;
-		} else throw new Error('Unsupported source kind');
+	@state() sourcesAndCards: SourceAndCards[] = [];
+
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('divcordTable')) {
+			this.sourcesAndCards = cardsBySourceTypes([this.sourceType], this.divcordTable.records, poeData);
+		}
 	}
 
-	render() {
-		return html`<div>${this.mainBlock()}</div>`;
+	protected render() {
+		return html`<div class="page">
+			<ul>
+				${this.sourcesAndCards.map(
+					({ source, cards }) =>
+						html`<li><e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards></li>`
+				)}
+			</ul>
+		</div>`;
 	}
 
 	static styles = css`
-		ul {
-			list-style: none;
-			display: flex;
-			flex-wrap: wrap;
+		* {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
 		}
 
-		e-source-type {
-			view-transition-name: source-type;
+		.page {
+			padding: 2rem;
+		}
+
+		@media (max-width: 600px) {
+			.page {
+				margin-top: 1rem;
+				padding: 0.5rem;
+			}
+		}
+
+		li:not(:first-child) {
+			margin-top: 4rem;
+		}
+
+		li {
+			list-style: none;
 		}
 	`;
 }

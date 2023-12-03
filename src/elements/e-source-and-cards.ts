@@ -41,7 +41,13 @@ export class SourceAndCardsElement extends LitElement {
 
 	render() {
 		return html`<div class="wrapper">
-			<e-source part="source" class="source" size="large" .source=${this.source}></e-source>
+			<e-source
+				exportparts="source-type"
+				part="source"
+				class="source"
+				size="large"
+				.source=${this.source}
+			></e-source>
 			${this.cardsList()}
 		</div>`;
 	}

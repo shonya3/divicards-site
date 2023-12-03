@@ -119,7 +119,11 @@ export class SourceElement extends LitElement {
 				})}
 			>
 				${this.showSourceType && (this.renderMode === 'normal' || this.source.kind === 'empty-source')
-					? html`<e-source-type class="source-type" .sourceType=${this.source.type}></e-source-type>`
+					? html`<e-source-type
+							part="source-type"
+							class="source-type"
+							.sourceType=${this.source.type}
+					  ></e-source-type>`
 					: nothing}
 				<div class="inner">${this.sourceElement()}</div>
 			</div>
