@@ -28,6 +28,7 @@ export class SourceTypePage extends LitElement {
 		const kind = sourceAndCardsArr[0].source.kind;
 		if (kind === 'empty-source') {
 			const cards = sourceAndCardsArr[0].cards;
+			sortByWeight(cards, poeData);
 			return html` <e-source-type .sourceType=${this.sourceType}></e-source-type>
 				<ul>
 					${cards.map(card => {

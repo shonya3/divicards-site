@@ -3,9 +3,10 @@ import { customElement, property, query } from 'lit/decorators.js';
 import type { ISource } from '../data/ISource.interface.ts';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
-import { CardsFinder } from '../data/CardsFinder.ts';
+import { CardsFinder, sortByWeight } from '../data/CardsFinder.ts';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context.ts';
+import { poeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -32,6 +33,7 @@ export class SourcePage extends LitElement {
 		}
 
 		const cards = this.cardsFinder.cardsFromSource(this.source);
+		sortByWeight(cards, poeData);
 		return html`<ul>
 			${cards.map(({ card, boss }) => {
 				return html`<e-divination-card size="large" .name=${card} .boss=${boss?.id}>
