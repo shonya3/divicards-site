@@ -4,7 +4,7 @@ import type { SourceType } from '../data/ISource.interface.ts';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import '../elements/e-source-type.ts';
-import './p-sources-table.ts';
+import './p-sources.ts';
 import { CardsFinder, cardsBySourceTypes, sortByWeight } from '../data/CardsFinder.ts';
 import { cardsFinderContext } from '../context.ts';
 import { consume } from '@lit/context';

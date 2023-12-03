@@ -8,7 +8,7 @@ import { ISource, SourceType } from './data/ISource.interface';
 import { CardsFinder } from './data/CardsFinder';
 import './pages/p-source';
 import './pages/p-maps-table';
-import './pages/p-sources-table';
+import './pages/p-sources';
 import './pages/p-source-type';
 import './pages/p-home';
 import './pages/p-divcord';
@@ -204,11 +204,11 @@ export const router = new Router({
 			path: '/sources',
 			title: 'Sources',
 			render: ({ query }) => {
-				return html`<p-sources-table
+				return html`<p-sources
 					.page=${Number(query.page ?? 1)}
 					.perPage=${Number(query['per-page'] ?? 10)}
 					filter=${query.filter}
-				></p-sources-table>`;
+				></p-sources>`;
 			},
 		},
 		{
