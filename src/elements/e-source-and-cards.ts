@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import type { SourceAndCards } from '../data/CardsFinder';
+import type { CardFromSource } from '../data/CardsFinder';
+import type { ISource } from '../data/ISource.interface';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -10,15 +11,8 @@ declare global {
 
 @customElement('e-source-and-cards')
 export class SourceAndCardsElement extends LitElement {
-	@property({ type: Object }) sourceAndCards!: SourceAndCards;
-
-	get source() {
-		return this.sourceAndCards.source;
-	}
-
-	get cards() {
-		return this.sourceAndCards.cards;
-	}
+	@property({ type: Object }) source!: ISource;
+	@property({ type: Array }) cards!: CardFromSource[];
 
 	@query('.source') mainSourceElement!: HTMLElement;
 
@@ -45,7 +39,7 @@ export class SourceAndCardsElement extends LitElement {
 
 	render() {
 		return html`<div class="wrapper">
-			<e-source class="source" size="large" .source=${this.source}></e-source>
+			<e-source part="source" class="source" size="large" .source=${this.source}></e-source>
 			${this.cardsList()}
 		</div>`;
 	}
@@ -58,14 +52,3 @@ export class SourceAndCardsElement extends LitElement {
 		}
 	`;
 }
-
-// .wrapper {
-// 	padding: 2rem;
-// }
-
-// @media (max-width: 600px) {
-// 	.wrapper {
-// 		margin-top: 1rem;
-// 		padding: 0.5rem;
-// 	}
-// }

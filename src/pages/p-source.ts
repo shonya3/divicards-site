@@ -1,12 +1,12 @@
-import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import type { ISource } from '../data/ISource.interface.ts';
-import '../elements/divination-card/e-divination-card.js';
-import '../elements/e-source.js';
-import { CardsFinder, sortByWeight } from '../data/CardsFinder.ts';
+import { LitElement, css, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import type { ISource } from '../data/ISource.interface';
+import '../elements/divination-card/e-divination-card';
+import '../elements/e-source';
 import { consume } from '@lit/context';
-import { cardsFinderContext } from '../context.ts';
-import { poeData } from '../PoeData.ts';
+import { cardsFinderContext } from '../context';
+import '../elements/e-source-and-cards';
+import { CardsFinder } from '../data/CardsFinder';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -21,39 +21,11 @@ export class SourcePage extends LitElement {
 	@consume({ context: cardsFinderContext, subscribe: true })
 	cardsFinder!: CardsFinder;
 
-	@query('.source') mainSourceElement!: HTMLElement;
-
-	#onBossNavigation() {
-		this.mainSourceElement.style.setProperty('view-transition-name', 'none');
-	}
-
-	cardsList() {
-		if (this.source.kind === 'empty-source') {
-			throw new Error('Not supported source');
-		}
-
-		const cards = this.cardsFinder.cardsFromSource(this.source);
-		sortByWeight(cards, poeData);
-		return html`<ul>
-			${cards.map(({ card, boss }) => {
-				return html`<e-divination-card size="large" .name=${card} .boss=${boss?.id}>
-					${boss
-						? html`<e-source
-								@click=${this.#onBossNavigation}
-								.renderMode=${'compact'}
-								.source=${boss}
-								slot="boss"
-						  ></e-source>`
-						: nothing}
-				</e-divination-card>`;
-			})}
-		</ul>`;
-	}
-
 	render() {
+		const cards = this.cardsFinder.cardsFromSource(this.source);
+
 		return html`<div class="page">
-			<e-source class="source" size="large" .source=${this.source}></e-source>
-			${this.cardsList()}
+			<e-source-and-cards .source=${this.source} .cards=${cards}></e-source-and-cards>
 		</div>`;
 	}
 
@@ -64,12 +36,8 @@ export class SourcePage extends LitElement {
 			flex-wrap: wrap;
 		}
 
-		.source {
+		e-source-and-cards::part(source) {
 			view-transition-name: source;
-		}
-
-		e-source-type {
-			view-transition-name: source-type;
 		}
 
 		.page {
