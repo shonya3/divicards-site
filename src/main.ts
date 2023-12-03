@@ -5,7 +5,7 @@ import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, PropertyValueMap, css, html, render } from 'lit';
 import './pages/p-card';
 import { ISource, SourceType } from './data/ISource.interface';
-import { CardsFinder, cardsBySource, sortByWeight } from './data/CardsFinder';
+import { CardsFinder } from './data/CardsFinder';
 import './pages/p-source';
 import './pages/p-maps-table';
 import './pages/p-sources-table';
@@ -16,7 +16,6 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { provide } from '@lit/context';
 import { cardsFinderContext, divcordTableContext } from './context';
 import { divcordService } from './DivcordService';
-import { poeData } from './PoeData';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -228,7 +227,3 @@ router.addEventListener('route-changed', _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
-
-const c = cardsBySource({ id: 'Core Map', type: 'Map', kind: 'source-with-member' }, divcordTable.records, poeData);
-console.log(c);
-sortByWeight(c, poeData);

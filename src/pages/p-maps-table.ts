@@ -1,11 +1,11 @@
 import { LitElement, html, css, PropertyValueMap, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
 import '../elements/e-page-controls';
 import { poeData } from '../PoeData';
-import { CardsFinder } from '../data/CardsFinder';
+import { CardFromSource, CardsFinder, sortByWeight } from '../data/CardsFinder';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
 import { paginate } from '../utils';
@@ -24,21 +24,26 @@ export class MapsTablePage extends LitElement {
 	@property({ reflect: true }) filter: string = '';
 
 	@consume({ context: cardsFinderContext, subscribe: true })
+	@state()
 	cardsFinder!: CardsFinder;
 
-	get cardsByMaps() {
-		return this.cardsFinder.cardsByMaps();
-	}
+	@state() cardsByMaps: Record<string, CardFromSource[]> = {};
 
 	get filtered() {
 		const filter = this.filter.trim().toLowerCase();
-		return Object.entries(this.cardsByMaps)
+		const entries = Object.entries(this.cardsByMaps)
 			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
 			.sort((a, b) => a[0].localeCompare(b[0]));
+
+		return entries;
 	}
 
-	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
-		if (_changedProperties.has('filter')) {
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('cardsFinder')) {
+			this.cardsByMaps = this.cardsFinder.cardsByMaps();
+		}
+
+		if (map.has('filter')) {
 			const url = new URL(window.location.href);
 
 			url.searchParams.set('filter', this.filter);
@@ -47,7 +52,11 @@ export class MapsTablePage extends LitElement {
 	}
 
 	get paginated() {
-		return paginate(this.filtered, this.page, this.perPage);
+		const entries = paginate(this.filtered, this.page, this.perPage);
+		for (const [_, cards] of entries) {
+			sortByWeight(cards, poeData);
+		}
+		return entries;
 	}
 
 	#onMapnameInput(e: InputEvent) {
