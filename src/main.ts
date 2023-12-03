@@ -213,7 +213,7 @@ export const router = new Router({
 		},
 		{
 			path: '/source-type/:id',
-			title: context => context.params!.id,
+			title: context => decodeURI(context.params!.id),
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
 				return html`<p-source-type .sourceType=${sourceType}></p-source-type>`;
