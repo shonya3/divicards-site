@@ -179,13 +179,20 @@ export function cardsBySourceTypes(
 		}
 	}
 
-	const sourcetypesCountsMap: Map<SourceType, number> = new Map();
+	let sourcetypesCountsMap: Map<SourceType, number> = new Map();
 	const sourcesAndCards = Array.from(map.entries()).map(([sourceId, cards]) => {
 		const source = sourceMap.get(sourceId)!;
 		const count = sourcetypesCountsMap.get(source.type) ?? 0;
 		sourcetypesCountsMap.set(source.type, count + 1);
 		return { source, cards };
 	});
+
+	const entries = Array.from(sourcetypesCountsMap);
+	entries.sort(([_, aCount], [__, bCount]) => {
+		return bCount - aCount;
+	});
+
+	sourcetypesCountsMap = new Map(entries);
 
 	return { sourcetypesCountsMap, sourcesAndCards };
 }

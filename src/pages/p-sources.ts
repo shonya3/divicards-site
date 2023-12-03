@@ -64,20 +64,25 @@ export class SourcesPage extends LitElement {
 
 	protected render() {
 		return html`<div class="page">
-			<details>
+			<details open>
 				<summary>List of sourcetypes</summary>
 				<ul class="sourcetypes-list">
-					${Array.from(this.sourcetypesCountsMap.keys()).map(type => {
+					${Array.from(this.sourcetypesCountsMap).map(([type, count]) => {
 						//
-						return html`<e-source-type .sourceType=${type}></e-source-type>`;
+						return html`<li>
+							<e-source-type .sourceType=${type}></e-source-type>
+							<span>(${count})</span>
+						</li>`;
 					})}
 				</ul>
 			</details>
 
-			<ul style="padding-top: 4rem">
+			<ul class="source-and-cards-list" style="padding-top: 4rem">
 				${this.sourcesAndCards.map(
 					({ source, cards }) =>
-						html`<li><e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards></li>`
+						html`<li class="source-and-cards-list_item">
+							<e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards>
+						</li>`
 				)}
 			</ul>
 		</div>`;
@@ -101,7 +106,7 @@ export class SourcesPage extends LitElement {
 			}
 		}
 
-		li:not(:first-child) {
+		.source-and-cards-list li:not(:first-child) {
 			margin-top: 4rem;
 		}
 
@@ -110,10 +115,22 @@ export class SourcesPage extends LitElement {
 		}
 
 		.sourcetypes-list {
+			margin-left: 1rem;
 			display: flex;
 			flex-direction: column;
+			gap: 0.1rem;
 			--source-type-font-size: 1rem;
 			--source-type-text-color: lightyellow;
+		}
+
+		.sourcetypes-list li {
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+		}
+
+		.sourcetypes-list span {
+			font-size: 0.8rem;
 		}
 	`;
 }
