@@ -35,10 +35,17 @@ export class SourceTypePage extends LitElement {
 
 	protected render() {
 		return html`<div class="page">
+			<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			<ul>
-				${this.sourcesAndCards.map(
+				${this.sourcesAndCards.slice(0, 1).map(
 					({ source, cards }) =>
-						html`<li><e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards></li>`
+						html`<li>
+							<e-source-and-cards
+								.showSourceType=${false}
+								.source=${source}
+								.cards=${cards}
+							></e-source-and-cards>
+						</li>`
 				)}
 			</ul>
 		</div>`;
@@ -49,6 +56,7 @@ export class SourceTypePage extends LitElement {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
+			--source-type-font-size: 1.8rem;
 		}
 
 		.page {
@@ -68,6 +76,13 @@ export class SourceTypePage extends LitElement {
 
 		li {
 			list-style: none;
+		}
+
+		e-source-type {
+			width: fit-content;
+			margin-inline: auto;
+			display: block;
+			view-transition-name: source-type;
 		}
 	`;
 }

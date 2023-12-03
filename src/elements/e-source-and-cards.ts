@@ -15,6 +15,7 @@ declare global {
 export class SourceAndCardsElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
 	@property({ type: Array }) cards!: CardFromSource[];
+	@property({ type: Boolean }) showSourceType = true;
 
 	@query('.source') mainSourceElement!: HTMLElement;
 
@@ -47,6 +48,7 @@ export class SourceAndCardsElement extends LitElement {
 				class="source"
 				size="large"
 				.source=${this.source}
+				.showSourceType=${this.showSourceType}
 			></e-source>
 			${this.cardsList()}
 		</div>`;
