@@ -35,7 +35,7 @@ export class SourceTypePage extends LitElement {
 					const aLevel = poeData.level(a.source.id, this.sourceType as 'Act' | 'Map');
 					const bLevel = poeData.level(b.source.id, this.sourceType as 'Act' | 'Map');
 					if (aLevel !== null && bLevel !== null) {
-						return aLevel - bLevel;
+						return this.sourceType === 'Act' ? bLevel - aLevel : aLevel - bLevel;
 					} else return 0;
 				});
 			}
