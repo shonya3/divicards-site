@@ -1,12 +1,13 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card.js';
 import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import { poeData } from '../PoeData.js';
 import { cardsFinderContext } from '../context.js';
-import { CardsFinder } from '../data/CardsFinder.js';
+import { CardsFinder, cardsBySourceTypes, sortByWeight } from '../data/CardsFinder.js';
 import { consume } from '@lit/context';
+import { SourceType, sourceTypes } from '../data/ISource.interface.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,9 +23,14 @@ export class SourcesTablePage extends LitElement {
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) showSourceType = true;
 	@property() firstColumnName = 'Source';
+	@property({ type: Array }) sourceTypes: SourceType[] = Array.from(sourceTypes);
 
 	@consume({ context: cardsFinderContext, subscribe: true })
 	cardsFinder!: CardsFinder;
+
+	get records() {
+		return this.cardsFinder.divcordTable.records;
+	}
 
 	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
 		if (_changedProperties.has('filter')) {
@@ -40,6 +46,7 @@ export class SourcesTablePage extends LitElement {
 	}
 
 	protected table() {
+		const sourcesAndCardsArr = cardsBySourceTypes(this.sourceTypes, this.records, poeData);
 		return html`<table>
 			<thead>
 				<tr>
@@ -50,8 +57,8 @@ export class SourcesTablePage extends LitElement {
 				</tr>
 			</thead>
 			<tbody>
-				${this.cardsFinder.cardsBySources().map(
-					([source, cards]) =>
+				${sourcesAndCardsArr.map(
+					({ source, cards }) =>
 						html`
 							<tr>
 								<td>
@@ -63,13 +70,23 @@ export class SourcesTablePage extends LitElement {
 								</td>
 								<td>
 									<ul>
-										${cards.map(card => {
+										${cards.map(({ card, boss }) => {
+											sortByWeight(cards, poeData);
 											return html`<li>
 												<e-divination-card
 													.minLevel=${poeData.minLevel(card)}
+													.boss=${boss?.id}
 													size=${this.size}
 													name=${card}
-												></e-divination-card>
+												>
+													${boss
+														? html`<e-source
+																.renderMode=${'compact'}
+																.source=${boss}
+																slot="boss"
+														  ></e-source>`
+														: nothing}
+												</e-divination-card>
 											</li>`;
 										})}
 									</ul>

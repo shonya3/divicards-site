@@ -5,9 +5,10 @@ import '../elements/divination-card/e-divination-card.js';
 import '../elements/e-source.js';
 import '../elements/e-source-type.ts';
 import './p-sources-table.ts';
-import { CardsFinder } from '../data/CardsFinder.ts';
+import { CardsFinder, cardsBySourceTypes, sortByWeight } from '../data/CardsFinder.ts';
 import { cardsFinderContext } from '../context.ts';
 import { consume } from '@lit/context';
+import { poeData } from '../PoeData.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -23,20 +24,27 @@ export class SourceTypePage extends LitElement {
 	cardsFinder!: CardsFinder;
 
 	protected mainBlock() {
-		const { cards, kind } = this.cardsFinder.cardsBySourceType(this.sourceType);
+		const sourceAndCardsArr = cardsBySourceTypes([this.sourceType], this.cardsFinder.divcordTable.records, poeData);
+		const kind = sourceAndCardsArr[0].source.kind;
 		if (kind === 'empty-source') {
+			const cards = sourceAndCardsArr[0].cards;
 			return html` <e-source-type .sourceType=${this.sourceType}></e-source-type>
 				<ul>
 					${cards.map(card => {
 						return html`<li>
-							<e-divination-card size="medium" .name=${card}></e-divination-card>
+							<e-divination-card
+								size="medium"
+								.boss=${card.boss?.id}
+								.name=${card.card}
+							></e-divination-card>
 						</li>`;
 					})}
 				</ul>`;
 		} else if (kind === 'source-with-member') {
-			const cardsBySources = cards.map(([sourceId, cards]) => {
-				return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards] as const;
-			});
+			// const cardsBySources = cards.map(([sourceId, cards]) => {
+			// 	return [{ type: this.sourceType, kind: 'source-with-member', id: sourceId }, cards] as const;
+			// });
+			const cardsBySources: any[] = [];
 			return html`<p-sources-table
 				.firstColumnName=${this.sourceType}
 				size="medium"
