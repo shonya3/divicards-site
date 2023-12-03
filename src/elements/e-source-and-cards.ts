@@ -2,6 +2,8 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import type { CardFromSource } from '../data/CardsFinder';
 import type { ISource } from '../data/ISource.interface';
+import './divination-card/e-divination-card';
+import './e-source';
 
 declare global {
 	interface HTMLElementTagNameMap {
