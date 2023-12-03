@@ -56,6 +56,9 @@ export class DivinationCardElement extends LitElement {
 
 	protected willUpdate(changedProperties: PropertyValues<this>): void {
 		if (changedProperties.has('name')) {
+			if (this.name === 'Fire of unknown origin') {
+				console.log('here');
+			}
 			const name = this.name === 'Fire of Unknown Origin' ? 'Fire Of Unknown Origin' : this.name;
 			const cardData = cardsDataMap.get(name);
 			if (cardData) {

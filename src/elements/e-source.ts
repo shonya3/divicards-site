@@ -30,6 +30,7 @@ export class SourceElement extends LitElement {
 	@property({ type: Boolean }) showSourceType = true;
 	@property() size: CardSize = 'small';
 	@property() renderMode: RenderMode = 'normal';
+	@property() actSize?: 'small' | 'large';
 
 	get sourceHasSpecialElement() {
 		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
@@ -58,6 +59,10 @@ export class SourceElement extends LitElement {
 				let size: CardSize = this.size === 'medium' ? 'large' : this.size;
 				if (this.renderMode === 'compact') {
 					size = 'small';
+				}
+
+				if (this.actSize) {
+					size = this.actSize;
 				}
 
 				return html`<e-act-area .href=${sourceHref(this.source)} .actArea=${area} .size=${size}></e-act-area>`;

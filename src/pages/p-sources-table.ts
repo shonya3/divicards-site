@@ -50,50 +50,51 @@ export class SourcesTablePage extends LitElement {
 		return html`<table>
 			<thead>
 				<tr>
-					<th style="width: 300px" scope="col">
+					<th scope="col">
 						<slot>Source</slot>
 					</th>
 					<th scope="col">Cards</th>
 				</tr>
 			</thead>
 			<tbody>
-				${sourcesAndCardsArr.map(
-					({ source, cards }) =>
-						html`
-							<tr>
-								<td>
-									<e-source
-										.showSourceType=${this.showSourceType}
-										.size=${this.size}
-										.source=${source}
-									></e-source>
-								</td>
-								<td>
-									<ul>
-										${cards.map(({ card, boss }) => {
-											sortByWeight(cards, poeData);
-											return html`<li>
-												<e-divination-card
-													.minLevel=${poeData.minLevel(card)}
-													.boss=${boss?.id}
-													size=${this.size}
-													name=${card}
-												>
-													${boss
-														? html`<e-source
-																.renderMode=${'compact'}
-																.source=${boss}
-																slot="boss"
-														  ></e-source>`
-														: nothing}
-												</e-divination-card>
-											</li>`;
-										})}
-									</ul>
-								</td>
-							</tr>
-						`
-				)}
+				${sourcesAndCardsArr.map(({ source, cards }) => {
+					sortByWeight(cards, poeData);
+
+					return html`
+						<tr>
+							<td>
+								<e-source
+									.showSourceType=${this.showSourceType}
+									.source=${source}
+									.size=${this.size}
+									.actSize=${'small'}
+								></e-source>
+							</td>
+							<td>
+								<ul>
+									${cards.map(({ card, boss }) => {
+										return html`<li>
+											<e-divination-card
+												.minLevel=${poeData.minLevel(card)}
+												.boss=${boss?.id}
+												size=${this.size}
+												name=${card}
+											>
+												${boss
+													? html`<e-source
+															.renderMode=${'compact'}
+															.source=${boss}
+															slot="boss"
+													  ></e-source>`
+													: nothing}
+											</e-divination-card>
+										</li>`;
+									})}
+								</ul>
+							</td>
+						</tr>
+					`;
+				})}
 			</tbody>
 		</table> `;
 	}
@@ -128,7 +129,18 @@ export class SourcesTablePage extends LitElement {
 			background-color: #222;
 		}
 
+		th:first-child {
+			max-width: 220px;
+			overflow-x: clip;
+		}
+
+		tr > td:first-child {
+			max-width: 220px;
+			overflow-x: hidden;
+		}
+
 		th {
+			table-layout: fixed;
 			font-size: 20px;
 			padding: 1rem;
 		}
