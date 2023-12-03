@@ -23,10 +23,10 @@ export class SourcePage extends LitElement {
 	@state()
 	cardsFinder!: CardsFinder;
 
-	@state() cards: CardFromSource[] = [];
+	@state() cards!: CardFromSource[];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('cardsFinder')) {
+		if (map.has('cardsFinder') || map.has('source')) {
 			const cards = this.cardsFinder.cardsFromSource(this.source);
 			sortByWeight(cards, poeData);
 			this.cards = cards;

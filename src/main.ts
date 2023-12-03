@@ -222,8 +222,8 @@ export const router = new Router({
 	],
 });
 
-router.addEventListener('route-changed', _e => {
-	startViewTransition(() => {
+router.addEventListener('route-changed', async _e => {
+	await startViewTransition(() => {
 		render(router.render(), rootElement.outlet);
 	});
 });
