@@ -157,6 +157,10 @@ export class SourceElement extends LitElement {
 			color: var(--source-color, #bbbbbb);
 		}
 
+		a:hover {
+			color: var(--link-color-hover, skyblue);
+		}
+
 		.source-type {
 			width: fit-content;
 			margin-inline: auto;
