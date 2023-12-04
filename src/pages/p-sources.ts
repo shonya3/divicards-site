@@ -10,11 +10,23 @@ import { SourceAndCards, cardsBySourceTypes } from '../data/CardsFinder';
 import { consume } from '@lit/context';
 import { SourceType, sourceTypes } from '../data/ISource.interface';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-and-cards';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-sources': SourcesPage;
+	}
+}
+
+class SlConverter {
+	static #SL_DELIMETER = 'sl-v' as const;
+	static toSlValue<T extends string>(s: T): string {
+		return s.replaceAll(' ', this.#SL_DELIMETER);
+	}
+	static fromSlValue<T extends string>(s: string): T {
+		return s.replaceAll(this.#SL_DELIMETER, ' ') as T;
 	}
 }
 
@@ -26,7 +38,8 @@ export class SourcesPage extends LitElement {
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) showSourceType = true;
 	@property() firstColumnName = 'Source';
-	@property({ type: Array }) sourceTypes: SourceType[] = Array.from(sourceTypes);
+	@property({ type: Array }) allSourceTypes: SourceType[] = Array.from(sourceTypes);
+	@property({ type: Array }) selectedSourceTypes: SourceType[] = [];
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -40,14 +53,14 @@ export class SourcesPage extends LitElement {
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable')) {
-			const { sourcesAndCards, sourcetypesCountsMap } = cardsBySourceTypes(
-				this.sourceTypes,
-				this.records,
-				poeData
-			);
-			this.sourcesAndCards = sourcesAndCards;
+		if (map.has('allSourceTypes') || map.has('divcordTable')) {
+			const { sourcetypesCountsMap } = cardsBySourceTypes(this.allSourceTypes, this.records, poeData);
 			this.sourcetypesCountsMap = sourcetypesCountsMap;
+		}
+
+		if (map.has('divcordTable') || map.has('selectedSourceTypes')) {
+			const { sourcesAndCards } = cardsBySourceTypes(this.selectedSourceTypes, this.records, poeData);
+			this.sourcesAndCards = sourcesAndCards;
 		}
 
 		if (map.has('filter')) {
@@ -58,9 +71,23 @@ export class SourcesPage extends LitElement {
 		}
 	}
 
+	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {}
+
+	#onSlSelectChange(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<SourceType>(opt));
+		this.selectedSourceTypes = options;
+	}
+
 	protected render() {
 		return html`<div class="page">
-			<details open>
+			<sl-select @sl-change=${this.#onSlSelectChange} label="Select types" multiple clearable>
+				${Array.from(this.sourcetypesCountsMap).map(([type, count]) => {
+					//
+					return html` <sl-option value=${SlConverter.toSlValue(type)}> ${type} (${count}) </sl-option> `;
+				})}
+			</sl-select>
+			<details>
 				<summary>List of sourcetypes</summary>
 				<ul class="sourcetypes-list">
 					${Array.from(this.sourcetypesCountsMap).map(([type, count]) => {
