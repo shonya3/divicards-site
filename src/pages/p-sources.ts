@@ -58,10 +58,6 @@ export class SourcesPage extends LitElement {
 		}
 	}
 
-	// <li>
-	// 					<e-source-type .sourceType=${}></e-source-type>
-	// 				</li>
-
 	protected render() {
 		return html`<div class="page">
 			<details open>
