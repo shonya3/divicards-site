@@ -3,22 +3,16 @@
 /**
 * @param {any} divcord_table
 * @param {any} poe_data
+* @param {Function} toast
 * @returns {any}
 */
-export function parsed_records_old(divcord_table: any, poe_data: any): any;
-/**
-* @param {any} divcord_table
-* @param {any} poe_data
-* @returns {any}
-*/
-export function parsed_records(divcord_table: any, poe_data: any): any;
+export function parsed_records(divcord_table: any, poe_data: any, toast: Function): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly parsed_records_old: (a: number, b: number, c: number) => void;
-  readonly parsed_records: (a: number, b: number, c: number) => void;
+  readonly parsed_records: (a: number, b: number, c: number, d: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;

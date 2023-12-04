@@ -3,6 +3,7 @@ import { IDivcordData, poeDataJson } from './jsons/jsons';
 import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
 import { IPoeData } from './PoeData';
 import { LocalStorageManager, Serde } from './storage';
+import { warningToast } from './toast.js';
 
 export type DivcordResponses = {
 	rich: Response;
@@ -185,10 +186,11 @@ function richUrl(): string {
 	return url;
 }
 
-async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<SourcefulDivcordTableRecord[]> {
+export async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<SourcefulDivcordTableRecord[]> {
 	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
 	await initWasmModule();
-	const records = parsed_records(divcord, poeData) as ISourcefulDivcordTableRecord[];
+	const records = parsed_records(divcord, poeData, warningToast) as ISourcefulDivcordTableRecord[];
+	console.log(records);
 	return records.map(r => new SourcefulDivcordTableRecord(r));
 }
 
