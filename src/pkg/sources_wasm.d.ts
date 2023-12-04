@@ -5,12 +5,19 @@
 * @param {any} poe_data
 * @returns {any}
 */
+export function parsed_records_old(divcord_table: any, poe_data: any): any;
+/**
+* @param {any} divcord_table
+* @param {any} poe_data
+* @returns {any}
+*/
 export function parsed_records(divcord_table: any, poe_data: any): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly parsed_records_old: (a: number, b: number, c: number) => void;
   readonly parsed_records: (a: number, b: number, c: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

@@ -202,6 +202,27 @@ function debugString(val) {
 * @param {any} poe_data
 * @returns {any}
 */
+export function parsed_records_old(divcord_table, poe_data) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.parsed_records_old(retptr, addHeapObject(divcord_table), addHeapObject(poe_data));
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        var r2 = getInt32Memory0()[retptr / 4 + 2];
+        if (r2) {
+            throw takeObject(r1);
+        }
+        return takeObject(r0);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+    }
+}
+
+/**
+* @param {any} divcord_table
+* @param {any} poe_data
+* @returns {any}
+*/
 export function parsed_records(divcord_table, poe_data) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -318,6 +339,9 @@ function __wbg_get_imports() {
     imports.wbg.__wbindgen_error_new = function(arg0, arg1) {
         const ret = new Error(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_warn_616dedaaf4763f45 = function(arg0, arg1) {
+        console.warn(getStringFromWasm0(arg0, arg1));
     };
     imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
         const ret = getObject(arg0);

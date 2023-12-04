@@ -63,6 +63,21 @@ export class DivcordService extends EventTarget {
 		}
 	}
 
+	async bestAvailableRecords() {
+		const validity = await this.checkValidity();
+		switch (validity) {
+			case 'valid': {
+				return this.localStorageManager.load()!;
+			}
+			case 'stale': {
+				return this.localStorageManager.load()!;
+			}
+			case 'not exist': {
+				return await this.#fromStaticJson();
+			}
+		}
+	}
+
 	async update(): Promise<SourcefulDivcordTableRecord[]> {
 		try {
 			this.state = 'updating';
@@ -75,7 +90,9 @@ export class DivcordService extends EventTarget {
 			return records;
 		} catch (err) {
 			this.state = 'error';
-			throw err;
+			// throw err;
+			const records = await this.bestAvailableRecords();
+			return records;
 		}
 	}
 
