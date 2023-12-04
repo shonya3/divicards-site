@@ -255,7 +255,7 @@ function styles() {
 		}
 
 		a:hover {
-			color: #0369a1;
+			color: #083344;
 		}
 
 		.stackSize {
