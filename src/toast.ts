@@ -28,14 +28,39 @@ function iconName(variant: ToastVariant): string {
 	}
 }
 
+function extractDivcordLink(message: string): { msg: string; divcordLink: string | null } {
+	const DIVCORD_LINK_PART = 'https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/';
+	let divcordLink: string | null = null;
+	const msg = message
+		.split(' ')
+		.filter(word => {
+			const isDivcordLink = word.includes(DIVCORD_LINK_PART);
+			if (isDivcordLink) {
+				divcordLink = word;
+				return false;
+			} else {
+				return true;
+			}
+		})
+		.join(' ');
+	return {
+		msg,
+		divcordLink,
+	};
+}
+
 export function toast(message: string, variant: ToastVariant = 'primary', duration = 100_000_000): Promise<void> {
+	message = escapeHtml(message);
+	const { msg, divcordLink } = extractDivcordLink(message);
+	const link = `<a class="toast-link" rel="noopener" target="_blank" href=${divcordLink}>Open Sheets</a>`;
 	const alert = Object.assign(document.createElement('sl-alert'), {
 		variant,
 		closable: true,
 		duration: duration,
 		innerHTML: `
         <sl-icon name="${iconName(variant)}" slot="icon"></sl-icon>
-        ${escapeHtml(message)}
+        ${msg}
+        ${link}
       `,
 	});
 

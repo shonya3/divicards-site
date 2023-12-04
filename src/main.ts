@@ -231,3 +231,16 @@ router.addEventListener('route-changed', async _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
+
+import { divcordData } from './jsons/jsons';
+import { poeData } from './PoeData';
+import { parseRecords } from './DivcordService';
+const r = await parseRecords(divcordData, poeData);
+console.log(JSON.stringify(r[0].sources ?? [], null, 2));
+
+const str = `74. Card Dying Anguish is legacy, but not marked as disabled. https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0&range=A74`;
+for (const w of str.split(' ')) {
+	if (w.includes('https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/')) {
+		console.log('123');
+	}
+}
