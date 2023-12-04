@@ -190,7 +190,6 @@ export async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Pr
 	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
 	await initWasmModule();
 	const records = parsed_records(divcord, poeData, warningToast) as ISourcefulDivcordTableRecord[];
-	console.log(records);
 	return records.map(r => new SourcefulDivcordTableRecord(r));
 }
 
