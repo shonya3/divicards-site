@@ -92,6 +92,10 @@ function styles() {
 			color: var(--act-area-name-color, red);
 		}
 
+		.name:hover {
+			color: var(--link-color-hover);
+		}
+
 		.area-level {
 			position: absolute;
 			top: var(--act-area-area-level-top);

@@ -38,5 +38,9 @@ export class SourceTypeElement extends LitElement {
 			font-weight: 500;
 			font-size: var(--source-type-font-size, 20px);
 		}
+
+		.source-type:hover {
+			color: var(--link-color-hover, skyblue);
+		}
 	`;
 }

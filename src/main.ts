@@ -137,6 +137,10 @@ export class RootElement extends LitElement {
 			color: #fff;
 		}
 
+		a:hover {
+			color: var(--link-color-hover);
+		}
+
 		.outlet > * {
 			height: 100%;
 			display: block;

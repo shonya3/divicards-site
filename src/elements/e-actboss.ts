@@ -57,6 +57,10 @@ export class ActBossElement extends LitElement {
 			color: var(--source-color, #bbbbbb);
 		}
 
+		a:hover {
+			color: var(--link-color-hover);
+		}
+
 		.bossname {
 			width: fit-content;
 		}

@@ -109,6 +109,10 @@ export class MapElement extends LitElement {
 			color: var(--source-color, #bbbbbb);
 		}
 
+		a:hover {
+			color: var(--link-color-hover);
+		}
+
 		.map {
 			font-size: var(--map-font-size, 1rem);
 			width: var(--map-width, fit-content);

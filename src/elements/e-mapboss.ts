@@ -65,6 +65,10 @@ export class MapBossElement extends LitElement {
 			color: var(--source-color, #bbbbbb);
 		}
 
+		a:hover {
+			color: var(--link-color-hover);
+		}
+
 		.mapboss {
 			width: fit-content;
 		}

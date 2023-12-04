@@ -254,6 +254,10 @@ function styles() {
 			z-index: 4;
 		}
 
+		a:hover {
+			color: #0369a1;
+		}
+
 		.stackSize {
 			display: flex;
 			align-items: center;
