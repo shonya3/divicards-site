@@ -6,7 +6,7 @@ import '../elements/e-source';
 import '../elements/e-source-type';
 import { poeData } from '../PoeData';
 import { divcordTableContext } from '../context';
-import { SourceAndCards, cardsBySourceTypes } from '../data/CardsFinder';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../data/CardsFinder';
 import { consume } from '@lit/context';
 import { SourceType, sourceTypes } from '../data/ISource.interface';
 import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
@@ -60,6 +60,9 @@ export class SourcesPage extends LitElement {
 
 		if (map.has('divcordTable') || map.has('selectedSourceTypes')) {
 			const { sourcesAndCards } = cardsBySourceTypes(this.selectedSourceTypes, this.records, poeData);
+			for (const { cards } of sourcesAndCards) {
+				sortByWeight(cards, poeData);
+			}
 			this.sourcesAndCards = sourcesAndCards;
 		}
 
