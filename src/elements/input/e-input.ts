@@ -443,7 +443,7 @@ export class InputElement extends LitElement {
 										tabindex="-1"
 									>
 										<slot name="clear-icon">
-											<sl-icon name="x-circle-fill" library="system"></sl-icon>
+											<!-- <sl-icon name="x-circle-fill" library="system"></sl-icon> -->
 										</slot>
 									</button>
 							  `
@@ -460,12 +460,16 @@ export class InputElement extends LitElement {
 										${this.passwordVisible
 											? html`
 													<slot name="show-password-icon">
-														<sl-icon name="eye-slash" library="system"></sl-icon>
+														<!-- 
+														<sl-icon name="eye-slash" library="system"></sl-icon>-->
 													</slot>
 											  `
 											: html`
 													<slot name="hide-password-icon">
+														<!--
 														<sl-icon name="eye" library="system"></sl-icon>
+
+                                                    -->
 													</slot>
 											  `}
 									</button>

@@ -46,20 +46,21 @@ export class HomePage extends LitElement {
 	}
 
 	render() {
-		return html` <form>
-				<div style="max-width: 600px">
-					<e-input
-						label="Enter card name"
-						.datalistItems=${this.divcordTable.cards()}
-						list="cards-datalist"
-						@input="${this.#onCardnameInput}"
-						type="text"
-						id="input-cardname"
-					>
-					</e-input>
-				</div>
-			</form>
-			<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
+		return html`<div class="page">
+			<header>
+				<form>
+					<div style="max-width: 600px">
+						<e-input
+							label="Enter card name"
+							.datalistItems=${this.divcordTable.cards()}
+							@input="${this.#onCardnameInput}"
+							type="text"
+						>
+						</e-input>
+					</div>
+				</form>
+				<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
+			</header>
 			<ul class="cards">
 				${this.paginated.map(card => {
 					return html`<li>
@@ -70,7 +71,8 @@ export class HomePage extends LitElement {
 						></e-card-with-sources>
 					</li>`;
 				})}
-			</ul>`;
+			</ul>
+		</div>`;
 	}
 
 	static styles = css`
@@ -85,7 +87,28 @@ export class HomePage extends LitElement {
 			display: block;
 		}
 
+		@media (max-width: 600px) {
+			.page {
+				margin-top: 1rem;
+				padding: 0.5rem;
+			}
+		}
+
+		header {
+			margin-top: 1rem;
+			justify-content: center;
+			max-width: 600px;
+			margin-inline: auto;
+		}
+
+		@media (max-width: 600px) {
+			header {
+				padding: 0.2rem;
+			}
+		}
+
 		.cards {
+			margin-top: 3rem;
 			display: flex;
 			flex-wrap: wrap;
 			list-style: none;

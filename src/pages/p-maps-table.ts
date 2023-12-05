@@ -60,10 +60,7 @@ export class MapsTablePage extends LitElement {
 	}
 
 	#onMapnameInput(e: InputEvent) {
-		const input = e.target;
-		if (!(input instanceof HTMLInputElement)) {
-			return;
-		}
+		const input = e.target as HTMLInputElement;
 
 		this.filter = input.value;
 	}
@@ -85,77 +82,82 @@ export class MapsTablePage extends LitElement {
 
 	protected render() {
 		return html`
-			<header>
-				<form>
-					<div>
-						<label for="input-mapname">Input map name</label>
-						<input @input="${this.#onMapnameInput}" type="text" id="input-mapname" list="maps-datalist" />
-						<datalist id="maps-datalist">
-							${this.maps().map(name => html`<option value=${name}>${name}</option>`)}
-						</datalist>
-					</div>
-					<div>
-						<label for="select-size">Select size</label>
-						<select @input=${this.#oncardSizeSelect} .value=${this.size} name="" id="select-size">
-							<option value="small">small</option>
-							<option value="medium">medium</option>
-							<option value="large">large</option>
-						</select>
-					</div>
-				</form>
-				<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
-			</header>
-			${this.table()}
+			<div class="page">
+				<header>
+					<form>
+						<e-input
+							label="Enter card name"
+							@input="${this.#onMapnameInput}"
+							type="text"
+							.datalistItems=${this.maps()}
+						></e-input>
+						<!--
+                        <div>
+                            <label for="select-size">Select size</label>
+                            <select @input=${this.#oncardSizeSelect} .value=${this.size} name="" id="select-size">
+                                <option value="small">small</option>
+                                <option value="medium">medium</option>
+                                <option value="large">large</option>
+                            </select>
+                        </div>
+                    -->
+					</form>
+					<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
+				</header>
+				${this.table()}
+			</div>
 		`;
 	}
 
 	protected table() {
-		return html`<table>
-			<thead>
-				<tr>
-					<th scope="col">Map</th>
-					<th scope="col">Cards</th>
-				</tr>
-			</thead>
-			<tbody>
-				${this.paginated.map(
-					([map, cards]) =>
-						html`
-							<tr>
-								<td>
-									<e-source
-										.size=${this.size}
-										.source=${{ id: map, type: 'Map', kind: 'source-with-member' } as const}
-										.showSourceType=${false}
-									></e-source>
-								</td>
-								<td>
-									<ul>
-										${cards.map(({ card, boss }) => {
-											return html`<li>
-												<e-divination-card
-													.minLevel=${poeData.minLevel(card)}
-													size=${this.size}
-													name=${card}
-													.boss=${boss?.id}
-												>
-													${boss
-														? html`<e-source
-																.renderMode=${'compact'}
-																.source=${boss}
-																slot="boss"
-														  ></e-source>`
-														: nothing}
-												</e-divination-card>
-											</li>`;
-										})}
-									</ul>
-								</td>
-							</tr>
-						`
-				)}
-			</tbody>
-		</table> `;
+		return html`
+			<table>
+				<thead>
+					<tr>
+						<th scope="col">Map</th>
+						<th scope="col">Cards</th>
+					</tr>
+				</thead>
+				<tbody>
+					${this.paginated.map(
+						([map, cards]) =>
+							html`
+								<tr>
+									<td>
+										<e-source
+											.size=${this.size}
+											.source=${{ id: map, type: 'Map', kind: 'source-with-member' } as const}
+											.showSourceType=${false}
+										></e-source>
+									</td>
+									<td>
+										<ul>
+											${cards.map(({ card, boss }) => {
+												return html`<li>
+													<e-divination-card
+														.minLevel=${poeData.minLevel(card)}
+														size=${this.size}
+														name=${card}
+														.boss=${boss?.id}
+													>
+														${boss
+															? html`<e-source
+																	.renderMode=${'compact'}
+																	.source=${boss}
+																	slot="boss"
+															  ></e-source>`
+															: nothing}
+													</e-divination-card>
+												</li>`;
+											})}
+										</ul>
+									</td>
+								</tr>
+							`
+					)}
+				</tbody>
+			</table>
+		`;
 	}
 
 	static styles = css`
@@ -164,11 +166,25 @@ export class MapsTablePage extends LitElement {
 			margin: 0;
 			box-sizing: border-box;
 		}
-		form {
-			padding: 1rem;
-			display: grid;
-			gap: 0.25rem;
-			width: fit-content;
+
+		@media (max-width: 600px) {
+			.page {
+				margin-top: 1rem;
+				padding: 0.5rem;
+			}
+		}
+
+		header {
+			margin-top: 1rem;
+			justify-content: center;
+			max-width: 600px;
+			margin-inline: auto;
+		}
+
+		@media (max-width: 600px) {
+			header {
+				padding: 0.2rem;
+			}
 		}
 
 		fieldset {
