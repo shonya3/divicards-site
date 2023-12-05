@@ -7,6 +7,8 @@ import './e-card-with-sources';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
+import '../elements/input/e-input';
+import inputStyles from '../elements/input/input.styles';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -25,13 +27,8 @@ export class HomePage extends LitElement {
 	divcordTable!: SourcefulDivcordTable;
 
 	async #onCardnameInput(e: InputEvent) {
-		const input = e.target;
-		if (!(input instanceof HTMLInputElement)) {
-			return;
-		}
-
+		const input = e.target as HTMLInputElement;
 		this.page = 1;
-
 		this.filter = input.value;
 	}
 
@@ -50,12 +47,16 @@ export class HomePage extends LitElement {
 
 	render() {
 		return html` <form>
-				<div>
-					<label for="input-cardname">search card</label>
-					<input list="cards-datalist" @input="${this.#onCardnameInput}" type="text" id="input-cardname" />
-					<datalist id="cards-datalist">
-						${this.divcordTable.cards().map(card => html`<option value=${card}>${card}</option>`)}
-					</datalist>
+				<div style="max-width: 600px">
+					<e-input
+						label="Enter card name"
+						.datalistItems=${this.divcordTable.cards()}
+						list="cards-datalist"
+						@input="${this.#onCardnameInput}"
+						type="text"
+						id="input-cardname"
+					>
+					</e-input>
 				</div>
 			</form>
 			<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
@@ -73,6 +74,7 @@ export class HomePage extends LitElement {
 	}
 
 	static styles = css`
+		${inputStyles}
 		* {
 			padding: 0;
 			margin: 0;

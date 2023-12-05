@@ -4,6 +4,368 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/context.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "divcordTableContext"
+        },
+        {
+          "kind": "variable",
+          "name": "cardsFinderContext"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "divcordTableContext",
+          "declaration": {
+            "name": "divcordTableContext",
+            "module": "src/context.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cardsFinderContext",
+          "declaration": {
+            "name": "cardsFinderContext",
+            "module": "src/context.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/DivcordService.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DivcordServiceEvent",
+          "superclass": {
+            "name": "Event",
+            "module": "src/DivcordService.ts"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DivcordService",
+          "members": [
+            {
+              "kind": "field",
+              "name": "#state",
+              "privacy": "private",
+              "type": {
+                "text": "DivcordServiceState"
+              },
+              "default": "'idle'"
+            },
+            {
+              "kind": "field",
+              "name": "#cache",
+              "privacy": "private",
+              "type": {
+                "text": "Cache"
+              },
+              "default": "await caches.open(CACHE_KEY)"
+            },
+            {
+              "kind": "field",
+              "name": "localStorageManager",
+              "type": {
+                "text": "DivcordLocalStorageManager"
+              },
+              "default": "new DivcordLocalStorageManager()"
+            },
+            {
+              "kind": "method",
+              "name": "addEventListener",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "DivcordServiceEventType"
+                  }
+                },
+                {
+                  "name": "callback",
+                  "type": {
+                    "text": "(e: DivcordServiceEvent) => void"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "state"
+            },
+            {
+              "kind": "method",
+              "name": "read",
+              "return": {
+                "type": {
+                  "text": "Promise<SourcefulDivcordTableRecord[]>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "bestAvailableRecords"
+            },
+            {
+              "kind": "method",
+              "name": "cacheDate",
+              "return": {
+                "type": {
+                  "text": "Promise<Date | null>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "cacheAge",
+              "return": {
+                "type": {
+                  "text": "Promise<number | null>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "Promise<CacheValidity>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#cachedResponses",
+              "return": {
+                "type": {
+                  "text": "Promise<DivcordResponses | null>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#serderesponses",
+              "return": {
+                "type": {
+                  "text": "Promise<IDivcordData>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "r",
+                  "type": {
+                    "text": "DivcordResponses"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#fromStaticJson",
+              "return": {
+                "type": {
+                  "text": "Promise<SourcefulDivcordTableRecord[]>"
+                }
+              }
+            }
+          ],
+          "superclass": {
+            "name": "EventTarget",
+            "module": "src/DivcordService.ts"
+          }
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DivcordLocalStorageManager",
+          "superclass": {
+            "name": "LocalStorageManager",
+            "module": "/src/storage"
+          },
+          "members": [
+            {
+              "kind": "field",
+              "name": "key",
+              "type": {
+                "text": "Key"
+              },
+              "default": "key",
+              "inheritedFrom": {
+                "name": "LocalStorageManager",
+                "module": "src/storage.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "serde",
+              "type": {
+                "text": "Serde<T, Input>"
+              },
+              "default": "serde",
+              "inheritedFrom": {
+                "name": "LocalStorageManager",
+                "module": "src/storage.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "exists",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "inheritedFrom": {
+                "name": "LocalStorageManager",
+                "module": "src/storage.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "inheritedFrom": {
+                "name": "LocalStorageManager",
+                "module": "src/storage.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "T | null"
+              },
+              "inheritedFrom": {
+                "name": "LocalStorageManager",
+                "module": "src/storage.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "save",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "v",
+                  "type": {
+                    "text": "Input"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "LocalStorageManager",
+                "module": "src/storage.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "load",
+              "return": {
+                "type": {
+                  "text": "T | null"
+                }
+              },
+              "inheritedFrom": {
+                "name": "LocalStorageManager",
+                "module": "src/storage.ts"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "parseRecords",
+          "return": {
+            "type": {
+              "text": "Promise<SourcefulDivcordTableRecord[]>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "divcord",
+              "type": {
+                "text": "IDivcordData"
+              }
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "IPoeData"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "variable",
+          "name": "divcordService",
+          "default": "new DivcordService(cache)"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "DivcordServiceEvent",
+          "declaration": {
+            "name": "DivcordServiceEvent",
+            "module": "src/DivcordService.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DivcordService",
+          "declaration": {
+            "name": "DivcordService",
+            "module": "src/DivcordService.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DivcordLocalStorageManager",
+          "declaration": {
+            "name": "DivcordLocalStorageManager",
+            "module": "src/DivcordService.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "parseRecords",
+          "declaration": {
+            "name": "parseRecords",
+            "module": "src/DivcordService.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "divcordService",
+          "declaration": {
+            "name": "divcordService",
+            "module": "src/DivcordService.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/events.ts",
       "declarations": [
         {
@@ -60,72 +422,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/loadDivcordRecords.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "divcordDataAgeMilliseconds",
-          "parameters": [
-            {
-              "name": "cache",
-              "optional": true,
-              "type": {
-                "text": "Cache"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "updateDivcordRecords",
-          "parameters": [
-            {
-              "name": "cache",
-              "type": {
-                "text": "Cache"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "loadDivcordRecords",
-          "return": {
-            "type": {
-              "text": "Promise<SourcefulDivcordTableRecord[]>"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "divcordDataAgeMilliseconds",
-          "declaration": {
-            "name": "divcordDataAgeMilliseconds",
-            "module": "src/loadDivcordRecords.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "updateDivcordRecords",
-          "declaration": {
-            "name": "updateDivcordRecords",
-            "module": "src/loadDivcordRecords.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "loadDivcordRecords",
-          "declaration": {
-            "name": "loadDivcordRecords",
-            "module": "src/loadDivcordRecords.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/main.ts",
       "declarations": [
         {
@@ -156,6 +452,30 @@
               "type": {
                 "text": "HTMLElement"
               }
+            },
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "attribute": "divcordTable"
+            },
+            {
+              "kind": "field",
+              "name": "cardsFinder",
+              "type": {
+                "text": "CardsFinder"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              },
+              "fieldName": "divcordTable"
             }
           ],
           "superclass": {
@@ -168,7 +488,7 @@
         {
           "kind": "variable",
           "name": "router",
-          "default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-home\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 14)}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-home>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/divcord',\r\n\t\t\ttitle: 'Divcord',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-divcord\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 14)}\r\n\t\t\t\t\t.filter=${query.filter ?? ''}\r\n\t\t\t\t\t.sourcesByCards=${sourcesByCards}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-divcord>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<p-card\r\n\t\t\t\t\t.card=${name}\r\n\t\t\t\t\t.records=${divcordTable.recordsByCard(name)}\r\n\t\t\t\t\t.divcordTable=${divcordTable}\r\n\t\t\t\t></p-card>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: string = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type, kind: 'source-with-member' };\r\n\r\n\t\t\t\treturn html`<p-source .cardsFinder=${cardsFinder} .source=${source}></p-source>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 10)}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsByMaps=${cardsByMaps}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-sources-table\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 10)}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t\t.cardsBySources=${cardsFinder.cardsBySources()}\r\n\t\t\t\t></p-sources-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source-type/:id',\r\n\t\t\ttitle: context => context.params!.id,\r\n\t\t\trender: ({ params }) => {\r\n\t\t\t\tconst sourceType = decodeURI(params.id) as SourceType;\r\n\t\t\t\treturn html`<p-source-type .cardsFinder=${cardsFinder} .sourceType=${sourceType}></p-source-type>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
+          "default": "new Router({\r\n\troutes: [\r\n\t\t{\r\n\t\t\tpath: '/',\r\n\t\t\ttitle: 'Divicards',\r\n\t\t\trender: ({ query }) =>\r\n\t\t\t\thtml`<p-home\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 10)}\r\n\t\t\t\t\tfilter=${query.filter ?? ''}\r\n\t\t\t\t></p-home>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/divcord',\r\n\t\t\ttitle: 'Divcord',\r\n\t\t\trender: () => html`<p-divcord></p-divcord>`,\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/card/:name',\r\n\t\t\ttitle: context => decodeURI(context.params!.name),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst name = decodeURI(context.params.name);\r\n\t\t\t\treturn html`<p-card .card=${name}></p-card>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source',\r\n\t\t\ttitle: context => decodeURI(context.query!.id),\r\n\t\t\trender: context => {\r\n\t\t\t\tconst id: string = context.query.id;\r\n\t\t\t\tconst type = context.query.type as SourceType;\r\n\t\t\t\tconst source: ISource = { id, type, kind: 'source-with-member' };\r\n\t\t\t\treturn html`<p-source .source=${source}></p-source>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/maps',\r\n\t\t\ttitle: 'Maps',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-maps-table\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 10)}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t></p-maps-table>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/sources',\r\n\t\t\ttitle: 'Sources',\r\n\t\t\trender: ({ query }) => {\r\n\t\t\t\treturn html`<p-sources\r\n\t\t\t\t\t.page=${Number(query.page ?? 1)}\r\n\t\t\t\t\t.perPage=${Number(query['per-page'] ?? 10)}\r\n\t\t\t\t\tfilter=${query.filter}\r\n\t\t\t\t></p-sources>`;\r\n\t\t\t},\r\n\t\t},\r\n\t\t{\r\n\t\t\tpath: '/source-type/:id',\r\n\t\t\ttitle: context => decodeURI(context.params!.id),\r\n\t\t\trender: ({ params }) => {\r\n\t\t\t\tconst sourceType = decodeURI(params.id) as SourceType;\r\n\t\t\t\treturn html`<p-source-type .sourceType=${sourceType}></p-source-type>`;\r\n\t\t\t},\r\n\t\t},\r\n\t],\r\n})"
         }
       ],
       "exports": [
@@ -362,6 +682,29 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "level",
+              "return": {
+                "type": {
+                  "text": "number | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "'Map' | 'Act'"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -392,6 +735,214 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/storage.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Serde",
+          "members": [
+            {
+              "kind": "method",
+              "name": "serialize",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "Input"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "deserialize",
+              "return": {
+                "type": {
+                  "text": "T"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "s",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LocalStorageManager",
+          "members": [
+            {
+              "kind": "field",
+              "name": "key",
+              "type": {
+                "text": "Key"
+              },
+              "default": "key"
+            },
+            {
+              "kind": "field",
+              "name": "serde",
+              "type": {
+                "text": "Serde<T, Input>"
+              },
+              "default": "serde"
+            },
+            {
+              "kind": "method",
+              "name": "exists",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "T | null"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "save",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "v",
+                  "type": {
+                    "text": "Input"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "load",
+              "return": {
+                "type": {
+                  "text": "T | null"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Serde",
+          "declaration": {
+            "name": "Serde",
+            "module": "src/storage.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LocalStorageManager",
+          "declaration": {
+            "name": "LocalStorageManager",
+            "module": "src/storage.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/toast.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "toast",
+          "return": {
+            "type": {
+              "text": "Promise<void>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "variant",
+              "default": "'primary'",
+              "type": {
+                "text": "ToastVariant"
+              }
+            },
+            {
+              "name": "duration",
+              "default": "100_000_000"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "warningToast",
+          "return": {
+            "type": {
+              "text": "Promise<void>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "toast",
+          "declaration": {
+            "name": "toast",
+            "module": "src/toast.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "warningToast",
+          "declaration": {
+            "name": "warningToast",
+            "module": "src/toast.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/utils.ts",
       "declarations": [
         {
@@ -405,6 +956,35 @@
               }
             }
           ]
+        },
+        {
+          "kind": "function",
+          "name": "paginate",
+          "return": {
+            "type": {
+              "text": "T[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "arr",
+              "type": {
+                "text": "T[]"
+              }
+            },
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "perPage",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
         }
       ],
       "exports": [
@@ -413,6 +993,14 @@
           "name": "sourceHref",
           "declaration": {
             "name": "sourceHref",
+            "module": "src/utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "paginate",
+          "declaration": {
+            "name": "paginate",
             "module": "src/utils.ts"
           }
         }
@@ -441,11 +1029,11 @@
     },
     {
       "kind": "javascript-module",
-      "path": "dist/assets/index-dd553300.js",
+      "path": "dist/assets/index-fee6f6d4.js",
       "declarations": [
         {
           "kind": "variable",
-          "name": "r"
+          "name": "a"
         },
         {
           "kind": "function",
@@ -455,23 +1043,42 @@
               "name": "i"
             }
           ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "anonymous_2",
+          "superclass": {
+            "name": "e",
+            "module": "dist/assets/index-fee6f6d4.js"
+          },
+          "tagName": "a",
+          "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "custom-element-definition",
-          "name": "r",
+          "name": "a",
           "declaration": {
             "name": "e",
-            "module": "dist/assets/index-dd553300.js"
+            "module": "dist/assets/index-fee6f6d4.js"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "r",
+          "name": "a",
           "declaration": {
             "name": "e",
-            "module": "dist/assets/index-dd553300.js"
+            "module": "dist/assets/index-fee6f6d4.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "a",
+          "declaration": {
+            "name": "anonymous_2",
+            "module": "dist/assets/index-fee6f6d4.js"
           }
         }
       ]
@@ -572,15 +1179,6 @@
           "members": [
             {
               "kind": "field",
-              "name": "#cardsByMaps",
-              "privacy": "private",
-              "type": {
-                "text": "Record<IMap['name'], CardFromSource[]>"
-              },
-              "default": "{}"
-            },
-            {
-              "kind": "field",
               "name": "divcordTable",
               "type": {
                 "text": "SourcefulDivcordTable"
@@ -597,124 +1195,10 @@
             },
             {
               "kind": "method",
-              "name": "cardsByMaps"
-            },
-            {
-              "kind": "method",
-              "name": "cardsByMap",
-              "parameters": [
-                {
-                  "name": "map",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "mapnames"
-            },
-            {
-              "kind": "method",
-              "name": "#cardsByMap",
-              "return": {
-                "type": {
-                  "text": "CardFromSource[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "map",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#createCardsByMaps",
+              "name": "cardsByMaps",
               "return": {
                 "type": {
                   "text": "Record<string, CardFromSource[]>"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "cardsByBoss",
-              "return": {
-                "type": {
-                  "text": "string[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "bossname",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "cardsByActArea",
-              "return": {
-                "type": {
-                  "text": "CardFromSource[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "actId",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "cardsByActBoss",
-              "return": {
-                "type": {
-                  "text": "string[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "bossname",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "cardsByIdSource",
-              "return": {
-                "type": {
-                  "text": "string[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "source",
-                  "type": {
-                    "text": "SourceWithMember"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "cardsBySources",
-              "return": {
-                "type": {
-                  "text": "[ISource, string[]][]"
                 }
               }
             },
@@ -731,52 +1215,6 @@
                   "name": "source",
                   "type": {
                     "text": "ISource"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "cardsBySourceType",
-              "parameters": [
-                {
-                  "name": "type",
-                  "type": {
-                    "text": "SourceType"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "cardsByEmptySource",
-              "return": {
-                "type": {
-                  "text": "{ kind: EmptySourceKind; cards: string[] }"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "type",
-                  "type": {
-                    "text": "SourceType"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "cardsBySourceWithMember",
-              "return": {
-                "type": {
-                  "text": "{ kind: SourceWithMemberKind; cards: [string, string[]][] }"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "type",
-                  "type": {
-                    "text": "SourceType"
                   }
                 }
               ]
@@ -802,6 +1240,139 @@
               "name": "poeData",
               "type": {
                 "text": "Readonly<PoeData>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "bossesInMap",
+          "return": {
+            "type": {
+              "text": "IMapBoss[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "map",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "cardsByMapboss",
+          "return": {
+            "type": {
+              "text": "string[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "boss",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "records",
+              "type": {
+                "text": "ISourcefulDivcordTableRecord[]"
+              }
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "cardsByActboss",
+          "return": {
+            "type": {
+              "text": "string[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "boss",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "records",
+              "type": {
+                "text": "ISourcefulDivcordTableRecord[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "cardsBySource",
+          "return": {
+            "type": {
+              "text": "CardFromSource[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              }
+            },
+            {
+              "name": "records",
+              "type": {
+                "text": "ISourcefulDivcordTableRecord[]"
+              }
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "cardsBySourceTypes",
+          "return": {
+            "type": {
+              "text": "{ sourcetypesCountsMap: Map<SourceType, number>; sourcesAndCards: SourceAndCards[] }"
+            }
+          },
+          "parameters": [
+            {
+              "name": "sourceTypes",
+              "type": {
+                "text": "SourceType[]"
+              }
+            },
+            {
+              "name": "records",
+              "type": {
+                "text": "ISourcefulDivcordTableRecord[]"
+              }
+            },
+            {
+              "name": "poeData",
+              "type": {
+                "text": "PoeData"
               }
             }
           ]
@@ -831,14 +1402,72 @@
             "name": "sortByWeight",
             "module": "src/data/CardsFinder.ts"
           }
+        },
+        {
+          "kind": "js",
+          "name": "bossesInMap",
+          "declaration": {
+            "name": "bossesInMap",
+            "module": "src/data/CardsFinder.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cardsByMapboss",
+          "declaration": {
+            "name": "cardsByMapboss",
+            "module": "src/data/CardsFinder.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cardsByActboss",
+          "declaration": {
+            "name": "cardsByActboss",
+            "module": "src/data/CardsFinder.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cardsBySource",
+          "declaration": {
+            "name": "cardsBySource",
+            "module": "src/data/CardsFinder.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cardsBySourceTypes",
+          "declaration": {
+            "name": "cardsBySourceTypes",
+            "module": "src/data/CardsFinder.ts"
+          }
         }
       ]
     },
     {
       "kind": "javascript-module",
       "path": "src/data/ISource.interface.ts",
-      "declarations": [],
-      "exports": []
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "sourceTypes",
+          "type": {
+            "text": "[\n\t'Expedition Logbook',\n\t'Chest',\n\t'Delirium',\n\t'Strongbox',\n\t'Vendor',\n\t'Unknown',\n\t'Delirium Currency Rewards',\n\t'Redeemer influenced maps',\n\t'Disabled',\n\t'Global Drop',\n\t'Act',\n\t'Map',\n\t'Map Boss',\n\t'Act Boss',\n\t\"Maven's Invitation: The Feared\",\n\t'Uul-Netol, Unburdened Flesh (in Breachstones)',\n\t'The Vaal Omnitect',\n\t'Metamorph',\n\t'Null Portal',\n\t'Vaal Flesh Merchant',\n\t\"All Incursion Architects in Alva missions/Alva's Memory\",\n\t'All Abyss Monsters',\n\t'All (Scourge) beyond demons',\n\t'All Rogue Exiles',\n\t'Venarius',\n\t'Argus',\n\t'All Invasion Bosses',\n\t'All Vaal Side Area Bosses',\n\t'Breachlord Boss Domain',\n\t'Architect',\n\t'Shaper Guardian Boss',\n\t'Syndicate Member',\n\t'Elder Slayer',\n\t'Elder Guardian Boss',\n\t'Rogue Exile',\n\t'Female Rogue Exile',\n\t'Abyss Lich Boss',\n\t'Maps Only',\n\t'Act Boss',\n\t'Harbinger Portal',\n\t'Endgame Boss',\n\t'Delve Boss',\n\t'Beast Boss',\n\t'Heist Boss',\n\t'Beyond Boss',\n\t'Expedition Logbook Boss',\n\t'Shaper Mini-Boss',\n\t'Betrayal Catarina',\n\t'Oshabi Boss',\n\t'Trial of Stinging Doubt',\n\t'The Temple of Atzoatl',\n\t'All Vaal side areas (need specific information)',\n\t'Vaal Side Areas',\n\t'Atziri Area',\n\t'Area-Specific',\n]"
+          },
+          "default": "[\n\t'Expedition Logbook',\n\t'Chest',\n\t'Delirium',\n\t'Strongbox',\n\t'Vendor',\n\t'Unknown',\n\t'Delirium Currency Rewards',\n\t'Redeemer influenced maps',\n\t'Disabled',\n\t'Global Drop',\n\t'Act',\n\t'Map',\n\t'Map Boss',\n\t'Act Boss',\n\t\"Maven's Invitation: The Feared\",\n\t'Uul-Netol, Unburdened Flesh (in Breachstones)',\n\t'The Vaal Omnitect',\n\t'Metamorph',\n\t'Null Portal',\n\t'Vaal Flesh Merchant',\n\t\"All Incursion Architects in Alva missions/Alva's Memory\",\n\t'All Abyss Monsters',\n\t'All (Scourge) beyond demons',\n\t'All Rogue Exiles',\n\t'Venarius',\n\t'Argus',\n\t'All Invasion Bosses',\n\t'All Vaal Side Area Bosses',\n\t'Breachlord Boss Domain',\n\t'Architect',\n\t'Shaper Guardian Boss',\n\t'Syndicate Member',\n\t'Elder Slayer',\n\t'Elder Guardian Boss',\n\t'Rogue Exile',\n\t'Female Rogue Exile',\n\t'Abyss Lich Boss',\n\t'Maps Only',\n\t'Act Boss',\n\t'Harbinger Portal',\n\t'Endgame Boss',\n\t'Delve Boss',\n\t'Beast Boss',\n\t'Heist Boss',\n\t'Beyond Boss',\n\t'Expedition Logbook Boss',\n\t'Shaper Mini-Boss',\n\t'Betrayal Catarina',\n\t'Oshabi Boss',\n\t'Trial of Stinging Doubt',\n\t'The Temple of Atzoatl',\n\t'All Vaal side areas (need specific information)',\n\t'Vaal Side Areas',\n\t'Atziri Area',\n\t'Area-Specific',\n]"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "sourceTypes",
+          "declaration": {
+            "name": "sourceTypes",
+            "module": "src/data/ISource.interface.ts"
+          }
+        }
+      ]
     },
     {
       "kind": "javascript-module",
@@ -1723,6 +2352,107 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/elements/e-source-and-cards.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "SourceAndCardsElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "attribute": "source"
+            },
+            {
+              "kind": "field",
+              "name": "cards",
+              "type": {
+                "text": "CardFromSource[]"
+              },
+              "attribute": "cards"
+            },
+            {
+              "kind": "field",
+              "name": "showSourceType",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "showSourceType"
+            },
+            {
+              "kind": "field",
+              "name": "mainSourceElement",
+              "type": {
+                "text": "HTMLElement"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#onBossNavigation"
+            },
+            {
+              "kind": "method",
+              "name": "cardsList"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "source",
+              "type": {
+                "text": "ISource"
+              },
+              "fieldName": "source"
+            },
+            {
+              "name": "cards",
+              "type": {
+                "text": "CardFromSource[]"
+              },
+              "fieldName": "cards"
+            },
+            {
+              "name": "showSourceType",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showSourceType"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-source-and-cards",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "SourceAndCardsElement",
+          "declaration": {
+            "name": "SourceAndCardsElement",
+            "module": "src/elements/e-source-and-cards.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-source-and-cards",
+          "declaration": {
+            "name": "SourceAndCardsElement",
+            "module": "src/elements/e-source-and-cards.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/elements/e-source-type.ts",
       "declarations": [
         {
@@ -1855,6 +2585,14 @@
             },
             {
               "kind": "field",
+              "name": "actSize",
+              "type": {
+                "text": "'small' | 'large' | undefined"
+              },
+              "attribute": "actSize"
+            },
+            {
+              "kind": "field",
               "name": "sourceHasSpecialElement",
               "readonly": true
             },
@@ -1924,6 +2662,13 @@
               },
               "default": "'normal'",
               "fieldName": "renderMode"
+            },
+            {
+              "name": "actSize",
+              "type": {
+                "text": "'small' | 'large' | undefined"
+              },
+              "fieldName": "actSize"
             }
           ],
           "superclass": {
@@ -2367,19 +3112,10 @@
             },
             {
               "kind": "field",
-              "name": "records",
-              "type": {
-                "text": "SourcefulDivcordTableRecord[]"
-              },
-              "attribute": "records"
-            },
-            {
-              "kind": "field",
               "name": "divcordTable",
               "type": {
                 "text": "SourcefulDivcordTable"
-              },
-              "attribute": "divcordTable"
+              }
             }
           ],
           "attributes": [
@@ -2389,20 +3125,6 @@
                 "text": "string"
               },
               "fieldName": "card"
-            },
-            {
-              "name": "records",
-              "type": {
-                "text": "SourcefulDivcordTableRecord[]"
-              },
-              "fieldName": "records"
-            },
-            {
-              "name": "divcordTable",
-              "type": {
-                "text": "SourcefulDivcordTable"
-              },
-              "fieldName": "divcordTable"
             }
           ],
           "superclass": {
@@ -2588,8 +3310,7 @@
               "name": "divcordTable",
               "type": {
                 "text": "SourcefulDivcordTable"
-              },
-              "attribute": "divcordTable"
+              }
             },
             {
               "kind": "field",
@@ -2601,15 +3322,6 @@
             {
               "kind": "method",
               "name": "#onRecordsUpdated"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "divcordTable",
-              "type": {
-                "text": "SourcefulDivcordTable"
-              },
-              "fieldName": "divcordTable"
             }
           ],
           "superclass": {
@@ -2701,8 +3413,8 @@
             },
             {
               "kind": "field",
-              "name": "lastLoaded",
-              "default": "new Task(this, {\r\n\t\tasync task() {\r\n\t\t\tconst millis = await divcordDataAgeMilliseconds();\r\n\t\t\tif (millis === null) {\r\n\t\t\t\treturn null;\r\n\t\t\t}\r\n\t\t\treturn new Date(Date.now() - millis);\r\n\t\t},\r\n\t\targs: () => [],\r\n\t})"
+              "name": "lastUpdated",
+              "default": "new Task(this, {\r\n\t\tasync task() {\r\n\t\t\treturn await divcordService.cacheDate();\r\n\t\t},\r\n\t\targs: () => [],\r\n\t})"
             }
           ],
           "attributes": [
@@ -2728,8 +3440,15 @@
           "members": [
             {
               "kind": "field",
+              "name": "loaderState",
+              "type": {
+                "text": "DivcordServiceState"
+              }
+            },
+            {
+              "kind": "field",
               "name": "task",
-              "default": "new Task<never, void>(this, {\r\n\t\ttask: async () => {\r\n\t\t\tconst cache = await caches.open('divcord');\r\n\t\t\tawait updateDivcordRecords(cache);\r\n\t\t\tthis.dispatchEvent(new Event('records-updated'));\r\n\t\t},\r\n\t})"
+              "default": "new Task<never, void>(this, {\r\n\t\ttask: async () => {\r\n\t\t\tconst records = await divcordService.update();\r\n\t\t\tconst event = new CustomEvent('records-updated', { detail: records, bubbles: true, composed: true });\r\n\t\t\tthis.dispatchEvent(event);\r\n\t\t},\r\n\t})"
             },
             {
               "kind": "method",
@@ -2853,14 +3572,6 @@
             },
             {
               "kind": "field",
-              "name": "divcordTable",
-              "type": {
-                "text": "SourcefulDivcordTable"
-              },
-              "attribute": "divcordTable"
-            },
-            {
-              "kind": "field",
               "name": "filter",
               "type": {
                 "text": "string"
@@ -2868,6 +3579,13 @@
               "default": "''",
               "attribute": "filter",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              }
             },
             {
               "kind": "method",
@@ -2916,13 +3634,6 @@
               },
               "default": "'medium'",
               "fieldName": "size"
-            },
-            {
-              "name": "divcordTable",
-              "type": {
-                "text": "SourcefulDivcordTable"
-              },
-              "fieldName": "divcordTable"
             },
             {
               "name": "filter",
@@ -2991,13 +3702,6 @@
             },
             {
               "kind": "field",
-              "name": "cardsByMaps",
-              "type": {
-                "text": "Record<string, CardFromSource[]>"
-              }
-            },
-            {
-              "kind": "field",
               "name": "size",
               "type": {
                 "text": "CardSize"
@@ -3015,6 +3719,21 @@
               "default": "''",
               "attribute": "filter",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cardsFinder",
+              "type": {
+                "text": "CardsFinder"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "cardsByMaps",
+              "type": {
+                "text": "Record<string, CardFromSource[]>"
+              },
+              "default": "{}"
             },
             {
               "kind": "field",
@@ -3049,6 +3768,10 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "maps"
             },
             {
               "kind": "method",
@@ -3137,16 +3860,18 @@
             },
             {
               "kind": "field",
-              "name": "cardsFinder",
+              "name": "divcordTable",
               "type": {
-                "text": "CardsFinder"
-              },
-              "attribute": "cardsFinder"
+                "text": "SourcefulDivcordTable"
+              }
             },
             {
-              "kind": "method",
-              "name": "mainBlock",
-              "privacy": "protected"
+              "kind": "field",
+              "name": "sourcesAndCards",
+              "type": {
+                "text": "SourceAndCards[]"
+              },
+              "default": "[]"
             }
           ],
           "attributes": [
@@ -3156,13 +3881,6 @@
                 "text": "SourceType"
               },
               "fieldName": "sourceType"
-            },
-            {
-              "name": "cardsFinder",
-              "type": {
-                "text": "CardsFinder"
-              },
-              "fieldName": "cardsFinder"
             }
           ],
           "superclass": {
@@ -3214,23 +3932,14 @@
               "name": "cardsFinder",
               "type": {
                 "text": "CardsFinder"
-              },
-              "attribute": "cardsFinder"
-            },
-            {
-              "kind": "field",
-              "name": "mainSourceElement",
-              "type": {
-                "text": "HTMLElement"
               }
             },
             {
-              "kind": "method",
-              "name": "#onBossNavigation"
-            },
-            {
-              "kind": "method",
-              "name": "cardsList"
+              "kind": "field",
+              "name": "cards",
+              "type": {
+                "text": "CardFromSource[]"
+              }
             }
           ],
           "attributes": [
@@ -3240,13 +3949,6 @@
                 "text": "ISource"
               },
               "fieldName": "source"
-            },
-            {
-              "name": "cardsFinder",
-              "type": {
-                "text": "CardsFinder"
-              },
-              "fieldName": "cardsFinder"
             }
           ],
           "superclass": {
@@ -3278,36 +3980,12 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/pages/p-sources-table.ts",
+      "path": "src/pages/p-sources.ts",
       "declarations": [
-        {
-          "kind": "function",
-          "name": "paginate",
-          "parameters": [
-            {
-              "name": "arr",
-              "type": {
-                "text": "T[]"
-              }
-            },
-            {
-              "name": "page",
-              "type": {
-                "text": "number"
-              }
-            },
-            {
-              "name": "perPage",
-              "type": {
-                "text": "number"
-              }
-            }
-          ]
-        },
         {
           "kind": "class",
           "description": "",
-          "name": "SourcesTablePage",
+          "name": "SourcesPage",
           "members": [
             {
               "kind": "field",
@@ -3331,18 +4009,11 @@
             },
             {
               "kind": "field",
-              "name": "cardsBySources",
-              "type": {
-                "text": "[ISource, string[]][]"
-              }
-            },
-            {
-              "kind": "field",
               "name": "size",
               "type": {
                 "text": "CardSize"
               },
-              "default": "'medium'",
+              "default": "'large'",
               "attribute": "size",
               "reflects": true
             },
@@ -3375,33 +4046,60 @@
               "attribute": "firstColumnName"
             },
             {
+              "kind": "field",
+              "name": "allSourceTypes",
+              "type": {
+                "text": "SourceType[]"
+              },
+              "attribute": "allSourceTypes"
+            },
+            {
+              "kind": "field",
+              "name": "selectedSourceTypes",
+              "type": {
+                "text": "SourceType[]"
+              },
+              "default": "[]",
+              "attribute": "selectedSourceTypes"
+            },
+            {
+              "kind": "field",
+              "name": "divcordTable",
+              "type": {
+                "text": "SourcefulDivcordTable"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "sourcesAndCards",
+              "type": {
+                "text": "SourceAndCards[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "sourcetypesCountsMap",
+              "type": {
+                "text": "Map<SourceType, number>"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "records",
+              "readonly": true
+            },
+            {
               "kind": "method",
-              "name": "#onMapnameInput",
+              "name": "#onSlSelectChange",
               "parameters": [
                 {
                   "name": "e",
                   "type": {
-                    "text": "InputEvent"
+                    "text": "Event"
                   }
                 }
               ]
-            },
-            {
-              "kind": "method",
-              "name": "#oncardSizeSelect",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "InputEvent"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "table",
-              "privacy": "protected"
             }
           ],
           "attributes": [
@@ -3426,7 +4124,7 @@
               "type": {
                 "text": "CardSize"
               },
-              "default": "'medium'",
+              "default": "'large'",
               "fieldName": "size"
             },
             {
@@ -3452,39 +4150,46 @@
               },
               "default": "'Source'",
               "fieldName": "firstColumnName"
+            },
+            {
+              "name": "allSourceTypes",
+              "type": {
+                "text": "SourceType[]"
+              },
+              "fieldName": "allSourceTypes"
+            },
+            {
+              "name": "selectedSourceTypes",
+              "type": {
+                "text": "SourceType[]"
+              },
+              "default": "[]",
+              "fieldName": "selectedSourceTypes"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "p-sources-table",
+          "tagName": "p-sources",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "paginate",
+          "name": "SourcesPage",
           "declaration": {
-            "name": "paginate",
-            "module": "src/pages/p-sources-table.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "SourcesTablePage",
-          "declaration": {
-            "name": "SourcesTablePage",
-            "module": "src/pages/p-sources-table.ts"
+            "name": "SourcesPage",
+            "module": "src/pages/p-sources.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "p-sources-table",
+          "name": "p-sources",
           "declaration": {
-            "name": "SourcesTablePage",
-            "module": "src/pages/p-sources-table.ts"
+            "name": "SourcesPage",
+            "module": "src/pages/p-sources.ts"
           }
         }
       ]
@@ -3507,6 +4212,12 @@
               "name": "poe_data",
               "type": {
                 "text": "any"
+              }
+            },
+            {
+              "name": "toast",
+              "type": {
+                "text": "Function"
               }
             }
           ],
@@ -3749,6 +4460,893 @@
           "declaration": {
             "name": "DivinationCardElement",
             "module": "src/elements/divination-card/e-divination-card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/input/e-input.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "InputElement",
+          "members": [
+            {
+              "kind": "field",
+              "name": "input",
+              "type": {
+                "text": "HTMLInputElement"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "datalistItems",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "attribute": "datalistItems"
+            },
+            {
+              "kind": "field",
+              "name": "hasFocus",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "__numberInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "__dateInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "| 'date'\r\n\t\t| 'datetime-local'\r\n\t\t| 'email'\r\n\t\t| 'number'\r\n\t\t| 'password'\r\n\t\t| 'search'\r\n\t\t| 'tel'\r\n\t\t| 'text'\r\n\t\t| 'time'\r\n\t\t| 'url'"
+              },
+              "default": "'text'",
+              "description": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\r\nto `text`.",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals"
+            },
+            {
+              "kind": "field",
+              "name": "list",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "list"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The name of the input, submitted as a name/value pair with form data.",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The current value of the input, submitted as a name/value pair with form data.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium' | 'large'"
+              },
+              "default": "'medium'",
+              "description": "The input's size.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "filled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a filled input.",
+              "attribute": "filled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "pill",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a pill-style input with rounded edges.",
+              "attribute": "pill",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The input's label. If you need to display HTML, use the `label` slot instead.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "helpText",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The input's help text. If you need to display HTML, use the `help-text` slot instead.",
+              "attribute": "help-text"
+            },
+            {
+              "kind": "field",
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adds a clear button when the input is not empty.",
+              "attribute": "clearable"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the input.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Placeholder text to show as a hint when the input is empty.",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the input readonly.",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "passwordToggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adds a button to toggle the password's visibility. Only applies to password types.",
+              "attribute": "password-toggle"
+            },
+            {
+              "kind": "field",
+              "name": "passwordVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Determines whether or not the password is currently visible. Only applies to password input types.",
+              "attribute": "password-visible"
+            },
+            {
+              "kind": "field",
+              "name": "noSpinButtons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the browser's built-in increment/decrement spin buttons for number inputs.",
+              "attribute": "no-spin-buttons"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\r\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\r\nthe same document or shadow root for this to work.",
+              "attribute": "form",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the input a required field.",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "pattern",
+              "type": {
+                "text": "string"
+              },
+              "description": "A regular expression pattern to validate input against.",
+              "attribute": "pattern"
+            },
+            {
+              "kind": "field",
+              "name": "minlength",
+              "type": {
+                "text": "number"
+              },
+              "description": "The minimum length of input that will be considered valid.",
+              "attribute": "minlength"
+            },
+            {
+              "kind": "field",
+              "name": "maxlength",
+              "type": {
+                "text": "number"
+              },
+              "description": "The maximum length of input that will be considered valid.",
+              "attribute": "maxlength"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "number | string"
+              },
+              "description": "The input's minimum value. Only applies to date and number input types.",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number | string"
+              },
+              "description": "The input's maximum value. Only applies to date and number input types.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "type": {
+                "text": "number | 'any'"
+              },
+              "description": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\r\nimplied, allowing any numeric value. Only applies to date and number input types.",
+              "attribute": "step"
+            },
+            {
+              "kind": "field",
+              "name": "autocapitalize",
+              "type": {
+                "text": "'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters'"
+              },
+              "description": "Controls whether and how text input is automatically capitalized as it is entered by the user.",
+              "attribute": "autocapitalize"
+            },
+            {
+              "kind": "field",
+              "name": "autocorrect",
+              "type": {
+                "text": "'off' | 'on'"
+              },
+              "description": "Indicates whether the browser's autocorrect feature is on or off.",
+              "attribute": "autocorrect"
+            },
+            {
+              "kind": "field",
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "description": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\r\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.",
+              "attribute": "autocomplete"
+            },
+            {
+              "kind": "field",
+              "name": "autofocus",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indicates that the input should receive focus on page load.",
+              "attribute": "autofocus"
+            },
+            {
+              "kind": "field",
+              "name": "enterkeyhint",
+              "type": {
+                "text": "'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'"
+              },
+              "description": "Used to customize the label or icon of the Enter key on virtual keyboards.",
+              "attribute": "enterkeyhint"
+            },
+            {
+              "kind": "field",
+              "name": "spellcheck",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enables spell checking on the input.",
+              "attribute": "spellcheck"
+            },
+            {
+              "kind": "field",
+              "name": "inputmode",
+              "type": {
+                "text": "'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'"
+              },
+              "description": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\r\nkeyboard on supportive devices.",
+              "attribute": "inputmode"
+            },
+            {
+              "kind": "field",
+              "name": "valueAsDate",
+              "description": "Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type=\"{{type}}\">` implementation and may result in an error."
+            },
+            {
+              "kind": "field",
+              "name": "valueAsNumber",
+              "description": "Gets or sets the current value as a number. Returns `NaN` if the value can't be converted."
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "description": "Gets the validity state object",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "description": "Gets the validation message",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "handleBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleClearClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handlePasswordToggle",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Sets focus on the input."
+            },
+            {
+              "kind": "method",
+              "name": "blur",
+              "description": "Removes focus from the input."
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "description": "Selects all the text in the input."
+            },
+            {
+              "kind": "method",
+              "name": "setSelectionRange",
+              "parameters": [
+                {
+                  "name": "selectionStart",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "selectionEnd",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "selectionDirection",
+                  "default": "'none'",
+                  "type": {
+                    "text": "'forward' | 'backward' | 'none'"
+                  }
+                }
+              ],
+              "description": "Sets the start and end positions of the text selection (0-based)."
+            },
+            {
+              "kind": "method",
+              "name": "setRangeText",
+              "parameters": [
+                {
+                  "name": "replacement",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "start",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "end",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "selectMode",
+                  "default": "'preserve'",
+                  "type": {
+                    "text": "'select' | 'start' | 'end' | 'preserve'"
+                  }
+                }
+              ],
+              "description": "Replaces a range of text with a new string."
+            },
+            {
+              "kind": "method",
+              "name": "showPicker",
+              "description": "Displays the browser picker for an input element (only works if the browser supports it for the input type)."
+            },
+            {
+              "kind": "method",
+              "name": "stepUp",
+              "description": "Increments the value of a numeric input type by the value of the step attribute."
+            },
+            {
+              "kind": "method",
+              "name": "stepDown",
+              "description": "Decrements the value of a numeric input type by the value of the step attribute."
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid."
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Checks for validity and shows the browser's validation message if the control is invalid."
+            },
+            {
+              "kind": "method",
+              "name": "setCustomValidity",
+              "parameters": [
+                {
+                  "name": "message",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Sets a custom validation message. Pass an empty string to restore validity."
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "datalistItems",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "fieldName": "datalistItems"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "title"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "| 'date'\r\n\t\t| 'datetime-local'\r\n\t\t| 'email'\r\n\t\t| 'number'\r\n\t\t| 'password'\r\n\t\t| 'search'\r\n\t\t| 'tel'\r\n\t\t| 'text'\r\n\t\t| 'time'\r\n\t\t| 'url'"
+              },
+              "default": "'text'",
+              "description": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\r\nto `text`.",
+              "fieldName": "type"
+            },
+            {
+              "name": "list",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "list"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The name of the input, submitted as a name/value pair with form data.",
+              "fieldName": "name"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The current value of the input, submitted as a name/value pair with form data.",
+              "fieldName": "value"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'small' | 'medium' | 'large'"
+              },
+              "default": "'medium'",
+              "description": "The input's size.",
+              "fieldName": "size"
+            },
+            {
+              "name": "filled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a filled input.",
+              "fieldName": "filled"
+            },
+            {
+              "name": "pill",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Draws a pill-style input with rounded edges.",
+              "fieldName": "pill"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The input's label. If you need to display HTML, use the `label` slot instead.",
+              "fieldName": "label"
+            },
+            {
+              "name": "help-text",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The input's help text. If you need to display HTML, use the `help-text` slot instead.",
+              "fieldName": "helpText"
+            },
+            {
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adds a clear button when the input is not empty.",
+              "fieldName": "clearable"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the input.",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Placeholder text to show as a hint when the input is empty.",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the input readonly.",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "password-toggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adds a button to toggle the password's visibility. Only applies to password types.",
+              "fieldName": "passwordToggle"
+            },
+            {
+              "name": "password-visible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Determines whether or not the password is currently visible. Only applies to password input types.",
+              "fieldName": "passwordVisible"
+            },
+            {
+              "name": "no-spin-buttons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the browser's built-in increment/decrement spin buttons for number inputs.",
+              "fieldName": "noSpinButtons"
+            },
+            {
+              "name": "form",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\r\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\r\nthe same document or shadow root for this to work.",
+              "fieldName": "form"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the input a required field.",
+              "fieldName": "required"
+            },
+            {
+              "name": "pattern",
+              "type": {
+                "text": "string"
+              },
+              "description": "A regular expression pattern to validate input against.",
+              "fieldName": "pattern"
+            },
+            {
+              "name": "minlength",
+              "type": {
+                "text": "number"
+              },
+              "description": "The minimum length of input that will be considered valid.",
+              "fieldName": "minlength"
+            },
+            {
+              "name": "maxlength",
+              "type": {
+                "text": "number"
+              },
+              "description": "The maximum length of input that will be considered valid.",
+              "fieldName": "maxlength"
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "number | string"
+              },
+              "description": "The input's minimum value. Only applies to date and number input types.",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number | string"
+              },
+              "description": "The input's maximum value. Only applies to date and number input types.",
+              "fieldName": "max"
+            },
+            {
+              "name": "step",
+              "type": {
+                "text": "number | 'any'"
+              },
+              "description": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\r\nimplied, allowing any numeric value. Only applies to date and number input types.",
+              "fieldName": "step"
+            },
+            {
+              "name": "autocapitalize",
+              "type": {
+                "text": "'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters'"
+              },
+              "description": "Controls whether and how text input is automatically capitalized as it is entered by the user.",
+              "fieldName": "autocapitalize"
+            },
+            {
+              "name": "autocorrect",
+              "type": {
+                "text": "'off' | 'on'"
+              },
+              "description": "Indicates whether the browser's autocorrect feature is on or off.",
+              "fieldName": "autocorrect"
+            },
+            {
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "description": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\r\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.",
+              "fieldName": "autocomplete"
+            },
+            {
+              "name": "autofocus",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indicates that the input should receive focus on page load.",
+              "fieldName": "autofocus"
+            },
+            {
+              "name": "enterkeyhint",
+              "type": {
+                "text": "'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'"
+              },
+              "description": "Used to customize the label or icon of the Enter key on virtual keyboards.",
+              "fieldName": "enterkeyhint"
+            },
+            {
+              "name": "spellcheck",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enables spell checking on the input.",
+              "fieldName": "spellcheck"
+            },
+            {
+              "name": "inputmode",
+              "type": {
+                "text": "'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'"
+              },
+              "description": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\r\nkeyboard on supportive devices.",
+              "fieldName": "inputmode"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "e-input",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "InputElement",
+          "declaration": {
+            "name": "InputElement",
+            "module": "src/elements/input/e-input.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "e-input",
+          "declaration": {
+            "name": "InputElement",
+            "module": "src/elements/input/e-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/elements/input/input.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/elements/input/input.styles.ts"
           }
         }
       ]
