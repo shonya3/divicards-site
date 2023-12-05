@@ -102,7 +102,11 @@ export class MapsTablePage extends LitElement {
                         </div>
                     -->
 					</form>
-					<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
+					<e-page-controls
+						.n=${this.filtered.length}
+						page=${this.page}
+						per-page=${this.perPage}
+					></e-page-controls>
 				</header>
 				${this.table()}
 			</div>

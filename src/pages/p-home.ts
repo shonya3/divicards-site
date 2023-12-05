@@ -59,7 +59,11 @@ export class HomePage extends LitElement {
 						</e-input>
 					</div>
 				</form>
-				<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>
+				<e-page-controls
+					.n=${this.filtered.length}
+					page=${this.page}
+					per-page=${this.perPage}
+				></e-page-controls>
 			</header>
 			<ul class="cards">
 				${this.paginated.map(card => {

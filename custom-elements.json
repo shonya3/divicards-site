@@ -2273,6 +2273,15 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "n",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "n"
+            },
+            {
               "kind": "method",
               "name": "#onPageInput",
               "parameters": [
@@ -2302,6 +2311,28 @@
             },
             {
               "kind": "method",
+              "name": "lastPageNumber"
+            },
+            {
+              "kind": "method",
+              "name": "toLastPage"
+            },
+            {
+              "kind": "method",
+              "name": "showingRange",
+              "return": {
+                "type": {
+                  "text": "[number, number] | null"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isLastPage",
+              "readonly": true
+            },
+            {
+              "kind": "method",
               "name": "decreasePage"
             }
           ],
@@ -2321,6 +2352,14 @@
               },
               "default": "10",
               "fieldName": "perPage"
+            },
+            {
+              "name": "n",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "n"
             }
           ],
           "superclass": {
