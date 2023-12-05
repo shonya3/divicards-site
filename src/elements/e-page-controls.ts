@@ -59,6 +59,7 @@ export class PageControlsElement extends LitElement {
 					type="number"
 					.value=${String(this.page)}
 					@input=${this.#onPageInput}
+					min="1"
 				></sl-input>
 				<sl-icon-button name="arrow-right" @click=${this.increasePage}>next</sl-icon-button>
 				<sl-input
@@ -66,7 +67,7 @@ export class PageControlsElement extends LitElement {
 					.helpText=${'per page'}
 					id="per-page"
 					type="number"
-					min="0"
+					min="1"
 					.value=${String(this.perPage)}
 					@input=${this.#onPerPageInput}
 				></sl-input>
