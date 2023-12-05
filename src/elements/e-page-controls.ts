@@ -1,6 +1,9 @@
 import { LitElement, PropertyValueMap, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { router } from '../main';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -46,17 +49,27 @@ export class PageControlsElement extends LitElement {
 	render() {
 		return html`
 			<div class="page-controls">
-				<button ?disabled=${this.page === 1} @click=${this.decreasePage}>prev</button>
-				<input id="page" type="text" .value=${String(this.page)} @input=${this.#onPageInput} />
-				<button @click=${this.increasePage}>next</button>
-				<label for="per-page">per page</label>
-				<input
+				<sl-icon-button name="arrow-left" ?disabled=${this.page === 1} @click=${this.decreasePage}
+					>prev</sl-icon-button
+				>
+				<sl-input
+					class="page-input"
+					.helpText=${'page'}
+					id="page"
+					type="number"
+					.value=${String(this.page)}
+					@input=${this.#onPageInput}
+				></sl-input>
+				<sl-icon-button name="arrow-right" @click=${this.increasePage}>next</sl-icon-button>
+				<sl-input
+					class="per-page-input"
+					.helpText=${'per page'}
 					id="per-page"
 					type="number"
 					min="0"
 					.value=${String(this.perPage)}
 					@input=${this.#onPerPageInput}
-				/>
+				></sl-input>
 			</div>
 		`;
 	}
@@ -71,6 +84,16 @@ export class PageControlsElement extends LitElement {
 		.page-controls > input {
 			width: 5ch;
 			text-align: center;
+		}
+
+		sl-icon-button {
+			font-size: 1.2rem;
+		}
+
+		.per-page-input,
+		.page-input {
+			margin-top: 1.1rem;
+			width: 8ch;
 		}
 	`;
 }
