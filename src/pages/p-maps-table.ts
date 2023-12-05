@@ -77,13 +77,22 @@ export class MapsTablePage extends LitElement {
 		}
 	}
 
+	maps() {
+		const mapnames = poeData.maps.map(({ name }) => name);
+		mapnames.sort((a, b) => a.localeCompare(b));
+		return mapnames;
+	}
+
 	protected render() {
 		return html`
 			<header>
 				<form>
 					<div>
 						<label for="input-mapname">Input map name</label>
-						<input @input="${this.#onMapnameInput}" type="text" id="input-mapname" />
+						<input @input="${this.#onMapnameInput}" type="text" id="input-mapname" list="maps-datalist" />
+						<datalist id="maps-datalist">
+							${this.maps().map(name => html`<option value=${name}>${name}</option>`)}
+						</datalist>
 					</div>
 					<div>
 						<label for="select-size">Select size</label>
@@ -182,6 +191,10 @@ export class MapsTablePage extends LitElement {
 		th {
 			font-size: 20px;
 			padding: 1rem;
+		}
+
+		th:first-child {
+			width: 200px;
 		}
 
 		/*

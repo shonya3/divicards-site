@@ -52,7 +52,10 @@ export class HomePage extends LitElement {
 		return html` <form>
 				<div>
 					<label for="input-cardname">search card</label>
-					<input @input="${this.#onCardnameInput}" type="text" id="input-cardname" />
+					<input list="cards-datalist" @input="${this.#onCardnameInput}" type="text" id="input-cardname" />
+					<datalist id="cards-datalist">
+						${this.divcordTable.cards().map(card => html`<option value=${card}>${card}</option>`)}
+					</datalist>
 				</div>
 			</form>
 			<e-page-controls page=${this.page} per-page=${this.perPage}></e-page-controls>

@@ -166,7 +166,7 @@ export const router = new Router({
 			render: ({ query }) =>
 				html`<p-home
 					.page=${Number(query.page ?? 1)}
-					.perPage=${Number(query['per-page'] ?? 14)}
+					.perPage=${Number(query['per-page'] ?? 10)}
 					filter=${query.filter ?? ''}
 				></p-home>`,
 		},
