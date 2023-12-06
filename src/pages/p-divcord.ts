@@ -100,8 +100,6 @@ export class DivcordTablePage extends LitElement {
 	@state() presets: PresetConfig[] = [...defaultPresets];
 	@state() customPresets: PresetConfig[] = presetsStorageManager.load() ?? [];
 
-	// @state() addingNewPreset: boolean = false;
-	// @state() deletingPresets: boolean = false;
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
 	@state() presetsForDelete: Set<string> = new Set();
 
@@ -213,7 +211,6 @@ export class DivcordTablePage extends LitElement {
 		this.inputNewPresetNameEl.value = '';
 
 		const newPreset = { ...this.config, name };
-		console.log(newPreset);
 
 		this.customPresets = [...this.customPresets, newPreset];
 		this.presetActionState = 'idle';
@@ -234,8 +231,6 @@ export class DivcordTablePage extends LitElement {
 
 	protected renderDeletingPresets() {
 		if (this.customPresets.length === 0) return nothing;
-
-		console.log(this.presetActionState);
 
 		if (this.presetActionState === 'deleting') {
 			return html`<sl-icon-button
