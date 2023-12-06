@@ -1,12 +1,14 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { consume } from '@lit/context';
 import {
 	IConfidence,
+	IGreynote,
 	IRemainingWork,
 	SourcefulDivcordTable,
 	confidenceVariants,
+	greynoteVariants,
 	remainingWorkVariants,
 } from '../data/SourcefulDivcordTableRecord';
 import { divcordTableContext } from '../context';
@@ -16,7 +18,11 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { type DivcordServiceState, divcordService } from '../DivcordService';
-import { paginate } from '../utils';
+import { SlConverter, paginate } from '../utils';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -29,11 +35,7 @@ export function someCardRecordHasConfidenceVariant(
 	confidenceVariants: IConfidence[],
 	divcordTable: SourcefulDivcordTable
 ): boolean {
-	const someNeededConfidence = divcordTable
-		.recordsByCard(card)
-		.some(record => confidenceVariants.includes(record.confidence));
-
-	return someNeededConfidence;
+	return divcordTable.recordsByCard(card).some(record => confidenceVariants.includes(record.confidence));
 }
 
 export function someCardRecordHasRemainingWorkVariant(
@@ -41,11 +43,22 @@ export function someCardRecordHasRemainingWorkVariant(
 	remainingWorkVariants: Array<IRemainingWork | 'n/a'>,
 	divcordTable: SourcefulDivcordTable
 ): boolean {
-	const someNeededConfidence = divcordTable
-		.recordsByCard(card)
-		.some(record => remainingWorkVariants.includes(record.remainingWork ?? 'n/a'));
+	return divcordTable.recordsByCard(card).some(record => remainingWorkVariants.includes(record.remainingWork));
+}
 
-	return someNeededConfidence;
+export function someCardRecordHasGreynoteWorkVariant(
+	card: string,
+	greynoteVariants: Array<IGreynote | 'n/a'>,
+	divcordTable: SourcefulDivcordTable
+): boolean {
+	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
+}
+
+export type FiltersPreset = (typeof filtersPresetVariants)[number];
+
+export const filtersPresetVariants = ['Show All', 'Divcord Preset', 'not specified'] as const;
+export function assertFiltersPreset(s: string): s is FiltersPreset {
+	return filtersPresetVariants.some(v => s === v);
 }
 
 @customElement('p-divcord')
@@ -53,11 +66,11 @@ export class DivcordTablePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) filter: string = '';
+	@property({ type: Boolean }) applySelectFilters = true;
 
-	@property({ type: Array }) activeConfidences: IConfidence[] = Array.from(confidenceVariants);
-	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork | 'n/a'> = [...remainingWorkVariants, 'n/a'];
-
-	// @property({ type: Object }) confidences
+	@property({ type: Array }) activeConfidences: IConfidence[] = [...confidenceVariants];
+	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork> = [...remainingWorkVariants];
+	@property({ type: Array }) activeGreynoteVariants: Array<IGreynote> = [...greynoteVariants];
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -69,17 +82,40 @@ export class DivcordTablePage extends LitElement {
 		this.ageEl.lastUpdated.run();
 	}
 
-	get filtered() {
+	@state() filtered: string[] = [];
+
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		const keys: unknown[] = [
+			'activeConfidences',
+			'activeRemainingWorks',
+			'activeGreynoteVariants',
+			'filter',
+			'divcordTable',
+			'applySelectFilters',
+		];
+		if (Array.from(map.keys()).some(k => keys.includes(k))) {
+			this.filtered = this.applyFilters();
+		}
+	}
+
+	applyFilters() {
 		const filter = this.filter.trim().toLowerCase();
-		// return Object.entries(this.divcordTable.cards())
-		// 	.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
-		// 	.sort((a, b) => a[0].localeCompare(b[0]));
 
 		return this.divcordTable.cards().filter(card => {
 			const filteredByName = card.toLowerCase().includes(filter);
-			if (filteredByName) {
-				return someCardRecordHasConfidenceVariant(card, this.activeConfidences, this.divcordTable);
-			} else return false;
+			switch (this.applySelectFilters) {
+				case false: {
+					return filteredByName;
+				}
+				case true: {
+					return (
+						filteredByName &&
+						someCardRecordHasConfidenceVariant(card, this.activeConfidences, this.divcordTable) &&
+						someCardRecordHasGreynoteWorkVariant(card, this.activeGreynoteVariants, this.divcordTable) &&
+						someCardRecordHasRemainingWorkVariant(card, this.activeRemainingWorks, this.divcordTable)
+					);
+				}
+			}
 		});
 	}
 
@@ -87,49 +123,157 @@ export class DivcordTablePage extends LitElement {
 		return paginate(this.filtered, this.page, this.perPage);
 	}
 
-	// @state() paginated: string[] = [];
-
-	// protected willUpdate(map: PropertyValueMap<this>): void {
-	// 	if (map.has('divcordTable') || map.has('page') || map.has('perPage')) {
-	// 		this.paginated = paginate(this.divcordTable.cards(), this.page, this.perPage);
-	// 	}
-	// }
-
 	async #onCardnameInput(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
 		this.page = 1;
 		this.filter = input.value;
 	}
 
-	// get paginated() {
-	// 	console.log('Rerun paginated');
-	// 	return this.divcordTable.cards().slice(0, 5);
-	// }
+	#onGreynotesSelectChange(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<IGreynote>(opt));
+		this.activeGreynoteVariants = options;
+	}
+	#onRemainingWorkSelectChange(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<IRemainingWork>(opt));
+		this.activeRemainingWorks = options;
+	}
+	#onConfidenceSelectChange(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<IConfidence>(opt));
+		this.activeConfidences = options;
+	}
+
+	#onApplySelectFiltersCheckbox(e: InputEvent) {
+		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
+		if (typeof target.checked === 'boolean') {
+			this.applySelectFilters = target.checked;
+		}
+	}
+
+	#setFiltersBasedOnPreset(preset: FiltersPreset) {
+		switch (preset) {
+			case 'Show All': {
+				this.activeGreynoteVariants = [...greynoteVariants];
+				this.activeConfidences = [...confidenceVariants];
+				this.activeRemainingWorks = [...remainingWorkVariants];
+				break;
+			}
+
+			case 'Divcord Preset': {
+				this.activeGreynoteVariants = [
+					'Empty',
+					'Area-specific',
+					'Chest_object',
+					'disabled',
+					'Monster-specific',
+				];
+				this.activeConfidences = ['low', 'none', 'ok'];
+				this.activeRemainingWorks = [...remainingWorkVariants];
+
+				break;
+			}
+			case 'not specified': {
+				break;
+			}
+		}
+	}
 
 	render() {
 		return html`<div class="page">
-			<div class="load">
-				<div class="load_btn-and-status">
-					<e-update-divcord-data @records-updated=${this.#onRecordsUpdated}></e-update-divcord-data>
-					<e-divcord-records-age> </e-divcord-records-age>
+			<header>
+				<div class="load">
+					<div class="load_btn-and-status">
+						<e-update-divcord-data @records-updated=${this.#onRecordsUpdated}></e-update-divcord-data>
+						<e-divcord-records-age> </e-divcord-records-age>
+					</div>
+					<sl-alert class="load_tip" open>
+						<sl-icon slot="icon" name="info-circle"></sl-icon>
+						<p>You don't have to load manually, it loads and caches if older than 24h, but you can.</p>
+					</sl-alert>
 				</div>
-				<sl-alert class="load_tip" open>
-					<sl-icon slot="icon" name="info-circle"></sl-icon>
-					<p>You don't have to load manually, it loads and caches if older than 24h, but you can.</p>
-				</sl-alert>
-			</div>
-			<e-input
-				label="Enter card name"
-				.datalistItems=${this.divcordTable.cards()}
-				@input="${this.#onCardnameInput}"
-				type="text"
-			>
-			</e-input>
-			<e-page-controls
-				.n=${this.divcordTable.cards().length}
-				page=${this.page}
-				per-page=${this.perPage}
-			></e-page-controls>
+
+				<section class="select-filters-section">
+					<div class="apply-select-filters-control">
+						<sl-checkbox .checked=${this.applySelectFilters} @sl-input=${this.#onApplySelectFiltersCheckbox}
+							>Apply filters</sl-checkbox
+						>
+					</div>
+					${this.applySelectFilters
+						? html`<div class="select-filters">
+								<div class="select-filters_presets">
+									<h3>Presets</h3>
+
+									<sl-button @click=${this.#setFiltersBasedOnPreset.bind(this, 'Show All')}
+										>Show All</sl-button
+									>
+									<sl-button @click=${this.#setFiltersBasedOnPreset.bind(this, 'Divcord Preset')}
+										>Divcord Preset</sl-button
+									>
+								</div>
+
+								<div class="select-filters_filters">
+									<sl-select
+										label="Greynote"
+										.value=${this.activeGreynoteVariants.map(c => SlConverter.toSlValue(c))}
+										@sl-change=${this.#onGreynotesSelectChange}
+										multiple
+										clearable
+									>
+										${Array.from(greynoteVariants).map(variant => {
+											return html` <sl-option value=${SlConverter.toSlValue(variant)}
+												>${variant}</sl-option
+											>`;
+										})}
+									</sl-select>
+									<sl-select
+										label="Confidence"
+										.value=${this.activeConfidences.map(c => SlConverter.toSlValue(c))}
+										@sl-change=${this.#onConfidenceSelectChange}
+										multiple
+										clearable
+									>
+										${Array.from(confidenceVariants).map(variant => {
+											return html` <sl-option value=${SlConverter.toSlValue(variant)}
+												>${variant}</sl-option
+											>`;
+										})}
+									</sl-select>
+
+									<sl-select
+										.value=${this.activeRemainingWorks.map(c => SlConverter.toSlValue(c))}
+										@sl-change=${this.#onRemainingWorkSelectChange}
+										label="Remaining Work"
+										multiple
+										clearable
+									>
+										${Array.from(remainingWorkVariants).map(variant => {
+											return html` <sl-option value=${SlConverter.toSlValue(variant)}
+												>${variant}</sl-option
+											>`;
+										})}
+									</sl-select>
+								</div>
+						  </div>`
+						: nothing}
+				</section>
+
+				<section class="search-and-navigation">
+					<e-input
+						label="Enter card name"
+						.datalistItems=${this.divcordTable.cards()}
+						@input="${this.#onCardnameInput}"
+						type="text"
+					>
+					</e-input>
+					<e-page-controls
+						.n=${this.filtered.length}
+						page=${this.page}
+						per-page=${this.perPage}
+					></e-page-controls>
+				</section>
+			</header>
 			<ul>
 				${this.paginated.map(card => {
 					return html`<e-card-with-divcord-records
@@ -164,6 +308,30 @@ export class DivcordTablePage extends LitElement {
 		.load_tip {
 			display: block;
 			max-width: 450px;
+		}
+
+		.search-and-navigation {
+			margin-top: 4rem;
+		}
+
+		.select-filters-section {
+			margin-top: 2rem;
+			display: grid;
+			gap: 1rem;
+		}
+
+		.select-filters_filters {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.select-filters {
+			display: grid;
+			gap: 1rem;
+		}
+
+		.select-filters_filters > * {
+			min-width: 400px;
 		}
 
 		@media (max-width: 600px) {

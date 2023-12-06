@@ -13,20 +13,11 @@ import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-and-cards';
+import { SlConverter } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-sources': SourcesPage;
-	}
-}
-
-class SlConverter {
-	static #SL_DELIMETER = 'sl-v' as const;
-	static toSlValue<T extends string>(s: T): string {
-		return s.replaceAll(' ', this.#SL_DELIMETER);
-	}
-	static fromSlValue<T extends string>(s: string): T {
-		return s.replaceAll(this.#SL_DELIMETER, ' ') as T;
 	}
 }
 
