@@ -2,7 +2,13 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { consume } from '@lit/context';
-import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
+import {
+	IConfidence,
+	IRemainingWork,
+	SourcefulDivcordTable,
+	confidenceVariants,
+	remainingWorkVariants,
+} from '../data/SourcefulDivcordTableRecord';
 import { divcordTableContext } from '../context';
 
 import '../elements/e-card-with-divcord-records';
@@ -10,6 +16,7 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { type DivcordServiceState, divcordService } from '../DivcordService';
+import { paginate } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -17,9 +24,43 @@ declare global {
 	}
 }
 
+export function someCardRecordHasConfidenceVariant(
+	card: string,
+	confidenceVariants: IConfidence[],
+	divcordTable: SourcefulDivcordTable
+): boolean {
+	const someNeededConfidence = divcordTable
+		.recordsByCard(card)
+		.some(record => confidenceVariants.includes(record.confidence));
+
+	return someNeededConfidence;
+}
+
+export function someCardRecordHasRemainingWorkVariant(
+	card: string,
+	remainingWorkVariants: Array<IRemainingWork | 'n/a'>,
+	divcordTable: SourcefulDivcordTable
+): boolean {
+	const someNeededConfidence = divcordTable
+		.recordsByCard(card)
+		.some(record => remainingWorkVariants.includes(record.remainingWork ?? 'n/a'));
+
+	return someNeededConfidence;
+}
+
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
+	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
+	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
+	@property({ reflect: true }) filter: string = '';
+
+	@property({ type: Array }) activeConfidences: IConfidence[] = Array.from(confidenceVariants);
+	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork | 'n/a'> = [...remainingWorkVariants, 'n/a'];
+
+	// @property({ type: Object }) confidences
+
 	@consume({ context: divcordTableContext, subscribe: true })
+	@state()
 	divcordTable!: SourcefulDivcordTable;
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
@@ -27,6 +68,43 @@ export class DivcordTablePage extends LitElement {
 	#onRecordsUpdated() {
 		this.ageEl.lastUpdated.run();
 	}
+
+	get filtered() {
+		const filter = this.filter.trim().toLowerCase();
+		// return Object.entries(this.divcordTable.cards())
+		// 	.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
+		// 	.sort((a, b) => a[0].localeCompare(b[0]));
+
+		return this.divcordTable.cards().filter(card => {
+			const filteredByName = card.toLowerCase().includes(filter);
+			if (filteredByName) {
+				return someCardRecordHasConfidenceVariant(card, this.activeConfidences, this.divcordTable);
+			} else return false;
+		});
+	}
+
+	get paginated() {
+		return paginate(this.filtered, this.page, this.perPage);
+	}
+
+	// @state() paginated: string[] = [];
+
+	// protected willUpdate(map: PropertyValueMap<this>): void {
+	// 	if (map.has('divcordTable') || map.has('page') || map.has('perPage')) {
+	// 		this.paginated = paginate(this.divcordTable.cards(), this.page, this.perPage);
+	// 	}
+	// }
+
+	async #onCardnameInput(e: InputEvent) {
+		const input = e.target as HTMLInputElement;
+		this.page = 1;
+		this.filter = input.value;
+	}
+
+	// get paginated() {
+	// 	console.log('Rerun paginated');
+	// 	return this.divcordTable.cards().slice(0, 5);
+	// }
 
 	render() {
 		return html`<div class="page">
@@ -40,16 +118,25 @@ export class DivcordTablePage extends LitElement {
 					<p>You don't have to load manually, it loads and caches if older than 24h, but you can.</p>
 				</sl-alert>
 			</div>
+			<e-input
+				label="Enter card name"
+				.datalistItems=${this.divcordTable.cards()}
+				@input="${this.#onCardnameInput}"
+				type="text"
+			>
+			</e-input>
+			<e-page-controls
+				.n=${this.divcordTable.cards().length}
+				page=${this.page}
+				per-page=${this.perPage}
+			></e-page-controls>
 			<ul>
-				${this.divcordTable
-					.cards()
-					.slice(0, 5)
-					.map(card => {
-						return html`<e-card-with-divcord-records
-							.card=${card}
-							.records=${this.divcordTable.recordsByCard(card)}
-						></e-card-with-divcord-records>`;
-					})}
+				${this.paginated.map(card => {
+					return html`<e-card-with-divcord-records
+						.card=${card}
+						.records=${this.divcordTable.recordsByCard(card)}
+					></e-card-with-divcord-records>`;
+				})}
 			</ul>
 		</div>`;
 	}

@@ -173,7 +173,10 @@ export const router = new Router({
 		{
 			path: '/divcord',
 			title: 'Divcord',
-			render: () => html`<p-divcord></p-divcord>`,
+			render: ({ query }) => html`<p-divcord
+				.page=${Number(query.page ?? 1)}
+				.perPage=${Number(query['per-page'] ?? 10)}
+			></p-divcord>`,
 		},
 		{
 			path: '/card/:name',

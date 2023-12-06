@@ -16,12 +16,13 @@ export const greynoteVariants = [
 	'vendor',
 ] as const;
 export const remainingWorkVariants = [
+	'n/a',
 	'confirm',
-	'unclearHypothesis',
-	'noHypothesis',
-	'storyOnly',
-	'legacyTag',
-	'openEnded',
+	'unclear hypothesis',
+	'no hypothesis',
+	'story only',
+	'legacy tag',
+	'open ended',
 ] as const;
 export const confidenceVariants = ['none', 'low', 'ok', 'done'] as const;
 
@@ -31,7 +32,7 @@ export interface ISourcefulDivcordTableRecord {
 	greynote?: IGreynote;
 	tagHypothesis?: string;
 	confidence: IConfidence;
-	remainingWork?: IRemainingWork;
+	remainingWork: IRemainingWork;
 	wikiDisagreements?: string;
 	sourcesWithTagButNotOnWiki?: string;
 	notes?: string;
@@ -100,7 +101,7 @@ export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord
 	greynote?: IGreynote | undefined;
 	tagHypothesis?: string | undefined;
 	confidence: IConfidence;
-	remainingWork?: IRemainingWork | undefined;
+	remainingWork: IRemainingWork;
 	sources?: ISource[] | undefined;
 	wikiDisagreements?: string | undefined;
 	sourcesWithTagButNotOnWiki?: string | undefined;
@@ -111,6 +112,7 @@ export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord
 		this.greynote = record.greynote;
 		this.tagHypothesis = record.tagHypothesis;
 		this.confidence = record.confidence;
+		this.remainingWork = record.remainingWork;
 		this.sources = record.sources;
 		this.wikiDisagreements = record.wikiDisagreements;
 		this.sourcesWithTagButNotOnWiki = record.sourcesWithTagButNotOnWiki;

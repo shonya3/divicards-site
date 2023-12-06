@@ -34,6 +34,12 @@ export class SourcefulDivcordRecordElement extends LitElement {
 				${this.record.confidence}
 			</div>
 
+			${this.record.remainingWork === 'n/a'
+				? nothing
+				: html`<div class="remainingWork">
+						<h3>Remaining Work</h3>
+						<span>${this.record.remainingWork}</span>
+				  </div>`}
 			${(this.record.sources ?? []).length > 0
 				? html`<div class="wiki-agreements">
 						<h3>Wiki agreements</h3>
@@ -129,6 +135,12 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		.confidence--low {
 			background-color: #f1c232;
 			color: black;
+		}
+
+		.remainingWork {
+			display: flex;
+			align-items: center;
+			gap: 2rem;
 		}
 
 		.wiki-agreements {
