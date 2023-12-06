@@ -1,17 +1,29 @@
 import { ISource, SourceType } from './ISource.interface';
 
-export type IGreynote =
-	| 'monsterSpecific'
-	| 'areaSpecific'
-	| 'disabled'
-	| 'story'
-	| 'delirium'
-	| 'chestObject'
-	| 'strongbox'
-	| 'globalDrop'
-	| 'vendor';
-export type IConfidence = 'none' | 'low' | 'ok' | 'done';
-export type IRemaininWork = 'confirm' | 'unclearHypothesis' | 'noHypothesis' | 'storyOnly' | 'legacyTag' | 'openEnded';
+export type IGreynote = (typeof greynoteVariants)[number];
+export type IConfidence = (typeof confidenceVariants)[number];
+export type IRemainingWork = (typeof remainingWorkVariants)[number];
+
+export const greynoteVariants = [
+	'monsterSpecific',
+	'areaSpecific',
+	'disabled',
+	'story',
+	'delirium',
+	'chestObject',
+	'strongbox',
+	'globalDrop',
+	'vendor',
+] as const;
+export const remainingWorkVariants = [
+	'confirm',
+	'unclearHypothesis',
+	'noHypothesis',
+	'storyOnly',
+	'legacyTag',
+	'openEnded',
+] as const;
+export const confidenceVariants = ['none', 'low', 'ok', 'done'] as const;
 
 export interface ISourcefulDivcordTableRecord {
 	id: number;
@@ -19,7 +31,7 @@ export interface ISourcefulDivcordTableRecord {
 	greynote?: IGreynote;
 	tagHypothesis?: string;
 	confidence: IConfidence;
-	remainingWork?: IRemaininWork;
+	remainingWork?: IRemainingWork;
 	wikiDisagreements?: string;
 	sourcesWithTagButNotOnWiki?: string;
 	notes?: string;
@@ -88,7 +100,7 @@ export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord
 	greynote?: IGreynote | undefined;
 	tagHypothesis?: string | undefined;
 	confidence: IConfidence;
-	remainingWork?: IRemaininWork | undefined;
+	remainingWork?: IRemainingWork | undefined;
 	sources?: ISource[] | undefined;
 	wikiDisagreements?: string | undefined;
 	sourcesWithTagButNotOnWiki?: string | undefined;
