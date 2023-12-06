@@ -58,7 +58,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 	protected greynote() {
 		const markup = html`<div class="greynote">${this.record.greynote}</div>`;
-		return this.record.greynote ? markup : nothing;
+		return this.record.greynote === 'Empty' ? nothing : markup;
 	}
 
 	protected tagHypothesis() {

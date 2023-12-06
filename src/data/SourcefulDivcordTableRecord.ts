@@ -5,15 +5,16 @@ export type IConfidence = (typeof confidenceVariants)[number];
 export type IRemainingWork = (typeof remainingWorkVariants)[number];
 
 export const greynoteVariants = [
-	'monsterSpecific',
-	'areaSpecific',
+	'Empty',
+	'Monster-specific',
+	'Area-specific',
 	'disabled',
 	'story',
-	'delirium',
-	'chestObject',
+	'Delirium_reward',
+	'Chest_object',
 	'strongbox',
-	'globalDrop',
-	'vendor',
+	'Global Drop',
+	'Vendor',
 ] as const;
 export const remainingWorkVariants = [
 	'n/a',
@@ -29,7 +30,7 @@ export const confidenceVariants = ['none', 'low', 'ok', 'done'] as const;
 export interface ISourcefulDivcordTableRecord {
 	id: number;
 	card: string;
-	greynote?: IGreynote;
+	greynote: IGreynote;
 	tagHypothesis?: string;
 	confidence: IConfidence;
 	remainingWork: IRemainingWork;
@@ -98,7 +99,7 @@ export class SourcefulDivcordTable {
 export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord {
 	id: number;
 	card: string;
-	greynote?: IGreynote | undefined;
+	greynote: IGreynote;
 	tagHypothesis?: string | undefined;
 	confidence: IConfidence;
 	remainingWork: IRemainingWork;
