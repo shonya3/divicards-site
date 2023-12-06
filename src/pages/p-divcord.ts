@@ -23,6 +23,7 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -54,12 +55,27 @@ export function someCardRecordHasGreynoteWorkVariant(
 	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
 }
 
-export type FiltersPreset = (typeof filtersPresetVariants)[number];
+type PresetConfig = {
+	name: string;
+	greynote: IGreynote[];
+	confidence: IConfidence[];
+	remainingWork: IRemainingWork[];
+};
 
-export const filtersPresetVariants = ['Show All', 'Divcord Preset', 'not specified'] as const;
-export function assertFiltersPreset(s: string): s is FiltersPreset {
-	return filtersPresetVariants.some(v => s === v);
-}
+const defaultPresets: PresetConfig[] = [
+	{
+		name: 'Show All',
+		greynote: [...greynoteVariants],
+		confidence: [...confidenceVariants],
+		remainingWork: [...remainingWorkVariants],
+	},
+	{
+		name: 'Divcord Preset',
+		greynote: ['Empty', 'Area-specific', 'Chest_object', 'disabled', 'Monster-specific'],
+		confidence: ['low', 'none', 'ok'],
+		remainingWork: [...remainingWorkVariants],
+	},
+];
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
@@ -71,6 +87,10 @@ export class DivcordTablePage extends LitElement {
 	@property({ type: Array }) activeConfidences: IConfidence[] = [...confidenceVariants];
 	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork> = [...remainingWorkVariants];
 	@property({ type: Array }) activeGreynoteVariants: Array<IGreynote> = [...greynoteVariants];
+
+	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
+
+	@state() presets: PresetConfig[] = [...defaultPresets];
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -85,14 +105,7 @@ export class DivcordTablePage extends LitElement {
 	@state() filtered: string[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		const keys: unknown[] = [
-			'activeConfidences',
-			'activeRemainingWorks',
-			'activeGreynoteVariants',
-			'filter',
-			'divcordTable',
-			'applySelectFilters',
-		];
+		const keys: unknown[] = ['config', 'filter', 'divcordTable', 'applySelectFilters'];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = this.applyFilters();
 		}
@@ -110,9 +123,9 @@ export class DivcordTablePage extends LitElement {
 				case true: {
 					return (
 						filteredByName &&
-						someCardRecordHasConfidenceVariant(card, this.activeConfidences, this.divcordTable) &&
-						someCardRecordHasGreynoteWorkVariant(card, this.activeGreynoteVariants, this.divcordTable) &&
-						someCardRecordHasRemainingWorkVariant(card, this.activeRemainingWorks, this.divcordTable)
+						someCardRecordHasConfidenceVariant(card, this.config.confidence, this.divcordTable) &&
+						someCardRecordHasGreynoteWorkVariant(card, this.config.greynote, this.divcordTable) &&
+						someCardRecordHasRemainingWorkVariant(card, this.config.remainingWork, this.divcordTable)
 					);
 				}
 			}
@@ -132,17 +145,17 @@ export class DivcordTablePage extends LitElement {
 	#onGreynotesSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
 		const options = target.value.map(opt => SlConverter.fromSlValue<IGreynote>(opt));
-		this.activeGreynoteVariants = options;
+		this.config = { ...this.config, greynote: options };
 	}
 	#onRemainingWorkSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
 		const options = target.value.map(opt => SlConverter.fromSlValue<IRemainingWork>(opt));
-		this.activeRemainingWorks = options;
+		this.config = { ...this.config, remainingWork: options };
 	}
 	#onConfidenceSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
 		const options = target.value.map(opt => SlConverter.fromSlValue<IConfidence>(opt));
-		this.activeConfidences = options;
+		this.config = { ...this.config, confidence: options };
 	}
 
 	#onApplySelectFiltersCheckbox(e: InputEvent) {
@@ -152,32 +165,8 @@ export class DivcordTablePage extends LitElement {
 		}
 	}
 
-	#setFiltersBasedOnPreset(preset: FiltersPreset) {
-		switch (preset) {
-			case 'Show All': {
-				this.activeGreynoteVariants = [...greynoteVariants];
-				this.activeConfidences = [...confidenceVariants];
-				this.activeRemainingWorks = [...remainingWorkVariants];
-				break;
-			}
-
-			case 'Divcord Preset': {
-				this.activeGreynoteVariants = [
-					'Empty',
-					'Area-specific',
-					'Chest_object',
-					'disabled',
-					'Monster-specific',
-				];
-				this.activeConfidences = ['low', 'none', 'ok'];
-				this.activeRemainingWorks = [...remainingWorkVariants];
-
-				break;
-			}
-			case 'not specified': {
-				break;
-			}
-		}
+	#applyPreset(preset: PresetConfig) {
+		this.config = preset;
 	}
 
 	render() {
@@ -205,18 +194,21 @@ export class DivcordTablePage extends LitElement {
 								<div class="select-filters_presets">
 									<h3>Presets</h3>
 
-									<sl-button @click=${this.#setFiltersBasedOnPreset.bind(this, 'Show All')}
-										>Show All</sl-button
-									>
-									<sl-button @click=${this.#setFiltersBasedOnPreset.bind(this, 'Divcord Preset')}
-										>Divcord Preset</sl-button
-									>
+									<div class="presets-buttons">
+										${this.presets.map(
+											preset =>
+												html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
+													>${preset.name}</sl-button
+												>`
+										)}
+										<sl-icon-button class="add-preset-btn" name="plus-lg">next</sl-icon-button>
+									</div>
 								</div>
 
 								<div class="select-filters_filters">
 									<sl-select
 										label="Greynote"
-										.value=${this.activeGreynoteVariants.map(c => SlConverter.toSlValue(c))}
+										.value=${this.config.greynote.map(c => SlConverter.toSlValue(c))}
 										@sl-change=${this.#onGreynotesSelectChange}
 										multiple
 										clearable
@@ -229,7 +221,7 @@ export class DivcordTablePage extends LitElement {
 									</sl-select>
 									<sl-select
 										label="Confidence"
-										.value=${this.activeConfidences.map(c => SlConverter.toSlValue(c))}
+										.value=${this.config.confidence.map(c => SlConverter.toSlValue(c))}
 										@sl-change=${this.#onConfidenceSelectChange}
 										multiple
 										clearable
@@ -242,7 +234,7 @@ export class DivcordTablePage extends LitElement {
 									</sl-select>
 
 									<sl-select
-										.value=${this.activeRemainingWorks.map(c => SlConverter.toSlValue(c))}
+										.value=${this.config.remainingWork.map(c => SlConverter.toSlValue(c))}
 										@sl-change=${this.#onRemainingWorkSelectChange}
 										label="Remaining Work"
 										multiple
@@ -323,6 +315,17 @@ export class DivcordTablePage extends LitElement {
 		.select-filters_filters {
 			display: flex;
 			flex-wrap: wrap;
+		}
+
+		.presets-buttons {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 0.2rem;
+		}
+
+		.add-preset-btn {
+			font-size: 1.5rem;
 		}
 
 		.select-filters {
