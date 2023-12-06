@@ -14,6 +14,8 @@ import {
 import { divcordTableContext } from '../context';
 
 import '../elements/e-card-with-divcord-records';
+import '../elements/e-page-controls';
+import '../elements/input/e-input';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
@@ -22,8 +24,10 @@ import { SlConverter, paginate } from '../utils';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+
 import { LocalStorageManager } from '../storage';
 
 declare global {
