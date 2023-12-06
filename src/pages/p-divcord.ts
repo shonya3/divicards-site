@@ -40,7 +40,7 @@ export function someCardRecordHasConfidenceVariant(
 
 export function someCardRecordHasRemainingWorkVariant(
 	card: string,
-	remainingWorkVariants: Array<IRemainingWork | 'n/a'>,
+	remainingWorkVariants: IRemainingWork[],
 	divcordTable: SourcefulDivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => remainingWorkVariants.includes(record.remainingWork));
@@ -48,7 +48,7 @@ export function someCardRecordHasRemainingWorkVariant(
 
 export function someCardRecordHasGreynoteWorkVariant(
 	card: string,
-	greynoteVariants: Array<IGreynote | 'n/a'>,
+	greynoteVariants: IGreynote[],
 	divcordTable: SourcefulDivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
