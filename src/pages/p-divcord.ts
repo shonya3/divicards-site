@@ -91,6 +91,27 @@ export class DivcordTablePage extends LitElement {
 	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
 
 	@state() presets: PresetConfig[] = [...defaultPresets];
+	@state() customPresets: PresetConfig[] = [
+		{
+			name: 'My Preset',
+			greynote: ['Empty', 'story', 'strongbox', 'Global Drop', 'Vendor'],
+			confidence: ['done'],
+			remainingWork: ['no hypothesis', 'story only', 'legacy tag', 'open ended'],
+		},
+	];
+
+	// @state() addingNewPreset: boolean = false;
+	// @state() deletingPresets: boolean = false;
+	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
+	@state() presetsForDelete: Set<string> = new Set();
+
+	#onPresetChecked(e: Event) {
+		const target = e.target as EventTarget & { checked: boolean; value: string };
+		const name = target.value;
+		const checked = target.checked;
+		checked ? this.presetsForDelete.add(name) : this.presetsForDelete.delete(name);
+		this.presetsForDelete = new Set(this.presetsForDelete);
+	}
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -165,8 +186,93 @@ export class DivcordTablePage extends LitElement {
 		}
 	}
 
+	#onPlusPresetClicked() {
+		this.presetActionState = 'adding';
+	}
+
+	#onDeleteModeActivate() {
+		this.presetActionState = 'deleting';
+	}
+
+	#onCancelClicked() {
+		this.presetActionState = 'idle';
+	}
+
+	@query('#input-new-preset-name') inputNewPresetNameEl!: HTMLInputElement;
+	#onSubmitNewPreset(e: SubmitEvent) {
+		e.preventDefault();
+		const name = this.inputNewPresetNameEl.value;
+		if (!name) {
+			return;
+		}
+
+		this.inputNewPresetNameEl.value = '';
+
+		const newPreset = { ...this.config, name };
+		console.log(newPreset);
+
+		this.customPresets = [...this.customPresets, newPreset];
+		this.presetActionState = 'idle';
+	}
+
 	#applyPreset(preset: PresetConfig) {
 		this.config = preset;
+	}
+
+	#onTrashClicked() {
+		this.customPresets = this.customPresets.filter(preset => {
+			return !this.presetsForDelete.has(preset.name);
+		});
+
+		this.presetsForDelete = new Set();
+		this.presetActionState = 'idle';
+	}
+
+	protected renderDeletingPresets() {
+		if (this.customPresets.length === 0) return nothing;
+
+		console.log(this.presetActionState);
+
+		if (this.presetActionState === 'deleting') {
+			return html`<sl-icon-button
+				@click=${this.#onTrashClicked}
+				class="preset-action-btn"
+				name="trash3"
+				.disabled=${this.presetsForDelete.size === 0}
+			></sl-icon-button>`;
+		} else if (this.presetActionState === 'idle') {
+			return html`<sl-button @click=${this.#onDeleteModeActivate}>Delete some presets</sl-button>`;
+		} else return nothing;
+	}
+
+	protected renderAddingPresets() {
+		switch (this.presetActionState) {
+			case 'adding': {
+				return html`<form @submit=${this.#onSubmitNewPreset} class="adding-new-preset">
+					<sl-input
+						class="adding-new-preset_input"
+						required
+						id="input-new-preset-name"
+						label="name for your preset"
+						.helpText=${'set configs and then confirm'}
+					></sl-input>
+					<sl-button type="submit" class="adding-new-preset_confirm-btn">Confirm</sl-button>
+				</form>`;
+			}
+
+			case 'idle': {
+				return html` <sl-icon-button
+					@click=${this.#onPlusPresetClicked}
+					class="preset-action-btn"
+					name="plus-lg"
+					>next</sl-icon-button
+				>`;
+			}
+
+			case 'deleting': {
+				return nothing;
+			}
+		}
 	}
 
 	render() {
@@ -201,7 +307,22 @@ export class DivcordTablePage extends LitElement {
 													>${preset.name}</sl-button
 												>`
 										)}
-										<sl-icon-button class="add-preset-btn" name="plus-lg">next</sl-icon-button>
+										${this.customPresets.map(preset => {
+											const btn = html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
+												>${preset.name}</sl-button
+											>`;
+
+											const select = html`<sl-checkbox
+												@sl-input=${this.#onPresetChecked}
+												.value=${preset.name}
+												>${preset.name}</sl-checkbox
+											>`;
+											return this.presetActionState === 'deleting' ? select : btn;
+										})}
+										${this.renderAddingPresets()} ${this.renderDeletingPresets()}
+										${this.presetActionState !== 'idle'
+											? html`<sl-button @click=${this.#onCancelClicked}>Cancel</sl-button>`
+											: nothing}
 									</div>
 								</div>
 
@@ -324,8 +445,20 @@ export class DivcordTablePage extends LitElement {
 			gap: 0.2rem;
 		}
 
-		.add-preset-btn {
+		.preset-action-btn {
 			font-size: 1.5rem;
+		}
+
+		.adding-new-preset {
+			display: flex;
+			gap: 0.2rem;
+			align-items: center;
+			justify-content: center;
+			margin-left: 0.2rem;
+		}
+
+		.adding-new-preset_input {
+			margin-bottom: 0.2rem;
 		}
 
 		.select-filters {
