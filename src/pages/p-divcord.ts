@@ -24,6 +24,7 @@ import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import { LocalStorageManager } from '../storage';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -77,6 +78,8 @@ const defaultPresets: PresetConfig[] = [
 	},
 ];
 
+const presetsStorageManager = new LocalStorageManager<PresetConfig[], 'presets'>('presets');
+
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
@@ -91,14 +94,7 @@ export class DivcordTablePage extends LitElement {
 	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
 
 	@state() presets: PresetConfig[] = [...defaultPresets];
-	@state() customPresets: PresetConfig[] = [
-		{
-			name: 'My Preset',
-			greynote: ['Empty', 'story', 'strongbox', 'Global Drop', 'Vendor'],
-			confidence: ['done'],
-			remainingWork: ['no hypothesis', 'story only', 'legacy tag', 'open ended'],
-		},
-	];
+	@state() customPresets: PresetConfig[] = presetsStorageManager.load() ?? [];
 
 	// @state() addingNewPreset: boolean = false;
 	// @state() deletingPresets: boolean = false;
@@ -126,6 +122,10 @@ export class DivcordTablePage extends LitElement {
 	@state() filtered: string[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('customPresets')) {
+			presetsStorageManager.save(this.customPresets);
+		}
+
 		const keys: unknown[] = ['config', 'filter', 'divcordTable', 'applySelectFilters'];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = this.applyFilters();
