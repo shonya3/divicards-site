@@ -95,6 +95,23 @@ export class DivcordTablePage extends LitElement {
 	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork> = [...remainingWorkVariants];
 	@property({ type: Array }) activeGreynoteVariants: Array<IGreynote> = [...greynoteVariants];
 
+	@consume({ context: divcordTableContext, subscribe: true })
+	@state()
+	divcordTable!: SourcefulDivcordTable;
+
+	@state() filtered: string[] = [];
+	get paginated(): string[] {
+		return paginate(this.filtered, this.page, this.perPage);
+	}
+
+	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
+	@state() presets: PresetConfig[] = [...defaultPresets];
+	@state() customPresets: PresetConfig[] = presetsStorageManager.load() ?? [];
+	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
+	@state() presetsForDelete: Set<string> = new Set();
+
+	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
+
 	connectedCallback(): void {
 		super.connectedCallback();
 		window.addEventListener('keydown', this.#onKeydown.bind(this));
@@ -111,14 +128,6 @@ export class DivcordTablePage extends LitElement {
 		}
 	}
 
-	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
-
-	@state() presets: PresetConfig[] = [...defaultPresets];
-	@state() customPresets: PresetConfig[] = presetsStorageManager.load() ?? [];
-
-	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
-	@state() presetsForDelete: Set<string> = new Set();
-
 	#onPresetChecked(e: Event) {
 		const target = e.target as EventTarget & { checked: boolean; value: string };
 		const name = target.value;
@@ -127,17 +136,9 @@ export class DivcordTablePage extends LitElement {
 		this.presetsForDelete = new Set(this.presetsForDelete);
 	}
 
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: SourcefulDivcordTable;
-
-	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
-
 	#onRecordsUpdated() {
 		this.ageEl.lastUpdated.run();
 	}
-
-	@state() filtered: string[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('customPresets')) {
@@ -169,10 +170,6 @@ export class DivcordTablePage extends LitElement {
 				}
 			}
 		});
-	}
-
-	get paginated() {
-		return paginate(this.filtered, this.page, this.perPage);
 	}
 
 	async #onCardnameInput(e: InputEvent) {
