@@ -230,6 +230,11 @@ export class DivcordTablePage extends LitElement {
 			return;
 		}
 
+		if (this.customPresets.map(preset => preset.name).includes(name)) {
+			this.inputNewPresetNameEl.setCustomValidity('Duplicate names');
+			return;
+		}
+
 		this.inputNewPresetNameEl.value = '';
 
 		const newPreset = { ...this.config, name };
