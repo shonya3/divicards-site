@@ -30,6 +30,7 @@ import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 
 import { LocalStorageManager } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
+import { toast } from '../toast';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -83,15 +84,16 @@ const defaultPresets: PresetConfig[] = [
 	},
 ];
 
-const presetsStorageManager = new LocalStorageManager<PresetConfig[], 'presets'>('presets');
-const shouldApplyFilters = new LocalStorageManager<boolean, 'shouldApplyFilters'>('shouldApplyFilters');
+const presetsStorage = new LocalStorageManager<PresetConfig[], 'presets'>('presets');
+const shouldApplyFiltersStorage = new LocalStorageManager<boolean, 'shouldApplyFilters'>('shouldApplyFilters');
+const latestPresetNameStorage = new LocalStorageManager<string, 'latestPresetApplied'>('latestPresetApplied');
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) filter: string = '';
-	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFilters.load() ?? true;
+	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFiltersStorage.load() ?? true;
 
 	@property({ type: Array }) activeConfidences: IConfidence[] = [...confidenceVariants];
 	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork> = [...remainingWorkVariants];
@@ -108,7 +110,7 @@ export class DivcordTablePage extends LitElement {
 
 	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
 	@state() presets: PresetConfig[] = [...defaultPresets];
-	@state() customPresets: PresetConfig[] = presetsStorageManager.load() ?? [];
+	@state() customPresets: PresetConfig[] = presetsStorage.load() ?? [];
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
 	@state() presetsForDelete: Set<string> = new Set();
 
@@ -144,20 +146,34 @@ export class DivcordTablePage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('shouldApplySelectFilters')) {
-			shouldApplyFilters.save(this.shouldApplySelectFilters);
+			shouldApplyFiltersStorage.save(this.shouldApplySelectFilters);
+		}
+
+		if (map.has('shouldApplySelectFilters')) {
+			if (this.shouldApplySelectFilters) {
+				const latestAppliedPresetName = latestPresetNameStorage.load() ?? '';
+				const preset = this.findPreset(latestAppliedPresetName);
+				if (preset) {
+					this.#applyPreset(preset);
+				}
+			}
 		}
 
 		if (map.has('customPresets')) {
-			presetsStorageManager.save(this.customPresets);
+			presetsStorage.save(this.customPresets);
 		}
 
 		const keys: unknown[] = ['config', 'filter', 'divcordTable', 'shouldApplySelectFilters'];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
-			this.filtered = this.applyFilters();
+			this.filtered = this.createFilteredCards();
 		}
 	}
 
-	applyFilters() {
+	findPreset(name: string): PresetConfig | null {
+		return [...this.presets, ...this.customPresets].find(p => p.name === name) ?? null;
+	}
+
+	createFilteredCards(): string[] {
 		const filter = this.filter.trim().toLowerCase();
 
 		return this.divcordTable.cards().filter(card => {
@@ -236,7 +252,7 @@ export class DivcordTablePage extends LitElement {
 			return;
 		}
 
-		if (this.customPresets.map(preset => preset.name).includes(name)) {
+		if (this.findPreset(name)) {
 			this.inputNewPresetNameEl.setCustomValidity('Duplicate names');
 			return;
 		}
@@ -250,7 +266,9 @@ export class DivcordTablePage extends LitElement {
 	}
 
 	#applyPreset(preset: PresetConfig) {
+		latestPresetNameStorage.save(preset.name);
 		this.config = preset;
+		toast(`"${preset.name}" applied`, 'primary', 3000);
 	}
 
 	#onTrashClicked() {
