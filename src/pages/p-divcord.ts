@@ -200,6 +200,15 @@ export class DivcordTablePage extends LitElement {
 		this.presetActionState = 'idle';
 	}
 
+	protected async updated(map: PropertyValueMap<this>): Promise<void> {
+		if (map.has('presetActionState')) {
+			if (this.presetActionState === 'adding') {
+				await this.updateComplete;
+				this.inputNewPresetNameEl.focus();
+			}
+		}
+	}
+
 	@query('#input-new-preset-name') inputNewPresetNameEl!: HTMLInputElement;
 	#onSubmitNewPreset(e: SubmitEvent) {
 		e.preventDefault();
