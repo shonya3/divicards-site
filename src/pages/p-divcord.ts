@@ -470,7 +470,6 @@ export class DivcordTablePage extends LitElement {
 			margin-top: 1rem;
 			display: grid;
 			gap: 1rem;
-			transition: margin-top 0.2s;
 		}
 
 		.select-filters-section--open {
