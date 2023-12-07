@@ -29,6 +29,7 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 
 import { LocalStorageManager } from '../storage';
+import { classMap } from 'lit/directives/class-map.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -83,13 +84,14 @@ const defaultPresets: PresetConfig[] = [
 ];
 
 const presetsStorageManager = new LocalStorageManager<PresetConfig[], 'presets'>('presets');
+const shouldApplyFilters = new LocalStorageManager<boolean, 'shouldApplyFilters'>('shouldApplyFilters');
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) filter: string = '';
-	@property({ type: Boolean }) applySelectFilters = true;
+	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFilters.load() ?? true;
 
 	@property({ type: Array }) activeConfidences: IConfidence[] = [...confidenceVariants];
 	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork> = [...remainingWorkVariants];
@@ -141,11 +143,15 @@ export class DivcordTablePage extends LitElement {
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('shouldApplySelectFilters')) {
+			shouldApplyFilters.save(this.shouldApplySelectFilters);
+		}
+
 		if (map.has('customPresets')) {
 			presetsStorageManager.save(this.customPresets);
 		}
 
-		const keys: unknown[] = ['config', 'filter', 'divcordTable', 'applySelectFilters'];
+		const keys: unknown[] = ['config', 'filter', 'divcordTable', 'shouldApplySelectFilters'];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = this.applyFilters();
 		}
@@ -156,7 +162,7 @@ export class DivcordTablePage extends LitElement {
 
 		return this.divcordTable.cards().filter(card => {
 			const filteredByName = card.toLowerCase().includes(filter);
-			switch (this.applySelectFilters) {
+			switch (this.shouldApplySelectFilters) {
 				case false: {
 					return filteredByName;
 				}
@@ -194,10 +200,10 @@ export class DivcordTablePage extends LitElement {
 		this.config = { ...this.config, confidence: options };
 	}
 
-	#onApplySelectFiltersCheckbox(e: InputEvent) {
+	#onshouldApplySelectFiltersCheckbox(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
-			this.applySelectFilters = target.checked;
+			this.shouldApplySelectFilters = target.checked;
 		}
 	}
 
@@ -315,13 +321,20 @@ export class DivcordTablePage extends LitElement {
 					</sl-alert>
 				</div>
 
-				<section class="select-filters-section">
+				<section
+					class=${classMap({
+						'select-filters-section': true,
+						'select-filters-section--open': this.shouldApplySelectFilters,
+					})}
+				>
 					<div class="apply-select-filters-control">
-						<sl-checkbox .checked=${this.applySelectFilters} @sl-input=${this.#onApplySelectFiltersCheckbox}
+						<sl-checkbox
+							.checked=${this.shouldApplySelectFilters}
+							@sl-input=${this.#onshouldApplySelectFiltersCheckbox}
 							>Apply filters</sl-checkbox
 						>
 					</div>
-					${this.applySelectFilters
+					${this.shouldApplySelectFilters
 						? html`<div class="select-filters">
 								<div class="select-filters_presets">
 									<h3>Presets</h3>
@@ -454,14 +467,20 @@ export class DivcordTablePage extends LitElement {
 		}
 
 		.select-filters-section {
-			margin-top: 2rem;
+			margin-top: 1rem;
 			display: grid;
 			gap: 1rem;
+			transition: margin-top 0.2s;
+		}
+
+		.select-filters-section--open {
+			margin-top: 3rem;
 		}
 
 		.select-filters_filters {
 			display: flex;
 			flex-wrap: wrap;
+			gap: 1rem;
 		}
 
 		.presets-buttons {
