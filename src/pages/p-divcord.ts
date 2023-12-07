@@ -95,6 +95,22 @@ export class DivcordTablePage extends LitElement {
 	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork> = [...remainingWorkVariants];
 	@property({ type: Array }) activeGreynoteVariants: Array<IGreynote> = [...greynoteVariants];
 
+	connectedCallback(): void {
+		super.connectedCallback();
+		window.addEventListener('keydown', this.#onKeydown.bind(this));
+	}
+
+	disconnectedCallback(): void {
+		super.disconnectedCallback();
+		window.removeEventListener('keydown', this.#onKeydown.bind(this));
+	}
+
+	#onKeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') {
+			this.presetActionState = 'idle';
+		}
+	}
+
 	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
 
 	@state() presets: PresetConfig[] = [...defaultPresets];
