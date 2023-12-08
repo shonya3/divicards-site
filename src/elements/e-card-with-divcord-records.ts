@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-act-area';
-import { SourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTableRecord } from '../divcord';
 import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
 import { poeData } from '../PoeData';

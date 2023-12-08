@@ -1,4 +1,4 @@
-import type { ISourcefulDivcordTableRecord } from '../data/SourcefulDivcordTableRecord';
+import type { ISourcefulDivcordTableRecord } from '../divcord';
 import divcordDataJson from './divcord.json';
 import type { IPoeData } from '../PoeData';
 import _poeDataJson from '../jsons/poeData.json';

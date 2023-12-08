@@ -1,15 +1,15 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import type { SourceType } from '../data/ISource.interface';
+import type { SourceType } from '../ISource.interface.ts';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
 import '../elements/e-source-type';
 import './p-sources.ts';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../data/CardsFinder';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../CardsFinder.ts';
 import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
-import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable } from '../divcord.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {

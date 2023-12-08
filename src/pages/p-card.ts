@@ -1,6 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable } from '../divcord';
 import { poeData } from '../PoeData';
 import './e-card-with-sources';
 import '../elements/e-card-with-divcord-records';

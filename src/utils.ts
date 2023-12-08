@@ -1,4 +1,4 @@
-import { ISource } from './data/ISource.interface.ts';
+import { ISource } from './ISource.interface.ts';
 
 export function sourceHref(source: ISource) {
 	if (source.kind === 'empty-source') {

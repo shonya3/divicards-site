@@ -3,7 +3,7 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import { poeData } from '../PoeData';
-import { SourcefulDivcordTable } from '../data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable } from '../divcord';
 import type { RenderMode } from '../elements/types';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';

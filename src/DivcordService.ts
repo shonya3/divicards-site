@@ -1,6 +1,6 @@
-import type { ISourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import type { ISourcefulDivcordTableRecord } from './divcord.js';
 import { IDivcordData, poeDataJson } from './jsons/jsons';
-import { SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTableRecord } from './divcord.js';
 import { IPoeData } from './PoeData';
 import { LocalStorageManager, Serde } from './storage';
 import { warningToast } from './toast.js';

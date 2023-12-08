@@ -1,11 +1,11 @@
-import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './data/SourcefulDivcordTableRecord';
+import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './divcord';
 import './elements/e-sourceful-divcord-record';
 import './pages/p-cards-table';
 import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, PropertyValueMap, css, html, render } from 'lit';
 import './pages/p-card';
-import { ISource, SourceType } from './data/ISource.interface';
-import { CardsFinder } from './data/CardsFinder';
+import { ISource, SourceType } from './ISource.interface';
+import { CardsFinder } from './CardsFinder';
 import './pages/p-source';
 import './pages/p-maps-table';
 import './pages/p-sources';

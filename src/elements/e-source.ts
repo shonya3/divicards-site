@@ -1,7 +1,7 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource, SourceWithMember } from '../data/ISource.interface';
+import type { ISource, SourceWithMember } from '../ISource.interface';
 import type { CardSize } from './divination-card/e-divination-card';
 import './e-act-area';
 import './e-map';

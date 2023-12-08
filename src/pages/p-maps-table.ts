@@ -5,7 +5,7 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
 import '../elements/e-page-controls';
 import { poeData } from '../PoeData';
-import { CardFromSource, CardsFinder, sortByWeight } from '../data/CardsFinder';
+import { CardFromSource, CardsFinder, sortByWeight } from '../CardsFinder';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
 import { paginate } from '../utils';

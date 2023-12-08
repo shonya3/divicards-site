@@ -1,12 +1,12 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import type { ISource } from '../data/ISource.interface';
+import type { ISource } from '../ISource.interface';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
 import '../elements/e-source-and-cards';
-import { CardFromSource, CardsFinder, sortByWeight } from '../data/CardsFinder';
+import { CardFromSource, CardsFinder, sortByWeight } from '../CardsFinder';
 import { poeData } from '../PoeData';
 
 declare global {

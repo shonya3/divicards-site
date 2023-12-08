@@ -1,4 +1,4 @@
-import { includesMap } from './data/CardsFinder';
+import { includesMap } from './CardsFinder';
 import { poeDataJson } from './jsons/jsons';
 
 export interface IActArea {

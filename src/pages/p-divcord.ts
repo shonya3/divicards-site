@@ -10,7 +10,7 @@ import {
 	confidenceVariants,
 	greynoteVariants,
 	remainingWorkVariants,
-} from '../data/SourcefulDivcordTableRecord';
+} from '../divcord';
 import { divcordTableContext } from '../context';
 
 import '../elements/e-card-with-divcord-records';
