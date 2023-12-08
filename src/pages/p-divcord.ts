@@ -95,10 +95,6 @@ export class DivcordTablePage extends LitElement {
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFiltersStorage.load() ?? true;
 
-	@property({ type: Array }) activeConfidences: IConfidence[] = [...confidenceVariants];
-	@property({ type: Array }) activeRemainingWorks: Array<IRemainingWork> = [...remainingWorkVariants];
-	@property({ type: Array }) activeGreynoteVariants: Array<IGreynote> = [...greynoteVariants];
-
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
 	divcordTable!: SourcefulDivcordTable;
