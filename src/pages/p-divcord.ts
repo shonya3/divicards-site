@@ -279,20 +279,37 @@ export class DivcordTablePage extends LitElement {
 	protected renderDeletingPresets() {
 		if (this.customPresets.length === 0) return nothing;
 
-		if (this.presetActionState === 'deleting') {
-			return html`<sl-icon-button
-				@click=${this.#onTrashClicked}
-				class="preset-action-btn"
-				name="trash3"
-				.disabled=${this.presetsForDelete.size === 0}
-			></sl-icon-button>`;
-		} else if (this.presetActionState === 'idle') {
-			return html`<sl-button @click=${this.#onDeleteModeActivate}>Delete some presets</sl-button>`;
-		} else return nothing;
+		switch (this.presetActionState) {
+			case 'idle': {
+				return html`<sl-button @click=${this.#onDeleteModeActivate}>Delete some presets</sl-button>`;
+			}
+
+			case 'adding': {
+				return nothing;
+			}
+
+			case 'deleting': {
+				return html`<sl-icon-button
+					@click=${this.#onTrashClicked}
+					class="preset-action-btn"
+					name="trash3"
+					.disabled=${this.presetsForDelete.size === 0}
+				></sl-icon-button>`;
+			}
+		}
 	}
 
 	protected renderAddingPresets() {
 		switch (this.presetActionState) {
+			case 'idle': {
+				return html` <sl-icon-button
+					@click=${this.#onPlusPresetClicked}
+					class="preset-action-btn"
+					name="plus-lg"
+					>next</sl-icon-button
+				>`;
+			}
+
 			case 'adding': {
 				return html`<form @submit=${this.#onSubmitNewPreset} class="adding-new-preset">
 					<sl-input
@@ -304,15 +321,6 @@ export class DivcordTablePage extends LitElement {
 					></sl-input>
 					<sl-button type="submit" class="adding-new-preset_confirm-btn">Confirm</sl-button>
 				</form>`;
-			}
-
-			case 'idle': {
-				return html` <sl-icon-button
-					@click=${this.#onPlusPresetClicked}
-					class="preset-action-btn"
-					name="plus-lg"
-					>next</sl-icon-button
-				>`;
 			}
 
 			case 'deleting': {
