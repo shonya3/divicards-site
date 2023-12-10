@@ -86,7 +86,7 @@ export class MapsTablePage extends LitElement {
 				<header>
 					<form>
 						<e-input
-							label="Enter card name"
+							label="Enter map name"
 							@input="${this.#onMapnameInput}"
 							type="text"
 							.datalistItems=${this.maps()}
