@@ -65,21 +65,11 @@ export class MapsTablePage extends LitElement {
 		this.filter = input.value;
 	}
 
-	#oncardSizeSelect(e: InputEvent) {
-		if (e.target instanceof HTMLSelectElement) {
-			const value = e.target.value;
-			if (['small', 'medium', 'large'].some(size => size === value)) {
-				this.size = value as CardSize;
-			}
-		}
-	}
-
 	maps() {
 		const mapnames = poeData.maps.map(({ name }) => name);
 		mapnames.sort((a, b) => a.localeCompare(b));
 		return mapnames;
 	}
-
 	protected render() {
 		return html`
 			<div class="page">
@@ -91,16 +81,6 @@ export class MapsTablePage extends LitElement {
 							type="text"
 							.datalistItems=${this.maps()}
 						></e-input>
-						<!--
-                        <div>
-                            <label for="select-size">Select size</label>
-                            <select @input=${this.#oncardSizeSelect} .value=${this.size} name="" id="select-size">
-                                <option value="small">small</option>
-                                <option value="medium">medium</option>
-                                <option value="large">large</option>
-                            </select>
-                        </div>
-                    -->
 					</form>
 					<e-page-controls
 						.n=${this.filtered.length}
@@ -216,12 +196,6 @@ export class MapsTablePage extends LitElement {
 		th:first-child {
 			width: 200px;
 		}
-
-		/*
-		th:first-child {
-			width: 356px;
-		}
-        */
 
 		td {
 			text-align: center;
