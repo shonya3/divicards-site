@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import { SourcefulDivcordTable } from '../divcord';
@@ -56,6 +56,7 @@ export class HomePage extends LitElement {
 				<form>
 					<div style="max-width: 600px">
 						<e-input
+							autofocus
 							label="Search"
 							.datalistItems=${this.divcordTable.cards()}
 							@input="${this.#onCardnameInput}"
