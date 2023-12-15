@@ -6,9 +6,10 @@ import '../elements/e-page-controls';
 import './e-card-with-sources';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
-import { paginate } from '../utils';
+import { SlConverter, paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
+import { cardsDataMap } from '../elements/divination-card/data';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,6 +23,7 @@ export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
+	@property({ type: Array }) searchCriterias: SearchCardsCriteria[] = searchCriteriaVariants.map(r => r);
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	divcordTable!: SourcefulDivcordTable;
@@ -38,25 +40,47 @@ export class HomePage extends LitElement {
 		// 	.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
 		// 	.sort((a, b) => a[0].localeCompare(b[0]));
 
-		return this.divcordTable.cards().filter(card => card.toLowerCase().includes(filter));
+		// return this.divcordTable.cards().filter(card => card.toLowerCase().includes(filter));
+
+		const f = findCards(filter, this.searchCriterias, this.divcordTable);
+		console.log(f);
+		return f;
 	}
 
 	get paginated() {
 		return paginate(this.filtered, this.page, this.perPage);
 	}
 
+	#onCriteriasSelect(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<SearchCardsCriteria>(opt));
+		this.searchCriterias = options;
+	}
+
 	render() {
+		console.log(this.searchCriterias);
 		return html`<div class="page">
 			<header>
 				<form>
 					<div style="max-width: 600px">
 						<e-input
-							label="Enter card name"
+							label="Search"
 							.datalistItems=${this.divcordTable.cards()}
 							@input="${this.#onCardnameInput}"
 							type="text"
 						>
 						</e-input>
+						<sl-select
+							label="By"
+							.value=${this.searchCriterias.map(c => SlConverter.toSlValue(c))}
+							@sl-change=${this.#onCriteriasSelect}
+							multiple
+							clearable
+						>
+							${Array.from(searchCriteriaVariants).map(c => {
+								return html`<sl-option value=${SlConverter.toSlValue(c)}>${c}</sl-option>`;
+							})}
+						</sl-select>
 					</div>
 				</form>
 				<e-page-controls
@@ -122,4 +146,108 @@ export class HomePage extends LitElement {
 			justify-content: center;
 		}
 	`;
+}
+
+export const searchCriteriaVariants = ['card', 'flavour text', 'source', 'reward', 'stack size'] as const;
+export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
+
+function findByFlavourText(query: string): string[] {
+	const cards: string[] = [];
+
+	for (const { name, flavourText } of cardsDataMap.values()) {
+		if (flavourText.toLowerCase().includes(query)) {
+			cards.push(name);
+		}
+	}
+
+	return cards;
+}
+
+export function escapeHtml(htmlText: string) {
+	return htmlText.replace(/<[^>]+>/g, '');
+}
+
+function findByReward(query: string): string[] {
+	const cards: string[] = [];
+
+	for (const { name, rewardHtml } of cardsDataMap.values()) {
+		const reward = escapeHtml(rewardHtml);
+		if (reward.toLowerCase().includes(query)) {
+			cards.push(name);
+		}
+	}
+
+	return cards;
+}
+
+function findByName(query: string): string[] {
+	const cards: string[] = [];
+
+	for (const { name } of cardsDataMap.values()) {
+		if (name.toLowerCase().includes(query)) {
+			cards.push(name);
+		}
+	}
+
+	return cards;
+}
+
+function findByStackSize(query: string): string[] {
+	const cards: string[] = [];
+
+	const queryStackSize = parseInt(query);
+	if (!Number.isInteger(queryStackSize)) {
+		return cards;
+	}
+
+	for (const { name, stackSize } of cardsDataMap.values()) {
+		if (stackSize === null && queryStackSize === 1) {
+			cards.push(name);
+		}
+
+		if (stackSize === queryStackSize) {
+			cards.push(name);
+		}
+	}
+
+	return cards;
+}
+
+function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): string[] {
+	const cards: string[] = [];
+
+	for (const [card, sourceIds] of divcordTable.sourceIdsMap()) {
+		if (sourceIds.some(id => id.toLowerCase().includes(query)) && !cards.includes(card)) {
+			cards.push(card);
+		}
+	}
+
+	return cards;
+}
+
+export function findCards(query: string, criterias: SearchCardsCriteria[], divcordTable: SourcefulDivcordTable) {
+	const q = query.trim().toLowerCase();
+	const cards: string[] = [];
+
+	if (criterias.includes('card')) {
+		cards.push(...findByName(q));
+	}
+
+	if (criterias.includes('flavour text')) {
+		cards.push(...findByFlavourText(q));
+	}
+
+	if (criterias.includes('reward')) {
+		cards.push(...findByReward(q));
+	}
+
+	if (criterias.includes('source')) {
+		cards.push(...findBySourceId(q, divcordTable));
+	}
+
+	if (criterias.includes('stack size')) {
+		cards.push(...findByStackSize(q));
+	}
+
+	return Array.from(new Set(cards));
 }
