@@ -50,7 +50,6 @@ export class HomePage extends LitElement {
 	}
 
 	render() {
-		console.log(this.searchCriterias);
 		return html`<div class="page">
 			<header>
 				<form>
