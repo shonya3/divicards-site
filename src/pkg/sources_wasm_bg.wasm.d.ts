@@ -2,6 +2,8 @@
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
 export function parsed_records(a: number, b: number, c: number, d: number): void;
+export function find_cards_by_source_types(a: number, b: number): number;
+export function find_cards_by_source_types_argument(a: number, b: number, c: number): number;
 export function __wbindgen_malloc(a: number, b: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number, d: number): number;
 export function __wbindgen_add_to_stack_pointer(a: number): number;

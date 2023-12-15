@@ -7,12 +7,27 @@
 * @returns {any}
 */
 export function parsed_records(divcord_table: any, poe_data: any, toast: Function): any;
+/**
+* @param {any} types
+* @param {any} records
+* @returns {any}
+*/
+export function find_cards_by_source_types(types: any, records: any): any;
+/**
+* @param {any} types
+* @param {any} records
+* @param {any} poe_data
+* @returns {any}
+*/
+export function find_cards_by_source_types_argument(types: any, records: any, poe_data: any): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly parsed_records: (a: number, b: number, c: number, d: number) => void;
+  readonly find_cards_by_source_types: (a: number, b: number) => number;
+  readonly find_cards_by_source_types_argument: (a: number, b: number, c: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;

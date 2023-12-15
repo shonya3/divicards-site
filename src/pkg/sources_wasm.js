@@ -228,6 +228,27 @@ export function parsed_records(divcord_table, poe_data, toast) {
     }
 }
 
+/**
+* @param {any} types
+* @param {any} records
+* @returns {any}
+*/
+export function find_cards_by_source_types(types, records) {
+    const ret = wasm.find_cards_by_source_types(addHeapObject(types), addHeapObject(records));
+    return takeObject(ret);
+}
+
+/**
+* @param {any} types
+* @param {any} records
+* @param {any} poe_data
+* @returns {any}
+*/
+export function find_cards_by_source_types_argument(types, records, poe_data) {
+    const ret = wasm.find_cards_by_source_types_argument(addHeapObject(types), addHeapObject(records), addHeapObject(poe_data));
+    return takeObject(ret);
+}
+
 function handleError(f, args) {
     try {
         return f.apply(this, args);
