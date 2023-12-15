@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import { SourcefulDivcordTable } from '../divcord';
