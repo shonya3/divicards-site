@@ -35,16 +35,8 @@ export class HomePage extends LitElement {
 	}
 
 	get filtered() {
-		const filter = this.filter.trim().toLowerCase();
-		// return Object.entries(this.divcordTable.cards())
-		// 	.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
-		// 	.sort((a, b) => a[0].localeCompare(b[0]));
-
-		// return this.divcordTable.cards().filter(card => card.toLowerCase().includes(filter));
-
-		const f = findCards(filter, this.searchCriterias, this.divcordTable);
-		console.log(f);
-		return f;
+		const query = this.filter.trim().toLowerCase();
+		return findCards(query, this.searchCriterias, this.divcordTable);
 	}
 
 	get paginated() {
@@ -148,7 +140,7 @@ export class HomePage extends LitElement {
 	`;
 }
 
-export const searchCriteriaVariants = ['card', 'flavour text', 'source', 'reward', 'stack size'] as const;
+export const searchCriteriaVariants = ['name', 'flavour text', 'source', 'reward', 'stack size'] as const;
 export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
 
 function findByFlavourText(query: string): string[] {
@@ -229,7 +221,7 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
 
-	if (criterias.includes('card')) {
+	if (criterias.includes('name')) {
 		cards.push(...findByName(q));
 	}
 
