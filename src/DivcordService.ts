@@ -187,9 +187,9 @@ function richUrl(): string {
 }
 
 export async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<SourcefulDivcordTableRecord[]> {
-	const { default: initWasmModule, parsed_records } = await import('./pkg/sources_wasm.js');
+	const { default: initWasmModule, parsed_records } = await import('./pkg/divcord_wasm.js');
 	await initWasmModule();
-	const records = parsed_records(divcord, poeData, warningToast) as ISourcefulDivcordTableRecord[];
+	const records = parsed_records(JSON.stringify(divcord), poeData, warningToast) as ISourcefulDivcordTableRecord[];
 	return records.map(r => new SourcefulDivcordTableRecord(r));
 }
 

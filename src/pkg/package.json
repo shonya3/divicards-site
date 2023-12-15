@@ -1,16 +1,16 @@
 {
-  "name": "sources-wasm",
+  "name": "divcord-wasm",
   "collaborators": [
     "shonya3 <poeshonya3@gmail.com>"
   ],
   "version": "0.1.0",
   "files": [
-    "sources_wasm_bg.wasm",
-    "sources_wasm.js",
-    "sources_wasm.d.ts"
+    "divcord_wasm_bg.wasm",
+    "divcord_wasm.js",
+    "divcord_wasm.d.ts"
   ],
-  "module": "sources_wasm.js",
-  "types": "sources_wasm.d.ts",
+  "module": "divcord_wasm.js",
+  "types": "divcord_wasm.d.ts",
   "sideEffects": [
     "./snippets/*"
   ]
