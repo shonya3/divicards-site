@@ -221,6 +221,10 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
 
+    if (criterias.includes('stack size')) {
+		cards.push(...findByStackSize(q));
+	}
+
 	if (criterias.includes('name')) {
 		cards.push(...findByName(q));
 	}
@@ -237,9 +241,6 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 		cards.push(...findBySourceId(q, divcordTable));
 	}
 
-	if (criterias.includes('stack size')) {
-		cards.push(...findByStackSize(q));
-	}
 
 	return Array.from(new Set(cards));
 }
