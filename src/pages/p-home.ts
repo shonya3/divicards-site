@@ -10,6 +10,7 @@ import { SlConverter, paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
 import { cardsDataMap } from '../elements/divination-card/data';
+import { poeData } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -208,8 +209,40 @@ function findByStackSize(query: string): string[] {
 function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): string[] {
 	const cards: string[] = [];
 
+	let actNumber: number | null = null;
+
+	const digits = query.match(/\d+/g);
+	if (digits) {
+		const digit = parseInt(digits[0]);
+		if (Number.isInteger(digit)) {
+			actNumber = digit;
+		}
+	}
+
 	for (const [card, sourceIds] of divcordTable.sourceIdsMap()) {
 		if (sourceIds.some(id => id.toLowerCase().includes(query)) && !cards.includes(card)) {
+			cards.push(card);
+			continue;
+		}
+
+		const containsActArea = sourceIds
+			.filter(id => id.includes('_'))
+			.some(id => {
+				const actArea = poeData.findActAreaById(id);
+				if (actArea) {
+					if (actArea.name.toLowerCase().includes(query)) {
+						return true;
+					}
+
+					if (query.includes('a')) {
+						if (actNumber === actArea.act) {
+							return true;
+						}
+					}
+				}
+			});
+
+		if (containsActArea) {
 			cards.push(card);
 		}
 	}
@@ -221,7 +254,7 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
 
-    if (criterias.includes('stack size')) {
+	if (criterias.includes('stack size')) {
 		cards.push(...findByStackSize(q));
 	}
 
@@ -240,7 +273,6 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	if (criterias.includes('source')) {
 		cards.push(...findBySourceId(q, divcordTable));
 	}
-
 
 	return Array.from(new Set(cards));
 }
