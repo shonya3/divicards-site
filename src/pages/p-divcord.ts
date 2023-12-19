@@ -87,6 +87,10 @@ const defaultPresets: PresetConfig[] = [
 const presetsStorage = new LocalStorageManager<PresetConfig[], 'presets'>('presets');
 const shouldApplyFiltersStorage = new LocalStorageManager<boolean, 'shouldApplyFilters'>('shouldApplyFilters');
 const latestPresetNameStorage = new LocalStorageManager<string, 'latestPresetApplied'>('latestPresetApplied');
+const onlyShowCardsWithNoConfirmedSourcesStorage = new LocalStorageManager<
+	boolean,
+	'onlyShowCardsWithNoConfirmedSources'
+>('onlyShowCardsWithNoConfirmedSources');
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
@@ -94,7 +98,8 @@ export class DivcordTablePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFiltersStorage.load() ?? true;
-	@property({ type: Boolean }) onlyShowCardsWithNoConfirmedSources: boolean = false;
+	@property({ type: Boolean }) onlyShowCardsWithNoConfirmedSources: boolean =
+		onlyShowCardsWithNoConfirmedSourcesStorage.load() ?? false;
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -298,6 +303,7 @@ export class DivcordTablePage extends LitElement {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
 			this.onlyShowCardsWithNoConfirmedSources = target.checked;
+			onlyShowCardsWithNoConfirmedSourcesStorage.save(target.checked);
 		}
 	}
 
