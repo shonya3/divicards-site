@@ -1,9 +1,10 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-act-area';
 import { SourcefulDivcordTableRecord } from '../divcord';
 import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
+import './e-divcord-needs-info';
 import { poeData } from '../PoeData';
 
 declare global {
@@ -18,6 +19,8 @@ export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];
 
 	render() {
+		const allRecordsHasNoSources = this.records.every(s => (s.sources ?? []).length === 0);
+
 		return html`<div class="view">
 			<slot name="card">
 				<e-divination-card
@@ -27,20 +30,31 @@ export class CardWithDivcordRecordsElement extends LitElement {
 					.name=${this.card}
 				></e-divination-card>
 			</slot>
-			<ul>
-				${this.records.map(
-					record =>
-						html`<li>
-							<e-sourceful-divcord-record .record=${record}></e-sourceful-divcord-record>
-						</li>`
-				)}
-			</ul>
+			<main class="main">
+				${allRecordsHasNoSources
+					? html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
+					: nothing}
+				<ul>
+					${this.records.map(
+						record =>
+							html`<li>
+								<e-sourceful-divcord-record .record=${record}></e-sourceful-divcord-record>
+							</li>`
+					)}
+				</ul>
+			</main>
 		</div>`;
 	}
 
 	static styles = css`
 		.view {
 			display: flex;
+			gap: 2rem;
+		}
+
+		.main {
+			display: flex;
+			flex-direction: column;
 			gap: 2rem;
 		}
 
