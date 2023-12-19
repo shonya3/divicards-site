@@ -12,38 +12,21 @@ declare global {
 export class DivcordNeedsInfoElement extends LitElement {
 	@property({ reflect: true }) card: string = '';
 
-	// protected render1() {
-	// 	return html`<div class="c-mbox c-mbox--info">
-	// 		<div class="c-mbox__image">
-	// 			<img src="/images/45px-Divcord.png" decoding="async" width="45" height="45" />
-	// 		</div>
-	// 		<div class="c-mbox__main">
-	// 			<div class="c-mbox__title">
-	// 				<p>Divcord has no confirmed drop sources.</p>
-	// 			</div>
-	// 			<div class="c-mbox__text">
-	// 				<p>
-	// 					If you find one that did not come from sources of random divination cards—including Stacked
-	// 					Decks and divination card rewards—consider posting a screenshot to the
-	// 					<a rel="nofollow" class="external text" href="https://discord.gg/jsN2gsDUyM"
-	// 						>Divination Card Discord🧷</a
-	// 					>, also known as <a class="mw-selflink selflink">Divcord</a>.
-	// 				</p>
-	// 			</div>
-	// 		</div>
-	// 	</div>`;
-	// }
-
 	protected render() {
 		return html`<div class="element">
 			<sl-alert open>
 				<img slot="icon" src="/images/45px-Divcord.png" decoding="async" width="45" height="45" />
 				<h3 class="title">${this.card} has no confirmed drop sources.</h3>
-				If you find one that did not come from sources of random divination cards — including Stacked Decks and
-				divination card rewards — consider posting a screenshot to the
-				<a href="https://discord.com/invite/jsN2gsDUyM" target="_blank"
-					>Divination Card Discord🧷, also known as Divcord.</a
-				>
+				If you find one, consider posting a screenshot to the
+				<p>
+					<a href="https://discord.com/invite/jsN2gsDUyM" target="_blank"
+						>Divination Card Discord🧷, also known as Divcord.</a
+					>
+				</p>
+				<p>
+					<em>DON'T</em> include cards obtained from random divination card sources like Stacked Decks or
+					divination card rewards.
+				</p>
 			</sl-alert>
 		</div>`;
 	}
