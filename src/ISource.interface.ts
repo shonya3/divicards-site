@@ -2,23 +2,13 @@ export type SourceWithMember = { type: SourceType; id: string; kind: SourceWithM
 export type EmptySourceKind = 'empty-source';
 export type SourceWithMemberKind = 'source-with-member';
 export type Kind = EmptySourceKind | SourceWithMemberKind;
-export type EmptySource = { type: SourceType; id: string; kind: EmptySourceKind };
+export type EmptySource = { type: SourceType; id: string; kind: EmptySourceKind; min_level?: number; max_level?: number};
 export type ISource = SourceWithMember | EmptySource;
 export const sourceTypes = [
-	"Expedition Logbook",
-	"Chest",
-	"Delirium",
-	"Strongbox",
-	"Vendor",
-	"Unknown",
-	"Delirium Currency Rewards",
-	"Redeemer influenced maps",
-	"Disabled",
-	"Global Drop",
 	"Act",
 	"Map",
-	"Map Boss",
 	"Act Boss",
+	"Map Boss",
 	"Maven's Invitation: The Feared",
 	"Uul-Netol, Unburdened Flesh (in Breachstones)",
 	"The Vaal Omnitect",
@@ -53,12 +43,22 @@ export const sourceTypes = [
 	"Shaper Mini-Boss",
 	"Betrayal Catarina",
 	"Oshabi Boss",
+	"Eldritch Perfection Monster",
 	"Trial of Stinging Doubt",
 	"The Temple of Atzoatl",
 	"All Vaal side areas (need specific information)",
 	"Vaal Side Areas",
 	"Atziri Area",
-	"Area-Specific"
+	"Area-Specific",
+	"Redeemer influenced maps",
+	"Expedition Logbook",
+	"Chest",
+	"Strongbox",
+	"Vendor",
+	"Delirium",
+	"Delirium Currency Rewards",
+	"Disabled",
+	"Global Drop"
 ] as const;
 
 export type SourceType = (typeof sourceTypes)[number];
