@@ -94,6 +94,7 @@ export class DivcordTablePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFiltersStorage.load() ?? true;
+	@property({ type: Boolean }) onlyShowCardsWithNoConfirmedSources: boolean = false;
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -159,7 +160,13 @@ export class DivcordTablePage extends LitElement {
 			presetsStorage.save(this.customPresets);
 		}
 
-		const keys: unknown[] = ['config', 'filter', 'divcordTable', 'shouldApplySelectFilters'];
+		const keys: unknown[] = [
+			'config',
+			'filter',
+			'divcordTable',
+			'shouldApplySelectFilters',
+			'onlyShowCardsWithNoConfirmedSources',
+		];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = this.createFilteredCards();
 		}
@@ -172,22 +179,33 @@ export class DivcordTablePage extends LitElement {
 	createFilteredCards(): string[] {
 		const filter = this.filter.trim().toLowerCase();
 
-		return this.divcordTable.cards().filter(card => {
-			const filteredByName = card.toLowerCase().includes(filter);
-			switch (this.shouldApplySelectFilters) {
-				case false: {
-					return filteredByName;
+		return this.divcordTable
+			.cards()
+			.filter(card => {
+				if (this.shouldApplySelectFilters && this.onlyShowCardsWithNoConfirmedSources) {
+					const records = this.divcordTable.recordsByCard(card);
+					const allRecordsHasNoSources = records.every(s => (s.sources ?? []).length === 0);
+					return allRecordsHasNoSources;
+				} else {
+					return true;
 				}
-				case true: {
-					return (
-						filteredByName &&
-						someCardRecordHasConfidenceVariant(card, this.config.confidence, this.divcordTable) &&
-						someCardRecordHasGreynoteWorkVariant(card, this.config.greynote, this.divcordTable) &&
-						someCardRecordHasRemainingWorkVariant(card, this.config.remainingWork, this.divcordTable)
-					);
+			})
+			.filter(card => {
+				const filteredByName = card.toLowerCase().includes(filter);
+				switch (this.shouldApplySelectFilters) {
+					case false: {
+						return filteredByName;
+					}
+					case true: {
+						return (
+							filteredByName &&
+							someCardRecordHasConfidenceVariant(card, this.config.confidence, this.divcordTable) &&
+							someCardRecordHasGreynoteWorkVariant(card, this.config.greynote, this.divcordTable) &&
+							someCardRecordHasRemainingWorkVariant(card, this.config.remainingWork, this.divcordTable)
+						);
+					}
 				}
-			}
-		});
+			});
 	}
 
 	async #onCardnameInput(e: InputEvent) {
@@ -276,6 +294,13 @@ export class DivcordTablePage extends LitElement {
 		this.presetActionState = 'idle';
 	}
 
+	#ononlyShowCardsWithNoConfirmedSourcesCheckbox(e: InputEvent) {
+		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
+		if (typeof target.checked === 'boolean') {
+			this.onlyShowCardsWithNoConfirmedSources = target.checked;
+		}
+	}
+
 	protected renderDeletingPresets() {
 		if (this.customPresets.length === 0) return nothing;
 
@@ -358,78 +383,84 @@ export class DivcordTablePage extends LitElement {
 					</div>
 					${this.shouldApplySelectFilters
 						? html`<div class="select-filters">
-								<div class="select-filters_presets">
-									<h3>Presets</h3>
+									<div class="select-filters_presets">
+										<h3>Presets</h3>
 
-									<div class="presets-buttons">
-										${this.presets.map(
-											preset =>
-												html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
+										<div class="presets-buttons">
+											${this.presets.map(
+												preset =>
+													html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
+														>${preset.name}</sl-button
+													>`
+											)}
+											${this.customPresets.map(preset => {
+												const btn = html`<sl-button
+													@click=${this.#applyPreset.bind(this, preset)}
 													>${preset.name}</sl-button
-												>`
-										)}
-										${this.customPresets.map(preset => {
-											const btn = html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
-												>${preset.name}</sl-button
-											>`;
+												>`;
 
-											const select = html`<sl-checkbox
-												@sl-input=${this.#onPresetChecked}
-												.value=${preset.name}
-												>${preset.name}</sl-checkbox
-											>`;
-											return this.presetActionState === 'deleting' ? select : btn;
-										})}
-										${this.renderAddingPresets()} ${this.renderDeletingPresets()}
-										${this.presetActionState !== 'idle'
-											? html`<sl-button @click=${this.#onCancelClicked}>Cancel</sl-button>`
-											: nothing}
+												const select = html`<sl-checkbox
+													@sl-input=${this.#onPresetChecked}
+													.value=${preset.name}
+													>${preset.name}</sl-checkbox
+												>`;
+												return this.presetActionState === 'deleting' ? select : btn;
+											})}
+											${this.renderAddingPresets()} ${this.renderDeletingPresets()}
+											${this.presetActionState !== 'idle'
+												? html`<sl-button @click=${this.#onCancelClicked}>Cancel</sl-button>`
+												: nothing}
+										</div>
+									</div>
+
+									<div class="select-filters_filters">
+										<sl-select
+											label="Greynote"
+											.value=${this.config.greynote.map(c => SlConverter.toSlValue(c))}
+											@sl-change=${this.#onGreynotesSelectChange}
+											multiple
+											clearable
+										>
+											${Array.from(greynoteVariants).map(variant => {
+												return html` <sl-option value=${SlConverter.toSlValue(variant)}
+													>${variant}</sl-option
+												>`;
+											})}
+										</sl-select>
+										<sl-select
+											label="Confidence"
+											.value=${this.config.confidence.map(c => SlConverter.toSlValue(c))}
+											@sl-change=${this.#onConfidenceSelectChange}
+											multiple
+											clearable
+										>
+											${Array.from(confidenceVariants).map(variant => {
+												return html` <sl-option value=${SlConverter.toSlValue(variant)}
+													>${variant}</sl-option
+												>`;
+											})}
+										</sl-select>
+
+										<sl-select
+											.value=${this.config.remainingWork.map(c => SlConverter.toSlValue(c))}
+											@sl-change=${this.#onRemainingWorkSelectChange}
+											label="Remaining Work"
+											multiple
+											clearable
+										>
+											${Array.from(remainingWorkVariants).map(variant => {
+												return html` <sl-option value=${SlConverter.toSlValue(variant)}
+													>${variant}</sl-option
+												>`;
+											})}
+										</sl-select>
 									</div>
 								</div>
-
-								<div class="select-filters_filters">
-									<sl-select
-										label="Greynote"
-										.value=${this.config.greynote.map(c => SlConverter.toSlValue(c))}
-										@sl-change=${this.#onGreynotesSelectChange}
-										multiple
-										clearable
-									>
-										${Array.from(greynoteVariants).map(variant => {
-											return html` <sl-option value=${SlConverter.toSlValue(variant)}
-												>${variant}</sl-option
-											>`;
-										})}
-									</sl-select>
-									<sl-select
-										label="Confidence"
-										.value=${this.config.confidence.map(c => SlConverter.toSlValue(c))}
-										@sl-change=${this.#onConfidenceSelectChange}
-										multiple
-										clearable
-									>
-										${Array.from(confidenceVariants).map(variant => {
-											return html` <sl-option value=${SlConverter.toSlValue(variant)}
-												>${variant}</sl-option
-											>`;
-										})}
-									</sl-select>
-
-									<sl-select
-										.value=${this.config.remainingWork.map(c => SlConverter.toSlValue(c))}
-										@sl-change=${this.#onRemainingWorkSelectChange}
-										label="Remaining Work"
-										multiple
-										clearable
-									>
-										${Array.from(remainingWorkVariants).map(variant => {
-											return html` <sl-option value=${SlConverter.toSlValue(variant)}
-												>${variant}</sl-option
-											>`;
-										})}
-									</sl-select>
-								</div>
-						  </div>`
+								<sl-checkbox
+									.checked=${this.onlyShowCardsWithNoConfirmedSources}
+									@sl-input=${this.#ononlyShowCardsWithNoConfirmedSourcesCheckbox}
+									>Only show cards with no confirmed sources</sl-checkbox
+								> `
 						: nothing}
 				</section>
 
