@@ -105,7 +105,12 @@ export class DivinationCardElement extends LitElement {
 					<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="" />
 				</a>
 			</div>
-			<div class=${classMap({ stackSize: true, 'stackSize--small': this.size === 'small' })}>
+			<div
+				class=${classMap({
+					stackSize: true,
+					[`stackSize--${this.size}`]: this.size,
+				})}
+			>
 				${this.stackSize}
 			</div>
 			<div class="${classMap({ 'bottom-half': true, size25: this.size === 'small' })}">
@@ -276,6 +281,10 @@ function styles() {
 		.stackSize--small {
 			top: 42.8%;
 			font-size: 0.6rem;
+		}
+
+		.stackSize--medium {
+			top: 46.3%;
 		}
 
 		.bottom-half {
