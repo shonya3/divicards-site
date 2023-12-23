@@ -1,7 +1,7 @@
 import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource, SourceWithMember } from '../ISource.interface';
+import type { ISource } from '../ISource.interface';
 import type { CardSize } from './divination-card/e-divination-card';
 import './e-act-area';
 import './e-map';
@@ -19,7 +19,7 @@ declare global {
 }
 
 export class NoSourceInPoeDataError extends Error {
-	constructor(source: SourceWithMember) {
+	constructor(source: ISource) {
 		super(`No ${source.type} in poeData ${source.id}`);
 	}
 }
@@ -33,7 +33,13 @@ export class SourceElement extends LitElement {
 	@property() actSize?: 'small' | 'large';
 
 	get sourceHasSpecialElement() {
-		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
+		return ['Act', 'Act Boss', 'Map', 'Map Boss', 'Global Drop'].includes(this.source.type);
+	}
+
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('source')) {
+			this.setAttribute('source-type', this.source.type);
+		}
 	}
 
 	constructor() {
@@ -48,7 +54,7 @@ export class SourceElement extends LitElement {
 	}
 
 	protected sourceElement() {
-		if (this.source.kind === 'empty-source') {
+		if (this.source.kind === 'empty-source' && this.source.type !== 'Global Drop') {
 			return nothing;
 		}
 
@@ -98,8 +104,13 @@ export class SourceElement extends LitElement {
 					.renderMode=${this.renderMode}
 				></e-mapboss>`;
 			}
+
+			case 'Global Drop': {
+				return html`<span>${this.source.min_level} - ${this.source.max_level}</span>`;
+			}
 			default: {
 				if (!this.source.id) return nothing;
+
 				return html`<a
 					@click=${this.#setViewTransitionName.bind(this, 'source')}
 					href=${sourceHref(this.source)}
@@ -110,6 +121,10 @@ export class SourceElement extends LitElement {
 	}
 
 	render() {
+		const shouldRenderSourceType =
+			(this.renderMode === 'normal' || this.source.kind === 'empty-source') &&
+			!(this.renderMode === 'compact' && this.source.type === 'Global Drop');
+
 		return html`
 			<div
 				class=${classMap({
@@ -118,7 +133,7 @@ export class SourceElement extends LitElement {
 					'font--larger': !this.sourceHasSpecialElement,
 				})}
 			>
-				${this.showSourceType && (this.renderMode === 'normal' || this.source.kind === 'empty-source')
+				${this.showSourceType && shouldRenderSourceType
 					? html`<e-source-type
 							part="source-type"
 							class="source-type"

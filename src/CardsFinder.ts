@@ -64,6 +64,13 @@ export function cardsByMapboss(boss: string, records: ISourcefulDivcordTableReco
 	return cards;
 }
 
+export function isGlobalDropApplies(level: number, source: ISource): boolean {
+	if (source.type !== 'Global Drop') throw new Error('Expected Global Drop sourcetype');
+	const minLevel = source.min_level ?? 0;
+	const maxLevel = source.max_level ?? 100;
+	return level >= minLevel && level <= maxLevel;
+}
+
 export function cardsByActboss(boss: string, records: ISourcefulDivcordTableRecord[]): string[] {
 	const cards: string[] = [];
 

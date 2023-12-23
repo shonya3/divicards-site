@@ -50,6 +50,19 @@ export class SourcefulDivcordTable {
 		this.records = records;
 	}
 
+	globalDrops(): Map<string, ISource> {
+		const drops: Map<string, ISource> = new Map();
+		for (const record of this.records) {
+			for (const source of record.sources ?? []) {
+				if (source.type === 'Global Drop') {
+					drops.set(record.card, source);
+				}
+			}
+		}
+
+		return drops;
+	}
+
 	cards() {
 		return Array.from(new Set(this.records.map(r => r.card)));
 	}
@@ -155,12 +168,3 @@ export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord
 		return this.source('act');
 	}
 }
-
-// class DivcordTable {
-// 	records: SourcefulDivcordTableRecord[];
-// 	constructor(records: SourcefulDivcordTableRecord[]) {
-// 		this.records = records;
-// 	}
-
-// 	bossesByMap(map: string) {}
-// }
