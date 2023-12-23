@@ -1,6 +1,6 @@
 import { includesMap } from './CardsFinder';
 import { SourcefulDivcordTable } from './divcord';
-import { poeDataJson, divcordData } from './jsons/jsons';
+import { poeDataJson } from './jsons/jsons';
 
 export interface IActArea {
 	id: string;
