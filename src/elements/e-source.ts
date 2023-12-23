@@ -106,7 +106,7 @@ export class SourceElement extends LitElement {
 			}
 
 			case 'Global Drop': {
-				return html`<span>${this.source.min_level} - ${this.source.max_level}</span>`;
+				return html`<span title="global drop">${this.source.min_level} - ${this.source.max_level}</span>`;
 			}
 			default: {
 				if (!this.source.id) return nothing;
