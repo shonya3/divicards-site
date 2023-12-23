@@ -119,7 +119,10 @@ export class MapsTablePage extends LitElement {
 											${cards.map(({ card, boss }) => {
 												return html`<li>
 													<e-divination-card
-														.minLevel=${poeData.minLevel(card)}
+														.minLevelOrRange=${poeData.minLevelOrRange(
+															card,
+															this.cardsFinder.divcordTable
+														)}
 														size=${this.size}
 														name=${card}
 														.boss=${boss?.id}

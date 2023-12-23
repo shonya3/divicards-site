@@ -1,6 +1,5 @@
 import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './divcord';
 import './elements/e-sourceful-divcord-record';
-import './pages/p-cards-table';
 import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, PropertyValueMap, css, html, render } from 'lit';
 import './pages/p-card';
@@ -16,6 +15,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { provide } from '@lit/context';
 import { cardsFinderContext, divcordTableContext } from './context';
 import { divcordService } from './DivcordService';
+import { poeData } from './PoeData';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -234,3 +234,5 @@ router.addEventListener('route-changed', async _e => {
 		render(router.render(), rootElement.outlet);
 	});
 });
+
+console.log(poeData.minLevelOrRange('Hope', divcordTable));

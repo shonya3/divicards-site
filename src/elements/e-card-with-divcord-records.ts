@@ -1,7 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-act-area';
-import { SourcefulDivcordTableRecord } from '../divcord';
+import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from '../divcord';
 import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
 import './e-divcord-needs-info';
@@ -17,6 +17,7 @@ declare global {
 export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ reflect: true }) card!: string;
 	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];
+	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	render() {
 		const allRecordsHasNoSources = this.records.every(s => (s.sources ?? []).length === 0);
@@ -25,7 +26,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			<slot name="card">
 				<e-divination-card
 					part="card"
-					.minLevel=${poeData.minLevel(this.card)}
+					.minLevelOrRange=${poeData.minLevelOrRange(this.card, this.divcordTable)}
 					size="large"
 					.name=${this.card}
 				></e-divination-card>

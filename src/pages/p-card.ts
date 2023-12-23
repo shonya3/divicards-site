@@ -22,12 +22,15 @@ export class CardPage extends LitElement {
 
 	render() {
 		return html`<div class="page">
-			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
+			<e-card-with-divcord-records
+				.divcordTable=${this.divcordTable}
+				.card=${this.card}
+				.records=${this.divcordTable.recordsByCard(this.card)}
+			>
 				<e-card-with-sources
 					slot="card"
 					.name=${this.card}
 					size="large"
-					.minLevel=${poeData.minLevel(this.card)}
 					.divcordTable=${this.divcordTable}
 				></e-card-with-sources>
 			</e-card-with-divcord-records>

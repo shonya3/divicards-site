@@ -33,7 +33,7 @@ export class SourceElement extends LitElement {
 	@property() actSize?: 'small' | 'large';
 
 	get sourceHasSpecialElement() {
-		return ['Act', 'Act Boss', 'Map', 'Map Boss', 'Global Drop'].includes(this.source.type);
+		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -54,7 +54,7 @@ export class SourceElement extends LitElement {
 	}
 
 	protected sourceElement() {
-		if (this.source.kind === 'empty-source' && this.source.type !== 'Global Drop') {
+		if (this.source.kind === 'empty-source') {
 			return nothing;
 		}
 
@@ -105,9 +105,6 @@ export class SourceElement extends LitElement {
 				></e-mapboss>`;
 			}
 
-			case 'Global Drop': {
-				return html`<span title="global drop">${this.source.min_level} - ${this.source.max_level}</span>`;
-			}
 			default: {
 				if (!this.source.id) return nothing;
 
@@ -121,9 +118,7 @@ export class SourceElement extends LitElement {
 	}
 
 	render() {
-		const shouldRenderSourceType =
-			(this.renderMode === 'normal' || this.source.kind === 'empty-source') &&
-			!(this.renderMode === 'compact' && this.source.type === 'Global Drop');
+		const shouldRenderSourceType = this.renderMode === 'normal' || this.source.kind === 'empty-source';
 
 		return html`
 			<div
@@ -140,7 +135,7 @@ export class SourceElement extends LitElement {
 							.sourceType=${this.source.type}
 					  ></e-source-type>`
 					: nothing}
-				<div class="inner">${this.sourceElement()}</div>
+				<div part="source-id" class="source-id">${this.sourceElement()}</div>
 			</div>
 		`;
 	}

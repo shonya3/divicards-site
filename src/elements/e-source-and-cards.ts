@@ -28,11 +28,11 @@ export class SourceAndCardsElement extends LitElement {
 	}
 
 	cardsList() {
-		return html`<ul>
+		return html`<ul class="cards">
 			${this.cards.map(({ card, boss }) => {
 				return html`<e-divination-card
-					.minLevel=${poeData.minLevel(card)}
-					size="large"
+					.minLevelOrRange=${poeData.minLevelOrRange(card, this.divcordTable)}
+					size="medium"
 					.name=${card}
 					.boss=${boss?.id}
 				>
@@ -50,21 +50,6 @@ export class SourceAndCardsElement extends LitElement {
 	}
 
 	render() {
-		if (this.source.type === 'Global Drop') {
-			return html`<ul class="cards">
-				${this.cards.map(card => {
-					return html`<li>
-					<e-card-with-sources
-						.name=${card.card}
-						.divcordTable=${this.divcordTable}
-						size="medium"
-					></e-card-with-sources>
-				</li>
-            </ul>`;
-				})}
-			</ul>`;
-		}
-
 		return html`<div class="wrapper">
 			<e-source
 				exportparts="source-type"
@@ -79,20 +64,29 @@ export class SourceAndCardsElement extends LitElement {
 	}
 
 	static styles = css`
+		.wrapper {
+			display: flex;
+			max-width: 1600px;
+			flex-direction: column;
+			margin-inline: auto;
+		}
+
+		e-source::part(source-id) {
+			font-size: 1.2rem;
+		}
+
 		ul {
 			list-style: none;
 			display: flex;
 			flex-wrap: wrap;
 		}
+
 		.cards {
-			margin-top: 3rem;
+			margin-top: 1rem;
 			display: flex;
 			flex-wrap: wrap;
 			list-style: none;
-			gap: 4rem;
-			max-width: 1600px;
-			margin-inline: auto;
-			justify-content: center;
+			gap: 1rem;
 		}
 	`;
 }

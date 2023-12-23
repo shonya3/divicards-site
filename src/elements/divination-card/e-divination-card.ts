@@ -26,7 +26,7 @@ export class DivinationCardElement extends LitElement {
 
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
-	@property({ type: Number }) minLevel?: number;
+	@property({ reflect: true, attribute: 'min-level-or-range' }) minLevelOrRange?: string;
 	@property({ reflect: true }) boss?: string;
 
 	@state() stackSize: number = 0;
@@ -117,7 +117,9 @@ export class DivinationCardElement extends LitElement {
 				${staticHtml`${unsafeStatic(this.rewardHtml)}`}
 				${this.size !== 'small' ? html`${this.divider()}${this.footer()}` : nothing}
 			</div>
-			${this.minLevel ? html` <div title="Min. Level" class="min-level">${this.minLevel}</div> ` : nothing}
+			${this.minLevelOrRange
+				? html` <div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> `
+				: nothing}
 
 			<div class="boss">
 				<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>

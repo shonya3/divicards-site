@@ -19,7 +19,6 @@ declare global {
 export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
-	@property({ type: Number }) minLevel?: number;
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 
@@ -43,7 +42,7 @@ export class CardWithSourcesElement extends LitElement {
 				<e-divination-card
 					.name=${this.name}
 					.size=${this.size}
-					minLevel=${this.minLevel ?? poeData.minLevel(this.name)}
+					.minLevelOrRange=${poeData.minLevelOrRange(this.name, this.divcordTable)}
 				></e-divination-card>
 				<ul class="sources">
 					${this.sources.map(source => {

@@ -1,5 +1,6 @@
 import { includesMap } from './CardsFinder';
-import { poeDataJson } from './jsons/jsons';
+import { SourcefulDivcordTable } from './divcord';
+import { poeDataJson, divcordData } from './jsons/jsons';
 
 export interface IActArea {
 	id: string;
@@ -101,6 +102,22 @@ export class PoeData implements IPoeData {
 
 	minLevel(card: string): number {
 		return this.card(card)?.minLevel ?? 0;
+	}
+
+	minLevelOrRange(card: string, divcordTable: SourcefulDivcordTable): string {
+		const globals = divcordTable.globalDrops();
+		const globalDropSource = globals.get(card);
+		if (!globalDropSource) {
+			return String(this.minLevel(card));
+		}
+
+		const { min_level, max_level } = globalDropSource;
+
+		if (min_level && !max_level) {
+			return `global ${min_level}+`;
+		}
+
+		return `global ${min_level ?? ''} - ${max_level ?? ''}`;
 	}
 
 	mapboss(name: string): IMapBoss | null {
