@@ -151,6 +151,7 @@ export class SourceElement extends LitElement {
 			object-fit: contain;
 			contain: paint;
 			--source-width: fit-content;
+			max-width: max-content;
 		}
 
 		.source {
