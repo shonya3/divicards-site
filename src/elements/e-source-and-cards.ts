@@ -68,7 +68,6 @@ export class SourceAndCardsElement extends LitElement {
 			display: flex;
 			max-width: 1600px;
 			flex-direction: column;
-			margin-inline: auto;
 		}
 
 		e-source::part(source-id) {
