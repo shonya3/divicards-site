@@ -32,6 +32,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 				></e-divination-card>
 			</slot>
 			<main class="main">
+				<slot name="main-start"></slot>
 				${allRecordsHasNoSources
 					? html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
 					: nothing}
