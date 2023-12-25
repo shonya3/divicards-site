@@ -21,10 +21,18 @@ export interface IBossfight {
 	url: string;
 }
 
+export interface ILeagueReleaseInfo {
+	name: string;
+	date: string;
+	version: string;
+}
+
 export interface ICard {
 	name: string;
 	minLevel: number | null;
+	maxLevel?: number;
 	weight: number;
+	league?: ILeagueReleaseInfo;
 }
 
 export interface IMap {

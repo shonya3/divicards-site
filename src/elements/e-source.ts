@@ -163,6 +163,10 @@ export class SourceElement extends LitElement {
 			flex-direction: column;
 		}
 
+		a:link {
+			text-decoration: none;
+		}
+
 		a,
 		a:visited {
 			color: var(--source-color, #bbbbbb);
@@ -170,6 +174,7 @@ export class SourceElement extends LitElement {
 
 		a:hover {
 			color: var(--link-color-hover, skyblue);
+			text-decoration: underline;
 		}
 
 		.source-type {

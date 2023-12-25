@@ -32,6 +32,11 @@ export class SourceTypeElement extends LitElement {
 			margin-inline: auto;
 			display: block;
 		}
+
+		a:link {
+			text-decoration: none;
+		}
+
 		.source-type {
 			text-align: center;
 			color: var(--source-type-text-color, orange);
