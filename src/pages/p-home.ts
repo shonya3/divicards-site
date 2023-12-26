@@ -166,8 +166,9 @@ function findByReleaseVersion(matches: RegExpMatchArray): string[] {
 		const league = card?.league;
 		if (league) {
 			const [[major, minor]] = matches.map(match => match.split('.').map(Number));
-			const ver = `${major}.${minor}`;
-			if (league.version.includes(ver)) {
+
+			const [maj, min] = league.version.split('.').map(s => Number(s));
+			if (major === maj && minor === min) {
 				cards.push(card.name);
 			}
 		}
@@ -301,6 +302,9 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	const leagueVersionPattern = /\b\d+\.\d+\b/g;
 	const matchesVersionPattern = q.match(leagueVersionPattern);
 	if (matchesVersionPattern && criterias.includes('release version')) {
+		const cards = findByReleaseVersion(matchesVersionPattern);
+		console.log(cards.length);
+
 		cards.push(...findByReleaseVersion(matchesVersionPattern));
 		// if query matches version pattern, early return this exact list
 		return cards;
