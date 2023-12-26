@@ -141,8 +141,43 @@ export class HomePage extends LitElement {
 	`;
 }
 
-export const searchCriteriaVariants = ['name', 'flavour text', 'source', 'reward', 'stack size'] as const;
+export const searchCriteriaVariants = [
+	'name',
+	'flavour text',
+	'source',
+	'reward',
+	'stack size',
+	'release info',
+] as const;
 export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
+
+function findByReleaseInfo(query: string): string[] {
+	const cards: string[] = [];
+
+	const leagueVersionPattern = /\b\d+\.\d+\b/g;
+
+	for (const { name } of cardsDataMap.values()) {
+		const card = poeData.card(name);
+		const league = card?.league;
+		if (league) {
+			const leagueName = league.name.toLowerCase();
+			if (leagueName.includes(query)) {
+				cards.push(card.name);
+			}
+
+			const matches = query.match(leagueVersionPattern);
+			if (matches) {
+				const [[major, minor]] = matches.map(match => match.split('.').map(Number));
+				const ver = `${major}.${minor}`;
+				if (league.version.includes(ver)) {
+					cards.push(card.name);
+				}
+			}
+		}
+	}
+
+	return cards;
+}
 
 function findByFlavourText(query: string): string[] {
 	const cards: string[] = [];
@@ -253,6 +288,10 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 export function findCards(query: string, criterias: SearchCardsCriteria[], divcordTable: SourcefulDivcordTable) {
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
+
+	if (criterias.includes('release info')) {
+		cards.push(...findByReleaseInfo(q));
+	}
 
 	if (criterias.includes('stack size')) {
 		cards.push(...findByStackSize(q));
