@@ -1,5 +1,5 @@
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import { SourcefulDivcordTable } from '../divcord';
 import '../elements/e-page-controls';
@@ -11,6 +11,7 @@ import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
 import { cardsDataMap } from '../elements/divination-card/data';
 import { poeData } from '../PoeData';
+import { sortByWeight } from '../CardsFinder';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -29,19 +30,26 @@ export class HomePage extends LitElement {
 	@consume({ context: divcordTableContext, subscribe: true })
 	divcordTable!: SourcefulDivcordTable;
 
+	@state() filtered: string[] = [];
+	@state() paginated: string[] = [];
+
 	async #onCardnameInput(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
 		this.page = 1;
 		this.filter = input.value;
 	}
 
-	get filtered() {
-		const query = this.filter.trim().toLowerCase();
-		return findCards(query, this.searchCriterias, this.divcordTable);
-	}
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('filter') || map.has('searchCriterias') || map.has('divcordTable')) {
+			const query = this.filter.trim().toLowerCase();
+			const cards = findCards(query, this.searchCriterias, this.divcordTable);
+			sortByWeight(cards, poeData);
+			this.filtered = cards;
+		}
 
-	get paginated() {
-		return paginate(this.filtered, this.page, this.perPage);
+		if (map.has('filtered') || map.has('page') || map.has('perPage')) {
+			this.paginated = paginate(this.filtered, this.page, this.perPage);
+		}
 	}
 
 	#onCriteriasSelect(e: Event) {
@@ -296,6 +304,7 @@ export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
 
 export function findCards(query: string, criterias: SearchCardsCriteria[], divcordTable: SourcefulDivcordTable) {
 	const allCards = divcordTable.cards();
+	// sortByWeight(allCards, poeData);
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
 

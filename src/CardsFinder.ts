@@ -36,9 +36,10 @@ export class CardsFinder {
 }
 
 export function sortByWeight(cards: CardFromSource[] | string[], poeData: Readonly<PoeData>): void {
+	const SORT_TO_THE_END_VALUE = 1_000_000;
 	cards.sort((a, b) => {
-		const aWeight = poeData.card(typeof a === 'string' ? a : a.card)?.weight;
-		const bWeight = poeData.card(typeof b === 'string' ? b : b.card)?.weight;
+		const aWeight = poeData.card(typeof a === 'string' ? a : a.card)?.weight || SORT_TO_THE_END_VALUE;
+		const bWeight = poeData.card(typeof b === 'string' ? b : b.card)?.weight || SORT_TO_THE_END_VALUE;
 		return Number(aWeight) - Number(bWeight);
 	});
 }
