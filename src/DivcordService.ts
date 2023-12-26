@@ -1,9 +1,10 @@
 import type { ISourcefulDivcordTableRecord } from './divcord.js';
-import { IDivcordData, poeDataJson } from './jsons/jsons';
+import { IDivcordData } from './jsons/jsons';
 import { SourcefulDivcordTableRecord } from './divcord.js';
-import { IPoeData } from './PoeData';
+import { PoeData, poeData } from './PoeData';
 import { LocalStorageManager, Serde } from './storage';
 import { warningToast } from './toast.js';
+import { sortByWeight } from './CardsFinder.js';
 
 export type DivcordResponses = {
 	rich: Response;
@@ -85,7 +86,7 @@ export class DivcordService extends EventTarget {
 			await Promise.all([this.#cache.add(richUrl()), this.#cache.add(sheetUrl())]);
 			const resp = await this.#cachedResponses();
 			const divcordData = await this.#serderesponses(resp!);
-			const records = await parseRecords(divcordData, poeDataJson);
+			const records = await parseRecords(divcordData, poeData);
 			this.localStorageManager.save(records);
 			this.state = 'updated';
 			return records;
@@ -186,7 +187,7 @@ function richUrl(): string {
 	return url;
 }
 
-export async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<SourcefulDivcordTableRecord[]> {
+export async function parseRecords(divcord: IDivcordData, poeData: PoeData): Promise<SourcefulDivcordTableRecord[]> {
 	const { default: initWasm, parsed_records } = await import('./pkg/divcord_wasm.js');
 	await initWasm();
 	const records = parsed_records(
@@ -194,6 +195,7 @@ export async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Pr
 		JSON.stringify(poeData),
 		warningToast
 	) as ISourcefulDivcordTableRecord[];
+	sortByWeight(records, poeData);
 	return records.map(r => new SourcefulDivcordTableRecord(r));
 }
 
