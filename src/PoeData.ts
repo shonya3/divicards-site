@@ -1,6 +1,6 @@
 import { includesMap } from './CardsFinder';
 import { SourcefulDivcordTable } from './divcord';
-import { poeDataJson } from './jsons/jsons';
+import { poeDataFromJson } from './gen/poeDataFromJson';
 
 export interface IActArea {
 	id: string;
@@ -158,4 +158,4 @@ export class PoeData implements IPoeData {
 	}
 }
 
-export const poeData = new PoeData(poeDataJson);
+export const poeData = new PoeData(poeDataFromJson);

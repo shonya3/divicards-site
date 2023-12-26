@@ -145,8 +145,8 @@ export class DivcordService extends EventTarget {
 	}
 
 	async #fromStaticJson(): Promise<SourcefulDivcordTableRecord[]> {
-		const { divcordRecords } = await import('./jsons/jsons.js');
-		return divcordRecords.map(r => new SourcefulDivcordTableRecord(r));
+		const { divcordRecordsFromJson } = await import('./gen/divcordRecordsFromJson.js');
+		return divcordRecordsFromJson.map(r => new SourcefulDivcordTableRecord(r));
 	}
 }
 
