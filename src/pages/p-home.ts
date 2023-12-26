@@ -310,7 +310,9 @@ export function findCards(
 ): string[] {
 	if (!allCards.length) {
 		allCards = divcordTable.cards();
+		const t0 = performance.now();
 		sortByWeight(allCards, poeData);
+		console.log(performance.now() - t0);
 	}
 
 	if (!query && criterias.length === searchCriteriaVariants.length) {
