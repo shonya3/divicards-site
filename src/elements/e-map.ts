@@ -1,3 +1,4 @@
+import { linkStyles } from './../linkStyles';
 import { LitElement, html, nothing, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -97,6 +98,10 @@ export class MapElement extends LitElement {
 			object-fit: contain;
 			contain: content;
 			color: var(--source-color, #bbbbbb);
+		}
+
+		@layer reset {
+			${linkStyles}
 		}
 
 		* {
