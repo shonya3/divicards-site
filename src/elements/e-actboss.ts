@@ -1,3 +1,4 @@
+import { linkStyles } from './../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
@@ -52,14 +53,7 @@ export class ActBossElement extends LitElement {
 			color: var(--source-color, #bbbbbb);
 		}
 
-		a,
-		a:visited {
-			color: var(--source-color, #bbbbbb);
-		}
-
-		a:hover {
-			color: var(--link-color-hover);
-		}
+		${linkStyles}
 
 		.bossname {
 			width: fit-content;

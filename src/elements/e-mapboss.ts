@@ -1,3 +1,4 @@
+import { linkStyles } from './../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
@@ -54,6 +55,10 @@ export class MapBossElement extends LitElement {
 		* {
 			padding: 0;
 			margin: 0;
+		}
+
+		@layer reset {
+			${linkStyles}
 		}
 
 		:host {

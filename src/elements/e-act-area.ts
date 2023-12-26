@@ -1,3 +1,4 @@
+import { linkStyles } from './../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
@@ -49,6 +50,10 @@ function styles() {
 			--act-area-width-large: 507px;
 			--act-area-font-size-small: 15px;
 			--act-area-font-size-large: 24px;
+		}
+
+		@layer reset {
+			${linkStyles}
 		}
 
 		.act-area {

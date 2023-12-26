@@ -227,7 +227,7 @@ function styles() {
 		.divination-card--medium {
 			--reward-font-size: 1rem;
 			--card-width: var(--card-width-medium);
-			--name-font-size: 20px;
+			--name-font-size: 18px;
 			--digits-font-size: ;
 		}
 
@@ -252,6 +252,7 @@ function styles() {
 
 		a {
 			color: #000;
+			text-decoration: none;
 		}
 
 		.name {
@@ -263,6 +264,7 @@ function styles() {
 
 		a:hover {
 			color: #083344;
+			text-decoration: underline;
 		}
 
 		.stackSize {

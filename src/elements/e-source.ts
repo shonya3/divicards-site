@@ -1,3 +1,4 @@
+import { linkStyles } from './../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
@@ -146,6 +147,10 @@ export class SourceElement extends LitElement {
 			padding: 0;
 		}
 
+		@layer reset {
+			${linkStyles}
+		}
+
 		:host {
 			display: inline-block;
 			object-fit: contain;
@@ -161,25 +166,6 @@ export class SourceElement extends LitElement {
 			object-fit: contain;
 			contain: paint;
 			flex-direction: column;
-		}
-
-		a:link {
-			text-decoration: none;
-		}
-
-		a,
-		a:visited {
-			color: var(--source-color, #bbbbbb);
-		}
-
-		a:hover {
-			color: var(--link-color-hover, skyblue);
-			text-decoration: underline;
-		}
-
-		.source-type {
-			width: fit-content;
-			margin-inline: auto;
 		}
 
 		.source--medium,
