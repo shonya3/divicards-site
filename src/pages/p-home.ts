@@ -141,10 +141,10 @@ export class HomePage extends LitElement {
 	`;
 }
 
-function findByReleaseLeague(query: string): string[] {
+function findByReleaseLeague(query: string, allCards: Readonly<string[]>): string[] {
 	const cards: string[] = [];
 
-	for (const { name } of cardsDataMap.values()) {
+	for (const name of allCards) {
 		const card = poeData.card(name);
 		const league = card?.league;
 		if (league) {
@@ -158,10 +158,10 @@ function findByReleaseLeague(query: string): string[] {
 	return cards;
 }
 
-function findByReleaseVersion(matches: RegExpMatchArray): string[] {
+function findByReleaseVersion(matches: RegExpMatchArray, allCards: Readonly<string[]>): string[] {
 	const cards: string[] = [];
 
-	for (const { name } of cardsDataMap.values()) {
+	for (const name of allCards) {
 		const card = poeData.card(name);
 		const league = card?.league;
 		if (league) {
@@ -206,10 +206,10 @@ function findByReward(query: string): string[] {
 	return cards;
 }
 
-function findByName(query: string): string[] {
+function findByName(query: string, allCards: Readonly<string[]>): string[] {
 	const cards: string[] = [];
 
-	for (const { name } of cardsDataMap.values()) {
+	for (const name of allCards) {
 		if (name.toLowerCase().includes(query)) {
 			cards.push(name);
 		}
@@ -295,6 +295,7 @@ export const searchCriteriaVariants = [
 export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
 
 export function findCards(query: string, criterias: SearchCardsCriteria[], divcordTable: SourcefulDivcordTable) {
+	const allCards = divcordTable.cards();
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
 
@@ -303,11 +304,11 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	const matchesVersionPattern = q.match(leagueVersionPattern);
 	if (matchesVersionPattern && criterias.includes('release version')) {
 		// if query matches version pattern, early return this exact list
-		return findByReleaseVersion(matchesVersionPattern);
+		return findByReleaseVersion(matchesVersionPattern, allCards);
 	}
 
 	if (criterias.includes('release league')) {
-		cards.push(...findByReleaseLeague(q));
+		cards.push(...findByReleaseLeague(q, allCards));
 	}
 
 	if (criterias.includes('stack size')) {
@@ -315,7 +316,7 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	}
 
 	if (criterias.includes('name')) {
-		cards.push(...findByName(q));
+		cards.push(...findByName(q, allCards));
 	}
 
 	if (criterias.includes('flavour text')) {
