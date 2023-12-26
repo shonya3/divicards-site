@@ -207,7 +207,7 @@ function addBorrowedObject(obj) {
 }
 /**
 * @param {string} divcord_table
-* @param {any} poe_data
+* @param {string} poe_data
 * @param {Function} toast
 * @returns {any}
 */
@@ -216,7 +216,9 @@ export function parsed_records(divcord_table, poe_data, toast) {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
         const ptr0 = passStringToWasm0(divcord_table, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
-        wasm.parsed_records(retptr, ptr0, len0, addHeapObject(poe_data), addBorrowedObject(toast));
+        const ptr1 = passStringToWasm0(poe_data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len1 = WASM_VECTOR_LEN;
+        wasm.parsed_records(retptr, ptr0, len0, ptr1, len1, addBorrowedObject(toast));
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -334,12 +336,12 @@ function __wbg_get_imports() {
         const ret = getObject(arg0) === getObject(arg1);
         return ret;
     };
-    imports.wbg.__wbindgen_error_new = function(arg0, arg1) {
-        const ret = new Error(getStringFromWasm0(arg0, arg1));
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
         const ret = getStringFromWasm0(arg0, arg1);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_error_new = function(arg0, arg1) {
+        const ret = new Error(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_object_clone_ref = function(arg0) {

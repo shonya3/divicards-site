@@ -90,8 +90,8 @@ export class DivcordService extends EventTarget {
 			this.state = 'updated';
 			return records;
 		} catch (err) {
+			console.log(err);
 			this.state = 'error';
-			// throw err;
 			const records = await this.bestAvailableRecords();
 			return records;
 		}
@@ -187,8 +187,13 @@ function richUrl(): string {
 }
 
 export async function parseRecords(divcord: IDivcordData, poeData: IPoeData): Promise<SourcefulDivcordTableRecord[]> {
-	const { parsed_records } = await import('./pkg/divcord_wasm.js');
-	const records = parsed_records(JSON.stringify(divcord), poeData, warningToast) as ISourcefulDivcordTableRecord[];
+	const { default: initWasm, parsed_records } = await import('./pkg/divcord_wasm.js');
+	await initWasm();
+	const records = parsed_records(
+		JSON.stringify(divcord),
+		JSON.stringify(poeData),
+		warningToast
+	) as ISourcefulDivcordTableRecord[];
 	return records.map(r => new SourcefulDivcordTableRecord(r));
 }
 

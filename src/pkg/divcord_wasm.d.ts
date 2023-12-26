@@ -2,11 +2,11 @@
 /* eslint-disable */
 /**
 * @param {string} divcord_table
-* @param {any} poe_data
+* @param {string} poe_data
 * @param {Function} toast
 * @returns {any}
 */
-export function parsed_records(divcord_table: string, poe_data: any, toast: Function): any;
+export function parsed_records(divcord_table: string, poe_data: string, toast: Function): any;
 /**
 * @param {any} types
 * @param {any} records
@@ -19,7 +19,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly parsed_records: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly parsed_records: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
   readonly find_cards_by_source_types: (a: number, b: number, c: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

@@ -32,7 +32,7 @@ export interface ICard {
 	minLevel: number | null;
 	maxLevel?: number;
 	weight: number;
-	league?: ILeagueReleaseInfo;
+	league?: ILeagueReleaseInfo | null;
 }
 
 export interface IMap {
@@ -50,18 +50,19 @@ export interface IMapBoss {
 
 export interface IPoeData {
 	acts: IActArea[];
-	cards: ICard[];
+	cards: Record<string, ICard>;
 	maps: IMap[];
 	mapbosses: IMapBoss[];
 }
 
 export class PoeData implements IPoeData {
 	acts: IActArea[];
-	cards: ICard[];
+	cards: Record<string, ICard>;
 	maps: IMap[];
 	mapbosses: IMapBoss[];
+	cardsMap: Map<string, ICard> = new Map();
 	constructor(poeData: IPoeData) {
-		const { acts, cards, maps, mapbosses } = poeData;
+		const { acts, cards, maps, mapbosses } = structuredClone(poeData);
 		this.acts = acts;
 		this.cards = cards;
 		this.maps = maps;
@@ -105,7 +106,7 @@ export class PoeData implements IPoeData {
 	}
 
 	card(name: string): ICard | null {
-		return this.cards.find(c => c.name.trim().toLowerCase() === name.trim().toLowerCase()) ?? null;
+		return this.cards[name] ?? null;
 	}
 
 	minLevel(card: string): number {
