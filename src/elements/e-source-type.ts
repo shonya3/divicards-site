@@ -30,7 +30,7 @@ export class SourceTypeElement extends LitElement {
 		:host {
 			width: fit-content;
 			margin-inline: auto;
-			display: block;
+			display: inline-block;
 		}
 
 		a:link {

@@ -166,6 +166,11 @@ export class SourceElement extends LitElement {
 			object-fit: contain;
 			contain: paint;
 			flex-direction: column;
+			justify-content: center;
+		}
+
+		e-source-type {
+			margin-inline: auto;
 		}
 
 		.source--medium,
