@@ -302,8 +302,21 @@ export const searchCriteriaVariants = [
 ] as const;
 export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
 
-export function findCards(query: string, criterias: SearchCardsCriteria[], divcordTable: SourcefulDivcordTable) {
-	const allCards = divcordTable.cards();
+let allCards: string[] = [];
+export function findCards(
+	query: string,
+	criterias: SearchCardsCriteria[],
+	divcordTable: SourcefulDivcordTable
+): string[] {
+	if (!allCards.length) {
+		allCards = divcordTable.cards();
+		sortByWeight(allCards, poeData);
+	}
+
+	if (!query && criterias.length === searchCriteriaVariants.length) {
+		return allCards;
+	}
+
 	// sortByWeight(allCards, poeData);
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
