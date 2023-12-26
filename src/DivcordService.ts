@@ -1,15 +1,19 @@
 import type { ISourcefulDivcordTableRecord } from './divcord.js';
-import { IDivcordData } from './jsons/jsons';
 import { SourcefulDivcordTableRecord } from './divcord.js';
 import { PoeData, poeData } from './PoeData';
 import { LocalStorageManager, Serde } from './storage';
 import { warningToast } from './toast.js';
 import { sortByWeight } from './CardsFinder.js';
 
-export type DivcordResponses = {
+export interface DivcordResponses {
 	rich: Response;
 	sheet: Response;
-};
+}
+
+export interface IDivcordData {
+	sheet: object;
+	rich_sources_column: object;
+}
 
 const ONE_DAY_MILLISECONDS = 86_400_000;
 const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
