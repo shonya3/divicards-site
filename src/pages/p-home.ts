@@ -302,6 +302,7 @@ export function findCards(query: string, criterias: SearchCardsCriteria[], divco
 	const matchesVersionPattern = q.match(leagueVersionPattern);
 	if (matchesVersionPattern && criterias.includes('release version')) {
 		cards.push(...findByReleaseVersion(matchesVersionPattern));
+		// if query matches version pattern, early return this exact list
 		return cards;
 	}
 
