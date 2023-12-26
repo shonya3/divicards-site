@@ -1,6 +1,6 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import type { CardSize } from '../elements/divination-card/e-divination-card';
+import { type CardSize } from '../elements/divination-card/e-divination-card';
 import { SourcefulDivcordTable } from '../divcord';
 import '../elements/e-page-controls';
 import './e-card-with-sources';
@@ -9,9 +9,9 @@ import { divcordTableContext } from '../context';
 import { SlConverter, paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
-import { cardsDataMap } from '../elements/divination-card/data';
 import { poeData } from '../PoeData';
 import { sortByWeight } from '../CardsFinder';
+import { cardsDataMap } from '../elements/divination-card/data';
 
 declare global {
 	interface HTMLElementTagNameMap {

@@ -3,14 +3,13 @@ import { html, css, PropertyValues, nothing, LitElement } from 'lit';
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import { cardsDataMap } from './data';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'e-divination-card': DivinationCardElement;
 	}
 }
-
-import { cardsDataMap } from './data';
 
 export type CardSize = 'small' | 'medium' | 'large';
 
