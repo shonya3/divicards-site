@@ -141,20 +141,8 @@ export class HomePage extends LitElement {
 	`;
 }
 
-export const searchCriteriaVariants = [
-	'name',
-	'flavour text',
-	'source',
-	'reward',
-	'stack size',
-	'release info',
-] as const;
-export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
-
-function findByReleaseInfo(query: string): string[] {
+function findByReleaseLeague(query: string): string[] {
 	const cards: string[] = [];
-
-	const leagueVersionPattern = /\b\d+\.\d+\b/g;
 
 	for (const { name } of cardsDataMap.values()) {
 		const card = poeData.card(name);
@@ -164,14 +152,23 @@ function findByReleaseInfo(query: string): string[] {
 			if (leagueName.includes(query)) {
 				cards.push(card.name);
 			}
+		}
+	}
 
-			const matches = query.match(leagueVersionPattern);
-			if (matches) {
-				const [[major, minor]] = matches.map(match => match.split('.').map(Number));
-				const ver = `${major}.${minor}`;
-				if (league.version.includes(ver)) {
-					cards.push(card.name);
-				}
+	return cards;
+}
+
+function findByReleaseVersion(matches: RegExpMatchArray): string[] {
+	const cards: string[] = [];
+
+	for (const { name } of cardsDataMap.values()) {
+		const card = poeData.card(name);
+		const league = card?.league;
+		if (league) {
+			const [[major, minor]] = matches.map(match => match.split('.').map(Number));
+			const ver = `${major}.${minor}`;
+			if (league.version.includes(ver)) {
+				cards.push(card.name);
 			}
 		}
 	}
@@ -285,12 +282,31 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 	return cards;
 }
 
+export const searchCriteriaVariants = [
+	'name',
+	'flavour text',
+	'source',
+	'reward',
+	'stack size',
+	'release version',
+	'release league',
+] as const;
+export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
+
 export function findCards(query: string, criterias: SearchCardsCriteria[], divcordTable: SourcefulDivcordTable) {
 	const q = query.trim().toLowerCase();
 	const cards: string[] = [];
 
-	if (criterias.includes('release info')) {
-		cards.push(...findByReleaseInfo(q));
+	// 3.22 version pattern
+	const leagueVersionPattern = /\b\d+\.\d+\b/g;
+	const matchesVersionPattern = q.match(leagueVersionPattern);
+	if (matchesVersionPattern && criterias.includes('release version')) {
+		cards.push(...findByReleaseVersion(matchesVersionPattern));
+		return cards;
+	}
+
+	if (criterias.includes('release league')) {
+		cards.push(...findByReleaseLeague(q));
 	}
 
 	if (criterias.includes('stack size')) {
