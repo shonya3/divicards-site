@@ -1,4 +1,4 @@
-import { ISource, SourceType } from './ISource.interface';
+import type { ISource, SourceType } from './gen/ISource.interface';
 
 export type IGreynote = (typeof greynoteVariants)[number];
 export type IConfidence = (typeof confidenceVariants)[number];

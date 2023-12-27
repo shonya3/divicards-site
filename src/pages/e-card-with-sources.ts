@@ -7,7 +7,7 @@ import { SourcefulDivcordTable } from '../divcord';
 import type { RenderMode } from '../elements/types';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source';
-import { ISource } from '../ISource.interface';
+import type { ISource } from '../gen/ISource.interface';
 
 declare global {
 	interface HTMLElementTagNameMap {

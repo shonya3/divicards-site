@@ -1,6 +1,6 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import type { SourceType } from '../ISource.interface.ts';
+import type { SourceType } from '../gen/ISource.interface.ts';
 import '../elements/divination-card/e-divination-card.ts';
 import '../elements/e-source';
 import '../elements/e-source-type';

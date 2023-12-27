@@ -3,7 +3,7 @@ import './elements/e-sourceful-divcord-record';
 import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, PropertyValueMap, css, html, render } from 'lit';
 import './pages/p-card';
-import { ISource, SourceType } from './ISource.interface';
+import type { ISource, SourceType } from './gen/ISource.interface';
 import { CardsFinder } from './CardsFinder';
 import './pages/p-source';
 import './pages/p-maps-table';

@@ -1,7 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import type { CardFromSource } from '../CardsFinder';
-import type { ISource } from '../ISource.interface';
+import type { ISource } from '../gen/ISource.interface';
 import './divination-card/e-divination-card';
 import './e-source';
 import { poeData } from '../PoeData';

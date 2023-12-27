@@ -1,5 +1,5 @@
 import { customElement, property } from 'lit/decorators.js';
-import type { SourceType } from '../ISource.interface';
+import type { SourceType } from '../gen/ISource.interface';
 import { LitElement, css, html } from 'lit';
 
 declare global {

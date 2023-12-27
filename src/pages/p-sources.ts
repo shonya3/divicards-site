@@ -8,12 +8,12 @@ import { poeData } from '../PoeData';
 import { divcordTableContext } from '../context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../CardsFinder';
 import { consume } from '@lit/context';
-import { SourceType, sourceTypes } from '../ISource.interface';
 import { SourcefulDivcordTable } from '../divcord';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-and-cards';
 import { SlConverter } from '../utils';
+import { SourceType, sourceTypes } from '../gen/ISource.interface';
 
 declare global {
 	interface HTMLElementTagNameMap {
