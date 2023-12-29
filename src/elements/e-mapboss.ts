@@ -63,6 +63,8 @@ export class MapBossElement extends LitElement {
 
 		:host {
 			color: var(--source-color, #bbbbbb);
+			font-size: var(--source-font-size);
+			--map-font-size: 1rem;
 		}
 
 		a,

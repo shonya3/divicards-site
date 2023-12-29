@@ -126,12 +126,11 @@ export class MapElement extends LitElement {
 
 		.name {
 			font-weight: 400;
-			font-size: var(--map-font-size, 1rem);
 		}
 
 		.map--medium,
 		.map--large {
-			--map-font-size: 24px;
+			font-size: var(--map-font-size, 1.5rem);
 		}
 
 		.map--yellow {

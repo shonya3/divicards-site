@@ -332,6 +332,11 @@ function styles() {
 			background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
 		}
 
+		::slotted(e-source) {
+			--source-font-size: 0.8rem;
+			margin-left: 0.8rem;
+		}
+
 		.currencyItem {
 			color: hsla(var(--item-currency));
 		}

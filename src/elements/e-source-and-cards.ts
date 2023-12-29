@@ -64,14 +64,14 @@ export class SourceAndCardsElement extends LitElement {
 	}
 
 	static styles = css`
+		:host {
+			--source-font-size: 1.2rem;
+		}
+
 		.wrapper {
 			display: flex;
 			max-width: 1600px;
 			flex-direction: column;
-		}
-
-		e-source::part(source-id) {
-			font-size: 1.2rem;
 		}
 
 		ul {

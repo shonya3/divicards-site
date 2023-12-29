@@ -173,11 +173,6 @@ export class SourceElement extends LitElement {
 			margin-inline: auto;
 		}
 
-		.source--medium,
-		.source--large {
-			--source-font-size: 1rem;
-		}
-
 		.inner {
 			width: fit-content;
 		}
