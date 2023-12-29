@@ -31,6 +31,7 @@ import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import { LocalStorageManager } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
 import { toast } from '../toast';
+import { searchCardsByQuery, searchCriteriaVariants } from '../searchCardsByQuery';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -182,10 +183,10 @@ export class DivcordTablePage extends LitElement {
 	}
 
 	createFilteredCards(): string[] {
-		const filter = this.filter.trim().toLowerCase();
+		const query = this.filter.trim().toLowerCase();
 
-		return this.divcordTable
-			.cards()
+		const cardsByQuery = searchCardsByQuery(query, Array.from(searchCriteriaVariants), this.divcordTable);
+		return cardsByQuery
 			.filter(card => {
 				if (this.shouldApplySelectFilters && this.onlyShowCardsWithNoConfirmedSources) {
 					const records = this.divcordTable.recordsByCard(card);
@@ -196,19 +197,14 @@ export class DivcordTablePage extends LitElement {
 				}
 			})
 			.filter(card => {
-				const filteredByName = card.toLowerCase().includes(filter);
-				switch (this.shouldApplySelectFilters) {
-					case false: {
-						return filteredByName;
-					}
-					case true: {
-						return (
-							filteredByName &&
-							someCardRecordHasConfidenceVariant(card, this.config.confidence, this.divcordTable) &&
-							someCardRecordHasGreynoteWorkVariant(card, this.config.greynote, this.divcordTable) &&
-							someCardRecordHasRemainingWorkVariant(card, this.config.remainingWork, this.divcordTable)
-						);
-					}
+				if (this.shouldApplySelectFilters) {
+					return (
+						someCardRecordHasConfidenceVariant(card, this.config.confidence, this.divcordTable) &&
+						someCardRecordHasGreynoteWorkVariant(card, this.config.greynote, this.divcordTable) &&
+						someCardRecordHasRemainingWorkVariant(card, this.config.remainingWork, this.divcordTable)
+					);
+				} else {
+					return true;
 				}
 			});
 	}
@@ -472,7 +468,7 @@ export class DivcordTablePage extends LitElement {
 
 				<section class="search-and-navigation">
 					<e-input
-						label="Enter card name"
+						label="Search by anything"
 						.datalistItems=${this.divcordTable.cards()}
 						@input="${this.#onCardnameInput}"
 						type="text"
