@@ -26,6 +26,7 @@ export const remainingWorkVariants = [
 	'open ended',
 ] as const;
 export const confidenceVariants = ['none', 'low', 'ok', 'done'] as const;
+type CardName = string;
 
 export interface ISourcefulDivcordTableRecord {
 	id: number;
@@ -76,6 +77,45 @@ export class SourcefulDivcordTable {
 				sourceIds.push(source.id);
 			}
 			map.set(record.card, sourceIds);
+		}
+
+		return map;
+	}
+
+	*cardSourcesMapGen(): Generator<[string, ISource[]], void, unknown> {
+		let currentCardName: null | string = null;
+		let sources: ISource[] = [];
+		for (const record of this.records) {
+			console.log('Record: ', record.id, 'Card: ', record.card);
+			const recordCardname = record.card;
+			if (currentCardName === recordCardname) {
+				for (const source of record.sources ?? []) {
+					sources.push(source);
+				}
+			} else {
+				if (currentCardName !== null) {
+					yield [currentCardName, sources];
+					sources = [];
+				}
+
+				currentCardName = record.card;
+
+				for (const source of record.sources ?? []) {
+					sources.push(source);
+				}
+			}
+		}
+	}
+
+	cardSourcesMap(): Map<CardName, ISource[]> {
+		const map: Map<string, ISource[]> = new Map();
+
+		for (const record of this.records) {
+			const entry = map.get(record.card) ?? [];
+			for (const source of record.sources ?? []) {
+				entry.push(source);
+			}
+			map.set(record.card, entry);
 		}
 
 		return map;

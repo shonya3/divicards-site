@@ -183,6 +183,42 @@ export function cardsBySourceTypes(
 		}
 	}
 
+	// If act area directly drops no cards, but some of ot's bosses can
+	if (sourceTypes.includes('Act')) {
+		for (const area of poeData.acts) {
+			if (!map.has(area.id)) {
+				const cards = map.get(area.id) ?? [];
+				for (const fight of area.bossfights) {
+					for (const card of cardsByActboss(fight.name, records)) {
+						cards.push({
+							card,
+							boss: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+						});
+					}
+				}
+
+				map.set(area.id, cards);
+				sourceMap.set(area.id, { id: area.id, type: 'Act', kind: 'source-with-member' });
+			}
+		}
+	}
+
+	// If map area directly drops no cards, but some of ot's bosses can
+	if (sourceTypes.includes('Map')) {
+		for (const boss of poeData.mapbosses) {
+			for (const atlasMapName of boss.maps) {
+				if (!map.has(atlasMapName)) {
+					const cardsFromBoss: CardFromSource[] = cardsByMapboss(boss.name, records, poeData).map(card => {
+						return { card, boss: { id: boss.name, type: 'Map Boss', kind: 'source-with-member' } };
+					});
+
+					map.set(atlasMapName, cardsFromBoss);
+					sourceMap.set(atlasMapName, { id: atlasMapName, type: 'Map', kind: 'source-with-member' });
+				}
+			}
+		}
+	}
+
 	let sourcetypesCountsMap: Map<SourceType, number> = new Map();
 	const sourcesAndCards = Array.from(map.entries()).map(([sourceId, cards]) => {
 		const source = sourceMap.get(sourceId)!;

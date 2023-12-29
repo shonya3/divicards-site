@@ -9,8 +9,8 @@ import { divcordTableContext } from '../context';
 import { SlConverter, paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
-import { poeData } from '../PoeData';
-import { sortByWeight } from '../CardsFinder';
+import { IActArea, poeData } from '../PoeData';
+import { bossesInMap, cardsByActboss, cardsByMapboss, sortByWeight } from '../CardsFinder';
 import { cardsDataMap } from '../elements/divination-card/data';
 
 declare global {
@@ -42,7 +42,7 @@ export class HomePage extends LitElement {
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('filter') || map.has('searchCriterias') || map.has('divcordTable')) {
 			const query = this.filter.trim().toLowerCase();
-			const cards = findCards(query, this.searchCriterias, this.divcordTable);
+			const cards = searchCardsByQuery(query, this.searchCriterias, this.divcordTable);
 			sortByWeight(cards, poeData);
 			this.filtered = cards;
 		}
@@ -66,6 +66,7 @@ export class HomePage extends LitElement {
 						<e-input
 							autofocus
 							label="Search"
+							.value=${this.filter}
 							.datalistItems=${this.divcordTable.cards()}
 							@input="${this.#onCardnameInput}"
 							type="text"
@@ -248,7 +249,7 @@ function findByStackSize(query: string): string[] {
 }
 
 function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): string[] {
-	const cards: string[] = [];
+	let cards: string[] = [];
 
 	let actNumber: number | null = null;
 
@@ -260,31 +261,65 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 		}
 	}
 
-	for (const [card, sourceIds] of divcordTable.sourceIdsMap()) {
-		if (sourceIds.some(id => id.toLowerCase().includes(query)) && !cards.includes(card)) {
-			cards.push(card);
-			continue;
-		}
-
-		const containsActArea = sourceIds
-			.filter(id => id.includes('_'))
-			.some(id => {
-				const actArea = poeData.findActAreaById(id);
-				if (actArea) {
-					if (actArea.name.toLowerCase().includes(query)) {
-						return true;
-					}
-
-					if (query.includes('a')) {
-						if (actNumber === actArea.act) {
-							return true;
+	for (const [card, sources] of divcordTable.cardSourcesMap()) {
+		for (const source of sources) {
+			if (source.id.toLowerCase().includes(query)) {
+				cards.push(card);
+				if (source.type === 'Map') {
+					const bosses = bossesInMap(source.id, poeData);
+					cards = [...cards, ...bosses.flatMap(b => cardsByMapboss(b.name, divcordTable.records, poeData))];
+				}
+				if (source.type === 'Act') {
+					const actArea = poeData.acts.find(a => a.id === source.id)!;
+					for (const fight of actArea.bossfights) {
+						for (const card of cardsByActboss(fight.name, divcordTable.records)) {
+							cards.push(card);
 						}
 					}
 				}
-			});
+			}
+		}
 
-		if (containsActArea) {
+		const sourceIds = sources.map(s => s.id);
+		const actAreas = sourceIds
+			.filter(id => id.includes('_'))
+			.map(actId => poeData.findActAreaById(actId))
+			.filter((a): a is IActArea => a !== undefined);
+		let containsSomeActArea = false;
+		for (const actArea of actAreas) {
+			const lowerName = actArea.name.toLowerCase();
+			if (lowerName.includes(query)) {
+				containsSomeActArea = true;
+
+				for (const fight of actArea.bossfights) {
+					for (const card of cardsByActboss(fight.name, divcordTable.records)) {
+						cards.push(card);
+					}
+				}
+			}
+
+			if (query.includes('a')) {
+				if (actNumber === actArea.act) {
+					containsSomeActArea = true;
+				}
+			}
+		}
+
+		if (containsSomeActArea) {
 			cards.push(card);
+		}
+	}
+
+	// If act area directly drops no cards, but some of ot's bosses can
+	for (const area of poeData.acts) {
+		for (const fight of area.bossfights) {
+			if (area.name.toLowerCase().includes(query) || (query.includes('a') && actNumber === area.act)) {
+				for (const card of cardsByActboss(fight.name, divcordTable.records)) {
+					if (!cards.includes(card)) {
+						cards.push(card);
+					}
+				}
+			}
 		}
 	}
 
@@ -303,7 +338,7 @@ export const searchCriteriaVariants = [
 export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
 
 let allCards: string[] = [];
-export function findCards(
+export function searchCardsByQuery(
 	query: string,
 	criterias: SearchCardsCriteria[],
 	divcordTable: SourcefulDivcordTable
