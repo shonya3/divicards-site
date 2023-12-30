@@ -28,6 +28,7 @@ export class HomePage extends LitElement {
 	@property({ type: Array }) searchCriterias: SearchCardsCriteria[] = searchCriteriaVariants.map(r => r);
 
 	@consume({ context: divcordTableContext, subscribe: true })
+	@state()
 	divcordTable!: SourcefulDivcordTable;
 
 	@state() filtered: string[] = [];
