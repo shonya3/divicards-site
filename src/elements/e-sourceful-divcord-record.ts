@@ -26,12 +26,13 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			<div>${this.record.card}</div>
 			${this.tagHypothesis()}
 			<div
+				title="Confidence"
 				class=${classMap({
 					confidence: true,
 					[`confidence--${this.record.confidence}`]: true,
 				})}
 			>
-				${this.record.confidence}
+				<span class="confidence-span">Confidence</span> ${this.record.confidence}
 			</div>
 
 			${this.record.remainingWork === 'n/a'
@@ -120,6 +121,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		.confidence {
 			padding: 2rem;
 			font-size: 18px;
+			position: relative;
 		}
 
 		.confidence--done {
@@ -135,6 +137,12 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		.confidence--low {
 			background-color: #f1c232;
 			color: black;
+		}
+		.confidence-span {
+			font-size: 13px;
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
 		}
 
 		.remainingWork {
