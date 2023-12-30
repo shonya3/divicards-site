@@ -321,10 +321,10 @@ function styles() {
 
 		.link {
 			position: absolute;
-			top: 0;
+			top: 30px;
 			left: 0;
 			width: 100%;
-			height: 50%;
+			height: calc(50% - 30px);
 			z-index: 20;
 		}
 
