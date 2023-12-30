@@ -89,6 +89,9 @@ export class DivinationCardElement extends LitElement {
 				[`divination-card--${this.size}`]: true,
 			})}
 		>
+			<a class="link" @click=${this.#onNavigation} href="/card/${this.name}"> </a>
+
+
 			<div
 				class=${classMap({
 					skeleton: true,
@@ -104,24 +107,24 @@ export class DivinationCardElement extends LitElement {
 					<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="" />
 				</a>
 			</div>
-			<div
-				class=${classMap({
-					stackSize: true,
-					[`stackSize--${this.size}`]: this.size,
-				})}
-			>
-				${this.stackSize}
-			</div>
-			<div class="${classMap({ 'bottom-half': true, size25: this.size === 'small' })}">
-				${staticHtml`${unsafeStatic(this.rewardHtml)}`}
-				${this.size !== 'small' ? html`${this.divider()}${this.footer()}` : nothing}
-			</div>
-			${this.minLevelOrRange
-				? html` <div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> `
-				: nothing}
 
-			<div class="boss">
-				<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>
+				<div
+					class=${classMap({
+						stackSize: true,
+						[`stackSize--${this.size}`]: this.size,
+					})}
+				>
+					${this.stackSize}
+				</div>
+				<div class="${classMap({ 'bottom-half': true, size25: this.size === 'small' })}">
+					${staticHtml`${unsafeStatic(this.rewardHtml)}`}
+					${this.size !== 'small' ? html`${this.divider()}${this.footer()}` : nothing}
+				</div>
+				${this.minLevelOrRange ? html` <div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> ` : nothing}
+
+				<div class="boss">
+					<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>
+				</div>
 			</div>
 		</div>`;
 	}
@@ -314,6 +317,15 @@ function styles() {
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
+		}
+
+		.link {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 50%;
+			z-index: 20;
 		}
 
 		.flavourText {
