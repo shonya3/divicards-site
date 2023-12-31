@@ -15,6 +15,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { provide } from '@lit/context';
 import { cardsFinderContext, divcordTableContext } from './context';
 import { divcordService } from './DivcordService';
+import { toast } from './toast';
 
 // @ts-expect-error
 if (!globalThis.URLPattern) {
@@ -64,6 +65,7 @@ export class RootElement extends LitElement {
 
 		divcordService.on('records-updated', e => {
 			this.divcordTable = new SourcefulDivcordTable(e.detail);
+			toast('Divcord data has just been updated', 'success', 3000);
 		});
 	}
 
