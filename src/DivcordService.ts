@@ -20,12 +20,12 @@ const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
 const LOCAL_STORAGE_KEY = 'divcord';
 
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
-export type DivcordServiceEventType = 'state-updated';
+export type DivcordServiceEventType = 'state-updated' | 'records-updated';
 export type DivcordServiceState = 'idle' | 'updating' | 'updated' | 'error';
 
-export class DivcordServiceEvent extends Event {
-	constructor(type: DivcordServiceEventType) {
-		super(type);
+export class DivcordServiceEvent extends CustomEvent<SourcefulDivcordTableRecord[]> {
+	constructor(type: DivcordServiceEventType, records?: SourcefulDivcordTableRecord[]) {
+		super(type, { detail: records });
 	}
 }
 
@@ -39,8 +39,8 @@ export class DivcordService extends EventTarget {
 		this.localStorageManager = new DivcordLocalStorageManager();
 	}
 
-	addEventListener(type: DivcordServiceEventType, callback: (e: DivcordServiceEvent) => void): void {
-		super.addEventListener(type, callback);
+	on(type: DivcordServiceEventType, callback: (e: DivcordServiceEvent) => void): void {
+		super.addEventListener(type, callback as EventListener);
 	}
 
 	get state() {
@@ -93,6 +93,7 @@ export class DivcordService extends EventTarget {
 			const records = await parseRecords(divcordData, poeData);
 			this.localStorageManager.save(records);
 			this.state = 'updated';
+			this.dispatchEvent(new CustomEvent('records-updated', { detail: records }));
 			return records;
 		} catch (err) {
 			console.log(err);

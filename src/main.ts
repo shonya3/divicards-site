@@ -1,4 +1,4 @@
-import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './divcord';
+import { SourcefulDivcordTable } from './divcord';
 import './elements/e-sourceful-divcord-record';
 import { Router } from '@thepassle/app-tools/router.js';
 import { LitElement, PropertyValueMap, css, html, render } from 'lit';
@@ -61,8 +61,9 @@ export class RootElement extends LitElement {
 
 	constructor() {
 		super();
-		this.addEventListener('records-updated', e => {
-			this.divcordTable = new SourcefulDivcordTable((e as CustomEvent<SourcefulDivcordTableRecord[]>).detail);
+
+		divcordService.on('records-updated', e => {
+			this.divcordTable = new SourcefulDivcordTable(e.detail);
 		});
 	}
 
