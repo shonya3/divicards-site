@@ -23,9 +23,11 @@ export class MapBossElement extends LitElement {
 	@property({ reflect: true }) renderMode: RenderMode = 'normal';
 
 	protected render() {
-		let imgWidth: number | undefined = undefined;
+		let imgSize: number | undefined = undefined;
 		if (this.renderMode === 'compact') {
-			imgWidth = 25;
+			imgSize = 25;
+		} else {
+			imgSize = 30;
 		}
 
 		return html`<div
@@ -42,7 +44,7 @@ export class MapBossElement extends LitElement {
 							.size=${this.size === 'large' ? 'medium' : this.size}
 							.map=${m}
 							.renderMode=${this.renderMode}
-							.imgWidth=${imgWidth}
+							.imgSize=${imgSize}
 						></e-map>`
 				)}
 			</ul>

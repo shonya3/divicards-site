@@ -18,11 +18,11 @@ export class MapElement extends LitElement {
 	@property({ reflect: true }) size: 'small' | 'medium' = 'medium';
 	@property({ reflect: true }) href = '';
 	@property() renderMode: RenderMode = 'normal';
-	@property({ type: Number }) imgWidth?: number;
+	@property({ type: Number, attribute: 'image-size' }) imgSize?: number;
 
 	get imageWidth() {
-		if (this.imgWidth !== undefined) {
-			return this.imgWidth;
+		if (this.imgSize !== undefined) {
+			return this.imgSize;
 		}
 		switch (this.size) {
 			case 'small': {
@@ -98,6 +98,7 @@ export class MapElement extends LitElement {
 			object-fit: contain;
 			contain: content;
 			color: var(--source-color, #bbbbbb);
+			--image-width: var(--image-width, 10px);
 		}
 
 		@layer reset {
