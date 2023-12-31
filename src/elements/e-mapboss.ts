@@ -80,6 +80,10 @@ export class MapBossElement extends LitElement {
 
 		.mapboss {
 			width: fit-content;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
 		}
 
 		.maplist {
@@ -90,9 +94,7 @@ export class MapBossElement extends LitElement {
 		}
 
 		.mapboss.rendermode--compact {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			flex-direction: row;
 			--map-image-width: 30px;
 			gap: 0.05rem;
 		}
