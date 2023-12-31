@@ -64,7 +64,7 @@ export class MapBossElement extends LitElement {
 		:host {
 			color: var(--source-color, #bbbbbb);
 			font-size: var(--source-font-size);
-			--map-font-size: 1rem;
+			--map-font-size: 0.75rem;
 		}
 
 		a,
@@ -92,7 +92,11 @@ export class MapBossElement extends LitElement {
 			justify-content: center;
 			align-items: center;
 			--map-image-width: 30px;
-			gap: 0.25rem;
+			gap: 0.05rem;
+		}
+
+		.mapboss.rendermode--compact .maplist {
+			gap: 0;
 		}
 
 		.mapboss.rendermode--compact .maplist {
