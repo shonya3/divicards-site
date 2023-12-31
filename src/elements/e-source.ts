@@ -157,6 +157,7 @@ export class SourceElement extends LitElement {
 			contain: paint;
 			--source-width: fit-content;
 			max-width: max-content;
+			--source-type-font-size: 0.875rem;
 		}
 
 		.source {
