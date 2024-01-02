@@ -65,7 +65,7 @@ export class RootElement extends LitElement {
 
 		divcordService.on('records-updated', e => {
 			this.divcordTable = new SourcefulDivcordTable(e.detail);
-			toast('Divcord data has just been updated', 'success', 3000);
+			toast('Your Divcord data is up-to-date', 'success', 3000);
 		});
 	}
 
