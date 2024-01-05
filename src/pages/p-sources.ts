@@ -81,7 +81,7 @@ export class SourcesPage extends LitElement {
 					return html` <sl-option value=${SlConverter.toSlValue(type)}> ${type} (${count}) </sl-option> `;
 				})}
 			</sl-select>
-			<details>
+			<details open>
 				<summary>List of sourcetypes</summary>
 				<ul class="sourcetypes-list">
 					${Array.from(this.sourcetypesCountsMap).map(([type, count]) => {
@@ -141,7 +141,6 @@ export class SourcesPage extends LitElement {
 			flex-direction: column;
 			gap: 0.1rem;
 			--source-type-font-size: 1rem;
-			--source-type-text-color: lightyellow;
 		}
 
 		.sourcetypes-list li {
