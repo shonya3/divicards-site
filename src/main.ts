@@ -1,3 +1,5 @@
+import { classMap } from 'lit/directives/class-map.js';
+import { linkStyles } from './linkStyles';
 import { SourcefulDivcordTable } from './divcord';
 import './elements/e-sourceful-divcord-record';
 import { Router } from '@thepassle/app-tools/router.js';
@@ -45,6 +47,7 @@ declare global {
 @customElement('wc-root')
 export class RootElement extends LitElement {
 	@query('.outlet') outlet!: HTMLElement;
+	@property() pathname?: string;
 
 	@provide({ context: divcordTableContext })
 	@property({ type: Object })
@@ -70,22 +73,24 @@ export class RootElement extends LitElement {
 	}
 
 	render() {
+		const links = [
+			['/', 'Home'],
+			['/maps', 'Maps'],
+			['/sources', 'Sources'],
+			['/divcord', 'Divcord'],
+		].map(
+			([path, label]) => html`
+				<li class="navlist_item">
+					<a class=${classMap({ 'link--active': path === this.pathname })} href=${path}>${label}</a>
+				</li>
+			`
+		);
+
 		return html`<div class="wrapper">
 			<header class="header">
 				<nav>
 					<ul class="navlist">
-						<li class="navlist_item">
-							<a href="/">Home</a>
-						</li>
-						<li class="navlist_item">
-							<a href="/maps">Maps</a>
-						</li>
-						<li class="navlist_item">
-							<a href="/sources">Sources</a>
-						</li>
-						<li class="navlist_item">
-							<a href="/divcord">Divcord</a>
-						</li>
+						${links}
 					</ul>
 				</nav>
 			</header>
@@ -98,6 +103,14 @@ export class RootElement extends LitElement {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
+		}
+
+		@layer base {
+			${linkStyles}
+
+			a {
+				transition: 0.2s color;
+			}
 		}
 
 		:host {
@@ -134,12 +147,7 @@ export class RootElement extends LitElement {
 			margin-left: 2rem;
 		}
 
-		a,
-		a:visited {
-			color: #fff;
-		}
-
-		a:hover {
+		.link--active {
 			color: var(--link-color-hover);
 		}
 
@@ -233,6 +241,7 @@ export const router = new Router({
 
 router.addEventListener('route-changed', async _e => {
 	await startViewTransition(() => {
+		rootElement.pathname = new URL(window.location.href).pathname;
 		render(router.render(), rootElement.outlet);
 	});
 });
