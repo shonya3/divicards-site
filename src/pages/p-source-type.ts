@@ -24,8 +24,8 @@ async function* generator(sourcesAndCards: SourceAndCards[]) {
 		const cards = clone.splice(0, 10);
 		for (const card of cards) {
 			yield card;
+			await new Promise(r => setTimeout(r, 20));
 		}
-		await new Promise(r => setTimeout(r, 750));
 	}
 }
 
