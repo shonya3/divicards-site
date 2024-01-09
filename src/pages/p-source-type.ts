@@ -10,10 +10,22 @@ import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../divcord.ts';
+import { asyncAppend } from 'lit/directives/async-append.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-source-type': SourceTypePage;
+	}
+}
+
+async function* generator(sourcesAndCards: SourceAndCards[]) {
+	const clone = Array.from(sourcesAndCards);
+	while (clone.length) {
+		const cards = clone.splice(0, 10);
+		for (const card of cards) {
+			yield card;
+		}
+		await new Promise(r => setTimeout(r, 750));
 	}
 }
 
@@ -25,7 +37,7 @@ export class SourceTypePage extends LitElement {
 	@state()
 	divcordTable!: SourcefulDivcordTable;
 
-	@state() sourcesAndCards: SourceAndCards[] = [];
+	@state() sourcesAndCards!: AsyncGenerator<SourceAndCards>;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
@@ -44,7 +56,7 @@ export class SourceTypePage extends LitElement {
 				sortByWeight(cards, poeData);
 			}
 
-			this.sourcesAndCards = sourcesAndCards;
+			this.sourcesAndCards = generator(sourcesAndCards);
 		}
 	}
 
@@ -52,17 +64,17 @@ export class SourceTypePage extends LitElement {
 		return html`<div class="page">
 			<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			<ul>
-				${this.sourcesAndCards.map(
-					({ source, cards }) =>
-						html`<li>
-							<e-source-and-cards
-								.showSourceType=${false}
-								.source=${source}
-								.cards=${cards}
-								.divcordTable=${this.divcordTable}
-							></e-source-and-cards>
-						</li>`
-				)}
+				${asyncAppend(this.sourcesAndCards, sourceAndCards => {
+					const { source, cards } = sourceAndCards as SourceAndCards;
+					return html`<li>
+						<e-source-and-cards
+							.showSourceType=${false}
+							.source=${source}
+							.cards=${cards}
+							.divcordTable=${this.divcordTable}
+						></e-source-and-cards>
+					</li>`;
+				})}
 			</ul>
 		</div>`;
 	}
