@@ -1,5 +1,6 @@
-import { TemplateResult } from 'lit';
+import { TemplateResult, html } from 'lit';
 import type { ISource } from './gen/ISource.interface';
+import { asyncAppend } from 'lit/directives/async-append.js';
 
 export function sourceHref(source: ISource) {
 	if (source.kind === 'empty-source') {
@@ -41,7 +42,10 @@ export class ArrayAsyncRenderer<T> {
 	}
 
 	render(cb = this.#elementRender) {
-		//@ts-expect-error
-		return html`${asyncAppend(this.#generator, cb)}`;
+		return html`${asyncAppend(
+			this.#generator,
+			//@ts-expect-error
+			cb
+		)}`;
 	}
 }
