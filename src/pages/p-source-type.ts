@@ -10,22 +10,11 @@ import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../divcord.ts';
-import { asyncAppend } from 'lit/directives/async-append.js';
+import { ArrayAsyncRenderer } from '../utils.ts';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-source-type': SourceTypePage;
-	}
-}
-
-async function* generator(sourcesAndCards: SourceAndCards[]) {
-	const clone = Array.from(sourcesAndCards);
-	while (clone.length) {
-		const cards = clone.splice(0, 10);
-		for (const card of cards) {
-			yield card;
-			await new Promise(r => setTimeout(r));
-		}
 	}
 }
 
@@ -37,7 +26,8 @@ export class SourceTypePage extends LitElement {
 	@state()
 	divcordTable!: SourcefulDivcordTable;
 
-	@state() sourcesAndCards!: AsyncGenerator<SourceAndCards>;
+	// @state() sourcesAndCards!: AsyncGenerator<SourceAndCards>;
+	@state() sourcesAndCardsRenderer!: ArrayAsyncRenderer<SourceAndCards>;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
@@ -56,7 +46,8 @@ export class SourceTypePage extends LitElement {
 				sortByWeight(cards, poeData);
 			}
 
-			this.sourcesAndCards = generator(sourcesAndCards);
+			// this.sourcesAndCards = generator(sourcesAndCards);
+			this.sourcesAndCardsRenderer = new ArrayAsyncRenderer(sourcesAndCards);
 		}
 	}
 
@@ -64,8 +55,7 @@ export class SourceTypePage extends LitElement {
 		return html`<div class="page">
 			<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			<ul>
-				${asyncAppend(this.sourcesAndCards, sourceAndCards => {
-					const { source, cards } = sourceAndCards as SourceAndCards;
+				${this.sourcesAndCardsRenderer.render(({ source, cards }) => {
 					return html`<li>
 						<e-source-and-cards
 							.showSourceType=${false}

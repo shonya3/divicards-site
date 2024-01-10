@@ -1,3 +1,4 @@
+import { TemplateResult } from 'lit';
 import type { ISource } from './gen/ISource.interface';
 
 export function sourceHref(source: ISource) {
@@ -20,5 +21,27 @@ export class SlConverter {
 	}
 	static fromSlValue<T extends string>(s: string): T {
 		return s.replaceAll(this.#SL_DELIMETER, ' ') as T;
+	}
+}
+
+export type ElementRenderCallback<T> = (el: T, index: number) => TemplateResult;
+export class ArrayAsyncRenderer<T> {
+	#generator: AsyncGenerator<T>;
+	#elementRender?: ElementRenderCallback<T>;
+	constructor(arr: T[], elementRender?: ElementRenderCallback<T>) {
+		this.#generator = this.#initGenerator(arr);
+		this.#elementRender = elementRender;
+	}
+
+	async *#initGenerator(arr: T[]) {
+		for (const el of arr) {
+			yield el;
+			await new Promise(r => setTimeout(r));
+		}
+	}
+
+	render(cb = this.#elementRender) {
+		//@ts-expect-error
+		return html`${asyncAppend(this.#generator, cb)}`;
 	}
 }
