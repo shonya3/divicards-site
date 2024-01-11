@@ -3,7 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/e-divination-card';
 import { SourcefulDivcordTable } from '../divcord';
 import '../elements/e-page-controls';
-import './e-card-with-sources';
+import '../elements/e-card-with-sources';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { SlConverter, paginate } from '../utils';

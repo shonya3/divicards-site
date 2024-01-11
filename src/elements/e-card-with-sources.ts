@@ -1,12 +1,12 @@
 import { styleMap } from 'lit/directives/style-map.js';
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import type { CardSize } from '../elements/divination-card/e-divination-card';
+import type { CardSize } from './divination-card/e-divination-card';
 import { PoeData, poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../divcord';
-import type { RenderMode } from '../elements/types';
-import '../elements/divination-card/e-divination-card';
-import '../elements/e-source';
+import type { RenderMode } from './types';
+import './divination-card/e-divination-card';
+import './e-source';
 import type { ISource } from '../gen/ISource.interface';
 
 declare global {

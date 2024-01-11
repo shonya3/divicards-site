@@ -6,7 +6,7 @@ import './divination-card/e-divination-card';
 import './e-source';
 import { poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../divcord';
-import '../pages/e-card-with-sources';
+import './e-card-with-sources';
 
 declare global {
 	interface HTMLElementTagNameMap {
