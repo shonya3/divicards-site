@@ -6,7 +6,8 @@ import './App';
 import { divcordService } from './DivcordService';
 import { router, startViewTransition } from './router';
 
-const divcordTable = new SourcefulDivcordTable(await divcordService.read());
+const records = await divcordService.getRecordsAndRunUpdateIfNeeded();
+const divcordTable = new SourcefulDivcordTable(records);
 const cardsFinder = new CardsFinder(divcordTable);
 
 const root = document.createElement('app-root');

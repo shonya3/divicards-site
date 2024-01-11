@@ -52,7 +52,7 @@ export class DivcordService extends EventTarget {
 		this.dispatchEvent(new DivcordServiceEvent('state-updated'));
 	}
 
-	async read(): Promise<SourcefulDivcordTableRecord[]> {
+	async getRecordsAndRunUpdateIfNeeded(): Promise<SourcefulDivcordTableRecord[]> {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
@@ -69,7 +69,7 @@ export class DivcordService extends EventTarget {
 		}
 	}
 
-	async bestAvailableRecords() {
+	async freshestAvailableRecords() {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
@@ -98,7 +98,7 @@ export class DivcordService extends EventTarget {
 		} catch (err) {
 			console.log(err);
 			this.state = 'error';
-			const records = await this.bestAvailableRecords();
+			const records = await this.freshestAvailableRecords();
 			return records;
 		}
 	}
