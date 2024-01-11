@@ -1,9 +1,9 @@
-import { linkStyles } from './../linkStyles';
+import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { dispatchSetTransitionName } from '../events';
-import type { IActArea } from '../PoeData';
+import { dispatchSetTransitionName } from '../../events';
+import type { IActArea } from '../../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

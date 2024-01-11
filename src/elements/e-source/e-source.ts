@@ -1,17 +1,17 @@
-import { linkStyles } from './../linkStyles';
+import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource } from '../gen/ISource.interface';
-import type { CardSize } from './divination-card/e-divination-card';
+import type { ISource } from '../../gen/ISource.interface';
+import type { CardSize } from '../divination-card/e-divination-card';
 import './e-act-area';
 import './e-map';
 import './e-mapboss';
 import './e-actboss';
-import './e-source-type';
-import { IMap, poeData } from '../PoeData';
-import { sourceHref } from '../utils';
-import type { RenderMode } from './types';
+import '../e-source-type';
+import { IMap, poeData } from '../../PoeData';
+import { sourceHref } from '../../utils';
+import type { RenderMode } from '../types';
 
 declare global {
 	interface HTMLElementTagNameMap {

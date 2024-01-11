@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '../elements/divination-card/e-divination-card';
-import '../elements/e-source';
+import '../elements/e-source/e-source';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
 import '../elements/e-source-and-cards';

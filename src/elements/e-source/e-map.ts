@@ -1,10 +1,10 @@
-import { linkStyles } from './../linkStyles';
+import { linkStyles } from '../../linkStyles';
 import { LitElement, html, nothing, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { dispatchSetTransitionName } from '../events';
-import type { RenderMode } from './types';
-import type { IMap } from '../PoeData';
+import { dispatchSetTransitionName } from '../../events';
+import type { RenderMode } from '../types';
+import type { IMap } from '../../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

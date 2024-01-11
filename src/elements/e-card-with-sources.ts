@@ -6,7 +6,7 @@ import { PoeData, poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../divcord';
 import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
-import './e-source';
+import './e-source/e-source';
 import type { ISource } from '../gen/ISource.interface';
 
 declare global {

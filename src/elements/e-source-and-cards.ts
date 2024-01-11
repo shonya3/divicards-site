@@ -3,7 +3,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import type { CardFromSource } from '../CardsFinder';
 import type { ISource } from '../gen/ISource.interface';
 import './divination-card/e-divination-card';
-import './e-source';
+import './e-source/e-source';
 import { poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../divcord';
 import './e-card-with-sources';

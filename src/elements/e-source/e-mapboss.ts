@@ -1,12 +1,12 @@
-import { linkStyles } from './../linkStyles';
+import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-map';
-import { dispatchSetTransitionName } from '../events';
-import { sourceHref } from '../utils';
-import type { RenderMode } from './types';
-import type { IMap, IMapBoss } from '../PoeData';
+import { dispatchSetTransitionName } from '../../events';
+import { sourceHref } from '../../utils';
+import type { RenderMode } from '../types';
+import type { IMap, IMapBoss } from '../../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

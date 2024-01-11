@@ -1,12 +1,12 @@
-import { linkStyles } from './../linkStyles';
+import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-act-area';
-import { dispatchSetTransitionName } from '../events';
-import { sourceHref } from '../utils';
-import type { RenderMode } from './types';
-import type { IActArea, IBossfight } from '../PoeData';
+import { dispatchSetTransitionName } from '../../events';
+import { sourceHref } from '../../utils';
+import type { RenderMode } from '../types';
+import type { IActArea, IBossfight } from '../../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

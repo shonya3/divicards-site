@@ -2,7 +2,7 @@ import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { SourceType } from '../gen/ISource.interface.ts';
 import '../elements/divination-card/e-divination-card.ts';
-import '../elements/e-source';
+import '../elements/e-source/e-source.ts';
 import '../elements/e-source-type';
 import './p-sources.ts';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../CardsFinder.ts';

@@ -2,7 +2,7 @@ import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
-import '../elements/e-source';
+import '../elements/e-source/e-source';
 import '../elements/e-source-type';
 import { poeData } from '../PoeData';
 import { divcordTableContext } from '../context';
