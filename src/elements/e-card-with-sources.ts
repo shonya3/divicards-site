@@ -32,6 +32,33 @@ export class CardWithSourcesElement extends LitElement {
 		}
 	}
 
+	/**  Put maps into distinct container without gaps */
+	protected sourcesList() {
+		const mapsSources = document.createElement('div');
+		mapsSources.classList.add('sources-maps');
+		const ul = document.createElement('ul');
+		ul.classList.add('sources');
+		for (const source of this.sources) {
+			const sourceEl = Object.assign(document.createElement('e-source'), {
+				renderMode: this.renderMode,
+				source,
+				size: this.size,
+			});
+
+			if (source.type === 'Map') {
+				mapsSources.append(sourceEl);
+			} else {
+				ul.append(sourceEl);
+			}
+		}
+
+		if (mapsSources.children.length > 0) {
+			ul.append(mapsSources);
+		}
+
+		return ul;
+	}
+
 	render() {
 		const wrapperStyles = styleMap({
 			'--card-width': `var(--card-width-${this.size})`,
@@ -44,15 +71,7 @@ export class CardWithSourcesElement extends LitElement {
 					.size=${this.size}
 					.minLevelOrRange=${poeData.minLevelOrRange(this.name, this.divcordTable)}
 				></e-divination-card>
-				<ul class="sources">
-					${this.sources.map(source => {
-						return html`<e-source
-							renderMode=${this.renderMode}
-							.source=${source}
-							.size=${this.size}
-						></e-source>`;
-					})}
-				</ul>
+				${this.sourcesList()}
 			</div>
 		`;
 	}
@@ -73,6 +92,13 @@ export class CardWithSourcesElement extends LitElement {
 			flex-direction: row;
 			flex-wrap: wrap;
 			margin-top: 0.25rem;
+			column-gap: 0.5rem;
+		}
+
+		.sources-maps {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
 		}
 	`;
 }
@@ -117,3 +143,10 @@ function sortSourcesByLevel(sources: ISource[], poeData: Readonly<PoeData>): voi
 		return level1 - level2;
 	});
 }
+
+// <ul class="sources">
+// 	$
+// 	{this.sources.map(source => {
+// 		return html`<e-source renderMode=${this.renderMode} .source=${source} .size=${this.size}></e-source>`;
+// 	})}
+// </ul>;
