@@ -1,9 +1,9 @@
 import { LitElement, PropertyValueMap, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { router } from '../main';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import { router } from '../router';
 
 declare global {
 	interface HTMLElementTagNameMap {
