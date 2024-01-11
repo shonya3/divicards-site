@@ -7,13 +7,11 @@ import { Router } from '@thepassle/app-tools/router.js';
 import { html } from 'lit';
 import { SourceType, ISource } from './gen/ISource.interface';
 
+import './pages/p-home';
 import './pages/p-card';
 import './pages/p-source';
-import './pages/p-maps-table';
-import './pages/p-sources';
 import './pages/p-source-type';
-import './pages/p-home';
-import './pages/p-divcord';
+import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 
 export const router = new Router({
 	routes: [
@@ -31,6 +29,7 @@ export const router = new Router({
 		{
 			path: '/divcord',
 			title: 'Divcord',
+			plugins: [lazy(() => import('./pages/p-divcord'))],
 			render: ({ query }) => html`<p-divcord
 				.page=${Number(query.page ?? 1)}
 				.perPage=${Number(query['per-page'] ?? 10)}
@@ -57,6 +56,7 @@ export const router = new Router({
 		{
 			path: '/maps',
 			title: 'Maps',
+			plugins: [lazy(() => import('./pages/p-maps-table'))],
 			render: ({ query }) => {
 				return html`<p-maps-table
 					.page=${Number(query.page ?? 1)}
@@ -68,6 +68,7 @@ export const router = new Router({
 		{
 			path: '/sources',
 			title: 'Sources',
+			plugins: [lazy(() => import('./pages/p-sources'))],
 			render: ({ query }) => {
 				return html`<p-sources
 					.page=${Number(query.page ?? 1)}

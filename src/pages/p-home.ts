@@ -12,6 +12,8 @@ import inputStyles from '../elements/input/input.styles';
 import { poeData } from '../PoeData';
 import { sortByWeight } from '../CardsFinder';
 import { SearchCardsCriteria, searchCardsByQuery, searchCriteriaVariants } from '../searchCardsByQuery';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
