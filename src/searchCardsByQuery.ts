@@ -1,12 +1,14 @@
-import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight } from './CardsFinder';
-import { poeData, IActArea } from './PoeData';
-import { SourcefulDivcordTable } from './divcord';
+import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './CardsFinder';
+import { poeData, IActArea, PoeData } from './PoeData';
+import { ISourcefulDivcordTableRecord, SourcefulDivcordTable } from './divcord';
 import { cardsDataMap } from './elements/divination-card/data';
+import { sourceTypes } from './gen/ISource.interface';
 
 export const searchCriteriaVariants = [
 	'name',
 	'flavour text',
 	'source',
+	'source type',
 	'reward',
 	'stack size',
 	'release version',
@@ -63,6 +65,10 @@ export function searchCardsByQuery(
 
 	if (criterias.includes('source')) {
 		cards.push(...findBySourceId(q, divcordTable));
+	}
+
+	if (criterias.includes('source type')) {
+		cards.push(...findBySourceType(q, divcordTable.records, poeData));
 	}
 
 	return Array.from(new Set(cards));
@@ -238,6 +244,19 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 					}
 				}
 			}
+		}
+	}
+
+	return cards;
+}
+
+function findBySourceType(query: string, records: ISourcefulDivcordTableRecord[], poeData: PoeData): string[] {
+	const cards: string[] = [];
+	const types = sourceTypes.filter(sourcetype => sourcetype.toLowerCase().includes(query));
+
+	for (const { cards: cardsFromSource } of cardsBySourceTypes(types, records, poeData)) {
+		for (const { card } of cardsFromSource) {
+			cards.push(card);
 		}
 	}
 
