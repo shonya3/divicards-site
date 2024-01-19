@@ -31,7 +31,7 @@ export class SourceTypePage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			const { sourcesAndCards } = cardsBySourceTypes([this.sourceType], this.divcordTable.records, poeData);
+			const sourcesAndCards = cardsBySourceTypes([this.sourceType], this.divcordTable.records, poeData);
 			if (this.sourceType === 'Act' || this.sourceType === 'Map') {
 				sourcesAndCards.sort((a, b) => {
 					const aLevel = poeData.level(a.source.id, this.sourceType as 'Act' | 'Map');

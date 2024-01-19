@@ -1,5 +1,5 @@
 import { ISourcefulDivcordTableRecord, SourcefulDivcordTable, SourcefulDivcordTableRecord } from './divcord';
-import { SourceWithMember, ISource, SourceType } from './gen/ISource.interface';
+import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
 import { PoeData, poeData, IMapBoss } from './PoeData';
 
 export const includesMap = (name: string, maps: string[]): boolean => {
@@ -25,7 +25,7 @@ export class CardsFinder {
 	}
 
 	cardsByMaps(): Record<string, CardFromSource[]> {
-		const { sourcesAndCards } = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
+		const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
 		const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
 		return Object.fromEntries(entries);
 	}
@@ -141,7 +141,7 @@ export function cardsBySourceTypes(
 	sourceTypes: SourceType[],
 	records: ISourcefulDivcordTableRecord[],
 	poeData: PoeData
-): { sourcetypesCountsMap: Map<SourceType, number>; sourcesAndCards: SourceAndCards[] } {
+): SourceAndCards[] {
 	const map: Map<string, CardFromSource[]> = new Map();
 	const sourceMap: Map<string, ISource> = new Map();
 	const set: Set<string> = new Set();
@@ -219,20 +219,46 @@ export function cardsBySourceTypes(
 		}
 	}
 
-	let sourcetypesCountsMap: Map<SourceType, number> = new Map();
 	const sourcesAndCards = Array.from(map.entries()).map(([sourceId, cards]) => {
 		const source = sourceMap.get(sourceId)!;
-		const count = sourcetypesCountsMap.get(source.type) ?? 0;
-		sourcetypesCountsMap.set(source.type, count + 1);
 		return { source, cards };
 	});
 
-	const entries = Array.from(sourcetypesCountsMap);
+	return sourcesAndCards;
+}
+
+/**
+ * Creates a map with key: SourceType and value: number of sources of this type.
+ * For Example, key: "Map", and it's value: 177 mean, that there are 177 maps overall
+ * @param records Records from divcord table
+ * @param poeData
+ * @returns
+ */
+export function sourcetypesMap(records: ISourcefulDivcordTableRecord[], poeData: PoeData): Map<SourceType, number> {
+	const sourcesAndCards = cardsBySourceTypes(Array.from(sourceTypes), records, poeData);
+	return _sourcetypesMap(sourcesAndCards);
+}
+
+/**
+ * Creates a map with key: SourceType and value: number of sources of this type.
+ * For Example, key: "Map", and it's value: 177 mean, that there are 177 maps overall
+ * @param sourcesAndCards
+ */
+export function _sourcetypesMap(sourcesAndCards: SourceAndCards[]): Map<SourceType, number> {
+	let map: Map<SourceType, number> = new Map();
+
+	for (const { source } of sourcesAndCards) {
+		const sourceType = source.type;
+		const count = map.get(sourceType) ?? 0;
+		map.set(sourceType, count + 1);
+	}
+
+	const entries = Array.from(map);
 	entries.sort(([_, aCount], [__, bCount]) => {
 		return bCount - aCount;
 	});
 
-	sourcetypesCountsMap = new Map(entries);
+	map = new Map(entries);
 
-	return { sourcetypesCountsMap, sourcesAndCards };
+	return map;
 }
