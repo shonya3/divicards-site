@@ -11,7 +11,7 @@ import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
 import { poeData } from '../PoeData';
 import { sortByWeight } from '../CardsFinder';
-import { SearchCardsCriteria, searchCardsByQuery, searchCriteriaVariants } from '../searchCardsByQuery';
+import { SearchCardsCriteria, searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 
@@ -27,7 +27,7 @@ export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
-	@property({ type: Array }) searchCriterias: SearchCardsCriteria[] = searchCriteriaVariants.map(r => r);
+	@property({ type: Array }) searchCriterias: SearchCardsCriteria[] = Array.from(SEARCH_CRITERIA_VARIANTS);
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -82,7 +82,7 @@ export class HomePage extends LitElement {
 							multiple
 							clearable
 						>
-							${Array.from(searchCriteriaVariants).map(c => {
+							${Array.from(SEARCH_CRITERIA_VARIANTS).map(c => {
 								return html`<sl-option value=${SlConverter.toSlValue(c)}>${c}</sl-option>`;
 							})}
 						</sl-select>
