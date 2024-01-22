@@ -3,13 +3,13 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { consume } from '@lit/context';
 import {
+	CONFIDENCE_VARIANTS,
+	GREYNOTE_VARIANTS,
 	IConfidence,
 	IGreynote,
 	IRemainingWork,
+	REMAINING_WORK_VARIANTS,
 	SourcefulDivcordTable,
-	confidenceVariants,
-	greynoteVariants,
-	remainingWorkVariants,
 } from '../divcord';
 import { divcordTableContext } from '../context';
 
@@ -31,7 +31,7 @@ import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import { LocalStorageManager } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
 import { toast } from '../toast';
-import { searchCardsByQuery, searchCriteriaVariants } from '../searchCardsByQuery';
+import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -70,18 +70,18 @@ type PresetConfig = {
 	remainingWork: IRemainingWork[];
 };
 
-const defaultPresets: PresetConfig[] = [
+const DEFAULT_PRESETS: PresetConfig[] = [
 	{
 		name: 'Show All',
-		greynote: [...greynoteVariants],
-		confidence: [...confidenceVariants],
-		remainingWork: [...remainingWorkVariants],
+		greynote: Array.from(GREYNOTE_VARIANTS),
+		confidence: Array.from(CONFIDENCE_VARIANTS),
+		remainingWork: Array.from(REMAINING_WORK_VARIANTS),
 	},
 	{
 		name: 'Divcord Preset',
 		greynote: ['Empty', 'Area-specific', 'Chest_object', 'disabled', 'Monster-specific'],
 		confidence: ['low', 'none', 'ok'],
-		remainingWork: [...remainingWorkVariants],
+		remainingWork: Array.from(REMAINING_WORK_VARIANTS),
 	},
 ];
 
@@ -111,8 +111,8 @@ export class DivcordTablePage extends LitElement {
 		return paginate(this.filtered, this.page, this.perPage);
 	}
 
-	@state() config: Omit<PresetConfig, 'name'> = defaultPresets[0];
-	@state() presets: PresetConfig[] = [...defaultPresets];
+	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
+	@state() presets: PresetConfig[] = [...DEFAULT_PRESETS];
 	@state() customPresets: PresetConfig[] = presetsStorage.load() ?? [];
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
 	@state() presetsForDelete: Set<string> = new Set();
@@ -185,7 +185,7 @@ export class DivcordTablePage extends LitElement {
 	createFilteredCards(): string[] {
 		const query = this.filter.trim().toLowerCase();
 
-		const cardsByQuery = searchCardsByQuery(query, Array.from(searchCriteriaVariants), this.divcordTable);
+		const cardsByQuery = searchCardsByQuery(query, Array.from(SEARCH_CRITERIA_VARIANTS), this.divcordTable);
 		return cardsByQuery
 			.filter(card => {
 				if (this.shouldApplySelectFilters && this.onlyShowCardsWithNoConfirmedSources) {
@@ -423,7 +423,7 @@ export class DivcordTablePage extends LitElement {
 											multiple
 											clearable
 										>
-											${Array.from(greynoteVariants).map(variant => {
+											${Array.from(GREYNOTE_VARIANTS).map(variant => {
 												return html` <sl-option value=${SlConverter.toSlValue(variant)}
 													>${variant}</sl-option
 												>`;
@@ -436,7 +436,7 @@ export class DivcordTablePage extends LitElement {
 											multiple
 											clearable
 										>
-											${Array.from(confidenceVariants).map(variant => {
+											${Array.from(CONFIDENCE_VARIANTS).map(variant => {
 												return html` <sl-option value=${SlConverter.toSlValue(variant)}
 													>${variant}</sl-option
 												>`;
@@ -450,7 +450,7 @@ export class DivcordTablePage extends LitElement {
 											multiple
 											clearable
 										>
-											${Array.from(remainingWorkVariants).map(variant => {
+											${Array.from(REMAINING_WORK_VARIANTS).map(variant => {
 												return html` <sl-option value=${SlConverter.toSlValue(variant)}
 													>${variant}</sl-option
 												>`;

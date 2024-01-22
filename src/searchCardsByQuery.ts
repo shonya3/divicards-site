@@ -4,7 +4,7 @@ import { ISourcefulDivcordTableRecord, SourcefulDivcordTable } from './divcord';
 import { cardsDataMap } from './elements/divination-card/data';
 import { sourceTypes } from './gen/ISource.interface';
 
-export const searchCriteriaVariants = [
+export const SEARCH_CRITERIA_VARIANTS = [
 	'name',
 	'flavour text',
 	'source',
@@ -14,7 +14,7 @@ export const searchCriteriaVariants = [
 	'release version',
 	'release league',
 ] as const;
-export type SearchCardsCriteria = (typeof searchCriteriaVariants)[number];
+export type SearchCardsCriteria = (typeof SEARCH_CRITERIA_VARIANTS)[number];
 
 let allCards: string[] = [];
 export function searchCardsByQuery(
@@ -27,7 +27,7 @@ export function searchCardsByQuery(
 		sortByWeight(allCards, poeData);
 	}
 
-	if (!query && criterias.length === searchCriteriaVariants.length) {
+	if (!query && criterias.length === SEARCH_CRITERIA_VARIANTS.length) {
 		return allCards;
 	}
 

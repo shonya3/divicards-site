@@ -1,10 +1,10 @@
 import type { ISource, SourceType } from './gen/ISource.interface';
 
-export type IGreynote = (typeof greynoteVariants)[number];
-export type IConfidence = (typeof confidenceVariants)[number];
-export type IRemainingWork = (typeof remainingWorkVariants)[number];
+export type IGreynote = (typeof GREYNOTE_VARIANTS)[number];
+export type IConfidence = (typeof CONFIDENCE_VARIANTS)[number];
+export type IRemainingWork = (typeof REMAINING_WORK_VARIANTS)[number];
 
-export const greynoteVariants = [
+export const GREYNOTE_VARIANTS = [
 	'Empty',
 	'Monster-specific',
 	'Area-specific',
@@ -16,7 +16,7 @@ export const greynoteVariants = [
 	'Global Drop',
 	'Vendor',
 ] as const;
-export const remainingWorkVariants = [
+export const REMAINING_WORK_VARIANTS = [
 	'n/a',
 	'confirm',
 	'unclear hypothesis',
@@ -25,7 +25,7 @@ export const remainingWorkVariants = [
 	'legacy tag',
 	'open ended',
 ] as const;
-export const confidenceVariants = ['none', 'low', 'ok', 'done'] as const;
+export const CONFIDENCE_VARIANTS = ['none', 'low', 'ok', 'done'] as const;
 type CardName = string;
 
 export interface ISourcefulDivcordTableRecord {
