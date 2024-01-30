@@ -54,6 +54,7 @@ export const sourceTypes = [
 	"Redeemer influenced maps",
 	"Expedition Logbook",
 	"Labyrinth Trial Areas",
+	"Unique heist contract or boss",
 	"Chest",
 	"Strongbox",
 	"Vendor",
