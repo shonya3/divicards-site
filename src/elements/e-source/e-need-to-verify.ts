@@ -8,6 +8,14 @@ declare global {
 }
 
 @customElement('e-need-to-verify')
+/**
+ * Wrap the drop source that needed to be verified.
+ * ```html
+ *  <e-need-to-verify>
+ *      <e-source .source=${source}></e-source>
+ *  </e-need-to-verify>
+ * ```
+ */
 export class NeedToVerifyElement extends LitElement {
 	render() {
 		return html` <p class="label">need to verify</p>
