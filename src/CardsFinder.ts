@@ -1,4 +1,5 @@
-import { ISourcefulDivcordTableRecord, SourcefulDivcordTable, SourcefulDivcordTableRecord } from './divcord';
+import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './divcord';
+import { ISourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson';
 import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
 import { PoeData, poeData, IMapBoss } from './PoeData';
 

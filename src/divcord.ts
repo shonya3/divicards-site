@@ -1,49 +1,11 @@
 import type { ISource, SourceType } from './gen/ISource.interface';
-
-export type IGreynote = (typeof GREYNOTE_VARIANTS)[number];
-export type IConfidence = (typeof CONFIDENCE_VARIANTS)[number];
-export type IRemainingWork = (typeof REMAINING_WORK_VARIANTS)[number];
-
-export const GREYNOTE_VARIANTS = [
-	'Empty',
-	'Monster-specific',
-	'Area-specific',
-	'disabled',
-	'story',
-	'Delirium_reward',
-	'Chest_object',
-	'strongbox',
-	'Global Drop',
-	'Vendor',
-] as const;
-export const REMAINING_WORK_VARIANTS = [
-	'n/a',
-	'confirm',
-	'unclear hypothesis',
-	'no hypothesis',
-	'story only',
-	'legacy tag',
-	'open ended',
-] as const;
-export const CONFIDENCE_VARIANTS = ['none', 'low', 'ok', 'done'] as const;
-type CardName = string;
-
-export interface ISourcefulDivcordTableRecord {
-	id: number;
-	card: string;
-	greynote: IGreynote;
-	tagHypothesis?: string;
-	confidence: IConfidence;
-	remainingWork: IRemainingWork;
-	wikiDisagreements?: string;
-	sourcesWithTagButNotOnWiki?: string;
-	notes?: string;
-	sources?: ISource[];
-}
+import { ISourcefulDivcordTableRecord, IGreynote, IConfidence, IRemainingWork } from './gen/divcordRecordsFromJson';
 
 export const createDivcordTable = (recordsData: ISourcefulDivcordTableRecord[]) => {
 	return new SourcefulDivcordTable(recordsData.map(r => new SourcefulDivcordTableRecord(r)));
 };
+
+type CardName = string;
 
 export class SourcefulDivcordTable {
 	records: SourcefulDivcordTableRecord[];
@@ -172,6 +134,7 @@ export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord
 	remainingWork: IRemainingWork;
 	sources?: ISource[] | undefined;
 	wikiDisagreements?: string | undefined;
+	verifySources: ISource[];
 	sourcesWithTagButNotOnWiki?: string | undefined;
 	notes?: string | undefined;
 	constructor(record: ISourcefulDivcordTableRecord) {
@@ -184,6 +147,7 @@ export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord
 		this.sources = record.sources;
 		this.wikiDisagreements = record.wikiDisagreements;
 		this.sourcesWithTagButNotOnWiki = record.sourcesWithTagButNotOnWiki;
+		this.verifySources = record.verifySources;
 		this.notes = record.notes;
 	}
 

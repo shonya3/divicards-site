@@ -2,15 +2,7 @@ import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { consume } from '@lit/context';
-import {
-	CONFIDENCE_VARIANTS,
-	GREYNOTE_VARIANTS,
-	IConfidence,
-	IGreynote,
-	IRemainingWork,
-	REMAINING_WORK_VARIANTS,
-	SourcefulDivcordTable,
-} from '../divcord';
+import { SourcefulDivcordTable } from '../divcord';
 import { divcordTableContext } from '../context';
 
 import '../elements/e-card-with-divcord-records';
@@ -32,6 +24,14 @@ import { LocalStorageManager } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
 import { toast } from '../toast';
 import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
+import {
+	IConfidence,
+	IRemainingWork,
+	IGreynote,
+	GREYNOTE_VARIANTS,
+	CONFIDENCE_VARIANTS,
+	REMAINING_WORK_VARIANTS,
+} from '../gen/divcordRecordsFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
