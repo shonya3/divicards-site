@@ -4,6 +4,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { SourcefulDivcordTableRecord } from '../divcord';
 import './e-source/e-source';
 import './e-source/e-need-to-verify';
+import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
 
 declare global {
@@ -85,6 +86,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		return html`<div class="sourcesWithTagButNotOnWiki">
 			<h3>Need to verify</h3>
+			<e-verify-faq-alert class="verify-faq-alert"></e-verify-faq-alert>
 			<ul class="need-to-verify_list">
 				${this.record.verifySources.map(
 					source => html`<li>
@@ -184,6 +186,10 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		.sourcesWithTagButNotOnWiki {
 			margin-top: 2rem;
+		}
+
+		.verify-faq-alert {
+			margin-top: 0.4rem;
 		}
 
 		.need-to-verify_list {

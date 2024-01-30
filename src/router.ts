@@ -11,6 +11,8 @@ import './pages/p-home';
 import './pages/p-card';
 import './pages/p-source';
 import './pages/p-source-type';
+import './pages/p-verify-faq';
+
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 
 export const router = new Router({
@@ -34,6 +36,11 @@ export const router = new Router({
 				.page=${Number(query.page ?? 1)}
 				.perPage=${Number(query['per-page'] ?? 10)}
 			></p-divcord>`,
+		},
+		{
+			path: '/verify-faq',
+			title: 'faq',
+			render: () => html`<p-verify-faq></p-verify-faq>`,
 		},
 		{
 			path: '/card/:name',
