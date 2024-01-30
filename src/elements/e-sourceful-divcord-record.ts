@@ -1,9 +1,10 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTableRecord } from '../divcord.js';
-import './e-source/e-source.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { SourcefulDivcordTableRecord } from '../divcord';
+import './e-source/e-source';
+import './e-source/e-need-to-verify';
+import { classMap } from 'lit/directives/class-map.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -43,7 +44,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 				  </div>`}
 			${(this.record.sources ?? []).length > 0
 				? html`<div class="wiki-agreements">
-						<h3>Wiki agreements</h3>
+						<h3>Verified drop sources</h3>
 						<ul class="wiki-agreements_sources">
 							${(this.record.sources ?? []).map(
 								source => html`<li>
@@ -77,12 +78,31 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		return this.record.wikiDisagreements ? markup : nothing;
 	}
 
-	protected sourcesWithTagButNotOnWiki() {
+	protected sourcesWithTagButNotOnWiki1() {
 		const markup = html`<div class="sourcesWithTagButNotOnWiki">
 			<h3>Sources with Tag but not on wiki. Need to verify</h3>
 			<p>${this.record.sourcesWithTagButNotOnWiki}</p>
 		</div>`;
 		return this.record.sourcesWithTagButNotOnWiki ? markup : nothing;
+	}
+
+	protected sourcesWithTagButNotOnWiki() {
+		if (!this.record.verifySources.length) {
+			return nothing;
+		}
+
+		return html`<div class="sourcesWithTagButNotOnWiki">
+			<h3>Sources with Tag but not on wiki. Need to verify</h3>
+			<ul class="need-to-verify_list">
+				${this.record.verifySources.map(
+					source => html`<li>
+						<e-need-to-verify>
+							<e-source .source=${source}></e-source>
+						</e-need-to-verify>
+					</li>`
+				)}
+			</ul>
+		</div>`;
 	}
 
 	protected notes() {
@@ -173,6 +193,15 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		.sourcesWithTagButNotOnWiki {
 			margin-top: 2rem;
 		}
+
+		.need-to-verify_list {
+			margin-top: 0.5rem;
+			list-style: none;
+			display: flex;
+			gap: 2rem;
+			flex-wrap: wrap;
+		}
+
 		.notes {
 			max-width: 65ch;
 			font-size: 1rem;
