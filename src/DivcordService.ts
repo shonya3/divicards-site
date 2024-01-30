@@ -6,13 +6,15 @@ import { sortByWeight } from './CardsFinder.js';
 import type { ISourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson.js';
 
 export interface DivcordResponses {
-	rich: Response;
+	richSources: Response;
+	richVerify: Response;
 	sheet: Response;
 }
 
 export interface IDivcordData {
 	sheet: object;
 	rich_sources_column: object;
+	rich_verify_column: object;
 }
 
 const ONE_DAY_MILLISECONDS = 86_400_000;
@@ -87,7 +89,11 @@ export class DivcordService extends EventTarget {
 	async update(): Promise<SourcefulDivcordTableRecord[]> {
 		try {
 			this.state = 'updating';
-			await Promise.all([this.#cache.add(richUrl()), this.#cache.add(sheetUrl())]);
+			await Promise.all([
+				this.#cache.add(richSourcesUrl('sources')),
+				this.#cache.add(sheetUrl()),
+				this.#cache.add(richSourcesUrl('verify')),
+			]);
 			const resp = await this.#cachedResponses();
 			const divcordData = await this.#serderesponses(resp!);
 			const records = await parseRecords(divcordData, poeData);
@@ -109,7 +115,7 @@ export class DivcordService extends EventTarget {
 			return null;
 		}
 
-		return new Date(resp.rich.headers.get('date')!);
+		return new Date(resp.richSources.headers.get('date')!);
 	}
 
 	async cacheAge(): Promise<number | null> {
@@ -131,18 +137,24 @@ export class DivcordService extends EventTarget {
 	}
 
 	async #cachedResponses(): Promise<DivcordResponses | null> {
-		const rich = await this.#cache.match(richUrl());
+		const richSources = await this.#cache.match(richSourcesUrl('sources'));
+		const richVerify = await this.#cache.match(richSourcesUrl('verify'));
 		const sheet = await this.#cache.match(sheetUrl());
-		if (!rich || !sheet) return null;
+		if (!richSources || !sheet || !richVerify) return null;
 		return {
-			rich,
+			richVerify,
+			richSources,
 			sheet,
 		};
 	}
 
 	async #serderesponses(r: DivcordResponses): Promise<IDivcordData> {
-		const [rich_sources_column, sheet] = await Promise.all([r.rich.json(), r.sheet.json()]);
-		return { rich_sources_column, sheet };
+		const [rich_sources_column, sheet, rich_verify_column] = await Promise.all([
+			r.richSources.json(),
+			r.sheet.json(),
+			r.richVerify.json(),
+		]);
+		return { rich_sources_column, sheet, rich_verify_column };
 	}
 
 	async #fromStaticJson(): Promise<SourcefulDivcordTableRecord[]> {
@@ -184,11 +196,12 @@ function sheetUrl(): string {
 	return url;
 }
 
-function richUrl(): string {
+function richSourcesUrl(richColumnVariant: 'sources' | 'verify'): string {
+	const column = richColumnVariant === 'sources' ? 'F' : 'H';
 	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
 	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
 	const sheet = 'Cards_and_Hypotheses';
-	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}?&ranges=${sheet}!F3:F&includeGridData=true&key=${key}`;
+	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}?&ranges=${sheet}!${column}3:${column}&includeGridData=true&key=${key}`;
 	return url;
 }
 
