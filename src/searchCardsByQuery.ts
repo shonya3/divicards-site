@@ -1,8 +1,9 @@
 import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './CardsFinder';
 import { poeData, IActArea, PoeData } from './PoeData';
-import { ISourcefulDivcordTableRecord, SourcefulDivcordTable } from './divcord';
+import { SourcefulDivcordTable } from './divcord';
 import { cardsDataMap } from './elements/divination-card/data';
 import { sourceTypes } from './gen/ISource.interface';
+import type { ISourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson';
 
 export const SEARCH_CRITERIA_VARIANTS = [
 	'name',

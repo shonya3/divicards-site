@@ -1,9 +1,9 @@
-import type { ISourcefulDivcordTableRecord } from './divcord.js';
 import { SourcefulDivcordTableRecord } from './divcord.js';
 import { PoeData, poeData } from './PoeData';
 import { LocalStorageManager, Serde } from './storage';
 import { warningToast } from './toast.js';
 import { sortByWeight } from './CardsFinder.js';
+import type { ISourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson.js';
 
 export interface DivcordResponses {
 	rich: Response;
