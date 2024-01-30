@@ -78,21 +78,13 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		return this.record.wikiDisagreements ? markup : nothing;
 	}
 
-	protected sourcesWithTagButNotOnWiki1() {
-		const markup = html`<div class="sourcesWithTagButNotOnWiki">
-			<h3>Sources with Tag but not on wiki. Need to verify</h3>
-			<p>${this.record.sourcesWithTagButNotOnWiki}</p>
-		</div>`;
-		return this.record.sourcesWithTagButNotOnWiki ? markup : nothing;
-	}
-
 	protected sourcesWithTagButNotOnWiki() {
 		if (!this.record.verifySources.length) {
 			return nothing;
 		}
 
 		return html`<div class="sourcesWithTagButNotOnWiki">
-			<h3>Sources with Tag but not on wiki. Need to verify</h3>
+			<h3>Need to verify</h3>
 			<ul class="need-to-verify_list">
 				${this.record.verifySources.map(
 					source => html`<li>
