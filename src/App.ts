@@ -53,6 +53,7 @@ export class RootElement extends LitElement {
 			['/maps', 'Maps'],
 			['/sources', 'Sources'],
 			['/divcord', 'Divcord'],
+			['/verify', 'Need to verify'],
 			['/verify-faq', 'faq'],
 		].map(
 			([path, label]) => html`

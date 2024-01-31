@@ -4,6 +4,10 @@ import { CardBySource } from '../CardsFinder';
 import { poeData } from '../PoeData';
 import { SourcefulDivcordTable } from '../divcord';
 
+import './divination-card/e-divination-card';
+import './e-source/e-source';
+import './e-source/e-need-to-verify';
+
 declare global {
 	interface HTMLElementTagNameMap {
 		'e-cards-by-source-list': CardsBySourceListElement;

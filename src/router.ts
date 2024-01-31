@@ -12,6 +12,7 @@ import './pages/p-card';
 import './pages/p-source';
 import './pages/p-source-type';
 import './pages/p-verify-faq';
+import './pages/p-verify';
 
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 
@@ -48,6 +49,13 @@ export const router = new Router({
 			render: context => {
 				const name = decodeURI(context.params.name);
 				return html`<p-card .card=${name}></p-card>`;
+			},
+		},
+		{
+			path: '/verify',
+			title: 'Need to verify',
+			render: () => {
+				return html`<p-verify></p-verify>`;
 			},
 		},
 		{

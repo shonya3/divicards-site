@@ -51,6 +51,7 @@ export class SourceAndCardsElement extends LitElement {
 	static styles = css`
 		:host {
 			--source-font-size: 1.2rem;
+			--cards-margin-top: 1rem;
 		}
 
 		.wrapper {
@@ -60,7 +61,7 @@ export class SourceAndCardsElement extends LitElement {
 		}
 
 		.cards {
-			margin-top: 1rem;
+			margin-top: var(--cards-margin-top);
 		}
 	`;
 }

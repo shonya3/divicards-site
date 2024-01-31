@@ -80,6 +80,7 @@ export class SourcesPage extends LitElement {
 					return html` <sl-option value=${SlConverter.toSlValue(type)}> ${type} (${count}) </sl-option> `;
 				})}
 			</sl-select>
+			<a class="verify-link" href="/verify">Check Need to verify list!</a>
 			<details open>
 				<summary>List of sourcetypes</summary>
 				<ul class="sourcetypes-list">
@@ -115,8 +116,23 @@ export class SourcesPage extends LitElement {
 			box-sizing: border-box;
 		}
 
+		a:link,
+		a:visited {
+			color: rgba(255, 255, 255, 0.85);
+		}
+
+		a:hover {
+			color: var(--link-color-hover, skyblue);
+			text-decoration: underline;
+		}
+
 		.page {
 			padding: 2rem;
+		}
+
+		.verify-link {
+			display: block;
+			margin-block: 2rem;
 		}
 
 		@media (max-width: 600px) {
