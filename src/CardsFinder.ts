@@ -13,7 +13,9 @@ export const includesMap = (name: string, maps: string[]): boolean => {
 	);
 };
 
-export type CardFromSource = { card: string; boss?: SourceWithMember };
+export type VerificationStatus = 'done' | 'verify';
+/** Card name and some source metadata */
+export type CardBySource = { card: string; boss?: SourceWithMember; status: VerificationStatus };
 
 export class CardsFinder {
 	divcordTable: SourcefulDivcordTable;
@@ -25,18 +27,18 @@ export class CardsFinder {
 		return this.divcordTable.records;
 	}
 
-	cardsByMaps(): Record<string, CardFromSource[]> {
+	cardsByMaps(): Record<string, CardBySource[]> {
 		const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
 		const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
 		return Object.fromEntries(entries);
 	}
 
-	cardsFromSource(source: ISource): CardFromSource[] {
+	cardsBySource(source: ISource): CardBySource[] {
 		return cardsBySource(source, this.divcordTable.records, poeData);
 	}
 }
 
-export function sortByWeight(cards: CardFromSource[] | string[], poeData: Readonly<PoeData>): void {
+export function sortByWeight(cards: { card: string }[] | string[], poeData: Readonly<PoeData>): void {
 	const SORT_TO_THE_END_VALUE = 1_000_000;
 	cards.sort((a, b) => {
 		const aWeight = poeData.card(typeof a === 'string' ? a : a.card)?.weight || SORT_TO_THE_END_VALUE;
@@ -87,16 +89,16 @@ export function cardsByActboss(boss: string, records: ISourcefulDivcordTableReco
 
 export type SourceAndCards = {
 	source: ISource;
-	cards: Array<CardFromSource>;
+	cards: Array<CardBySource>;
 };
 
 export function cardsBySource(
 	source: ISource,
 	records: ISourcefulDivcordTableRecord[],
 	poeData: PoeData
-): CardFromSource[] {
+): CardBySource[] {
 	const set: Set<string> = new Set();
-	const cards: CardFromSource[] = [];
+	const cards: CardBySource[] = [];
 
 	for (const record of records) {
 		const sourcePresentsInRecord = (record.sources ?? []).some(
@@ -104,7 +106,7 @@ export function cardsBySource(
 		);
 
 		if (sourcePresentsInRecord) {
-			cards.push({ card: record.card });
+			cards.push({ card: record.card, status: 'done' });
 
 			// If source is map or act, check for map boss and act boss
 			if (source.type === 'Map') {
@@ -115,6 +117,7 @@ export function cardsBySource(
 							cards.push({
 								card,
 								boss: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
+								status: 'done',
 							});
 						}
 					}
@@ -129,6 +132,7 @@ export function cardsBySource(
 							cards.push({
 								card,
 								boss: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+								status: 'done',
 							});
 						}
 					}
@@ -145,7 +149,7 @@ export function cardsBySourceTypes(
 	records: ISourcefulDivcordTableRecord[],
 	poeData: PoeData
 ): SourceAndCards[] {
-	const map: Map<string, CardFromSource[]> = new Map();
+	const map: Map<string, CardBySource[]> = new Map();
 	const sourceMap: Map<string, ISource> = new Map();
 	const set: Set<string> = new Set();
 
@@ -154,7 +158,7 @@ export function cardsBySourceTypes(
 		for (const source of fileteredSources) {
 			sourceMap.set(source.id, source);
 			const cards = map.get(source.id) ?? [];
-			cards.push({ card: record.card });
+			cards.push({ card: record.card, status: 'done' });
 			if (source.type === 'Map') {
 				if (!set.has(source.id)) {
 					set.add(source.id);
@@ -163,6 +167,7 @@ export function cardsBySourceTypes(
 							cards.push({
 								card,
 								boss: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
+								status: 'done',
 							});
 						}
 					}
@@ -177,6 +182,7 @@ export function cardsBySourceTypes(
 							cards.push({
 								card,
 								boss: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+								status: 'done',
 							});
 						}
 					}
@@ -196,6 +202,7 @@ export function cardsBySourceTypes(
 						cards.push({
 							card,
 							boss: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+							status: 'done',
 						});
 					}
 				}
@@ -211,8 +218,12 @@ export function cardsBySourceTypes(
 		for (const boss of poeData.mapbosses) {
 			for (const atlasMapName of boss.maps) {
 				if (!map.has(atlasMapName)) {
-					const cardsFromBoss: CardFromSource[] = cardsByMapboss(boss.name, records, poeData).map(card => {
-						return { card, boss: { id: boss.name, type: 'Map Boss', kind: 'source-with-member' } };
+					const cardsFromBoss: CardBySource[] = cardsByMapboss(boss.name, records, poeData).map(card => {
+						return {
+							card,
+							boss: { id: boss.name, type: 'Map Boss', kind: 'source-with-member' },
+							status: 'done',
+						};
 					});
 
 					map.set(atlasMapName, cardsFromBoss);

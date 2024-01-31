@@ -1,6 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import type { CardFromSource } from '../CardsFinder';
+import type { CardBySource } from '../CardsFinder';
 import type { ISource } from '../gen/ISource.interface';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
@@ -17,7 +17,7 @@ declare global {
 @customElement('e-source-and-cards')
 export class SourceAndCardsElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
-	@property({ type: Array }) cards!: CardFromSource[];
+	@property({ type: Array }) cards!: CardBySource[];
 	@property({ type: Boolean }) showSourceType = true;
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 

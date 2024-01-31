@@ -5,7 +5,7 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-page-controls';
 import { poeData } from '../PoeData';
-import { CardFromSource, CardsFinder, sortByWeight } from '../CardsFinder';
+import { CardBySource, CardsFinder, sortByWeight } from '../CardsFinder';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
 import { paginate } from '../utils';
@@ -27,7 +27,7 @@ export class MapsTablePage extends LitElement {
 	@state()
 	cardsFinder!: CardsFinder;
 
-	@state() cardsByMaps: Record<string, CardFromSource[]> = {};
+	@state() cardsByMaps: Record<string, CardBySource[]> = {};
 
 	get filtered() {
 		const filter = this.filter.trim().toLowerCase();

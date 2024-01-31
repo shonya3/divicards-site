@@ -5,7 +5,7 @@ import '../elements/e-source/e-source';
 import { consume } from '@lit/context';
 import { cardsFinderContext } from '../context';
 import '../elements/e-source-and-cards';
-import { CardFromSource, CardsFinder, sortByWeight } from '../CardsFinder';
+import { CardBySource, CardsFinder, sortByWeight } from '../CardsFinder';
 import { poeData } from '../PoeData';
 import type { ISource } from '../gen/ISource.interface';
 
@@ -23,11 +23,11 @@ export class SourcePage extends LitElement {
 	@state()
 	cardsFinder!: CardsFinder;
 
-	@state() cards!: CardFromSource[];
+	@state() cards!: CardBySource[];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('cardsFinder') || map.has('source')) {
-			const cards = this.cardsFinder.cardsFromSource(this.source);
+			const cards = this.cardsFinder.cardsBySource(this.source);
 			sortByWeight(cards, poeData);
 			this.cards = cards;
 		}
