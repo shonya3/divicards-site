@@ -41,19 +41,6 @@ export class VerifyPage extends LitElement {
 				sortByWeight(cards, poeData);
 			}
 
-			console.log(
-				sourcesAndCards.map(({ source, cards }) => {
-					const s = {
-						id: source.id,
-						type: source.type,
-					};
-
-					const c = cards.map(c => c.card);
-
-					return { source: s, cards: c };
-				})
-			);
-
 			this.sourcesAndCardsRenderer = new ArrayAsyncRenderer(sourcesAndCards);
 		}
 	}

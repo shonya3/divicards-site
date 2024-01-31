@@ -52,6 +52,11 @@ export class CardsBySourceListElement extends LitElement {
 	}
 
 	static styles = css`
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
 		ul {
 			list-style: none;
 			display: flex;
