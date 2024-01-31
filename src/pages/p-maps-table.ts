@@ -1,9 +1,10 @@
-import { LitElement, html, css, PropertyValueMap, nothing } from 'lit';
+import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-page-controls';
+import '../elements/e-cards-by-source-list';
 import { poeData } from '../PoeData';
 import { CardBySource, CardsFinder, sortByWeight } from '../CardsFinder';
 import { consume } from '@lit/context';
@@ -115,29 +116,10 @@ export class MapsTablePage extends LitElement {
 										></e-source>
 									</td>
 									<td>
-										<ul>
-											${cards.map(({ card, transitiveSource }) => {
-												return html`<li>
-													<e-divination-card
-														.minLevelOrRange=${poeData.minLevelOrRange(
-															card,
-															this.cardsFinder.divcordTable
-														)}
-														size=${this.size}
-														name=${card}
-														.boss=${transitiveSource?.id}
-													>
-														${transitiveSource
-															? html`<e-source
-																	.renderMode=${'compact'}
-																	.source=${transitiveSource}
-																	slot="boss"
-															  ></e-source>`
-															: nothing}
-													</e-divination-card>
-												</li>`;
-											})}
-										</ul>
+										<e-cards-by-source-list
+											.cards=${cards}
+											.divcordTable=${this.cardsFinder.divcordTable}
+										></e-cards-by-source-list>
 									</td>
 								</tr>
 							`

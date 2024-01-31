@@ -190,14 +190,23 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 		for (const source of sources) {
 			if (source.id.toLowerCase().includes(query)) {
 				cards.push(card);
+
 				if (source.type === 'Map') {
 					const bosses = bossesInMap(source.id, poeData);
-					cards = [...cards, ...bosses.flatMap(b => cardsByMapboss(b.name, divcordTable.records, poeData))];
+					cards = [
+						...cards,
+						...bosses
+							.flatMap(b => cardsByMapboss(b.name, divcordTable.records, poeData))
+							.filter(c => c.status === 'done')
+							.map(c => c.card),
+					];
 				}
 				if (source.type === 'Act') {
 					const actArea = poeData.acts.find(a => a.id === source.id)!;
 					for (const fight of actArea.bossfights) {
-						for (const card of cardsByActboss(fight.name, divcordTable.records)) {
+						for (const card of cardsByActboss(fight.name, divcordTable.records)
+							.filter(c => c.status === 'done')
+							.map(c => c.card)) {
 							cards.push(card);
 						}
 					}
@@ -217,7 +226,9 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 				containsSomeActArea = true;
 
 				for (const fight of actArea.bossfights) {
-					for (const card of cardsByActboss(fight.name, divcordTable.records)) {
+					for (const card of cardsByActboss(fight.name, divcordTable.records)
+						.filter(c => c.status === 'done')
+						.map(c => c.card)) {
 						cards.push(card);
 					}
 				}
@@ -239,7 +250,9 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 	for (const area of poeData.acts) {
 		for (const fight of area.bossfights) {
 			if (area.name.toLowerCase().includes(query) || (query.includes('a') && actNumber === area.act)) {
-				for (const card of cardsByActboss(fight.name, divcordTable.records)) {
+				for (const card of cardsByActboss(fight.name, divcordTable.records)
+					.filter(c => c.status === 'done')
+					.map(c => c.card)) {
 					if (!cards.includes(card)) {
 						cards.push(card);
 					}

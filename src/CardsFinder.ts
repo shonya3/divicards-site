@@ -53,15 +53,23 @@ export function bossesInMap(map: string, poeData: PoeData): IMapBoss[] {
 	return poeData.mapbosses.filter(b => b.maps.includes(imap.name));
 }
 
-export function cardsByMapboss(boss: string, records: ISourcefulDivcordTableRecord[], poeData: PoeData): string[] {
-	const cards: string[] = [];
+export function cardsByMapboss(
+	boss: string,
+	records: ISourcefulDivcordTableRecord[],
+	poeData: PoeData
+): CardBySource[] {
+	const cards: CardBySource[] = [];
 	if (!poeData.mapbosses.some(b => b.name === boss)) {
 		return cards;
 	}
 
 	for (const record of records) {
 		if ((record.sources ?? []).some(s => s.id === boss)) {
-			cards.push(record.card);
+			cards.push({ card: record.card, status: 'done' });
+		}
+
+		if (record.verifySources.some(s => s.id === boss)) {
+			cards.push({ card: record.card, status: 'verify' });
 		}
 	}
 
@@ -75,12 +83,16 @@ export function isGlobalDropApplies(level: number, source: ISource): boolean {
 	return level >= minLevel && level <= maxLevel;
 }
 
-export function cardsByActboss(boss: string, records: ISourcefulDivcordTableRecord[]): string[] {
-	const cards: string[] = [];
+export function cardsByActboss(boss: string, records: ISourcefulDivcordTableRecord[]): CardBySource[] {
+	const cards: CardBySource[] = [];
 
 	for (const record of records) {
 		if ((record.sources ?? []).some(s => s.id === boss)) {
-			cards.push(record.card);
+			cards.push({ card: record.card, status: 'done' });
+		}
+
+		if (record.verifySources.some(s => s.id === boss)) {
+			cards.push({ card: record.card, status: 'verify' });
 		}
 	}
 
@@ -97,47 +109,49 @@ export function cardsBySource(
 	records: ISourcefulDivcordTableRecord[],
 	poeData: PoeData
 ): CardBySource[] {
-	const set: Set<string> = new Set();
 	const cards: CardBySource[] = [];
 
+	if (source.type === 'Map') {
+		for (const boss of bossesInMap(source.id, poeData)) {
+			for (const card of cardsByMapboss(boss.name, records, poeData)) {
+				cards.push({
+					...card,
+					transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
+				});
+			}
+		}
+	}
+
+	if (source.type === 'Act') {
+		const actArea = poeData.acts.find(a => a.id === source.id)!;
+		for (const fight of actArea.bossfights) {
+			for (const card of cardsByActboss(fight.name, records)) {
+				cards.push({
+					...card,
+					transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+				});
+			}
+		}
+	}
+
 	for (const record of records) {
+		// for DONE sources
 		const sourcePresentsInRecord = (record.sources ?? []).some(
 			s => s.id === source.id && s.kind === source.kind && s.type === source.type
 		);
 
 		if (sourcePresentsInRecord) {
 			cards.push({ card: record.card, status: 'done' });
+			continue;
+		}
 
-			// If source is map or act, check for map boss and act boss
-			if (source.type === 'Map') {
-				if (!set.has(source.id)) {
-					set.add(source.id);
-					for (const boss of bossesInMap(source.id, poeData)) {
-						for (const card of cardsByMapboss(boss.name, records, poeData)) {
-							cards.push({
-								card,
-								transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
-								status: 'done',
-							});
-						}
-					}
-				}
-			}
-			if (source.type === 'Act') {
-				if (!set.has(source.id)) {
-					set.add(source.id);
-					const actArea = poeData.acts.find(a => a.id === source.id)!;
-					for (const fight of actArea.bossfights) {
-						for (const card of cardsByActboss(fight.name, records)) {
-							cards.push({
-								card,
-								transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
-								status: 'done',
-							});
-						}
-					}
-				}
-			}
+		// for VERIFY sources
+		const verifySourcePresentsInRecord = record.verifySources.some(
+			s => s.id === source.id && s.kind === source.kind && s.type === source.type
+		);
+
+		if (verifySourcePresentsInRecord) {
+			cards.push({ card: record.card, status: 'verify' });
 		}
 	}
 
@@ -165,9 +179,8 @@ export function cardsBySourceTypes(
 					for (const boss of bossesInMap(source.id, poeData)) {
 						for (const card of cardsByMapboss(boss.name, records, poeData)) {
 							cards.push({
-								card,
 								transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
-								status: 'done',
+								...card,
 							});
 						}
 					}
@@ -180,14 +193,23 @@ export function cardsBySourceTypes(
 					for (const fight of actArea.bossfights) {
 						for (const card of cardsByActboss(fight.name, records)) {
 							cards.push({
-								card,
+								...card,
 								transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
-								status: 'done',
 							});
 						}
 					}
 				}
 			}
+
+			map.set(source.id, cards);
+		}
+
+		const filteredVerifySources = record.verifySources.filter(s => sourceTypes.includes(s.type));
+		for (const source of filteredVerifySources) {
+			sourceMap.set(source.id, source);
+			const cards = map.get(source.id) ?? [];
+			cards.push({ card: record.card, status: 'verify' });
+
 			map.set(source.id, cards);
 		}
 	}
@@ -200,9 +222,8 @@ export function cardsBySourceTypes(
 				for (const fight of area.bossfights) {
 					for (const card of cardsByActboss(fight.name, records)) {
 						cards.push({
-							card,
+							...card,
 							transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
-							status: 'done',
 						});
 					}
 				}
@@ -220,9 +241,8 @@ export function cardsBySourceTypes(
 				if (!map.has(atlasMapName)) {
 					const cardsFromBoss: CardBySource[] = cardsByMapboss(boss.name, records, poeData).map(card => {
 						return {
-							card,
-							boss: { id: boss.name, type: 'Map Boss', kind: 'source-with-member' },
-							status: 'done',
+							...card,
+							transitiveSource: { id: boss.name, type: 'Map Boss', kind: 'source-with-member' },
 						};
 					});
 
