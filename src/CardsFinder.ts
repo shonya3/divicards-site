@@ -96,15 +96,17 @@ export function cardsBySource(
 	poeData: PoeData
 ): CardFromSource[] {
 	const set: Set<string> = new Set();
-
 	const cards: CardFromSource[] = [];
 
 	for (const record of records) {
-		const fileteredSources = (record.sources ?? []).filter(
+		const sourcePresentsInRecord = (record.sources ?? []).some(
 			s => s.id === source.id && s.kind === source.kind && s.type === source.type
 		);
-		for (const source of fileteredSources) {
+
+		if (sourcePresentsInRecord) {
 			cards.push({ card: record.card });
+
+			// If source is map or act, check for map boss and act boss
 			if (source.type === 'Map') {
 				if (!set.has(source.id)) {
 					set.add(source.id);
