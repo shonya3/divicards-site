@@ -116,7 +116,7 @@ export class MapsTablePage extends LitElement {
 									</td>
 									<td>
 										<ul>
-											${cards.map(({ card, boss }) => {
+											${cards.map(({ card, transitiveSource }) => {
 												return html`<li>
 													<e-divination-card
 														.minLevelOrRange=${poeData.minLevelOrRange(
@@ -125,12 +125,12 @@ export class MapsTablePage extends LitElement {
 														)}
 														size=${this.size}
 														name=${card}
-														.boss=${boss?.id}
+														.boss=${transitiveSource?.id}
 													>
-														${boss
+														${transitiveSource
 															? html`<e-source
 																	.renderMode=${'compact'}
-																	.source=${boss}
+																	.source=${transitiveSource}
 																	slot="boss"
 															  ></e-source>`
 															: nothing}

@@ -29,18 +29,18 @@ export class SourceAndCardsElement extends LitElement {
 
 	cardsList() {
 		return html`<ul class="cards">
-			${this.cards.map(({ card, boss }) => {
+			${this.cards.map(({ card, transitiveSource }) => {
 				return html`<e-divination-card
 					.minLevelOrRange=${poeData.minLevelOrRange(card, this.divcordTable)}
 					size="medium"
 					.name=${card}
-					.boss=${boss?.id}
+					.boss=${transitiveSource?.id}
 				>
-					${boss
+					${transitiveSource
 						? html`<e-source
 								@click=${this.#onBossNavigation}
 								.renderMode=${'compact'}
-								.source=${boss}
+								.source=${transitiveSource}
 								slot="boss"
 						  ></e-source>`
 						: nothing}

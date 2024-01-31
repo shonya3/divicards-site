@@ -15,7 +15,7 @@ export const includesMap = (name: string, maps: string[]): boolean => {
 
 export type VerificationStatus = 'done' | 'verify';
 /** Card name and some source metadata */
-export type CardBySource = { card: string; boss?: SourceWithMember; status: VerificationStatus };
+export type CardBySource = { card: string; transitiveSource?: SourceWithMember; status: VerificationStatus };
 
 export class CardsFinder {
 	divcordTable: SourcefulDivcordTable;
@@ -116,7 +116,7 @@ export function cardsBySource(
 						for (const card of cardsByMapboss(boss.name, records, poeData)) {
 							cards.push({
 								card,
-								boss: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
+								transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
 								status: 'done',
 							});
 						}
@@ -131,7 +131,7 @@ export function cardsBySource(
 						for (const card of cardsByActboss(fight.name, records)) {
 							cards.push({
 								card,
-								boss: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+								transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
 								status: 'done',
 							});
 						}
@@ -166,7 +166,7 @@ export function cardsBySourceTypes(
 						for (const card of cardsByMapboss(boss.name, records, poeData)) {
 							cards.push({
 								card,
-								boss: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
+								transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
 								status: 'done',
 							});
 						}
@@ -181,7 +181,7 @@ export function cardsBySourceTypes(
 						for (const card of cardsByActboss(fight.name, records)) {
 							cards.push({
 								card,
-								boss: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+								transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
 								status: 'done',
 							});
 						}
@@ -201,7 +201,7 @@ export function cardsBySourceTypes(
 					for (const card of cardsByActboss(fight.name, records)) {
 						cards.push({
 							card,
-							boss: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+							transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
 							status: 'done',
 						});
 					}
