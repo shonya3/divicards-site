@@ -28,11 +28,7 @@ export class VerifyPage extends LitElement {
 		if (map.has('divcordTable')) {
 			const sourcesAndCards = cardsBySourceTypes(Array.from(sourceTypes), this.divcordTable.records, poeData)
 				.map(({ cards, source }) => ({
-					cards: cards.filter(
-						c =>
-							c.status === 'verify' &&
-							!this.divcordTable.sourcesByCard(c.card).some(s => s.type === 'Disabled')
-					),
+					cards: cards.filter(c => c.status === 'verify'),
 					source,
 				}))
 				.filter(({ cards }) => cards.length > 0)
