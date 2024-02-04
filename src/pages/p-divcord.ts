@@ -489,7 +489,7 @@ export class DivcordTablePage extends LitElement {
 								<sl-checkbox
 									.checked=${this.onlyShowCardsWithSourcesToVerify}
 									@sl-input=${this.#onOnlyShowCardsWithSourcesToVerifyCheckbox}
-									>Only show with sources to verify</sl-checkbox
+									>Only show cards with sources to verify</sl-checkbox
 								> `
 						: nothing}
 				</section>
