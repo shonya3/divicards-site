@@ -92,6 +92,9 @@ const onlyShowCardsWithNoConfirmedSourcesStorage = new LocalStorageManager<
 	boolean,
 	'onlyShowCardsWithNoConfirmedSources'
 >('onlyShowCardsWithNoConfirmedSources');
+const onlyShowCardsWithSourcesToVerifyStorage = new LocalStorageManager<boolean, 'onlyShowCardsWithSourcesToVerify'>(
+	'onlyShowCardsWithSourcesToVerify'
+);
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
@@ -101,6 +104,8 @@ export class DivcordTablePage extends LitElement {
 	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFiltersStorage.load() ?? true;
 	@property({ type: Boolean }) onlyShowCardsWithNoConfirmedSources: boolean =
 		onlyShowCardsWithNoConfirmedSourcesStorage.load() ?? false;
+	@property({ type: Boolean }) onlyShowCardsWithSourcesToVerify: boolean =
+		onlyShowCardsWithSourcesToVerifyStorage.load() ?? false;
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -172,6 +177,7 @@ export class DivcordTablePage extends LitElement {
 			'divcordTable',
 			'shouldApplySelectFilters',
 			'onlyShowCardsWithNoConfirmedSources',
+			'onlyShowCardsWithSourcesToVerify',
 		];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = this.createFilteredCards();
@@ -186,7 +192,16 @@ export class DivcordTablePage extends LitElement {
 		const query = this.filter.trim().toLowerCase();
 
 		const cardsByQuery = searchCardsByQuery(query, Array.from(SEARCH_CRITERIA_VARIANTS), this.divcordTable);
+
 		return cardsByQuery
+			.filter(card => {
+				if (this.shouldApplySelectFilters && this.onlyShowCardsWithSourcesToVerify) {
+					const records = this.divcordTable.recordsByCard(card);
+					return records.some(r => r.verifySources.length > 0);
+				} else {
+					return true;
+				}
+			})
 			.filter(card => {
 				if (this.shouldApplySelectFilters && this.onlyShowCardsWithNoConfirmedSources) {
 					const records = this.divcordTable.recordsByCard(card);
@@ -300,6 +315,14 @@ export class DivcordTablePage extends LitElement {
 		if (typeof target.checked === 'boolean') {
 			this.onlyShowCardsWithNoConfirmedSources = target.checked;
 			onlyShowCardsWithNoConfirmedSourcesStorage.save(target.checked);
+		}
+	}
+
+	#onOnlyShowCardsWithSourcesToVerifyCheckbox(e: InputEvent) {
+		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
+		if (typeof target.checked === 'boolean') {
+			this.onlyShowCardsWithSourcesToVerify = target.checked;
+			onlyShowCardsWithSourcesToVerifyStorage.save(target.checked);
 		}
 	}
 
@@ -462,6 +485,11 @@ export class DivcordTablePage extends LitElement {
 									.checked=${this.onlyShowCardsWithNoConfirmedSources}
 									@sl-input=${this.#ononlyShowCardsWithNoConfirmedSourcesCheckbox}
 									>Only show cards with no confirmed sources</sl-checkbox
+								>
+								<sl-checkbox
+									.checked=${this.onlyShowCardsWithSourcesToVerify}
+									@sl-input=${this.#onOnlyShowCardsWithSourcesToVerifyCheckbox}
+									>Only show with sources to verify</sl-checkbox
 								> `
 						: nothing}
 				</section>
