@@ -6,7 +6,7 @@ import { SourcefulDivcordTable } from '../divcord';
 
 import './divination-card/e-divination-card';
 import './e-source/e-source';
-import './e-source/e-need-to-verify';
+import './e-need-to-verify';
 
 declare global {
 	interface HTMLElementTagNameMap {

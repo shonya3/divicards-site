@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { SourcefulDivcordTableRecord } from '../divcord';
 import './e-source/e-source';
-import './e-source/e-need-to-verify';
+import './e-need-to-verify';
 import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
 
