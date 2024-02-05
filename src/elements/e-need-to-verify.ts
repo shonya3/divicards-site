@@ -55,10 +55,6 @@ export class NeedToVerifyElement extends LitElement {
 			padding-block: var(--padding-block, 0rem);
 		}
 
-		e-border {
-			box-sizing: content-box;
-		}
-
 		/** hint which tags are expected */
 		::slotted(:is(e-divination-card, e-source, *)) {
 			--padding-inline: 1rem;
