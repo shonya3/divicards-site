@@ -26,7 +26,7 @@ export class NeedToVerifyElement extends LitElement {
 			<div class="slot-parent">
 				<slot></slot>
 			</div>
-			<e-need-to-verify-border></e-need-to-verify-border>
+			<e-need-to-verify-border style="z-index: -1"></e-need-to-verify-border>
 		`;
 	}
 
@@ -63,10 +63,6 @@ export class NeedToVerifyElement extends LitElement {
 		::slotted(:is(e-divination-card, e-source, *)) {
 			--padding-inline: 1rem;
 			--padding-block: 0.4rem;
-		}
-
-		e-need-to-verify-border {
-			z-index: -1;
 		}
 	`;
 }
