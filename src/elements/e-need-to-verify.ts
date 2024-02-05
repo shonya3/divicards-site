@@ -64,6 +64,10 @@ export class NeedToVerifyElement extends LitElement {
 			--padding-inline: 1rem;
 			--padding-block: 0.4rem;
 		}
+
+		e-need-to-verify-border {
+			z-index: -1;
+		}
 	`;
 }
 
