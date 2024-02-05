@@ -10,4 +10,5 @@ export default {
 			cssFileName: './.vscode/vscode.css-custom-data.json',
 		}),
 	],
+	lit: true,
 };
