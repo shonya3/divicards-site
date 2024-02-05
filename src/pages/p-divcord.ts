@@ -12,7 +12,7 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { type DivcordServiceState, divcordService } from '../DivcordService';
-import { SlConverter, paginate } from '../utils';
+import { ArrayAsyncRenderer, SlConverter, paginate } from '../utils';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
@@ -112,9 +112,8 @@ export class DivcordTablePage extends LitElement {
 	divcordTable!: SourcefulDivcordTable;
 
 	@state() filtered: string[] = [];
-	get paginated(): string[] {
-		return paginate(this.filtered, this.page, this.perPage);
-	}
+	@state() paginated: string[] = [];
+	@state() paginatedCardsRenderer!: ArrayAsyncRenderer<string>;
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
 	@state() presets: PresetConfig[] = [...DEFAULT_PRESETS];
@@ -171,7 +170,7 @@ export class DivcordTablePage extends LitElement {
 			presetsStorage.save(this.customPresets);
 		}
 
-		const keys: unknown[] = [
+		const keys: PropertyKey[] = [
 			'config',
 			'filter',
 			'divcordTable',
@@ -181,6 +180,8 @@ export class DivcordTablePage extends LitElement {
 		];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = this.createFilteredCards();
+			this.paginated = paginate(this.filtered, this.page, this.perPage);
+			this.paginatedCardsRenderer = new ArrayAsyncRenderer(this.paginated);
 		}
 	}
 
@@ -510,7 +511,7 @@ export class DivcordTablePage extends LitElement {
 				</section>
 			</header>
 			<ul>
-				${this.paginated.map(card => {
+				${this.paginatedCardsRenderer.render(card => {
 					return html`<e-card-with-divcord-records
 						.card=${card}
 						.records=${this.divcordTable.recordsByCard(card)}
