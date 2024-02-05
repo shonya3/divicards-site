@@ -19,6 +19,12 @@ export interface Props {
 }
 export interface Events {}
 
+/**
+ * @summary Divination Card
+
+ * @cssproperty --padding-inline - The inline padding to use for for element.
+ * @cssproperty --padding-block - The block padding to use for for element.
+ */
 @customElement('e-divination-card')
 export class DivinationCardElement extends LitElement {
 	static override styles = styles();
@@ -83,7 +89,8 @@ export class DivinationCardElement extends LitElement {
 			'margin-top': this.nameMarginTop(this.size),
 		});
 
-		return html` <div
+		return html` <div class="element">
+        <div
 			class=${classMap({
 				'divination-card': true,
 				[`divination-card--${this.size}`]: true,
@@ -126,7 +133,8 @@ export class DivinationCardElement extends LitElement {
 					<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>
 				</div>
 			</div>
-		</div>`;
+		</div>
+        </div>`;
 	}
 
 	protected divider() {
@@ -144,8 +152,6 @@ function styles() {
 	return css`
 		:host {
 			display: block;
-			object-fit: contain;
-			contain: paint;
 
 			--card-width-small: 134px;
 			--card-width-medium: 268px;
@@ -182,11 +188,20 @@ function styles() {
 			--coolgrey-1000: 206, 24%, 7%;
 
 			width: fit-content;
+			--padding-inline: 0;
+			--padding-block: 0;
+
+			display: block;
 		}
 
 		* {
 			margin: 0;
 			padding: 0;
+		}
+
+		.element {
+			padding-inline: var(--padding-inline);
+			padding-block: var(--padding-block);
 		}
 
 		.min-level {

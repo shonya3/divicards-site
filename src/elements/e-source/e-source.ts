@@ -25,6 +25,12 @@ export class NoSourceInPoeDataError extends Error {
 	}
 }
 
+/**
+ * @summary Any dropsource of divination card: map, act, etc
+
+ * @cssproperty --padding-inline - The inline padding to use for for element.
+ * @cssproperty --padding-block - The block padding to use for for element.
+ */
 @customElement('e-source')
 export class SourceElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
@@ -158,6 +164,8 @@ export class SourceElement extends LitElement {
 			--source-width: fit-content;
 			max-width: max-content;
 			--source-type-font-size: 0.875rem;
+			--padding-inline: 0;
+			--padding-block: 0;
 		}
 
 		.source {
@@ -168,6 +176,8 @@ export class SourceElement extends LitElement {
 			contain: paint;
 			flex-direction: column;
 			justify-content: center;
+			padding-inline: var(--padding-inline);
+			padding-block: var(--padding-block);
 		}
 
 		e-source-type {
