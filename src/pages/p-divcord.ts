@@ -177,6 +177,8 @@ export class DivcordTablePage extends LitElement {
 			'shouldApplySelectFilters',
 			'onlyShowCardsWithNoConfirmedSources',
 			'onlyShowCardsWithSourcesToVerify',
+			'page',
+			'per-page',
 		];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = this.createFilteredCards();
