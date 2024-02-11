@@ -9,6 +9,21 @@ declare global {
 
 @customElement('p-verify-faq')
 export class VerifyFaqPage extends LitElement {
+	constructor() {
+		super();
+
+		this.addEventListener('click', e => {
+			const target = e.composedPath()[0];
+			if (target instanceof HTMLAnchorElement) {
+				const { hash } = new URL(target.href);
+				const el = this.shadowRoot?.querySelector(hash);
+				if (el) {
+					this.scrollTo({ top: el.getBoundingClientRect().top, behavior: 'smooth' });
+				}
+			}
+		});
+	}
+
 	render() {
 		return html`
 			<article>
@@ -16,13 +31,24 @@ export class VerifyFaqPage extends LitElement {
 
 				link to Divcord faq by Jasmine:
 				<a href="https://discord.com/channels/834368692560461846/991125635391033404">FAQ in Discord</a>
+
+				<nav>
+					<h3>Contents</h3>
+					<ol>
+						<li>
+							<a href="#section-1"> What is difficult to accept as drop data? </a>
+						</li>
+						<li>
+							<a href="#section-2"> How can I contribute? </a>
+						</li>
+						<li>
+							<a href="#section-3"> How do I know what to look for? </a>
+						</li>
+					</ol>
+				</nav>
 				<!-- ==================== SECTION #1 =================== -->
-				<section>
-					<h2>
-						<p>============================================</p>
-						1. What is difficult to accept as drop data?
-						<p>============================================</p>
-					</h2>
+				<section id="section-1">
+					<h2>1. What is difficult to accept as drop data?</h2>
 					<p>
 						The following sources of divination cards can drop all (or almost all) divination cards and
 						creates increases error during data collection. If you suspect any of these to affect your data,
@@ -83,12 +109,8 @@ export class VerifyFaqPage extends LitElement {
 				</section>
 
 				<!-- ==================== SECTION #2 =================== -->
-				<section>
-					<h2>
-						<p>============================================</p>
-						2. How can I contribute?
-						<p>============================================</p>
-					</h2>
+				<section id="section-2">
+					<h2>2. How can I contribute?</h2>
 
 					<em
 						>Screenshots or videos showing the map mods are the gold standard! Please get into the habit of
@@ -130,12 +152,8 @@ export class VerifyFaqPage extends LitElement {
 				</section>
 
 				<!-- ==================== SECTION #3 =================== -->
-				<section>
-					<h2>
-						<p>============================================</p>
-						3. How do I know what to look for?
-						<p>============================================</p>
-					</h2>
+				<section id="section-3">
+					<h2>3. How do I know what to look for?</h2>
 
 					<p>Go to <a href="/divcord">divcord page</a> and find cards with "Needs to verify" section</p>
 
@@ -162,7 +180,7 @@ export class VerifyFaqPage extends LitElement {
 
 	static styles = css`
 		article {
-			max-width: 65ch;
+			max-width: min(65ch, calc(100% - 3rem));
 			margin-inline: auto;
 			font-size: 18px;
 		}
@@ -186,6 +204,51 @@ export class VerifyFaqPage extends LitElement {
 		em {
 			color: rgba(255, 255, 255, 0.95);
 			font-size: 20px;
+		}
+
+		section {
+			margin-top: 4rem;
+		}
+
+		section:not(:first-of-type) {
+			margin-top: 6rem;
+		}
+
+		img {
+			max-width: 100%;
+		}
+
+		nav {
+			max-width: fit-content;
+			border: 2px solid rgba(255, 255, 255, 0.2);
+
+			margin-top: 2rem;
+			padding-left: 1rem;
+			padding-right: 4rem;
+		}
+
+		@media (width < 425px) {
+			nav {
+				padding-inline: 0.4rem;
+			}
+
+			ol {
+				padding: 2rem;
+			}
+		}
+
+		nav a {
+			text-decoration: none;
+		}
+
+		nav ol {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+		}
+
+		nav h3 {
+			margin-left: 0.4rem;
 		}
 	`;
 }
