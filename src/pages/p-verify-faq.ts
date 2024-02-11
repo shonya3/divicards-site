@@ -18,7 +18,7 @@ export class VerifyFaqPage extends LitElement {
 				const { hash } = new URL(target.href);
 				const el = this.shadowRoot?.querySelector(hash);
 				if (el) {
-					this.scrollTo({ top: el.getBoundingClientRect().top, behavior: 'smooth' });
+					this.scrollTo({ top: el.getBoundingClientRect().top - 100, behavior: 'smooth' });
 				}
 			}
 		});
