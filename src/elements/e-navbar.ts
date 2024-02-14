@@ -66,7 +66,6 @@ export class NavbarElement extends LitElement {
 		return html`<div popover id="menu" class="menu">
 			<ul class="links">
 				${this.linkItems.map(([pathname, s]) => {
-					console.log(pathname);
 					return html`<li
 						class=${classMap({
 							links__item: true,
@@ -85,7 +84,6 @@ export class NavbarElement extends LitElement {
 	}
 
 	protected render() {
-		console.log(this.pathname);
 		return html`<nav class="navbar">
 			<div class="logo"><a href="/">Divicards</a></div>
 			<ul class="links">
