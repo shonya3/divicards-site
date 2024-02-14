@@ -1,13 +1,13 @@
 import { provide } from '@lit/context';
 import { LitElement, PropertyValueMap, html, css } from 'lit';
 import { customElement, query, property, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { CardsFinder } from './CardsFinder';
 import { divcordService } from './DivcordService';
 import { divcordTableContext, cardsFinderContext } from './context';
 import { SourcefulDivcordTable } from './divcord';
 import { linkStyles } from './linkStyles';
 import { toast } from './toast';
+import './elements/e-navbar';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -44,28 +44,9 @@ export class RootElement extends LitElement {
 	}
 
 	render() {
-		const links = [
-			['/', 'Home'],
-			['/maps', 'Maps'],
-			['/sources', 'Sources'],
-			['/divcord', 'Divcord'],
-			['/verify', 'Need to verify'],
-			['/verify-faq', 'faq'],
-		].map(
-			([path, label]) => html`
-				<li class="navlist_item">
-					<a class=${classMap({ 'link--active': path === this.pathname })} href=${path}>${label}</a>
-				</li>
-			`
-		);
-
 		return html`<div class="wrapper">
 			<header class="header">
-				<nav>
-					<ul class="navlist">
-						${links}
-					</ul>
-				</nav>
+				<e-navbar></e-navbar>
 			</header>
 			<div class="outlet"></div>
 		</div>`;
@@ -101,27 +82,6 @@ export class RootElement extends LitElement {
 		.outlet {
 			flex-grow: 1;
 			height: 90vh;
-		}
-
-		.navlist {
-			list-style: none;
-			padding: 1rem;
-
-			display: flex;
-			gap: 1.5rem;
-			background-color: #222;
-		}
-
-		.navlist_item {
-			font-size: 1.2rem;
-		}
-
-		.navlist_item:first-child {
-			margin-left: 2rem;
-		}
-
-		.link--active {
-			color: var(--link-color-hover);
 		}
 
 		.outlet > * {

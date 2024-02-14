@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, html, css, nothing } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
@@ -17,18 +17,22 @@ export class PageControlsElement extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ type: Number }) n: number = 0;
 
-	protected willUpdate(_changedProperties: PropertyValueMap<this>): void {
-		const url = new URL(window.location.href);
-		if (_changedProperties.has('page')) {
-			url.searchParams.set('page', String(this.page));
-		}
-		if (_changedProperties.has('perPage')) {
-			url.searchParams.set('per-page', String(this.perPage));
-		}
+	attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+		super.attributeChangedCallback(name, _old, value);
 
-		if (this.page === 1 && this.perPage === 10) {
-		} else {
-			router.navigate(url);
+		if (name === 'page' || name === 'per-page') {
+			if (_old === value || _old == null) {
+			} else {
+				const url = new URL(window.location.href);
+				if (name === 'page') {
+					url.searchParams.set('page', String(this.page));
+				}
+				if (name === 'per-page') {
+					url.searchParams.set('per-page', String(this.perPage));
+				}
+
+				router.navigate(url);
+			}
 		}
 	}
 
