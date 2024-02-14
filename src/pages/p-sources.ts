@@ -26,7 +26,6 @@ export class SourcesPage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'large';
-	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) showSourceType = true;
 	@property() firstColumnName = 'Source';
 	@property({ type: Array }) allSourceTypes: SourceType[] = Array.from(sourceTypes);
@@ -54,13 +53,6 @@ export class SourcesPage extends LitElement {
 				sortByWeight(cards, poeData);
 			}
 			this.sourcesAndCards = sourcesAndCards;
-		}
-
-		if (map.has('filter')) {
-			const url = new URL(window.location.href);
-
-			url.searchParams.set('filter', this.filter);
-			window.history.replaceState({}, '', url);
 		}
 	}
 
