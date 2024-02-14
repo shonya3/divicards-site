@@ -1,9 +1,10 @@
 import { render } from 'lit';
 import './App';
-import { router, startViewTransition } from './router';
+import { router } from './router';
 import { divcordService } from './DivcordService';
 import { CardsFinder } from './CardsFinder';
 import { SourcefulDivcordTable } from './divcord';
+import { startViewTransition } from './utils';
 
 const records = await divcordService.getRecordsAndRunUpdateIfNeeded();
 const divcordTable = new SourcefulDivcordTable(records);
