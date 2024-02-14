@@ -26,7 +26,10 @@ export class PageControlsElement extends LitElement {
 			url.searchParams.set('per-page', String(this.perPage));
 		}
 
-		router.navigate(url);
+		if (this.page === 1 && this.perPage === 10) {
+		} else {
+			router.navigate(url);
+		}
 	}
 
 	#onPageInput(e: InputEvent) {
