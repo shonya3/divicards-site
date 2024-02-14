@@ -58,9 +58,9 @@ export class NavbarElement extends LitElement {
 		observer.observe(document.body);
 	}
 
-	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-		this.menuDialogElement.showModal();
-	}
+	// protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+	// 	this.menuDialogElement.showModal();
+	// }
 
 	protected renderMenu() {
 		return html`<dialog id="menu" class="menu">
