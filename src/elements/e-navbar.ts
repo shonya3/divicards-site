@@ -23,14 +23,14 @@ export class NavbarElement extends LitElement {
 
 	@state() pathname = new URL(window.location.href).pathname || '/home';
 
-	@query('#menu') menuPopoverElement!: HTMLDivElement;
+	@query('#menu') menuDialogElement!: HTMLDialogElement;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('pathname')) {
 			this.setAttribute('pathname', this.pathname);
 
-			if (this.menuPopoverElement) {
-				this.menuPopoverElement.hidePopover();
+			if (this.menuDialogElement) {
+				this.menuDialogElement.close();
 			}
 		}
 	}
@@ -51,19 +51,19 @@ export class NavbarElement extends LitElement {
 		const observer = new ResizeObserver(entries => {
 			const entry = entries[0];
 			if (entry.target.clientWidth > 1100) {
-				this.menuPopoverElement.hidePopover();
+				this.menuDialogElement.close();
 			}
 		});
 
 		observer.observe(document.body);
 	}
 
-	// protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-	// 	this.menuPopoverElement.showPopover();
-	// }
+	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+		this.menuDialogElement.showModal();
+	}
 
 	protected renderMenu() {
-		return html`<div popover id="menu" class="menu">
+		return html`<dialog id="menu" class="menu">
 			<ul class="links">
 				${this.linkItems.map(([pathname, s]) => {
 					return html`<li
@@ -79,8 +79,8 @@ export class NavbarElement extends LitElement {
 					</li>`;
 				})}
 			</ul>
-			<button @click=${() => this.menuPopoverElement.hidePopover()} class="btn menu__close-button">Close</button>
-		</div>`;
+			<button @click=${() => this.menuDialogElement.close()} class="btn menu__close-button">Close</button>
+		</dialog>`;
 	}
 
 	protected render() {
@@ -102,7 +102,9 @@ export class NavbarElement extends LitElement {
 				})}
 			</ul>
 
-			<button class="btn menu-button" type="button" popovertarget="menu">Menu</button>
+			<button class="btn menu-button" type="button" @click=${() => this.menuDialogElement.showModal()}>
+				Menu
+			</button>
 			${this.renderMenu()}
 		</nav>`;
 	}
@@ -213,19 +215,18 @@ export class NavbarElement extends LitElement {
 				display: inline-block;
 			}
 
-			dialog {
-				border: none;
+			dialog:modal {
+				inset: 0;
+				margin: 0;
 				padding: 0;
-				position: relative;
 				width: 100%;
-				height: 100%;
-			}
-
-			.menu {
-				width: 100%;
-				height: 100%;
+				height: 100vh;
 				border: none;
 				background-color: var(--bg-clr);
+			}
+
+			dialog::backdrop {
+				background-color: #3b5bdb;
 			}
 
 			.menu > .links {
