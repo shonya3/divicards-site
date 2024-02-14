@@ -10,10 +10,6 @@ import { linkStyles } from './linkStyles';
 import { toast } from './toast';
 
 declare global {
-	interface Document {
-		startViewTransition: (cb: (...args: any[]) => any) => Promise<unknown>;
-	}
-
 	interface HTMLElementTagNameMap {
 		'app-root': RootElement;
 	}

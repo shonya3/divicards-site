@@ -49,3 +49,19 @@ export class ArrayAsyncRenderer<T> {
 		)}`;
 	}
 }
+
+declare global {
+	interface Document {
+		startViewTransition: (cb: (...args: any[]) => any) => Promise<unknown>;
+	}
+}
+
+export async function startViewTransition(cb: (...args: any[]) => any): Promise<unknown> {
+	if (Object.hasOwn(Document.prototype, 'startViewTransition')) {
+		return document.startViewTransition(() => {
+			cb();
+		});
+	} else {
+		cb();
+	}
+}
