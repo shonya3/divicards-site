@@ -213,6 +213,7 @@ export class NavbarElement extends LitElement {
 
 			.menu-button {
 				display: inline-block;
+				margin-right: 2.5rem;
 			}
 
 			dialog:modal {
