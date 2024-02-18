@@ -26,7 +26,6 @@ export class SourceTypePage extends LitElement {
 	@state()
 	divcordTable!: SourcefulDivcordTable;
 
-	// @state() sourcesAndCards!: AsyncGenerator<SourceAndCards>;
 	@state() sourcesAndCardsRenderer!: ArrayAsyncRenderer<SourceAndCards>;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -46,7 +45,6 @@ export class SourceTypePage extends LitElement {
 				sortByWeight(cards, poeData);
 			}
 
-			// this.sourcesAndCards = generator(sourcesAndCards);
 			this.sourcesAndCardsRenderer = new ArrayAsyncRenderer(sourcesAndCards);
 		}
 	}
