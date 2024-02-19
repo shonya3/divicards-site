@@ -18,23 +18,23 @@ export type VerificationStatus = 'done' | 'verify';
 export type CardBySource = { card: string; transitiveSource?: SourceWithMember; status: VerificationStatus };
 
 export class CardsFinder {
-	divcordTable: SourcefulDivcordTable;
+	#divcordTable: SourcefulDivcordTable;
 	constructor(divcordTable: SourcefulDivcordTable) {
-		this.divcordTable = divcordTable;
+		this.#divcordTable = divcordTable;
 	}
 
 	get records(): DivcordRecord[] {
-		return this.divcordTable.records;
+		return this.#divcordTable.records;
 	}
 
 	cardsByMaps(): Record<string, CardBySource[]> {
-		const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
+		const sourcesAndCards = cardsBySourceTypes(['Map'], this.#divcordTable.records, poeData);
 		const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
 		return Object.fromEntries(entries);
 	}
 
 	cardsBySource(source: ISource): CardBySource[] {
-		return cardsBySource(source, this.divcordTable.records, poeData);
+		return cardsBySource(source, this.#divcordTable.records, poeData);
 	}
 }
 
