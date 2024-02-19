@@ -2,7 +2,7 @@ import { PoeData, poeData } from './PoeData';
 import { LocalStorageManager } from './storage';
 import { warningToast } from './toast.js';
 import { sortByWeight } from './CardsFinder.js';
-import type { SourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson.js';
+import type { DivcordRecord } from './gen/divcordRecordsFromJson.js';
 
 export interface DivcordResponses {
 	richSources: Response;
@@ -24,8 +24,8 @@ export type CacheValidity = 'valid' | 'stale' | 'not exist';
 export type DivcordServiceEventType = 'state-updated' | 'records-updated';
 export type DivcordServiceState = 'idle' | 'updating' | 'updated' | 'error';
 
-export class DivcordServiceEvent extends CustomEvent<SourcefulDivcordTableRecord[]> {
-	constructor(type: DivcordServiceEventType, records?: SourcefulDivcordTableRecord[]) {
+export class DivcordServiceEvent extends CustomEvent<DivcordRecord[]> {
+	constructor(type: DivcordServiceEventType, records?: DivcordRecord[]) {
 		super(type, { detail: records });
 	}
 }
@@ -33,9 +33,7 @@ export class DivcordServiceEvent extends CustomEvent<SourcefulDivcordTableRecord
 export class DivcordService extends EventTarget {
 	#state: DivcordServiceState = 'idle';
 	#cache: Cache;
-	#recordsStorage = new LocalStorageManager<SourcefulDivcordTableRecord[], typeof LOCAL_STORAGE_KEY>(
-		LOCAL_STORAGE_KEY
-	);
+	#recordsStorage = new LocalStorageManager<DivcordRecord[], typeof LOCAL_STORAGE_KEY>(LOCAL_STORAGE_KEY);
 	constructor(cache: Cache) {
 		super();
 		this.#cache = cache;
@@ -54,7 +52,7 @@ export class DivcordService extends EventTarget {
 		this.dispatchEvent(new DivcordServiceEvent('state-updated'));
 	}
 
-	async getRecordsAndRunUpdateIfNeeded(): Promise<SourcefulDivcordTableRecord[]> {
+	async getRecordsAndRunUpdateIfNeeded(): Promise<DivcordRecord[]> {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
@@ -86,7 +84,7 @@ export class DivcordService extends EventTarget {
 		}
 	}
 
-	async update(): Promise<SourcefulDivcordTableRecord[]> {
+	async update(): Promise<DivcordRecord[]> {
 		try {
 			this.state = 'updating';
 			await Promise.all([
@@ -157,7 +155,7 @@ export class DivcordService extends EventTarget {
 		return { rich_sources_column, sheet, rich_verify_column };
 	}
 
-	async #fromStaticJson(): Promise<SourcefulDivcordTableRecord[]> {
+	async #fromStaticJson(): Promise<DivcordRecord[]> {
 		const { divcordRecordsFromJson } = await import('./gen/divcordRecordsFromJson.js');
 		return divcordRecordsFromJson;
 	}
@@ -181,14 +179,10 @@ function richSourcesUrl(richColumnVariant: 'sources' | 'verify'): string {
 	return url;
 }
 
-export async function parseRecords(divcord: IDivcordData, poeData: PoeData): Promise<SourcefulDivcordTableRecord[]> {
+export async function parseRecords(divcord: IDivcordData, poeData: PoeData): Promise<DivcordRecord[]> {
 	const { default: initWasm, parsed_records } = await import('./gen/divcordWasm/divcord_wasm.js');
 	await initWasm();
-	const records = parsed_records(
-		JSON.stringify(divcord),
-		JSON.stringify(poeData),
-		warningToast
-	) as SourcefulDivcordTableRecord[];
+	const records = parsed_records(JSON.stringify(divcord), JSON.stringify(poeData), warningToast) as DivcordRecord[];
 	sortByWeight(records, poeData);
 	return records;
 }

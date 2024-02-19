@@ -1,12 +1,12 @@
 import type { ISource } from './gen/ISource.interface';
-import type { SourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson';
+import type { DivcordRecord } from './gen/divcordRecordsFromJson';
 
 type CardName = string;
 
 /** Represents the divcord spreadsheet https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0  */
 export class SourcefulDivcordTable {
-	records: SourcefulDivcordTableRecord[];
-	constructor(records: SourcefulDivcordTableRecord[]) {
+	records: DivcordRecord[];
+	constructor(records: DivcordRecord[]) {
 		this.records = records;
 	}
 
@@ -57,7 +57,7 @@ export class SourcefulDivcordTable {
 	}
 
 	/** Returns Array of records, accociated with given card */
-	recordsByCard(card: string): SourcefulDivcordTableRecord[] {
+	recordsByCard(card: string): DivcordRecord[] {
 		return this.records.filter(record => record.card === card);
 	}
 }

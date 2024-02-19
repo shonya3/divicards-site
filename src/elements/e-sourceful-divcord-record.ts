@@ -5,7 +5,7 @@ import './e-source/e-source';
 import './e-need-to-verify';
 import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
-import type { SourcefulDivcordTableRecord } from '../gen/divcordRecordsFromJson';
+import type { DivcordRecord } from '../gen/divcordRecordsFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -15,7 +15,7 @@ declare global {
 
 @customElement('e-sourceful-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
-	@property({ type: Object }) record!: SourcefulDivcordTableRecord;
+	@property({ type: Object }) record!: DivcordRecord;
 
 	formattedNotes() {
 		const text = this.record.notes?.replaceAll('\n', '<br>');

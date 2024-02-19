@@ -3,7 +3,7 @@ import { poeData, IActArea, PoeData } from './PoeData';
 import { SourcefulDivcordTable } from './divcord';
 import { cardsDataMap } from './elements/divination-card/data';
 import { sourceTypes } from './gen/ISource.interface';
-import type { SourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson';
+import type { DivcordRecord } from './gen/divcordRecordsFromJson';
 
 export const SEARCH_CRITERIA_VARIANTS = [
 	'name',
@@ -264,7 +264,7 @@ function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): str
 	return cards;
 }
 
-function findBySourceType(query: string, records: SourcefulDivcordTableRecord[], poeData: PoeData): string[] {
+function findBySourceType(query: string, records: DivcordRecord[], poeData: PoeData): string[] {
 	const cards: string[] = [];
 	const types = sourceTypes.filter(sourcetype => sourcetype.toLowerCase().includes(query));
 

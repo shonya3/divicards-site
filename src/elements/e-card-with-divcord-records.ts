@@ -5,7 +5,7 @@ import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
 import './e-divcord-needs-info';
 import { poeData } from '../PoeData';
-import type { SourcefulDivcordTableRecord } from '../gen/divcordRecordsFromJson';
+import type { DivcordRecord } from '../gen/divcordRecordsFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -16,7 +16,7 @@ declare global {
 @customElement('e-card-with-divcord-records')
 export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ reflect: true }) card!: string;
-	@property({ type: Array }) records!: SourcefulDivcordTableRecord[];
+	@property({ type: Array }) records!: DivcordRecord[];
 	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	render() {
