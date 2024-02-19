@@ -7,7 +7,7 @@ import { cardsDataMap } from './data';
 import { SourcefulDivcordTable } from '../../divcord';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../../context';
-import { poeData } from '../../PoeData';
+import { PoeData, poeData } from '../../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,6 +22,22 @@ export interface Props {
 	size: CardSize;
 }
 export interface Events {}
+
+function minLevelOrRange(card: string, divcordTable: SourcefulDivcordTable, poeData: PoeData): string {
+	const globals = divcordTable.globalDrops();
+	const globalDropSource = globals.get(card);
+	if (!globalDropSource) {
+		return String(poeData.minLevel(card));
+	}
+
+	const { min_level, max_level } = globalDropSource;
+
+	if (min_level && !max_level) {
+		return `global ${min_level}+`;
+	}
+
+	return `global ${min_level ?? ''} - ${max_level ?? ''}`;
+}
 
 /**
  * @summary Divination Card
@@ -83,7 +99,7 @@ export class DivinationCardElement extends LitElement {
 		}
 
 		if (changedProperties.has('divcordTable')) {
-			this.minLevelOrRange = poeData.minLevelOrRange(this.name, this.divcordTable);
+			this.minLevelOrRange = minLevelOrRange(this.name, this.divcordTable, poeData);
 		}
 	}
 

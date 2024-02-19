@@ -1,4 +1,3 @@
-import { SourcefulDivcordTable } from './divcord';
 import { poeDataFromJson } from './gen/poeDataFromJson';
 
 export interface IActArea {
@@ -112,34 +111,8 @@ export class PoeData implements IPoeData {
 		return this.card(card)?.minLevel ?? 0;
 	}
 
-	minLevelOrRange(card: string, divcordTable: SourcefulDivcordTable): string {
-		const globals = divcordTable.globalDrops();
-		const globalDropSource = globals.get(card);
-		if (!globalDropSource) {
-			return String(this.minLevel(card));
-		}
-
-		const { min_level, max_level } = globalDropSource;
-
-		if (min_level && !max_level) {
-			return `global ${min_level}+`;
-		}
-
-		return `global ${min_level ?? ''} - ${max_level ?? ''}`;
-	}
-
 	mapboss(name: string): IMapBoss | null {
 		return this.mapbosses.find(c => c.name.trim().toLowerCase() === name.trim().toLowerCase()) ?? null;
-	}
-
-	bossesByMap(map: string): string[] {
-		const bossnames: string[] = [];
-		for (const b of this.mapbosses) {
-			if (includesMap(map, b.maps)) {
-				bossnames.push(b.name);
-			}
-		}
-		return bossnames;
 	}
 
 	level(name: string, type: 'Map' | 'Act'): number | null {
@@ -158,12 +131,3 @@ export class PoeData implements IPoeData {
 }
 
 export const poeData = new PoeData(poeDataFromJson);
-export function includesMap(name: string, maps: string[]): boolean {
-	const short = name.replace('Map', '').trim();
-
-	return maps.some(
-		m =>
-			m.toLowerCase().trim().includes(name.toLowerCase().trim()) ||
-			m.toLowerCase().trim().includes(short.toLowerCase().trim())
-	);
-}
