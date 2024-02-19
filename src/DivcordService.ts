@@ -69,21 +69,6 @@ export class DivcordService extends EventTarget {
 		}
 	}
 
-	async freshestAvailableRecords() {
-		const validity = await this.checkValidity();
-		switch (validity) {
-			case 'valid': {
-				return this.#recordsStorage.load()!;
-			}
-			case 'stale': {
-				return this.#recordsStorage.load()!;
-			}
-			case 'not exist': {
-				return await this.#fromStaticJson();
-			}
-		}
-	}
-
 	async update(): Promise<DivcordRecord[]> {
 		try {
 			this.state = 'updating';
@@ -102,7 +87,7 @@ export class DivcordService extends EventTarget {
 		} catch (err) {
 			console.log(err);
 			this.state = 'error';
-			const records = await this.freshestAvailableRecords();
+			const records = await this.#freshestAvailableRecords();
 			return records;
 		}
 	}
@@ -132,6 +117,21 @@ export class DivcordService extends EventTarget {
 		}
 
 		return millis < ONE_DAY_MILLISECONDS ? 'valid' : 'stale';
+	}
+
+	async #freshestAvailableRecords() {
+		const validity = await this.checkValidity();
+		switch (validity) {
+			case 'valid': {
+				return this.#recordsStorage.load()!;
+			}
+			case 'stale': {
+				return this.#recordsStorage.load()!;
+			}
+			case 'not exist': {
+				return await this.#fromStaticJson();
+			}
+		}
 	}
 
 	async #cachedResponses(): Promise<DivcordResponses | null> {
