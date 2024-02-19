@@ -4,6 +4,10 @@ import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { cardsDataMap } from './data';
+import { SourcefulDivcordTable } from '../../divcord';
+import { consume } from '@lit/context';
+import { divcordTableContext } from '../../context';
+import { poeData } from '../../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -29,15 +33,19 @@ export interface Events {}
 export class DivinationCardElement extends LitElement {
 	static override styles = styles();
 
+	@consume({ context: divcordTableContext, subscribe: true })
+	@state()
+	divcordTable!: SourcefulDivcordTable;
+
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
-	@property({ reflect: true, attribute: 'min-level-or-range' }) minLevelOrRange?: string;
 	@property({ reflect: true }) boss?: string;
 
 	@state() stackSize: number = 0;
 	@state() flavourText: string = ``;
 	@state() artFilename: string = '';
 	@state() rewardHtml: string = '';
+	@state() minLevelOrRange?: string;
 
 	get imageUrl() {
 		if (!this.artFilename) {
@@ -72,6 +80,10 @@ export class DivinationCardElement extends LitElement {
 				this.artFilename = cardData.artFilename;
 				this.rewardHtml = cardData.rewardHtml;
 			}
+		}
+
+		if (changedProperties.has('divcordTable')) {
+			this.minLevelOrRange = poeData.minLevelOrRange(this.name, this.divcordTable);
 		}
 	}
 
