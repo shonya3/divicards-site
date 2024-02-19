@@ -517,7 +517,6 @@ export class DivcordTablePage extends LitElement {
 					return html`<e-card-with-divcord-records
 						.card=${card}
 						.records=${this.divcordTable.recordsByCard(card)}
-						.divcordTable=${this.divcordTable}
 					></e-card-with-divcord-records>`;
 				})}
 			</ul>

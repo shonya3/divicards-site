@@ -24,11 +24,7 @@ export class CardPage extends LitElement {
 		const league = poeData.card(this.card)?.league;
 
 		return html`<div class="page">
-			<e-card-with-divcord-records
-				.divcordTable=${this.divcordTable}
-				.card=${this.card}
-				.records=${this.divcordTable.recordsByCard(this.card)}
-			>
+			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
 				<e-card-with-sources slot="card" .name=${this.card} size="large" .divcordTable=${this.divcordTable}>
 				</e-card-with-sources>
 				${league ? html` <div slot="main-start">Release: ${league.name} ${league.version}</div> ` : nothing}

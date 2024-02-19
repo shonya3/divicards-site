@@ -116,10 +116,7 @@ export class MapsTablePage extends LitElement {
 										></e-source>
 									</td>
 									<td>
-										<e-cards-by-source-list
-											.cards=${cards}
-											.divcordTable=${this.cardsFinder.divcordTable}
-										></e-cards-by-source-list>
+										<e-cards-by-source-list .cards=${cards}></e-cards-by-source-list>
 									</td>
 								</tr>
 							`

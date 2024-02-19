@@ -4,7 +4,6 @@ import type { CardBySource } from '../CardsFinder';
 import type { ISource } from '../gen/ISource.interface';
 import './e-source/e-source';
 import './e-cards-by-source-list';
-import { SourcefulDivcordTable } from '../divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -17,7 +16,6 @@ export class SourceAndCardsElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
 	@property({ type: Array }) cards!: CardBySource[];
 	@property({ type: Boolean }) showSourceType = true;
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	@query('.source') mainSourceElement!: HTMLElement;
 
@@ -40,11 +38,7 @@ export class SourceAndCardsElement extends LitElement {
 				.source=${this.source}
 				.showSourceType=${this.showSourceType}
 			></e-source>
-			<e-cards-by-source-list
-				class="cards"
-				.divcordTable=${this.divcordTable}
-				.cards=${this.cards}
-			></e-cards-by-source-list>
+			<e-cards-by-source-list class="cards" .cards=${this.cards}></e-cards-by-source-list>
 		</div>`;
 	}
 

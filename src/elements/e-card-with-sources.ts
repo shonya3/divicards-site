@@ -66,11 +66,7 @@ export class CardWithSourcesElement extends LitElement {
 
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
-				<e-divination-card
-					.name=${this.name}
-					.size=${this.size}
-					.minLevelOrRange=${poeData.minLevelOrRange(this.name, this.divcordTable)}
-				></e-divination-card>
+				<e-divination-card .name=${this.name} .size=${this.size}></e-divination-card>
 				${this.sourcesList()}
 			</div>
 		`;

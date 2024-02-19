@@ -1,8 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { CardBySource } from '../CardsFinder';
-import { poeData } from '../PoeData';
-import { SourcefulDivcordTable } from '../divcord';
 
 import './divination-card/e-divination-card';
 import './e-source/e-source';
@@ -17,7 +15,6 @@ declare global {
 @customElement('e-cards-by-source-list')
 export class CardsBySourceListElement extends LitElement {
 	@property({ type: Array }) cards: CardBySource[] = [];
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	#onBossNavigation() {
 		this.dispatchEvent(new Event('boss-navigation', { bubbles: true, composed: true }));
@@ -26,12 +23,7 @@ export class CardsBySourceListElement extends LitElement {
 	protected render() {
 		return html`<ul class="cards">
 			${this.cards.map(({ card, transitiveSource, status }) => {
-				const cardHtml = html`<e-divination-card
-					.minLevelOrRange=${poeData.minLevelOrRange(card, this.divcordTable)}
-					size="medium"
-					.name=${card}
-					.boss=${transitiveSource?.id}
-				>
+				const cardHtml = html`<e-divination-card size="medium" .name=${card} .boss=${transitiveSource?.id}>
 					${transitiveSource
 						? html`<e-source
 								@click=${this.#onBossNavigation}

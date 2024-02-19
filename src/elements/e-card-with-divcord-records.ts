@@ -1,10 +1,8 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTable } from '../divcord';
 import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
 import './e-divcord-needs-info';
-import { poeData } from '../PoeData';
 import type { DivcordRecord } from '../gen/divcordRecordsFromJson';
 
 declare global {
@@ -17,19 +15,13 @@ declare global {
 export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ reflect: true }) card!: string;
 	@property({ type: Array }) records!: DivcordRecord[];
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
 
 	render() {
 		const allRecordsHasNoSources = this.records.every(s => (s.sources ?? []).length === 0);
 
 		return html`<div class="view">
 			<slot name="card">
-				<e-divination-card
-					part="card"
-					.minLevelOrRange=${poeData.minLevelOrRange(this.card, this.divcordTable)}
-					size="large"
-					.name=${this.card}
-				></e-divination-card>
+				<e-divination-card part="card" size="large" .name=${this.card}></e-divination-card>
 			</slot>
 			<main class="main">
 				<slot name="main-start"></slot>
