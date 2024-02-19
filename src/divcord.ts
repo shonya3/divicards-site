@@ -1,20 +1,18 @@
-import type { ISource, SourceType } from './gen/ISource.interface';
+import type { ISource } from './gen/ISource.interface';
 import { ISourcefulDivcordTableRecord, IGreynote, IConfidence, IRemainingWork } from './gen/divcordRecordsFromJson';
-
-export const createDivcordTable = (recordsData: ISourcefulDivcordTableRecord[]) => {
-	return new SourcefulDivcordTable(recordsData.map(r => new SourcefulDivcordTableRecord(r)));
-};
 
 type CardName = string;
 
+/** Represents the divcord spreadsheet https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0  */
 export class SourcefulDivcordTable {
 	records: SourcefulDivcordTableRecord[];
 	constructor(records: SourcefulDivcordTableRecord[]) {
 		this.records = records;
 	}
 
-	globalDrops(): Map<string, ISource> {
-		const drops: Map<string, ISource> = new Map();
+	/** Returns Map, where key is card name and value is Source object with global drop type and information about min and max level drop */
+	globalDrops(): Map<CardName, ISource> {
+		const drops: Map<CardName, ISource> = new Map();
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
 				if (source.type === 'Global Drop') {
@@ -26,49 +24,24 @@ export class SourcefulDivcordTable {
 		return drops;
 	}
 
-	cards() {
+	/** Returns Array of all card names */
+	cards(): CardName[] {
 		return Array.from(new Set(this.records.map(r => r.card)));
 	}
 
-	sourceIdsMap(): Map<string, string[]> {
-		const map: Map<string, string[]> = new Map();
-
-		for (const record of this.records) {
-			const sourceIds = map.get(record.card) ?? [];
-			for (const source of record.sources ?? []) {
-				sourceIds.push(source.id);
-			}
-			map.set(record.card, sourceIds);
-		}
-
-		return map;
-	}
-
-	*cardSourcesMapGen(): Generator<[string, ISource[]], void, unknown> {
-		let currentCardName: null | string = null;
+	/** Returns Array of sources from all records, accociated with given card */
+	sourcesByCard(card: string): ISource[] {
 		let sources: ISource[] = [];
 		for (const record of this.records) {
-			console.log('Record: ', record.id, 'Card: ', record.card);
-			const recordCardname = record.card;
-			if (currentCardName === recordCardname) {
-				for (const source of record.sources ?? []) {
-					sources.push(source);
-				}
-			} else {
-				if (currentCardName !== null) {
-					yield [currentCardName, sources];
-					sources = [];
-				}
-
-				currentCardName = record.card;
-
-				for (const source of record.sources ?? []) {
-					sources.push(source);
-				}
+			if (record.card === card) {
+				sources.push(...(record.sources ?? []));
 			}
 		}
+
+		return Array.from(new Set(sources));
 	}
 
+	/** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card */
 	cardSourcesMap(): Map<CardName, ISource[]> {
 		const map: Map<string, ISource[]> = new Map();
 
@@ -83,45 +56,9 @@ export class SourcefulDivcordTable {
 		return map;
 	}
 
-	sourcesByCard(card: string): ISource[] {
-		const sources: ISource[] = [];
-		for (const record of this.records) {
-			if (record.card === card) {
-				sources.push(...(record.sources ?? []));
-			}
-		}
-
-		return Array.from(new Set(sources));
-	}
-
-	sourcesByCards(): Record<string, ISource[]> {
-		const sourcesByCardRecord: Record<string, ISource[]> = {};
-
-		for (const record of this.records) {
-			const card = record.card;
-			const sources = sourcesByCardRecord[card] ?? [];
-			sourcesByCardRecord[card] = sources.concat(record.sources ?? []);
-		}
-
-		return sourcesByCardRecord;
-	}
-
+	/** Returns Array of records, accociated with given card */
 	recordsByCard(card: string): SourcefulDivcordTableRecord[] {
 		return this.records.filter(record => record.card === card);
-	}
-
-	cardsBySourceTypes(...types: SourceType[]) {
-		const cards: string[] = [];
-		for (const record of this.records) {
-			const cardHasSomeSourceType = (record.sources ?? []).some(source => {
-				return types.some(type => source.type === type);
-			});
-			if (cardHasSomeSourceType) {
-				cards.push(record.card);
-			}
-		}
-
-		return Array.from(new Set(cards));
 	}
 }
 
@@ -149,26 +86,5 @@ export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord
 		this.sourcesWithTagButNotOnWiki = record.sourcesWithTagButNotOnWiki;
 		this.verifySources = record.verifySources;
 		this.notes = record.notes;
-	}
-
-	source(type: 'mapBoss' | 'map' | 'act' | 'actBoss'): ISource[] {
-		//@ts-ignore
-		return Object.groupBy(this.sources ?? [], ({ type }) => type)[type] ?? [];
-	}
-
-	mapBosses(): ISource[] {
-		return this.source('mapBoss');
-	}
-
-	maps(): ISource[] {
-		return this.source('map');
-	}
-
-	acts(): ISource[] {
-		return this.source('act');
-	}
-
-	actBosses(): ISource[] {
-		return this.source('act');
 	}
 }
