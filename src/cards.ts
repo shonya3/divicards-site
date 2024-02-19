@@ -2,16 +2,33 @@ import { DivcordRecord } from './gen/divcordRecordsFromJson';
 import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
 import { PoeData, poeData, IMapBoss } from './PoeData';
 
+/** Drop source and array of cards with verification status and possible transitive source */
+export type SourceAndCards = {
+	/** Drop source */
+	source: ISource;
+	/** Array of cards with verification status and possible transitive source   */
+	cards: CardBySource[];
+};
+/** Is the drop source of card needs to be verified or already done */
 export type VerificationStatus = 'done' | 'verify';
-/** Card name and some source metadata */
-export type CardBySource = { card: string; transitiveSource?: SourceWithMember; status: VerificationStatus };
+/** Card name with verification status and possible transitive source. Being used in context of drop source */
+export type CardBySource = {
+	/** card name */
+	card: string;
+	/** Source associated with another source. For example, if we search cards by maps, map boss will be a transitive source */
+	transitiveSource?: SourceWithMember;
+	/** Verification status for card drop from this source: is it done or need to be verified  */
+	status: VerificationStatus;
+};
 
+/** Returns Record, where key - name of map, value - card name, it's verification status in context of given map and maybe mapboss, if card drops from mapboss  */
 export function cardsByMaps(records: DivcordRecord[]): Record<string, CardBySource[]> {
 	const sourcesAndCards = cardsBySourceTypes(['Map'], records, poeData);
 	const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
 	return Object.fromEntries(entries);
 }
 
+/** Sort cards by weight, start from the most rare. If card has no weight, force it to the end */
 export function sortByWeight(cards: { card: string }[] | string[], poeData: Readonly<PoeData>): void {
 	const SORT_TO_THE_END_VALUE = 1_000_000;
 	cards.sort((a, b) => {
@@ -46,13 +63,6 @@ export function cardsByMapboss(boss: string, records: DivcordRecord[], poeData: 
 	return cards;
 }
 
-export function isGlobalDropApplies(level: number, source: ISource): boolean {
-	if (source.type !== 'Global Drop') throw new Error('Expected Global Drop sourcetype');
-	const minLevel = source.min_level ?? 0;
-	const maxLevel = source.max_level ?? 100;
-	return level >= minLevel && level <= maxLevel;
-}
-
 export function cardsByActboss(boss: string, records: DivcordRecord[]): CardBySource[] {
 	const cards: CardBySource[] = [];
 
@@ -68,11 +78,6 @@ export function cardsByActboss(boss: string, records: DivcordRecord[]): CardBySo
 
 	return cards;
 }
-
-export type SourceAndCards = {
-	source: ISource;
-	cards: Array<CardBySource>;
-};
 
 export function cardsBySource(source: ISource, records: DivcordRecord[], poeData: PoeData): CardBySource[] {
 	const cards: CardBySource[] = [];
