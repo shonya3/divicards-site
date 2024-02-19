@@ -5,7 +5,7 @@ import '../elements/divination-card/e-divination-card.ts';
 import '../elements/e-source/e-source.ts';
 import '../elements/e-source-type';
 import './p-sources.ts';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../CardsFinder.ts';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards.ts';
 import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';

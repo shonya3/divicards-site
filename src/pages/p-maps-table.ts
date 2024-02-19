@@ -6,10 +6,11 @@ import '../elements/e-source/e-source';
 import '../elements/e-page-controls';
 import '../elements/e-cards-by-source-list';
 import { poeData } from '../PoeData';
-import { CardBySource, CardsFinder, sortByWeight } from '../CardsFinder';
+import { CardBySource, cardsByMaps, sortByWeight } from '../cards';
 import { consume } from '@lit/context';
-import { cardsFinderContext } from '../context';
+import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
+import { SourcefulDivcordTable } from '../divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -24,9 +25,9 @@ export class MapsTablePage extends LitElement {
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
 
-	@consume({ context: cardsFinderContext, subscribe: true })
+	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	cardsFinder!: CardsFinder;
+	divcordTable!: SourcefulDivcordTable;
 
 	@state() cardsByMaps: Record<string, CardBySource[]> = {};
 
@@ -40,8 +41,8 @@ export class MapsTablePage extends LitElement {
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('cardsFinder')) {
-			this.cardsByMaps = this.cardsFinder.cardsByMaps();
+		if (map.has('divcordTable')) {
+			this.cardsByMaps = cardsByMaps(this.divcordTable.records);
 		}
 
 		if (map.has('filter')) {

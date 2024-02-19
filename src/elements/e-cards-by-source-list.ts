@@ -1,6 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { CardBySource } from '../CardsFinder';
+import { CardBySource } from '../cards';
 
 import './divination-card/e-divination-card';
 import './e-source/e-source';

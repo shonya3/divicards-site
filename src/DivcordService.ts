@@ -1,7 +1,7 @@
 import { PoeData, poeData } from './PoeData';
 import { LocalStorageManager } from './storage';
 import { warningToast } from './toast.js';
-import { sortByWeight } from './CardsFinder.js';
+import { sortByWeight } from './cards.js';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson.js';
 
 export interface DivcordResponses {

@@ -1,4 +1,3 @@
-import { SourcefulDivcordTable } from './divcord';
 import { DivcordRecord } from './gen/divcordRecordsFromJson';
 import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
 import { PoeData, poeData, IMapBoss } from './PoeData';
@@ -7,21 +6,10 @@ export type VerificationStatus = 'done' | 'verify';
 /** Card name and some source metadata */
 export type CardBySource = { card: string; transitiveSource?: SourceWithMember; status: VerificationStatus };
 
-export class CardsFinder {
-	#divcordTable: SourcefulDivcordTable;
-	constructor(divcordTable: SourcefulDivcordTable) {
-		this.#divcordTable = divcordTable;
-	}
-
-	cardsByMaps(): Record<string, CardBySource[]> {
-		const sourcesAndCards = cardsBySourceTypes(['Map'], this.#divcordTable.records, poeData);
-		const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
-		return Object.fromEntries(entries);
-	}
-
-	cardsBySource(source: ISource): CardBySource[] {
-		return cardsBySource(source, this.#divcordTable.records, poeData);
-	}
+export function cardsByMaps(records: DivcordRecord[]): Record<string, CardBySource[]> {
+	const sourcesAndCards = cardsBySourceTypes(['Map'], records, poeData);
+	const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
+	return Object.fromEntries(entries);
 }
 
 export function sortByWeight(cards: { card: string }[] | string[], poeData: Readonly<PoeData>): void {

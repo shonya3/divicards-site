@@ -3,7 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { divcordTableContext } from '../context';
 import { SourcefulDivcordTable } from '../divcord';
 import { consume } from '@lit/context';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../CardsFinder';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import { ArrayAsyncRenderer } from '../utils';
 import { sourceTypes } from '../gen/ISource.interface';

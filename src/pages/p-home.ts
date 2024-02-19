@@ -10,7 +10,7 @@ import { SlConverter, paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
 import { poeData } from '../PoeData';
-import { sortByWeight } from '../CardsFinder';
+import { sortByWeight } from '../cards';
 import { SearchCardsCriteria, searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';

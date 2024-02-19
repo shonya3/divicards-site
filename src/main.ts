@@ -2,17 +2,14 @@ import { render } from 'lit';
 import './App';
 import { router } from './router';
 import { divcordService } from './DivcordService';
-import { CardsFinder } from './CardsFinder';
 import { SourcefulDivcordTable } from './divcord';
 import { startViewTransition } from './utils';
 
 const records = await divcordService.getRecordsAndRunUpdateIfNeeded();
 const divcordTable = new SourcefulDivcordTable(records);
-const cardsFinder = new CardsFinder(divcordTable);
 
 const root = document.createElement('app-root');
 root.divcordTable = divcordTable;
-root.cardsFinder = cardsFinder;
 document.body.append(root);
 await root.updateComplete;
 

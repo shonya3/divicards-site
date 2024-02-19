@@ -1,9 +1,8 @@
 import { provide } from '@lit/context';
-import { LitElement, PropertyValueMap, html, css } from 'lit';
-import { customElement, query, property, state } from 'lit/decorators.js';
-import { CardsFinder } from './CardsFinder';
+import { LitElement, html, css } from 'lit';
+import { customElement, query, property } from 'lit/decorators.js';
 import { divcordService } from './DivcordService';
-import { divcordTableContext, cardsFinderContext } from './context';
+import { divcordTableContext } from './context';
 import { SourcefulDivcordTable } from './divcord';
 import { linkStyles } from './linkStyles';
 import { toast } from './toast';
@@ -23,16 +22,6 @@ export class RootElement extends LitElement {
 	@provide({ context: divcordTableContext })
 	@property({ type: Object })
 	divcordTable!: SourcefulDivcordTable;
-
-	@provide({ context: cardsFinderContext })
-	@state()
-	cardsFinder!: CardsFinder;
-
-	protected willUpdate(changedProperties: PropertyValueMap<this>): void {
-		if (changedProperties.has('divcordTable')) {
-			this.cardsFinder = new CardsFinder(this.divcordTable);
-		}
-	}
 
 	constructor() {
 		super();

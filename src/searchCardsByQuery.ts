@@ -1,4 +1,4 @@
-import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './CardsFinder';
+import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
 import { poeData, IActArea, PoeData } from './PoeData';
 import { SourcefulDivcordTable } from './divcord';
 import { cardsDataMap } from './elements/divination-card/data';

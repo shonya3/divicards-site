@@ -6,7 +6,7 @@ import '../elements/e-source/e-source';
 import '../elements/e-source-type';
 import { poeData } from '../PoeData';
 import { divcordTableContext } from '../context';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight, sourcetypesMap } from '../CardsFinder';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight, sourcetypesMap } from '../cards';
 import { consume } from '@lit/context';
 import { SourcefulDivcordTable } from '../divcord';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
