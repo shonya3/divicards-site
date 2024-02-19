@@ -1,10 +1,11 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from '../divcord';
+import { SourcefulDivcordTable } from '../divcord';
 import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
 import './e-divcord-needs-info';
 import { poeData } from '../PoeData';
+import type { SourcefulDivcordTableRecord } from '../gen/divcordRecordsFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {

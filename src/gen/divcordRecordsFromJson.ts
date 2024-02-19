@@ -1,6 +1,6 @@
 import { ISource } from './ISource.interface';
 import json from './records.json';
-export const divcordRecordsFromJson = json as ISourcefulDivcordTableRecord[];
+export const divcordRecordsFromJson = json as SourcefulDivcordTableRecord[];
 
 export type IGreynote = (typeof GREYNOTE_VARIANTS)[number];
 export type IConfidence = (typeof CONFIDENCE_VARIANTS)[number];
@@ -29,7 +29,7 @@ export const REMAINING_WORK_VARIANTS = [
 ] as const;
 export const CONFIDENCE_VARIANTS = ['none', 'low', 'ok', 'done'] as const;
 
-export interface ISourcefulDivcordTableRecord {
+export interface SourcefulDivcordTableRecord {
 	id: number;
 	card: string;
 	greynote: IGreynote;

@@ -1,9 +1,8 @@
-import { SourcefulDivcordTableRecord } from './divcord.js';
 import { PoeData, poeData } from './PoeData';
-import { LocalStorageManager, Serde } from './storage';
+import { LocalStorageManager } from './storage';
 import { warningToast } from './toast.js';
 import { sortByWeight } from './CardsFinder.js';
-import type { ISourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson.js';
+import type { SourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson.js';
 
 export interface DivcordResponses {
 	richSources: Response;
@@ -34,11 +33,12 @@ export class DivcordServiceEvent extends CustomEvent<SourcefulDivcordTableRecord
 export class DivcordService extends EventTarget {
 	#state: DivcordServiceState = 'idle';
 	#cache: Cache;
-	localStorageManager: DivcordLocalStorageManager;
+	#recordsStorage = new LocalStorageManager<SourcefulDivcordTableRecord[], typeof LOCAL_STORAGE_KEY>(
+		LOCAL_STORAGE_KEY
+	);
 	constructor(cache: Cache) {
 		super();
 		this.#cache = cache;
-		this.localStorageManager = new DivcordLocalStorageManager();
 	}
 
 	on(type: DivcordServiceEventType, callback: (e: DivcordServiceEvent) => void): void {
@@ -58,11 +58,11 @@ export class DivcordService extends EventTarget {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
-				return this.localStorageManager.load()!;
+				return this.#recordsStorage.load()!;
 			}
 			case 'stale': {
 				this.update();
-				return this.localStorageManager.load()!;
+				return this.#recordsStorage.load()!;
 			}
 			case 'not exist': {
 				this.update();
@@ -75,10 +75,10 @@ export class DivcordService extends EventTarget {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
-				return this.localStorageManager.load()!;
+				return this.#recordsStorage.load()!;
 			}
 			case 'stale': {
-				return this.localStorageManager.load()!;
+				return this.#recordsStorage.load()!;
 			}
 			case 'not exist': {
 				return await this.#fromStaticJson();
@@ -97,7 +97,7 @@ export class DivcordService extends EventTarget {
 			const resp = await this.#cachedResponses();
 			const divcordData = await this.#serderesponses(resp!);
 			const records = await parseRecords(divcordData, poeData);
-			this.localStorageManager.save(records);
+			this.#recordsStorage.save(records);
 			this.state = 'updated';
 			this.dispatchEvent(new CustomEvent('records-updated', { detail: records }));
 			return records;
@@ -129,7 +129,7 @@ export class DivcordService extends EventTarget {
 
 	async checkValidity(): Promise<CacheValidity> {
 		const millis = await this.cacheAge();
-		if (millis === null || !this.localStorageManager.exists()) {
+		if (millis === null || !this.#recordsStorage.exists()) {
 			return 'not exist';
 		}
 
@@ -159,31 +159,7 @@ export class DivcordService extends EventTarget {
 
 	async #fromStaticJson(): Promise<SourcefulDivcordTableRecord[]> {
 		const { divcordRecordsFromJson } = await import('./gen/divcordRecordsFromJson.js');
-		return divcordRecordsFromJson.map(r => new SourcefulDivcordTableRecord(r));
-	}
-}
-
-class DivcordSerde extends Serde<
-	SourcefulDivcordTableRecord[],
-	SourcefulDivcordTableRecord[] | ISourcefulDivcordTableRecord[]
-> {
-	serialize(value: SourcefulDivcordTableRecord[] | ISourcefulDivcordTableRecord[]): string {
-		return super.serialize(value);
-	}
-
-	deserialize(s: string): SourcefulDivcordTableRecord[] {
-		const iRecords = super.deserialize(s) as ISourcefulDivcordTableRecord[];
-		return iRecords.map(r => new SourcefulDivcordTableRecord(r));
-	}
-}
-
-export class DivcordLocalStorageManager extends LocalStorageManager<
-	SourcefulDivcordTableRecord[],
-	typeof LOCAL_STORAGE_KEY,
-	SourcefulDivcordTableRecord[] | ISourcefulDivcordTableRecord[]
-> {
-	constructor() {
-		super(LOCAL_STORAGE_KEY, new DivcordSerde());
+		return divcordRecordsFromJson;
 	}
 }
 
@@ -212,9 +188,9 @@ export async function parseRecords(divcord: IDivcordData, poeData: PoeData): Pro
 		JSON.stringify(divcord),
 		JSON.stringify(poeData),
 		warningToast
-	) as ISourcefulDivcordTableRecord[];
+	) as SourcefulDivcordTableRecord[];
 	sortByWeight(records, poeData);
-	return records.map(r => new SourcefulDivcordTableRecord(r));
+	return records;
 }
 
 const cache = await caches.open(CACHE_KEY);

@@ -1,5 +1,5 @@
 import type { ISource } from './gen/ISource.interface';
-import { ISourcefulDivcordTableRecord, IGreynote, IConfidence, IRemainingWork } from './gen/divcordRecordsFromJson';
+import type { SourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson';
 
 type CardName = string;
 
@@ -59,32 +59,5 @@ export class SourcefulDivcordTable {
 	/** Returns Array of records, accociated with given card */
 	recordsByCard(card: string): SourcefulDivcordTableRecord[] {
 		return this.records.filter(record => record.card === card);
-	}
-}
-
-export class SourcefulDivcordTableRecord implements ISourcefulDivcordTableRecord {
-	id: number;
-	card: string;
-	greynote: IGreynote;
-	tagHypothesis?: string | undefined;
-	confidence: IConfidence;
-	remainingWork: IRemainingWork;
-	sources?: ISource[] | undefined;
-	wikiDisagreements?: string | undefined;
-	verifySources: ISource[];
-	sourcesWithTagButNotOnWiki?: string | undefined;
-	notes?: string | undefined;
-	constructor(record: ISourcefulDivcordTableRecord) {
-		this.id = record.id;
-		this.card = record.card;
-		this.greynote = record.greynote;
-		this.tagHypothesis = record.tagHypothesis;
-		this.confidence = record.confidence;
-		this.remainingWork = record.remainingWork;
-		this.sources = record.sources;
-		this.wikiDisagreements = record.wikiDisagreements;
-		this.sourcesWithTagButNotOnWiki = record.sourcesWithTagButNotOnWiki;
-		this.verifySources = record.verifySources;
-		this.notes = record.notes;
 	}
 }

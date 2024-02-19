@@ -1,5 +1,5 @@
-import { SourcefulDivcordTable, SourcefulDivcordTableRecord } from './divcord';
-import { ISourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson';
+import { SourcefulDivcordTable } from './divcord';
+import { SourcefulDivcordTableRecord } from './gen/divcordRecordsFromJson';
 import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
 import { PoeData, poeData, IMapBoss } from './PoeData';
 
@@ -53,11 +53,7 @@ export function bossesInMap(map: string, poeData: PoeData): IMapBoss[] {
 	return poeData.mapbosses.filter(b => b.maps.includes(imap.name));
 }
 
-export function cardsByMapboss(
-	boss: string,
-	records: ISourcefulDivcordTableRecord[],
-	poeData: PoeData
-): CardBySource[] {
+export function cardsByMapboss(boss: string, records: SourcefulDivcordTableRecord[], poeData: PoeData): CardBySource[] {
 	const cards: CardBySource[] = [];
 	if (!poeData.mapbosses.some(b => b.name === boss)) {
 		return cards;
@@ -83,7 +79,7 @@ export function isGlobalDropApplies(level: number, source: ISource): boolean {
 	return level >= minLevel && level <= maxLevel;
 }
 
-export function cardsByActboss(boss: string, records: ISourcefulDivcordTableRecord[]): CardBySource[] {
+export function cardsByActboss(boss: string, records: SourcefulDivcordTableRecord[]): CardBySource[] {
 	const cards: CardBySource[] = [];
 
 	for (const record of records) {
@@ -106,7 +102,7 @@ export type SourceAndCards = {
 
 export function cardsBySource(
 	source: ISource,
-	records: ISourcefulDivcordTableRecord[],
+	records: SourcefulDivcordTableRecord[],
 	poeData: PoeData
 ): CardBySource[] {
 	const cards: CardBySource[] = [];
@@ -160,7 +156,7 @@ export function cardsBySource(
 
 export function cardsBySourceTypes(
 	sourceTypes: SourceType[],
-	records: ISourcefulDivcordTableRecord[],
+	records: SourcefulDivcordTableRecord[],
 	poeData: PoeData
 ): SourceAndCards[] {
 	const map: Map<string, CardBySource[]> = new Map();
@@ -268,7 +264,7 @@ export function cardsBySourceTypes(
  * @param poeData
  * @returns
  */
-export function sourcetypesMap(records: ISourcefulDivcordTableRecord[], poeData: PoeData): Map<SourceType, number> {
+export function sourcetypesMap(records: SourcefulDivcordTableRecord[], poeData: PoeData): Map<SourceType, number> {
 	const sourcesAndCards = cardsBySourceTypes(Array.from(sourceTypes), records, poeData);
 	return _sourcetypesMap(sourcesAndCards);
 }

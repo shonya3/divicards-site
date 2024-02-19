@@ -1,11 +1,11 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { SourcefulDivcordTableRecord } from '../divcord';
 import './e-source/e-source';
 import './e-need-to-verify';
 import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
+import type { SourcefulDivcordTableRecord } from '../gen/divcordRecordsFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
