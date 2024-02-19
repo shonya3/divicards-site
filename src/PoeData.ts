@@ -1,4 +1,3 @@
-import { includesMap } from './CardsFinder';
 import { SourcefulDivcordTable } from './divcord';
 import { poeDataFromJson } from './gen/poeDataFromJson';
 
@@ -159,3 +158,12 @@ export class PoeData implements IPoeData {
 }
 
 export const poeData = new PoeData(poeDataFromJson);
+export function includesMap(name: string, maps: string[]): boolean {
+	const short = name.replace('Map', '').trim();
+
+	return maps.some(
+		m =>
+			m.toLowerCase().trim().includes(name.toLowerCase().trim()) ||
+			m.toLowerCase().trim().includes(short.toLowerCase().trim())
+	);
+}

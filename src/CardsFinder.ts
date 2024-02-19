@@ -3,16 +3,6 @@ import { DivcordRecord } from './gen/divcordRecordsFromJson';
 import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
 import { PoeData, poeData, IMapBoss } from './PoeData';
 
-export const includesMap = (name: string, maps: string[]): boolean => {
-	const short = name.replace('Map', '').trim();
-
-	return maps.some(
-		m =>
-			m.toLowerCase().trim().includes(name.toLowerCase().trim()) ||
-			m.toLowerCase().trim().includes(short.toLowerCase().trim())
-	);
-};
-
 export type VerificationStatus = 'done' | 'verify';
 /** Card name and some source metadata */
 export type CardBySource = { card: string; transitiveSource?: SourceWithMember; status: VerificationStatus };
@@ -21,10 +11,6 @@ export class CardsFinder {
 	#divcordTable: SourcefulDivcordTable;
 	constructor(divcordTable: SourcefulDivcordTable) {
 		this.#divcordTable = divcordTable;
-	}
-
-	get records(): DivcordRecord[] {
-		return this.#divcordTable.records;
 	}
 
 	cardsByMaps(): Record<string, CardBySource[]> {
