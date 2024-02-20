@@ -1,6 +1,6 @@
 import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
 import { poeData, IActArea, PoeData } from './PoeData';
-import { SourcefulDivcordTable } from './divcord';
+import { DivcordTable } from './divcord';
 import { cardsDataMap } from './elements/divination-card/data';
 import { sourceTypes } from './gen/ISource.interface';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson';
@@ -21,7 +21,7 @@ let allCards: string[] = [];
 export function searchCardsByQuery(
 	query: string,
 	criterias: SearchCardsCriteria[],
-	divcordTable: SourcefulDivcordTable
+	divcordTable: DivcordTable
 ): string[] {
 	if (!allCards.length) {
 		allCards = divcordTable.cards();
@@ -173,7 +173,7 @@ function findByStackSize(query: string): string[] {
 	return cards;
 }
 
-function findBySourceId(query: string, divcordTable: SourcefulDivcordTable): string[] {
+function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 	let cards: string[] = [];
 
 	let actNumber: number | null = null;

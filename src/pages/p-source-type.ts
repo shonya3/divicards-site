@@ -9,7 +9,7 @@ import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards.ts';
 import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
-import { SourcefulDivcordTable } from '../divcord.ts';
+import { DivcordTable } from '../divcord.ts';
 import { ArrayAsyncRenderer } from '../utils.ts';
 
 declare global {
@@ -24,7 +24,7 @@ export class SourceTypePage extends LitElement {
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	@state() sourcesAndCardsRenderer!: ArrayAsyncRenderer<SourceAndCards>;
 

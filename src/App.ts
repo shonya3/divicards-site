@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, query, property } from 'lit/decorators.js';
 import { divcordLoader } from './DivcordLoader';
 import { divcordTableContext } from './context';
-import { SourcefulDivcordTable } from './divcord';
+import { DivcordTable } from './divcord';
 import { linkStyles } from './linkStyles';
 import { toast } from './toast';
 import './elements/e-navbar';
@@ -21,13 +21,13 @@ export class RootElement extends LitElement {
 
 	@provide({ context: divcordTableContext })
 	@property({ type: Object })
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	constructor() {
 		super();
 
 		divcordLoader.on('records-updated', e => {
-			this.divcordTable = new SourcefulDivcordTable(e.detail);
+			this.divcordTable = new DivcordTable(e.detail);
 			toast('Your Divcord data is up-to-date', 'success', 3000);
 		});
 	}

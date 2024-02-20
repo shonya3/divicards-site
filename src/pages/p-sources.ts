@@ -8,7 +8,7 @@ import { poeData } from '../PoeData';
 import { divcordTableContext } from '../context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight, sourcetypesMap } from '../cards';
 import { consume } from '@lit/context';
-import { SourcefulDivcordTable } from '../divcord';
+import { DivcordTable } from '../divcord';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-with-cards';
@@ -33,7 +33,7 @@ export class SourcesPage extends LitElement {
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() sourcetypesCountsMap!: Map<SourceType, number>;

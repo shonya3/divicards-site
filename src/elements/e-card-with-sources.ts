@@ -3,11 +3,11 @@ import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from './divination-card/e-divination-card';
 import { PoeData, poeData } from '../PoeData';
-import { SourcefulDivcordTable } from '../divcord';
 import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
 import type { ISource } from '../gen/ISource.interface';
+import { DivcordTable } from '../divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,7 +22,7 @@ declare global {
 export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
-	@property({ type: Object }) divcordTable!: SourcefulDivcordTable;
+	@property({ type: Object }) divcordTable!: DivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 
 	@state() sources: ISource[] = [];

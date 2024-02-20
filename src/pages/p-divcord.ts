@@ -2,7 +2,7 @@ import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { consume } from '@lit/context';
-import { SourcefulDivcordTable } from '../divcord';
+import { DivcordTable } from '../divcord';
 import { divcordTableContext } from '../context';
 
 import '../elements/e-card-with-divcord-records';
@@ -42,7 +42,7 @@ declare global {
 export function someCardRecordHasConfidenceVariant(
 	card: string,
 	confidenceVariants: IConfidence[],
-	divcordTable: SourcefulDivcordTable
+	divcordTable: DivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => confidenceVariants.includes(record.confidence));
 }
@@ -50,7 +50,7 @@ export function someCardRecordHasConfidenceVariant(
 export function someCardRecordHasRemainingWorkVariant(
 	card: string,
 	remainingWorkVariants: IRemainingWork[],
-	divcordTable: SourcefulDivcordTable
+	divcordTable: DivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => remainingWorkVariants.includes(record.remainingWork));
 }
@@ -58,7 +58,7 @@ export function someCardRecordHasRemainingWorkVariant(
 export function someCardRecordHasGreynoteWorkVariant(
 	card: string,
 	greynoteVariants: IGreynote[],
-	divcordTable: SourcefulDivcordTable
+	divcordTable: DivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
 }
@@ -109,7 +109,7 @@ export class DivcordTablePage extends LitElement {
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];

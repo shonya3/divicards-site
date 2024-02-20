@@ -1,4 +1,4 @@
 import { createContext } from '@lit/context';
-import type { SourcefulDivcordTable } from './divcord';
+import type { DivcordTable } from './divcord';
 
-export const divcordTableContext = createContext<SourcefulDivcordTable>(Symbol('divcordTable'));
+export const divcordTableContext = createContext<DivcordTable>(Symbol('divcordTable'));

@@ -4,7 +4,7 @@ import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { cardsDataMap } from './data';
-import { SourcefulDivcordTable } from '../../divcord';
+import { DivcordTable } from '../../divcord';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../../context';
 import { PoeData, poeData } from '../../PoeData';
@@ -23,7 +23,7 @@ export interface Props {
 }
 export interface Events {}
 
-function minLevelOrRange(card: string, divcordTable: SourcefulDivcordTable, poeData: PoeData): string {
+function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeData): string {
 	const globals = divcordTable.globalDrops();
 	const globalDropSource = globals.get(card);
 	if (!globalDropSource) {
@@ -51,7 +51,7 @@ export class DivinationCardElement extends LitElement {
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable?: SourcefulDivcordTable;
+	divcordTable?: DivcordTable;
 
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';

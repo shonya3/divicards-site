@@ -8,7 +8,7 @@ import '../elements/e-source-with-cards';
 import { CardBySource, cardsBySource, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import type { ISource } from '../gen/ISource.interface';
-import { SourcefulDivcordTable } from '../divcord';
+import { DivcordTable } from '../divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -22,7 +22,7 @@ export class SourcePage extends LitElement {
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	@state() cards!: CardBySource[];
 

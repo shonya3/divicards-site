@@ -1,11 +1,11 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SourcefulDivcordTable } from '../divcord';
 import '../elements/e-card-with-sources';
 import '../elements/e-card-with-divcord-records';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { poeData } from '../PoeData';
+import { DivcordTable } from '../divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -18,7 +18,7 @@ export class CardPage extends LitElement {
 	@property({ reflect: true }) card!: string;
 
 	@consume({ context: divcordTableContext, subscribe: true })
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	render() {
 		const league = poeData.card(this.card)?.league;

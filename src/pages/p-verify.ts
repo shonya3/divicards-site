@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { divcordTableContext } from '../context';
-import { SourcefulDivcordTable } from '../divcord';
+import { DivcordTable } from '../divcord';
 import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
@@ -20,7 +20,7 @@ declare global {
 export class VerifyPage extends LitElement {
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	@state() sourcesAndCardsRenderer!: ArrayAsyncRenderer<SourceAndCards>;
 

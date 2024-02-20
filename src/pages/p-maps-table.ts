@@ -10,7 +10,7 @@ import { CardBySource, cardsByMaps, sortByWeight } from '../cards';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
-import { SourcefulDivcordTable } from '../divcord';
+import { DivcordTable } from '../divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -27,7 +27,7 @@ export class MapsTablePage extends LitElement {
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable!: DivcordTable;
 
 	@state() cardsByMaps: Record<string, CardBySource[]> = {};
 

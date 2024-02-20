@@ -2,11 +2,11 @@ import { render } from 'lit';
 import './App';
 import { router } from './router';
 import { divcordLoader } from './DivcordLoader';
-import { SourcefulDivcordTable } from './divcord';
+import { DivcordTable } from './divcord';
 import { startViewTransition } from './utils';
 
 const records = await divcordLoader.getRecordsAndRunUpdateIfNeeded();
-const divcordTable = new SourcefulDivcordTable(records);
+const divcordTable = new DivcordTable(records);
 
 const root = document.createElement('app-root');
 root.divcordTable = divcordTable;
