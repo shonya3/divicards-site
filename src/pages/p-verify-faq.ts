@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 declare global {
@@ -22,6 +22,16 @@ export class VerifyFaqPage extends LitElement {
 				}
 			}
 		});
+	}
+
+	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+		const { hash } = new URL(window.location.href);
+		if (hash) {
+			const el = this.shadowRoot?.querySelector(hash);
+			if (el) {
+				this.scrollTo({ top: el.getBoundingClientRect().top - 100, behavior: 'instant' });
+			}
+		}
 	}
 
 	render() {
