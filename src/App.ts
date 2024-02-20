@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, query, property } from 'lit/decorators.js';
 import { divcordLoader } from './DivcordLoader';
 import { divcordTableContext } from './context';
-import { DivcordTable } from './divcord';
+import { DivcordTable } from './DivcordTable';
 import { linkStyles } from './linkStyles';
 import { toast } from './toast';
 import './elements/e-navbar';

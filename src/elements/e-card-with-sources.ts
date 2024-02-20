@@ -7,7 +7,7 @@ import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
 import type { ISource } from '../gen/ISource.interface';
-import { DivcordTable } from '../divcord';
+import { DivcordTable } from '../DivcordTable';
 
 declare global {
 	interface HTMLElementTagNameMap {

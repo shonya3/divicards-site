@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/e-divination-card';
-import { DivcordTable } from '../divcord';
+import { DivcordTable } from '../DivcordTable';
 import '../elements/e-page-controls';
 import '../elements/e-card-with-sources';
 import { consume } from '@lit/context';

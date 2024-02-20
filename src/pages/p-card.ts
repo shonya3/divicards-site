@@ -5,7 +5,7 @@ import '../elements/e-card-with-divcord-records';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { poeData } from '../PoeData';
-import { DivcordTable } from '../divcord';
+import { DivcordTable } from '../DivcordTable';
 
 declare global {
 	interface HTMLElementTagNameMap {

@@ -2,7 +2,7 @@ import { render } from 'lit';
 import './App';
 import { router } from './router';
 import { divcordLoader } from './DivcordLoader';
-import { DivcordTable } from './divcord';
+import { DivcordTable } from './DivcordTable';
 import { startViewTransition } from './utils';
 
 const records = await divcordLoader.getRecordsAndRunUpdateIfNeeded();

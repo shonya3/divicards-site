@@ -10,7 +10,7 @@ import { CardBySource, cardsByMaps, sortByWeight } from '../cards';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
-import { DivcordTable } from '../divcord';
+import { DivcordTable } from '../DivcordTable';
 
 declare global {
 	interface HTMLElementTagNameMap {

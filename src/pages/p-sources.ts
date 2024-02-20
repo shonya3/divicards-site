@@ -8,7 +8,7 @@ import { poeData } from '../PoeData';
 import { divcordTableContext } from '../context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight, sourcetypesMap } from '../cards';
 import { consume } from '@lit/context';
-import { DivcordTable } from '../divcord';
+import { DivcordTable } from '../DivcordTable';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-with-cards';

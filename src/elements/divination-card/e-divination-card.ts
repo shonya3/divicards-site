@@ -4,7 +4,7 @@ import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { cardsDataMap } from './data';
-import { DivcordTable } from '../../divcord';
+import { DivcordTable } from '../../DivcordTable';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../../context';
 import { PoeData, poeData } from '../../PoeData';

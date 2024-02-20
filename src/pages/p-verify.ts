@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { divcordTableContext } from '../context';
-import { DivcordTable } from '../divcord';
+import { DivcordTable } from '../DivcordTable';
 import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';

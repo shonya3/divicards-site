@@ -1,6 +1,6 @@
 import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
 import { poeData, IActArea, PoeData } from './PoeData';
-import { DivcordTable } from './divcord';
+import { DivcordTable } from './DivcordTable';
 import { cardsDataMap } from './elements/divination-card/data';
 import { sourceTypes } from './gen/ISource.interface';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson';

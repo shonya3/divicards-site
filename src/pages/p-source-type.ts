@@ -9,7 +9,7 @@ import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards.ts';
 import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
-import { DivcordTable } from '../divcord.ts';
+import { DivcordTable } from '../DivcordTable.ts';
 import { ArrayAsyncRenderer } from '../utils.ts';
 
 declare global {

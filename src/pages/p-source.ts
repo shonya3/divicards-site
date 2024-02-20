@@ -8,7 +8,7 @@ import '../elements/e-source-with-cards';
 import { CardBySource, cardsBySource, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import type { ISource } from '../gen/ISource.interface';
-import { DivcordTable } from '../divcord';
+import { DivcordTable } from '../DivcordTable';
 
 declare global {
 	interface HTMLElementTagNameMap {
