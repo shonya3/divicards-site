@@ -57,5 +57,11 @@ export class SourceWithCardsElement extends LitElement {
 		.cards {
 			margin-top: var(--cards-margin-top);
 		}
+
+		@media (width <=700px) {
+			e-source {
+				margin-inline: auto;
+			}
+		}
 	`;
 }

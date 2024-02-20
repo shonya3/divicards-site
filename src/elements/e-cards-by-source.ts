@@ -72,5 +72,13 @@ export class CardsBySourceElement extends LitElement {
 		li > e-need-to-verify {
 			margin-bottom: 18px;
 		}
+
+		@media (width <= 700px) {
+			.cards {
+				flex-direction: column;
+				align-items: center;
+				flex-wrap: nowrap;
+			}
+		}
 	`;
 }

@@ -58,6 +58,11 @@ export class VerifyPage extends LitElement {
 	}
 
 	static styles = css`
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
 		:host {
 		}
 
@@ -69,18 +74,25 @@ export class VerifyPage extends LitElement {
 			padding: 2rem;
 		}
 
+		.list {
+			margin-top: 2rem;
+			margin-left: 1rem;
+
+			list-style: none;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
 		@media (max-width: 600px) {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
 			}
-		}
 
-		.list {
-			list-style: none;
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
+			.list {
+				margin-left: 0;
+			}
 		}
 	`;
 }
