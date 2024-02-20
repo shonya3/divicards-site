@@ -44,6 +44,9 @@ export class VerifyFaqPage extends LitElement {
 						<li>
 							<a href="#section-3"> How do I know what to look for? </a>
 						</li>
+						<li>
+							<a href="#section-4"> What affects drop rates of boss cards? </a>
+						</li>
 					</ol>
 				</nav>
 				<!-- ==================== SECTION #1 =================== -->
@@ -174,13 +177,38 @@ export class VerifyFaqPage extends LitElement {
 						You can also check this out.
 					</p>
 				</section>
+
+				<!-- ==================== SECTION #4 =================== -->
+				<section id="section-4">
+					<h2>4. What affects drop rates of boss cards?</h2>
+					<p>
+						Unlike regular drop cards, boss cards have their own custom drop rates independent of their
+						random drop weights.
+					</p>
+					<p>
+						These drop rates <em>are not affected by item quantity</em>, unless a specific modifier allows
+						it (e.g. Conquerors maps, non-10 way Invitations).
+					</p>
+					<p>
+						Because of this, the "only" way to increase boss card drop frequency is to increase the # of
+						maps completed per hour, or to use the "Area contains two Unique Bosses" /Twinned modifier.
+					</p>
+					<p>
+						Bosses revived in Rituals, spawned by the Maven, or from the 10 way invitation are considered
+						standalone versions and are unable to drop boss-specific cards.
+					</p>
+					<p>
+						Certain boss cards can drop like regular area cards in Kirac Div Card Missions or Master
+						Memories.
+					</p>
+				</section>
 			</article>
 		`;
 	}
 
 	static styles = css`
 		article {
-			max-width: min(65ch, calc(100% - 3rem));
+			max-width: min(47ch, calc(100% - 3rem));
 			margin-inline: auto;
 			font-size: 18px;
 		}
