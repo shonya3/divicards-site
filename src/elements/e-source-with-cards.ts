@@ -7,12 +7,12 @@ import './e-cards-by-source';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'e-source-and-cards': SourceAndCardsElement;
+		'e-source-with-cards': SourceWithCardsElement;
 	}
 }
 
-@customElement('e-source-and-cards')
-export class SourceAndCardsElement extends LitElement {
+@customElement('e-source-with-cards')
+export class SourceWithCardsElement extends LitElement {
 	@property({ type: Object }) source!: ISource;
 	@property({ type: Array }) cards!: CardBySource[];
 	@property({ type: Boolean }) showSourceType = true;

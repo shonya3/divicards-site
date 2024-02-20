@@ -7,7 +7,7 @@ import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import { ArrayAsyncRenderer } from '../utils';
 import { sourceTypes } from '../gen/ISource.interface';
-import '../elements/e-source-and-cards';
+import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
 
 declare global {
@@ -45,7 +45,7 @@ export class VerifyPage extends LitElement {
 		const list = this.sourcesAndCardsRenderer.render(
 			({ source, cards }: SourceAndCards) =>
 				html`<li>
-					<e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards>
+					<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
 				</li>`
 		);
 
@@ -61,7 +61,7 @@ export class VerifyPage extends LitElement {
 		:host {
 		}
 
-		e-source-and-cards {
+		e-source-with-cards {
 			--cards-margin-top: 0rem;
 		}
 

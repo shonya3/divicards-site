@@ -4,7 +4,7 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
-import '../elements/e-source-and-cards';
+import '../elements/e-source-with-cards';
 import { CardBySource, cardsBySource, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import type { ISource } from '../gen/ISource.interface';
@@ -36,7 +36,7 @@ export class SourcePage extends LitElement {
 
 	render() {
 		return html`<div class="page">
-			<e-source-and-cards .source=${this.source} .cards=${this.cards}></e-source-and-cards>
+			<e-source-with-cards .source=${this.source} .cards=${this.cards}></e-source-with-cards>
 		</div>`;
 	}
 
@@ -47,7 +47,7 @@ export class SourcePage extends LitElement {
 			flex-wrap: wrap;
 		}
 
-		e-source-and-cards::part(source) {
+		e-source-with-cards::part(source) {
 			view-transition-name: source;
 		}
 

@@ -55,11 +55,11 @@ export class SourceTypePage extends LitElement {
 			<ul>
 				${this.sourcesAndCardsRenderer.render(({ source, cards }) => {
 					return html`<li>
-						<e-source-and-cards
+						<e-source-with-cards
 							.showSourceType=${false}
 							.source=${source}
 							.cards=${cards}
-						></e-source-and-cards>
+						></e-source-with-cards>
 					</li>`;
 				})}
 			</ul>

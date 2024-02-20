@@ -11,7 +11,7 @@ import { consume } from '@lit/context';
 import { SourcefulDivcordTable } from '../divcord';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
-import '../elements/e-source-and-cards';
+import '../elements/e-source-with-cards';
 import { SlConverter } from '../utils';
 import { SourceType, sourceTypes } from '../gen/ISource.interface';
 
@@ -86,11 +86,11 @@ export class SourcesPage extends LitElement {
 				</ul>
 			</details>
 
-			<ul class="source-and-cards-list" style="padding-top: 4rem">
+			<ul class="source-with-cards-list" style="padding-top: 4rem">
 				${this.sourcesAndCards.map(
 					({ source, cards }) =>
-						html`<li class="source-and-cards-list_item">
-							<e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards>
+						html`<li class="source-with-cards-list_item">
+							<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
 						</li>`
 				)}
 			</ul>
@@ -130,7 +130,7 @@ export class SourcesPage extends LitElement {
 			}
 		}
 
-		.source-and-cards-list li:not(:first-child) {
+		.source-with-cards-list li:not(:first-child) {
 			margin-top: 4rem;
 		}
 
