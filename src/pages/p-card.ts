@@ -33,7 +33,7 @@ export class CardPage extends LitElement {
 	}
 
 	static styles = css`
-		e-card-with-sources {
+		e-card-with-sources::part(card) {
 			view-transition-name: card;
 		}
 

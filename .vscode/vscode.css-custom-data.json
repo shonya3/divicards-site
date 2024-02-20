@@ -3,43 +3,27 @@
   "version": 1.1,
   "properties": [
     {
-      "name": "--border-color",
-      "description": "The card's border color, including borders that occur inside the card.",
+      "name": "--padding-inline",
+      "description": "The inline padding to use for for element.",
       "values": []
     },
     {
-      "name": "--border-radius",
-      "description": "The border radius for the card's edges.",
+      "name": "--padding-block",
+      "description": "The block padding to use for for element.",
       "values": []
     },
     {
-      "name": "--border-width",
-      "description": "The width of the card's borders.",
+      "name": "--padding-inline",
+      "description": "The inline padding to use for for element.",
       "values": []
     },
     {
-      "name": "--padding",
-      "description": "The padding to use for the card's sections.",
+      "name": "--padding-block",
+      "description": "The block padding to use for for element.",
       "values": []
     }
   ],
   "pseudoElements": [
-    { "name": "::part(base)", "description": "The component's base wrapper." },
-    {
-      "name": "::part(image)",
-      "description": "The container that wraps the card's image."
-    },
-    {
-      "name": "::part(header)",
-      "description": "The container that wraps the card's header."
-    },
-    {
-      "name": "::part(body)",
-      "description": "The container that wraps the card's main content."
-    },
-    {
-      "name": "::part(footer)",
-      "description": "The container that wraps the card's footer."
-    }
+    { "name": "::part(card)", "description": "Divination card element" }
   ]
 }

@@ -15,6 +15,9 @@ declare global {
 	}
 }
 
+/**
+ * @csspart card - Divination card element
+ */
 @customElement('e-card-with-sources')
 export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
@@ -66,7 +69,7 @@ export class CardWithSourcesElement extends LitElement {
 
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
-				<e-divination-card .name=${this.name} .size=${this.size}></e-divination-card>
+				<e-divination-card part="card" .name=${this.name} .size=${this.size}></e-divination-card>
 				${this.sourcesList()}
 			</div>
 		`;

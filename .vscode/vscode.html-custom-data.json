@@ -1,525 +1,513 @@
 {
-	"$schema": "https://raw.githubusercontent.com/microsoft/vscode-html-languageservice/main/docs/customData.schema.json",
-	"version": 1.1,
-	"tags": [
-		{
-			"name": "app-root",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "pathname", "values": [] },
-				{
-					"name": "divcordTable",
-					"values": [{ "name": "SourcefulDivcordTable" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "a",
-			"description": "\n---\n",
-			"attributes": [],
-			"references": []
-		},
-		{
-			"name": "e-box",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "width", "values": [] },
-				{ "name": "height", "values": [] },
-				{ "name": "color", "values": [] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-card-with-divcord-records",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "card", "values": [] },
-				{
-					"name": "records",
-					"values": [{ "name": "DivcordRecord[]" }]
-				},
-				{
-					"name": "divcordTable",
-					"values": [{ "name": "SourcefulDivcordTable" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "e-card-with-sources",
-			"description": "\n---\n\n\n### **Methods:**\n ",
-			"attributes": [
-				{ "name": "name", "values": [] },
-				{ "name": "size", "values": [{ "name": "CardSize" }] },
-				{
-					"name": "divcordTable",
-					"values": [{ "name": "SourcefulDivcordTable" }]
-				},
-				{ "name": "renderMode", "values": [{ "name": "RenderMode" }] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-cards-by-source-list",
-			"description": "\n---\n\n\n### **Events:**\n - **boss-navigation** - undefined",
-			"attributes": [
-				{ "name": "cards", "values": [{ "name": "CardBySource[]" }] },
-				{
-					"name": "divcordTable",
-					"values": [{ "name": "SourcefulDivcordTable" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "e-divcord-needs-info",
-			"description": "\n---\n",
-			"attributes": [{ "name": "card", "values": [] }],
-			"references": []
-		},
-		{
-			"name": "e-need-to-verify",
-			"description": "\n---\n",
-			"attributes": [],
-			"references": []
-		},
-		{
-			"name": "e-need-to-verify-border",
-			"description": "\n---\n",
-			"attributes": [],
-			"references": []
-		},
-		{
-			"name": "e-page-controls",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "page", "values": [] },
-				{ "name": "per-page", "values": [] },
-				{ "name": "n", "values": [] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-source-and-cards",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "source", "values": [{ "name": "ISource" }] },
-				{ "name": "cards", "values": [{ "name": "CardBySource[]" }] },
-				{ "name": "showSourceType", "values": [] },
-				{
-					"name": "divcordTable",
-					"values": [{ "name": "SourcefulDivcordTable" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "e-source-type",
-			"description": "\n---\n",
-			"attributes": [{ "name": "sourceType", "values": [{ "name": "SourceType" }] }],
-			"references": []
-		},
-		{
-			"name": "e-sourceful-divcord-record",
-			"description": "\n---\n",
-			"attributes": [
-				{
-					"name": "record",
-					"values": [{ "name": "DivcordRecord" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "e-verify-faq-alert",
-			"description": "\n---\n",
-			"attributes": [],
-			"references": []
-		},
-		{
-			"name": "p-card",
-			"description": "\n---\n",
-			"attributes": [{ "name": "card", "values": [] }],
-			"references": []
-		},
-		{
-			"name": "p-divcord",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "page", "values": [] },
-				{ "name": "per-page", "values": [] },
-				{ "name": "filter", "values": [] },
-				{ "name": "shouldApplySelectFilters", "values": [] },
-				{ "name": "onlyShowCardsWithNoConfirmedSources", "values": [] },
-				{ "name": "onlyShowCardsWithSourcesToVerify", "values": [] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-relative-time",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "date", "values": [{ "name": "Date" }] },
-				{
-					"name": "unit",
-					"values": [{ "name": "seconds" }, { "name": "minutes" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "e-divcord-records-age",
-			"description": "\n---\n",
-			"attributes": [{ "name": "date", "values": [{ "name": "Date" }] }],
-			"references": []
-		},
-		{
-			"name": "e-update-divcord-data",
-			"description": "\n---\n",
-			"attributes": [],
-			"references": []
-		},
-		{
-			"name": "p-home",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "page", "values": [] },
-				{ "name": "per-page", "values": [] },
-				{ "name": "size", "values": [{ "name": "CardSize" }] },
-				{ "name": "filter", "values": [] },
-				{
-					"name": "searchCriterias",
-					"values": [{ "name": "SearchCardsCriteria[]" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "p-maps-table",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "page", "values": [] },
-				{ "name": "per-page", "values": [] },
-				{ "name": "size", "values": [{ "name": "CardSize" }] },
-				{ "name": "filter", "values": [] }
-			],
-			"references": []
-		},
-		{
-			"name": "p-source-type",
-			"description": "\n---\n",
-			"attributes": [{ "name": "sourceType", "values": [{ "name": "SourceType" }] }],
-			"references": []
-		},
-		{
-			"name": "p-source",
-			"description": "\n---\n",
-			"attributes": [{ "name": "source", "values": [{ "name": "ISource" }] }],
-			"references": []
-		},
-		{
-			"name": "p-sources",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "page", "values": [] },
-				{ "name": "per-page", "values": [] },
-				{ "name": "size", "values": [{ "name": "CardSize" }] },
-				{ "name": "filter", "values": [] },
-				{ "name": "showSourceType", "values": [] },
-				{ "name": "firstColumnName", "values": [] },
-				{ "name": "allSourceTypes", "values": [{ "name": "SourceType[]" }] },
-				{
-					"name": "selectedSourceTypes",
-					"values": [{ "name": "SourceType[]" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "p-verify-faq",
-			"description": "\n---\n",
-			"attributes": [],
-			"references": []
-		},
-		{
-			"name": "p-verify",
-			"description": "\n---\n",
-			"attributes": [],
-			"references": []
-		},
-		{
-			"name": "e-divination-card",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "name", "values": [] },
-				{ "name": "size", "values": [{ "name": "CardSize" }] },
-				{ "name": "min-level-or-range", "values": [] },
-				{ "name": "boss", "values": [] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-act-area",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "actArea", "values": [{ "name": "IActArea" }] },
-				{ "name": "size", "values": [{ "name": "Size" }] },
-				{ "name": "href", "values": [] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-actboss",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "boss", "values": [{ "name": "IBossfight" }] },
-				{ "name": "actArea", "values": [{ "name": "IActArea" }] },
-				{ "name": "href", "values": [] },
-				{ "name": "renderMode", "values": [{ "name": "RenderMode" }] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-map",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "map", "values": [{ "name": "IMap" }] },
-				{
-					"name": "size",
-					"values": [{ "name": "small" }, { "name": "medium" }]
-				},
-				{ "name": "href", "values": [] },
-				{ "name": "renderMode", "values": [{ "name": "RenderMode" }] },
-				{ "name": "image-size", "values": [] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-mapboss",
-			"description": "\n---\n",
-			"attributes": [
-				{ "name": "boss", "values": [{ "name": "IMapBoss" }] },
-				{ "name": "maps", "values": [{ "name": "IMap[]" }] },
-				{
-					"name": "size",
-					"values": [{ "name": "small" }, { "name": "medium" }, { "name": "large" }]
-				},
-				{ "name": "href", "values": [] },
-				{ "name": "renderMode", "values": [{ "name": "RenderMode" }] }
-			],
-			"references": []
-		},
-		{
-			"name": "e-source",
-			"description": "Any dropsource of divination card: map, act, etc\n---\n\n\n### **Slots:**\n - _default_ - The card's main content.\n- **header** - An optional header for the card.\n- **footer** - An optional footer for the card.\n- **image** - An optional image to render at the start of the card.\n\n### **CSS Properties:**\n - **--border-color** - The card's border color, including borders that occur inside the card. _(default: undefined)_\n- **--border-radius** - The border radius for the card's edges. _(default: undefined)_\n- **--border-width** - The width of the card's borders. _(default: undefined)_\n- **--padding** - The padding to use for the card's sections. _(default: undefined)_\n\n### **CSS Parts:**\n - **base** - The component's base wrapper.\n- **image** - The container that wraps the card's image.\n- **header** - The container that wraps the card's header.\n- **body** - The container that wraps the card's main content.\n- **footer** - The container that wraps the card's footer.",
-			"attributes": [
-				{ "name": "source", "values": [{ "name": "ISource" }] },
-				{ "name": "showSourceType", "values": [] },
-				{ "name": "size", "values": [{ "name": "CardSize" }] },
-				{ "name": "renderMode", "values": [{ "name": "RenderMode" }] },
-				{
-					"name": "actSize",
-					"values": [{ "name": "small" }, { "name": "large" }]
-				}
-			],
-			"references": []
-		},
-		{
-			"name": "e-input",
-			"description": "\n---\n\n\n### **Events:**\n - **input** - undefined\n\n### **Methods:**\n - **focus(options: _FocusOptions_)** - Sets focus on the input.\n- **blur()** - Removes focus from the input.\n- **select()** - Selects all the text in the input.\n- **setSelectionRange(selectionStart: _number_, selectionEnd: _number_, selectionDirection: _'forward' | 'backward' | 'none'_)** - Sets the start and end positions of the text selection (0-based).\n- **setRangeText(replacement: _string_, start: _number_, end: _number_, selectMode: _'select' | 'start' | 'end' | 'preserve'_)** - Replaces a range of text with a new string.\n- **showPicker()** - Displays the browser picker for an input element (only works if the browser supports it for the input type).\n- **stepUp()** - Increments the value of a numeric input type by the value of the step attribute.\n- **stepDown()** - Decrements the value of a numeric input type by the value of the step attribute.\n- **checkValidity()** - Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.\n- **reportValidity()** - Checks for validity and shows the browser's validation message if the control is invalid.\n- **setCustomValidity(message: _string_)** - Sets a custom validation message. Pass an empty string to restore validity.",
-			"attributes": [
-				{ "name": "datalistItems", "values": [{ "name": "string[]" }] },
-				{ "name": "title", "values": [] },
-				{
-					"name": "type",
-					"description": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\r\nto `text`.",
-					"values": [
-						{ "name": "" },
-						{ "name": "date" },
-						{ "name": "datetime-local" },
-						{ "name": "email" },
-						{ "name": "number" },
-						{ "name": "password" },
-						{ "name": "search" },
-						{ "name": "tel" },
-						{ "name": "text" },
-						{ "name": "time" },
-						{ "name": "url" }
-					]
-				},
-				{ "name": "list", "values": [] },
-				{
-					"name": "name",
-					"description": "The name of the input, submitted as a name/value pair with form data.",
-					"values": []
-				},
-				{
-					"name": "value",
-					"description": "The current value of the input, submitted as a name/value pair with form data.",
-					"values": []
-				},
-				{
-					"name": "size",
-					"description": "The input's size.",
-					"values": [{ "name": "small" }, { "name": "medium" }, { "name": "large" }]
-				},
-				{
-					"name": "filled",
-					"description": "Draws a filled input.",
-					"values": []
-				},
-				{
-					"name": "pill",
-					"description": "Draws a pill-style input with rounded edges.",
-					"values": []
-				},
-				{
-					"name": "label",
-					"description": "The input's label. If you need to display HTML, use the `label` slot instead.",
-					"values": []
-				},
-				{
-					"name": "help-text",
-					"description": "The input's help text. If you need to display HTML, use the `help-text` slot instead.",
-					"values": []
-				},
-				{
-					"name": "clearable",
-					"description": "Adds a clear button when the input is not empty.",
-					"values": []
-				},
-				{
-					"name": "disabled",
-					"description": "Disables the input.",
-					"values": []
-				},
-				{
-					"name": "placeholder",
-					"description": "Placeholder text to show as a hint when the input is empty.",
-					"values": []
-				},
-				{
-					"name": "readonly",
-					"description": "Makes the input readonly.",
-					"values": []
-				},
-				{
-					"name": "password-toggle",
-					"description": "Adds a button to toggle the password's visibility. Only applies to password types.",
-					"values": []
-				},
-				{
-					"name": "password-visible",
-					"description": "Determines whether or not the password is currently visible. Only applies to password input types.",
-					"values": []
-				},
-				{
-					"name": "no-spin-buttons",
-					"description": "Hides the browser's built-in increment/decrement spin buttons for number inputs.",
-					"values": []
-				},
-				{
-					"name": "form",
-					"description": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\r\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\r\nthe same document or shadow root for this to work.",
-					"values": []
-				},
-				{
-					"name": "required",
-					"description": "Makes the input a required field.",
-					"values": []
-				},
-				{
-					"name": "pattern",
-					"description": "A regular expression pattern to validate input against.",
-					"values": []
-				},
-				{
-					"name": "minlength",
-					"description": "The minimum length of input that will be considered valid.",
-					"values": []
-				},
-				{
-					"name": "maxlength",
-					"description": "The maximum length of input that will be considered valid.",
-					"values": []
-				},
-				{
-					"name": "min",
-					"description": "The input's minimum value. Only applies to date and number input types.",
-					"values": []
-				},
-				{
-					"name": "max",
-					"description": "The input's maximum value. Only applies to date and number input types.",
-					"values": []
-				},
-				{
-					"name": "step",
-					"description": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\r\nimplied, allowing any numeric value. Only applies to date and number input types.",
-					"values": [{ "name": "any" }]
-				},
-				{
-					"name": "autocapitalize",
-					"description": "Controls whether and how text input is automatically capitalized as it is entered by the user.",
-					"values": [
-						{ "name": "off" },
-						{ "name": "none" },
-						{ "name": "on" },
-						{ "name": "sentences" },
-						{ "name": "words" },
-						{ "name": "characters" }
-					]
-				},
-				{
-					"name": "autocorrect",
-					"description": "Indicates whether the browser's autocorrect feature is on or off.",
-					"values": [{ "name": "off" }, { "name": "on" }]
-				},
-				{
-					"name": "autocomplete",
-					"description": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\r\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.",
-					"values": []
-				},
-				{
-					"name": "autofocus",
-					"description": "Indicates that the input should receive focus on page load.",
-					"values": []
-				},
-				{
-					"name": "enterkeyhint",
-					"description": "Used to customize the label or icon of the Enter key on virtual keyboards.",
-					"values": [
-						{ "name": "enter" },
-						{ "name": "done" },
-						{ "name": "go" },
-						{ "name": "next" },
-						{ "name": "previous" },
-						{ "name": "search" },
-						{ "name": "send" }
-					]
-				},
-				{
-					"name": "spellcheck",
-					"description": "Enables spell checking on the input.",
-					"values": []
-				},
-				{
-					"name": "inputmode",
-					"description": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\r\nkeyboard on supportive devices.",
-					"values": [
-						{ "name": "none" },
-						{ "name": "text" },
-						{ "name": "decimal" },
-						{ "name": "numeric" },
-						{ "name": "tel" },
-						{ "name": "search" },
-						{ "name": "email" },
-						{ "name": "url" }
-					]
-				}
-			],
-			"references": []
-		}
-	]
+  "$schema": "https://raw.githubusercontent.com/microsoft/vscode-html-languageservice/main/docs/customData.schema.json",
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "app-root",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "pathname", "values": [] },
+        {
+          "name": "divcordTable",
+          "values": [{ "name": "SourcefulDivcordTable" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "a",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "e-card-with-divcord-records",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "card", "values": [] },
+        { "name": "records", "values": [{ "name": "DivcordRecord[]" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-card-with-sources",
+      "description": "\n---\n\n\n### **Methods:**\n \n\n### **CSS Parts:**\n - **card** - Divination card element",
+      "attributes": [
+        { "name": "name", "values": [] },
+        { "name": "size", "values": [{ "name": "CardSize" }] },
+        {
+          "name": "divcordTable",
+          "values": [{ "name": "SourcefulDivcordTable" }]
+        },
+        { "name": "renderMode", "values": [{ "name": "RenderMode" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-cards-by-source",
+      "description": "\n---\n\n\n### **Events:**\n - **boss-navigation** - undefined",
+      "attributes": [
+        { "name": "cards", "values": [{ "name": "CardBySource[]" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-divcord-needs-info",
+      "description": "\n---\n",
+      "attributes": [{ "name": "card", "values": [] }],
+      "references": []
+    },
+    {
+      "name": "e-navbar",
+      "description": "\n---\n",
+      "attributes": [{ "name": "linkItems", "values": [{ "name": "array" }] }],
+      "references": []
+    },
+    {
+      "name": "e-need-to-verify",
+      "description": "Notifiyng border for e-divination-card and e-source, when it needs to be verified.\r\nExample:\r\n```js\r\n<e-need-to-verify>\r\n<e-divination-card name=\"The Doctor\"></e-divination-card>\r\n</e-need-to-verify>\r\n```\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "e-need-to-verify-border",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "e-page-controls",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "page", "values": [] },
+        { "name": "per-page", "values": [] },
+        { "name": "n", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-source-type",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "sourceType", "values": [{ "name": "SourceType" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-source-with-cards",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "source", "values": [{ "name": "ISource" }] },
+        { "name": "cards", "values": [{ "name": "CardBySource[]" }] },
+        { "name": "showSourceType", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-sourceful-divcord-record",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "record", "values": [{ "name": "DivcordRecord" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-verify-faq-alert",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "p-card",
+      "description": "\n---\n",
+      "attributes": [{ "name": "card", "values": [] }],
+      "references": []
+    },
+    {
+      "name": "p-divcord",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "page", "values": [] },
+        { "name": "per-page", "values": [] },
+        { "name": "filter", "values": [] },
+        { "name": "shouldApplySelectFilters", "values": [] },
+        { "name": "onlyShowCardsWithNoConfirmedSources", "values": [] },
+        { "name": "onlyShowCardsWithSourcesToVerify", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-relative-time",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "date", "values": [{ "name": "Date" }] },
+        {
+          "name": "unit",
+          "values": [{ "name": "seconds" }, { "name": "minutes" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-divcord-records-age",
+      "description": "\n---\n",
+      "attributes": [{ "name": "date", "values": [{ "name": "Date" }] }],
+      "references": []
+    },
+    {
+      "name": "e-update-divcord-data",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "p-home",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "page", "values": [] },
+        { "name": "per-page", "values": [] },
+        { "name": "size", "values": [{ "name": "CardSize" }] },
+        { "name": "filter", "values": [] },
+        {
+          "name": "searchCriterias",
+          "values": [{ "name": "SearchCardsCriteria[]" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "p-maps-table",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "page", "values": [] },
+        { "name": "per-page", "values": [] },
+        { "name": "size", "values": [{ "name": "CardSize" }] },
+        { "name": "filter", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "p-source-type",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "sourceType", "values": [{ "name": "SourceType" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "p-source",
+      "description": "\n---\n",
+      "attributes": [{ "name": "source", "values": [{ "name": "ISource" }] }],
+      "references": []
+    },
+    {
+      "name": "p-sources",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "page", "values": [] },
+        { "name": "per-page", "values": [] },
+        { "name": "size", "values": [{ "name": "CardSize" }] },
+        { "name": "showSourceType", "values": [] },
+        { "name": "firstColumnName", "values": [] },
+        { "name": "allSourceTypes", "values": [{ "name": "SourceType[]" }] },
+        {
+          "name": "selectedSourceTypes",
+          "values": [{ "name": "SourceType[]" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "p-verify-faq",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "p-verify",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "e-divination-card",
+      "description": "Divination Card\n---\n\n\n### **CSS Properties:**\n - **--padding-inline** - The inline padding to use for for element. _(default: undefined)_\n- **--padding-block** - The block padding to use for for element. _(default: undefined)_",
+      "attributes": [
+        { "name": "name", "values": [] },
+        { "name": "size", "values": [{ "name": "CardSize" }] },
+        { "name": "boss", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-act-area",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "actArea", "values": [{ "name": "IActArea" }] },
+        { "name": "size", "values": [{ "name": "Size" }] },
+        { "name": "href", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-actboss",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "boss", "values": [{ "name": "IBossfight" }] },
+        { "name": "actArea", "values": [{ "name": "IActArea" }] },
+        { "name": "href", "values": [] },
+        { "name": "renderMode", "values": [{ "name": "RenderMode" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-map",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "map", "values": [{ "name": "IMap" }] },
+        {
+          "name": "size",
+          "values": [{ "name": "small" }, { "name": "medium" }]
+        },
+        { "name": "href", "values": [] },
+        { "name": "renderMode", "values": [{ "name": "RenderMode" }] },
+        { "name": "image-size", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-mapboss",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "boss", "values": [{ "name": "IMapBoss" }] },
+        { "name": "maps", "values": [{ "name": "IMap[]" }] },
+        {
+          "name": "size",
+          "values": [
+            { "name": "small" },
+            { "name": "medium" },
+            { "name": "large" }
+          ]
+        },
+        { "name": "href", "values": [] },
+        { "name": "renderMode", "values": [{ "name": "RenderMode" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-source",
+      "description": "Any dropsource of divination card: map, act, etc\n---\n\n\n### **CSS Properties:**\n - **--padding-inline** - The inline padding to use for for element. _(default: undefined)_\n- **--padding-block** - The block padding to use for for element. _(default: undefined)_",
+      "attributes": [
+        { "name": "source", "values": [{ "name": "ISource" }] },
+        { "name": "showSourceType", "values": [] },
+        { "name": "size", "values": [{ "name": "CardSize" }] },
+        { "name": "renderMode", "values": [{ "name": "RenderMode" }] },
+        {
+          "name": "actSize",
+          "values": [{ "name": "small" }, { "name": "large" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-input",
+      "description": "\n---\n\n\n### **Events:**\n - **input** - undefined\n\n### **Methods:**\n - **focus(options: _FocusOptions_)** - Sets focus on the input.\n- **blur()** - Removes focus from the input.\n- **select()** - Selects all the text in the input.\n- **setSelectionRange(selectionStart: _number_, selectionEnd: _number_, selectionDirection: _'forward' | 'backward' | 'none'_)** - Sets the start and end positions of the text selection (0-based).\n- **setRangeText(replacement: _string_, start: _number_, end: _number_, selectMode: _'select' | 'start' | 'end' | 'preserve'_)** - Replaces a range of text with a new string.\n- **showPicker()** - Displays the browser picker for an input element (only works if the browser supports it for the input type).\n- **stepUp()** - Increments the value of a numeric input type by the value of the step attribute.\n- **stepDown()** - Decrements the value of a numeric input type by the value of the step attribute.\n- **checkValidity()** - Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.\n- **reportValidity()** - Checks for validity and shows the browser's validation message if the control is invalid.\n- **setCustomValidity(message: _string_)** - Sets a custom validation message. Pass an empty string to restore validity.",
+      "attributes": [
+        { "name": "datalistItems", "values": [{ "name": "string[]" }] },
+        { "name": "title", "values": [] },
+        {
+          "name": "type",
+          "description": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\r\nto `text`.",
+          "values": [
+            { "name": "" },
+            { "name": "date" },
+            { "name": "datetime-local" },
+            { "name": "email" },
+            { "name": "number" },
+            { "name": "password" },
+            { "name": "search" },
+            { "name": "tel" },
+            { "name": "text" },
+            { "name": "time" },
+            { "name": "url" }
+          ]
+        },
+        { "name": "list", "values": [] },
+        {
+          "name": "name",
+          "description": "The name of the input, submitted as a name/value pair with form data.",
+          "values": []
+        },
+        {
+          "name": "value",
+          "description": "The current value of the input, submitted as a name/value pair with form data.",
+          "values": []
+        },
+        {
+          "name": "size",
+          "description": "The input's size.",
+          "values": [
+            { "name": "small" },
+            { "name": "medium" },
+            { "name": "large" }
+          ]
+        },
+        {
+          "name": "filled",
+          "description": "Draws a filled input.",
+          "values": []
+        },
+        {
+          "name": "pill",
+          "description": "Draws a pill-style input with rounded edges.",
+          "values": []
+        },
+        {
+          "name": "label",
+          "description": "The input's label. If you need to display HTML, use the `label` slot instead.",
+          "values": []
+        },
+        {
+          "name": "help-text",
+          "description": "The input's help text. If you need to display HTML, use the `help-text` slot instead.",
+          "values": []
+        },
+        {
+          "name": "clearable",
+          "description": "Adds a clear button when the input is not empty.",
+          "values": []
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the input.",
+          "values": []
+        },
+        {
+          "name": "placeholder",
+          "description": "Placeholder text to show as a hint when the input is empty.",
+          "values": []
+        },
+        {
+          "name": "readonly",
+          "description": "Makes the input readonly.",
+          "values": []
+        },
+        {
+          "name": "password-toggle",
+          "description": "Adds a button to toggle the password's visibility. Only applies to password types.",
+          "values": []
+        },
+        {
+          "name": "password-visible",
+          "description": "Determines whether or not the password is currently visible. Only applies to password input types.",
+          "values": []
+        },
+        {
+          "name": "no-spin-buttons",
+          "description": "Hides the browser's built-in increment/decrement spin buttons for number inputs.",
+          "values": []
+        },
+        {
+          "name": "form",
+          "description": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\r\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\r\nthe same document or shadow root for this to work.",
+          "values": []
+        },
+        {
+          "name": "required",
+          "description": "Makes the input a required field.",
+          "values": []
+        },
+        {
+          "name": "pattern",
+          "description": "A regular expression pattern to validate input against.",
+          "values": []
+        },
+        {
+          "name": "minlength",
+          "description": "The minimum length of input that will be considered valid.",
+          "values": []
+        },
+        {
+          "name": "maxlength",
+          "description": "The maximum length of input that will be considered valid.",
+          "values": []
+        },
+        {
+          "name": "min",
+          "description": "The input's minimum value. Only applies to date and number input types.",
+          "values": []
+        },
+        {
+          "name": "max",
+          "description": "The input's maximum value. Only applies to date and number input types.",
+          "values": []
+        },
+        {
+          "name": "step",
+          "description": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\r\nimplied, allowing any numeric value. Only applies to date and number input types.",
+          "values": [{ "name": "any" }]
+        },
+        {
+          "name": "autocapitalize",
+          "description": "Controls whether and how text input is automatically capitalized as it is entered by the user.",
+          "values": [
+            { "name": "off" },
+            { "name": "none" },
+            { "name": "on" },
+            { "name": "sentences" },
+            { "name": "words" },
+            { "name": "characters" }
+          ]
+        },
+        {
+          "name": "autocorrect",
+          "description": "Indicates whether the browser's autocorrect feature is on or off.",
+          "values": [{ "name": "off" }, { "name": "on" }]
+        },
+        {
+          "name": "autocomplete",
+          "description": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\r\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.",
+          "values": []
+        },
+        {
+          "name": "autofocus",
+          "description": "Indicates that the input should receive focus on page load.",
+          "values": []
+        },
+        {
+          "name": "enterkeyhint",
+          "description": "Used to customize the label or icon of the Enter key on virtual keyboards.",
+          "values": [
+            { "name": "enter" },
+            { "name": "done" },
+            { "name": "go" },
+            { "name": "next" },
+            { "name": "previous" },
+            { "name": "search" },
+            { "name": "send" }
+          ]
+        },
+        {
+          "name": "spellcheck",
+          "description": "Enables spell checking on the input.",
+          "values": []
+        },
+        {
+          "name": "inputmode",
+          "description": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\r\nkeyboard on supportive devices.",
+          "values": [
+            { "name": "none" },
+            { "name": "text" },
+            { "name": "decimal" },
+            { "name": "numeric" },
+            { "name": "tel" },
+            { "name": "search" },
+            { "name": "email" },
+            { "name": "url" }
+          ]
+        }
+      ],
+      "references": []
+    }
+  ]
 }
