@@ -1,5 +1,5 @@
-import { PoeData, poeData } from './PoeData';
-import { LocalStorageManager } from './storage';
+import { PoeData, poeData } from './PoeData.js';
+import { LocalStorageManager } from './storage.js';
 import { warningToast } from './toast.js';
 import { sortByWeight } from './cards.js';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson.js';
@@ -21,17 +21,17 @@ const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
 const LOCAL_STORAGE_KEY = 'divcord';
 
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
-export type DivcordServiceEventType = 'state-updated' | 'records-updated';
-export type DivcordServiceState = 'idle' | 'updating' | 'updated' | 'error';
+export type DivcordLoaderEventType = 'state-updated' | 'records-updated';
+export type DivcordLoaderState = 'idle' | 'updating' | 'updated' | 'error';
 
-export class DivcordServiceEvent extends CustomEvent<DivcordRecord[]> {
-	constructor(type: DivcordServiceEventType, records?: DivcordRecord[]) {
+export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
+	constructor(type: DivcordLoaderEventType, records?: DivcordRecord[]) {
 		super(type, { detail: records });
 	}
 }
 
-export class DivcordService extends EventTarget {
-	#state: DivcordServiceState = 'idle';
+export class DivcordLoader extends EventTarget {
+	#state: DivcordLoaderState = 'idle';
 	#cache: Cache;
 	#recordsStorage = new LocalStorageManager<DivcordRecord[], typeof LOCAL_STORAGE_KEY>(LOCAL_STORAGE_KEY);
 	constructor(cache: Cache) {
@@ -39,7 +39,7 @@ export class DivcordService extends EventTarget {
 		this.#cache = cache;
 	}
 
-	on(type: DivcordServiceEventType, callback: (e: DivcordServiceEvent) => void): void {
+	on(type: DivcordLoaderEventType, callback: (e: DivcordLoaderEvent) => void): void {
 		super.addEventListener(type, callback as EventListener);
 	}
 
@@ -47,9 +47,9 @@ export class DivcordService extends EventTarget {
 		return this.#state;
 	}
 
-	set state(val: DivcordServiceState) {
+	set state(val: DivcordLoaderState) {
 		this.#state = val;
-		this.dispatchEvent(new DivcordServiceEvent('state-updated'));
+		this.dispatchEvent(new DivcordLoaderEvent('state-updated'));
 	}
 
 	async getRecordsAndRunUpdateIfNeeded(): Promise<DivcordRecord[]> {
@@ -188,4 +188,4 @@ export async function parseRecords(divcord: IDivcordData, poeData: PoeData): Pro
 }
 
 const cache = await caches.open(CACHE_KEY);
-export const divcordService = new DivcordService(cache);
+export const divcordLoader = new DivcordLoader(cache);

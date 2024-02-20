@@ -1,7 +1,7 @@
 import { provide } from '@lit/context';
 import { LitElement, html, css } from 'lit';
 import { customElement, query, property } from 'lit/decorators.js';
-import { divcordService } from './DivcordService';
+import { divcordLoader } from './DivcordLoader';
 import { divcordTableContext } from './context';
 import { SourcefulDivcordTable } from './divcord';
 import { linkStyles } from './linkStyles';
@@ -26,7 +26,7 @@ export class RootElement extends LitElement {
 	constructor() {
 		super();
 
-		divcordService.on('records-updated', e => {
+		divcordLoader.on('records-updated', e => {
 			this.divcordTable = new SourcefulDivcordTable(e.detail);
 			toast('Your Divcord data is up-to-date', 'success', 3000);
 		});

@@ -11,7 +11,7 @@ import '../elements/input/e-input';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { type DivcordServiceState, divcordService } from '../DivcordService';
+import { type DivcordLoaderState, divcordLoader } from '../DivcordLoader';
 import { ArrayAsyncRenderer, SlConverter, paginate } from '../utils';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
@@ -699,8 +699,8 @@ export class DivcordRecordsAgeElement extends LitElement {
 
 	constructor() {
 		super();
-		divcordService.addEventListener('state-updated', () => {
-			if (divcordService.state === 'updated') {
+		divcordLoader.addEventListener('state-updated', () => {
+			if (divcordLoader.state === 'updated') {
 				this.lastUpdated.run();
 			}
 		});
@@ -708,7 +708,7 @@ export class DivcordRecordsAgeElement extends LitElement {
 
 	lastUpdated = new Task(this, {
 		async task() {
-			return await divcordService.cacheDate();
+			return await divcordLoader.cacheDate();
 		},
 		args: () => [],
 	});
@@ -741,19 +741,19 @@ declare global {
 
 @customElement('e-update-divcord-data')
 export class UpdateDivcordDataElement extends LitElement {
-	@state() loaderState!: DivcordServiceState;
+	@state() loaderState!: DivcordLoaderState;
 
 	constructor() {
 		super();
-		this.loaderState = divcordService.state;
-		divcordService.addEventListener('state-updated', () => {
-			this.loaderState = divcordService.state;
+		this.loaderState = divcordLoader.state;
+		divcordLoader.addEventListener('state-updated', () => {
+			this.loaderState = divcordLoader.state;
 		});
 	}
 
 	task = new Task<never, void>(this, {
 		task: async () => {
-			const records = await divcordService.update();
+			const records = await divcordLoader.update();
 			const event = new CustomEvent('records-updated', { detail: records, bubbles: true, composed: true });
 			this.dispatchEvent(event);
 		},
