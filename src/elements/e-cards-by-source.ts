@@ -8,12 +8,12 @@ import './e-need-to-verify';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'e-cards-by-source-list': CardsBySourceListElement;
+		'e-cards-by-source': CardsBySourceElement;
 	}
 }
 
-@customElement('e-cards-by-source-list')
-export class CardsBySourceListElement extends LitElement {
+@customElement('e-cards-by-source')
+export class CardsBySourceElement extends LitElement {
 	@property({ type: Array }) cards: CardBySource[] = [];
 
 	#onBossNavigation() {

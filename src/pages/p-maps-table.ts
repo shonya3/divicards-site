@@ -4,7 +4,7 @@ import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-page-controls';
-import '../elements/e-cards-by-source-list';
+import '../elements/e-cards-by-source';
 import { poeData } from '../PoeData';
 import { CardBySource, cardsByMaps, sortByWeight } from '../cards';
 import { consume } from '@lit/context';
@@ -117,7 +117,7 @@ export class MapsTablePage extends LitElement {
 										></e-source>
 									</td>
 									<td>
-										<e-cards-by-source-list .cards=${cards}></e-cards-by-source-list>
+										<e-cards-by-source .cards=${cards}></e-cards-by-source>
 									</td>
 								</tr>
 							`

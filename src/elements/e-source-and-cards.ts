@@ -3,7 +3,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import type { CardBySource } from '../cards';
 import type { ISource } from '../gen/ISource.interface';
 import './e-source/e-source';
-import './e-cards-by-source-list';
+import './e-cards-by-source';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -38,7 +38,7 @@ export class SourceAndCardsElement extends LitElement {
 				.source=${this.source}
 				.showSourceType=${this.showSourceType}
 			></e-source>
-			<e-cards-by-source-list class="cards" .cards=${this.cards}></e-cards-by-source-list>
+			<e-cards-by-source class="cards" .cards=${this.cards}></e-cards-by-source>
 		</div>`;
 	}
 
