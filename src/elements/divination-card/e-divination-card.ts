@@ -51,7 +51,7 @@ export class DivinationCardElement extends LitElement {
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcordTable!: SourcefulDivcordTable;
+	divcordTable?: SourcefulDivcordTable;
 
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
@@ -98,7 +98,7 @@ export class DivinationCardElement extends LitElement {
 			}
 		}
 
-		if (changedProperties.has('divcordTable')) {
+		if (changedProperties.has('divcordTable') && this.divcordTable) {
 			this.minLevelOrRange = minLevelOrRange(this.name, this.divcordTable, poeData);
 		}
 	}
