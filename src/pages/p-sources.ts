@@ -90,11 +90,7 @@ export class SourcesPage extends LitElement {
 				${this.sourcesAndCards.map(
 					({ source, cards }) =>
 						html`<li class="source-and-cards-list_item">
-							<e-source-and-cards
-								.divcordTable=${this.divcordTable}
-								.source=${source}
-								.cards=${cards}
-							></e-source-and-cards>
+							<e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards>
 						</li>`
 				)}
 			</ul>

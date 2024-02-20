@@ -36,11 +36,7 @@ export class SourcePage extends LitElement {
 
 	render() {
 		return html`<div class="page">
-			<e-source-and-cards
-				.divcordTable=${this.divcordTable}
-				.source=${this.source}
-				.cards=${this.cards}
-			></e-source-and-cards>
+			<e-source-and-cards .source=${this.source} .cards=${this.cards}></e-source-and-cards>
 		</div>`;
 	}
 

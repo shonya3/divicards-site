@@ -45,11 +45,7 @@ export class VerifyPage extends LitElement {
 		const list = this.sourcesAndCardsRenderer.render(
 			({ source, cards }: SourceAndCards) =>
 				html`<li>
-					<e-source-and-cards
-						.divcordTable=${this.divcordTable}
-						.source=${source}
-						.cards=${cards}
-					></e-source-and-cards>
+					<e-source-and-cards .source=${source} .cards=${cards}></e-source-and-cards>
 				</li>`
 		);
 

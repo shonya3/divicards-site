@@ -59,7 +59,6 @@ export class SourceTypePage extends LitElement {
 							.showSourceType=${false}
 							.source=${source}
 							.cards=${cards}
-							.divcordTable=${this.divcordTable}
 						></e-source-and-cards>
 					</li>`;
 				})}
