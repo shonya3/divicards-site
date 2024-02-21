@@ -1,4 +1,4 @@
-import { bossesInMap, cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
+import { cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
 import { poeData, IActArea, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
 import { cardsDataMap } from './elements/divination-card/data';
@@ -192,7 +192,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 				cards.push(card);
 
 				if (source.type === 'Map') {
-					const bosses = bossesInMap(source.id, poeData);
+					const bosses = poeData.find.bossesOfMap(source.id);
 					cards = [
 						...cards,
 						...bosses
