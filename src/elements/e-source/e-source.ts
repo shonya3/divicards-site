@@ -67,7 +67,7 @@ export class SourceElement extends LitElement {
 
 		switch (this.source.type) {
 			case 'Act': {
-				const area = poeData.findActAreaById(this.source.id);
+				const area = poeData.find.actArea(this.source.id);
 				if (!area) throw new NoSourceInPoeDataError(this.source);
 				let size: CardSize = this.size === 'medium' ? 'large' : this.size;
 				if (this.renderMode === 'compact') {
@@ -81,17 +81,17 @@ export class SourceElement extends LitElement {
 				return html`<e-act-area .href=${sourceHref(this.source)} .actArea=${area} .size=${size}></e-act-area>`;
 			}
 			case 'Act Boss': {
-				const res = poeData.findActbossAndArea(this.source.id);
+				const res = poeData.find.actBossAndArea(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-actboss
 					.href=${sourceHref(this.source)}
-					.boss=${res.actAreaBoss}
+					.boss=${res.boss}
 					.actArea=${res.area}
 					.renderMode=${this.renderMode}
 				></e-actboss>`;
 			}
 			case 'Map': {
-				const map = poeData.findMap(this.source.id);
+				const map = poeData.find.map(this.source.id);
 				if (!map) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-map
 					.href=${sourceHref(this.source)}
@@ -101,12 +101,12 @@ export class SourceElement extends LitElement {
 				></e-map>`;
 			}
 			case 'Map Boss': {
-				const res = poeData.findMapbossAndMaps(this.source.id);
+				const res = poeData.find.mapBossAndMaps(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-mapboss
 					.href=${sourceHref(this.source)}
 					.size=${this.size}
-					.boss=${res.mapboss}
+					.boss=${res.boss}
 					.maps=${res.maps}
 					.renderMode=${this.renderMode}
 				></e-mapboss>`;

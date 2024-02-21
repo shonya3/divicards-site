@@ -21,7 +21,7 @@ export class CardPage extends LitElement {
 	divcordTable!: DivcordTable;
 
 	render() {
-		const league = poeData.card(this.card)?.league;
+		const league = poeData.find.card(this.card)?.league;
 
 		return html`<div class="page">
 			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>

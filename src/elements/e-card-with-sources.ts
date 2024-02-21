@@ -108,7 +108,7 @@ function sourceLevel(source: ISource, poeData: Readonly<PoeData>): number | null
 			return poeData.level(source.id, source.type);
 		}
 		case 'Act Boss': {
-			const b = poeData.findActbossAndArea(source.id);
+			const b = poeData.find.actBossAndArea(source.id);
 			if (!b) return null;
 			return b.area.areaLevel;
 		}
@@ -116,7 +116,7 @@ function sourceLevel(source: ISource, poeData: Readonly<PoeData>): number | null
 			return poeData.level(source.id, source.type);
 		}
 		case 'Map Boss': {
-			const b = poeData.mapboss(source.id);
+			const b = poeData.find.mapBoss(source.id);
 			if (!b) return null;
 			const mapLevels: number[] = [];
 			for (const map of b.maps) {

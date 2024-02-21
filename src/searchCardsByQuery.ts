@@ -79,7 +79,7 @@ function findByReleaseLeague(query: string, allCards: Readonly<string[]>): strin
 	const cards: string[] = [];
 
 	for (const name of allCards) {
-		const card = poeData.card(name);
+		const card = poeData.find.card(name);
 		const league = card?.league;
 		if (league) {
 			const leagueName = league.name.toLowerCase();
@@ -96,7 +96,7 @@ function findByReleaseVersion(matches: RegExpMatchArray, allCards: Readonly<stri
 	const cards: string[] = [];
 
 	for (const name of allCards) {
-		const card = poeData.card(name);
+		const card = poeData.find.card(name);
 		const league = card?.league;
 		if (league) {
 			const [[major, minor]] = matches.map(match => match.split('.').map(Number));
@@ -217,7 +217,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		const sourceIds = sources.map(s => s.id);
 		const actAreas = sourceIds
 			.filter(id => id.includes('_'))
-			.map(actId => poeData.findActAreaById(actId))
+			.map(actId => poeData.find.actArea(actId))
 			.filter((a): a is IActArea => a !== undefined);
 		let containsSomeActArea = false;
 		for (const actArea of actAreas) {

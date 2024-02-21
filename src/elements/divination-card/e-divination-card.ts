@@ -27,7 +27,7 @@ function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeD
 	const globals = divcordTable.globalDrops();
 	const globalDropSource = globals.get(card);
 	if (!globalDropSource) {
-		return String(poeData.minLevel(card));
+		return String(poeData.cardMinLevel(card));
 	}
 
 	const { min_level, max_level } = globalDropSource;
