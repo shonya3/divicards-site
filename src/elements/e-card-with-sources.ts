@@ -105,7 +105,7 @@ export class CardWithSourcesElement extends LitElement {
 function sourceLevel(source: ISource, poeData: Readonly<PoeData>): number | null {
 	switch (source.type) {
 		case 'Act': {
-			return poeData.level(source.id, source.type);
+			return poeData.areaLevel(source.id, source.type);
 		}
 		case 'Act Boss': {
 			const b = poeData.find.actBossAndArea(source.id);
@@ -113,14 +113,14 @@ function sourceLevel(source: ISource, poeData: Readonly<PoeData>): number | null
 			return b.area.areaLevel;
 		}
 		case 'Map': {
-			return poeData.level(source.id, source.type);
+			return poeData.areaLevel(source.id, source.type);
 		}
 		case 'Map Boss': {
 			const b = poeData.find.mapBoss(source.id);
 			if (!b) return null;
 			const mapLevels: number[] = [];
 			for (const map of b.maps) {
-				const level = poeData.level(map, 'Map');
+				const level = poeData.areaLevel(map, 'Map');
 				if (level !== null) {
 					mapLevels.push(level);
 				}

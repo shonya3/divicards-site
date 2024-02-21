@@ -27,8 +27,8 @@ export class PoeData implements IPoeData {
 		return this.find.card(card)?.minLevel ?? 0;
 	}
 
-	level(name: string, type: 'Map' | 'Act'): number | null {
-		switch (type) {
+	areaLevel(name: string, area: 'Map' | 'Act'): number | null {
+		switch (area) {
 			case 'Map': {
 				const tier = this.find.map(name)?.tier;
 				return typeof tier === 'number' ? tier + 67 : null;

@@ -33,8 +33,8 @@ export class SourceTypePage extends LitElement {
 			const sourcesAndCards = cardsBySourceTypes([this.sourceType], this.divcordTable.records, poeData);
 			if (this.sourceType === 'Act' || this.sourceType === 'Map') {
 				sourcesAndCards.sort((a, b) => {
-					const aLevel = poeData.level(a.source.id, this.sourceType as 'Act' | 'Map');
-					const bLevel = poeData.level(b.source.id, this.sourceType as 'Act' | 'Map');
+					const aLevel = poeData.areaLevel(a.source.id, this.sourceType as 'Act' | 'Map');
+					const bLevel = poeData.areaLevel(b.source.id, this.sourceType as 'Act' | 'Map');
 					if (aLevel !== null && bLevel !== null) {
 						return this.sourceType === 'Act' ? bLevel - aLevel : aLevel - bLevel;
 					} else return 0;
