@@ -141,6 +141,10 @@ class FindPoeData {
 	mapBoss(name: string): IMapBoss | null {
 		return this.#poe.mapbosses.find(c => c.name.trim().toLowerCase() === name.trim().toLowerCase()) ?? null;
 	}
+
+	bossesOfMap(map: string): IMapBoss[] {
+		return this.#poe.mapbosses.filter(boss => boss.maps.includes(map));
+	}
 }
 
 export const poeData = new PoeData(poeDataFromJson);

@@ -1,6 +1,6 @@
 import { DivcordRecord } from './gen/divcordRecordsFromJson';
 import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
-import { PoeData, poeData, IMapBoss } from './PoeData';
+import { PoeData, poeData } from './PoeData';
 
 /** Drop source and array of cards with verification status and possible transitive source */
 export type SourceAndCards = {
@@ -36,12 +36,6 @@ export function sortByWeight(cards: { card: string }[] | string[], poeData: Read
 		const bWeight = poeData.find.card(typeof b === 'string' ? b : b.card)?.weight || SORT_TO_THE_END_VALUE;
 		return Number(aWeight) - Number(bWeight);
 	});
-}
-
-export function bossesInMap(map: string, poeData: PoeData): IMapBoss[] {
-	const imap = poeData.maps.find(m => m.name === map);
-	if (!imap) return [];
-	return poeData.mapbosses.filter(b => b.maps.includes(imap.name));
 }
 
 export function cardsByMapboss(boss: string, records: DivcordRecord[], poeData: PoeData): CardBySource[] {
@@ -83,7 +77,7 @@ export function cardsBySource(source: ISource, records: DivcordRecord[], poeData
 	const cards: CardBySource[] = [];
 
 	if (source.type === 'Map') {
-		for (const boss of bossesInMap(source.id, poeData)) {
+		for (const boss of poeData.find.bossesOfMap(source.id)) {
 			for (const card of cardsByMapboss(boss.name, records, poeData)) {
 				cards.push({
 					...card,
@@ -147,7 +141,7 @@ export function cardsBySourceTypes(
 			if (source.type === 'Map') {
 				if (!set.has(source.id)) {
 					set.add(source.id);
-					for (const boss of bossesInMap(source.id, poeData)) {
+					for (const boss of poeData.find.bossesOfMap(source.id)) {
 						for (const card of cardsByMapboss(boss.name, records, poeData)) {
 							cards.push({
 								transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
