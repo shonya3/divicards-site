@@ -1,5 +1,47 @@
 import { poeDataFromJson } from './gen/poeDataFromJson';
 
+export interface IPoeData {
+	acts: IActArea[];
+	cards: Record<string, ICard>;
+	maps: IMap[];
+	mapbosses: IMapBoss[];
+}
+
+export class PoeData implements IPoeData {
+	acts: IActArea[];
+	cards: Record<string, ICard>;
+	maps: IMap[];
+	mapbosses: IMapBoss[];
+	cardsMap: Map<string, ICard> = new Map();
+	find: FindPoeData;
+	constructor(poeDataFromJson: IPoeData) {
+		const { acts, cards, maps, mapbosses } = structuredClone(poeDataFromJson);
+		this.acts = acts;
+		this.cards = cards;
+		this.maps = maps;
+		this.mapbosses = mapbosses;
+		this.find = new FindPoeData(this);
+	}
+
+	cardMinLevel(card: string): number {
+		return this.find.card(card)?.minLevel ?? 0;
+	}
+
+	level(name: string, type: 'Map' | 'Act'): number | null {
+		switch (type) {
+			case 'Map': {
+				const tier = this.find.map(name)?.tier;
+				return typeof tier === 'number' ? tier + 67 : null;
+			}
+			case 'Act': {
+				return this.find.actArea(name)?.areaLevel ?? null;
+			}
+			default:
+				throw new Error('Type should be Act or Map');
+		}
+	}
+}
+
 export interface IActArea {
 	id: string;
 	name: string;
@@ -44,48 +86,6 @@ export interface IMap {
 export interface IMapBoss {
 	name: string;
 	maps: string[];
-}
-
-export interface IPoeData {
-	acts: IActArea[];
-	cards: Record<string, ICard>;
-	maps: IMap[];
-	mapbosses: IMapBoss[];
-}
-
-export class PoeData implements IPoeData {
-	acts: IActArea[];
-	cards: Record<string, ICard>;
-	maps: IMap[];
-	mapbosses: IMapBoss[];
-	cardsMap: Map<string, ICard> = new Map();
-	find: FindPoeData;
-	constructor(poeDataFromJson: IPoeData) {
-		const { acts, cards, maps, mapbosses } = structuredClone(poeDataFromJson);
-		this.acts = acts;
-		this.cards = cards;
-		this.maps = maps;
-		this.mapbosses = mapbosses;
-		this.find = new FindPoeData(this);
-	}
-
-	cardMinLevel(card: string): number {
-		return this.find.card(card)?.minLevel ?? 0;
-	}
-
-	level(name: string, type: 'Map' | 'Act'): number | null {
-		switch (type) {
-			case 'Map': {
-				const tier = this.find.map(name)?.tier;
-				return typeof tier === 'number' ? tier + 67 : null;
-			}
-			case 'Act': {
-				return this.find.actArea(name)?.areaLevel ?? null;
-			}
-			default:
-				throw new Error('Type should be Act or Map');
-		}
-	}
 }
 
 /** Utility class to find map, act, etc */
