@@ -20,12 +20,3 @@ router.addEventListener('route-changed', async _e => {
 	});
 });
 router.dispatchEvent(new Event('route-changed'));
-
-const transition = await startViewTransition(() => {
-	document.body.prepend('hey');
-	console.log(transition);
-});
-
-if (transition) {
-	console.log(transition.updateCallbackDone);
-}
