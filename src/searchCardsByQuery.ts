@@ -34,7 +34,7 @@ export function searchCardsByQuery(
 
 	// sortByWeight(allCards, poeData);
 	const q = query.trim().toLowerCase();
-	const cards: string[] = [];
+	let cards: string[] = [];
 
 	// 3.22 version pattern
 	const leagueVersionPattern = /\b\d+\.\d+\b/g;
@@ -45,31 +45,31 @@ export function searchCardsByQuery(
 	}
 
 	if (criterias.includes('release league')) {
-		cards.push(...findByReleaseLeague(q, allCards));
+		cards = cards.concat(findByReleaseLeague(q, allCards));
 	}
 
 	if (criterias.includes('stack size')) {
-		cards.push(...findByStackSize(q));
+		cards = cards.concat(findByStackSize(q));
 	}
 
 	if (criterias.includes('name')) {
-		cards.push(...findByName(q, allCards));
+		cards = cards.concat(findByName(q, allCards));
 	}
 
 	if (criterias.includes('flavour text')) {
-		cards.push(...findByFlavourText(q));
+		cards = cards.concat(findByFlavourText(q));
 	}
 
 	if (criterias.includes('reward')) {
-		cards.push(...findByReward(q));
+		cards = cards.concat(findByReward(q));
 	}
 
 	if (criterias.includes('source')) {
-		cards.push(...findBySourceId(q, divcordTable));
+		cards = cards.concat(findBySourceId(q, divcordTable));
 	}
 
 	if (criterias.includes('source type')) {
-		cards.push(...findBySourceType(q, divcordTable.records, poeData));
+		cards = cards.concat(findBySourceType(q, divcordTable.records, poeData));
 	}
 
 	return Array.from(new Set(cards));
