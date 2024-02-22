@@ -5,21 +5,39 @@
  * ```ts
  * // DivcordLoader.ts
  * declare module './storage' {
- *     interface StorageRegistry {
+ *     interface Registry {
  *         divcord: DivcordRecord[];
  *     }
  * }
  * ```
  */
-export interface StorageRegistry {}
+export interface Registry {}
 
-/** Storage that uses browser's LocalStorage. Declare key-type pair in StorageRegistry. */
-export class Storage<Key extends keyof StorageRegistry, T = StorageRegistry[Key], Input = T> {
-	key: Key;
-	serde: Serde<T, Input>;
-	constructor(key: Key, serde: Serde<T, Input> = new Serde()) {
-		this.key = key;
-		this.serde = serde;
+/** Storage that uses browser's LocalStorage. Declare key-type pair in Registry. */
+export class Storage<Key extends keyof Registry, Input = Registry[Key]> {
+	#key: Key;
+	#serde: Serde<Registry[Key], Input>;
+	#defaultValue: Registry[Key];
+	constructor(key: Key, defaultValue: Registry[Key], serde: Serde<Registry[Key], Input> = new Serde()) {
+		this.#key = key;
+		this.#serde = serde;
+		this.#defaultValue = defaultValue;
+	}
+
+	get key(): string {
+		return this.#key;
+	}
+
+	get data(): Registry[Key] {
+		if (!this.exists()) {
+			return this.#defaultValue;
+		}
+		return this.#serde.deserialize(localStorage.getItem(this.key)!);
+	}
+
+	set data(v: Input) {
+		const str = this.#serde.serialize(v);
+		localStorage.setItem(this.key, str);
 	}
 
 	exists(): boolean {
@@ -30,23 +48,11 @@ export class Storage<Key extends keyof StorageRegistry, T = StorageRegistry[Key]
 		localStorage.removeItem(this.key);
 	}
 
-	get data(): T | null {
-		if (!this.exists()) {
-			return null;
-		}
-		return this.serde.deserialize(localStorage.getItem(this.key)!);
-	}
-
-	set data(v: Input) {
-		const str = this.serde.serialize(v);
-		localStorage.setItem(this.key, str);
-	}
-
 	save(v: Input): void {
 		this.data = v;
 	}
 
-	load(): T | null {
+	load(): Registry[Key] {
 		return this.data;
 	}
 }

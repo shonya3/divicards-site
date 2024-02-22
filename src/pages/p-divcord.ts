@@ -84,7 +84,7 @@ const DEFAULT_PRESETS: PresetConfig[] = [
 ];
 
 declare module '../storage' {
-	interface StorageRegistry {
+	interface Registry {
 		presets: PresetConfig[];
 		shouldApplyFilters: boolean;
 		latestPresetApplied: string;
@@ -94,11 +94,11 @@ declare module '../storage' {
 	}
 }
 
-const presetsStorage = new Storage('presets');
-const shouldApplyFiltersStorage = new Storage('shouldApplyFilters');
-const latestPresetNameStorage = new Storage('latestPresetApplied');
-const onlyShowCardsWithNoConfirmedSourcesStorage = new Storage('onlyShowCardsWithNoConfirmedSources');
-const onlyShowCardsWithSourcesToVerifyStorage = new Storage('onlyShowCardsWithSourcesToVerify');
+const presetsStorage = new Storage('presets', []);
+const shouldApplyFiltersStorage = new Storage('shouldApplyFilters', true);
+const latestPresetNameStorage = new Storage('latestPresetApplied', '');
+const onlyShowCardsWithNoConfirmedSourcesStorage = new Storage('onlyShowCardsWithNoConfirmedSources', false);
+const onlyShowCardsWithSourcesToVerifyStorage = new Storage('onlyShowCardsWithSourcesToVerify', false);
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {

@@ -5,7 +5,7 @@ import type { DivcordRecord } from './gen/divcordRecordsFromJson.js';
 import { Storage } from './storage.js';
 
 declare module './storage' {
-	interface StorageRegistry {
+	interface Registry {
 		divcord: DivcordRecord[];
 	}
 }
@@ -38,7 +38,7 @@ export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
 export class DivcordLoader extends EventTarget {
 	#state: DivcordLoaderState = 'idle';
 	#cache: Cache;
-	#storage = new Storage('divcord');
+	#storage = new Storage('divcord', [] as DivcordRecord[]);
 	constructor(cache: Cache) {
 		super();
 		this.#cache = cache;
