@@ -50,15 +50,14 @@ export class ArrayAsyncRenderer<T> {
 	}
 }
 
-declare global {
-	interface Document {
-		startViewTransition: (cb: (...args: any[]) => any) => Promise<unknown>;
-	}
+/** Declare locally to make sure calling the method from document object is not possible. */
+interface ViewTransitionAPI {
+	startViewTransition: (cb: (...args: any[]) => any) => Promise<unknown>;
 }
 
 export async function startViewTransition(cb: (...args: any[]) => any): Promise<unknown> {
 	if (Object.hasOwn(Document.prototype, 'startViewTransition')) {
-		return document.startViewTransition(() => {
+		return (document as Document & ViewTransitionAPI).startViewTransition(() => {
 			cb();
 		});
 	} else {
