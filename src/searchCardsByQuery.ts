@@ -214,11 +214,12 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 			}
 		}
 
-		const sourceIds = sources.map(s => s.id);
-		const actAreas = sourceIds
-			.filter(id => id.includes('_'))
+		const actAreas = sources
+			.filter(s => s.type === 'Act')
+			.map(s => s.id)
 			.map(actId => poeData.find.actArea(actId))
 			.filter((a): a is IActArea => a !== undefined);
+
 		let containsSomeActArea = false;
 		for (const actArea of actAreas) {
 			const lowerName = actArea.name.toLowerCase();
