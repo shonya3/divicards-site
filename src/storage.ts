@@ -1,14 +1,20 @@
-export class Serde<T, Input = T> {
-	serialize(value: Input): string {
-		return JSON.stringify(value);
-	}
+/**
+ * Registry for Storage keys and types. Use with declaration merging in any file.
+ *
+ * ## Example
+ * ```ts
+ * // DivcordLoader.ts
+ * declare module './storage' {
+ *     interface StorageRegistry {
+ *         divcord: DivcordRecord[];
+ *     }
+ * }
+ * ```
+ */
+export interface StorageRegistry {}
 
-	deserialize(s: string): T {
-		return JSON.parse(s);
-	}
-}
-
-export class LocalStorageManager<T, Key extends string, Input = T> {
+/** Storage that uses browser's LocalStorage. Declare key-type pair in StorageRegistry. */
+export class Storage<Key extends keyof StorageRegistry, T = StorageRegistry[Key], Input = T> {
 	key: Key;
 	serde: Serde<T, Input>;
 	constructor(key: Key, serde: Serde<T, Input> = new Serde()) {
@@ -42,5 +48,15 @@ export class LocalStorageManager<T, Key extends string, Input = T> {
 
 	load(): T | null {
 		return this.data;
+	}
+}
+
+export class Serde<T, Input = T> {
+	serialize(value: Input): string {
+		return JSON.stringify(value);
+	}
+
+	deserialize(s: string): T {
+		return JSON.parse(s);
 	}
 }

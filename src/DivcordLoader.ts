@@ -1,8 +1,14 @@
 import { PoeData, poeData } from './PoeData.js';
-import { LocalStorageManager } from './storage.js';
 import { warningToast } from './toast.js';
 import { sortByWeight } from './cards.js';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson.js';
+import { Storage } from './storage.js';
+
+declare module './storage' {
+	interface StorageRegistry {
+		divcord: DivcordRecord[];
+	}
+}
 
 export interface DivcordResponses {
 	richSources: Response;
@@ -18,7 +24,6 @@ export interface IDivcordData {
 
 const ONE_DAY_MILLISECONDS = 86_400_000;
 const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
-const LOCAL_STORAGE_KEY = 'divcord';
 
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
 export type DivcordLoaderEventType = 'state-updated' | 'records-updated';
@@ -33,7 +38,7 @@ export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
 export class DivcordLoader extends EventTarget {
 	#state: DivcordLoaderState = 'idle';
 	#cache: Cache;
-	#recordsStorage = new LocalStorageManager<DivcordRecord[], typeof LOCAL_STORAGE_KEY>(LOCAL_STORAGE_KEY);
+	#recordsStorage = new Storage('divcord');
 	constructor(cache: Cache) {
 		super();
 		this.#cache = cache;

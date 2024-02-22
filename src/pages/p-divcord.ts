@@ -4,7 +4,6 @@ import { Task } from '@lit/task';
 import { consume } from '@lit/context';
 import { DivcordTable } from '../DivcordTable';
 import { divcordTableContext } from '../context';
-
 import '../elements/e-card-with-divcord-records';
 import '../elements/e-page-controls';
 import '../elements/input/e-input';
@@ -19,8 +18,7 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
-
-import { LocalStorageManager } from '../storage';
+import { Storage } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
 import { toast } from '../toast';
 import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
@@ -63,7 +61,7 @@ export function someCardRecordHasGreynoteWorkVariant(
 	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
 }
 
-type PresetConfig = {
+export type PresetConfig = {
 	name: string;
 	greynote: IGreynote[];
 	confidence: IConfidence[];
@@ -85,16 +83,22 @@ const DEFAULT_PRESETS: PresetConfig[] = [
 	},
 ];
 
-const presetsStorage = new LocalStorageManager<PresetConfig[], 'presets'>('presets');
-const shouldApplyFiltersStorage = new LocalStorageManager<boolean, 'shouldApplyFilters'>('shouldApplyFilters');
-const latestPresetNameStorage = new LocalStorageManager<string, 'latestPresetApplied'>('latestPresetApplied');
-const onlyShowCardsWithNoConfirmedSourcesStorage = new LocalStorageManager<
-	boolean,
-	'onlyShowCardsWithNoConfirmedSources'
->('onlyShowCardsWithNoConfirmedSources');
-const onlyShowCardsWithSourcesToVerifyStorage = new LocalStorageManager<boolean, 'onlyShowCardsWithSourcesToVerify'>(
-	'onlyShowCardsWithSourcesToVerify'
-);
+declare module '../storage' {
+	interface StorageRegistry {
+		presets: PresetConfig[];
+		shouldApplyFilters: boolean;
+		latestPresetApplied: string;
+		inlyShowCardsWithSources: boolean;
+		onlyShowCardsWithNoConfirmedSources: boolean;
+		onlyShowCardsWithSourcesToVerify: boolean;
+	}
+}
+
+const presetsStorage = new Storage('presets');
+const shouldApplyFiltersStorage = new Storage('shouldApplyFilters');
+const latestPresetNameStorage = new Storage('latestPresetApplied');
+const onlyShowCardsWithNoConfirmedSourcesStorage = new Storage('onlyShowCardsWithNoConfirmedSources');
+const onlyShowCardsWithSourcesToVerifyStorage = new Storage('onlyShowCardsWithSourcesToVerify');
 
 @customElement('p-divcord')
 export class DivcordTablePage extends LitElement {
