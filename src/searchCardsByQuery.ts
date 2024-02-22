@@ -247,15 +247,18 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 	}
 
 	// If act area directly drops no cards, but some of ot's bosses can
-	for (const area of poeData.acts) {
-		for (const fight of area.bossfights) {
-			if (area.name.toLowerCase().includes(query) || (query.includes('a') && actNumber === area.act)) {
-				for (const card of cardsByActboss(fight.name, divcordTable.records)
-					.filter(c => c.status === 'done')
-					.map(c => c.card)) {
-					if (!cards.includes(card)) {
-						cards.push(card);
-					}
+	for (const actArea of poeData.acts.filter(
+		actArea =>
+			actArea.id === query ||
+			actArea.name.toLowerCase().includes(query) ||
+			(query.includes('a') && actNumber === actArea.act)
+	)) {
+		for (const boss of actArea.bossfights) {
+			for (const card of cardsByActboss(boss.name, divcordTable.records)
+				.filter(c => c.status === 'done')
+				.map(c => c.card)) {
+				if (!cards.includes(card)) {
+					cards.push(card);
 				}
 			}
 		}
