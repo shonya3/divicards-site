@@ -33,7 +33,7 @@ import {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'p-divcord': DivcordTablePage;
+		'p-divcord': DivcordPage;
 	}
 }
 
@@ -101,7 +101,7 @@ const onlyShowCardsWithNoConfirmedSourcesStorage = new Storage('onlyShowCardsWit
 const onlyShowCardsWithSourcesToVerifyStorage = new Storage('onlyShowCardsWithSourcesToVerify', false);
 
 @customElement('p-divcord')
-export class DivcordTablePage extends LitElement {
+export class DivcordPage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) filter: string = '';
