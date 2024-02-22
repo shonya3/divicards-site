@@ -52,10 +52,17 @@ export class ArrayAsyncRenderer<T> {
 
 /** Declare locally to make sure calling the method from document object is not possible. */
 interface ViewTransitionAPI {
-	startViewTransition: (cb: (...args: any[]) => any) => Promise<unknown>;
+	startViewTransition: (cb: (...args: any[]) => any) => Promise<ViewTransition>;
 }
 
-export async function startViewTransition(cb: (...args: any[]) => any): Promise<unknown> {
+export interface ViewTransition {
+	get ready(): Promise<void>;
+	get finished(): Promise<void>;
+	get updateCallbackDone(): Promise<void>;
+	skipTransition: () => void;
+}
+
+export async function startViewTransition(cb: (...args: any[]) => any): Promise<ViewTransition | void> {
 	if (Object.hasOwn(Document.prototype, 'startViewTransition')) {
 		return (document as Document & ViewTransitionAPI).startViewTransition(() => {
 			cb();
