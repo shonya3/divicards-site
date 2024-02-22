@@ -216,8 +216,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 
 		const actAreas = sources
 			.filter(s => s.type === 'Act')
-			.map(s => s.id)
-			.map(actId => poeData.find.actArea(actId))
+			.map(s => poeData.find.actArea(s.id))
 			.filter((a): a is IActArea => a !== undefined);
 
 		let containsSomeActArea = false;
