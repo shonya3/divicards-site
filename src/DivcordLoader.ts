@@ -38,7 +38,7 @@ export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
 export class DivcordLoader extends EventTarget {
 	#state: DivcordLoaderState = 'idle';
 	#cache: Cache;
-	#recordsStorage = new Storage('divcord');
+	#storage = new Storage('divcord');
 	constructor(cache: Cache) {
 		super();
 		this.#cache = cache;
@@ -61,11 +61,11 @@ export class DivcordLoader extends EventTarget {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
-				return this.#recordsStorage.load()!;
+				return this.#storage.load()!;
 			}
 			case 'stale': {
 				this.update();
-				return this.#recordsStorage.load()!;
+				return this.#storage.load()!;
 			}
 			case 'not exist': {
 				this.update();
@@ -85,7 +85,7 @@ export class DivcordLoader extends EventTarget {
 			const resp = await this.#cachedResponses();
 			const divcordData = await this.#serderesponses(resp!);
 			const records = await parseRecords(divcordData, poeData);
-			this.#recordsStorage.save(records);
+			this.#storage.save(records);
 			this.state = 'updated';
 			this.dispatchEvent(new CustomEvent('records-updated', { detail: records }));
 			return records;
@@ -117,7 +117,7 @@ export class DivcordLoader extends EventTarget {
 
 	async checkValidity(): Promise<CacheValidity> {
 		const millis = await this.cacheAge();
-		if (millis === null || !this.#recordsStorage.exists()) {
+		if (millis === null || !this.#storage.exists()) {
 			return 'not exist';
 		}
 
@@ -128,10 +128,10 @@ export class DivcordLoader extends EventTarget {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
-				return this.#recordsStorage.load()!;
+				return this.#storage.load()!;
 			}
 			case 'stale': {
-				return this.#recordsStorage.load()!;
+				return this.#storage.load()!;
 			}
 			case 'not exist': {
 				return await this.#fromStaticJson();
