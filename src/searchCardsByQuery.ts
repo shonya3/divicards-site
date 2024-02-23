@@ -1,9 +1,10 @@
 import { cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
-import { poeData, IActArea, PoeData } from './PoeData';
+import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
 import { cardsDataMap } from './elements/divination-card/data';
 import { sourceTypes } from './gen/ISource.interface';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson';
+import type { ActArea } from './gen/poeDataFromJson';
 
 export const SEARCH_CRITERIA_VARIANTS = [
 	'name',
@@ -217,7 +218,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		const actAreas = sources
 			.filter(s => s.type === 'Act')
 			.map(s => poeData.find.actArea(s.id))
-			.filter((a): a is IActArea => a !== undefined);
+			.filter((a): a is ActArea => a !== undefined);
 
 		let containsSomeActArea = false;
 		for (const actArea of actAreas) {

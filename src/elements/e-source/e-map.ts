@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { dispatchSetTransitionName } from '../../events';
 import type { RenderMode } from '../types';
-import type { IMap } from '../../PoeData';
+import type { MapArea } from '../../gen/poeDataFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,7 +14,7 @@ declare global {
 
 @customElement('e-map')
 export class MapElement extends LitElement {
-	@property({ type: Object }) map!: IMap;
+	@property({ type: Object }) map!: MapArea;
 	@property({ reflect: true }) size: 'small' | 'medium' = 'medium';
 	@property({ reflect: true }) href = '';
 	@property() renderMode: RenderMode = 'normal';

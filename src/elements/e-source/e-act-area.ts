@@ -3,7 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { dispatchSetTransitionName } from '../../events';
-import type { IActArea } from '../../PoeData';
+import type { ActArea } from '../../gen/poeDataFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -17,7 +17,7 @@ export type Size = 'small' | 'large';
 export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
 
-	@property({ type: Object }) actArea!: IActArea;
+	@property({ type: Object }) actArea!: ActArea;
 	@property({ reflect: true }) size: Size = 'large';
 	@property({ reflect: true }) href = '';
 

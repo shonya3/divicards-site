@@ -9,9 +9,10 @@ import './e-map';
 import './e-mapboss';
 import './e-actboss';
 import '../e-source-type';
-import { IMap, poeData } from '../../PoeData';
+import { poeData } from '../../PoeData';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
+import type { MapArea } from '../../gen/poeDataFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -189,12 +190,12 @@ export class SourceElement extends LitElement {
 		}
 	`;
 
-	protected mapboss(name: string, iMaps: IMap[]) {
+	protected mapboss(name: string, mapAreas: MapArea[]) {
 		return html`
 			<div style="padding: 2rem; position: relative;">
 				<p>${name}</p>
 				<ul style="position: absolute; top: -1.6rem; right: -12px" class="maps">
-					${iMaps.map(m => html`<e-map .map=${m}></e-map>`)}
+					${mapAreas.map(m => html`<e-map .map=${m}></e-map>`)}
 				</ul>
 			</div>
 		`;

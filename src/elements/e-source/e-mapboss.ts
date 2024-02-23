@@ -6,7 +6,7 @@ import './e-map';
 import { dispatchSetTransitionName } from '../../events';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { IMap, IMapBoss } from '../../PoeData';
+import type { MapArea, MapBoss } from '../../gen/poeDataFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -16,8 +16,8 @@ declare global {
 
 @customElement('e-mapboss')
 export class MapBossElement extends LitElement {
-	@property({ type: Object }) boss!: IMapBoss;
-	@property({ type: Array }) maps: IMap[] = [];
+	@property({ type: Object }) boss!: MapBoss;
+	@property({ type: Array }) maps: MapArea[] = [];
 	@property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
 	@property({ reflect: true }) href = '';
 	@property({ reflect: true }) renderMode: RenderMode = 'normal';

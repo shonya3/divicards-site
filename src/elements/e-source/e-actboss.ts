@@ -6,7 +6,7 @@ import './e-act-area';
 import { dispatchSetTransitionName } from '../../events';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { IActArea, IBossfight } from '../../PoeData';
+import type { ActArea, Bossfight } from '../../gen/poeDataFromJson';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -16,8 +16,8 @@ declare global {
 
 @customElement('e-actboss')
 export class ActBossElement extends LitElement {
-	@property({ type: Object }) boss!: IBossfight;
-	@property({ type: Object }) actArea!: IActArea;
+	@property({ type: Object }) boss!: Bossfight;
+	@property({ type: Object }) actArea!: ActArea;
 	@property({ reflect: true }) href: string = '';
 	@property({ reflect: true }) renderMode: RenderMode = 'normal';
 

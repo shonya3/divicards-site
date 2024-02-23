@@ -1,18 +1,12 @@
+import type { ActArea, Bossfight, Card, MapArea, MapBoss, IPoeData } from './gen/poeDataFromJson';
 import { poeDataFromJson } from './gen/poeDataFromJson';
 
-export interface IPoeData {
-	acts: IActArea[];
-	cards: Record<string, ICard>;
-	maps: IMap[];
-	mapbosses: IMapBoss[];
-}
-
 export class PoeData implements IPoeData {
-	acts: IActArea[];
-	cards: Record<string, ICard>;
-	maps: IMap[];
-	mapbosses: IMapBoss[];
-	cardsMap: Map<string, ICard> = new Map();
+	acts: ActArea[];
+	cards: Record<string, Card>;
+	maps: MapArea[];
+	mapbosses: MapBoss[];
+	cardsMap: Map<string, Card> = new Map();
 	find: FindPoeData;
 	constructor(poeDataFromJson: IPoeData) {
 		const { acts, cards, maps, mapbosses } = structuredClone(poeDataFromJson);
@@ -42,52 +36,6 @@ export class PoeData implements IPoeData {
 	}
 }
 
-export interface IActArea {
-	id: string;
-	name: string;
-	act: number;
-	areaLevel: number;
-	imageUrl: string;
-	poedbImageUrl: string;
-	hasWaypoint: boolean;
-	hasLabyrinthTrial: boolean;
-	isTown: boolean;
-	bossfights: IBossfight[];
-	flavourText: string;
-}
-
-export interface IBossfight {
-	name: string;
-	url: string;
-}
-
-export interface ILeagueReleaseInfo {
-	name: string;
-	date: string;
-	version: string;
-}
-
-export interface ICard {
-	name: string;
-	minLevel: number | null;
-	maxLevel?: number;
-	weight: number;
-	league?: ILeagueReleaseInfo | null;
-}
-
-export interface IMap {
-	name: string;
-	tier: number;
-	available: boolean;
-	unique: boolean;
-	icon: string;
-}
-
-export interface IMapBoss {
-	name: string;
-	maps: string[];
-}
-
 /** Utility class to find map, act, etc */
 class FindPoeData {
 	#poe: Readonly<PoeData>;
@@ -95,19 +43,19 @@ class FindPoeData {
 		this.#poe = poeData;
 	}
 
-	actArea(id: string): IActArea | null {
+	actArea(id: string): ActArea | null {
 		return this.#poe.acts.find(area => area.id === id) ?? null;
 	}
 
-	map(name: string): IMap | null {
+	map(name: string): MapArea | null {
 		return this.#poe.maps.find(map => map.name.toLowerCase() === name.trim().toLowerCase()) ?? null;
 	}
 
-	card(name: string): ICard | null {
+	card(name: string): Card | null {
 		return this.#poe.cards[name] ?? null;
 	}
 
-	actBossAndArea(name: string): { area: IActArea; boss: IBossfight } | null {
+	actBossAndArea(name: string): { area: ActArea; boss: Bossfight } | null {
 		for (const area of this.#poe.acts) {
 			const boss = area.bossfights.find(boss => boss.name === name);
 			if (boss) {
@@ -121,7 +69,7 @@ class FindPoeData {
 		return null;
 	}
 
-	mapBossAndMaps(name: string): { boss: IMapBoss; maps: IMap[] } | null {
+	mapBossAndMaps(name: string): { boss: MapBoss; maps: MapArea[] } | null {
 		const boss = this.mapBoss(name);
 		if (!boss) return null;
 		const maps = boss.maps.map(m => {
@@ -138,11 +86,11 @@ class FindPoeData {
 		};
 	}
 
-	mapBoss(name: string): IMapBoss | null {
+	mapBoss(name: string): MapBoss | null {
 		return this.#poe.mapbosses.find(c => c.name.trim().toLowerCase() === name.trim().toLowerCase()) ?? null;
 	}
 
-	bossesOfMap(map: string): IMapBoss[] {
+	bossesOfMap(map: string): MapBoss[] {
 		return this.#poe.mapbosses.filter(boss => boss.maps.includes(map));
 	}
 }
