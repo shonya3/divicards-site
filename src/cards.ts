@@ -1,5 +1,5 @@
 import { DivcordRecord } from './gen/divcordRecordsFromJson';
-import { SourceWithMember, ISource, SourceType, sourceTypes } from './gen/ISource.interface';
+import { SourceWithMember, ISource, SourceType, SOURCE_TYPE_VARIANTS } from './gen/ISource.interface';
 import { PoeData, poeData } from './PoeData';
 
 /** Drop source and array of cards with verification status and possible transitive source */
@@ -234,7 +234,7 @@ export function cardsBySourceTypes(
  * @returns
  */
 export function sourcetypesMap(records: DivcordRecord[], poeData: PoeData): Map<SourceType, number> {
-	const sourcesAndCards = cardsBySourceTypes(Array.from(sourceTypes), records, poeData);
+	const sourcesAndCards = cardsBySourceTypes(Array.from(SOURCE_TYPE_VARIANTS), records, poeData);
 	return _sourcetypesMap(sourcesAndCards);
 }
 

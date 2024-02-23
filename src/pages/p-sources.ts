@@ -13,7 +13,7 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-with-cards';
 import { SlConverter } from '../utils';
-import { SourceType, sourceTypes } from '../gen/ISource.interface';
+import { SOURCE_TYPE_VARIANTS, SourceType } from '../gen/ISource.interface';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -28,7 +28,7 @@ export class SourcesPage extends LitElement {
 	@property({ reflect: true }) size: CardSize = 'large';
 	@property({ type: Boolean }) showSourceType = true;
 	@property() firstColumnName = 'Source';
-	@property({ type: Array }) allSourceTypes: SourceType[] = Array.from(sourceTypes);
+	@property({ type: Array }) allSourceTypes: SourceType[] = Array.from(SOURCE_TYPE_VARIANTS);
 	@property({ type: Array }) selectedSourceTypes: SourceType[] = [];
 
 	@consume({ context: divcordTableContext, subscribe: true })

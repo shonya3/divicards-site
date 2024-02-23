@@ -6,7 +6,7 @@ import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import { ArrayAsyncRenderer } from '../utils';
-import { sourceTypes } from '../gen/ISource.interface';
+import { SOURCE_TYPE_VARIANTS } from '../gen/ISource.interface';
 import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
 
@@ -26,7 +26,11 @@ export class VerifyPage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			const sourcesAndCards = cardsBySourceTypes(Array.from(sourceTypes), this.divcordTable.records, poeData)
+			const sourcesAndCards = cardsBySourceTypes(
+				Array.from(SOURCE_TYPE_VARIANTS),
+				this.divcordTable.records,
+				poeData
+			)
 				.map(({ cards, source }) => ({
 					cards: cards.filter(c => c.status === 'verify'),
 					source,

@@ -2,7 +2,7 @@ import { cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from
 import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
 import { cardsDataMap } from './elements/divination-card/data';
-import { sourceTypes } from './gen/ISource.interface';
+import { SOURCE_TYPE_VARIANTS } from './gen/ISource.interface';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson';
 import type { ActArea } from './gen/poeDataFromJson';
 
@@ -270,7 +270,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 
 function findBySourceType(query: string, records: DivcordRecord[], poeData: PoeData): string[] {
 	const cards: string[] = [];
-	const types = sourceTypes.filter(sourcetype => sourcetype.toLowerCase().includes(query));
+	const types = SOURCE_TYPE_VARIANTS.filter(sourcetype => sourcetype.toLowerCase().includes(query));
 
 	for (const { cards: cardsFromSource } of cardsBySourceTypes(types, records, poeData)) {
 		for (const { card } of cardsFromSource) {
