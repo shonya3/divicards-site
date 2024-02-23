@@ -221,6 +221,7 @@ export class VerifyFaqPage extends LitElement {
 			max-width: min(47ch, calc(100% - 3rem));
 			margin-inline: auto;
 			font-size: 18px;
+			margin-bottom: 12rem;
 		}
 
 		a:link,
