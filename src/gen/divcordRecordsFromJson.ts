@@ -1,4 +1,4 @@
-import { ISource } from './ISource.interface';
+import { Source } from './Source';
 import json from './records.json';
 export const divcordRecordsFromJson = json as DivcordRecord[];
 
@@ -12,9 +12,9 @@ export type DivcordRecord = {
 	remainingWork: RemainingWork;
 	wikiDisagreements?: string;
 	sourcesWithTagButNotOnWiki?: string;
-	verifySources: ISource[];
+	verifySources: Source[];
 	notes?: string;
-	sources?: ISource[];
+	sources?: Source[];
 };
 
 export type Greynote = (typeof GREYNOTE_VARIANTS)[number];

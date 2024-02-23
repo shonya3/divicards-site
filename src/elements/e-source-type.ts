@@ -1,6 +1,6 @@
 import { customElement, property } from 'lit/decorators.js';
-import type { SourceType } from '../gen/ISource.interface';
 import { LitElement, css, html } from 'lit';
+import type { SourceType } from '../gen/Source';
 
 declare global {
 	interface HTMLElementTagNameMap {

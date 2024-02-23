@@ -6,8 +6,8 @@ import { PoeData, poeData } from '../PoeData';
 import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
-import type { ISource } from '../gen/ISource.interface';
 import { DivcordTable } from '../DivcordTable';
+import type { Source } from '../gen/Source';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -25,7 +25,7 @@ export class CardWithSourcesElement extends LitElement {
 	@property({ type: Object }) divcordTable!: DivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 
-	@state() sources: ISource[] = [];
+	@state() sources: Source[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('name') || map.has('divcordTable')) {
@@ -102,7 +102,7 @@ export class CardWithSourcesElement extends LitElement {
 	`;
 }
 
-function sourceLevel(source: ISource, poeData: Readonly<PoeData>): number | null {
+function sourceLevel(source: Source, poeData: Readonly<PoeData>): number | null {
 	switch (source.type) {
 		case 'Act': {
 			return poeData.areaLevel(source.id, source.type);
@@ -134,7 +134,7 @@ function sourceLevel(source: ISource, poeData: Readonly<PoeData>): number | null
 	}
 }
 
-function sortSourcesByLevel(sources: ISource[], poeData: Readonly<PoeData>): void {
+function sortSourcesByLevel(sources: Source[], poeData: Readonly<PoeData>): void {
 	sources.sort((s1, s2) => {
 		// if source has no level, put it to the end
 		const level1 = sourceLevel(s1, poeData) ?? 200;

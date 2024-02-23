@@ -1,16 +1,16 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import type { SourceType } from '../gen/ISource.interface.ts';
-import '../elements/divination-card/e-divination-card.ts';
-import '../elements/e-source/e-source.ts';
+import type { SourceType } from '../gen/Source';
+import '../elements/divination-card/e-divination-card';
+import '../elements/e-source/e-source';
 import '../elements/e-source-type';
-import './p-sources.ts';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards.ts';
+import './p-sources';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
-import { DivcordTable } from '../DivcordTable.ts';
-import { ArrayAsyncRenderer } from '../utils.ts';
+import { DivcordTable } from '../DivcordTable';
+import { ArrayAsyncRenderer } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {

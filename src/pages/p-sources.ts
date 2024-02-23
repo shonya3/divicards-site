@@ -13,7 +13,7 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-with-cards';
 import { SlConverter } from '../utils';
-import { SOURCE_TYPE_VARIANTS, SourceType } from '../gen/ISource.interface';
+import { SOURCE_TYPE_VARIANTS, SourceType } from '../gen/Source';
 
 declare global {
 	interface HTMLElementTagNameMap {

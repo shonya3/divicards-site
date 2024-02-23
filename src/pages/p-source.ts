@@ -7,7 +7,7 @@ import { divcordTableContext } from '../context';
 import '../elements/e-source-with-cards';
 import { CardBySource, cardsBySource, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
-import type { ISource } from '../gen/ISource.interface';
+import type { Source } from '../gen/Source';
 import { DivcordTable } from '../DivcordTable';
 
 declare global {
@@ -18,7 +18,7 @@ declare global {
 
 @customElement('p-source')
 export class SourcePage extends LitElement {
-	@property({ type: Object }) source!: ISource;
+	@property({ type: Object }) source!: Source;
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()

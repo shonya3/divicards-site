@@ -1,11 +1,11 @@
 import { DivcordRecord } from './gen/divcordRecordsFromJson';
-import { SourceWithMember, ISource, SourceType, SOURCE_TYPE_VARIANTS } from './gen/ISource.interface';
+import { SourceWithMember, Source, SourceType, SOURCE_TYPE_VARIANTS } from './gen/Source';
 import { PoeData, poeData } from './PoeData';
 
 /** Drop source and array of cards with verification status and possible transitive source */
 export type SourceAndCards = {
 	/** Drop source */
-	source: ISource;
+	source: Source;
 	/** Array of cards with verification status and possible transitive source   */
 	cards: CardBySource[];
 };
@@ -73,7 +73,7 @@ export function cardsByActboss(boss: string, records: DivcordRecord[]): CardBySo
 	return cards;
 }
 
-export function cardsBySource(source: ISource, records: DivcordRecord[], poeData: PoeData): CardBySource[] {
+export function cardsBySource(source: Source, records: DivcordRecord[], poeData: PoeData): CardBySource[] {
 	const cards: CardBySource[] = [];
 
 	if (source.type === 'Map') {
@@ -129,7 +129,7 @@ export function cardsBySourceTypes(
 	poeData: PoeData
 ): SourceAndCards[] {
 	const map: Map<string, CardBySource[]> = new Map();
-	const sourceMap: Map<string, ISource> = new Map();
+	const sourceMap: Map<string, Source> = new Map();
 	const set: Set<string> = new Set();
 
 	for (const record of records) {

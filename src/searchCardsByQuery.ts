@@ -2,7 +2,7 @@ import { cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from
 import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
 import { cardsDataMap } from './elements/divination-card/data';
-import { SOURCE_TYPE_VARIANTS } from './gen/ISource.interface';
+import { SOURCE_TYPE_VARIANTS } from './gen/Source';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson';
 import type { ActArea } from './gen/poeDataFromJson';
 

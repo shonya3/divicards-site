@@ -2,7 +2,7 @@ import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ISource } from '../../gen/ISource.interface';
+import type { Source } from '../../gen/Source';
 import type { CardSize } from '../divination-card/e-divination-card';
 import './e-act-area';
 import './e-map';
@@ -21,7 +21,7 @@ declare global {
 }
 
 export class NoSourceInPoeDataError extends Error {
-	constructor(source: ISource) {
+	constructor(source: Source) {
 		super(`No ${source.type} in poeData ${source.id}`);
 	}
 }
@@ -34,7 +34,7 @@ export class NoSourceInPoeDataError extends Error {
  */
 @customElement('e-source')
 export class SourceElement extends LitElement {
-	@property({ type: Object }) source!: ISource;
+	@property({ type: Object }) source!: Source;
 	@property({ type: Boolean }) showSourceType = true;
 	@property() size: CardSize = 'small';
 	@property() renderMode: RenderMode = 'normal';

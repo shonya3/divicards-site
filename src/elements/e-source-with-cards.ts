@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import type { CardBySource } from '../cards';
-import type { ISource } from '../gen/ISource.interface';
+import type { Source } from '../gen/Source';
 import './e-source/e-source';
 import './e-cards-by-source';
 
@@ -13,7 +13,7 @@ declare global {
 
 @customElement('e-source-with-cards')
 export class SourceWithCardsElement extends LitElement {
-	@property({ type: Object }) source!: ISource;
+	@property({ type: Object }) source!: Source;
 	@property({ type: Array }) cards!: CardBySource[];
 	@property({ type: Boolean }) showSourceType = true;
 

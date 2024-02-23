@@ -1,8 +1,8 @@
 import { TemplateResult, html } from 'lit';
-import type { ISource } from './gen/ISource.interface';
 import { asyncAppend } from 'lit/directives/async-append.js';
+import type { Source } from './gen/Source';
 
-export function sourceHref(source: ISource) {
+export function sourceHref(source: Source) {
 	if (source.kind === 'empty-source') {
 		return '';
 	}

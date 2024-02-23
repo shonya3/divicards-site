@@ -1,4 +1,4 @@
-import type { ISource } from './gen/ISource.interface';
+import type { Source } from './gen/Source';
 import type { DivcordRecord } from './gen/divcordRecordsFromJson';
 
 type CardName = string;
@@ -11,8 +11,8 @@ export class DivcordTable {
 	}
 
 	/** Returns Map, where key is card name and value is Source object with global drop type and information about min and max level drop */
-	globalDrops(): Map<CardName, ISource> {
-		const drops: Map<CardName, ISource> = new Map();
+	globalDrops(): Map<CardName, Source> {
+		const drops: Map<CardName, Source> = new Map();
 		for (const record of this.records) {
 			for (const source of record.sources ?? []) {
 				if (source.type === 'Global Drop') {
@@ -30,8 +30,8 @@ export class DivcordTable {
 	}
 
 	/** Returns Array of sources from all records, accociated with given card */
-	sourcesByCard(card: string): ISource[] {
-		let sources: ISource[] = [];
+	sourcesByCard(card: string): Source[] {
+		let sources: Source[] = [];
 		for (const record of this.records) {
 			if (record.card === card) {
 				sources.push(...(record.sources ?? []));
@@ -42,8 +42,8 @@ export class DivcordTable {
 	}
 
 	/** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card */
-	cardSourcesMap(): Map<CardName, ISource[]> {
-		const map: Map<string, ISource[]> = new Map();
+	cardSourcesMap(): Map<CardName, Source[]> {
+		const map: Map<string, Source[]> = new Map();
 
 		for (const record of this.records) {
 			const entry = map.get(record.card) ?? [];

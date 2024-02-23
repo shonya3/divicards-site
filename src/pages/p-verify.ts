@@ -6,7 +6,7 @@ import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import { ArrayAsyncRenderer } from '../utils';
-import { SOURCE_TYPE_VARIANTS } from '../gen/ISource.interface';
+import { SOURCE_TYPE_VARIANTS } from '../gen/Source';
 import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
 

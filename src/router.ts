@@ -5,7 +5,7 @@ if (!globalThis.URLPattern) {
 
 import { Router } from '@thepassle/app-tools/router.js';
 import { html } from 'lit';
-import { SourceType, ISource } from './gen/ISource.interface';
+import { SourceType, Source } from './gen/Source';
 
 import './pages/p-home';
 import './pages/p-card';
@@ -64,7 +64,7 @@ export const router = new Router({
 			render: context => {
 				const id: string = context.query.id;
 				const type = context.query.type as SourceType;
-				const source: ISource = { id, type, kind: 'source-with-member' };
+				const source: Source = { id, type, kind: 'source-with-member' };
 				return html`<p-source .source=${source}></p-source>`;
 			},
 		},
