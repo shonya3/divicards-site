@@ -1,10 +1,10 @@
 import { cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
 import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
-import { cardsDataMap } from './elements/divination-card/data';
 import { SOURCE_TYPE_VARIANTS } from './gen/Source';
 import type { DivcordRecord } from './gen/divcord';
 import type { ActArea } from './gen/poeData';
+import { cardElementDataFromJson as cardElementData } from './gen/cardElementData';
 
 export const SEARCH_CRITERIA_VARIANTS = [
 	'name',
@@ -33,7 +33,6 @@ export function searchCardsByQuery(
 		return allCards;
 	}
 
-	// sortByWeight(allCards, poeData);
 	const q = query.trim().toLowerCase();
 	let cards: string[] = [];
 
@@ -76,107 +75,56 @@ export function searchCardsByQuery(
 	return Array.from(new Set(cards));
 }
 
-function findByReleaseLeague(query: string, allCards: Readonly<string[]>): string[] {
-	const cards: string[] = [];
-
-	for (const name of allCards) {
-		const card = poeData.find.card(name);
-		const league = card?.league;
+export function findByReleaseLeague(query: string, allCards: Readonly<string[]>): string[] {
+	return allCards.filter(name => {
+		const league = poeData.find.card(name)?.league;
 		if (league) {
-			const leagueName = league.name.toLowerCase();
-			if (leagueName.includes(query)) {
-				cards.push(card.name);
-			}
+			return league.name.toLowerCase().includes(query);
 		}
-	}
-
-	return cards;
+	});
 }
 
 function findByReleaseVersion(matches: RegExpMatchArray, allCards: Readonly<string[]>): string[] {
-	const cards: string[] = [];
-
-	for (const name of allCards) {
-		const card = poeData.find.card(name);
-		const league = card?.league;
+	return allCards.filter(name => {
+		const league = poeData.find.card(name)?.league;
 		if (league) {
 			const [[major, minor]] = matches.map(match => match.split('.').map(Number));
-
 			const [maj, min] = league.version.split('.').map(s => Number(s));
-			if (major === maj && minor === min) {
-				cards.push(card.name);
-			}
+			return major === maj && minor == min;
 		}
-	}
-
-	return cards;
+	});
 }
 
 function findByFlavourText(query: string): string[] {
-	const cards: string[] = [];
-
-	for (const { name, flavourText } of cardsDataMap.values()) {
-		if (flavourText.toLowerCase().includes(query)) {
-			cards.push(name);
-		}
-	}
-
-	return cards;
-}
-
-export function escapeHtml(htmlText: string) {
-	return htmlText.replace(/<[^>]+>/g, '');
+	return cardElementData
+		.filter(({ flavourText }) => flavourText.toLowerCase().includes(query))
+		.map(({ name }) => name);
 }
 
 function findByReward(query: string): string[] {
-	const cards: string[] = [];
-
-	for (const { name, rewardHtml } of cardsDataMap.values()) {
-		const reward = escapeHtml(rewardHtml);
-		if (reward.toLowerCase().includes(query)) {
-			cards.push(name);
-		}
-	}
-
-	return cards;
+	return cardElementData.filter(({ rewardHtml }) => rewardHtml.toLowerCase().includes(query)).map(({ name }) => name);
 }
 
 function findByName(query: string, allCards: Readonly<string[]>): string[] {
-	const cards: string[] = [];
-
-	for (const name of allCards) {
-		if (name.toLowerCase().includes(query)) {
-			cards.push(name);
-		}
-	}
-
-	return cards;
+	return allCards.filter(name => name.toLowerCase().includes(query));
 }
 
-function findByStackSize(query: string): string[] {
-	const cards: string[] = [];
-
+export function findByStackSize(query: string): string[] {
 	const queryStackSize = parseInt(query);
 	if (!Number.isInteger(queryStackSize)) {
-		return cards;
+		return [];
 	}
 
-	for (const { name, stackSize } of cardsDataMap.values()) {
-		if (stackSize === null && queryStackSize === 1) {
-			cards.push(name);
-		}
-
-		if (stackSize === queryStackSize) {
-			cards.push(name);
-		}
-	}
-
-	return cards;
+	return cardElementData
+		.filter(({ stackSize }) => {
+			const stack = stackSize ?? 1;
+			return stack === queryStackSize;
+		})
+		.map(({ name }) => name);
 }
 
 function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 	let cards: string[] = [];
-
 	let actNumber: number | null = null;
 
 	const digits = query.match(/\d+/g);
@@ -197,17 +145,17 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 					cards = [
 						...cards,
 						...bosses
-							.flatMap(b => cardsByMapboss(b.name, divcordTable.records, poeData))
-							.filter(c => c.status === 'done')
-							.map(c => c.card),
+							.flatMap(({ name }) => cardsByMapboss(name, divcordTable.records, poeData))
+							.filter(({ status }) => status === 'done')
+							.map(({ card }) => card),
 					];
 				}
 				if (source.type === 'Act') {
 					const actArea = poeData.acts.find(a => a.id === source.id)!;
 					for (const fight of actArea.bossfights) {
 						for (const card of cardsByActboss(fight.name, divcordTable.records)
-							.filter(c => c.status === 'done')
-							.map(c => c.card)) {
+							.filter(({ status }) => status === 'done')
+							.map(({ card }) => card)) {
 							cards.push(card);
 						}
 					}
@@ -247,36 +195,23 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		}
 	}
 
-	// If act area directly drops no cards, but some of ot's bosses can
-	for (const actArea of poeData.acts.filter(
-		actArea =>
-			actArea.id === query ||
-			actArea.name.toLowerCase().includes(query) ||
-			(query.includes('a') && actNumber === actArea.act)
-	)) {
-		for (const boss of actArea.bossfights) {
-			for (const card of cardsByActboss(boss.name, divcordTable.records)
-				.filter(c => c.status === 'done')
-				.map(c => c.card)) {
-				if (!cards.includes(card)) {
-					cards.push(card);
-				}
-			}
-		}
-	}
+	// If act area directly drops no cards, but some of its bosses can
+	const cardsFromActBosses = poeData.acts
+		.filter(
+			actArea =>
+				actArea.id === query ||
+				actArea.name.toLowerCase().includes(query) ||
+				(query.includes('a') && actNumber === actArea.act)
+		)
+		.flatMap(({ bossfights }) => bossfights)
+		.flatMap(({ name }) => cardsByActboss(name, divcordTable.records))
+		.filter(({ status }) => status === 'done')
+		.map(({ card }) => card);
 
-	return cards;
+	return cards.concat(cardsFromActBosses);
 }
 
 function findBySourceType(query: string, records: DivcordRecord[], poeData: PoeData): string[] {
-	const cards: string[] = [];
-	const types = SOURCE_TYPE_VARIANTS.filter(sourcetype => sourcetype.toLowerCase().includes(query));
-
-	for (const { cards: cardsFromSource } of cardsBySourceTypes(types, records, poeData)) {
-		for (const { card } of cardsFromSource) {
-			cards.push(card);
-		}
-	}
-
-	return cards;
+	const types = SOURCE_TYPE_VARIANTS.filter(type => type.toLowerCase().includes(query));
+	return cardsBySourceTypes(types, records, poeData).flatMap(({ cards }) => cards.map(({ card }) => card));
 }
