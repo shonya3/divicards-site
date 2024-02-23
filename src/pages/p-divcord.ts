@@ -23,9 +23,9 @@ import { classMap } from 'lit/directives/class-map.js';
 import { toast } from '../toast';
 import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
 import {
-	IConfidence,
-	IRemainingWork,
-	IGreynote,
+	Confidence,
+	RemainingWork,
+	Greynote,
 	GREYNOTE_VARIANTS,
 	CONFIDENCE_VARIANTS,
 	REMAINING_WORK_VARIANTS,
@@ -39,7 +39,7 @@ declare global {
 
 export function someCardRecordHasConfidenceVariant(
 	card: string,
-	confidenceVariants: IConfidence[],
+	confidenceVariants: Confidence[],
 	divcordTable: DivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => confidenceVariants.includes(record.confidence));
@@ -47,7 +47,7 @@ export function someCardRecordHasConfidenceVariant(
 
 export function someCardRecordHasRemainingWorkVariant(
 	card: string,
-	remainingWorkVariants: IRemainingWork[],
+	remainingWorkVariants: RemainingWork[],
 	divcordTable: DivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => remainingWorkVariants.includes(record.remainingWork));
@@ -55,7 +55,7 @@ export function someCardRecordHasRemainingWorkVariant(
 
 export function someCardRecordHasGreynoteWorkVariant(
 	card: string,
-	greynoteVariants: IGreynote[],
+	greynoteVariants: Greynote[],
 	divcordTable: DivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
@@ -63,9 +63,9 @@ export function someCardRecordHasGreynoteWorkVariant(
 
 export type PresetConfig = {
 	name: string;
-	greynote: IGreynote[];
-	confidence: IConfidence[];
-	remainingWork: IRemainingWork[];
+	greynote: Greynote[];
+	confidence: Confidence[];
+	remainingWork: RemainingWork[];
 };
 
 const DEFAULT_PRESETS: PresetConfig[] = [
@@ -239,17 +239,17 @@ export class DivcordPage extends LitElement {
 
 	#onGreynotesSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<IGreynote>(opt));
+		const options = target.value.map(opt => SlConverter.fromSlValue<Greynote>(opt));
 		this.config = { ...this.config, greynote: options };
 	}
 	#onRemainingWorkSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<IRemainingWork>(opt));
+		const options = target.value.map(opt => SlConverter.fromSlValue<RemainingWork>(opt));
 		this.config = { ...this.config, remainingWork: options };
 	}
 	#onConfidenceSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<IConfidence>(opt));
+		const options = target.value.map(opt => SlConverter.fromSlValue<Confidence>(opt));
 		this.config = { ...this.config, confidence: options };
 	}
 

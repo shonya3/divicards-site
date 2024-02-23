@@ -6,10 +6,10 @@ export const divcordRecordsFromJson = json as DivcordRecord[];
 export type DivcordRecord = {
 	id: number;
 	card: string;
-	greynote: IGreynote;
+	greynote: Greynote;
 	tagHypothesis?: string;
-	confidence: IConfidence;
-	remainingWork: IRemainingWork;
+	confidence: Confidence;
+	remainingWork: RemainingWork;
 	wikiDisagreements?: string;
 	sourcesWithTagButNotOnWiki?: string;
 	verifySources: ISource[];
@@ -17,9 +17,9 @@ export type DivcordRecord = {
 	sources?: ISource[];
 };
 
-export type IGreynote = (typeof GREYNOTE_VARIANTS)[number];
-export type IConfidence = (typeof CONFIDENCE_VARIANTS)[number];
-export type IRemainingWork = (typeof REMAINING_WORK_VARIANTS)[number];
+export type Greynote = (typeof GREYNOTE_VARIANTS)[number];
+export type Confidence = (typeof CONFIDENCE_VARIANTS)[number];
+export type RemainingWork = (typeof REMAINING_WORK_VARIANTS)[number];
 
 export const GREYNOTE_VARIANTS = [
 	'Empty',
