@@ -1,4 +1,4 @@
-import json from './poeData.json';
+import json from './json/poeData.json';
 export const poeDataFromJson = json as IPoeData;
 
 export type IPoeData = {

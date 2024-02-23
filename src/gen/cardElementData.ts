@@ -1,4 +1,4 @@
-import json from './cardElementData.json' assert { type: 'json' };
+import json from './json/cardElementData.json' assert { type: 'json' };
 export const cardElementDataFromJson: CardElementData[] = json;
 
 export type CardElementData = {
