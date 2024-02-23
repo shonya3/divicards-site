@@ -1,4 +1,4 @@
-import { DivcordRecord } from './gen/divcordRecordsFromJson';
+import { DivcordRecord } from './gen/divcord';
 import { SourceWithMember, Source, SourceType, SOURCE_TYPE_VARIANTS } from './gen/Source';
 import { PoeData, poeData } from './PoeData';
 

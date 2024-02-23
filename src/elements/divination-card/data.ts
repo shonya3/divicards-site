@@ -1,12 +1,4 @@
-import { cardElementDataFromJson } from '../../gen/cardElementDataFromJson';
-
-export interface CardElementData {
-	name: string;
-	artFilename: string;
-	flavourText: string;
-	stackSize: number | null;
-	rewardHtml: string;
-}
+import { CardElementData, cardElementDataFromJson } from '../../gen/cardElementData';
 
 export const cardsDataMap = new Map<string, CardElementData>();
 for (const card of cardElementDataFromJson) {

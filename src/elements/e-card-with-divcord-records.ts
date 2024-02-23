@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
 import './e-divcord-needs-info';
-import type { DivcordRecord } from '../gen/divcordRecordsFromJson';
+import type { DivcordRecord } from '../gen/divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {

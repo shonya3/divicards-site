@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { dispatchSetTransitionName } from '../../events';
 import type { RenderMode } from '../types';
-import type { MapArea } from '../../gen/poeDataFromJson';
+import type { MapArea } from '../../gen/poeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

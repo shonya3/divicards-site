@@ -6,7 +6,7 @@ import './e-act-area';
 import { dispatchSetTransitionName } from '../../events';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { ActArea, Bossfight } from '../../gen/poeDataFromJson';
+import type { ActArea, Bossfight } from '../../gen/poeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

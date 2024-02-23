@@ -3,7 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { dispatchSetTransitionName } from '../../events';
-import type { ActArea } from '../../gen/poeDataFromJson';
+import type { ActArea } from '../../gen/poeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

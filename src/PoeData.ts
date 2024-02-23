@@ -1,5 +1,5 @@
-import type { ActArea, Bossfight, Card, MapArea, MapBoss, IPoeData } from './gen/poeDataFromJson';
-import { poeDataFromJson } from './gen/poeDataFromJson';
+import type { ActArea, Bossfight, Card, MapArea, MapBoss, IPoeData } from './gen/poeData';
+import { poeDataFromJson } from './gen/poeData';
 
 export class PoeData implements IPoeData {
 	acts: ActArea[];

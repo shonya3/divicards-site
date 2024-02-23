@@ -3,8 +3,8 @@ import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
 import { cardsDataMap } from './elements/divination-card/data';
 import { SOURCE_TYPE_VARIANTS } from './gen/Source';
-import type { DivcordRecord } from './gen/divcordRecordsFromJson';
-import type { ActArea } from './gen/poeDataFromJson';
+import type { DivcordRecord } from './gen/divcord';
+import type { ActArea } from './gen/poeData';
 
 export const SEARCH_CRITERIA_VARIANTS = [
 	'name',

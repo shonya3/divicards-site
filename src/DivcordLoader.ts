@@ -1,7 +1,7 @@
 import { PoeData, poeData } from './PoeData.js';
 import { warningToast } from './toast.js';
 import { sortByWeight } from './cards.js';
-import type { DivcordRecord } from './gen/divcordRecordsFromJson.js';
+import type { DivcordRecord } from './gen/divcord.js';
 import { Storage } from './storage.js';
 
 declare module './storage' {
@@ -161,7 +161,7 @@ export class DivcordLoader extends EventTarget {
 	}
 
 	async #fromStaticJson(): Promise<DivcordRecord[]> {
-		const { divcordRecordsFromJson } = await import('./gen/divcordRecordsFromJson.js');
+		const { divcordRecordsFromJson } = await import('./gen/divcord.js');
 		return divcordRecordsFromJson;
 	}
 }

@@ -29,7 +29,7 @@ import {
 	GREYNOTE_VARIANTS,
 	CONFIDENCE_VARIANTS,
 	REMAINING_WORK_VARIANTS,
-} from '../gen/divcordRecordsFromJson';
+} from '../gen/divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {

@@ -6,7 +6,7 @@ import './e-map';
 import { dispatchSetTransitionName } from '../../events';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { MapArea, MapBoss } from '../../gen/poeDataFromJson';
+import type { MapArea, MapBoss } from '../../gen/poeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

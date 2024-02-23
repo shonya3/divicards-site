@@ -12,7 +12,7 @@ import '../e-source-type';
 import { poeData } from '../../PoeData';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { MapArea } from '../../gen/poeDataFromJson';
+import type { MapArea } from '../../gen/poeData';
 
 declare global {
 	interface HTMLElementTagNameMap {

@@ -5,7 +5,7 @@ import './e-source/e-source';
 import './e-need-to-verify';
 import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
-import type { DivcordRecord } from '../gen/divcordRecordsFromJson';
+import type { DivcordRecord } from '../gen/divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
