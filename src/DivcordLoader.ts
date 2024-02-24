@@ -26,7 +26,7 @@ export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
 export class DivcordLoader extends EventTarget {
 	#state: State = 'idle';
 	#cache: Cache;
-	#storage = new Storage('divcord', [] as DivcordRecord[]);
+	#storage = new Storage('divcord', []);
 	constructor(cache: Cache) {
 		super();
 		this.#cache = cache;
