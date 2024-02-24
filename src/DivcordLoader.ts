@@ -10,18 +10,6 @@ declare module './storage' {
 	}
 }
 
-export interface DivcordResponses {
-	richSources: Response;
-	richVerify: Response;
-	sheet: Response;
-}
-
-export interface IDivcordData {
-	sheet: object;
-	rich_sources_column: object;
-	rich_verify_column: object;
-}
-
 const ONE_DAY_MILLISECONDS = 86_400_000;
 const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
 
@@ -166,6 +154,18 @@ export class DivcordLoader extends EventTarget {
 	}
 }
 
+type DivcordResponses = {
+	richSources: Response;
+	richVerify: Response;
+	sheet: Response;
+};
+
+type IDivcordData = {
+	sheet: object;
+	rich_sources_column: object;
+	rich_verify_column: object;
+};
+
 function sheetUrl(): string {
 	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
 	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
@@ -184,7 +184,7 @@ function richSourcesUrl(richColumnVariant: 'sources' | 'verify'): string {
 	return url;
 }
 
-export async function parseRecords(divcord: IDivcordData, poeData: PoeData): Promise<DivcordRecord[]> {
+async function parseRecords(divcord: IDivcordData, poeData: PoeData): Promise<DivcordRecord[]> {
 	const { default: initWasm, parsed_records } = await import('./gen/divcordWasm/divcord_wasm.js');
 	await initWasm();
 	const records = parsed_records(JSON.stringify(divcord), JSON.stringify(poeData), warningToast) as DivcordRecord[];
