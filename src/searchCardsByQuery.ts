@@ -208,7 +208,14 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		.filter(({ status }) => status === 'done')
 		.map(({ card }) => card);
 
-	return cards.concat(cardsFromActBosses);
+	// If map area directly drops no cards, but some of ot's bosses can
+	const cardsFromMapBosses = poeData.mapbosses
+		.filter(boss => boss.maps.some(map => map.toLowerCase().includes(query)))
+		.flatMap(({ name }) => cardsByMapboss(name, divcordTable.records, poeData))
+		.filter(({ status }) => status === 'done')
+		.map(({ card }) => card);
+
+	return cards.concat(cardsFromActBosses, cardsFromMapBosses);
 }
 
 function findBySourceType(query: string, records: DivcordRecord[], poeData: PoeData): string[] {
