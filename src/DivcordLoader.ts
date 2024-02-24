@@ -27,7 +27,7 @@ const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
 
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
 export type DivcordLoaderEventType = 'state-updated' | 'records-updated';
-export type DivcordLoaderState = 'idle' | 'updating' | 'updated' | 'error';
+export type State = 'idle' | 'updating' | 'updated' | 'error';
 
 export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
 	constructor(type: DivcordLoaderEventType, records?: DivcordRecord[]) {
@@ -36,7 +36,7 @@ export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
 }
 
 export class DivcordLoader extends EventTarget {
-	#state: DivcordLoaderState = 'idle';
+	#state: State = 'idle';
 	#cache: Cache;
 	#storage = new Storage('divcord', [] as DivcordRecord[]);
 	constructor(cache: Cache) {
@@ -52,7 +52,7 @@ export class DivcordLoader extends EventTarget {
 		return this.#state;
 	}
 
-	set state(val: DivcordLoaderState) {
+	#setState(val: State) {
 		this.#state = val;
 		this.dispatchEvent(new DivcordLoaderEvent('state-updated'));
 	}
@@ -76,7 +76,7 @@ export class DivcordLoader extends EventTarget {
 
 	async update(): Promise<DivcordRecord[]> {
 		try {
-			this.state = 'updating';
+			this.#setState('updating');
 			await Promise.all([
 				this.#cache.add(richSourcesUrl('sources')),
 				this.#cache.add(sheetUrl()),
@@ -86,12 +86,12 @@ export class DivcordLoader extends EventTarget {
 			const divcordData = await this.#serderesponses(resp!);
 			const records = await parseRecords(divcordData, poeData);
 			this.#storage.save(records);
-			this.state = 'updated';
+			this.#setState('updated');
 			this.dispatchEvent(new CustomEvent('records-updated', { detail: records }));
 			return records;
 		} catch (err) {
 			console.log(err);
-			this.state = 'error';
+			this.#setState('error');
 			const records = await this.#freshestAvailableRecords();
 			return records;
 		}

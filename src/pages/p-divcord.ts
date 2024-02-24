@@ -10,7 +10,7 @@ import '../elements/input/e-input';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { type DivcordLoaderState, divcordLoader } from '../DivcordLoader';
+import { type State as DivcordLoaderState, divcordLoader } from '../DivcordLoader';
 import { ArrayAsyncRenderer, SlConverter, paginate } from '../utils';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
