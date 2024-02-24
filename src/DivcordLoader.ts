@@ -1,8 +1,9 @@
-import { PoeData, poeData } from './PoeData.js';
-import { warningToast } from './toast.js';
-import { sortByWeight } from './cards.js';
-import type { DivcordRecord } from './gen/divcord.js';
-import { Storage } from './storage.js';
+import { PoeData, poeData } from './PoeData';
+import { warningToast } from './toast';
+import { sortByWeight } from './cards';
+import type { DivcordRecord } from './gen/divcord';
+import { Storage } from './storage';
+import { EventEmitter } from './utils';
 
 declare module './storage' {
 	interface Registry {
@@ -14,16 +15,12 @@ const ONE_DAY_MILLISECONDS = 86_400_000;
 const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
 
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
-export type DivcordLoaderEventType = 'state-updated' | 'records-updated';
 export type State = 'idle' | 'updating' | 'updated' | 'error';
 
-export class DivcordLoaderEvent extends CustomEvent<DivcordRecord[]> {
-	constructor(type: DivcordLoaderEventType, records?: DivcordRecord[]) {
-		super(type, { detail: records });
-	}
-}
-
-export class DivcordLoader extends EventTarget {
+export class DivcordLoader extends EventEmitter<{
+	'state-updated': State;
+	'records-updated': DivcordRecord[];
+}> {
 	#state: State = 'idle';
 	#cache: Cache;
 	#storage = new Storage('divcord', []);
@@ -32,17 +29,13 @@ export class DivcordLoader extends EventTarget {
 		this.#cache = cache;
 	}
 
-	on(type: DivcordLoaderEventType, callback: (e: DivcordLoaderEvent) => void): void {
-		super.addEventListener(type, callback as EventListener);
-	}
-
 	get state() {
 		return this.#state;
 	}
 
 	#setState(val: State) {
 		this.#state = val;
-		this.dispatchEvent(new DivcordLoaderEvent('state-updated'));
+		this.emit('state-updated', val);
 	}
 
 	async getRecordsAndRunUpdateIfNeeded(): Promise<DivcordRecord[]> {
@@ -75,7 +68,7 @@ export class DivcordLoader extends EventTarget {
 			const records = await parseRecords(divcordData, poeData);
 			this.#storage.save(records);
 			this.#setState('updated');
-			this.dispatchEvent(new CustomEvent('records-updated', { detail: records }));
+			this.emit('records-updated', records);
 			return records;
 		} catch (err) {
 			console.log(err);

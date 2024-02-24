@@ -71,3 +71,16 @@ export async function startViewTransition(cb: (...args: any[]) => any): Promise<
 		cb();
 	}
 }
+
+export class EventEmitter<Events> extends EventTarget {
+	//@ts-expect-error
+	addEventListener<Key extends keyof Events>(type: Key, callback: (e: CustomEvent<Events[Key]>) => void) {
+		//@ts-expect-error
+		super.addEventListener(type, callback);
+	}
+
+	emit<Key extends keyof Events>(type: Key, detail: Events[Key]) {
+		//@ts-expect-error
+		super.dispatchEvent(new CustomEvent<Events[Key]>(type, { detail }));
+	}
+}

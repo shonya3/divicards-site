@@ -26,7 +26,7 @@ export class RootElement extends LitElement {
 	constructor() {
 		super();
 
-		divcordLoader.on('records-updated', e => {
+		divcordLoader.addEventListener('records-updated', e => {
 			this.divcordTable = new DivcordTable(e.detail);
 			toast('Your Divcord data is up-to-date', 'success', 3000);
 		});
