@@ -703,8 +703,8 @@ export class DivcordRecordsAgeElement extends LitElement {
 
 	constructor() {
 		super();
-		divcordLoader.addEventListener('state-updated', e => {
-			if (e.detail === 'updated') {
+		divcordLoader.addEventListener('state-updated', state => {
+			if (state === 'updated') {
 				this.lastUpdated.run();
 			}
 		});
@@ -750,8 +750,8 @@ export class UpdateDivcordDataElement extends LitElement {
 	constructor() {
 		super();
 		this.loaderState = divcordLoader.state;
-		divcordLoader.addEventListener('state-updated', e => {
-			this.loaderState = e.detail;
+		divcordLoader.addEventListener('state-updated', state => {
+			this.loaderState = state;
 		});
 	}
 
