@@ -208,7 +208,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		.filter(({ status }) => status === 'done')
 		.map(({ card }) => card);
 
-	// If map area directly drops no cards, but some of ot's bosses can
+	// If map area directly drops no cards, but some of its bosses can
 	const cardsFromMapBosses = poeData.mapbosses
 		.filter(boss => boss.maps.some(map => map.toLowerCase().includes(query)))
 		.flatMap(({ name }) => cardsByMapboss(name, divcordTable.records, poeData))
