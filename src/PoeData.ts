@@ -6,7 +6,6 @@ export class PoeData implements IPoeData {
 	cards: Record<string, Card>;
 	maps: MapArea[];
 	mapbosses: MapBoss[];
-	cardsMap: Map<string, Card> = new Map();
 	find: FindPoeData;
 	constructor(poeDataFromJson: IPoeData) {
 		const { acts, cards, maps, mapbosses } = structuredClone(poeDataFromJson);
