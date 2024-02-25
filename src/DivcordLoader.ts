@@ -42,11 +42,11 @@ export class DivcordLoader extends EventEmitter<{
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {
-				return this.#storage.load()!;
+				return this.#storage.load();
 			}
 			case 'stale': {
 				this.update();
-				return this.#storage.load()!;
+				return this.#storage.load();
 			}
 			case 'not exist': {
 				this.update();
