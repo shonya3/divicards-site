@@ -72,18 +72,18 @@ export async function startViewTransition(cb: (...args: any[]) => any): Promise<
 	}
 }
 
-export class EventEmitter<Events> extends EventTarget {
-	//@ts-expect-error
-	addEventListener<Key extends keyof Events>(type: Key, callback: (e: Events[Key]) => void) {
-		super.addEventListener(type as string, e => callback((e as CustomEvent<Events[Key]>).detail));
+export class EventEmitter<Events> {
+	#eventTarget = new EventTarget();
+
+	addEventListener<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void) {
+		this.#eventTarget.addEventListener(type, e => callback((e as CustomEvent<Events[Key]>).detail));
 	}
 
-	on<Key extends keyof Events>(type: Key, callback: (e: Events[Key]) => void) {
-		return this.addEventListener(type, callback);
+	emit<Key extends keyof Events & string>(type: Key, detail: Events[Key]) {
+		this.#eventTarget.dispatchEvent(new CustomEvent<Events[Key]>(type, { detail, composed: true, bubbles: true }));
 	}
 
-	emit<Key extends keyof Events>(type: Key, detail: Events[Key]) {
-		//@ts-expect-error
-		super.dispatchEvent(new CustomEvent<Events[Key]>(type, { detail, composed: true, bubbles: true }));
+	on<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void) {
+		this.#eventTarget.addEventListener(type, e => callback((e as CustomEvent<Events[Key]>).detail));
 	}
 }
