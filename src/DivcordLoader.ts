@@ -29,11 +29,11 @@ export class DivcordLoader extends EventEmitter<{
 		this.#cache = cache;
 	}
 
-	get state() {
+	get state(): State {
 		return this.#state;
 	}
 
-	#setState(val: State) {
+	#setState(val: State): void {
 		this.#state = val;
 		this.emit('state-updated', val);
 	}
@@ -63,8 +63,8 @@ export class DivcordLoader extends EventEmitter<{
 				this.#cache.add(sheetUrl()),
 				this.#cache.add(richSourcesUrl('verify')),
 			]);
-			const resp = await this.#cachedResponses();
-			const spreadsheet = await this.#deserializeResponses(resp!);
+			const cached = await this.#cachedResponses();
+			const spreadsheet = await this.#deserializeResponses(cached!);
 			const records = await parseRecords(spreadsheet, poeData);
 			this.#storage.save(records);
 			this.#setState('updated');
