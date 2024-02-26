@@ -64,8 +64,8 @@ export class DivcordLoader extends EventEmitter<{
 				this.#cache.add(richSourcesUrl('verify')),
 			]);
 			const resp = await this.#cachedResponses();
-			const divcordData = await this.#serderesponses(resp!);
-			const records = await parseRecords(divcordData, poeData);
+			const spreadsheet = await this.#deserializeResponses(resp!);
+			const records = await parseRecords(spreadsheet, poeData);
 			this.#storage.save(records);
 			this.#setState('updated');
 			this.emit('records-updated', records);
@@ -120,7 +120,7 @@ export class DivcordLoader extends EventEmitter<{
 		}
 	}
 
-	async #cachedResponses(): Promise<DivcordResponses | null> {
+	async #cachedResponses(): Promise<CachedResponses | null> {
 		const richSources = await this.#cache.match(richSourcesUrl('sources'));
 		const richVerify = await this.#cache.match(richSourcesUrl('verify'));
 		const sheet = await this.#cache.match(sheetUrl());
@@ -132,11 +132,11 @@ export class DivcordLoader extends EventEmitter<{
 		};
 	}
 
-	async #serderesponses(r: DivcordResponses): Promise<IDivcordData> {
+	async #deserializeResponses(cached: CachedResponses): Promise<Spreadsheet> {
 		const [rich_sources_column, sheet, rich_verify_column] = await Promise.all([
-			r.richSources.json(),
-			r.sheet.json(),
-			r.richVerify.json(),
+			cached.richSources.json(),
+			cached.sheet.json(),
+			cached.richVerify.json(),
 		]);
 		return { rich_sources_column, sheet, rich_verify_column };
 	}
@@ -147,13 +147,13 @@ export class DivcordLoader extends EventEmitter<{
 	}
 }
 
-type DivcordResponses = {
+type CachedResponses = {
 	richSources: Response;
 	richVerify: Response;
 	sheet: Response;
 };
 
-type IDivcordData = {
+type Spreadsheet = {
 	sheet: object;
 	rich_sources_column: object;
 	rich_verify_column: object;
@@ -177,7 +177,7 @@ function richSourcesUrl(richColumnVariant: 'sources' | 'verify'): string {
 	return url;
 }
 
-async function parseRecords(divcord: IDivcordData, poeData: PoeData): Promise<DivcordRecord[]> {
+async function parseRecords(divcord: Spreadsheet, poeData: PoeData): Promise<DivcordRecord[]> {
 	const { default: initWasm, parsed_records } = await import('./gen/divcordWasm/divcord_wasm.js');
 	await initWasm();
 	const records = parsed_records(JSON.stringify(divcord), JSON.stringify(poeData), warningToast) as DivcordRecord[];
