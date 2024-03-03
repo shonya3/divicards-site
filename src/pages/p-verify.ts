@@ -113,22 +113,7 @@ export class VerifyPage extends LitElement {
 
 	render() {
 		// with async renderer
-		const list = this.sourcesAndCardsRenderer.render(({ source, cards }: SourceAndCards) => {
-			let name = source.id;
-			if (source.type === 'Act') {
-				const area = poeData.find.actArea(source.id);
-				if (area) {
-					name = area.name;
-				}
-			}
-			const hash = name.replaceAll(' ', '_');
-			return html`<li id="${hash}">
-				<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
-			</li>`;
-		});
-
-		// with arr
-		// const list = this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
+		// const list = this.sourcesAndCardsRenderer.render(({ source, cards }: SourceAndCards) => {
 		// 	let name = source.id;
 		// 	if (source.type === 'Act') {
 		// 		const area = poeData.find.actArea(source.id);
@@ -141,6 +126,21 @@ export class VerifyPage extends LitElement {
 		// 		<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
 		// 	</li>`;
 		// });
+
+		// with arr
+		const list = this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
+			let name = source.id;
+			if (source.type === 'Act') {
+				const area = poeData.find.actArea(source.id);
+				if (area) {
+					name = area.name;
+				}
+			}
+			const hash = name.replaceAll(' ', '_');
+			return html`<li id="${hash}">
+				<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
+			</li>`;
+		});
 
 		return html`<div class="page">
 			<e-verify-faq-alert></e-verify-faq-alert>
