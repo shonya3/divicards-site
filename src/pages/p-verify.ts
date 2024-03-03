@@ -6,7 +6,6 @@ import { DivcordTable } from '../DivcordTable';
 import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
-import { ArrayAsyncRenderer } from '../utils';
 import { SOURCE_TYPE_VARIANTS } from '../gen/Source';
 import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
@@ -23,11 +22,25 @@ export class VerifyPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
-	@state() sourcesAndCardsRenderer!: ArrayAsyncRenderer<SourceAndCards>;
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() detailsOpen = true;
 
 	@query('.contents') details!: HTMLDetailsElement;
+	@query('details ul') contentsLinksList!: HTMLElement;
+	@query('.list') sourceWithCardsList!: HTMLElement;
+
+	#activeScrollEl: HTMLElement | null = null;
+	get activeScrollEl() {
+		return this.#activeScrollEl;
+	}
+	set activeScrollEl(val: HTMLElement | null) {
+		if (val === null) return;
+
+		this.#activeScrollEl?.classList.remove('active');
+		this.#activeScrollEl = val;
+		this.#activeScrollEl.classList.add('active');
+		console.log(val);
+	}
 
 	constructor() {
 		super();
@@ -59,6 +72,26 @@ export class VerifyPage extends LitElement {
 			this.detailsOpen = false;
 			this.details.style.setProperty('height', 'auto');
 		}
+
+		const obs = new IntersectionObserver(
+			entries => {
+				if (entries.length < 5) {
+					entries.forEach(e => {
+						if (e.intersectionRatio === 1) {
+							const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
+							if (a instanceof HTMLAnchorElement) {
+								this.activeScrollEl = a;
+							}
+						}
+					});
+				}
+			},
+			{ threshold: 1 }
+		);
+
+		for (const li of this.sourceWithCardsList.querySelectorAll('li')) {
+			obs.observe(li);
+		}
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -79,7 +112,6 @@ export class VerifyPage extends LitElement {
 			}
 
 			this.sourcesAndCards = structuredClone(sourcesAndCards);
-			this.sourcesAndCardsRenderer = new ArrayAsyncRenderer(sourcesAndCards);
 		}
 	}
 
@@ -112,22 +144,6 @@ export class VerifyPage extends LitElement {
 	}
 
 	render() {
-		// with async renderer
-		// const list = this.sourcesAndCardsRenderer.render(({ source, cards }: SourceAndCards) => {
-		// 	let name = source.id;
-		// 	if (source.type === 'Act') {
-		// 		const area = poeData.find.actArea(source.id);
-		// 		if (area) {
-		// 			name = area.name;
-		// 		}
-		// 	}
-		// 	const hash = name.replaceAll(' ', '_');
-		// 	return html`<li id="${hash}">
-		// 		<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
-		// 	</li>`;
-		// });
-
-		// with arr
 		const list = this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
 			let name = source.id;
 			if (source.type === 'Act') {
@@ -193,6 +209,9 @@ export class VerifyPage extends LitElement {
 			max-height: calc(80vh - 100px);
 			overflow-y: scroll;
 			top: 100px;
+		}
+		a.active {
+			color: var(--link-color-hover, blue);
 		}
 
 		.contents summary {
