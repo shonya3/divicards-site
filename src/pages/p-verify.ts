@@ -239,7 +239,6 @@ export class VerifyPage extends LitElement {
 			max-height: calc(80vh - 100px);
 			overflow-y: scroll;
 			top: 100px;
-			background-color: black;
 			z-index: 200000;
 		}
 		a.active {
