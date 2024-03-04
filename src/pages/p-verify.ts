@@ -111,8 +111,9 @@ export class VerifyPage extends LitElement {
 		}
 	}
 
-	nav() {
-		return html`
+	render() {
+		return html`<div class="page">
+			<e-verify-faq-alert></e-verify-faq-alert>
 			<details class="contents" ?open=${this.detailsOpen}>
 				<summary>Need to verify</summary>
 				<ul>
@@ -136,29 +137,20 @@ export class VerifyPage extends LitElement {
 					})}
 				</ul>
 			</details>
-		`;
-	}
-
-	render() {
-		const list = this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
-			let name = source.id;
-			if (source.type === 'Act') {
-				const area = poeData.find.actArea(source.id);
-				if (area) {
-					name = area.name;
-				}
-			}
-			const hash = name.replaceAll(' ', '_');
-			return html`<li id="${hash}">
-				<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
-			</li>`;
-		});
-
-		return html`<div class="page">
-			<e-verify-faq-alert></e-verify-faq-alert>
-			${this.nav()}
 			<ul class="list">
-				${list}
+				${this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
+					let name = source.id;
+					if (source.type === 'Act') {
+						const area = poeData.find.actArea(source.id);
+						if (area) {
+							name = area.name;
+						}
+					}
+					const hash = name.replaceAll(' ', '_');
+					return html`<li id="${hash}">
+						<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
+					</li>`;
+				})}
 			</ul>
 		</div>`;
 	}
