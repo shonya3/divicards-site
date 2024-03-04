@@ -125,7 +125,20 @@ export class VerifyPage extends LitElement {
 				sortByWeight(cards, poeData);
 			}
 
-			this.sourcesAndCards = structuredClone(sourcesAndCards);
+			// move sources with solo Rebirth cards to the end
+			// to make it less spammy
+			const rebirth: SourceAndCards[] = [];
+			let cards = sourcesAndCards.filter(c => {
+				if (c.cards.length === 1 && c.cards.map(c => c.card).includes('Rebirth')) {
+					rebirth.push(c);
+					return false;
+				} else {
+					return true;
+				}
+			});
+			cards = [...cards, ...rebirth];
+
+			this.sourcesAndCards = structuredClone(cards);
 		}
 	}
 
