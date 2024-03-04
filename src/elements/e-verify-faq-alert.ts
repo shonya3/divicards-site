@@ -13,7 +13,14 @@ export class VerifyFaqAlertElement extends LitElement {
 	protected render() {
 		return html`<div class="element">
 			<sl-alert open>
-				<img slot="icon" src="/images/45px-Divcord.png" decoding="async" width="45" height="45" />
+				<img
+					slot="icon"
+					src="/images/45px-Divcord.png"
+					decoding="async"
+					width="45"
+					height="45"
+					alt="Icon Stacked decks with questionmark"
+				/>
 				<p>
 					Please take a moment to review our <a href="/verify-faq">faq</a> section. This will help you better
 					understand the community rules and expectations. Thank you for your attention and for making a
