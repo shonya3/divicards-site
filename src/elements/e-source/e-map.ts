@@ -129,11 +129,6 @@ export class MapElement extends LitElement {
 			font-weight: 400;
 		}
 
-		.map--medium,
-		.map--large {
-			font-size: var(--map-font-size, 1.5rem);
-		}
-
 		.map--yellow {
 			--filter: contrast(1000%) sepia(100%) saturate(10000%);
 		}

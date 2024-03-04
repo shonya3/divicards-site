@@ -57,6 +57,7 @@ function styles() {
 		}
 
 		.act-area {
+			line-height: 1.5rem;
 			width: var(--act-area-width);
 			background: rgba(0, 0, 0, 0) no-repeat center;
 			background-size: 100%;

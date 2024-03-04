@@ -46,7 +46,6 @@ export class SourceWithCardsElement extends LitElement {
 
 	static styles = css`
 		:host {
-			--source-font-size: 1.2rem;
 			--cards-margin-top: 1rem;
 			width: fit-content;
 			display: block;

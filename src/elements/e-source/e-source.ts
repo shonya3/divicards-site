@@ -167,6 +167,7 @@ export class SourceElement extends LitElement {
 			--source-type-font-size: 0.875rem;
 			--padding-inline: 0;
 			--padding-block: 0;
+			line-height: var(--source-font-size, 1rem);
 		}
 
 		.source {
