@@ -5,6 +5,7 @@ import { CardBySource } from '../cards';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
 import './e-need-to-verify';
+import type { CardSize } from './divination-card/e-divination-card';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -15,6 +16,7 @@ declare global {
 @customElement('e-cards-by-source')
 export class CardsBySourceElement extends LitElement {
 	@property({ type: Array }) cards: CardBySource[] = [];
+	@property() size: CardSize = 'medium';
 
 	#onBossNavigation() {
 		this.dispatchEvent(new Event('boss-navigation', { bubbles: true, composed: true }));
@@ -23,7 +25,7 @@ export class CardsBySourceElement extends LitElement {
 	protected render() {
 		return html`<ul class="cards">
 			${this.cards.map(({ card, transitiveSource, status }) => {
-				const cardHtml = html`<e-divination-card size="medium" .name=${card} .boss=${transitiveSource?.id}>
+				const cardHtml = html`<e-divination-card size=${this.size} .name=${card} .boss=${transitiveSource?.id}>
 					${transitiveSource
 						? html`<e-source
 								@click=${this.#onBossNavigation}
