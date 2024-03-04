@@ -26,6 +26,7 @@ export class VerifyFaqAlertElement extends LitElement {
 	static styles = css`
 		:host {
 			display: block;
+			width: fit-content;
 		}
 
 		* {

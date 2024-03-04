@@ -132,7 +132,7 @@ export class VerifyPage extends LitElement {
 	render() {
 		return html`<div class="page">
 			<main class="main">
-				<h2 class="heading">Need to verify</h2>
+				<h1 class="heading">Need to verify</h1>
 				<e-verify-faq-alert></e-verify-faq-alert>
 				<ul class="list">
 					${this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
@@ -207,7 +207,9 @@ export class VerifyPage extends LitElement {
 		}
 
 		e-verify-faq-alert {
-			margin-top: 4rem;
+			margin-top: 2rem;
+			margin-inline: auto;
+			display: block;
 		}
 
 		.main {
@@ -219,12 +221,12 @@ export class VerifyPage extends LitElement {
 		}
 
 		.list {
-			margin-top: 2rem;
+			margin-top: 6rem;
 			margin-left: 1rem;
 
 			list-style: none;
 			display: flex;
-			column-gap: 6rem;
+			column-gap: 5rem;
 			row-gap: 3rem;
 			flex-wrap: wrap;
 		}
