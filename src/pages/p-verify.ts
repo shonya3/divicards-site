@@ -89,23 +89,23 @@ export class VerifyPage extends LitElement {
 			this.details.style.setProperty('height', 'auto');
 		}
 
-		const obs = new IntersectionObserver(
-			entries => {
-				entries.forEach(e => {
-					if (e.intersectionRatio === 1) {
-						const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
-						if (a instanceof HTMLAnchorElement) {
-							this.activeScrollEl = a;
-						}
-					}
-				});
-			},
-			{ threshold: 1 }
-		);
+		// const obs = new IntersectionObserver(
+		// 	entries => {
+		// 		entries.forEach(e => {
+		// 			if (e.intersectionRatio === 1) {
+		// 				const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
+		// 				if (a instanceof HTMLAnchorElement) {
+		// 					this.activeScrollEl = a;
+		// 				}
+		// 			}
+		// 		});
+		// 	},
+		// 	{ threshold: 1 }
+		// );
 
-		for (const li of this.sourceWithCardsList.querySelectorAll('li')) {
-			obs.observe(li);
-		}
+		// for (const li of this.sourceWithCardsList.querySelectorAll('li')) {
+		// 	obs.observe(li);
+		// }
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
