@@ -4,6 +4,7 @@ import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { dispatchSetTransitionName } from '../../events';
 import type { ActArea } from '../../gen/poeData';
+import type { SourceSize } from './types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -11,14 +12,12 @@ declare global {
 	}
 }
 
-export type Size = 'small' | 'large';
-
 @customElement('e-act-area')
 export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
 
 	@property({ type: Object }) actArea!: ActArea;
-	@property({ reflect: true }) size: Size = 'large';
+	@property({ reflect: true }) size: SourceSize = 'large';
 	@property({ reflect: true }) href = '';
 
 	protected override render() {
@@ -28,6 +27,7 @@ export class ActAreaElement extends LitElement {
 				'act-area': true,
 				'act-area--small': this.size === 'small',
 				'act-area--large': this.size === 'large',
+				'act-area--medium': this.size === 'medium',
 			})}
 		>
 			<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
@@ -47,8 +47,10 @@ function styles() {
 			--act-area-background-image: '';
 			--act-area-name-color: #fec076;
 			--act-area-width-small: 261px;
+			--act-area-width-medium: 380px;
 			--act-area-width-large: 507px;
 			--act-area-font-size-small: 15px;
+			--act-area-font-size-medium: 16px;
 			--act-area-font-size-large: 24px;
 		}
 

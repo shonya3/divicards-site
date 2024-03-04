@@ -3,7 +3,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { Source } from '../../gen/Source';
-import type { CardSize } from '../divination-card/e-divination-card';
 import './e-act-area';
 import './e-map';
 import './e-mapboss';
@@ -13,6 +12,7 @@ import { poeData } from '../../PoeData';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
+import type { SourceSize } from './types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -36,9 +36,9 @@ export class NoSourceInPoeDataError extends Error {
 export class SourceElement extends LitElement {
 	@property({ type: Object }) source!: Source;
 	@property({ type: Boolean }) showSourceType = true;
-	@property() size: CardSize = 'small';
+	@property() size: SourceSize = 'medium';
 	@property() renderMode: RenderMode = 'normal';
-	@property() actSize?: 'small' | 'large';
+	@property() actSize?: SourceSize;
 
 	get sourceHasSpecialElement() {
 		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
@@ -70,7 +70,7 @@ export class SourceElement extends LitElement {
 			case 'Act': {
 				const area = poeData.find.actArea(this.source.id);
 				if (!area) throw new NoSourceInPoeDataError(this.source);
-				let size: CardSize = this.size === 'medium' ? 'large' : this.size;
+				let size: SourceSize = this.size;
 				if (this.renderMode === 'compact') {
 					size = 'small';
 				}

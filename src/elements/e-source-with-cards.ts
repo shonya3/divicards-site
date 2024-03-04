@@ -17,7 +17,8 @@ export class SourceWithCardsElement extends LitElement {
 	@property({ type: Object }) source!: Source;
 	@property({ type: Array }) cards!: CardBySource[];
 	@property({ type: Boolean }) showSourceType = true;
-	@property() size: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'source-size' }) sourceSize: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
 
 	@query('.source') mainSourceElement!: HTMLElement;
 
@@ -36,11 +37,16 @@ export class SourceWithCardsElement extends LitElement {
 				exportparts="source-type"
 				part="source"
 				class="source"
-				size="large"
+				size=${this.sourceSize}
 				.source=${this.source}
 				.showSourceType=${this.showSourceType}
 			></e-source>
-			<e-cards-by-source size=${this.size} class="cards" .cards=${this.cards}></e-cards-by-source>
+			<e-cards-by-source
+				card-size=${this.cardSize}
+				source-size=${this.sourceSize}
+				class="cards"
+				.cards=${this.cards}
+			></e-cards-by-source>
 		</div>`;
 	}
 

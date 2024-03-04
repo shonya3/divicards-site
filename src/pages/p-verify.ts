@@ -9,6 +9,7 @@ import { poeData } from '../PoeData';
 import { SOURCE_TYPE_VARIANTS } from '../gen/Source';
 import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
+import type { CardSize } from '../elements/divination-card/e-divination-card';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -24,6 +25,8 @@ export class VerifyPage extends LitElement {
 
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() detailsOpen = true;
+	@state() cardSize: CardSize = 'small';
+	@state() sourceSize: CardSize = 'medium';
 
 	@query('.contents') details!: HTMLDetailsElement;
 	@query('details ul') contentsLinksList!: HTMLElement;
@@ -142,7 +145,12 @@ export class VerifyPage extends LitElement {
 						}
 						const hash = name.replaceAll(' ', '_');
 						return html`<li id="${hash}">
-							<e-source-with-cards size="small" .source=${source} .cards=${cards}></e-source-with-cards>
+							<e-source-with-cards
+								card-size=${this.cardSize}
+								source-size=${this.sourceSize}
+								.source=${source}
+								.cards=${cards}
+							></e-source-with-cards>
 						</li>`;
 					})}
 				</ul>
