@@ -39,7 +39,6 @@ export class VerifyPage extends LitElement {
 		this.#activeScrollEl?.classList.remove('active');
 		this.#activeScrollEl = val;
 		this.#activeScrollEl.classList.add('active');
-		console.log(val);
 	}
 
 	constructor() {
@@ -50,7 +49,6 @@ export class VerifyPage extends LitElement {
 			if (target instanceof HTMLAnchorElement) {
 				const { hash } = new URL(target.href);
 				const el = this.shadowRoot?.getElementById(hash.slice(1));
-				console.log({ hash, el });
 				if (el) {
 					el.scrollIntoView({ behavior: 'smooth' });
 				}
@@ -75,16 +73,14 @@ export class VerifyPage extends LitElement {
 
 		const obs = new IntersectionObserver(
 			entries => {
-				if (entries.length < 5) {
-					entries.forEach(e => {
-						if (e.intersectionRatio === 1) {
-							const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
-							if (a instanceof HTMLAnchorElement) {
-								this.activeScrollEl = a;
-							}
+				entries.forEach(e => {
+					if (e.intersectionRatio === 1) {
+						const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
+						if (a instanceof HTMLAnchorElement) {
+							this.activeScrollEl = a;
 						}
-					});
-				}
+					}
+				});
 			},
 			{ threshold: 1 }
 		);
