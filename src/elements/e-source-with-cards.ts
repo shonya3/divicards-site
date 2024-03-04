@@ -48,16 +48,23 @@ export class SourceWithCardsElement extends LitElement {
 		:host {
 			--source-font-size: 1.2rem;
 			--cards-margin-top: 1rem;
+			width: fit-content;
+			display: block;
 		}
 
 		.wrapper {
 			display: flex;
 			max-width: 1600px;
 			flex-direction: column;
+			width: fit-content;
 		}
 
 		.cards {
 			margin-top: var(--cards-margin-top);
+		}
+
+		e-source {
+			margin-inline: auto;
 		}
 
 		@media (width <=700px) {

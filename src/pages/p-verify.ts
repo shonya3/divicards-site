@@ -128,7 +128,25 @@ export class VerifyPage extends LitElement {
 
 	render() {
 		return html`<div class="page">
-			<e-verify-faq-alert></e-verify-faq-alert>
+			<main class="main">
+				<h2 class="heading">Need to verify</h2>
+				<e-verify-faq-alert></e-verify-faq-alert>
+				<ul class="list">
+					${this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
+						let name = source.id;
+						if (source.type === 'Act') {
+							const area = poeData.find.actArea(source.id);
+							if (area) {
+								name = area.name;
+							}
+						}
+						const hash = name.replaceAll(' ', '_');
+						return html`<li id="${hash}">
+							<e-source-with-cards size="small" .source=${source} .cards=${cards}></e-source-with-cards>
+						</li>`;
+					})}
+				</ul>
+			</main>
 			<details class="contents" ?open=${this.detailsOpen}>
 				<summary>Need to verify</summary>
 				<ul>
@@ -152,21 +170,6 @@ export class VerifyPage extends LitElement {
 					})}
 				</ul>
 			</details>
-			<ul class="list">
-				${this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
-					let name = source.id;
-					if (source.type === 'Act') {
-						const area = poeData.find.actArea(source.id);
-						if (area) {
-							name = area.name;
-						}
-					}
-					const hash = name.replaceAll(' ', '_');
-					return html`<li id="${hash}">
-						<e-source-with-cards size="small" .source=${source} .cards=${cards}></e-source-with-cards>
-					</li>`;
-				})}
-			</ul>
 		</div>`;
 	}
 
@@ -184,10 +187,23 @@ export class VerifyPage extends LitElement {
 
 		e-source-with-cards {
 			--cards-margin-top: 0rem;
+			width: fit-content;
 		}
 
 		.page {
 			padding: 2rem;
+		}
+
+		.heading {
+			text-align: center;
+		}
+
+		e-verify-faq-alert {
+			margin-top: 4rem;
+		}
+
+		.main {
+			max-width: 1400px;
 		}
 
 		ul {
@@ -200,19 +216,21 @@ export class VerifyPage extends LitElement {
 
 			list-style: none;
 			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			max-width: 950px;
+			column-gap: 6rem;
+			row-gap: 3rem;
+			flex-wrap: wrap;
 		}
 
 		.contents {
 			position: fixed;
 			width: 400px;
-			left: 1100px;
+			right: 100px;
 			height: calc(80vh - 100px);
 			max-height: calc(80vh - 100px);
 			overflow-y: scroll;
 			top: 100px;
+			background-color: black;
+			z-index: 200000;
 		}
 		a.active {
 			color: var(--link-color-hover, blue);
