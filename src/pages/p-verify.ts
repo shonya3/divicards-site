@@ -39,6 +39,10 @@ export class VerifyPage extends LitElement {
 		this.#activeScrollEl?.classList.remove('active');
 		this.#activeScrollEl = val;
 		this.#activeScrollEl.classList.add('active');
+
+		if (!this.#InView(this.details, val)) {
+			val.scrollIntoView();
+		}
 	}
 
 	constructor() {
@@ -54,6 +58,17 @@ export class VerifyPage extends LitElement {
 				}
 			}
 		});
+	}
+
+	#InView(container: HTMLElement, el: HTMLElement) {
+		const containerScrollTop = container.scrollTop;
+		const rect = el.getBoundingClientRect();
+
+		if (rect.top < 100) {
+			return false;
+		}
+
+		return containerScrollTop + Math.abs(rect.y) < container.clientHeight;
 	}
 
 	protected async firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
