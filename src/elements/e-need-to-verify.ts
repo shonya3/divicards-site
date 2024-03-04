@@ -38,7 +38,6 @@ export class NeedToVerifyElement extends LitElement {
 		}
 
 		:host {
-			display: block;
 			position: relative;
 			width: fit-content;
 			height: fit-content;

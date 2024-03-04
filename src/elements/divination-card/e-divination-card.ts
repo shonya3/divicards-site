@@ -134,7 +134,7 @@ export class DivinationCardElement extends LitElement {
 				})}
 				style=${sizeMap}
 			></div>
-			<header class="${classMap({ name: true, size22: this.size === 'small' })}" style=${nameTopPadding}>
+			<header class="${classMap({ name: true })}" style=${nameTopPadding}>
 				<a @click=${this.#onNavigation} href="/card/${this.name}"> ${this.name} </a>
 			</header>
 			<div class="imageWrapper">
@@ -153,7 +153,8 @@ export class DivinationCardElement extends LitElement {
 				</div>
 				<div class="${classMap({ 'bottom-half': true, size25: this.size === 'small' })}">
 					${staticHtml`${unsafeStatic(this.rewardHtml)}`}
-					${this.size !== 'small' ? html`${this.divider()}${this.footer()}` : nothing}
+                    ${this.divider()}
+                    ${this.footer()}
 				</div>
 				${this.minLevelOrRange ? html` <div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> ` : nothing}
 
@@ -181,7 +182,7 @@ function styles() {
 		:host {
 			display: block;
 
-			--card-width-small: 134px;
+			--card-width-small: 168px;
 			--card-width-medium: 268px;
 			--card-width-large: 326px;
 			--card-font-size: 1rem;
@@ -267,6 +268,11 @@ function styles() {
 			--card-width: var(--card-width-small);
 			--reward-font-size: 0.8rem;
 			--digits-font-size: 0.6rem;
+			--reward-font-size: 0.8rem;
+			--flavour-font-size: 0.7rem;
+			--flavour-line-height: 0.7rem;
+			--name-font-size: 12px;
+			--name-line-height: 15px;
 		}
 
 		.divination-card--medium {
@@ -372,11 +378,11 @@ function styles() {
 		}
 
 		.flavourText {
-			font-size: 1rem;
+			font-size: var(--flavour-font-size, 1rem);
+			line-height: var(--flavour-line-height, 1.2rem);
 			color: rgba(167, 90, 27, 1);
 			text-wrap: balance;
 			font-style: italic;
-			line-height: 1.2rem;
 		}
 
 		.divider {

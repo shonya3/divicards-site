@@ -163,7 +163,7 @@ export class VerifyPage extends LitElement {
 					}
 					const hash = name.replaceAll(' ', '_');
 					return html`<li id="${hash}">
-						<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
+						<e-source-with-cards size="small" .source=${source} .cards=${cards}></e-source-with-cards>
 					</li>`;
 				})}
 			</ul>
@@ -177,6 +177,7 @@ export class VerifyPage extends LitElement {
 		}
 
 		:host {
+			--need-to-verify-border: none;
 		}
 
 		${linkStyles}
