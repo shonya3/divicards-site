@@ -78,6 +78,16 @@ function styles() {
 			--act-area-area-level-font-size: 12px;
 		}
 
+		.act-area--medium {
+			--act-area-width: var(--act-area-width-medium);
+			--act-area-font-size: var(--act-area-font-size-medium);
+			--act-area-name-top: 14px;
+			--act-area-name-left: 30px;
+			--act-area-area-level-top: 44px;
+			--act-area-area-level-left: 30px;
+			--act-area-area-level-font-size: 14px;
+		}
+
 		.act-area--large {
 			--act-area-width: var(--act-area-width-large);
 			--act-area-font-size: var(--act-area-font-size-large);
