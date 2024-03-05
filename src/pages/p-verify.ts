@@ -33,7 +33,7 @@ export class VerifyPage extends LitElement {
 		other: SourceAndCards[];
 	} = Object.create({});
 
-	@query('.contents') details!: HTMLDetailsElement;
+	@query('.table-of-contents') details!: HTMLDetailsElement;
 	@query('details ul') contentsLinksList!: HTMLElement;
 	@query('.list') sourceWithCardsList!: HTMLElement;
 
@@ -158,6 +158,29 @@ export class VerifyPage extends LitElement {
 			<main class="main">
 				<h1 class="heading">Need to verify</h1>
 				<e-verify-faq-alert></e-verify-faq-alert>
+				<details class="table-of-contents" ?open=${this.detailsOpen}>
+					<summary class="table-of-contents__summary">Table of contents</summary>
+					<div class="table-of-contents__inner">
+						<ol class="brief-table-of-contents" start="1">
+							<li>
+								<a href="#Maps"> Maps</a>
+							</li>
+							<li>
+								<a href="#Acts"> Acts</a>
+							</li>
+							<li>
+								<a href="#Other"> Other</a>
+							</li>
+						</ol>
+
+						<a class="category-heading-link" href="#Maps">Maps</a>
+						${this.ContentsList(this.byCategory.maps)}
+						<a class="category-heading-link" href="#Acts">Acts</a>
+						${this.ContentsList(this.byCategory.acts)}
+						<a class="category-heading-link" href="#Other">Other</a>
+						${this.ContentsList(this.byCategory.other)}
+					</div>
+				</details>
 				<h3 class="category-heading" id="Maps">Maps</h3>
 				${this.SourceAndCardsList(this.byCategory.maps)}
 				<h3 class="category-heading" id="Acts">Acts</h3>
@@ -165,30 +188,6 @@ export class VerifyPage extends LitElement {
 				<h3 class="category-heading" id="Other">Other</h3>
 				${this.SourceAndCardsList(this.byCategory.other)}
 			</main>
-
-			<details class="contents" ?open=${this.detailsOpen}>
-				<summary>Table of contents</summary>
-				<div class="contents__inner">
-					<ol class="brief-table-of-contents" start="1">
-						<li>
-							<a href="#Maps"> Maps</a>
-						</li>
-						<li>
-							<a href="#Acts"> Acts</a>
-						</li>
-						<li>
-							<a href="#Other"> Other</a>
-						</li>
-					</ol>
-
-					<a class="category-heading-link" href="#Maps">Maps</a>
-					${this.ContentsList(this.byCategory.maps)}
-					<a class="category-heading-link" href="#Acts">Acts</a>
-					${this.ContentsList(this.byCategory.acts)}
-					<a class="category-heading-link" href="#Other">Other</a>
-					${this.ContentsList(this.byCategory.other)}
-				</div>
-			</details>
 		</div>`;
 	}
 
@@ -301,22 +300,36 @@ export class VerifyPage extends LitElement {
 
 		/** Table of contents */
 
+		.table-of-contents {
+			position: fixed;
+			max-width: 400px;
+			right: 100px;
+			top: 100px;
+			z-index: 200000;
+			border: 1px solid rgba(255, 255, 255, 0.4);
+		}
+
+		.table-of-contents__summary {
+			padding: 1rem;
+		}
+
+		.table-of-contents__inner {
+			height: calc(80vh - 100px);
+			max-height: calc(80vh - 100px);
+			padding: 2rem;
+			overflow-y: scroll;
+		}
+
 		.brief-table-of-contents {
 			margin-left: 2rem;
 			display: grid;
 			gap: 0.1rem;
 		}
 
-		.contents {
-			position: fixed;
-			max-width: 400px;
-			right: 100px;
-			top: 100px;
-			z-index: 200000;
-
-			padding: 2rem;
-			border: 1px solid white;
+		details:not([open]) {
+			overflow-y: initial;
 		}
+
 		a.active {
 			color: var(--link-color-hover, blue);
 		}
@@ -327,20 +340,6 @@ export class VerifyPage extends LitElement {
 			font-size: 1.5rem;
 			margin-inline: auto;
 			width: fit-content;
-		}
-
-		.contents summary {
-			margin-bottom: 1rem;
-		}
-
-		.contents__inner {
-			height: calc(80vh - 100px);
-			max-height: calc(80vh - 100px);
-			overflow-y: scroll;
-		}
-
-		details:not([open]) {
-			overflow-y: initial;
 		}
 
 		/** media */
@@ -357,7 +356,7 @@ export class VerifyPage extends LitElement {
 		}
 
 		@media (width <= 1600px) {
-			.contents {
+			.table-of-contents {
 				margin-top: 2rem;
 				position: initial;
 			}
