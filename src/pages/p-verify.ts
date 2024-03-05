@@ -168,24 +168,26 @@ export class VerifyPage extends LitElement {
 
 			<details class="contents" ?open=${this.detailsOpen}>
 				<summary>Table of contents</summary>
-				<ol class="brief-table-of-contents" start="1">
-					<li>
-						<a href="#Maps"> Maps</a>
-					</li>
-					<li>
-						<a href="#Acts"> Acts</a>
-					</li>
-					<li>
-						<a href="#Other"> Other</a>
-					</li>
-				</ol>
+				<div class="contents__inner">
+					<ol class="brief-table-of-contents" start="1">
+						<li>
+							<a href="#Maps"> Maps</a>
+						</li>
+						<li>
+							<a href="#Acts"> Acts</a>
+						</li>
+						<li>
+							<a href="#Other"> Other</a>
+						</li>
+					</ol>
 
-				<a class="category-heading-link" href="#Maps">Maps</a>
-				${this.ContentsList(this.byCategory.maps)}
-				<a class="category-heading-link" href="#Acts">Acts</a>
-				${this.ContentsList(this.byCategory.acts)}
-				<a class="category-heading-link" href="#Other">Other</a>
-				${this.ContentsList(this.byCategory.other)}
+					<a class="category-heading-link" href="#Maps">Maps</a>
+					${this.ContentsList(this.byCategory.maps)}
+					<a class="category-heading-link" href="#Acts">Acts</a>
+					${this.ContentsList(this.byCategory.acts)}
+					<a class="category-heading-link" href="#Other">Other</a>
+					${this.ContentsList(this.byCategory.other)}
+				</div>
 			</details>
 		</div>`;
 	}
@@ -297,6 +299,8 @@ export class VerifyPage extends LitElement {
 			width: fit-content;
 		}
 
+		/** Table of contents */
+
 		.brief-table-of-contents {
 			margin-left: 2rem;
 			display: grid;
@@ -305,13 +309,13 @@ export class VerifyPage extends LitElement {
 
 		.contents {
 			position: fixed;
-			width: 400px;
+			max-width: 400px;
 			right: 100px;
-			height: calc(80vh - 100px);
-			max-height: calc(80vh - 100px);
-			overflow-y: scroll;
 			top: 100px;
 			z-index: 200000;
+
+			padding: 2rem;
+			border: 1px solid white;
 		}
 		a.active {
 			color: var(--link-color-hover, blue);
@@ -329,9 +333,17 @@ export class VerifyPage extends LitElement {
 			margin-bottom: 1rem;
 		}
 
+		.contents__inner {
+			height: calc(80vh - 100px);
+			max-height: calc(80vh - 100px);
+			overflow-y: scroll;
+		}
+
 		details:not([open]) {
 			overflow-y: initial;
 		}
+
+		/** media */
 
 		@media (max-width <= 600px) {
 			.page {
