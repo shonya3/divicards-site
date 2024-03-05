@@ -27,6 +27,11 @@ export class VerifyPage extends LitElement {
 	@state() detailsOpen = true;
 	@state() cardSize: CardSize = 'small';
 	@state() sourceSize: CardSize = 'medium';
+	@state() byCategory: {
+		maps: SourceAndCards[];
+		acts: SourceAndCards[];
+		other: SourceAndCards[];
+	} = Object.create({});
 
 	@query('.contents') details!: HTMLDetailsElement;
 	@query('details ul') contentsLinksList!: HTMLElement;
@@ -138,60 +143,97 @@ export class VerifyPage extends LitElement {
 			});
 			cards = [...cards, ...rebirth];
 
+			this.byCategory.acts = cards.filter(({ source }) => source.type === 'Act' || source.type === 'Act Boss');
+			this.byCategory.maps = cards.filter(({ source }) => source.type === 'Map' || source.type === 'Map Boss');
+			this.byCategory.other = cards.filter(({ source }) =>
+				['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
+			);
+
 			this.sourcesAndCards = structuredClone(cards);
 		}
 	}
 
-	render() {
+	protected render() {
 		return html`<div class="page">
 			<main class="main">
 				<h1 class="heading">Need to verify</h1>
 				<e-verify-faq-alert></e-verify-faq-alert>
-				<ul class="list">
-					${this.sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
-						let name = source.id;
-						if (source.type === 'Act') {
-							const area = poeData.find.actArea(source.id);
-							if (area) {
-								name = area.name;
-							}
-						}
-						const hash = name.replaceAll(' ', '_');
-						return html`<li id="${hash}">
-							<e-source-with-cards
-								card-size=${this.cardSize}
-								source-size=${this.sourceSize}
-								.source=${source}
-								.cards=${cards}
-							></e-source-with-cards>
-						</li>`;
-					})}
-				</ul>
+				<h3 class="category-heading" id="Maps">Maps</h3>
+				${this.SourceAndCardsList(this.byCategory.maps)}
+				<h3 class="category-heading" id="Acts">Acts</h3>
+				${this.SourceAndCardsList(this.byCategory.acts)}
+				<h3 class="category-heading" id="Other">Other</h3>
+				${this.SourceAndCardsList(this.byCategory.other)}
 			</main>
+
 			<details class="contents" ?open=${this.detailsOpen}>
-				<summary>Need to verify</summary>
-				<ul>
-					${this.sourcesAndCards.map(({ source, cards }) => {
-						let name = source.id;
-						if (source.type === 'Act') {
-							const area = poeData.find.actArea(source.id);
-							if (area) {
-								name = area.name;
-							}
-						}
-						const hash = name.replaceAll(' ', '_');
+				<summary>Table of contents</summary>
+				<ol class="brief-table-of-contents" start="1">
+					<li>
+						<a href="#Maps"> Maps</a>
+					</li>
+					<li>
+						<a href="#Acts"> Acts</a>
+					</li>
+					<li>
+						<a href="#Other"> Other</a>
+					</li>
+				</ol>
 
-						const cardsString = cards.map(({ card }) => card).join(', ');
-
-						return html`<li>
-							<a href="#${hash}"
-								>${name} <span style="font-size: 11px; color: #999">${cardsString}</span></a
-							>
-						</li> `;
-					})}
-				</ul>
+				<a class="category-heading-link" href="#Maps">Maps</a>
+				${this.ContentsList(this.byCategory.maps)}
+				<a class="category-heading-link" href="#Acts">Acts</a>
+				${this.ContentsList(this.byCategory.acts)}
+				<a class="category-heading-link" href="#Other">Other</a>
+				${this.ContentsList(this.byCategory.other)}
 			</details>
 		</div>`;
+	}
+
+	protected SourceAndCardsList(sourcesAndCards: SourceAndCards[]) {
+		return html`<ul class="list">
+			${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
+				let name = source.id;
+				if (source.type === 'Act') {
+					const area = poeData.find.actArea(source.id);
+					if (area) {
+						name = area.name;
+					}
+				}
+				const hash = name.replaceAll(' ', '_');
+				return html`
+					<li id="${hash}">
+						<e-source-with-cards
+							card-size=${this.cardSize}
+							source-size=${this.sourceSize}
+							.source=${source}
+							.cards=${cards}
+						></e-source-with-cards>
+					</li>
+				`;
+			})}
+		</ul>`;
+	}
+
+	protected ContentsList(sourcesAndCards: SourceAndCards[]) {
+		return html`<ul>
+			${sourcesAndCards.map(({ source, cards }) => {
+				let name = source.id;
+				if (source.type === 'Act') {
+					const area = poeData.find.actArea(source.id);
+					if (area) {
+						name = area.name;
+					}
+				}
+				const hash = name.replaceAll(' ', '_');
+
+				const cardsString = cards.map(({ card }) => card).join(', ');
+
+				return html`<li>
+					<a href="#${hash}">${name} <span style="font-size: 11px; color: #999">${cardsString}</span></a>
+				</li> `;
+			})}
+		</ul>`;
 	}
 
 	static styles = css`
@@ -220,7 +262,7 @@ export class VerifyPage extends LitElement {
 		}
 
 		e-verify-faq-alert {
-			margin-top: 2rem;
+			margin-top: 3rem;
 			margin-inline: auto;
 			display: block;
 		}
@@ -234,7 +276,7 @@ export class VerifyPage extends LitElement {
 		}
 
 		.list {
-			margin-top: 6rem;
+			margin-top: 2rem;
 			margin-left: 1rem;
 
 			list-style: none;
@@ -242,6 +284,23 @@ export class VerifyPage extends LitElement {
 			column-gap: 5rem;
 			row-gap: 3rem;
 			flex-wrap: wrap;
+		}
+
+		.category-heading:first-of-type {
+			margin-top: 4rem;
+		}
+
+		.category-heading {
+			display: block;
+			font-size: 1.5rem;
+			margin-inline: auto;
+			width: fit-content;
+		}
+
+		.brief-table-of-contents {
+			margin-left: 2rem;
+			display: grid;
+			gap: 0.1rem;
 		}
 
 		.contents {
@@ -256,6 +315,14 @@ export class VerifyPage extends LitElement {
 		}
 		a.active {
 			color: var(--link-color-hover, blue);
+		}
+
+		.category-heading-link {
+			display: block;
+			margin-block: 2rem;
+			font-size: 1.5rem;
+			margin-inline: auto;
+			width: fit-content;
 		}
 
 		.contents summary {
