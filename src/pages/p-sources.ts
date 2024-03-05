@@ -89,7 +89,7 @@ export class SourcesPage extends LitElement {
 			<ul class="source-with-cards-list" style="padding-top: 4rem">
 				${this.sourcesAndCards.map(
 					({ source, cards }) =>
-						html`<li class="source-with-cards-list_item">
+						html`<li class="source-with-cards-list__item">
 							<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
 						</li>`
 				)}
@@ -127,6 +127,10 @@ export class SourcesPage extends LitElement {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
+			}
+
+			.source-with-cards-list__item {
+				margin-inline: auto;
 			}
 		}
 

@@ -55,10 +55,14 @@ export class SourcePage extends LitElement {
 			padding: 2rem;
 		}
 
-		@media (max-width: 600px) {
+		@media (width <=600px) {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
+			}
+
+			e-source-with-cards {
+				margin-inline: auto;
 			}
 		}
 	`;
