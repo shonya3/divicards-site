@@ -354,6 +354,10 @@ export class VerifyPage extends LitElement {
 			.list {
 				margin-left: 0;
 			}
+
+			.table-of-contents {
+				max-width: initial;
+			}
 		}
 
 		@media (width <= 1600px) {
