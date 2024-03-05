@@ -182,17 +182,17 @@ export class VerifyPage extends LitElement {
 					</div>
 				</details>
 				<h3 class="category-heading" id="Maps">Maps</h3>
-				${this.SourceAndCardsList(this.byCategory.maps)}
+				${this.SourceWithCardsList(this.byCategory.maps)}
 				<h3 class="category-heading" id="Acts">Acts</h3>
-				${this.SourceAndCardsList(this.byCategory.acts)}
+				${this.SourceWithCardsList(this.byCategory.acts)}
 				<h3 class="category-heading" id="Other">Other</h3>
-				${this.SourceAndCardsList(this.byCategory.other)}
+				${this.SourceWithCardsList(this.byCategory.other)}
 			</main>
 		</div>`;
 	}
 
-	protected SourceAndCardsList(sourcesAndCards: SourceAndCards[]) {
-		return html`<ul class="list">
+	protected SourceWithCardsList(sourcesAndCards: SourceAndCards[]) {
+		return html`<ul class="source-with-cards-list">
 			${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
 				let name = source.id;
 				if (source.type === 'Act') {
@@ -276,12 +276,13 @@ export class VerifyPage extends LitElement {
 			list-style: none;
 		}
 
-		.list {
+		.source-with-cards-list {
 			margin-top: 2rem;
 			margin-left: 1rem;
 
 			list-style: none;
 			display: flex;
+			justify-content: center;
 			column-gap: 5rem;
 			row-gap: 3rem;
 			flex-wrap: wrap;
@@ -344,7 +345,7 @@ export class VerifyPage extends LitElement {
 
 		/** media */
 
-		@media (max-width <= 600px) {
+		@media (width <= 600px) {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
