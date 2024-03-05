@@ -334,7 +334,7 @@ function styles() {
 		}
 
 		.stackSize--small {
-			top: 42.8%;
+			top: 44.2%;
 			font-size: 0.6rem;
 		}
 
