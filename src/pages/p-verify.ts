@@ -360,7 +360,7 @@ export class VerifyPage extends LitElement {
 			}
 		}
 
-		@media (width <= 1600px) {
+		@media (width <= 1950px) {
 			.table-of-contents {
 				margin-top: 2rem;
 				position: initial;
