@@ -356,7 +356,7 @@ export class VerifyPage extends LitElement {
 			}
 
 			.table-of-contents {
-				max-width: initial;
+				max-width: calc(100% - 2rem);
 			}
 		}
 
