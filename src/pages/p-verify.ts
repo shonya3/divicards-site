@@ -6,10 +6,11 @@ import { DivcordTable } from '../DivcordTable';
 import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
-import { SOURCE_TYPE_VARIANTS } from '../gen/Source';
+import { SOURCE_TYPE_VARIANTS, Source } from '../gen/Source';
 import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
+import type { Card } from '../gen/poeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -24,7 +25,7 @@ export class VerifyPage extends LitElement {
 	divcordTable!: DivcordTable;
 
 	@state() sourcesAndCards: SourceAndCards[] = [];
-	@state() detailsOpen = true;
+	@state() detailsOfContentsOpen = true;
 	@state() cardSize: CardSize = 'small';
 	@state() sourceSize: CardSize = 'medium';
 	@state() byCategory: {
@@ -33,7 +34,9 @@ export class VerifyPage extends LitElement {
 		other: SourceAndCards[];
 	} = Object.create({});
 
-	@query('.table-of-contents') details!: HTMLDetailsElement;
+	@state() cardWeightsGrouped: Record<string, { card: string; weight: number; source: Source }[]> = Object.create({});
+
+	@query('.table-of-contents') detailsOfContents!: HTMLDetailsElement;
 	@query('details ul') contentsLinksList!: HTMLElement;
 	@query('.list') sourceWithCardsList!: HTMLElement;
 
@@ -48,7 +51,7 @@ export class VerifyPage extends LitElement {
 		this.#activeScrollEl = val;
 		this.#activeScrollEl.classList.add('active');
 
-		if (!this.#InView(this.details, val)) {
+		if (!this.#InView(this.detailsOfContents, val)) {
 			val.scrollIntoView();
 		}
 	}
@@ -90,8 +93,8 @@ export class VerifyPage extends LitElement {
 		}
 
 		if (window.innerWidth < 1600) {
-			this.detailsOpen = false;
-			this.details.style.setProperty('height', 'auto');
+			this.detailsOfContentsOpen = false;
+			this.detailsOfContents.style.setProperty('height', 'auto');
 		}
 
 		// const obs = new IntersectionObserver(
@@ -143,11 +146,30 @@ export class VerifyPage extends LitElement {
 			});
 			cards = [...cards, ...rebirth];
 
+			// Split by category
 			this.byCategory.acts = cards.filter(({ source }) => source.type === 'Act' || source.type === 'Act Boss');
 			this.byCategory.maps = cards.filter(({ source }) => source.type === 'Map' || source.type === 'Map Boss');
 			this.byCategory.other = cards.filter(({ source }) =>
 				['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
 			);
+
+			// Prepare card weights for the Table
+			const cardWeights = cards
+				.filter(({ source }) => source.type === 'Map' || source.type === 'Act')
+				.flatMap(({ cards, source }) =>
+					cards
+						.filter(({ transitiveSource }) => transitiveSource === undefined)
+						.map(({ card }) => ({ card, source }))
+				)
+				.map(({ card, source }) => ({ card: poeData.find.card(card), source }))
+				.filter((arg): arg is { card: Card; source: Source } => arg.card !== null)
+				.map(({ card, source }) => ({
+					card: card.name,
+					source,
+					weight: card.weight,
+				}));
+			cardWeights.sort((a, b) => b.weight - a.weight);
+			this.cardWeightsGrouped = groupBy(cardWeights, ({ card }) => card);
 
 			this.sourcesAndCards = structuredClone(cards);
 		}
@@ -158,35 +180,42 @@ export class VerifyPage extends LitElement {
 			<main class="main">
 				<h1 class="heading">Need to verify</h1>
 				<e-verify-faq-alert></e-verify-faq-alert>
-				<details class="table-of-contents" ?open=${this.detailsOpen}>
+				<details class="table-of-contents" ?open=${this.detailsOfContentsOpen}>
 					<summary class="table-of-contents__summary">Table of contents</summary>
 					<div class="table-of-contents__inner">
 						<ol class="brief-table-of-contents" start="1">
 							<li>
-								<a href="#Maps"> Maps</a>
+								<a href="#maps"> Maps</a>
 							</li>
 							<li>
-								<a href="#Acts"> Acts</a>
+								<a href="#acts"> Acts</a>
 							</li>
 							<li>
-								<a href="#Other"> Other</a>
+								<a href="#other"> Other</a>
 							</li>
+
+							<li class="li-link-to-weights-table"><a href="#details-weights-table">Weights Table</a></li>
 						</ol>
 
-						<a class="category-heading-link" href="#Maps">Maps</a>
+						<a class="category-heading-link" href="#maps">Maps</a>
 						${this.ContentsList(this.byCategory.maps)}
-						<a class="category-heading-link" href="#Acts">Acts</a>
+						<a class="category-heading-link" href="#acts">Acts</a>
 						${this.ContentsList(this.byCategory.acts)}
-						<a class="category-heading-link" href="#Other">Other</a>
+						<a class="category-heading-link" href="#other">Other</a>
 						${this.ContentsList(this.byCategory.other)}
 					</div>
 				</details>
-				<h3 class="category-heading" id="Maps">Maps</h3>
+
+				<h3 class="category-heading" id="maps">Maps</h3>
 				${this.SourceWithCardsList(this.byCategory.maps)}
-				<h3 class="category-heading" id="Acts">Acts</h3>
+				<h3 class="category-heading" id="acts">Acts</h3>
 				${this.SourceWithCardsList(this.byCategory.acts)}
-				<h3 class="category-heading" id="Other">Other</h3>
+				<h3 class="category-heading" id="other">Other</h3>
 				${this.SourceWithCardsList(this.byCategory.other)}
+				<details id="details-weights-table" class="details-weights-table" open>
+					<summary class="details-weights-table__summary">Card Weights Table</summary>
+					${this.WeightsTable()}
+				</details>
 			</main>
 		</div>`;
 	}
@@ -237,10 +266,84 @@ export class VerifyPage extends LitElement {
 		</ul>`;
 	}
 
+	protected WeightsTable() {
+		return html`<table class="weights-table">
+			<thead>
+				<tr>
+					<th class="weights-table__th" scope="col">№</th>
+					<th class="weights-table__th" scope="col">Card</th>
+					<th class="weights-table__th">Weight</th>
+					<th class="weights-table__th">Source</th>
+				</tr>
+			</thead>
+			<tbody>
+				${Object.entries(this.cardWeightsGrouped).map(([card, arr], index) => {
+					const weight: number = arr[0].weight;
+					const weightStr =
+						weight > 5
+							? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
+							: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+					const sources = html`<ul class="sources-list">
+						${arr.map(({ source }) => html`<li><e-source size="medium" .source=${source}></e-source></li>`)}
+					</ul>`;
+
+					return html`<tr>
+						<td class="weights-table__td">${index + 1}</td>
+						<td class="weights-table__td">
+							<e-need-to-verify
+								><e-divination-card size="small" name=${card}></e-divination-card
+							></e-need-to-verify>
+						</td>
+						<td class="weights-table__td td-weight">${weightStr}</td>
+						<td class="weights-table__td td-sources">${sources}</td>
+					</tr>`;
+				})}
+			</tbody>
+		</table>`;
+	}
+
+	static weightsTableCss = css`
+		.weights-table {
+			border-collapse: collapse;
+			border: 1px solid rgba(140, 140, 140, 0.3);
+		}
+
+		.weights-table__th,
+		.weights-table__td {
+			padding: 1rem;
+			border: 1px solid rgba(160, 160, 160, 0.2);
+			text-align: center;
+		}
+
+		.td-weight {
+			font-weight: 700;
+			font-size: 20px;
+		}
+
+		.td-sources {
+		}
+
+		.sources-list {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 2rem;
+		}
+	`;
+
 	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
+		@layer reset {
+			* {
+				padding: 0;
+				margin: 0;
+			}
+
+			ul {
+				list-style: none;
+			}
+		}
+
+		@layer weights-table {
+			${VerifyPage.weightsTableCss}
 		}
 
 		:host {
@@ -270,10 +373,6 @@ export class VerifyPage extends LitElement {
 
 		.main {
 			max-width: 1400px;
-		}
-
-		ul {
-			list-style: none;
 		}
 
 		.source-with-cards-list {
@@ -343,6 +442,19 @@ export class VerifyPage extends LitElement {
 			width: fit-content;
 		}
 
+		/** details for weights table */
+		.details-weights-table {
+			padding: 1rem;
+		}
+
+		.details-weights-table__summary {
+			font-size: 1.5rem;
+		}
+
+		.li-link-to-weights-table a {
+			color: orangered;
+		}
+
 		/** media */
 
 		@media (width <= 600px) {
@@ -366,5 +478,38 @@ export class VerifyPage extends LitElement {
 				position: initial;
 			}
 		}
+
+		@media (width < 900px) {
+			.details-weights-table,
+			.li-link-to-weights-table {
+				display: none;
+			}
+		}
 	`;
 }
+
+type GroupBy = <T, Key extends string>(
+	arr: Array<T>,
+	cb: (el: T, index: number, arr: Array<T>) => Key
+) => Record<Key, T[]>;
+
+declare global {
+	interface Object {
+		groupBy: GroupBy;
+	}
+}
+
+const groupBy = <T>(arr: Array<T>, cb: (el: T, index: number, arr: Array<T>) => string): Record<string, T[]> => {
+	const record: Record<string, T[]> = Object.create({});
+
+	for (let i = 0; i < arr.length; i++) {
+		const el = arr[i];
+		const key = cb(el, i, arr);
+
+		const grouppedByKey = record[key] ?? [];
+		grouppedByKey.push(el);
+		record[key] = grouppedByKey;
+	}
+
+	return record;
+};
