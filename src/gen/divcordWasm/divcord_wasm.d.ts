@@ -1,12 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {string} divcord_table
+* @param {string} spreadsheet
 * @param {string} poe_data
 * @param {Function} toast
 * @returns {any}
 */
-export function parsed_records(divcord_table: string, poe_data: string, toast: Function): any;
+export function parsed_records(spreadsheet: string, poe_data: string, toast: Function): any;
 /**
 * @param {any} types
 * @param {any} records

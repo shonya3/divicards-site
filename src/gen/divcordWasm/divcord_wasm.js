@@ -206,15 +206,15 @@ function addBorrowedObject(obj) {
     return stack_pointer;
 }
 /**
-* @param {string} divcord_table
+* @param {string} spreadsheet
 * @param {string} poe_data
 * @param {Function} toast
 * @returns {any}
 */
-export function parsed_records(divcord_table, poe_data, toast) {
+export function parsed_records(spreadsheet, poe_data, toast) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(divcord_table, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const ptr0 = passStringToWasm0(spreadsheet, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ptr1 = passStringToWasm0(poe_data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len1 = WASM_VECTOR_LEN;
