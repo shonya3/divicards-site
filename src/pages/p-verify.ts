@@ -9,6 +9,7 @@ import { poeData } from '../PoeData';
 import { SOURCE_TYPE_VARIANTS, Source } from '../gen/Source';
 import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
+import '../elements/e-need-to-verify';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import type { Card } from '../gen/poeData';
 
