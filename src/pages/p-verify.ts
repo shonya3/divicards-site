@@ -214,7 +214,7 @@ export class VerifyPage extends LitElement {
 				<h3 class="category-heading" id="other">Other</h3>
 				${this.SourceWithCardsList(this.byCategory.other)}
 				<details id="details-weights-table" class="details-weights-table" open>
-					<summary class="details-weights-table__summary">Card Weights Table</summary>
+					<summary class="details-weights-table__summary">Weights Table</summary>
 					${this.WeightsTable()}
 				</details>
 			</main>
