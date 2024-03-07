@@ -1,3 +1,4 @@
+import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { Card } from '../gen/poeData';
@@ -13,29 +14,54 @@ declare global {
 
 export type WeightsTableCard = Pick<Card, 'name' | 'weight'>;
 
-function byWeight(cards: WeightsTableCard[], order: Order) {
-	cards.sort((a, b) => (order === 'asc' ? a.weight - b.weight : b.weight - a.weight));
+class Sort {
+	static byName(cards: WeightsTableCard[], order: Order): void {
+		cards.sort((a, b) => (order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
+	}
+
+	static byWeight(cards: WeightsTableCard[], order: Order): void {
+		cards.sort((a, b) => (order === 'asc' ? a.weight - b.weight : b.weight - a.weight));
+	}
 }
 
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
 	@property({ type: Array }) cards: WeightsTableCard[] = [];
-	@property({ reflect: true }) order: Order = 'desc';
-	@state() private iconName = '';
+	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
+	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
+	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
+	@state() private weightIcon = 'sort-down';
+	@state() private nameIcon = 'sort-alpha-down-alt';
 	@state() private cardsClone: WeightsTableCard[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('order')) {
-			this.iconName = this.order === 'desc' ? 'sort-down' : 'sort-up';
-			byWeight(this.cardsClone, this.order);
-		}
 		if (map.has('cards')) {
 			this.cardsClone = structuredClone(this.cards);
 		}
+
+		if (map.has('weightOrder')) {
+			if (this.orderedBy === 'weight') {
+				this.weightIcon = this.weightOrder === 'desc' ? 'sort-down' : 'sort-up';
+				Sort.byWeight(this.cardsClone, this.weightOrder);
+			}
+		}
+
+		if (map.has('nameOrder')) {
+			if (this.orderedBy === 'name') {
+				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
+				Sort.byName(this.cardsClone, this.nameOrder);
+			}
+		}
 	}
 
-	#onIconClick() {
-		this.order = this.order === 'asc' ? 'desc' : 'asc';
+	#toggleWeightOrder() {
+		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'weight';
+	}
+
+	#toggleNameOrder() {
+		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'name';
 	}
 
 	protected render() {
@@ -43,10 +69,26 @@ export class WeightsTableElement extends LitElement {
 			<thead>
 				<tr>
 					<th class="weights-table__th" scope="col">№</th>
-					<th class="weights-table__th" scope="col">
-						Card <sl-icon @click=${this.#onIconClick} .name=${this.iconName}></sl-icon>
+					<th class="weights-table__th th-name" scope="col">
+						<div class="header-with-sort-icon">
+							Card
+							<sl-icon
+								class=${classMap({ 'ordered-by': this.orderedBy === 'name' })}
+								@click=${this.#toggleNameOrder}
+								.name=${this.nameIcon}
+							></sl-icon>
+						</div>
 					</th>
-					<th class="weights-table__th">Weight</th>
+					<th class="weights-table__th th-weight">
+						<div class="header-with-sort-icon">
+							Weight
+							<sl-icon
+								class=${classMap({ 'ordered-by': this.orderedBy === 'weight' })}
+								@click=${this.#toggleWeightOrder}
+								.name=${this.weightIcon}
+							></sl-icon>
+						</div>
+					</th>
 				</tr>
 			</thead>
 
@@ -84,6 +126,10 @@ export class WeightsTableElement extends LitElement {
 			border: 1px solid rgba(140, 140, 140, 0.3);
 		}
 
+		.weights-table__th {
+			font-size: 1.2rem;
+		}
+
 		.weights-table__th,
 		.weights-table__td {
 			padding: 1rem;
@@ -91,9 +137,20 @@ export class WeightsTableElement extends LitElement {
 			text-align: center;
 		}
 
+		.header-with-sort-icon {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 0.4rem;
+		}
+
 		.td-weight {
 			font-weight: 700;
 			font-size: 20px;
+		}
+
+		.ordered-by {
+			color: yellow;
 		}
 
 		@media (width < 25rem) {

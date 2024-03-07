@@ -20,7 +20,7 @@ export class WeightsPage extends LitElement {
 
 	protected render() {
 		return html`<h1 class="heading">Weights</h1>
-			<e-weights-table order="desc" .cards=${this.#cards}></e-weights-table>`;
+			<e-weights-table ordered-by="weight" .cards=${this.#cards}></e-weights-table>`;
 	}
 
 	static styles = css`
