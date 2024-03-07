@@ -19,7 +19,6 @@ function byWeight(cards: WeightsTableCard[], order: Order) {
 
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
-	t0 = 0;
 	@property({ type: Array }) cards: WeightsTableCard[] = [];
 	@property({ reflect: true }) order: Order = 'desc';
 	@state() private iconName = '';
@@ -32,7 +31,6 @@ export class WeightsTableElement extends LitElement {
 		}
 		if (map.has('cards')) {
 			this.cardsClone = structuredClone(this.cards);
-			this.#tableBodyRowsMap = new Map();
 		}
 	}
 
@@ -40,75 +38,8 @@ export class WeightsTableElement extends LitElement {
 		this.order = this.order === 'asc' ? 'desc' : 'asc';
 	}
 
-	#tableBodyRowsMap: Map<string, HTMLTableRowElement> = new Map();
-	TableBodyHandmadeCache(cards: WeightsTableCard[]): HTMLElement {
-		const tbody = document.createElement('tbody');
-
-		const t0 = performance.now();
-		cards.forEach(({ name, weight }, index) => {
-			let el: HTMLTableRowElement;
-			if (!this.#tableBodyRowsMap.has(name)) {
-				const weightStr =
-					weight > 5
-						? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-						: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
-
-				const tr = document.createElement('tr');
-				const tdIndex = Object.assign(document.createElement('td'), { className: 'weights-table__td' });
-				const tdCard = Object.assign(document.createElement('td'), { className: 'weights-table__td' });
-				const tdWeight = Object.assign(document.createElement('td'), {
-					className: 'weights-table__td td-weight',
-				});
-				const card = Object.assign(document.createElement('e-divination-card'), { name, size: 'small' });
-
-				tdIndex.append(`${index + 1}`);
-				tdCard.append(card);
-				tdWeight.append(weightStr);
-
-				tr.append(tdIndex, tdCard, tdWeight);
-				this.#tableBodyRowsMap.set(name, tr);
-				el = tr;
-			} else {
-				el = this.#tableBodyRowsMap.get(name)!;
-			}
-
-			tbody.append(el);
-		});
-
-		console.log('TableBodyHandmadeCache'.padEnd(25), (performance.now() - t0).toLocaleString());
-		return tbody;
-	}
-
-	TableBodyKeyed(cards: WeightsTableCard[]) {
-		const t0 = performance.now();
-		const result = html`<tbody>
-			${cards.map(({ name, weight }, index) => {
-				const weightStr =
-					weight > 5
-						? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-						: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
-
-				return keyed(
-					name,
-					html`<tr>
-						<td class="weights-table__td">${index + 1}</td>
-						<td class="weights-table__td">
-							<e-divination-card size="small" name=${name}></e-divination-card>
-						</td>
-						<td class="weights-table__td td-weight">${weightStr}</td>
-					</tr>`
-				);
-			})}
-		</tbody>`;
-		console.log('render TableBodyKeyed'.padEnd(25, ' '), (performance.now() - t0).toLocaleString());
-		return result;
-	}
-
 	protected render() {
-		console.log('===========');
-		this.t0 = performance.now();
-
-		const renderResult = html`<table class="weights-table">
+		return html`<table class="weights-table">
 			<thead>
 				<tr>
 					<th class="weights-table__th" scope="col">№</th>
@@ -119,17 +50,26 @@ export class WeightsTableElement extends LitElement {
 				</tr>
 			</thead>
 
-			${this.TableBodyHandmadeCache(this.cardsClone)}
+			<tbody>
+				${this.cardsClone.map(({ name, weight }, index) => {
+					const weightStr =
+						weight > 5
+							? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
+							: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+
+					return keyed(
+						name,
+						html`<tr>
+							<td class="weights-table__td">${index + 1}</td>
+							<td class="weights-table__td">
+								<e-divination-card size="small" name=${name}></e-divination-card>
+							</td>
+							<td class="weights-table__td td-weight">${weightStr}</td>
+						</tr>`
+					);
+				})}
+			</tbody>
 		</table>`;
-
-		return renderResult;
-	}
-
-	protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-		super.updated(_changedProperties);
-
-		console.log('updated'.padEnd(25, ' '), (performance.now() - this.t0).toLocaleString());
-		console.log('===========');
 	}
 
 	static styles = css`
