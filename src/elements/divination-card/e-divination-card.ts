@@ -139,7 +139,7 @@ export class DivinationCardElement extends LitElement {
 			</header>
 			<div class="imageWrapper">
 				<a @click=${this.#onNavigation} href="/card/${this.name}">
-					<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="" />
+					<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="No Card" />
 				</a>
 			</div>
 

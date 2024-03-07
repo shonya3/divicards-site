@@ -92,6 +92,12 @@ export const router = new Router({
 			},
 		},
 		{
+			path: '/weights',
+			title: 'Weights',
+			plugins: [lazy(() => import('./pages/p-weights'))],
+			render: () => html`<p-weights></p-weights>`,
+		},
+		{
 			path: '/source-type/:id',
 			title: context => decodeURI(context.params!.id),
 			render: ({ params }) => {

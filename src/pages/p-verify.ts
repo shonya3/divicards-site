@@ -500,16 +500,16 @@ declare global {
 	}
 }
 
-const groupBy = <T>(arr: Array<T>, cb: (el: T, index: number, arr: Array<T>) => string): Record<string, T[]> => {
+const groupBy = <T>(arr: T[], cb: (el: T, index: number, arr: T[]) => string): Record<string, T[]> => {
 	const record: Record<string, T[]> = Object.create({});
 
 	for (let i = 0; i < arr.length; i++) {
 		const el = arr[i];
 		const key = cb(el, i, arr);
 
-		const grouppedByKey = record[key] ?? [];
-		grouppedByKey.push(el);
-		record[key] = grouppedByKey;
+		const groupedByKey = record[key] ?? [];
+		groupedByKey.push(el);
+		record[key] = groupedByKey;
 	}
 
 	return record;

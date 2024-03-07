@@ -18,6 +18,7 @@ export class NavbarElement extends LitElement {
 		['/sources', 'Sources'],
 		['/divcord', 'Divcord'],
 		['/verify', 'Need to verify'],
+		['/weights', 'Weights'],
 		['/verify-faq', 'faq'],
 	];
 
