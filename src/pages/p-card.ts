@@ -21,13 +21,24 @@ export class CardPage extends LitElement {
 	divcordTable!: DivcordTable;
 
 	render() {
-		const league = poeData.find.card(this.card)?.league;
+		const card = poeData.find.card(this.card);
+		const league = card?.league;
+		let weight = card?.weight ?? 1;
+		if (weight < 1) weight = 1;
+		const weightStr = weight.toLocaleString('ru', { maximumFractionDigits: 0 });
 
 		return html`<div class="page">
 			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
 				<e-card-with-sources slot="card" .name=${this.card} size="large" .divcordTable=${this.divcordTable}>
 				</e-card-with-sources>
-				${league ? html` <div slot="main-start">Release: ${league.name} ${league.version}</div> ` : nothing}
+				${card
+					? html`
+							<div slot="main-start">
+								${league ? html`<div>Release: ${league.name} ${league.version}</div>` : nothing}
+								<div>Weight: ${weightStr}</div>
+							</div>
+					  `
+					: nothing}
 			</e-card-with-divcord-records>
 		</div>`;
 	}
