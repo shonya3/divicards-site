@@ -24,7 +24,7 @@ export class CardPage extends LitElement {
 		const card = poeData.find.card(this.card);
 		const league = card?.league;
 		let weight = card?.weight ?? 1;
-		if (weight < 1) weight = 1;
+		if (weight > 0 && weight < 1) weight = 1;
 		const weightStr = weight.toLocaleString('ru', { maximumFractionDigits: 0 });
 
 		return html`<div class="page">
