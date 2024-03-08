@@ -5,7 +5,7 @@ import { divcordTableContext } from '../context';
 import { DivcordTable } from '../DivcordTable';
 import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
-import { poeData } from '../PoeData';
+import { PoeData, poeData } from '../PoeData';
 import { SOURCE_TYPE_VARIANTS, Source } from '../gen/Source';
 import '../elements/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
@@ -21,7 +21,10 @@ declare global {
 	}
 }
 
-function transformSourceAndCardsToRowData(cards: SourceAndCards[]): RowDataForWeightsTableVerifySources[] {
+function transformSourceAndCardsToRowData(
+	cards: SourceAndCards[],
+	poeData: PoeData
+): RowDataForWeightsTableVerifySources[] {
 	const rows: RowDataForWeightsTableVerifySources[] = [];
 
 	// 1. take only Maps and Acts sources, because other sources ignore table weights,
@@ -199,7 +202,7 @@ export class VerifyPage extends LitElement {
 				['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
 			);
 
-			this.verifyTableData = transformSourceAndCardsToRowData(cards);
+			this.verifyTableData = transformSourceAndCardsToRowData(cards, poeData);
 			this.sourcesAndCards = structuredClone(cards);
 		}
 	}
