@@ -200,47 +200,6 @@ export class VerifyPage extends LitElement {
 				['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
 			);
 
-			// Prepare card weights for the Table
-			const cardWeights = cards
-				.filter(({ source }) => source.type === 'Map' || source.type === 'Act')
-				.flatMap(({ cards, source }) =>
-					cards
-						.filter(({ transitiveSource }) => transitiveSource === undefined)
-						.map(({ card }) => ({ card, source }))
-				)
-				.map(({ card, source }) => ({ card: poeData.find.card(card), source }))
-				.filter((arg): arg is { card: Card; source: Source } => arg.card !== null)
-				.map(({ card, source }) => ({
-					card: card.name,
-					source,
-					weight: card.weight,
-				}));
-			cardWeights.sort((a, b) => b.weight - a.weight);
-			const grouped: RowDataForWeightsTableVerifySources[] = [];
-
-			// const grouped = groupBy(cardWeights, ({ card }) => card);
-			this.cardWeightsGrouped = groupBy(cardWeights, ({ card }) => card);
-			for (const [name, arr] of Object.entries(this.cardWeightsGrouped)) {
-				const weight = arr[0].weight;
-				const card: RowDataForWeightsTableVerifySources = arr.reduce(
-					(acc, el) => {
-						const sources = acc.sources;
-						sources.push(el.source);
-						return acc;
-					},
-					{
-						name,
-						weight,
-						sources: [] as Source[],
-					}
-				);
-				grouped.push(card);
-			}
-
-			console.log(grouped);
-
-			// this.cardWeightsGrouped = transformSourceAndCardsToRowData(cards);
-
 			this.verifyTableData = transformSourceAndCardsToRowData(cards);
 			this.sourcesAndCards = structuredClone(cards);
 		}
@@ -291,7 +250,6 @@ export class VerifyPage extends LitElement {
 		</div>`;
 	}
 
-	// ${this.WeightsTable()}
 	protected SourceWithCardsList(sourcesAndCards: SourceAndCards[]) {
 		return html`<ul class="source-with-cards-list">
 			${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
@@ -338,71 +296,6 @@ export class VerifyPage extends LitElement {
 		</ul>`;
 	}
 
-	protected WeightsTable() {
-		console.log(this.cardWeightsGrouped);
-		return html`<table class="weights-table">
-			<thead>
-				<tr>
-					<th class="weights-table__th" scope="col">№</th>
-					<th class="weights-table__th" scope="col">Card</th>
-					<th class="weights-table__th">Weight</th>
-					<th class="weights-table__th">Source</th>
-				</tr>
-			</thead>
-			<tbody>
-				${Object.entries(this.cardWeightsGrouped).map(([card, arr], index) => {
-					const weight: number = arr[0].weight;
-					const weightStr =
-						weight > 5
-							? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-							: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
-					const sources = html`<ul class="sources-list">
-						${arr.map(({ source }) => html`<li><e-source size="medium" .source=${source}></e-source></li>`)}
-					</ul>`;
-
-					return html`<tr>
-						<td class="weights-table__td">${index + 1}</td>
-						<td class="weights-table__td">
-							<e-need-to-verify
-								><e-divination-card size="small" name=${card}></e-divination-card
-							></e-need-to-verify>
-						</td>
-						<td class="weights-table__td td-weight">${weightStr}</td>
-						<td class="weights-table__td td-sources">${sources}</td>
-					</tr>`;
-				})}
-			</tbody>
-		</table>`;
-	}
-
-	static weightsTableCss = css`
-		.weights-table {
-			border-collapse: collapse;
-			border: 1px solid rgba(140, 140, 140, 0.3);
-		}
-
-		.weights-table__th,
-		.weights-table__td {
-			padding: 1rem;
-			border: 1px solid rgba(160, 160, 160, 0.2);
-			text-align: center;
-		}
-
-		.td-weight {
-			font-weight: 700;
-			font-size: 20px;
-		}
-
-		.td-sources {
-		}
-
-		.sources-list {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 2rem;
-		}
-	`;
-
 	static styles = css`
 		@layer reset {
 			* {
@@ -413,10 +306,6 @@ export class VerifyPage extends LitElement {
 			ul {
 				list-style: none;
 			}
-		}
-
-		@layer weights-table {
-			${VerifyPage.weightsTableCss}
 		}
 
 		:host {
