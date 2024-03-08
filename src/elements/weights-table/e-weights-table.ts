@@ -2,7 +2,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import type { Order, RowDataForWeightsTableCard } from './types';
+import type { Order, RowDataForWeightsTable } from './types';
 import { keyed } from 'lit/directives/keyed.js';
 import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
@@ -15,13 +15,13 @@ declare global {
 
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
-	@property({ type: Array }) cards: RowDataForWeightsTableCard[] = [];
+	@property({ type: Array }) cards: RowDataForWeightsTable[] = [];
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
-	@state() private cardsClone: RowDataForWeightsTableCard[] = [];
+	@state() private cardsClone: RowDataForWeightsTable[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('cards')) {
