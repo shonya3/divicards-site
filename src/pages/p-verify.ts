@@ -14,6 +14,7 @@ import type { CardSize } from '../elements/divination-card/e-divination-card';
 import type { Card } from '../gen/poeData';
 import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/types';
 import '../elements/weights-table/e-weights-table-verify-sources';
+import { DivcordRecord } from '../gen/divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -21,29 +22,15 @@ declare global {
 	}
 }
 
-function transformSourceAndCardsToRowData(
-	cards: SourceAndCards[],
-	poeData: PoeData
-): RowDataForWeightsTableVerifySources[] {
-	// 1. take only Maps and Acts sources, because other sources ignore table weights,
-	// and it is not relevant to include them in table
-	const cardSourcePairs: Array<{ card: string; source: Source }> = cards
-		.filter(({ source }) => source.type === 'Map' || source.type === 'Act')
-		.flatMap(({ cards, source }) =>
-			cards.filter(({ transitiveSource }) => transitiveSource === undefined).map(({ card }) => ({ card, source }))
-		);
-
-	// 2. group by name
-	const groupedByName = groupBy(cardSourcePairs, ({ card }) => card);
-
-	// 3. for each card name entry,
-	// transform Array<{ card: string; source: Source }>  -> {card: string; weight: number; sources: Source[]}
-	return Object.entries(groupedByName)
-		.map(([name, pairs]) => ({
-			card: poeData.find.card(name),
-			sources: pairs.map(({ source }) => source),
+function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowDataForWeightsTableVerifySources[] {
+	return Object.entries(groupBy(records, ({ card }) => card))
+		.map(([card, records]) => ({
+			card: poeData.find.card(card),
+			sources: records.flatMap(record =>
+				record.verifySources.filter(({ type }) => type === 'Map' || type === 'Act')
+			),
 		}))
-		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null)
+		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null && obj.sources.length > 0)
 		.map(({ card, sources }) => ({ name: card.name, weight: card.weight, sources }));
 }
 
@@ -183,7 +170,7 @@ export class VerifyPage extends LitElement {
 				['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
 			);
 
-			this.verifyTableData = transformSourceAndCardsToRowData(cards, poeData);
+			this.verifyTableData = weightsTableData(this.divcordTable.records, poeData);
 			this.sourcesAndCards = structuredClone(cards);
 		}
 	}
