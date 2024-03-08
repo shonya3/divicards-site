@@ -13,6 +13,7 @@ import '../elements/e-need-to-verify';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import type { Card } from '../gen/poeData';
 import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/types';
+import '../elements/weights-table/e-weights-table-verify-sources';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -78,6 +79,7 @@ export class VerifyPage extends LitElement {
 		acts: SourceAndCards[];
 		other: SourceAndCards[];
 	} = Object.create({});
+	@state() verifyTableData: RowDataForWeightsTableVerifySources[] = [];
 
 	@state() cardWeightsGrouped: Record<string, { card: string; weight: number; source: Source }[]> = Object.create({});
 
@@ -239,6 +241,7 @@ export class VerifyPage extends LitElement {
 
 			// this.cardWeightsGrouped = transformSourceAndCardsToRowData(cards);
 
+			this.verifyTableData = transformSourceAndCardsToRowData(cards);
 			this.sourcesAndCards = structuredClone(cards);
 		}
 	}
@@ -282,12 +285,13 @@ export class VerifyPage extends LitElement {
 				${this.SourceWithCardsList(this.byCategory.other)}
 				<details id="details-weights-table" class="details-weights-table" open>
 					<summary class="details-weights-table__summary">Weights Table</summary>
-					${this.WeightsTable()}
+					<e-weights-table-verify-sources .rows=${this.verifyTableData}></e-weights-table-verify-sources>
 				</details>
 			</main>
 		</div>`;
 	}
 
+	// ${this.WeightsTable()}
 	protected SourceWithCardsList(sourcesAndCards: SourceAndCards[]) {
 		return html`<ul class="source-with-cards-list">
 			${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {

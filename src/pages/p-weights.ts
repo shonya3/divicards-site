@@ -11,16 +11,16 @@ declare global {
 
 @customElement('p-weights')
 export class WeightsPage extends LitElement {
-	#cards = Object.values(poeData.cards).map(({ name, weight }) => ({ name, weight }));
+	#rows = Object.values(poeData.cards).map(({ name, weight }) => ({ name, weight }));
 
 	constructor() {
 		super();
-		this.#cards.sort((a, b) => b.weight - a.weight);
+		this.#rows.sort((a, b) => b.weight - a.weight);
 	}
 
 	protected render() {
 		return html`<h1 class="heading">Weights</h1>
-			<e-weights-table ordered-by="weight" .cards=${this.#cards}></e-weights-table>`;
+			<e-weights-table ordered-by="weight" .rows=${this.#rows}></e-weights-table>`;
 	}
 
 	static styles = css`

@@ -15,30 +15,30 @@ declare global {
 
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
-	@property({ type: Array }) cards: RowDataForWeightsTable[] = [];
+	@property({ type: Array }) rows: RowDataForWeightsTable[] = [];
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
-	@state() private cardsClone: RowDataForWeightsTable[] = [];
+	@state() private rowsClone: RowDataForWeightsTable[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('cards')) {
-			this.cardsClone = structuredClone(this.cards);
+		if (map.has('rows')) {
+			this.rowsClone = structuredClone(this.rows);
 		}
 
 		if (map.has('weightOrder')) {
 			if (this.orderedBy === 'weight') {
 				this.weightIcon = this.weightOrder === 'desc' ? 'sort-down' : 'sort-up';
-				Sort.byWeight(this.cardsClone, this.weightOrder);
+				Sort.byWeight(this.rowsClone, this.weightOrder);
 			}
 		}
 
 		if (map.has('nameOrder')) {
 			if (this.orderedBy === 'name') {
 				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
-				Sort.byName(this.cardsClone, this.nameOrder);
+				Sort.byName(this.rowsClone, this.nameOrder);
 			}
 		}
 	}
@@ -82,7 +82,7 @@ export class WeightsTableElement extends LitElement {
 			</thead>
 
 			<tbody>
-				${this.cardsClone.map(({ name, weight }, index) => {
+				${this.rowsClone.map(({ name, weight }, index) => {
 					const weightStr =
 						weight > 5
 							? weight.toLocaleString('ru', { maximumFractionDigits: 0 })

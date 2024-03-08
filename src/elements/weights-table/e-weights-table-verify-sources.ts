@@ -15,30 +15,30 @@ declare global {
 
 @customElement('e-weights-table-verify-sources')
 export class WeightsTableVerifySources extends LitElement {
-	@property({ type: Array }) cards: RowDataForWeightsTableVerifySources[] = [];
+	@property({ type: Array }) rows: RowDataForWeightsTableVerifySources[] = [];
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
-	@state() private cardsClone: RowDataForWeightsTableVerifySources[] = [];
+	@state() private rowsClone: RowDataForWeightsTableVerifySources[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('cards')) {
-			this.cardsClone = structuredClone(this.cards);
+		if (map.has('rows')) {
+			this.rowsClone = structuredClone(this.rows);
 		}
 
 		if (map.has('weightOrder')) {
 			if (this.orderedBy === 'weight') {
 				this.weightIcon = this.weightOrder === 'desc' ? 'sort-down' : 'sort-up';
-				Sort.byWeight(this.cardsClone, this.weightOrder);
+				Sort.byWeight(this.rowsClone, this.weightOrder);
 			}
 		}
 
 		if (map.has('nameOrder')) {
 			if (this.orderedBy === 'name') {
 				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
-				Sort.byName(this.cardsClone, this.nameOrder);
+				Sort.byName(this.rowsClone, this.nameOrder);
 			}
 		}
 	}
@@ -54,7 +54,61 @@ export class WeightsTableVerifySources extends LitElement {
 	}
 
 	protected render() {
-		return html`content`;
+		return html`<table class="table">
+			<thead>
+				<tr>
+					<th class="th" scope="col">№</th>
+					<th class="th th-name" scope="col">
+						<div class="header-with-icon">
+							Card
+							<sl-icon
+								class=${classMap({ 'ordered-by': this.orderedBy === 'name' })}
+								@click=${this.#toggleNameOrder}
+								.name=${this.nameIcon}
+							></sl-icon>
+						</div>
+					</th>
+					<th class="th th-weight">
+						<div class="header-with-icon">
+							Weight
+							<sl-icon
+								class=${classMap({ 'ordered-by': this.orderedBy === 'weight' })}
+								@click=${this.#toggleWeightOrder}
+								.name=${this.weightIcon}
+							></sl-icon>
+						</div>
+					</th>
+					<th class="th">Sources</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				${this.rowsClone.map(({ name, weight, sources }, index) => {
+					const weightStr =
+						weight > 5
+							? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
+							: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+
+					return keyed(
+						name,
+						html`<tr>
+							<td class="td">${index + 1}</td>
+							<td class="td">
+								<e-divination-card size="small" name=${name}></e-divination-card>
+							</td>
+							<td class="td td-weight">${weightStr}</td>
+							<td class="td">
+								<ul class="sources-list">
+									${sources.map(
+										source => html`<li><e-source size="medium" .source=${source}></e-source></li>`
+									)}
+								</ul>
+							</td>
+						</tr>`
+					);
+				})}
+			</tbody>
+		</table>`;
 	}
 
 	static styles = css`
@@ -62,8 +116,15 @@ export class WeightsTableVerifySources extends LitElement {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
+			list-style: none;
 		}
 
 		${tableStyles}
+
+		.sources-list {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 2rem;
+		}
 	`;
 }
