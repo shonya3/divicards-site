@@ -20,6 +20,48 @@ declare global {
 	}
 }
 
+function transformSourceAndCardsToRowData(cards: SourceAndCards[]): RowDataForWeightsTableVerifySources[] {
+	const rows: RowDataForWeightsTableVerifySources[] = [];
+
+	// take only Maps and Acts sources, because other sources ignore table weights,
+	// and it is not relevant to include them in table
+	const initiallyPreparedCards: Array<{ card: string; weight: number; source: Source }> = cards
+		.filter(({ source }) => source.type === 'Map' || source.type === 'Act')
+		.flatMap(({ cards, source }) =>
+			cards.filter(({ transitiveSource }) => transitiveSource === undefined).map(({ card }) => ({ card, source }))
+		)
+		.map(({ card, source }) => ({ card: poeData.find.card(card), source }))
+		.filter((arg): arg is { card: Card; source: Source } => arg.card !== null)
+		.map(({ card, source }) => ({
+			card: card.name,
+			source,
+			weight: card.weight,
+		}));
+	initiallyPreparedCards.sort((a, b) => b.weight - a.weight);
+
+	const groupedByName = groupBy(initiallyPreparedCards, ({ card }) => card);
+
+	// for each card name entry,
+	// transform Array<{ card: string; weight: number; source: Source }>  -> {card: string; weight: number; source: Source[]}
+	// and push to resulting rows array
+	for (const [name, arr] of Object.entries(groupedByName)) {
+		const row: RowDataForWeightsTableVerifySources = arr.reduce(
+			(acc, el) => {
+				acc.sources.push(el.source);
+				return acc;
+			},
+			{
+				name,
+				weight: arr[0].weight,
+				sources: [] as Source[],
+			}
+		);
+		rows.push(row);
+	}
+
+	return rows;
+}
+
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
 	@consume({ context: divcordTableContext, subscribe: true })
