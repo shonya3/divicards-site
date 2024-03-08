@@ -27,38 +27,24 @@ function transformSourceAndCardsToRowData(
 ): RowDataForWeightsTableVerifySources[] {
 	// 1. take only Maps and Acts sources, because other sources ignore table weights,
 	// and it is not relevant to include them in table
-	const initiallyPreparedCards: Array<{ card: string; weight: number; source: Source }> = cards
+	const cardSourcePairs: Array<{ card: string; source: Source }> = cards
 		.filter(({ source }) => source.type === 'Map' || source.type === 'Act')
 		.flatMap(({ cards, source }) =>
 			cards.filter(({ transitiveSource }) => transitiveSource === undefined).map(({ card }) => ({ card, source }))
-		)
-		.map(({ card, source }) => ({ card: poeData.find.card(card), source }))
-		.filter((arg): arg is { card: Card; source: Source } => arg.card !== null)
-		.map(({ card, source }) => ({
-			card: card.name,
-			source,
-			weight: card.weight,
-		}));
+		);
 
 	// 2. group by name
-	const groupedByName = groupBy(initiallyPreparedCards, ({ card }) => card);
+	const groupedByName = groupBy(cardSourcePairs, ({ card }) => card);
 
 	// 3. for each card name entry,
-	// transform Array<{ card: string; weight: number; source: Source }>  -> {card: string; weight: number; sources: Source[]}
-	// 4. return rows
-	return Object.entries(groupedByName).map(([name, arr]) =>
-		arr.reduce(
-			(acc, el) => {
-				acc.sources.push(el.source);
-				return acc;
-			},
-			{
-				name,
-				weight: arr[0].weight,
-				sources: [] as Source[],
-			}
-		)
-	);
+	// transform Array<{ card: string; source: Source }>  -> {card: string; weight: number; sources: Source[]}
+	return Object.entries(groupedByName)
+		.map(([name, pairs]) => ({
+			card: poeData.find.card(name),
+			sources: pairs.map(({ source }) => source),
+		}))
+		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null)
+		.map(({ card, sources }) => ({ name: card.name, weight: card.weight, sources }));
 }
 
 @customElement('p-verify')
