@@ -6,6 +6,7 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import type { Order } from '../types';
 import { keyed } from 'lit/directives/keyed.js';
 import { styles as tableStyles } from './table.styles';
+import { Source } from '../../gen/Source';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -13,27 +14,28 @@ declare global {
 	}
 }
 
-export type WeightsTableCard = Pick<Card, 'name' | 'weight'>;
+export type RowDataForWeightsTableCard = Pick<Card, 'name' | 'weight'>;
+export type RowDataForWeightsTableVerifySources = RowDataForWeightsTableCard & { sources: Source[] };
 
 class Sort {
-	static byName(cards: WeightsTableCard[], order: Order): void {
+	static byName(cards: RowDataForWeightsTableCard[], order: Order): void {
 		cards.sort((a, b) => (order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
 	}
 
-	static byWeight(cards: WeightsTableCard[], order: Order): void {
+	static byWeight(cards: RowDataForWeightsTableCard[], order: Order): void {
 		cards.sort((a, b) => (order === 'asc' ? a.weight - b.weight : b.weight - a.weight));
 	}
 }
 
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
-	@property({ type: Array }) cards: WeightsTableCard[] = [];
+	@property({ type: Array }) cards: RowDataForWeightsTableCard[] = [];
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
-	@state() private cardsClone: WeightsTableCard[] = [];
+	@state() private cardsClone: RowDataForWeightsTableCard[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('cards')) {

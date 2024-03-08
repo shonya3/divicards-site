@@ -12,6 +12,7 @@ import '../elements/e-verify-faq-alert';
 import '../elements/e-need-to-verify';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import type { Card } from '../gen/poeData';
+import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/e-weights-table';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -137,7 +138,7 @@ export class VerifyPage extends LitElement {
 			// move sources with solo Rebirth cards to the end
 			// to make it less spammy
 			const rebirth: SourceAndCards[] = [];
-			let cards = sourcesAndCards.filter(c => {
+			let cards: SourceAndCards[] = sourcesAndCards.filter(c => {
 				if (c.cards.length === 1 && c.cards.map(c => c.card).includes('Rebirth')) {
 					rebirth.push(c);
 					return false;
@@ -170,7 +171,30 @@ export class VerifyPage extends LitElement {
 					weight: card.weight,
 				}));
 			cardWeights.sort((a, b) => b.weight - a.weight);
+			const grouped: RowDataForWeightsTableVerifySources[] = [];
+
+			// const grouped = groupBy(cardWeights, ({ card }) => card);
 			this.cardWeightsGrouped = groupBy(cardWeights, ({ card }) => card);
+			for (const [name, arr] of Object.entries(this.cardWeightsGrouped)) {
+				const weight = arr[0].weight;
+				const card: RowDataForWeightsTableVerifySources = arr.reduce(
+					(acc, el) => {
+						const sources = acc.sources;
+						sources.push(el.source);
+						return acc;
+					},
+					{
+						name,
+						weight,
+						sources: [] as Source[],
+					}
+				);
+				grouped.push(card);
+			}
+
+			console.log(grouped);
+
+			// this.cardWeightsGrouped = transformSourceAndCardsToRowData(cards);
 
 			this.sourcesAndCards = structuredClone(cards);
 		}
@@ -268,6 +292,7 @@ export class VerifyPage extends LitElement {
 	}
 
 	protected WeightsTable() {
+		console.log(this.cardWeightsGrouped);
 		return html`<table class="weights-table">
 			<thead>
 				<tr>
