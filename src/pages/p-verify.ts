@@ -25,8 +25,6 @@ function transformSourceAndCardsToRowData(
 	cards: SourceAndCards[],
 	poeData: PoeData
 ): RowDataForWeightsTableVerifySources[] {
-	const rows: RowDataForWeightsTableVerifySources[] = [];
-
 	// 1. take only Maps and Acts sources, because other sources ignore table weights,
 	// and it is not relevant to include them in table
 	const initiallyPreparedCards: Array<{ card: string; weight: number; source: Source }> = cards
@@ -47,9 +45,8 @@ function transformSourceAndCardsToRowData(
 
 	// 3. for each card name entry,
 	// transform Array<{ card: string; weight: number; source: Source }>  -> {card: string; weight: number; sources: Source[]}
-	// and push to resulting rows array
-	for (const [name, arr] of Object.entries(groupedByName)) {
-		const row: RowDataForWeightsTableVerifySources = arr.reduce(
+	return Object.entries(groupedByName).map(([name, arr]) =>
+		arr.reduce(
 			(acc, el) => {
 				acc.sources.push(el.source);
 				return acc;
@@ -59,11 +56,8 @@ function transformSourceAndCardsToRowData(
 				weight: arr[0].weight,
 				sources: [] as Source[],
 			}
-		);
-		rows.push(row);
-	}
-
-	return rows;
+		)
+	);
 }
 
 @customElement('p-verify')
