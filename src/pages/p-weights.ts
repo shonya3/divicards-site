@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { poeData } from '../PoeData';
-import '../elements/e-weights-table';
+import '../elements/weights-table/e-weights-table';
 
 declare global {
 	interface HTMLElementTagNameMap {

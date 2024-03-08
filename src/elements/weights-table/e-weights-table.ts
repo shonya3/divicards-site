@@ -1,10 +1,11 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { Card } from '../gen/poeData';
+import { Card } from '../../gen/poeData';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import type { Order } from './types';
+import type { Order } from '../types';
 import { keyed } from 'lit/directives/keyed.js';
+import { styles as tableStyles } from './table.styles';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -121,43 +122,6 @@ export class WeightsTableElement extends LitElement {
 			box-sizing: border-box;
 		}
 
-		.table {
-			border-collapse: collapse;
-			border: 1px solid rgba(140, 140, 140, 0.3);
-		}
-
-		.th {
-			font-size: 1.2rem;
-		}
-
-		.th,
-		.td {
-			padding: 1rem;
-			border: 1px solid rgba(160, 160, 160, 0.2);
-			text-align: center;
-		}
-
-		.header-with-icon {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: 0.4rem;
-		}
-
-		.td-weight {
-			font-weight: 700;
-			font-size: 20px;
-		}
-
-		.ordered-by {
-			color: yellow;
-		}
-
-		@media (width < 25rem) {
-			.th,
-			.td {
-				padding: 0.4rem;
-			}
-		}
+		${tableStyles}
 	`;
 }
