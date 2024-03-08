@@ -45,6 +45,7 @@ function transformSourceAndCardsToRowData(
 
 	// 3. for each card name entry,
 	// transform Array<{ card: string; weight: number; source: Source }>  -> {card: string; weight: number; sources: Source[]}
+	// 4. return rows
 	return Object.entries(groupedByName).map(([name, arr]) =>
 		arr.reduce(
 			(acc, el) => {
