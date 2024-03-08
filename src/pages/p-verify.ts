@@ -43,7 +43,7 @@ function transformSourceAndCardsToRowData(cards: SourceAndCards[]): RowDataForWe
 	const groupedByName = groupBy(initiallyPreparedCards, ({ card }) => card);
 
 	// 3. for each card name entry,
-	// transform Array<{ card: string; weight: number; source: Source }>  -> {card: string; weight: number; source: Source[]}
+	// transform Array<{ card: string; weight: number; source: Source }>  -> {card: string; weight: number; sources: Source[]}
 	// and push to resulting rows array
 	for (const [name, arr] of Object.entries(groupedByName)) {
 		const row: RowDataForWeightsTableVerifySources = arr.reduce(
