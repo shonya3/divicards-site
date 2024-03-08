@@ -65,12 +65,12 @@ export class WeightsTableElement extends LitElement {
 	}
 
 	protected render() {
-		return html`<table class="weights-table">
+		return html`<table class="table">
 			<thead>
 				<tr>
-					<th class="weights-table__th" scope="col">№</th>
-					<th class="weights-table__th th-name" scope="col">
-						<div class="header-with-sort-icon">
+					<th class="th" scope="col">№</th>
+					<th class="th th-name" scope="col">
+						<div class="header-with-icon">
 							Card
 							<sl-icon
 								class=${classMap({ 'ordered-by': this.orderedBy === 'name' })}
@@ -79,8 +79,8 @@ export class WeightsTableElement extends LitElement {
 							></sl-icon>
 						</div>
 					</th>
-					<th class="weights-table__th th-weight">
-						<div class="header-with-sort-icon">
+					<th class="th th-weight">
+						<div class="header-with-icon">
 							Weight
 							<sl-icon
 								class=${classMap({ 'ordered-by': this.orderedBy === 'weight' })}
@@ -102,11 +102,11 @@ export class WeightsTableElement extends LitElement {
 					return keyed(
 						name,
 						html`<tr>
-							<td class="weights-table__td">${index + 1}</td>
-							<td class="weights-table__td">
+							<td class="td">${index + 1}</td>
+							<td class="td">
 								<e-divination-card size="small" name=${name}></e-divination-card>
 							</td>
-							<td class="weights-table__td td-weight">${weightStr}</td>
+							<td class="td td-weight">${weightStr}</td>
 						</tr>`
 					);
 				})}
@@ -121,23 +121,23 @@ export class WeightsTableElement extends LitElement {
 			box-sizing: border-box;
 		}
 
-		.weights-table {
+		.table {
 			border-collapse: collapse;
 			border: 1px solid rgba(140, 140, 140, 0.3);
 		}
 
-		.weights-table__th {
+		.th {
 			font-size: 1.2rem;
 		}
 
-		.weights-table__th,
-		.weights-table__td {
+		.th,
+		.td {
 			padding: 1rem;
 			border: 1px solid rgba(160, 160, 160, 0.2);
 			text-align: center;
 		}
 
-		.header-with-sort-icon {
+		.header-with-icon {
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -154,8 +154,8 @@ export class WeightsTableElement extends LitElement {
 		}
 
 		@media (width < 25rem) {
-			.weights-table__th,
-			.weights-table__td {
+			.th,
+			.td {
 				padding: 0.4rem;
 			}
 		}
