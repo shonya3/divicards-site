@@ -409,7 +409,9 @@ export class VerifyPage extends LitElement {
 		}
 
 		.details-weights-table__summary {
-			font-size: 1.5rem;
+			font-size: 1.2rem;
+			font-weight: 700;
+			margin-bottom: 1rem;
 		}
 
 		.li-link-to-weights-table a {
