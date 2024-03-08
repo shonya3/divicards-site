@@ -3,6 +3,7 @@ import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import type { Order, RowDataForWeightsTableVerifySources } from './types';
+import '../e-need-to-verify';
 import { keyed } from 'lit/directives/keyed.js';
 import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
@@ -94,7 +95,9 @@ export class WeightsTableVerifySources extends LitElement {
 						html`<tr>
 							<td class="td">${index + 1}</td>
 							<td class="td">
-								<e-divination-card size="small" name=${name}></e-divination-card>
+								<e-need-to-verify>
+									<e-divination-card size="small" name=${name}></e-divination-card>
+								</e-need-to-verify>
 							</td>
 							<td class="td td-weight">${weightStr}</td>
 							<td class="td">
