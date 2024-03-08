@@ -38,7 +38,6 @@ function transformSourceAndCardsToRowData(cards: SourceAndCards[]): RowDataForWe
 			source,
 			weight: card.weight,
 		}));
-	initiallyPreparedCards.sort((a, b) => b.weight - a.weight);
 
 	// 2. group by name
 	const groupedByName = groupBy(initiallyPreparedCards, ({ card }) => card);
