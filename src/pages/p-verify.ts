@@ -12,7 +12,7 @@ import '../elements/e-verify-faq-alert';
 import '../elements/e-need-to-verify';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import type { Card } from '../gen/poeData';
-import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/e-weights-table';
+import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/types';
 
 declare global {
 	interface HTMLElementTagNameMap {

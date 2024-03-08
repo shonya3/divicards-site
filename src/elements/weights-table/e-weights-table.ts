@@ -1,29 +1,15 @@
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { Card } from '../../gen/poeData';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import type { Order } from '../types';
+import type { Order, RowDataForWeightsTableCard } from './types';
 import { keyed } from 'lit/directives/keyed.js';
 import { styles as tableStyles } from './table.styles';
-import { Source } from '../../gen/Source';
+import { Sort } from './Sort';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'e-weights-table': WeightsTableElement;
-	}
-}
-
-export type RowDataForWeightsTableCard = Pick<Card, 'name' | 'weight'>;
-export type RowDataForWeightsTableVerifySources = RowDataForWeightsTableCard & { sources: Source[] };
-
-class Sort {
-	static byName(cards: RowDataForWeightsTableCard[], order: Order): void {
-		cards.sort((a, b) => (order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
-	}
-
-	static byWeight(cards: RowDataForWeightsTableCard[], order: Order): void {
-		cards.sort((a, b) => (order === 'asc' ? a.weight - b.weight : b.weight - a.weight));
 	}
 }
 
