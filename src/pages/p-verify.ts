@@ -23,7 +23,7 @@ declare global {
 function transformSourceAndCardsToRowData(cards: SourceAndCards[]): RowDataForWeightsTableVerifySources[] {
 	const rows: RowDataForWeightsTableVerifySources[] = [];
 
-	// take only Maps and Acts sources, because other sources ignore table weights,
+	// 1. take only Maps and Acts sources, because other sources ignore table weights,
 	// and it is not relevant to include them in table
 	const initiallyPreparedCards: Array<{ card: string; weight: number; source: Source }> = cards
 		.filter(({ source }) => source.type === 'Map' || source.type === 'Act')
@@ -39,9 +39,10 @@ function transformSourceAndCardsToRowData(cards: SourceAndCards[]): RowDataForWe
 		}));
 	initiallyPreparedCards.sort((a, b) => b.weight - a.weight);
 
+	// 2. group by name
 	const groupedByName = groupBy(initiallyPreparedCards, ({ card }) => card);
 
-	// for each card name entry,
+	// 3. for each card name entry,
 	// transform Array<{ card: string; weight: number; source: Source }>  -> {card: string; weight: number; source: Source[]}
 	// and push to resulting rows array
 	for (const [name, arr] of Object.entries(groupedByName)) {
