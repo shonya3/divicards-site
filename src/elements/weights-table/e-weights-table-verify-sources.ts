@@ -55,7 +55,7 @@ export class WeightsTableVerifySources extends LitElement {
 	}
 
 	protected render() {
-		return html`<table class="table">
+		return html` <table class="table">
 			<thead>
 				<tr>
 					<th class="th" scope="col">№</th>

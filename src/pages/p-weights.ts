@@ -5,6 +5,14 @@ import { poeData } from '../PoeData';
 import '../elements/weights-table/e-weights-table';
 import '../elements/e-discord-avatar';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import { Storage } from '../storage';
+import type { WeightsTableElement } from '../elements/weights-table/e-weights-table';
+
+declare module '../storage' {
+	interface Registry {
+		weightsPageShowCards: boolean;
+	}
+}
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,11 +22,17 @@ declare global {
 
 @customElement('p-weights')
 export class WeightsPage extends LitElement {
+	#showCardsStorage = new Storage('weightsPageShowCards', false);
 	#rows = Object.values(poeData.cards).map(({ name, weight }) => ({ name, weight }));
 
 	constructor() {
 		super();
 		this.#rows.sort((a, b) => b.weight - a.weight);
+	}
+
+	#onShowCardsChanged(e: Event) {
+		const target = e.target as WeightsTableElement;
+		this.#showCardsStorage.save(target.showCards);
 	}
 
 	protected render() {
@@ -33,8 +47,14 @@ export class WeightsPage extends LitElement {
 				<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
 			</p>
 			<section class="section-table">
-				<h2>Weights Table</h2>
-				<e-weights-table class="section-table__table" ordered-by="weight" .rows=${this.#rows}></e-weights-table>
+				<h3>Weights Table</h3>
+				<e-weights-table
+					@show-cards-changed=${this.#onShowCardsChanged}
+					class="section-table__table"
+					ordered-by="weight"
+					.showCards=${this.#showCardsStorage.load()}
+					.rows=${this.#rows}
+				></e-weights-table>
 			</section>
 		</div>`;
 	}
