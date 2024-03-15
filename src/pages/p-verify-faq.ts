@@ -1,5 +1,6 @@
 import { LitElement, PropertyValueMap, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import '../elements/e-discord-avatar';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -39,8 +40,10 @@ export class VerifyFaqPage extends LitElement {
 			<article>
 				<h1>Welcome to #faq!</h1>
 
-				link to Divcord faq by Jasmine:
-				<a href="https://discord.com/channels/834368692560461846/991125635391033404">FAQ in Discord</a>
+				<div class="with-avatar">
+					link to Divcord faq by <e-discord-avatar username="Jasmine"></e-discord-avatar>:
+					<a href="https://discord.com/channels/834368692560461846/991125635391033404">FAQ in Discord</a>
+				</div>
 
 				<nav>
 					<h3>Contents</h3>
@@ -288,6 +291,12 @@ export class VerifyFaqPage extends LitElement {
 
 		nav h3 {
 			margin-left: 0.4rem;
+		}
+
+		.with-avatar {
+			display: flex;
+			align-items: center;
+			gap: 0.2rem;
 		}
 	`;
 }
