@@ -1,11 +1,12 @@
 import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import type { Order, RowDataForWeightsTable } from './types';
 import { keyed } from 'lit/directives/keyed.js';
 import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -19,9 +20,11 @@ export class WeightsTableElement extends LitElement {
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
+	@property({ type: Number, reflect: true }) limit: null | number = 5;
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
 	@state() private rowsClone: RowDataForWeightsTable[] = [];
+	@state() private rowsLimited: RowDataForWeightsTable[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('rows')) {
@@ -41,6 +44,10 @@ export class WeightsTableElement extends LitElement {
 				Sort.byName(this.rowsClone, this.nameOrder);
 			}
 		}
+
+		if (map.has('rows') || map.has('limit') || map.has('nameOrder') || map.has('weightOrder')) {
+			this.rowsLimited = this.limit ? this.rowsClone.slice(0, this.limit) : this.rowsClone;
+		}
 	}
 
 	#toggleWeightOrder() {
@@ -51,6 +58,16 @@ export class WeightsTableElement extends LitElement {
 	#toggleNameOrder() {
 		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
 		this.orderedBy = 'name';
+	}
+
+	#onShowMore() {
+		if (this.limit !== null) {
+			this.limit += 20;
+		}
+	}
+
+	#onShowAll() {
+		this.limit = null;
 	}
 
 	protected render() {
@@ -82,7 +99,7 @@ export class WeightsTableElement extends LitElement {
 			</thead>
 
 			<tbody>
-				${this.rowsClone.map(({ name, weight }, index) => {
+				${this.rowsLimited.map(({ name, weight }, index) => {
 					const weightStr =
 						weight > 5
 							? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
@@ -99,8 +116,16 @@ export class WeightsTableElement extends LitElement {
 						</tr>`
 					);
 				})}
+				${this.limit !== null && this.limit < this.rowsClone.length
+					? html`<tr class="show-more">
+							<td colspan="3" class="show-more__td">
+								<sl-button @click=${this.#onShowMore}>Show more</sl-button>
+								<sl-button @click=${this.#onShowAll}>Show All</sl-button>
+							</td>
+					  </tr>`
+					: nothing}
 			</tbody>
-		</table>`;
+		</table> `;
 	}
 
 	static styles = css`
@@ -111,5 +136,10 @@ export class WeightsTableElement extends LitElement {
 		}
 
 		${tableStyles}
+
+		.show-more__td {
+			padding: 1rem;
+			text-align: center;
+		}
 	`;
 }
