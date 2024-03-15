@@ -4,6 +4,7 @@ import { customElement } from 'lit/decorators.js';
 import { poeData } from '../PoeData';
 import '../elements/weights-table/e-weights-table';
 import '../elements/e-discord-avatar';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -24,6 +25,7 @@ export class WeightsPage extends LitElement {
 		return html`<div class="page">
 			<h1 class="heading">Weights</h1>
 			<p class="weights-spreadsheet-p">
+				<sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
 				<a
 					href="https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906"
 					>Weights spreadsheet by
@@ -55,6 +57,10 @@ export class WeightsPage extends LitElement {
 			display: flex;
 			align-items: center;
 			gap: 0.4rem;
+		}
+
+		.spreadsheet-icon {
+			color: var(--sl-color-green-700);
 		}
 
 		.page {
