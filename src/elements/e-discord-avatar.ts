@@ -45,7 +45,7 @@ export class DiscordAvatarElement extends LitElement {
 		:host {
 			color: var(--color);
 			display: flex;
-			gap: 0.5rem;
+			gap: 0.15rem;
 			align-items: center;
 			width: fit-content;
 		}
