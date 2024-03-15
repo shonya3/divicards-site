@@ -9,7 +9,8 @@
 		"check": "tsc --noEmit",
 		"checklit": "lit-analyzer --rules.no-invalid-css off",
 		"preview": "vite preview",
-		"cem": "cem analyze"
+		"cem": "cem analyze",
+		"gen": "node scripts/gen.js"
 	},
 	"devDependencies": {
 		"@custom-elements-manifest/analyzer": "^0.9.0",
