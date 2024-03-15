@@ -135,6 +135,10 @@ export class WeightsTableElement extends LitElement {
 			box-sizing: border-box;
 		}
 
+		:host {
+			display: block;
+		}
+
 		${tableStyles}
 
 		.show-more__td {

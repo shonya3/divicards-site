@@ -32,7 +32,10 @@ export class WeightsPage extends LitElement {
 				</a>
 				<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
 			</p>
-			<e-weights-table ordered-by="weight" .rows=${this.#rows}></e-weights-table>
+			<section class="section-table">
+				<h2>Weights Table</h2>
+				<e-weights-table class="section-table__table" ordered-by="weight" .rows=${this.#rows}></e-weights-table>
+			</section>
 		</div>`;
 	}
 
@@ -50,7 +53,15 @@ export class WeightsPage extends LitElement {
 
 		.heading {
 			text-align: center;
-			margin-block: 2rem;
+			margin-bottom: 3rem;
+		}
+
+		.section-table {
+			margin-top: 2rem;
+		}
+
+		.section-table__table {
+			margin-top: 0.4rem;
 		}
 
 		.weights-spreadsheet-p {
@@ -65,6 +76,8 @@ export class WeightsPage extends LitElement {
 
 		.page {
 			padding: 2rem;
+			padding-top: 1rem;
+			padding-bottom: 0rem;
 		}
 
 		@media (width <=600px) {

@@ -122,6 +122,10 @@ export class WeightsTableVerifySources extends LitElement {
 			list-style: none;
 		}
 
+		:host {
+			display: block;
+		}
+
 		${tableStyles}
 
 		.sources-list {

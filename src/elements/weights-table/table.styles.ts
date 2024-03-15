@@ -1,5 +1,9 @@
 import { css } from 'lit';
 export const styles = css`
+	:host {
+		display: block;
+	}
+
 	.table {
 		border-collapse: collapse;
 		border: 1px solid rgba(140, 140, 140, 0.3);
