@@ -6,7 +6,7 @@ import { divcordTableContext } from './context';
 import { DivcordTable } from './DivcordTable';
 import { linkStyles } from './linkStyles';
 import { toast } from './toast';
-import './elements/e-navbar';
+import './elements/e-topnav';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -35,7 +35,7 @@ export class RootElement extends LitElement {
 	render() {
 		return html`<div class="wrapper">
 			<header class="header">
-				<e-navbar></e-navbar>
+				<e-topnav></e-topnav>
 			</header>
 			<div class="outlet"></div>
 		</div>`;

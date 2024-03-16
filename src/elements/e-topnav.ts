@@ -6,20 +6,20 @@ import { router } from '../router';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'e-navbar': NavbarElement;
+		'e-topnav': TopNavElement;
 	}
 }
 
-@customElement('e-navbar')
-export class NavbarElement extends LitElement {
+@customElement('e-topnav')
+export class TopNavElement extends LitElement {
 	@property({ type: Array }) linkItems = [
 		['/', 'Home'],
-		['/maps', 'Maps'],
-		['/sources', 'Sources'],
 		['/divcord', 'Divcord'],
 		['/verify', 'Need to verify'],
 		['/weights', 'Weights'],
 		['/verify-faq', 'faq'],
+		['/sources', 'Sources'],
+		['/maps', 'Maps'],
 	];
 
 	@state() pathname = new URL(window.location.href).pathname || '/home';
