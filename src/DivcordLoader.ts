@@ -38,7 +38,7 @@ export class DivcordLoader extends EventEmitter<{
 		this.emit('state-updated', val);
 	}
 
-	async getRecordsAndRunUpdateIfNeeded(): Promise<DivcordRecord[]> {
+	async getRecordsAndStartUpdateIfNeeded(): Promise<DivcordRecord[]> {
 		const validity = await this.checkValidity();
 		switch (validity) {
 			case 'valid': {

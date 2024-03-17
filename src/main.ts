@@ -5,7 +5,7 @@ import { divcordLoader } from './DivcordLoader';
 import { DivcordTable } from './DivcordTable';
 import { startViewTransition } from './utils';
 
-const records = await divcordLoader.getRecordsAndRunUpdateIfNeeded();
+const records = await divcordLoader.getRecordsAndStartUpdateIfNeeded();
 const divcordTable = new DivcordTable(records);
 
 const root = document.createElement('app-root');
