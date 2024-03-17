@@ -12,12 +12,7 @@ import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { type State as DivcordLoaderState, divcordLoader } from '../DivcordLoader';
 import { ArrayAsyncRenderer, paginate } from '../utils';
-import '@shoelace-style/shoelace/dist/components/select/select.js';
-import '@shoelace-style/shoelace/dist/components/option/option.js';
-import '@shoelace-style/shoelace/dist/components/button/button.js';
-import '@shoelace-style/shoelace/dist/components/input/input.js';
-import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
-import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+
 import { Storage } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
 import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';

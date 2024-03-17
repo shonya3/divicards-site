@@ -8,6 +8,7 @@ import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
+import '../divination-card/e-divination-card';
 
 declare global {
 	interface HTMLElementTagNameMap {

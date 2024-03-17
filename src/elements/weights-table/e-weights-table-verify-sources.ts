@@ -7,6 +7,8 @@ import '../e-need-to-verify';
 import { keyed } from 'lit/directives/keyed.js';
 import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
+import '../divination-card/e-divination-card';
+import '../e-source/e-source';
 
 declare global {
 	interface HTMLElementTagNameMap {

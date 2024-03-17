@@ -12,6 +12,13 @@ import {
 import { SlConverter } from '../../utils';
 import { Storage } from '../../storage';
 
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
+import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+
 declare global {
 	interface HTMLElementTagNameMap {
 		'e-divcord-presets': DivcordPresetsElement;
