@@ -1,6 +1,6 @@
 import { LitElement, html, css, PropertyValueMap } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { UseStorage } from '../controllers/useStorage';
+import { UseStorage } from '../controllers/UseStorage';
 
 declare global {
 	interface HTMLElementTagNameMap {
