@@ -37,16 +37,11 @@ export class UpdateDivcordDataElement extends LitElement {
 	}
 
 	render() {
-		const t = this.task.render({
+		return this.task.render({
 			initial: () => this.loadBtn(),
 			pending: () => html`<sl-button class="sl-theme-dark" loading>Loading</sl-button>`,
-			complete: () => {
-				const btn = this.loadBtn();
-				return btn;
-			},
+			complete: () => this.loadBtn(),
 		});
-
-		return t;
 	}
 
 	static styles = css`
