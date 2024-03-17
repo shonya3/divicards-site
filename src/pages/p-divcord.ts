@@ -11,7 +11,7 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { type State as DivcordLoaderState, divcordLoader } from '../DivcordLoader';
-import { ArrayAsyncRenderer, SlConverter, paginate } from '../utils';
+import { ArrayAsyncRenderer, paginate } from '../utils';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
@@ -20,16 +20,12 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import { Storage } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
-import { toast } from '../toast';
 import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
-import {
-	Confidence,
-	RemainingWork,
-	Greynote,
-	GREYNOTE_VARIANTS,
-	CONFIDENCE_VARIANTS,
-	REMAINING_WORK_VARIANTS,
-} from '../gen/divcord';
+import { Confidence, RemainingWork, Greynote } from '../gen/divcord';
+import { DEFAULT_PRESETS, type PresetConfig } from '../elements/presets/presets';
+import '../elements/presets/e-divcord-presets';
+import { DivcordPresetsElement } from '../elements/presets/e-divcord-presets';
+import { toast } from '../toast';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -60,28 +56,6 @@ export function someCardRecordHasGreynoteWorkVariant(
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
 }
-
-export type PresetConfig = {
-	name: string;
-	greynote: Greynote[];
-	confidence: Confidence[];
-	remainingWork: RemainingWork[];
-};
-
-const DEFAULT_PRESETS: PresetConfig[] = [
-	{
-		name: 'Show All',
-		greynote: Array.from(GREYNOTE_VARIANTS),
-		confidence: Array.from(CONFIDENCE_VARIANTS),
-		remainingWork: Array.from(REMAINING_WORK_VARIANTS),
-	},
-	{
-		name: 'Divcord Preset',
-		greynote: ['Empty', 'Area-specific', 'Chest_object', 'disabled', 'Monster-specific'],
-		confidence: ['low', 'none', 'ok'],
-		remainingWork: Array.from(REMAINING_WORK_VARIANTS),
-	},
-];
 
 declare module '../storage' {
 	interface Registry {
@@ -122,37 +96,20 @@ export class DivcordPage extends LitElement {
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
 	@state() presets: PresetConfig[] = [...DEFAULT_PRESETS];
 	@state() customPresets: PresetConfig[] = this.#storage.presets.load() ?? [];
-	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
-	@state() presetsForDelete: Set<string> = new Set();
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
-	connectedCallback(): void {
-		super.connectedCallback();
-		window.addEventListener('keydown', this.#onKeydown.bind(this));
-	}
-
-	disconnectedCallback(): void {
-		super.disconnectedCallback();
-		window.removeEventListener('keydown', this.#onKeydown.bind(this));
-	}
-
-	#onKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') {
-			this.presetActionState = 'idle';
-		}
-	}
-
-	#onPresetChecked(e: Event) {
-		const target = e.target as EventTarget & { checked: boolean; value: string };
-		const name = target.value;
-		const checked = target.checked;
-		checked ? this.presetsForDelete.add(name) : this.presetsForDelete.delete(name);
-		this.presetsForDelete = new Set(this.presetsForDelete);
-	}
-
 	#onRecordsUpdated() {
 		this.ageEl.lastUpdated.run();
+	}
+
+	#onConfigUpdated(e: Event) {
+		const target = e.target as DivcordPresetsElement;
+		this.config = { ...target.config };
+	}
+
+	#onPresetApplied(e: CustomEvent<PresetConfig>) {
+		this.#applyPreset(e.detail);
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -237,22 +194,6 @@ export class DivcordPage extends LitElement {
 		this.filter = input.value;
 	}
 
-	#onGreynotesSelectChange(e: Event) {
-		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<Greynote>(opt));
-		this.config = { ...this.config, greynote: options };
-	}
-	#onRemainingWorkSelectChange(e: Event) {
-		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<RemainingWork>(opt));
-		this.config = { ...this.config, remainingWork: options };
-	}
-	#onConfidenceSelectChange(e: Event) {
-		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<Confidence>(opt));
-		this.config = { ...this.config, confidence: options };
-	}
-
 	#onshouldApplySelectFiltersCheckbox(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
@@ -260,61 +201,10 @@ export class DivcordPage extends LitElement {
 		}
 	}
 
-	#onPlusPresetClicked() {
-		this.presetActionState = 'adding';
-	}
-
-	#onDeleteModeActivate() {
-		this.presetActionState = 'deleting';
-	}
-
-	#onCancelClicked() {
-		this.presetActionState = 'idle';
-	}
-
-	protected async updated(map: PropertyValueMap<this>): Promise<void> {
-		if (map.has('presetActionState')) {
-			if (this.presetActionState === 'adding') {
-				await this.updateComplete;
-				this.inputNewPresetNameEl.focus();
-			}
-		}
-	}
-
-	@query('#input-new-preset-name') inputNewPresetNameEl!: HTMLInputElement;
-	#onSubmitNewPreset(e: SubmitEvent) {
-		e.preventDefault();
-		const name = this.inputNewPresetNameEl.value;
-		if (!name) {
-			return;
-		}
-
-		if (this.findPreset(name)) {
-			this.inputNewPresetNameEl.setCustomValidity('Duplicate names');
-			return;
-		}
-
-		this.inputNewPresetNameEl.value = '';
-
-		const newPreset = { ...this.config, name };
-
-		this.customPresets = [...this.customPresets, newPreset];
-		this.presetActionState = 'idle';
-	}
-
 	#applyPreset(preset: PresetConfig) {
 		this.#storage.latestPresetApplied.save(preset.name);
 		this.config = preset;
 		toast(`"${preset.name}" applied`, 'primary', 3000);
-	}
-
-	#onTrashClicked() {
-		this.customPresets = this.customPresets.filter(preset => {
-			return !this.presetsForDelete.has(preset.name);
-		});
-
-		this.presetsForDelete = new Set();
-		this.presetActionState = 'idle';
 	}
 
 	#ononlyShowCardsWithNoConfirmedSourcesCheckbox(e: InputEvent) {
@@ -330,59 +220,6 @@ export class DivcordPage extends LitElement {
 		if (typeof target.checked === 'boolean') {
 			this.onlyShowCardsWithSourcesToVerify = target.checked;
 			this.#storage.onlyShowCardsWithSourcesToVerify.save(target.checked);
-		}
-	}
-
-	protected renderDeletingPresets() {
-		if (this.customPresets.length === 0) return nothing;
-
-		switch (this.presetActionState) {
-			case 'idle': {
-				return html`<sl-button @click=${this.#onDeleteModeActivate}>Delete some presets</sl-button>`;
-			}
-
-			case 'adding': {
-				return nothing;
-			}
-
-			case 'deleting': {
-				return html`<sl-icon-button
-					@click=${this.#onTrashClicked}
-					class="preset-action-btn"
-					name="trash3"
-					.disabled=${this.presetsForDelete.size === 0}
-				></sl-icon-button>`;
-			}
-		}
-	}
-
-	protected renderAddingPresets() {
-		switch (this.presetActionState) {
-			case 'idle': {
-				return html` <sl-icon-button
-					@click=${this.#onPlusPresetClicked}
-					class="preset-action-btn"
-					name="plus-lg"
-					>next</sl-icon-button
-				>`;
-			}
-
-			case 'adding': {
-				return html`<form @submit=${this.#onSubmitNewPreset} class="adding-new-preset">
-					<sl-input
-						class="adding-new-preset_input"
-						required
-						id="input-new-preset-name"
-						label="name for your preset"
-						.helpText=${'set configs and then confirm'}
-					></sl-input>
-					<sl-button type="submit" class="adding-new-preset_confirm-btn">Confirm</sl-button>
-				</form>`;
-			}
-
-			case 'deleting': {
-				return nothing;
-			}
 		}
 	}
 
@@ -415,79 +252,10 @@ export class DivcordPage extends LitElement {
 					</div>
 					${this.shouldApplySelectFilters
 						? html`<div class="select-filters">
-									<div class="select-filters_presets">
-										<h3>Presets</h3>
-
-										<div class="presets-buttons">
-											${this.presets.map(
-												preset =>
-													html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
-														>${preset.name}</sl-button
-													>`
-											)}
-											${this.customPresets.map(preset => {
-												const btn = html`<sl-button
-													@click=${this.#applyPreset.bind(this, preset)}
-													>${preset.name}</sl-button
-												>`;
-
-												const select = html`<sl-checkbox
-													@sl-input=${this.#onPresetChecked}
-													.value=${preset.name}
-													>${preset.name}</sl-checkbox
-												>`;
-												return this.presetActionState === 'deleting' ? select : btn;
-											})}
-											${this.renderAddingPresets()} ${this.renderDeletingPresets()}
-											${this.presetActionState !== 'idle'
-												? html`<sl-button @click=${this.#onCancelClicked}>Cancel</sl-button>`
-												: nothing}
-										</div>
-									</div>
-
-									<div class="select-filters_filters">
-										<sl-select
-											label="Greynote"
-											.value=${this.config.greynote.map(c => SlConverter.toSlValue(c))}
-											@sl-change=${this.#onGreynotesSelectChange}
-											multiple
-											clearable
-										>
-											${Array.from(GREYNOTE_VARIANTS).map(variant => {
-												return html` <sl-option value=${SlConverter.toSlValue(variant)}
-													>${variant}</sl-option
-												>`;
-											})}
-										</sl-select>
-										<sl-select
-											label="Confidence"
-											.value=${this.config.confidence.map(c => SlConverter.toSlValue(c))}
-											@sl-change=${this.#onConfidenceSelectChange}
-											multiple
-											clearable
-										>
-											${Array.from(CONFIDENCE_VARIANTS).map(variant => {
-												return html` <sl-option value=${SlConverter.toSlValue(variant)}
-													>${variant}</sl-option
-												>`;
-											})}
-										</sl-select>
-
-										<sl-select
-											.value=${this.config.remainingWork.map(c => SlConverter.toSlValue(c))}
-											@sl-change=${this.#onRemainingWorkSelectChange}
-											label="Remaining Work"
-											multiple
-											clearable
-										>
-											${Array.from(REMAINING_WORK_VARIANTS).map(variant => {
-												return html` <sl-option value=${SlConverter.toSlValue(variant)}
-													>${variant}</sl-option
-												>`;
-											})}
-										</sl-select>
-									</div>
-								</div>
+								<e-divcord-presets
+									@preset-applied=${this.#onPresetApplied}
+									@config-updated=${this.#onConfigUpdated}
+								></e-divcord-presets>
 								<sl-checkbox
 									.checked=${this.onlyShowCardsWithNoConfirmedSources}
 									@sl-input=${this.#ononlyShowCardsWithNoConfirmedSourcesCheckbox}
@@ -497,7 +265,8 @@ export class DivcordPage extends LitElement {
 									.checked=${this.onlyShowCardsWithSourcesToVerify}
 									@sl-input=${this.#onOnlyShowCardsWithSourcesToVerifyCheckbox}
 									>Only show cards with sources to verify</sl-checkbox
-								> `
+								>
+						  </div> `
 						: nothing}
 				</section>
 
@@ -566,42 +335,9 @@ export class DivcordPage extends LitElement {
 			margin-top: 3rem;
 		}
 
-		.select-filters_filters {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 1rem;
-		}
-
-		.presets-buttons {
-			display: flex;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 0.2rem;
-		}
-
-		.preset-action-btn {
-			font-size: 1.5rem;
-		}
-
-		.adding-new-preset {
-			display: flex;
-			gap: 0.2rem;
-			align-items: center;
-			justify-content: center;
-			margin-left: 0.2rem;
-		}
-
-		.adding-new-preset_input {
-			margin-bottom: 0.2rem;
-		}
-
 		.select-filters {
 			display: grid;
 			gap: 1rem;
-		}
-
-		.select-filters_filters > * {
-			min-width: 400px;
 		}
 
 		@media (max-width: 600px) {
