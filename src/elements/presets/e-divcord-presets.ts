@@ -28,13 +28,13 @@ declare global {
 @customElement('e-divcord-presets')
 export class DivcordPresetsElement extends LitElement {
 	#storage = {
-		presets: new Storage('presets', []),
+		presets: new Storage('customPresets', []),
 	};
 	@property({ type: Array }) presets: PresetConfig[] = Array.from(DEFAULT_PRESETS);
 	@property({ type: Object }) activePreset: PresetConfig = DEFAULT_PRESETS[0];
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
-	@state() customPresets: PresetConfig[] = new Storage('presets', []).load();
+	@state() customPresets: PresetConfig[] = new Storage('customPresets', []).load();
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
 	@state() presetsForDelete: Set<string> = new Set();
 

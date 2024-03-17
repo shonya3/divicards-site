@@ -54,7 +54,7 @@ export function someCardRecordHasGreynoteWorkVariant(
 
 declare module '../storage' {
 	interface Registry {
-		presets: PresetConfig[];
+		customPresets: PresetConfig[];
 		shouldApplyFilters: boolean;
 		latestPresetApplied: string;
 		onlyShowCardsWithNoConfirmedSources: boolean;
@@ -65,7 +65,7 @@ declare module '../storage' {
 @customElement('p-divcord')
 export class DivcordPage extends LitElement {
 	#storage = {
-		presets: new Storage('presets', []),
+		customPresets: new Storage('customPresets', []),
 		shouldApplyFilters: new Storage('shouldApplyFilters', true),
 		latestPresetApplied: new Storage('latestPresetApplied', ''),
 		onlyShowCardsWithNoConfirmedSources: new Storage('onlyShowCardsWithNoConfirmedSources', false),
@@ -90,7 +90,7 @@ export class DivcordPage extends LitElement {
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
 	@state() presets: PresetConfig[] = [...DEFAULT_PRESETS];
-	@state() customPresets: PresetConfig[] = this.#storage.presets.load() ?? [];
+	@state() customPresets: PresetConfig[] = this.#storage.customPresets.load() ?? [];
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
@@ -123,7 +123,7 @@ export class DivcordPage extends LitElement {
 		}
 
 		if (map.has('customPresets')) {
-			this.#storage.presets.save(this.customPresets);
+			this.#storage.customPresets.save(this.customPresets);
 		}
 
 		const keys: PropertyKey[] = [
