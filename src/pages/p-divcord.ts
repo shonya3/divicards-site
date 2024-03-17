@@ -29,30 +29,6 @@ declare global {
 	}
 }
 
-export function someCardRecordHasConfidenceVariant(
-	card: string,
-	confidenceVariants: Confidence[],
-	divcordTable: DivcordTable
-): boolean {
-	return divcordTable.recordsByCard(card).some(record => confidenceVariants.includes(record.confidence));
-}
-
-export function someCardRecordHasRemainingWorkVariant(
-	card: string,
-	remainingWorkVariants: RemainingWork[],
-	divcordTable: DivcordTable
-): boolean {
-	return divcordTable.recordsByCard(card).some(record => remainingWorkVariants.includes(record.remainingWork));
-}
-
-export function someCardRecordHasGreynoteWorkVariant(
-	card: string,
-	greynoteVariants: Greynote[],
-	divcordTable: DivcordTable
-): boolean {
-	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
-}
-
 declare module '../storage' {
 	interface Registry {
 		customPresets: PresetConfig[];
@@ -141,7 +117,14 @@ export class DivcordPage extends LitElement {
 			'perPage',
 		];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
-			this.filtered = this.createFilteredCards();
+			this.filtered = createFilteredCards({
+				filter: this.filter,
+				divcordTable: this.divcordTable,
+				config: this.config,
+				shouldApplySelectFilters: this.shouldApplySelectFilters,
+				onlyShowCardsWithNoConfirmedSources: this.onlyShowCardsWithNoConfirmedSources,
+				onlyShowCardsWithSourcesToVerify: this.onlyShowCardsWithSourcesToVerify,
+			});
 			this.paginated = paginate(this.filtered, this.page, this.perPage);
 			this.paginatedCardsRenderer = new ArrayAsyncRenderer(this.paginated);
 		}
@@ -149,42 +132,6 @@ export class DivcordPage extends LitElement {
 
 	findPreset(name: string): PresetConfig | null {
 		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
-	}
-
-	createFilteredCards(): string[] {
-		const query = this.filter.trim().toLowerCase();
-
-		const cardsByQuery = searchCardsByQuery(query, Array.from(SEARCH_CRITERIA_VARIANTS), this.divcordTable);
-
-		return cardsByQuery
-			.filter(card => {
-				if (this.shouldApplySelectFilters && this.onlyShowCardsWithSourcesToVerify) {
-					const records = this.divcordTable.recordsByCard(card);
-					return records.some(r => r.verifySources.length > 0);
-				} else {
-					return true;
-				}
-			})
-			.filter(card => {
-				if (this.shouldApplySelectFilters && this.onlyShowCardsWithNoConfirmedSources) {
-					const records = this.divcordTable.recordsByCard(card);
-					const allRecordsHasNoSources = records.every(s => (s.sources ?? []).length === 0);
-					return allRecordsHasNoSources;
-				} else {
-					return true;
-				}
-			})
-			.filter(card => {
-				if (this.shouldApplySelectFilters) {
-					return (
-						someCardRecordHasConfidenceVariant(card, this.config.confidence, this.divcordTable) &&
-						someCardRecordHasGreynoteWorkVariant(card, this.config.greynote, this.divcordTable) &&
-						someCardRecordHasRemainingWorkVariant(card, this.config.remainingWork, this.divcordTable)
-					);
-				} else {
-					return true;
-				}
-			});
 	}
 
 	async #onCardnameInput(e: InputEvent) {
@@ -360,4 +307,78 @@ export class DivcordPage extends LitElement {
 			margin-top: 2rem;
 		}
 	`;
+}
+
+function createFilteredCards({
+	filter,
+	divcordTable,
+	config,
+	shouldApplySelectFilters,
+	onlyShowCardsWithSourcesToVerify,
+	onlyShowCardsWithNoConfirmedSources,
+}: {
+	filter: string;
+	divcordTable: DivcordTable;
+	config: Omit<PresetConfig, 'name'>;
+	shouldApplySelectFilters: boolean;
+	onlyShowCardsWithSourcesToVerify: boolean;
+	onlyShowCardsWithNoConfirmedSources: boolean;
+}): string[] {
+	const query = filter.trim().toLowerCase();
+
+	const cardsByQuery = searchCardsByQuery(query, Array.from(SEARCH_CRITERIA_VARIANTS), divcordTable);
+
+	return cardsByQuery
+		.filter(card => {
+			if (shouldApplySelectFilters && onlyShowCardsWithSourcesToVerify) {
+				const records = divcordTable.recordsByCard(card);
+				return records.some(r => r.verifySources.length > 0);
+			} else {
+				return true;
+			}
+		})
+		.filter(card => {
+			if (shouldApplySelectFilters && onlyShowCardsWithNoConfirmedSources) {
+				const records = divcordTable.recordsByCard(card);
+				const allRecordsHasNoSources = records.every(s => (s.sources ?? []).length === 0);
+				return allRecordsHasNoSources;
+			} else {
+				return true;
+			}
+		})
+		.filter(card => {
+			if (shouldApplySelectFilters) {
+				return (
+					someCardRecordHasConfidenceVariant(card, config.confidence, divcordTable) &&
+					someCardRecordHasGreynoteWorkVariant(card, config.greynote, divcordTable) &&
+					someCardRecordHasRemainingWorkVariant(card, config.remainingWork, divcordTable)
+				);
+			} else {
+				return true;
+			}
+		});
+}
+
+function someCardRecordHasConfidenceVariant(
+	card: string,
+	confidenceVariants: Confidence[],
+	divcordTable: DivcordTable
+): boolean {
+	return divcordTable.recordsByCard(card).some(record => confidenceVariants.includes(record.confidence));
+}
+
+function someCardRecordHasRemainingWorkVariant(
+	card: string,
+	remainingWorkVariants: RemainingWork[],
+	divcordTable: DivcordTable
+): boolean {
+	return divcordTable.recordsByCard(card).some(record => remainingWorkVariants.includes(record.remainingWork));
+}
+
+function someCardRecordHasGreynoteWorkVariant(
+	card: string,
+	greynoteVariants: Greynote[],
+	divcordTable: DivcordTable
+): boolean {
+	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
 }
