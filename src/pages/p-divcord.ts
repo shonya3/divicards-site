@@ -88,28 +88,28 @@ declare module '../storage' {
 		presets: PresetConfig[];
 		shouldApplyFilters: boolean;
 		latestPresetApplied: string;
-		inlyShowCardsWithSources: boolean;
 		onlyShowCardsWithNoConfirmedSources: boolean;
 		onlyShowCardsWithSourcesToVerify: boolean;
 	}
 }
 
-const presetsStorage = new Storage('presets', []);
-const shouldApplyFiltersStorage = new Storage('shouldApplyFilters', true);
-const latestPresetNameStorage = new Storage('latestPresetApplied', '');
-const onlyShowCardsWithNoConfirmedSourcesStorage = new Storage('onlyShowCardsWithNoConfirmedSources', false);
-const onlyShowCardsWithSourcesToVerifyStorage = new Storage('onlyShowCardsWithSourcesToVerify', false);
-
 @customElement('p-divcord')
 export class DivcordPage extends LitElement {
+	#storage = {
+		presets: new Storage('presets', []),
+		shouldApplyFilters: new Storage('shouldApplyFilters', true),
+		latestPresetApplied: new Storage('latestPresetApplied', ''),
+		onlyShowCardsWithNoConfirmedSources: new Storage('onlyShowCardsWithNoConfirmedSources', false),
+		onlyShowCardsWithSourcesToVerify: new Storage('onlyShowCardsWithSourcesToVerify', false),
+	};
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) filter: string = '';
-	@property({ type: Boolean }) shouldApplySelectFilters = shouldApplyFiltersStorage.load() ?? true;
+	@property({ type: Boolean }) shouldApplySelectFilters = this.#storage.shouldApplyFilters.load();
 	@property({ type: Boolean }) onlyShowCardsWithNoConfirmedSources: boolean =
-		onlyShowCardsWithNoConfirmedSourcesStorage.load() ?? false;
+		this.#storage.onlyShowCardsWithNoConfirmedSources.load();
 	@property({ type: Boolean }) onlyShowCardsWithSourcesToVerify: boolean =
-		onlyShowCardsWithSourcesToVerifyStorage.load() ?? false;
+		this.#storage.onlyShowCardsWithSourcesToVerify.load();
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -121,7 +121,7 @@ export class DivcordPage extends LitElement {
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
 	@state() presets: PresetConfig[] = [...DEFAULT_PRESETS];
-	@state() customPresets: PresetConfig[] = presetsStorage.load() ?? [];
+	@state() customPresets: PresetConfig[] = this.#storage.presets.load() ?? [];
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
 	@state() presetsForDelete: Set<string> = new Set();
 
@@ -157,12 +157,12 @@ export class DivcordPage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('shouldApplySelectFilters')) {
-			shouldApplyFiltersStorage.save(this.shouldApplySelectFilters);
+			this.#storage.shouldApplyFilters.save(this.shouldApplySelectFilters);
 		}
 
 		if (map.has('shouldApplySelectFilters')) {
 			if (this.shouldApplySelectFilters) {
-				const latestAppliedPresetName = latestPresetNameStorage.load() ?? '';
+				const latestAppliedPresetName = this.#storage.latestPresetApplied.load() ?? '';
 				const preset = this.findPreset(latestAppliedPresetName);
 				if (preset) {
 					this.#applyPreset(preset);
@@ -171,7 +171,7 @@ export class DivcordPage extends LitElement {
 		}
 
 		if (map.has('customPresets')) {
-			presetsStorage.save(this.customPresets);
+			this.#storage.presets.save(this.customPresets);
 		}
 
 		const keys: PropertyKey[] = [
@@ -303,7 +303,7 @@ export class DivcordPage extends LitElement {
 	}
 
 	#applyPreset(preset: PresetConfig) {
-		latestPresetNameStorage.save(preset.name);
+		this.#storage.latestPresetApplied.save(preset.name);
 		this.config = preset;
 		toast(`"${preset.name}" applied`, 'primary', 3000);
 	}
@@ -321,7 +321,7 @@ export class DivcordPage extends LitElement {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
 			this.onlyShowCardsWithNoConfirmedSources = target.checked;
-			onlyShowCardsWithNoConfirmedSourcesStorage.save(target.checked);
+			this.#storage.onlyShowCardsWithNoConfirmedSources.save(target.checked);
 		}
 	}
 
@@ -329,7 +329,7 @@ export class DivcordPage extends LitElement {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
 			this.onlyShowCardsWithSourcesToVerify = target.checked;
-			onlyShowCardsWithSourcesToVerifyStorage.save(target.checked);
+			this.#storage.onlyShowCardsWithSourcesToVerify.save(target.checked);
 		}
 	}
 
