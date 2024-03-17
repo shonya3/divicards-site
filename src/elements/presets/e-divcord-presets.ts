@@ -25,16 +25,21 @@ declare global {
 	}
 }
 
+/**
+ * @summary Controls for divcord presets
+ *
+ * @event config-updated - Emitted when active config options updated
+ * @event preset-applied
+ * @event custom-presets-updated
+ */
 @customElement('e-divcord-presets')
 export class DivcordPresetsElement extends LitElement {
 	#storage = {
 		presets: new Storage('customPresets', []),
 	};
-	@property({ type: Array }) presets: PresetConfig[] = Array.from(DEFAULT_PRESETS);
-	@property({ type: Object }) activePreset: PresetConfig = DEFAULT_PRESETS[0];
+	@property({ type: Array }) customPresets: PresetConfig[] = [];
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
-	@state() customPresets: PresetConfig[] = new Storage('customPresets', []).load();
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
 	@state() presetsForDelete: Set<string> = new Set();
 
@@ -73,6 +78,12 @@ export class DivcordPresetsElement extends LitElement {
 		this.dispatchEvent(new CustomEvent('preset-applied', { detail: preset, bubbles: true, composed: true }));
 	}
 
+	#updateCustomPresets(customPresets: PresetConfig[]) {
+		this.dispatchEvent(
+			new CustomEvent('custom-presets-updated', { detail: customPresets, bubbles: true, composed: true })
+		);
+	}
+
 	#onGreynotesSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
 		const options = target.value.map(opt => SlConverter.fromSlValue<Greynote>(opt));
@@ -102,9 +113,10 @@ export class DivcordPresetsElement extends LitElement {
 	}
 
 	#onTrashClicked() {
-		this.customPresets = this.customPresets.filter(preset => {
+		const customPresets = this.customPresets.filter(preset => {
 			return !this.presetsForDelete.has(preset.name);
 		});
+		this.#updateCustomPresets(customPresets);
 
 		this.presetsForDelete = new Set();
 		this.presetActionState = 'idle';
@@ -117,7 +129,7 @@ export class DivcordPresetsElement extends LitElement {
 	}
 
 	findPreset(name: string): PresetConfig | null {
-		return [...this.presets, ...this.customPresets].find(p => p.name === name) ?? null;
+		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
 	}
 
 	@query('#input-new-preset-name') inputNewPresetNameEl!: HTMLInputElement;
@@ -137,7 +149,9 @@ export class DivcordPresetsElement extends LitElement {
 
 		const newPreset = { ...this.config, name };
 
-		this.customPresets = [...this.customPresets, newPreset];
+		const customPresets = [...this.customPresets, newPreset];
+
+		this.#updateCustomPresets(customPresets);
 		this.presetActionState = 'idle';
 	}
 
@@ -154,7 +168,7 @@ export class DivcordPresetsElement extends LitElement {
 			<h3>Presets</h3>
 
 			<div class="presets-buttons">
-				${this.presets.map(
+				${DEFAULT_PRESETS.map(
 					preset => html`<sl-button @click=${this.#applyPreset.bind(this, preset)}>${preset.name}</sl-button>`
 				)}
 				${this.customPresets.map(preset => {

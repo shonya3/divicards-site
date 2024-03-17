@@ -89,7 +89,6 @@ export class DivcordPage extends LitElement {
 	@state() paginatedCardsRenderer!: ArrayAsyncRenderer<string>;
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
-	@state() presets: PresetConfig[] = [...DEFAULT_PRESETS];
 	@state() customPresets: PresetConfig[] = this.#storage.customPresets.load() ?? [];
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
@@ -105,6 +104,10 @@ export class DivcordPage extends LitElement {
 
 	#onPresetApplied(e: CustomEvent<PresetConfig>) {
 		this.#applyPreset(e.detail);
+	}
+
+	#onCustomPresetsUpdated(e: CustomEvent<PresetConfig[]>) {
+		this.customPresets = e.detail;
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -144,7 +147,7 @@ export class DivcordPage extends LitElement {
 	}
 
 	findPreset(name: string): PresetConfig | null {
-		return [...this.presets, ...this.customPresets].find(p => p.name === name) ?? null;
+		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
 	}
 
 	createFilteredCards(): string[] {
@@ -248,8 +251,10 @@ export class DivcordPage extends LitElement {
 					${this.shouldApplySelectFilters
 						? html`<div class="select-filters">
 								<e-divcord-presets
+									.customPresets=${this.customPresets}
 									@preset-applied=${this.#onPresetApplied}
 									@config-updated=${this.#onConfigUpdated}
+									@custom-presets-updated=${this.#onCustomPresetsUpdated}
 								></e-divcord-presets>
 								<sl-checkbox
 									.checked=${this.onlyShowCardsWithNoConfirmedSources}
