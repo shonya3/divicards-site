@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { divcordLoader, type State } from '../DivcordLoader';
 import { Task } from '@lit/task';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
