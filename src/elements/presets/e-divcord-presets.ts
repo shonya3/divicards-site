@@ -10,7 +10,6 @@ import {
 	REMAINING_WORK_VARIANTS,
 } from '../../gen/divcord';
 import { SlConverter } from '../../utils';
-import { Storage } from '../../storage';
 
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
@@ -34,20 +33,11 @@ declare global {
  */
 @customElement('e-divcord-presets')
 export class DivcordPresetsElement extends LitElement {
-	#storage = {
-		presets: new Storage('customPresets', []),
-	};
 	@property({ type: Array }) customPresets: PresetConfig[] = [];
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
 	@state() presetsForDelete: Set<string> = new Set();
-
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('customPresets')) {
-			this.#storage.presets.save(this.customPresets);
-		}
-	}
 
 	protected async updated(map: PropertyValueMap<this>): Promise<void> {
 		if (map.has('presetActionState')) {
