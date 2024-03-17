@@ -17,6 +17,7 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -155,63 +156,71 @@ export class DivcordPresetsElement extends LitElement {
 
 	protected render() {
 		return html`
-			<h3>Presets</h3>
-
-			<div class="presets-buttons">
-				${DEFAULT_PRESETS.map(
-					preset => html`<sl-button @click=${this.#applyPreset.bind(this, preset)}>${preset.name}</sl-button>`
-				)}
-				${this.customPresets.map(preset => {
-					const btn = html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
-						>${preset.name}</sl-button
-					>`;
-
-					const select = html`<sl-checkbox @sl-input=${this.#onPresetChecked} .value=${preset.name}
-						>${preset.name}</sl-checkbox
-					>`;
-					return this.presetActionState === 'deleting' ? select : btn;
+			<div
+				class=${classMap({
+					element: true,
+					'element--adding': this.presetActionState === 'adding',
 				})}
-				${this.AddingPresets()} ${this.DeletingPresets()}
-				${this.presetActionState !== 'idle'
-					? html`<sl-button @click=${this.#onCancelClicked}>Cancel</sl-button>`
-					: nothing}
-			</div>
+			>
+				<h3>Presets</h3>
 
-			<div class="filters">
-				<sl-select
-					label="Greynote"
-					.value=${this.config.greynote.map(c => SlConverter.toSlValue(c))}
-					@sl-change=${this.#onGreynotesSelectChange}
-					multiple
-					clearable
-				>
-					${Array.from(GREYNOTE_VARIANTS).map(variant => {
-						return html` <sl-option value=${SlConverter.toSlValue(variant)}>${variant}</sl-option>`;
-					})}
-				</sl-select>
-				<sl-select
-					label="Confidence"
-					.value=${this.config.confidence.map(c => SlConverter.toSlValue(c))}
-					@sl-change=${this.#onConfidenceSelectChange}
-					multiple
-					clearable
-				>
-					${Array.from(CONFIDENCE_VARIANTS).map(variant => {
-						return html` <sl-option value=${SlConverter.toSlValue(variant)}>${variant}</sl-option>`;
-					})}
-				</sl-select>
+				<div class="presets-buttons">
+					${DEFAULT_PRESETS.map(
+						preset =>
+							html`<sl-button @click=${this.#applyPreset.bind(this, preset)}>${preset.name}</sl-button>`
+					)}
+					${this.customPresets.map(preset => {
+						const btn = html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
+							>${preset.name}</sl-button
+						>`;
 
-				<sl-select
-					.value=${this.config.remainingWork.map(c => SlConverter.toSlValue(c))}
-					@sl-change=${this.#onRemainingWorkSelectChange}
-					label="Remaining Work"
-					multiple
-					clearable
-				>
-					${Array.from(REMAINING_WORK_VARIANTS).map(variant => {
-						return html` <sl-option value=${SlConverter.toSlValue(variant)}>${variant}</sl-option>`;
+						const select = html`<sl-checkbox @sl-input=${this.#onPresetChecked} .value=${preset.name}
+							>${preset.name}</sl-checkbox
+						>`;
+						return this.presetActionState === 'deleting' ? select : btn;
 					})}
-				</sl-select>
+					${this.AddingPresets()} ${this.DeletingPresets()}
+					${this.presetActionState !== 'idle'
+						? html`<sl-button @click=${this.#onCancelClicked}>Cancel</sl-button>`
+						: nothing}
+				</div>
+
+				<div class="filters">
+					<sl-select
+						label="Greynote"
+						.value=${this.config.greynote.map(c => SlConverter.toSlValue(c))}
+						@sl-change=${this.#onGreynotesSelectChange}
+						multiple
+						clearable
+					>
+						${Array.from(GREYNOTE_VARIANTS).map(variant => {
+							return html` <sl-option value=${SlConverter.toSlValue(variant)}>${variant}</sl-option>`;
+						})}
+					</sl-select>
+					<sl-select
+						label="Confidence"
+						.value=${this.config.confidence.map(c => SlConverter.toSlValue(c))}
+						@sl-change=${this.#onConfidenceSelectChange}
+						multiple
+						clearable
+					>
+						${Array.from(CONFIDENCE_VARIANTS).map(variant => {
+							return html` <sl-option value=${SlConverter.toSlValue(variant)}>${variant}</sl-option>`;
+						})}
+					</sl-select>
+
+					<sl-select
+						.value=${this.config.remainingWork.map(c => SlConverter.toSlValue(c))}
+						@sl-change=${this.#onRemainingWorkSelectChange}
+						label="Remaining Work"
+						multiple
+						clearable
+					>
+						${Array.from(REMAINING_WORK_VARIANTS).map(variant => {
+							return html` <sl-option value=${SlConverter.toSlValue(variant)}>${variant}</sl-option>`;
+						})}
+					</sl-select>
+				</div>
 			</div>
 		`;
 	}
@@ -278,6 +287,14 @@ export class DivcordPresetsElement extends LitElement {
 
 		:host {
 			display: block;
+		}
+
+		.element {
+			padding: 1rem;
+		}
+
+		.element--adding {
+			border: 1px solid var(--sl-color-blue-700);
 		}
 
 		.presets-buttons {
