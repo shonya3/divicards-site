@@ -1,16 +1,16 @@
 import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { Task } from '@lit/task';
 import { consume } from '@lit/context';
 import { DivcordTable } from '../DivcordTable';
 import { divcordTableContext } from '../context';
 import '../elements/e-card-with-divcord-records';
 import '../elements/e-page-controls';
 import '../elements/input/e-input';
+import '../elements/e-update-divcord-data';
+import '../elements/e-divcord-records-age';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { type State as DivcordLoaderState, divcordLoader } from '../DivcordLoader';
 import { ArrayAsyncRenderer, paginate } from '../utils';
 
 import { Storage } from '../storage';
@@ -21,6 +21,7 @@ import { DEFAULT_PRESETS, type PresetConfig } from '../elements/presets/presets'
 import '../elements/presets/e-divcord-presets';
 import { DivcordPresetsElement } from '../elements/presets/e-divcord-presets';
 import { toast } from '../toast';
+import { DivcordRecordsAgeElement } from '../elements/e-divcord-records-age';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -357,184 +358,6 @@ export class DivcordPage extends LitElement {
 			flex-direction: column;
 			gap: 3rem;
 			margin-top: 2rem;
-		}
-	`;
-}
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-relative-time': RelativeTimeElement;
-	}
-}
-
-@customElement('e-relative-time')
-export class RelativeTimeElement extends LitElement {
-	#fmt = new Intl.RelativeTimeFormat('en');
-
-	@property({ type: Object }) date!: Date;
-	@property() unit?: 'seconds' | 'minutes';
-
-	minutes() {
-		return (Date.now() - this.date.getTime()) / 60 / 1000;
-	}
-
-	seconds() {
-		return Math.floor((Date.now() - this.date.getTime()) / 1000);
-	}
-
-	minutesRelativeString() {
-		const minutes = this.minutes();
-		if (minutes >= 1) {
-			return this.#fmt.format(-1 * Math.floor(minutes), 'minutes');
-		} else {
-			return minutes < 0.2 ? 'now' : 'less than minute ago';
-		}
-	}
-
-	secondsRelativeString() {
-		const seconds = this.seconds();
-		if (seconds >= 1) {
-			return this.#fmt.format(-1 * seconds, 'seconds');
-		} else {
-			return 'now';
-		}
-	}
-
-	connectedCallback(): void {
-		super.connectedCallback();
-		setInterval(() => {
-			this.requestUpdate();
-		}, 1000);
-	}
-
-	render() {
-		if (this.unit === 'seconds') {
-			return this.secondsRelativeString();
-		}
-
-		return this.minutesRelativeString();
-	}
-
-	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-		}
-
-		:host {
-			display: inline;
-		}
-	`;
-}
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-divcord-records-age': DivcordRecordsAgeElement;
-	}
-}
-
-@customElement('e-divcord-records-age')
-export class DivcordRecordsAgeElement extends LitElement {
-	@property({ type: Object }) date?: Date;
-
-	constructor() {
-		super();
-		divcordLoader.addEventListener('state-updated', state => {
-			if (state === 'updated') {
-				this.lastUpdated.run();
-			}
-		});
-	}
-
-	lastUpdated = new Task(this, {
-		async task() {
-			return await divcordLoader.cacheDate();
-		},
-		args: () => [],
-	});
-
-	render() {
-		return this.lastUpdated.render({
-			complete: date => {
-				if (date === null) {
-					return nothing;
-				}
-
-				return html`<p>Last updated: <e-relative-time .date=${date}></e-relative-time> <slot></slot></p> `;
-			},
-		});
-	}
-
-	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-		}
-	`;
-}
-
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-update-divcord-data': UpdateDivcordDataElement;
-	}
-}
-
-@customElement('e-update-divcord-data')
-export class UpdateDivcordDataElement extends LitElement {
-	@state() loaderState!: DivcordLoaderState;
-
-	constructor() {
-		super();
-		this.loaderState = divcordLoader.state;
-		divcordLoader.addEventListener('state-updated', state => {
-			this.loaderState = state;
-		});
-	}
-
-	task = new Task<never, void>(this, {
-		task: async () => {
-			const records = await divcordLoader.update();
-			const event = new CustomEvent('records-updated', { detail: records, bubbles: true, composed: true });
-			this.dispatchEvent(event);
-		},
-	});
-
-	protected loadBtn() {
-		return html`<sl-button .loading=${this.loaderState === 'updating'} @click=${this.task.run.bind(this.task)}>
-			<p class="reload">Load divcord data</p>
-		</sl-button>`;
-	}
-
-	render() {
-		const t = this.task.render({
-			initial: () => this.loadBtn(),
-			pending: () => html`<sl-button class="sl-theme-dark" loading>Loading</sl-button>`,
-			complete: () => {
-				const btn = this.loadBtn();
-				return btn;
-			},
-		});
-
-		return t;
-	}
-
-	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-		}
-
-		sl-button {
-			font: inherit;
-			font-family: 'geist';
-		}
-
-		sl-button::part(button) {
-			display: none;
-		}
-
-		.reload {
-			font-family: 'geist';
 		}
 	`;
 }
