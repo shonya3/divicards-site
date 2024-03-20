@@ -179,7 +179,7 @@ export function cardsBySourceTypes(
 		}
 	}
 
-	// If act area directly drops no cards, but some of ot's bosses can
+	// If act area directly drops no cards, but some of it's bosses can
 	if (sourceTypes.includes('Act')) {
 		for (const area of poeData.acts) {
 			if (!map.has(area.id)) {
@@ -199,7 +199,7 @@ export function cardsBySourceTypes(
 		}
 	}
 
-	// If map area directly drops no cards, but some of ot's bosses can
+	// If map area directly drops no cards, but some of it's bosses can
 	if (sourceTypes.includes('Map')) {
 		for (const boss of poeData.mapbosses) {
 			for (const atlasMapName of boss.maps) {
