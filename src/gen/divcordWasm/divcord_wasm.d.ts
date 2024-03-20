@@ -10,17 +10,17 @@ export function parsed_records(spreadsheet: string, poe_data: string, toast: Fun
 /**
 * @param {any} types
 * @param {any} records
-* @param {any} poe_data
+* @param {string} poe_data
 * @returns {any}
 */
-export function find_cards_by_source_types(types: any, records: any, poe_data: any): any;
+export function find_cards_by_source_types(types: any, records: any, poe_data: string): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly parsed_records: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
-  readonly find_cards_by_source_types: (a: number, b: number, c: number) => number;
+  readonly find_cards_by_source_types: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
