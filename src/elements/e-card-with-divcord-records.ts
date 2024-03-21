@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
@@ -16,7 +16,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ reflect: true }) card!: string;
 	@property({ type: Array }) records!: DivcordRecord[];
 
-	render() {
+	render(): TemplateResult {
 		const allRecordsHasNoSources = this.records.every(s => (s.sources ?? []).length === 0);
 
 		return html`<div class="view">

@@ -1,4 +1,4 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
@@ -31,7 +31,7 @@ export class MapsTablePage extends LitElement {
 
 	@state() cardsByMaps: Record<string, CardBySource[]> = {};
 
-	get filtered() {
+	get filtered(): [string, CardBySource[]][] {
 		const filter = this.filter.trim().toLowerCase();
 		const entries = Object.entries(this.cardsByMaps)
 			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
@@ -53,9 +53,9 @@ export class MapsTablePage extends LitElement {
 		}
 	}
 
-	get paginated() {
+	get paginated(): [string, CardBySource[]][] {
 		const entries = paginate(this.filtered, this.page, this.perPage);
-		for (const [_, cards] of entries) {
+		for (const [, cards] of entries) {
 			sortByWeight(cards, poeData);
 		}
 		return entries;
@@ -67,12 +67,12 @@ export class MapsTablePage extends LitElement {
 		this.filter = input.value;
 	}
 
-	maps() {
+	maps(): string[] {
 		const mapnames = poeData.maps.map(({ name }) => name);
 		mapnames.sort((a, b) => a.localeCompare(b));
 		return mapnames;
 	}
-	protected render() {
+	protected render(): TemplateResult {
 		return html`
 			<div class="page">
 				<header>
@@ -95,7 +95,7 @@ export class MapsTablePage extends LitElement {
 		`;
 	}
 
-	protected table() {
+	protected table(): TemplateResult {
 		return html`
 			<table>
 				<thead>

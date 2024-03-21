@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { CardBySource } from '../cards';
 
@@ -23,7 +23,7 @@ export class CardsBySourceElement extends LitElement {
 		this.dispatchEvent(new Event('boss-navigation', { bubbles: true, composed: true }));
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<ul class="cards">
 			${this.cards.map(({ card, transitiveSource, status }) => {
 				const cardHtml = html`<e-divination-card

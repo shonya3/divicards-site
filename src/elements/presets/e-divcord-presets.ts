@@ -1,4 +1,4 @@
-import { LitElement, html, css, nothing, PropertyValueMap } from 'lit';
+import { LitElement, html, css, nothing, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { DEFAULT_PRESETS, type PresetConfig } from './presets';
 import {
@@ -154,7 +154,7 @@ export class DivcordPresetsElement extends LitElement {
 		this.presetsForDelete = new Set(this.presetsForDelete);
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`
 			<div
 				class=${classMap({
@@ -225,7 +225,7 @@ export class DivcordPresetsElement extends LitElement {
 		`;
 	}
 
-	protected AddingPresets() {
+	protected AddingPresets(): TemplateResult | typeof nothing {
 		switch (this.presetActionState) {
 			case 'idle': {
 				return html` <sl-icon-button
@@ -255,7 +255,7 @@ export class DivcordPresetsElement extends LitElement {
 		}
 	}
 
-	protected DeletingPresets() {
+	protected DeletingPresets(): TemplateResult | typeof nothing {
 		if (this.customPresets.length === 0) return nothing;
 
 		switch (this.presetActionState) {

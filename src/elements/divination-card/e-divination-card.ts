@@ -1,5 +1,5 @@
 import { classMap } from 'lit/directives/class-map.js';
-import { html, css, PropertyValues, nothing, LitElement } from 'lit';
+import { html, css, PropertyValues, nothing, LitElement, TemplateResult } from 'lit';
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -63,7 +63,7 @@ export class DivinationCardElement extends LitElement {
 	@state() rewardHtml: string = '';
 	@state() minLevelOrRange?: string;
 
-	get imageUrl() {
+	get imageUrl(): string {
 		if (!this.artFilename) {
 			// console.warn(`Divination Card. No artFilename ${this.name}`);
 			return '';
@@ -72,7 +72,7 @@ export class DivinationCardElement extends LitElement {
 		return `https://web.poecdn.com/image/divination-card/${this.artFilename}.png`;
 	}
 
-	protected nameMarginTop(size: CardSize) {
+	protected nameMarginTop(size: CardSize): '0rem' | '0.4rem' {
 		switch (size) {
 			case 'small':
 				return '0rem';
@@ -107,7 +107,7 @@ export class DivinationCardElement extends LitElement {
 		this.style.setProperty('view-transition-name', 'card');
 	}
 
-	protected override render() {
+	protected override render(): TemplateResult {
 		const sizeMap = styleMap({
 			'--card-width': `var(--card-width-${this.size})`,
 			'--card-height': `var(--card-height-${this.size})`,
@@ -166,11 +166,11 @@ export class DivinationCardElement extends LitElement {
         </div>`;
 	}
 
-	protected divider() {
+	protected divider(): TemplateResult {
 		return html`<div class="divider"></div>`;
 	}
 
-	protected footer() {
+	protected footer(): TemplateResult {
 		return html`<footer>
 			<p style="font-style: italic" class="flavourText">${this.flavourText}</p>
 		</footer>`;

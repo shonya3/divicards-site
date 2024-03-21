@@ -1,5 +1,5 @@
 import { styleMap } from 'lit/directives/style-map.js';
-import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from './divination-card/e-divination-card';
 import { PoeData, poeData } from '../PoeData';
@@ -36,7 +36,7 @@ export class CardWithSourcesElement extends LitElement {
 	}
 
 	/**  Put maps into distinct container without gaps */
-	protected sourcesList() {
+	protected sourcesList(): HTMLUListElement {
 		const mapsSources = document.createElement('div');
 		mapsSources.classList.add('sources-maps');
 		const ul = document.createElement('ul');
@@ -62,7 +62,7 @@ export class CardWithSourcesElement extends LitElement {
 		return ul;
 	}
 
-	render() {
+	render(): TemplateResult {
 		const wrapperStyles = styleMap({
 			'--card-width': `var(--card-width-${this.size})`,
 		});

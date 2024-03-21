@@ -1,4 +1,4 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { UseStorage } from '../controllers/UseStorage';
 
@@ -20,23 +20,23 @@ export class TestStorageElement extends LitElement {
 	#count = new UseStorage(this, 'count', 0);
 	#numbers = new UseStorage(this, 'numbers', [1, 2, 3]);
 
-	dec() {
+	dec(): void {
 		this.#count.setValue(value => value - 1);
 	}
 
-	inc() {
+	inc(): void {
 		this.#count.setValue(value => value + 1);
 	}
 
-	onAddNumber() {
+	onAddNumber(): void {
 		this.#numbers.setValue(nums => [...nums, (nums.at(-1) ?? 0) + 1]);
 	}
 
-	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+	protected firstUpdated(_changedProperties: PropertyValueMap<this>): void {
 		this.#numbers.setValue([]);
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`
 			<div class="counter">
 				<button @click=${this.dec}>-</button>${this.#count.value()}<button @click=${this.inc}>+</button>

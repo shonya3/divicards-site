@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '../elements/e-card-with-sources';
 import '../elements/e-card-with-divcord-records';
@@ -20,7 +20,7 @@ export class CardPage extends LitElement {
 	@consume({ context: divcordTableContext, subscribe: true })
 	divcordTable!: DivcordTable;
 
-	render() {
+	render(): TemplateResult {
 		const card = poeData.find.card(this.card);
 		const league = card?.league;
 		let weight = card?.weight ?? 1;

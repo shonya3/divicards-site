@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { consume } from '@lit/context';
 import { DivcordTable } from '../DivcordTable';
@@ -168,7 +168,7 @@ export class DivcordPage extends LitElement {
 		}
 	}
 
-	render() {
+	render(): TemplateResult {
 		return html`<div class="page">
 			<header>
 				<div class="load">

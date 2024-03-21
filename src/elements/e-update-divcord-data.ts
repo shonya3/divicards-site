@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { divcordLoader, type State } from '../DivcordLoader';
 import { Task } from '@lit/task';
@@ -30,13 +30,13 @@ export class UpdateDivcordDataElement extends LitElement {
 		},
 	});
 
-	protected loadBtn() {
+	protected loadBtn(): TemplateResult {
 		return html`<sl-button .loading=${this.loaderState === 'updating'} @click=${this.task.run.bind(this.task)}>
 			<p class="reload">Load divcord data</p>
 		</sl-button>`;
 	}
 
-	render() {
+	render(): TemplateResult | undefined {
 		return this.task.render({
 			initial: () => this.loadBtn(),
 			pending: () => html`<sl-button class="sl-theme-dark" loading>Loading</sl-button>`,

@@ -1,6 +1,6 @@
 import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-map';
 import { dispatchSetTransitionName } from '../../events';
@@ -22,7 +22,7 @@ export class MapBossElement extends LitElement {
 	@property({ reflect: true }) href = '';
 	@property({ reflect: true }) renderMode: RenderMode = 'normal';
 
-	protected render() {
+	protected render(): TemplateResult {
 		let imgSize: number | undefined = undefined;
 		if (this.renderMode === 'compact') {
 			imgSize = 25;

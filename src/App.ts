@@ -1,5 +1,5 @@
 import { provide } from '@lit/context';
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, query, property } from 'lit/decorators.js';
 import { divcordLoader } from './DivcordLoader';
 import { divcordTableContext } from './context';
@@ -32,7 +32,7 @@ export class RootElement extends LitElement {
 		});
 	}
 
-	render() {
+	render(): TemplateResult {
 		return html`<div class="wrapper">
 			<header class="header">
 				<e-topnav></e-topnav>

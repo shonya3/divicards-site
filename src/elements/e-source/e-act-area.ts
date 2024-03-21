@@ -1,6 +1,6 @@
 import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { dispatchSetTransitionName } from '../../events';
 import type { ActArea } from '../../gen/poeData';
@@ -20,7 +20,7 @@ export class ActAreaElement extends LitElement {
 	@property({ reflect: true }) size: SourceSize = 'large';
 	@property({ reflect: true }) href = '';
 
-	protected override render() {
+	protected render(): TemplateResult {
 		return html`<div
 			style="--act-area-background-image: url(${this.actArea.imageUrl})"
 			class=${classMap({

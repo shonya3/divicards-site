@@ -1,4 +1,4 @@
-import { LitElement, html, css, nothing } from 'lit';
+import { LitElement, html, css, nothing, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
@@ -21,8 +21,9 @@ export class PageControlsElement extends LitElement {
 		super.attributeChangedCallback(name, _old, value);
 
 		if (name === 'page' || name === 'per-page') {
-			if (_old === value || _old == null) {
-			} else {
+			const skip = _old === value || _old == null;
+
+			if (!skip) {
 				const url = new URL(window.location.href);
 				if (name === 'page') {
 					url.searchParams.set('page', String(this.page));
@@ -45,15 +46,15 @@ export class PageControlsElement extends LitElement {
 		this.perPage = Number(target.value);
 	}
 
-	increasePage() {
+	increasePage(): void {
 		this.page++;
 	}
 
-	lastPageNumber() {
+	lastPageNumber(): number {
 		return Math.ceil(this.n / this.perPage);
 	}
 
-	toLastPage() {
+	toLastPage(): void {
 		this.page = this.lastPageNumber();
 	}
 
@@ -69,17 +70,17 @@ export class PageControlsElement extends LitElement {
 		return [start + 1, end];
 	}
 
-	get isLastPage() {
+	get isLastPage(): boolean {
 		return this.page === this.lastPageNumber();
 	}
 
-	decreasePage() {
+	decreasePage(): void {
 		if (this.page > 1) {
 			this.page--;
 		}
 	}
 
-	render() {
+	render(): TemplateResult {
 		const range = this.showingRange();
 		return html`
 			<div class="page-controls">

@@ -1,6 +1,6 @@
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 
-function escapeHtml(html: string) {
+function escapeHtml(html: string): string {
 	const div = document.createElement('div');
 	div.textContent = html;
 	return div.innerHTML;

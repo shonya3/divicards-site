@@ -1,5 +1,5 @@
 import { Task } from '@lit/task';
-import { LitElement, nothing, html, css } from 'lit';
+import { LitElement, nothing, html, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { divcordLoader } from '../DivcordLoader';
 import './e-relative-time';
@@ -30,7 +30,7 @@ export class DivcordRecordsAgeElement extends LitElement {
 		args: () => [],
 	});
 
-	render() {
+	render(): TemplateResult | typeof nothing | undefined {
 		return this.lastUpdated.render({
 			complete: date => {
 				if (date === null) {

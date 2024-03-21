@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import '../elements/e-discord-avatar';
 
@@ -25,7 +25,7 @@ export class VerifyFaqPage extends LitElement {
 		});
 	}
 
-	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+	protected firstUpdated(_changedProperties: PropertyValueMap<this>): void {
 		const { hash } = new URL(window.location.href);
 		if (hash) {
 			const el = this.shadowRoot?.querySelector(hash);
@@ -35,7 +35,7 @@ export class VerifyFaqPage extends LitElement {
 		}
 	}
 
-	render() {
+	render(): TemplateResult {
 		return html`
 			<article>
 				<h1>Welcome to #faq!</h1>

@@ -1,5 +1,5 @@
 import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import type { Order, RowDataForWeightsTableVerifySources } from './types';
@@ -56,7 +56,7 @@ export class WeightsTableVerifySources extends LitElement {
 		this.orderedBy = 'name';
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html` <table class="table">
 			<thead>
 				<tr>

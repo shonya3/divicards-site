@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import type { CardBySource } from '../cards';
 import type { Source } from '../gen/Source';
@@ -31,7 +31,7 @@ export class SourceWithCardsElement extends LitElement {
 		this.mainSourceElement.style.setProperty('view-transition-name', 'none');
 	}
 
-	render() {
+	render(): TemplateResult {
 		return html`<div class="wrapper">
 			<e-source
 				exportparts="source-type"

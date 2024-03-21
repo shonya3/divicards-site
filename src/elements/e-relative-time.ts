@@ -14,15 +14,15 @@ export class RelativeTimeElement extends LitElement {
 	@property({ type: Object }) date!: Date;
 	@property() unit?: 'seconds' | 'minutes';
 
-	minutes() {
+	minutes(): number {
 		return (Date.now() - this.date.getTime()) / 60 / 1000;
 	}
 
-	seconds() {
+	seconds(): number {
 		return Math.floor((Date.now() - this.date.getTime()) / 1000);
 	}
 
-	minutesRelativeString() {
+	minutesRelativeString(): string {
 		const minutes = this.minutes();
 		if (minutes >= 1) {
 			return this.#fmt.format(-1 * Math.floor(minutes), 'minutes');
@@ -31,7 +31,7 @@ export class RelativeTimeElement extends LitElement {
 		}
 	}
 
-	secondsRelativeString() {
+	secondsRelativeString(): string {
 		const seconds = this.seconds();
 		if (seconds >= 1) {
 			return this.#fmt.format(-1 * seconds, 'seconds');
@@ -47,7 +47,7 @@ export class RelativeTimeElement extends LitElement {
 		}, 1000);
 	}
 
-	render() {
+	render(): string {
 		if (this.unit === 'seconds') {
 			return this.secondsRelativeString();
 		}

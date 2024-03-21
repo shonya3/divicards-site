@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/e-divination-card';
 import { DivcordTable } from '../DivcordTable';
@@ -61,7 +61,7 @@ export class HomePage extends LitElement {
 		this.searchCriterias = options;
 	}
 
-	render() {
+	render(): TemplateResult {
 		return html`<div class="page">
 			<header>
 				<form>

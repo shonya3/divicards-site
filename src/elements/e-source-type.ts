@@ -1,5 +1,5 @@
 import { customElement, property } from 'lit/decorators.js';
-import { LitElement, css, html } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import type { SourceType } from '../gen/Source';
 
 declare global {
@@ -8,7 +8,7 @@ declare global {
 	}
 }
 
-export function sourceTypeHref(sourceType: SourceType) {
+export function sourceTypeHref(sourceType: SourceType): string {
 	return `/source-type/${sourceType}`;
 }
 
@@ -20,7 +20,7 @@ export class SourceTypeElement extends LitElement {
 		this.style.setProperty('view-transition-name', 'source-type');
 	}
 
-	render() {
+	render(): TemplateResult {
 		return html`<a @click=${this.#setViewTransitionName} href=${sourceTypeHref(this.sourceType)} class="source-type"
 			>${this.sourceType}</a
 		>`;

@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error TypeScript does not know about globalThis.URLPattern for now
 if (!globalThis.URLPattern) {
 	await import('urlpattern-polyfill');
 }

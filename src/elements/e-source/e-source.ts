@@ -1,6 +1,6 @@
 import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, PropertyValueMap, css, html, nothing } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { Source } from '../../gen/Source';
 import './e-act-area';
@@ -40,7 +40,7 @@ export class SourceElement extends LitElement {
 	@property() renderMode: RenderMode = 'normal';
 	@property() actSize?: SourceSize;
 
-	get sourceHasSpecialElement() {
+	get sourceHasSpecialElement(): boolean {
 		return ['Act', 'Act Boss', 'Map', 'Map Boss'].includes(this.source.type);
 	}
 
@@ -61,7 +61,7 @@ export class SourceElement extends LitElement {
 		this.style.setProperty('view-transition-name', transitionName);
 	}
 
-	protected sourceElement() {
+	protected sourceElement(): TemplateResult | typeof nothing {
 		if (this.source.kind === 'empty-source') {
 			return nothing;
 		}
@@ -125,7 +125,7 @@ export class SourceElement extends LitElement {
 		}
 	}
 
-	render() {
+	render(): TemplateResult {
 		const shouldRenderSourceType = this.renderMode === 'normal' || this.source.kind === 'empty-source';
 
 		return html`
@@ -191,7 +191,7 @@ export class SourceElement extends LitElement {
 		}
 	`;
 
-	protected mapboss(name: string, mapAreas: MapArea[]) {
+	protected mapboss(name: string, mapAreas: MapArea[]): TemplateResult {
 		return html`
 			<div style="padding: 2rem; position: relative;">
 				<p>${name}</p>

@@ -1,11 +1,12 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 import './e-source/e-source';
 import './e-need-to-verify';
 import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
 import type { DivcordRecord } from '../gen/divcord';
+import { DirectiveResult } from 'lit/async-directive.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -17,12 +18,12 @@ declare global {
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: DivcordRecord;
 
-	formattedNotes() {
+	formattedNotes(): DirectiveResult<typeof UnsafeHTMLDirective> {
 		const text = this.record.notes?.replaceAll('\n', '<br>');
 		return unsafeHTML(text);
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div class="record">
 			${this.greynote()}
 			<div>${this.record.card}</div>
@@ -59,19 +60,19 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		</div>`;
 	}
 
-	protected greynote() {
+	protected greynote(): TemplateResult | typeof nothing {
 		const markup = html`<div class="greynote">${this.record.greynote}</div>`;
 		return this.record.greynote === 'Empty' ? nothing : markup;
 	}
 
-	protected tagHypothesis() {
+	protected tagHypothesis(): TemplateResult | typeof nothing {
 		const markup = html`<div class="tagHypothesis">
 			<h2>${this.record.tagHypothesis}</h2>
 		</div>`;
 		return this.record.tagHypothesis ? markup : nothing;
 	}
 
-	protected wikiDisagreements() {
+	protected wikiDisagreements(): TemplateResult | typeof nothing {
 		const markup = html`<div class="wikiDisagreements">
 			<h3>Wiki disagreements</h3>
 			<p>${this.record.wikiDisagreements}</p>
@@ -79,7 +80,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		return this.record.wikiDisagreements ? markup : nothing;
 	}
 
-	protected sourcesWithTagButNotOnWiki() {
+	protected sourcesWithTagButNotOnWiki(): TemplateResult | typeof nothing {
 		if (!this.record.verifySources.length) {
 			return nothing;
 		}
@@ -99,7 +100,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		</div>`;
 	}
 
-	protected notes() {
+	protected notes(): TemplateResult | typeof nothing {
 		const markup = html`<div class="notes">
 			<h3>notes</h3>
 			<p>${this.formattedNotes()}</p>

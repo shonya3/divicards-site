@@ -1,5 +1,5 @@
 import { linkStyles } from './../linkStyles';
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { poeData } from '../PoeData';
 import '../elements/weights-table/e-weights-table';
@@ -35,7 +35,7 @@ export class WeightsPage extends LitElement {
 		this.#showCardsStorage.save(target.showCards);
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div class="page">
 			<h1 class="heading">Weights</h1>
 			<p class="weights-spreadsheet-p">

@@ -1,5 +1,5 @@
 import { linkStyles } from '../../linkStyles';
-import { LitElement, html, nothing, css } from 'lit';
+import { LitElement, html, nothing, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { dispatchSetTransitionName } from '../../events';
@@ -20,7 +20,7 @@ export class MapElement extends LitElement {
 	@property() renderMode: RenderMode = 'normal';
 	@property({ type: Number, attribute: 'image-size' }) imgSize?: number;
 
-	get imageWidth() {
+	get imageWidth(): number {
 		if (this.imgSize !== undefined) {
 			return this.imgSize;
 		}
@@ -35,7 +35,7 @@ export class MapElement extends LitElement {
 		}
 	}
 
-	mapColor() {
+	mapColor(): 'white' | 'yellow' | 'red' | 'special' {
 		if (this.map.tier < 6) {
 			return 'white';
 		} else if (this.map.tier < 11) {
@@ -52,7 +52,7 @@ export class MapElement extends LitElement {
 			}
 		}
 	}
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div
 			style="--image-width: ${this.imageWidth}px"
 			class=${classMap({
@@ -82,7 +82,7 @@ export class MapElement extends LitElement {
 		</div>`;
 	}
 
-	protected renderName() {
+	protected renderName(): TemplateResult | typeof nothing {
 		return this.renderMode === 'normal'
 			? html`
 					<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"

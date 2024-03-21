@@ -2,7 +2,7 @@ import { TemplateResult, html } from 'lit';
 import { asyncAppend } from 'lit/directives/async-append.js';
 import type { Source } from './gen/Source';
 
-export function sourceHref(source: Source) {
+export function sourceHref(source: Source): string {
 	if (source.kind === 'empty-source') {
 		return '';
 	}
@@ -44,7 +44,7 @@ export class ArrayAsyncRenderer<T> {
 	render(cb = this.#elementRender) {
 		return html`${asyncAppend(
 			this.#generator,
-			//@ts-expect-error
+			//@ts-expect-error do not need default signature
 			cb
 		)}`;
 	}
@@ -52,7 +52,7 @@ export class ArrayAsyncRenderer<T> {
 
 /** Declare locally to make sure calling the method from document object is not possible. */
 interface ViewTransitionAPI {
-	startViewTransition: (cb: (...args: any[]) => any) => Promise<ViewTransition>;
+	startViewTransition: (cb: (...args: unknown[]) => unknown) => Promise<ViewTransition>;
 }
 
 export interface ViewTransition {
@@ -62,7 +62,7 @@ export interface ViewTransition {
 	skipTransition: () => void;
 }
 
-export async function startViewTransition(cb: (...args: any[]) => any): Promise<ViewTransition | void> {
+export async function startViewTransition(cb: (...args: unknown[]) => unknown): Promise<ViewTransition | void> {
 	if (Object.hasOwn(Document.prototype, 'startViewTransition')) {
 		return (document as Document & ViewTransitionAPI).startViewTransition(() => {
 			cb();
@@ -75,15 +75,15 @@ export async function startViewTransition(cb: (...args: any[]) => any): Promise<
 export class EventEmitter<Events> {
 	#eventTarget = new EventTarget();
 
-	addEventListener<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void) {
+	addEventListener<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void): void {
 		this.#eventTarget.addEventListener(type, e => callback((e as CustomEvent<Events[Key]>).detail));
 	}
 
-	emit<Key extends keyof Events & string>(type: Key, detail: Events[Key]) {
+	emit<Key extends keyof Events & string>(type: Key, detail: Events[Key]): void {
 		this.#eventTarget.dispatchEvent(new CustomEvent<Events[Key]>(type, { detail, composed: true, bubbles: true }));
 	}
 
-	on<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void) {
+	on<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void): void {
 		this.#eventTarget.addEventListener(type, e => callback((e as CustomEvent<Events[Key]>).detail));
 	}
 }

@@ -1,4 +1,4 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
@@ -14,6 +14,7 @@ import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-with-cards';
 import { SlConverter } from '../utils';
 import { SOURCE_TYPE_VARIANTS, SourceType } from '../gen/Source';
+import type { DivcordRecord } from '../gen/divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -38,7 +39,7 @@ export class SourcesPage extends LitElement {
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() sourcetypesCountsMap!: Map<SourceType, number>;
 
-	get records() {
+	get records(): DivcordRecord[] {
 		return this.divcordTable.records;
 	}
 
@@ -56,7 +57,7 @@ export class SourcesPage extends LitElement {
 		}
 	}
 
-	protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {}
+	protected firstUpdated(_changedProperties: PropertyValueMap<this>): void {}
 
 	#onSlSelectChange(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
@@ -64,7 +65,7 @@ export class SourcesPage extends LitElement {
 		this.selectedSourceTypes = options;
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div class="page">
 			<sl-select @sl-change=${this.#onSlSelectChange} label="Select types" multiple clearable>
 				${Array.from(this.sourcetypesCountsMap).map(([type, count]) => {

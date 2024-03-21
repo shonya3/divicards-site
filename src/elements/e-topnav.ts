@@ -1,4 +1,4 @@
-import { LitElement, html, css, PropertyValueMap, nothing } from 'lit';
+import { LitElement, html, css, PropertyValueMap, nothing, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { startViewTransition } from '../utils';
@@ -63,7 +63,7 @@ export class TopNavElement extends LitElement {
 	// 	this.menuDialogElement.showModal();
 	// }
 
-	protected renderMenu() {
+	protected renderMenu(): TemplateResult {
 		return html`<dialog id="menu" class="menu">
 			<ul class="links">
 				${this.linkItems.map(([pathname, s]) => {
@@ -84,7 +84,7 @@ export class TopNavElement extends LitElement {
 		</dialog>`;
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<nav class="navbar">
 			<div class="logo"><a href="/">Divicards</a></div>
 			<ul class="links">

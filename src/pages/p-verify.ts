@@ -1,5 +1,5 @@
 import { linkStyles } from './../linkStyles';
-import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { divcordTableContext } from '../context';
 import { DivcordTable } from '../DivcordTable';
@@ -58,7 +58,7 @@ export class VerifyPage extends LitElement {
 	@query('.list') sourceWithCardsList!: HTMLElement;
 
 	#activeScrollEl: HTMLElement | null = null;
-	get activeScrollEl() {
+	get activeScrollEl(): HTMLElement | null {
 		return this.#activeScrollEl;
 	}
 	set activeScrollEl(val: HTMLElement | null) {
@@ -99,7 +99,7 @@ export class VerifyPage extends LitElement {
 		return containerScrollTop + Math.abs(rect.y) < container.clientHeight;
 	}
 
-	protected async firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+	protected async firstUpdated(_changedProperties: PropertyValueMap<this>): Promise<void> {
 		const { hash } = new URL(window.location.href);
 		if (hash) {
 			const el = this.shadowRoot?.getElementById(hash.slice(1));
@@ -175,7 +175,7 @@ export class VerifyPage extends LitElement {
 		}
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div class="page">
 			<main class="main">
 				<h1 class="heading">Need to verify</h1>
@@ -220,7 +220,7 @@ export class VerifyPage extends LitElement {
 		</div>`;
 	}
 
-	protected SourceWithCardsList(sourcesAndCards: SourceAndCards[]) {
+	protected SourceWithCardsList(sourcesAndCards: SourceAndCards[]): TemplateResult {
 		return html`<ul class="source-with-cards-list">
 			${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
 				let name = source.id;
@@ -245,7 +245,7 @@ export class VerifyPage extends LitElement {
 		</ul>`;
 	}
 
-	protected ContentsList(sourcesAndCards: SourceAndCards[]) {
+	protected ContentsList(sourcesAndCards: SourceAndCards[]): TemplateResult {
 		return html`<ul>
 			${sourcesAndCards.map(({ source, cards }) => {
 				let name = source.id;

@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 
 declare global {
@@ -21,7 +21,7 @@ declare global {
 export class NeedToVerifyElement extends LitElement {
 	@query('.slot-parent') slotParent!: HTMLDivElement;
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`
 			<div class="slot-parent">
 				<slot></slot>
@@ -64,7 +64,7 @@ export class NeedToVerifyElement extends LitElement {
 
 @customElement('e-need-to-verify-border')
 export class NeedToVerifyBorderElement extends LitElement {
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<p>Need to verify</p>`;
 	}
 

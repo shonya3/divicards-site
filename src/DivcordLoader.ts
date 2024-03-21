@@ -187,3 +187,7 @@ async function parseRecords(divcord: Spreadsheet, poeData: PoeData): Promise<Div
 
 const cache = await caches.open(CACHE_KEY);
 export const divcordLoader = new DivcordLoader(cache);
+
+function a() {}
+
+a();

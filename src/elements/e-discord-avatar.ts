@@ -1,4 +1,4 @@
-import { LitElement, html, css, PropertyValueMap } from 'lit';
+import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { DISCORD_AVATARS } from '../gen/avatars';
 
@@ -30,7 +30,7 @@ export class DiscordAvatarElement extends LitElement {
 		}
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<img width=${this.size} height=${this.size} src=${this.src} alt="Discord Avatar" /> ${this
 				.username}`;
 	}

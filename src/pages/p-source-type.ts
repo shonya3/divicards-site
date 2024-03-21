@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import type { SourceType } from '../gen/Source';
 import '../elements/divination-card/e-divination-card';
@@ -49,7 +49,7 @@ export class SourceTypePage extends LitElement {
 		}
 	}
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div class="page">
 			<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			<ul>

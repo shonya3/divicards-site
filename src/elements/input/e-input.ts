@@ -7,7 +7,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import styles from './input.styles.js';
-import type { CSSResultGroup, PropertyValueMap } from 'lit';
+import type { CSSResultGroup, TemplateResult } from 'lit';
 
 /**
  * My copy of shoelace item that uses <datalist>
@@ -61,11 +61,6 @@ export class InputElement extends LitElement {
 
 	@state() private hasFocus = false;
 	@property() title = ''; // make reactive to pass through
-
-	protected willUpdate(map: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-		if (map.has('value')) {
-		}
-	}
 
 	private __numberInput = Object.assign(document.createElement('input'), { type: 'number' });
 	private __dateInput = Object.assign(document.createElement('input'), { type: 'date' });
@@ -208,7 +203,7 @@ export class InputElement extends LitElement {
 	/**
 	 * Gets or sets the current value as a `Date` object. Returns `null` if the value can't be converted. This will use the native `<input type="{{type}}">` implementation and may result in an error.
 	 */
-	get valueAsDate() {
+	get valueAsDate(): Date | null {
 		this.__dateInput.type = this.type;
 		this.__dateInput.value = this.value;
 		return this.input?.valueAsDate || this.__dateInput.valueAsDate;
@@ -221,7 +216,7 @@ export class InputElement extends LitElement {
 	}
 
 	/** Gets or sets the current value as a number. Returns `NaN` if the value can't be converted. */
-	get valueAsNumber() {
+	get valueAsNumber(): number {
 		this.__numberInput.value = this.value;
 		return this.input?.valueAsNumber || this.__numberInput.valueAsNumber;
 	}
@@ -232,12 +227,12 @@ export class InputElement extends LitElement {
 	}
 
 	/** Gets the validity state object */
-	get validity() {
+	get validity(): ValidityState {
 		return this.input.validity;
 	}
 
 	/** Gets the validation message */
-	get validationMessage() {
+	get validationMessage(): string {
 		return this.input.validationMessage;
 	}
 
@@ -270,17 +265,17 @@ export class InputElement extends LitElement {
 	}
 
 	/** Sets focus on the input. */
-	focus(options?: FocusOptions) {
+	focus(options?: FocusOptions): void {
 		this.input.focus(options);
 	}
 
 	/** Removes focus from the input. */
-	blur() {
+	blur(): void {
 		this.input.blur();
 	}
 
 	/** Selects all the text in the input. */
-	select() {
+	select(): void {
 		this.input.select();
 	}
 
@@ -289,7 +284,7 @@ export class InputElement extends LitElement {
 		selectionStart: number,
 		selectionEnd: number,
 		selectionDirection: 'forward' | 'backward' | 'none' = 'none'
-	) {
+	): void {
 		this.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
 	}
 
@@ -299,7 +294,7 @@ export class InputElement extends LitElement {
 		start?: number,
 		end?: number,
 		selectMode: 'select' | 'start' | 'end' | 'preserve' = 'preserve'
-	) {
+	): void {
 		const selectionStart = start ?? this.input.selectionStart!;
 		const selectionEnd = end ?? this.input.selectionEnd!;
 
@@ -311,14 +306,14 @@ export class InputElement extends LitElement {
 	}
 
 	/** Displays the browser picker for an input element (only works if the browser supports it for the input type). */
-	showPicker() {
+	showPicker(): void {
 		if ('showPicker' in HTMLInputElement.prototype) {
 			this.input.showPicker();
 		}
 	}
 
 	/** Increments the value of a numeric input type by the value of the step attribute. */
-	stepUp() {
+	stepUp(): void {
 		this.input.stepUp();
 		if (this.value !== this.input.value) {
 			this.value = this.input.value;
@@ -326,7 +321,7 @@ export class InputElement extends LitElement {
 	}
 
 	/** Decrements the value of a numeric input type by the value of the step attribute. */
-	stepDown() {
+	stepDown(): void {
 		this.input.stepDown();
 		if (this.value !== this.input.value) {
 			this.value = this.input.value;
@@ -334,21 +329,21 @@ export class InputElement extends LitElement {
 	}
 
 	/** Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid. */
-	checkValidity() {
+	checkValidity(): boolean {
 		return this.input.checkValidity();
 	}
 
 	/** Checks for validity and shows the browser's validation message if the control is invalid. */
-	reportValidity() {
+	reportValidity(): boolean {
 		return this.input.reportValidity();
 	}
 
 	/** Sets a custom validation message. Pass an empty string to restore validity. */
-	setCustomValidity(message: string) {
+	setCustomValidity(message: string): void {
 		this.input.setCustomValidity(message);
 	}
 
-	render() {
+	render(): TemplateResult {
 		const hasClearIcon = this.clearable && !this.disabled && !this.readonly;
 		const isClearIconVisible = hasClearIcon && (typeof this.value === 'number' || this.value.length > 0);
 		const hasLabel = Boolean(this.label);

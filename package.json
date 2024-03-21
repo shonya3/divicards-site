@@ -10,11 +10,15 @@
 		"checklit": "lit-analyzer --rules.no-invalid-css off",
 		"preview": "vite preview",
 		"cem": "cem analyze",
-		"gen": "node scripts/gen.js"
+		"gen": "node scripts/gen.js",
+		"lint": "eslint \"**/*.{ts,tsx}\""
 	},
 	"devDependencies": {
 		"@custom-elements-manifest/analyzer": "^0.9.0",
+		"@typescript-eslint/eslint-plugin": "^7.3.1",
+		"@typescript-eslint/parser": "^7.3.1",
 		"custom-element-vs-code-integration": "^1.2.2",
+		"eslint": "^8.57.0",
 		"lit-analyzer": "^2.0.3",
 		"typescript": "^5.4",
 		"vite": "^5.1.1"

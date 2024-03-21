@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import { customElement } from 'lit/decorators.js';
 
@@ -10,7 +10,7 @@ declare global {
 
 @customElement('e-verify-faq-alert')
 export class VerifyFaqAlertElement extends LitElement {
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div class="element">
 			<sl-alert open>
 				<img

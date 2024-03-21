@@ -31,7 +31,7 @@ export class DivcordTable {
 
 	/** Returns Array of sources from all records, accociated with given card */
 	sourcesByCard(card: string): Source[] {
-		let sources: Source[] = [];
+		const sources: Source[] = [];
 		for (const record of this.records) {
 			if (record.card === card) {
 				sources.push(...(record.sources ?? []));

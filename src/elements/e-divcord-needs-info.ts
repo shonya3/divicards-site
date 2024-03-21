@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 
@@ -12,7 +12,7 @@ declare global {
 export class DivcordNeedsInfoElement extends LitElement {
 	@property({ reflect: true }) card: string = '';
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div class="element">
 			<sl-alert open>
 				<img slot="icon" src="/images/45px-Divcord.png" decoding="async" width="45" height="45" />

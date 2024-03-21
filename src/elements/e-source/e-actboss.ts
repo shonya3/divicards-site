@@ -1,6 +1,6 @@
 import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, css, nothing } from 'lit';
+import { LitElement, html, css, nothing, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-act-area';
 import { dispatchSetTransitionName } from '../../events';
@@ -21,7 +21,7 @@ export class ActBossElement extends LitElement {
 	@property({ reflect: true }) href: string = '';
 	@property({ reflect: true }) renderMode: RenderMode = 'normal';
 
-	protected render() {
+	protected render(): TemplateResult {
 		return html`<div
 			class=${classMap({
 				actboss: true,

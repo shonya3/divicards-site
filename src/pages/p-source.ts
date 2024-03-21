@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, css, html } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
@@ -34,7 +34,7 @@ export class SourcePage extends LitElement {
 		}
 	}
 
-	render() {
+	render(): TemplateResult {
 		return html`<div class="page">
 			<e-source-with-cards .source=${this.source} .cards=${this.cards}></e-source-with-cards>
 		</div>`;
