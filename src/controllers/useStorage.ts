@@ -10,7 +10,7 @@ export class UseStorage<Key extends keyof Registry, Input = Registry[Key]> imple
 		return this.storage.data;
 	}
 
-	setValue(value: Input | ((val: Registry[Key]) => Input)) {
+	setValue(value: Input | ((val: Registry[Key]) => Input)): void {
 		if (typeof value === 'function') {
 			const cb = value as (val: Registry[Key]) => Input;
 			this.storage.data = cb(this.storage.data);
