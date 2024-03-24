@@ -1,7 +1,7 @@
 import { DivcordRecordAndWeight } from './e-divcord-spreadsheet';
 
 export type Order = 'asc' | 'desc';
-export type SortColums = 'card' | 'weight' | 'id';
+export type SortColums = 'card' | 'weight' | 'id' | 'verify';
 
 export class Sort {
 	static byCard(records: DivcordRecordAndWeight[], order: Order): void {
@@ -16,5 +16,13 @@ export class Sort {
 
 	static byId(records: DivcordRecordAndWeight[], order: Order): void {
 		records.sort((a, b) => (order === 'asc' ? a.id - b.id : b.id - a.id));
+	}
+
+	static byVerify(records: DivcordRecordAndWeight[], order: Order): void {
+		records.sort((a, b) =>
+			order === 'asc'
+				? a.verifySources.length - b.verifySources.length
+				: b.verifySources.length - a.verifySources.length
+		);
 	}
 }

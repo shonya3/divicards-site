@@ -30,12 +30,17 @@ export class DivcordSpreadsheetElement extends LitElement {
 	// Sort
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
-	@property({ reflect: true, attribute: 'name-order' }) idOrder: Order = 'asc';
-	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: SortColums = 'id';
+	@property({ reflect: true, attribute: 'id-order' }) idOrder: Order = 'asc';
+	@property({ reflect: true, attribute: 'verify-order' }) verifyOrder: Order = 'desc';
+	@property({ reflect: true, attribute: 'ordered-by' })
+	orderedBy: SortColums = 'id';
 
 	@state() private recordsState: DivcordRecordAndWeight[] = [];
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
+	@state() private idIcon = 'sort-alpha-down-alt';
+	@state() private verifyIcon = 'sort-down';
+
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('records')) {
 			this.recordsState = structuredClone(this.records);
@@ -57,8 +62,15 @@ export class DivcordSpreadsheetElement extends LitElement {
 
 		if (map.has('idOrder')) {
 			if (this.orderedBy === 'id') {
-				this.nameIcon = this.idOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
+				this.idIcon = this.idOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
 				Sort.byId(this.recordsState, this.idOrder);
+			}
+		}
+
+		if (map.has('verifyOrder')) {
+			if (this.orderedBy === 'verify') {
+				this.verifyIcon = this.verifyOrder === 'desc' ? 'sort-down' : 'sort-up';
+				Sort.byVerify(this.recordsState, this.verifyOrder);
 			}
 		}
 	}
@@ -114,6 +126,11 @@ export class DivcordSpreadsheetElement extends LitElement {
 		this.orderedBy = 'id';
 	}
 
+	#toggleVerifyOrder() {
+		this.verifyOrder = this.verifyOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'verify';
+	}
+
 	protected render(): TemplateResult {
 		return html`<div id="root">
 			<table class="table">
@@ -125,7 +142,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								<sl-icon
 									class=${classMap({ 'ordered-by': this.orderedBy === 'id' })}
 									@click=${this.#toggleIdOrder}
-									.name=${this.nameIcon}
+									.name=${this.idIcon}
 								></sl-icon>
 							</div>
 						</th>
@@ -153,7 +170,16 @@ export class DivcordSpreadsheetElement extends LitElement {
 						<th class="th col-confidence">Confidence</th>
 						<th class="th col-remaining-work">Remaining Work</th>
 						<th class="th col-sources">Verified sources</th>
-						<th class="th col-verify">Need to verify</th>
+						<th class="th col-verify">
+							<div class="header-with-icon">
+								Need to verify
+								<sl-icon
+									class=${classMap({ 'ordered-by': this.orderedBy === 'verify' })}
+									@click=${this.#toggleVerifyOrder}
+									.name=${this.verifyIcon}
+								></sl-icon>
+							</div>
+						</th>
 						<!--<th class="th col-notes">Notes</th>-->
 					</tr>
 					<tr class="show-cards-row">
