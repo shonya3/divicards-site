@@ -198,7 +198,9 @@ export function tableStyles() {
 		}
 
 		.tbody {
-			width: 1650px;
+			width: 1500px;
+			display: table-row-group;
+			transform: translateX(-1px);
 		}
 
 		.thead__headings {
@@ -206,6 +208,14 @@ export function tableStyles() {
 			top: -40px;
 			background-color: black;
 			z-index: 9999;
+		}
+
+		.col-n.td {
+			border-left: none;
+		}
+
+		.col-verify.td {
+			border-right: none;
 		}
 
 		.col-n {
@@ -285,7 +295,7 @@ export function tableStyles() {
 
 		.th,
 		.td {
-			padding: 0.4rem 0.6rem;
+			padding: 0.4rem;
 			border: 1px solid rgba(160, 160, 160, 0.2);
 			text-align: center;
 		}
