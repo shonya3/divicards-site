@@ -1,6 +1,7 @@
 import { TemplateResult, html } from 'lit';
 import { asyncAppend } from 'lit/directives/async-append.js';
 import type { Source } from './gen/Source';
+import type { PoeData } from './PoeData';
 
 export function sourceHref(source: Source): string {
 	if (source.kind === 'empty-source') {
@@ -85,5 +86,46 @@ export class EventEmitter<Events> {
 
 	on<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void): void {
 		this.#eventTarget.addEventListener(type, e => callback((e as CustomEvent<Events[Key]>).detail));
+	}
+}
+
+export function sortSourcesByLevel(sources: Source[], poeData: Readonly<PoeData>): void {
+	sources.sort((s1, s2) => {
+		// if source has no level, put it to the end
+		const level1 = sourceLevel(s1, poeData) ?? 200;
+		const level2 = sourceLevel(s2, poeData) ?? 200;
+		return level1 - level2;
+	});
+}
+
+export function sourceLevel(source: Source, poeData: Readonly<PoeData>): number | null {
+	switch (source.type) {
+		case 'Act': {
+			return poeData.areaLevel(source.id, source.type);
+		}
+		case 'Act Boss': {
+			const b = poeData.find.actBossAndArea(source.id);
+			if (!b) return null;
+			return b.area.areaLevel;
+		}
+		case 'Map': {
+			return poeData.areaLevel(source.id, source.type);
+		}
+		case 'Map Boss': {
+			const b = poeData.find.mapBoss(source.id);
+			if (!b) return null;
+			const mapLevels: number[] = [];
+			for (const map of b.maps) {
+				const level = poeData.areaLevel(map, 'Map');
+				if (level !== null) {
+					mapLevels.push(level);
+				}
+			}
+			const minLevel = Math.min(...mapLevels);
+			return minLevel === Infinity ? null : minLevel;
+		}
+		default: {
+			return null;
+		}
 	}
 }
