@@ -91,7 +91,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 			<table class="table">
 				<thead class="thead">
 					<tr class="thead__headings">
-						<th class="th col-n">№</th>
+						<th class="th col-id">id</th>
 						<th class="th col-card">Card</th>
 						<th class="th col-weight">Weight</th>
 						<th class="th col-tag">Tag</th>
@@ -127,7 +127,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 
 	protected TableRow(record: DivcordRecordAndWeight): TemplateResult {
 		return html`<tr>
-			<td class="td col-n">${record.id}</td>
+			<td class="td col-id">${record.id}</td>
 			<td class="td col-card">
 				${this.showCards
 					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
@@ -210,7 +210,7 @@ export function tableStyles() {
 			z-index: 9999;
 		}
 
-		.col-n.td {
+		.col-id.td {
 			border-left: none;
 		}
 
@@ -218,7 +218,7 @@ export function tableStyles() {
 			border-right: none;
 		}
 
-		.col-n {
+		.col-id {
 			width: 50px;
 		}
 		.col-card {
