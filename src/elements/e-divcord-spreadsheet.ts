@@ -225,7 +225,7 @@ export function tableStyles() {
 			width: 200px;
 		}
 		.col-weight {
-			width: 70px;
+			width: 100px;
 		}
 		.col-tag {
 			word-break: break-word;
