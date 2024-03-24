@@ -21,7 +21,7 @@ declare global {
 
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
-	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = false;
+	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
 	divcordTable!: DivcordTable;
