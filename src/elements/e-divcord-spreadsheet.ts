@@ -116,8 +116,8 @@ export class DivcordSpreadsheetElement extends LitElement {
 				<tbody class="tbody">
 					${virtualize({
 						items: this.records,
-						renderItem: (record: DivcordRecordAndWeight, index: number): TemplateResult => {
-							return this.TableRow(record, index);
+						renderItem: (record: DivcordRecordAndWeight): TemplateResult => {
+							return this.TableRow(record);
 						},
 					})}
 				</tbody>
@@ -125,9 +125,9 @@ export class DivcordSpreadsheetElement extends LitElement {
 		</div>`;
 	}
 
-	protected TableRow(record: DivcordRecordAndWeight, index: number): TemplateResult {
+	protected TableRow(record: DivcordRecordAndWeight): TemplateResult {
 		return html`<tr>
-			<td class="td col-n">${index + 1}</td>
+			<td class="td col-n">${record.id}</td>
 			<td class="td col-card">
 				${this.showCards
 					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
@@ -198,7 +198,7 @@ export function tableStyles() {
 		}
 
 		.tbody {
-			width: 1500px;
+			width: 1450px;
 			display: table-row-group;
 			transform: translateX(-1px);
 		}
@@ -257,16 +257,6 @@ export function tableStyles() {
 			flex-direction: row;
 			flex-wrap: wrap;
 		}
-
-		/**
-    
-
-		.col-sources,
-		.col-verify,
-		.col-notes {
-			width: 200px;
-		}
-         */
 
 		.confidence {
 			position: relative;
