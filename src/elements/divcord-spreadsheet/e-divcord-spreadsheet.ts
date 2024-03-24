@@ -57,7 +57,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 
 		if (map.has('idOrder')) {
 			if (this.orderedBy === 'id') {
-				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
+				this.nameIcon = this.idOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
 				Sort.byId(this.recordsState, this.idOrder);
 			}
 		}
