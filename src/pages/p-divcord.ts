@@ -24,7 +24,10 @@ import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQu
 import { Confidence, RemainingWork, Greynote, DivcordRecord } from '../gen/divcord';
 import { DEFAULT_PRESETS, type PresetConfig } from '../elements/presets/presets';
 import { toast } from '../toast';
-import { DivcordRecordAndWeight } from '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
+import {
+	DivcordRecordAndWeight,
+	DivcordSpreadsheetElement,
+} from '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import { poeData } from '../PoeData';
 
 declare global {
@@ -40,6 +43,7 @@ declare module '../storage' {
 		latestPresetApplied: string;
 		onlyShowCardsWithNoConfirmedSources: boolean;
 		onlyShowCardsWithSourcesToVerify: boolean;
+		activeView: ActiveView;
 	}
 }
 
@@ -53,6 +57,8 @@ export class DivcordPage extends LitElement {
 		latestPresetApplied: new Storage('latestPresetApplied', ''),
 		onlyShowCardsWithNoConfirmedSources: new Storage('onlyShowCardsWithNoConfirmedSources', false),
 		onlyShowCardsWithSourcesToVerify: new Storage('onlyShowCardsWithSourcesToVerify', false),
+		showCards: new Storage('weightsPageShowCards', true),
+		activeView: new Storage('activeView', 'list'),
 	};
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
@@ -62,7 +68,8 @@ export class DivcordPage extends LitElement {
 		this.#storage.onlyShowCardsWithNoConfirmedSources.load();
 	@property({ type: Boolean }) onlyShowCardsWithSourcesToVerify: boolean =
 		this.#storage.onlyShowCardsWithSourcesToVerify.load();
-	@property({ reflect: true, attribute: 'active-view' }) activeView: ActiveView = 'list';
+	@property({ type: Boolean }) showCards: boolean = this.#storage.showCards.load();
+	@property({ reflect: true, attribute: 'active-view' }) activeView: ActiveView = this.#storage.activeView.load();
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -95,7 +102,19 @@ export class DivcordPage extends LitElement {
 		this.customPresets = e.detail;
 	}
 
+	#onShowCardsChanged(e: Event) {
+		this.showCards = (e.target as DivcordSpreadsheetElement).showCards;
+	}
+
 	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('showCards')) {
+			this.#storage.showCards.save(this.showCards);
+		}
+
+		if (map.has('activeView')) {
+			this.#storage.activeView.save(this.activeView);
+		}
+
 		if (map.has('shouldApplySelectFilters')) {
 			this.#storage.shouldApplyFilters.save(this.shouldApplySelectFilters);
 		}
@@ -278,7 +297,11 @@ export class DivcordPage extends LitElement {
 									></e-card-with-divcord-records>`;
 								})}
 							</ul>`
-					: html`<e-divcord-spreadsheet .records=${this.recordsForTableView}></e-divcord-spreadsheet>`}
+					: html`<e-divcord-spreadsheet
+							@show-cards-changed=${this.#onShowCardsChanged}
+							.records=${this.recordsForTableView}
+							.showCards=${this.showCards}
+					  ></e-divcord-spreadsheet>`}
 			</div>
 		</div>`;
 	}
