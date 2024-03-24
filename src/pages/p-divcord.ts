@@ -157,7 +157,11 @@ export class DivcordPage extends LitElement {
 			this.paginatedCardsRenderer = new ArrayAsyncRenderer(this.paginated);
 
 			if (this.activeView === 'table') {
-				this.recordsForTableView = prepareDivcordRecordsAndWeight(this.divcordTable.records);
+				const set = new Set(this.filtered);
+
+				this.recordsForTableView = prepareDivcordRecordsAndWeight(
+					this.divcordTable.records.filter(record => set.has(record.card))
+				);
 			}
 		}
 	}
