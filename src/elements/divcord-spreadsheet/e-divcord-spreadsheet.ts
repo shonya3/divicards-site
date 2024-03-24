@@ -10,7 +10,7 @@ import { Source } from '../../gen/Source';
 import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 import { styles } from './divcord-spreadsheet.styles';
-import { Sort, type Order } from './Sort';
+import { Sort, type SortColums, type Order } from './Sort';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -30,7 +30,8 @@ export class DivcordSpreadsheetElement extends LitElement {
 	// Sort
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
-	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'card' | 'weight' = 'card';
+	@property({ reflect: true, attribute: 'name-order' }) idOrder: Order = 'asc';
+	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: SortColums = 'id';
 
 	@state() private recordsState: DivcordRecordAndWeight[] = [];
 	@state() private weightIcon = 'sort-down';
@@ -51,6 +52,13 @@ export class DivcordSpreadsheetElement extends LitElement {
 			if (this.orderedBy === 'card') {
 				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
 				Sort.byCard(this.recordsState, this.nameOrder);
+			}
+		}
+
+		if (map.has('idOrder')) {
+			if (this.orderedBy === 'id') {
+				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
+				Sort.byId(this.recordsState, this.idOrder);
 			}
 		}
 	}
@@ -101,12 +109,26 @@ export class DivcordSpreadsheetElement extends LitElement {
 		this.orderedBy = 'card';
 	}
 
+	#toggleIdOrder() {
+		this.idOrder = this.idOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'id';
+	}
+
 	protected render(): TemplateResult {
 		return html`<div id="root">
 			<table class="table">
 				<thead class="thead">
 					<tr class="thead__headings">
-						<th class="th col-id">id</th>
+						<th class="th col-id">
+							<div class="header-with-icon">
+								Card
+								<sl-icon
+									class=${classMap({ 'ordered-by': this.orderedBy === 'id' })}
+									@click=${this.#toggleIdOrder}
+									.name=${this.nameIcon}
+								></sl-icon>
+							</div>
+						</th>
 						<th class="th col-card">
 							<div class="header-with-icon">
 								Card

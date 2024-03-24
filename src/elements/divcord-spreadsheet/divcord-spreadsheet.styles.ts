@@ -39,7 +39,7 @@ export const styles = css`
 	}
 
 	.col-id {
-		width: 50px;
+		width: 100px;
 	}
 	.col-card {
 		width: 200px;
