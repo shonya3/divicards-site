@@ -2,6 +2,7 @@ import { TemplateResult, html } from 'lit';
 import { asyncAppend } from 'lit/directives/async-append.js';
 import type { Source } from './gen/Source';
 import type { PoeData } from './PoeData';
+import type { DivcordRecord } from './gen/divcord';
 
 export function sourceHref(source: Source): string {
 	if (source.kind === 'empty-source') {
@@ -87,6 +88,10 @@ export class EventEmitter<Events> {
 	on<Key extends keyof Events & string>(type: Key, callback: (e: Events[Key]) => void): void {
 		this.#eventTarget.addEventListener(type, e => callback((e as CustomEvent<Events[Key]>).detail));
 	}
+}
+
+export function sortAllSourcesByLevel(records: DivcordRecord[], poeData: Readonly<PoeData>): void {
+	records.forEach(({ sources }) => sortSourcesByLevel(sources ?? [], poeData));
 }
 
 export function sortSourcesByLevel(sources: Source[], poeData: Readonly<PoeData>): void {

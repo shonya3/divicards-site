@@ -3,7 +3,7 @@ import { warningToast } from './toast';
 import { sortByWeight } from './cards';
 import type { DivcordRecord } from './gen/divcord';
 import { Storage } from './storage';
-import { EventEmitter } from './utils';
+import { EventEmitter, sortAllSourcesByLevel } from './utils';
 
 declare module './storage' {
 	interface Registry {
@@ -182,6 +182,7 @@ async function parseRecords(divcord: Spreadsheet, poeData: PoeData): Promise<Div
 	await initWasm();
 	const records = parsed_records(JSON.stringify(divcord), JSON.stringify(poeData), warningToast) as DivcordRecord[];
 	sortByWeight(records, poeData);
+	sortAllSourcesByLevel(records, poeData);
 	return records;
 }
 
