@@ -1,5 +1,5 @@
-import { LitElement, html, css, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
@@ -10,6 +10,7 @@ import { Source } from '../../gen/Source';
 import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 import { styles } from './divcord-spreadsheet.styles';
+import { Sort, type Order } from './Sort';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -18,13 +19,42 @@ declare global {
 }
 
 export interface DivcordRecordAndWeight extends DivcordRecord {
-	weight: string;
+	weight: number;
 }
 
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
 	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
 	@property({ type: Array }) records: DivcordRecordAndWeight[] = [];
+
+	// Sort
+	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
+	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
+	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'card' | 'weight' = 'card';
+	@property({ type: Number, reflect: true }) limit: null | number = 5;
+
+	@state() private recordsState: DivcordRecordAndWeight[] = [];
+	@state() private weightIcon = 'sort-down';
+	@state() private nameIcon = 'sort-alpha-down-alt';
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('records')) {
+			this.recordsState = structuredClone(this.records);
+		}
+
+		if (map.has('weightOrder')) {
+			if (this.orderedBy === 'weight') {
+				this.weightIcon = this.weightOrder === 'desc' ? 'sort-down' : 'sort-up';
+				Sort.byWeight(this.recordsState, this.weightOrder);
+			}
+		}
+
+		if (map.has('nameOrder')) {
+			if (this.orderedBy === 'card') {
+				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
+				Sort.byCard(this.recordsState, this.nameOrder);
+			}
+		}
+	}
 
 	#onShowCardsToggled(e: Event) {
 		const target = e.target;
@@ -61,14 +91,43 @@ export class DivcordSpreadsheetElement extends LitElement {
 		return ul;
 	}
 
+	#toggleWeightOrder() {
+		console.log('toggle weight order');
+		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'weight';
+	}
+
+	#toggleNameOrder() {
+		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'card';
+	}
+
 	protected render(): TemplateResult {
 		return html`<div id="root">
 			<table class="table">
 				<thead class="thead">
 					<tr class="thead__headings">
 						<th class="th col-id">id</th>
-						<th class="th col-card">Card</th>
-						<th class="th col-weight">Weight</th>
+						<th class="th col-card">
+							<div class="header-with-icon">
+								Card
+								<sl-icon
+									class=${classMap({ 'ordered-by': this.orderedBy === 'card' })}
+									@click=${this.#toggleNameOrder}
+									.name=${this.nameIcon}
+								></sl-icon>
+							</div>
+						</th>
+						<th class="th col-weight">
+							<div class="header-with-icon">
+								Weight
+								<sl-icon
+									class=${classMap({ 'ordered-by': this.orderedBy === 'weight' })}
+									@click=${this.#toggleWeightOrder}
+									.name=${this.weightIcon}
+								></sl-icon>
+							</div>
+						</th>
 						<th class="th col-tag">Tag</th>
 						<th class="th col-confidence">Confidence</th>
 						<th class="th col-remaining-work">Remaining Work</th>
@@ -90,7 +149,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 				</thead>
 				<tbody class="tbody">
 					${virtualize({
-						items: this.records,
+						items: this.recordsState,
 						renderItem: (record: DivcordRecordAndWeight): TemplateResult => {
 							return this.TableRow(record);
 						},
@@ -101,6 +160,11 @@ export class DivcordSpreadsheetElement extends LitElement {
 	}
 
 	protected TableRow(record: DivcordRecordAndWeight): TemplateResult {
+		const weightStr =
+			record.weight > 5
+				? record.weight.toLocaleString('ru', { maximumFractionDigits: 0 })
+				: record.weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+
 		return html`<tr>
 			<td class="td col-id">${record.id}</td>
 			<td class="td col-card">
@@ -108,7 +172,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
 					: html`${record.card}`}
 			</td>
-			<td class="td td-weight col-weight">${record.weight}</td>
+			<td class="td td-weight col-weight">${weightStr}</td>
 			<td class="td col-tag">${record.tagHypothesis}</td>
 			<td
 				class=${classMap({

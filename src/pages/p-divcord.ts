@@ -463,12 +463,6 @@ function prepareDivcordRecordsAndWeight(records: DivcordRecord[]): DivcordRecord
 	);
 
 	return records.map(record => {
-		const weight = weights[record.card];
-		const weightStr =
-			weights[record.card] > 5
-				? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-				: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
-
-		return { ...record, weight: weightStr };
+		return { ...record, weight: weights[record.card] };
 	});
 }
