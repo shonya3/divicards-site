@@ -10,6 +10,7 @@ import '../elements/e-source/e-source';
 import '../elements/e-need-to-verify';
 import { classMap } from 'lit/directives/class-map.js';
 import { Source } from '../gen/Source';
+import type { DivcordRecord } from '../gen/divcord';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -19,7 +20,7 @@ declare global {
 
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
-	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = false;
+	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
 	divcordTable!: DivcordTable;
@@ -88,44 +89,48 @@ export class DivcordSpreadsheetElement extends LitElement {
 				<tbody class="tbody">
 					${this.divcordTable.records.map((record, index) => {
 						//
-						return html`<tr>
-							<td class="td">${index + 1}</td>
-							<td class="td">
-								${this.showCards
-									? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
-									: html`${record.card}`}
-							</td>
-							<td class="td">${record.tagHypothesis}</td>
-							<td
-								class=${classMap({
-									td: true,
-									confidence: true,
-									[`confidence--${record.confidence}`]: true,
-								})}
-							>
-								${record.confidence}
-							</td>
-							<td class="td">${record.remainingWork}</td>
-							<td class="td">
-								<!--${(record.sources ?? []).map(source => {
-									return html`<e-source .source=${source}></e-source>`;
-								})}-->
-								${this.sourcesList(record.sources ?? [])}
-							</td>
-							<td class="td">
-								<!--${record.verifySources.map(source => {
-									return html`<e-need-to-verify>
-										<e-source size="small" .source=${source}></e-source>
-									</e-need-to-verify>`;
-								})}-->
-								${this.sourcesList(record.verifySources)}
-							</td>
-							<!--<td class="td td-notes">${record.notes}</td>-->
-						</tr>`;
+						return this.TableRow(record, index);
 					})}
 				</tbody>
 			</table>
 		</div>`;
+	}
+
+	protected TableRow(record: DivcordRecord, index: number): TemplateResult {
+		return html`<tr>
+			<td class="td">${index + 1}</td>
+			<td class="td">
+				${this.showCards
+					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
+					: html`${record.card}`}
+			</td>
+			<td class="td">${record.tagHypothesis}</td>
+			<td
+				class=${classMap({
+					td: true,
+					confidence: true,
+					[`confidence--${record.confidence}`]: true,
+				})}
+			>
+				${record.confidence}
+			</td>
+			<td class="td">${record.remainingWork}</td>
+			<td class="td">
+				<!--${(record.sources ?? []).map(source => {
+					return html`<e-source .source=${source}></e-source>`;
+				})}-->
+				${this.sourcesList(record.sources ?? [])}
+			</td>
+			<td class="td">
+				<!--${record.verifySources.map(source => {
+					return html`<e-need-to-verify>
+						<e-source size="small" .source=${source}></e-source>
+					</e-need-to-verify>`;
+				})}-->
+				${this.sourcesList(record.verifySources)}
+			</td>
+			<!--<td class="td td-notes">${record.notes}</td>-->
+		</tr>`;
 	}
 
 	static styles = css`
