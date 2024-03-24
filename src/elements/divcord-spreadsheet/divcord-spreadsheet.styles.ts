@@ -2,6 +2,7 @@ import { css } from 'lit';
 
 export const styles = css`
 	#root {
+		padding-top: 2rem;
 		height: calc(100vh - 100px);
 		overflow-y: scroll;
 		width: fit-content;
