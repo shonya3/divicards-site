@@ -11,6 +11,7 @@ import '../elements/e-need-to-verify';
 import { classMap } from 'lit/directives/class-map.js';
 import { Source } from '../gen/Source';
 import type { DivcordRecord } from '../gen/divcord';
+import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -87,10 +88,16 @@ export class DivcordSpreadsheetElement extends LitElement {
 					</tr>
 				</thead>
 				<tbody class="tbody">
-					${this.divcordTable.records.map((record, index) => {
+					${virtualize({
+						items: this.divcordTable.records,
+						renderItem: (record: DivcordRecord, index: number): TemplateResult => {
+							return this.TableRow(record, index);
+						},
+					})}
+					<!--${this.divcordTable.records.map((record, index) => {
 						//
 						return this.TableRow(record, index);
-					})}
+					})}-->
 				</tbody>
 			</table>
 		</div>`;
@@ -98,30 +105,31 @@ export class DivcordSpreadsheetElement extends LitElement {
 
 	protected TableRow(record: DivcordRecord, index: number): TemplateResult {
 		return html`<tr>
-			<td class="td">${index + 1}</td>
-			<td class="td">
+			<td class="td col-n">${index + 1}</td>
+			<td class="td col-card">
 				${this.showCards
 					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
 					: html`${record.card}`}
 			</td>
-			<td class="td">${record.tagHypothesis}</td>
+			<td class="td col-tag">${record.tagHypothesis}</td>
 			<td
 				class=${classMap({
 					td: true,
 					confidence: true,
 					[`confidence--${record.confidence}`]: true,
+					'col-confidence': true,
 				})}
 			>
 				${record.confidence}
 			</td>
-			<td class="td">${record.remainingWork}</td>
-			<td class="td">
+			<td class="td col-remaining-work">${record.remainingWork}</td>
+			<td class="td col-sources">
 				<!--${(record.sources ?? []).map(source => {
 					return html`<e-source .source=${source}></e-source>`;
 				})}-->
 				${this.sourcesList(record.sources ?? [])}
 			</td>
-			<td class="td">
+			<td class="td col-verify">
 				<!--${record.verifySources.map(source => {
 					return html`<e-need-to-verify>
 						<e-source size="small" .source=${source}></e-source>
@@ -164,6 +172,10 @@ export function tableStyles() {
 			width: 1250px;
 			font-size: 14px;
 			position: relative;
+		}
+
+		.tbody {
+			width: 1350px;
 		}
 
 		.thead__headings {
