@@ -13,6 +13,7 @@ import './pages/p-source';
 import './pages/p-source-type';
 import './pages/p-verify-faq';
 import './pages/p-verify';
+import './elements/e-divcord-spreadsheet';
 
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 
@@ -104,6 +105,11 @@ export const router = new Router({
 				const sourceType = decodeURI(params.id) as SourceType;
 				return html`<p-source-type .sourceType=${sourceType}></p-source-type>`;
 			},
+		},
+		{
+			path: '/spreadsheet',
+			title: 'Divcord spreadsheet',
+			render: () => html`<e-divcord-spreadsheet></e-divcord-spreadsheet>`,
 		},
 	],
 });
