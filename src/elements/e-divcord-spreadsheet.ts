@@ -103,7 +103,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 					</tr>
 					<tr class="show-cards-row">
 						<td class="td"></td>
-						<td class="td" class="show-cards-row__td">
+						<td class="td show-cards-row__td">
 							<div>
 								<sl-checkbox .checked=${this.showCards} @sl-input=${this.#onShowCardsToggled}
 									>Show cards</sl-checkbox
