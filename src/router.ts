@@ -13,7 +13,7 @@ import './pages/p-source';
 import './pages/p-source-type';
 import './pages/p-verify-faq';
 import './pages/p-verify';
-import './elements/e-divcord-spreadsheet';
+import './elements/divcord-spreadsheet/e-divcord-spreadsheet';
 
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 

@@ -1,18 +1,18 @@
 import { consume } from '@lit/context';
 import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { DivcordTable } from '../DivcordTable';
-import { divcordTableContext } from '../context';
+import { DivcordTable } from '../../DivcordTable';
+import { divcordTableContext } from '../../context';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
-import '../elements/divination-card/e-divination-card';
-import '../elements/e-source/e-source';
-import '../elements/e-need-to-verify';
+import '../divination-card/e-divination-card';
+import '../e-source/e-source';
+import '../e-need-to-verify';
 import { classMap } from 'lit/directives/class-map.js';
-import { Source } from '../gen/Source';
-import type { DivcordRecord } from '../gen/divcord';
+import { Source } from '../../gen/Source';
+import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
-import { poeData } from '../PoeData';
+import { poeData } from '../../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
