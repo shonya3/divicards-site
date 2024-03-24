@@ -121,7 +121,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 					<tr class="thead__headings">
 						<th class="th col-id">
 							<div class="header-with-icon">
-								Card
+								id
 								<sl-icon
 									class=${classMap({ 'ordered-by': this.orderedBy === 'id' })}
 									@click=${this.#toggleIdOrder}
