@@ -1,5 +1,5 @@
 import { consume } from '@lit/context';
-import { LitElement, html, css, TemplateResult } from 'lit';
+import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { DivcordTable } from '../DivcordTable';
 import { divcordTableContext } from '../context';
@@ -12,11 +12,16 @@ import { classMap } from 'lit/directives/class-map.js';
 import { Source } from '../gen/Source';
 import type { DivcordRecord } from '../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
+import { poeData } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'e-divcord-spreadsheet': DivcordSpreadsheetElement;
 	}
+}
+
+interface DivcordRecordAndWeight extends DivcordRecord {
+	weight: number;
 }
 
 @customElement('e-divcord-spreadsheet')
@@ -25,6 +30,18 @@ export class DivcordSpreadsheetElement extends LitElement {
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
 	divcordTable!: DivcordTable;
+
+	@state() records: DivcordRecordAndWeight[] = [];
+
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('divcordTable')) {
+			const weights: Record<string, number> = Object.fromEntries(
+				Object.values(poeData.cards).map(({ name, weight }) => [name, weight])
+			);
+
+			this.records = this.divcordTable.records.map(record => ({ ...record, weight: weights[record.card] }));
+		}
+	}
 
 	#onShowCardsToggled(e: Event) {
 		const target = e.target;
@@ -66,7 +83,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 			<table class="table">
 				<thead class="thead">
 					<tr class="thead__headings">
-						<th class="th col-n w">№</th>
+						<th class="th col-n">№</th>
 						<th class="th col-card">Card</th>
 						<th class="th col-tag">Tag</th>
 						<th class="th col-confidence">Confidence</th>
@@ -89,21 +106,17 @@ export class DivcordSpreadsheetElement extends LitElement {
 				</thead>
 				<tbody class="tbody">
 					${virtualize({
-						items: this.divcordTable.records,
-						renderItem: (record: DivcordRecord, index: number): TemplateResult => {
+						items: this.records,
+						renderItem: (record: DivcordRecordAndWeight, index: number): TemplateResult => {
 							return this.TableRow(record, index);
 						},
 					})}
-					<!--${this.divcordTable.records.map((record, index) => {
-						//
-						return this.TableRow(record, index);
-					})}-->
 				</tbody>
 			</table>
 		</div>`;
 	}
 
-	protected TableRow(record: DivcordRecord, index: number): TemplateResult {
+	protected TableRow(record: DivcordRecordAndWeight, index: number): TemplateResult {
 		return html`<tr>
 			<td class="td col-n">${index + 1}</td>
 			<td class="td col-card">
