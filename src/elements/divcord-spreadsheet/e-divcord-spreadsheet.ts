@@ -73,6 +73,18 @@ export class DivcordSpreadsheetElement extends LitElement {
 				Sort.byVerify(this.recordsState, this.verifyOrder);
 			}
 		}
+
+		if (
+			!map.has('weightOrder') &&
+			!map.has('verifyOrder') &&
+			!map.has('idOrder') &&
+			!map.has('nameOrder') &&
+			map.has('records')
+		) {
+			//@ts-expect-error; ts dumb
+			const order = this[`${this.orderedBy}Order`] as Order;
+			Sort.by(this.orderedBy, this.recordsState, order);
+		}
 	}
 
 	#onShowCardsToggled(e: Event) {

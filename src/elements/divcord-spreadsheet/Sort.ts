@@ -25,4 +25,17 @@ export class Sort {
 				: b.verifySources.length - a.verifySources.length
 		);
 	}
+
+	static by(column: SortColums, records: DivcordRecordAndWeight[], order: Order): void {
+		switch (column) {
+			case 'card':
+				return Sort.byCard(records, order);
+			case 'id':
+				return Sort.byId(records, order);
+			case 'verify':
+				return Sort.byVerify(records, order);
+			case 'weight':
+				return Sort.byWeight(records, order);
+		}
+	}
 }
