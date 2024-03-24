@@ -120,6 +120,7 @@ export class DivcordPage extends LitElement {
 			'onlyShowCardsWithSourcesToVerify',
 			'page',
 			'perPage',
+			'activeView',
 		];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = createFilteredCards({
@@ -256,19 +257,21 @@ export class DivcordPage extends LitElement {
 			</section>
 
 			<div class="active-view">
-				<e-page-controls
-					.n=${this.filtered.length}
-					page=${this.page}
-					per-page=${this.perPage}
-				></e-page-controls>
-				<ul>
-					${this.paginatedCardsRenderer.render(card => {
-						return html`<e-card-with-divcord-records
-							.card=${card}
-							.records=${this.divcordTable.recordsByCard(card)}
-						></e-card-with-divcord-records>`;
-					})}
-				</ul>
+				${this.activeView === 'list'
+					? html`<e-page-controls
+								.n=${this.filtered.length}
+								page=${this.page}
+								per-page=${this.perPage}
+							></e-page-controls>
+							<ul>
+								${this.paginatedCardsRenderer.render(card => {
+									return html`<e-card-with-divcord-records
+										.card=${card}
+										.records=${this.divcordTable.recordsByCard(card)}
+									></e-card-with-divcord-records>`;
+								})}
+							</ul>`
+					: html`<e-divcord-spreadsheet></e-divcord-spreadsheet>`}
 			</div>
 		</div>`;
 	}

@@ -5,7 +5,6 @@ export const styles = css`
 		height: calc(100vh - 100px);
 		overflow-y: scroll;
 		width: fit-content;
-		padding: 2rem;
 	}
 
 	.table {
