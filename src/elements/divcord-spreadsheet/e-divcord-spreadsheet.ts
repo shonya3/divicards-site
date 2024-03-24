@@ -1,8 +1,5 @@
-import { consume } from '@lit/context';
-import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { DivcordTable } from '../../DivcordTable';
-import { divcordTableContext } from '../../context';
+import { LitElement, html, css, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
@@ -12,7 +9,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { Source } from '../../gen/Source';
 import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
-import { poeData } from '../../PoeData';
 import { styles } from './divcord-spreadsheet.styles';
 
 declare global {
@@ -21,36 +17,14 @@ declare global {
 	}
 }
 
-interface DivcordRecordAndWeight extends DivcordRecord {
+export interface DivcordRecordAndWeight extends DivcordRecord {
 	weight: string;
 }
 
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
 	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: DivcordTable;
-
-	@state() records: DivcordRecordAndWeight[] = [];
-
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable')) {
-			const weights: Record<string, number> = Object.fromEntries(
-				Object.values(poeData.cards).map(({ name, weight }) => [name, weight])
-			);
-
-			this.records = this.divcordTable.records.map(record => {
-				const weight = weights[record.card];
-				const weightStr =
-					weights[record.card] > 5
-						? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-						: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
-
-				return { ...record, weight: weightStr };
-			});
-		}
-	}
+	@property({ type: Array }) records: DivcordRecordAndWeight[] = [];
 
 	#onShowCardsToggled(e: Event) {
 		const target = e.target;

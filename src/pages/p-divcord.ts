@@ -21,9 +21,11 @@ import { ArrayAsyncRenderer, paginate } from '../utils';
 import { Storage } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
 import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
-import { Confidence, RemainingWork, Greynote } from '../gen/divcord';
+import { Confidence, RemainingWork, Greynote, DivcordRecord } from '../gen/divcord';
 import { DEFAULT_PRESETS, type PresetConfig } from '../elements/presets/presets';
 import { toast } from '../toast';
+import { DivcordRecordAndWeight } from '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
+import { poeData } from '../PoeData';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -66,6 +68,7 @@ export class DivcordPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	@state() recordsForTableView: DivcordRecordAndWeight[] = [];
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];
 	@state() paginatedCardsRenderer!: ArrayAsyncRenderer<string>;
@@ -133,6 +136,10 @@ export class DivcordPage extends LitElement {
 			});
 			this.paginated = paginate(this.filtered, this.page, this.perPage);
 			this.paginatedCardsRenderer = new ArrayAsyncRenderer(this.paginated);
+
+			if (this.activeView === 'table') {
+				this.recordsForTableView = prepareDivcordRecordsAndWeight(this.divcordTable.records);
+			}
 		}
 	}
 
@@ -271,7 +278,7 @@ export class DivcordPage extends LitElement {
 									></e-card-with-divcord-records>`;
 								})}
 							</ul>`
-					: html`<e-divcord-spreadsheet></e-divcord-spreadsheet>`}
+					: html`<e-divcord-spreadsheet .records=${this.recordsForTableView}></e-divcord-spreadsheet>`}
 			</div>
 		</div>`;
 	}
@@ -421,4 +428,20 @@ function someCardRecordHasGreynoteWorkVariant(
 	divcordTable: DivcordTable
 ): boolean {
 	return divcordTable.recordsByCard(card).some(record => greynoteVariants.includes(record.greynote));
+}
+
+function prepareDivcordRecordsAndWeight(records: DivcordRecord[]): DivcordRecordAndWeight[] {
+	const weights: Record<string, number> = Object.fromEntries(
+		Object.values(poeData.cards).map(({ name, weight }) => [name, weight])
+	);
+
+	return records.map(record => {
+		const weight = weights[record.card];
+		const weightStr =
+			weights[record.card] > 5
+				? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
+				: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+
+		return { ...record, weight: weightStr };
+	});
 }
