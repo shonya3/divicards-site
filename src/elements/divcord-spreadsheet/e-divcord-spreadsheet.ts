@@ -31,7 +31,6 @@ export class DivcordSpreadsheetElement extends LitElement {
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'card' | 'weight' = 'card';
-	@property({ type: Number, reflect: true }) limit: null | number = 5;
 
 	@state() private recordsState: DivcordRecordAndWeight[] = [];
 	@state() private weightIcon = 'sort-down';
