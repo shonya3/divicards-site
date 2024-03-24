@@ -9,8 +9,11 @@ import '../elements/input/e-input';
 import '../elements/e-update-divcord-data';
 import '../elements/e-divcord-records-age';
 import '../elements/presets/e-divcord-presets';
+import '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
+import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js';
+import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { DivcordRecordsAgeElement } from '../elements/e-divcord-records-age';
 import { DivcordPresetsElement } from '../elements/presets/e-divcord-presets';
@@ -38,6 +41,8 @@ declare module '../storage' {
 	}
 }
 
+type ActiveView = 'list' | 'table';
+
 @customElement('p-divcord')
 export class DivcordPage extends LitElement {
 	#storage = {
@@ -55,6 +60,7 @@ export class DivcordPage extends LitElement {
 		this.#storage.onlyShowCardsWithNoConfirmedSources.load();
 	@property({ type: Boolean }) onlyShowCardsWithSourcesToVerify: boolean =
 		this.#storage.onlyShowCardsWithSourcesToVerify.load();
+	@property({ reflect: true, attribute: 'active-view' }) activeView: ActiveView = 'list';
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -168,6 +174,15 @@ export class DivcordPage extends LitElement {
 		}
 	}
 
+	#onActiveViewChanged(e: InputEvent) {
+		const target = e.target as EventTarget & { value: string };
+		if (target && target.value) {
+			if (target.value === 'list' || target.value === 'table') {
+				this.activeView = target.value;
+			}
+		}
+	}
+
 	render(): TemplateResult {
 		return html`<div class="page">
 			<header>
@@ -216,30 +231,45 @@ export class DivcordPage extends LitElement {
 						  </div> `
 						: nothing}
 				</section>
-
-				<section class="search-and-navigation">
-					<e-input
-						label="Search by anything"
-						.datalistItems=${this.divcordTable.cards()}
-						@input="${this.#onCardnameInput}"
-						type="text"
-					>
-					</e-input>
-					<e-page-controls
-						.n=${this.filtered.length}
-						page=${this.page}
-						per-page=${this.perPage}
-					></e-page-controls>
-				</section>
 			</header>
-			<ul>
-				${this.paginatedCardsRenderer.render(card => {
-					return html`<e-card-with-divcord-records
-						.card=${card}
-						.records=${this.divcordTable.recordsByCard(card)}
-					></e-card-with-divcord-records>`;
-				})}
-			</ul>
+
+			<sl-radio-group
+				@sl-change=${this.#onActiveViewChanged}
+				class="select-view-controls"
+				size="large"
+				label="Select the view"
+				name="a"
+				value=${this.activeView}
+			>
+				<sl-radio-button value="list">List</sl-radio-button>
+				<sl-radio-button value="table">Table</sl-radio-button>
+			</sl-radio-group>
+
+			<section class="search">
+				<e-input
+					label="Search by anything"
+					.datalistItems=${this.divcordTable.cards()}
+					@input="${this.#onCardnameInput}"
+					type="text"
+				>
+				</e-input>
+			</section>
+
+			<div class="active-view">
+				<e-page-controls
+					.n=${this.filtered.length}
+					page=${this.page}
+					per-page=${this.perPage}
+				></e-page-controls>
+				<ul>
+					${this.paginatedCardsRenderer.render(card => {
+						return html`<e-card-with-divcord-records
+							.card=${card}
+							.records=${this.divcordTable.recordsByCard(card)}
+						></e-card-with-divcord-records>`;
+					})}
+				</ul>
+			</div>
 		</div>`;
 	}
 
@@ -268,8 +298,16 @@ export class DivcordPage extends LitElement {
 			max-width: 450px;
 		}
 
-		.search-and-navigation {
-			margin-top: 4rem;
+		.search {
+			margin-top: 2rem;
+		}
+
+		.active-view {
+			margin-top: 1rem;
+		}
+
+		.select-view-controls {
+			margin-top: 2rem;
 		}
 
 		.select-filters-section {
