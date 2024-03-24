@@ -21,7 +21,7 @@ declare global {
 }
 
 interface DivcordRecordAndWeight extends DivcordRecord {
-	weight: number;
+	weight: string;
 }
 
 @customElement('e-divcord-spreadsheet')
@@ -39,7 +39,15 @@ export class DivcordSpreadsheetElement extends LitElement {
 				Object.values(poeData.cards).map(({ name, weight }) => [name, weight])
 			);
 
-			this.records = this.divcordTable.records.map(record => ({ ...record, weight: weights[record.card] }));
+			this.records = this.divcordTable.records.map(record => {
+				const weight = weights[record.card];
+				const weightStr =
+					weights[record.card] > 5
+						? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
+						: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+
+				return { ...record, weight: weightStr };
+			});
 		}
 	}
 
@@ -85,6 +93,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 					<tr class="thead__headings">
 						<th class="th col-n">№</th>
 						<th class="th col-card">Card</th>
+						<th class="th col-weight">Weight</th>
 						<th class="th col-tag">Tag</th>
 						<th class="th col-confidence">Confidence</th>
 						<th class="th col-remaining-work">Remaining Work</th>
@@ -124,6 +133,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
 					: html`${record.card}`}
 			</td>
+			<td class="td td-weight col-weight">${record.weight}</td>
 			<td class="td col-tag">${record.tagHypothesis}</td>
 			<td
 				class=${classMap({
@@ -188,7 +198,7 @@ export function tableStyles() {
 		}
 
 		.tbody {
-			width: 1350px;
+			width: 1650px;
 		}
 
 		.thead__headings {
@@ -203,6 +213,9 @@ export function tableStyles() {
 		}
 		.col-card {
 			width: 200px;
+		}
+		.col-weight {
+			width: 70px;
 		}
 		.col-tag {
 			word-break: break-word;
