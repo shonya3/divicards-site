@@ -73,7 +73,7 @@ function styles() {
 			--act-area-font-size: var(--act-area-font-size-small);
 			--act-area-name-top: 8px;
 			--act-area-name-left: 20px;
-			--act-area-area-level-top: 32px;
+			--act-area-area-level-top: 27px;
 			--act-area-area-level-left: 20px;
 			--act-area-area-level-font-size: 12px;
 		}
