@@ -49,7 +49,7 @@ function styles() {
 			--act-area-width-small: 261px;
 			--act-area-width-medium: 380px;
 			--act-area-width-large: 507px;
-			--act-area-font-size-small: 15px;
+			--act-area-font-size-small: 14px;
 			--act-area-font-size-medium: 16px;
 			--act-area-font-size-large: 24px;
 		}
@@ -71,7 +71,7 @@ function styles() {
 		.act-area--small {
 			--act-area-width: var(--act-area-width-small);
 			--act-area-font-size: var(--act-area-font-size-small);
-			--act-area-name-top: 8px;
+			--act-area-name-top: 5px;
 			--act-area-name-left: 20px;
 			--act-area-area-level-top: 27px;
 			--act-area-area-level-left: 20px;
