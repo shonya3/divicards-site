@@ -29,7 +29,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 
 	// Sort
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
-	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
+	@property({ reflect: true, attribute: 'card-order' }) cardOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'id-order' }) idOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'verify-order' }) verifyOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'ordered-by' })
@@ -53,10 +53,10 @@ export class DivcordSpreadsheetElement extends LitElement {
 			}
 		}
 
-		if (map.has('nameOrder')) {
+		if (map.has('cardOrder')) {
 			if (this.orderedBy === 'card') {
-				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
-				Sort.byCard(this.recordsState, this.nameOrder);
+				this.nameIcon = this.cardOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
+				Sort.byCard(this.recordsState, this.cardOrder);
 			}
 		}
 
@@ -78,12 +78,10 @@ export class DivcordSpreadsheetElement extends LitElement {
 			!map.has('weightOrder') &&
 			!map.has('verifyOrder') &&
 			!map.has('idOrder') &&
-			!map.has('nameOrder') &&
+			!map.has('cardOrder') &&
 			map.has('records')
 		) {
-			//@ts-expect-error; ts dumb
-			const order = this[`${this.orderedBy}Order`] as Order;
-			Sort.by(this.orderedBy, this.recordsState, order);
+			Sort.by(this.orderedBy, this.recordsState, this[`${this.orderedBy}Order`]);
 		}
 	}
 
@@ -93,6 +91,11 @@ export class DivcordSpreadsheetElement extends LitElement {
 			this.showCards = target.checked;
 			this.dispatchEvent(new Event('show-cards-changed'));
 		}
+	}
+
+	#toggleSetOrder(column: SortColums) {
+		this[`${column}Order`] = this[`${column}Order`] === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = column;
 	}
 
 	/**  Put maps into distinct container without gaps */
@@ -122,27 +125,6 @@ export class DivcordSpreadsheetElement extends LitElement {
 		return ul;
 	}
 
-	#toggleWeightOrder() {
-		console.log('toggle weight order');
-		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'weight';
-	}
-
-	#toggleNameOrder() {
-		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'card';
-	}
-
-	#toggleIdOrder() {
-		this.idOrder = this.idOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'id';
-	}
-
-	#toggleVerifyOrder() {
-		this.verifyOrder = this.verifyOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'verify';
-	}
-
 	protected render(): TemplateResult {
 		return html`<div id="root">
 			<table class="table">
@@ -153,7 +135,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								id
 								<sl-icon
 									class=${classMap({ 'ordered-by': this.orderedBy === 'id' })}
-									@click=${this.#toggleIdOrder}
+									@click=${this.#toggleSetOrder.bind(this, 'id')}
 									.name=${this.idIcon}
 								></sl-icon>
 							</div>
@@ -163,7 +145,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								Card
 								<sl-icon
 									class=${classMap({ 'ordered-by': this.orderedBy === 'card' })}
-									@click=${this.#toggleNameOrder}
+									@click=${this.#toggleSetOrder.bind(this, 'card')}
 									.name=${this.nameIcon}
 								></sl-icon>
 							</div>
@@ -173,7 +155,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								Weight
 								<sl-icon
 									class=${classMap({ 'ordered-by': this.orderedBy === 'weight' })}
-									@click=${this.#toggleWeightOrder}
+									@click=${this.#toggleSetOrder.bind(this, 'weight')}
 									.name=${this.weightIcon}
 								></sl-icon>
 							</div>
@@ -187,7 +169,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								Need to verify
 								<sl-icon
 									class=${classMap({ 'ordered-by': this.orderedBy === 'verify' })}
-									@click=${this.#toggleVerifyOrder}
+									@click=${this.#toggleSetOrder.bind(this, 'verify')}
 									.name=${this.verifyIcon}
 								></sl-icon>
 							</div>
