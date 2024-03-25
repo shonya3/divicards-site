@@ -69,6 +69,7 @@ export const styles = css`
 		flex-direction: row;
 		flex-wrap: wrap;
 		margin-top: 0.25rem;
+		gap: 0.5rem;
 		column-gap: 0.5rem;
 	}
 
@@ -76,6 +77,7 @@ export const styles = css`
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		gap: 0.25rem;
 	}
 
 	.confidence {
