@@ -1,3 +1,4 @@
+import { linkStyles } from './../../linkStyles';
 import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
@@ -125,6 +126,13 @@ export class DivcordSpreadsheetElement extends LitElement {
 		return ul;
 	}
 
+	#onAnchorCardNavigation(e: Event) {
+		const target = e.composedPath()[0];
+		if (target instanceof HTMLAnchorElement) {
+			target.style.setProperty('view-transition-name', 'card');
+		}
+	}
+
 	protected render(): TemplateResult {
 		return html`<div id="root">
 			<table class="table">
@@ -211,7 +219,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 			<td class="td col-card">
 				${this.showCards
 					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
-					: html`${record.card}`}
+					: html`<a @click=${this.#onAnchorCardNavigation} href="/card/${record.card}"> ${record.card} </a>`}
 			</td>
 			<td class="td td-weight col-weight">${weightStr}</td>
 			<td class="td col-tag">${record.tagHypothesis}</td>
@@ -250,6 +258,8 @@ export class DivcordSpreadsheetElement extends LitElement {
 			margin: 0;
 			box-sizing: border-box;
 		}
+
+		${linkStyles}
 
 		:host {
 			display: block;
