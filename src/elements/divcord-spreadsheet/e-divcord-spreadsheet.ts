@@ -10,7 +10,7 @@ import { Source } from '../../gen/Source';
 import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 import { styles } from './divcord-spreadsheet.styles';
-import { Sort, type SortColums, type Order } from './Sort';
+import { Sort, type SortColumn, type Order } from './Sort';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -33,7 +33,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 	@property({ reflect: true, attribute: 'id-order' }) idOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'verify-order' }) verifyOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'ordered-by' })
-	orderedBy: SortColums = 'id';
+	orderedBy: SortColumn = 'id';
 
 	@state() private recordsState: DivcordRecordAndWeight[] = [];
 	@state() private weightIcon = 'sort-down';
@@ -93,7 +93,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 		}
 	}
 
-	#toggleSetOrder(column: SortColums) {
+	#toggleSetOrder(column: SortColumn) {
 		this[`${column}Order`] = this[`${column}Order`] === 'asc' ? 'desc' : 'asc';
 		this.orderedBy = column;
 	}

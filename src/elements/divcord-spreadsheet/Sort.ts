@@ -1,7 +1,9 @@
 import { DivcordRecordAndWeight } from './e-divcord-spreadsheet';
 
 export type Order = 'asc' | 'desc';
-export type SortColums = 'card' | 'weight' | 'id' | 'verify';
+
+export const SORT_COLUMNS = ['card', 'weight', 'id', 'verify'] as const;
+export type SortColumn = (typeof SORT_COLUMNS)[number];
 
 export class Sort {
 	static byCard(records: DivcordRecordAndWeight[], order: Order): void {
@@ -26,7 +28,7 @@ export class Sort {
 		);
 	}
 
-	static by(column: SortColums, records: DivcordRecordAndWeight[], order: Order): void {
+	static by(column: SortColumn, records: DivcordRecordAndWeight[], order: Order): void {
 		switch (column) {
 			case 'card':
 				return Sort.byCard(records, order);
