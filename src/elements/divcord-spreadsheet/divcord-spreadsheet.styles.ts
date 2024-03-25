@@ -110,6 +110,10 @@ export const styles = css`
 		text-align: center;
 	}
 
+	.col-card.td:not(:has(e-divination-card)) {
+		padding-block: 2.5rem;
+	}
+
 	.header-with-icon {
 		display: flex;
 		justify-content: center;
