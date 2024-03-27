@@ -291,6 +291,7 @@ export class VerifyPage extends LitElement {
 
 		.page {
 			padding: 2rem;
+			padding-bottom: 0;
 		}
 
 		.heading {
@@ -395,6 +396,7 @@ export class VerifyPage extends LitElement {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
+				padding-bottom: 0;
 			}
 
 			.list {

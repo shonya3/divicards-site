@@ -138,6 +138,7 @@ export class MapsTablePage extends LitElement {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
+				padding-bottom: 0;
 			}
 		}
 

@@ -50,12 +50,14 @@ export class CardPage extends LitElement {
 
 		.page {
 			padding: 2rem;
+			padding-bottom: 0;
 		}
 
 		@media (max-width: 600px) {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
+				padding-bottom: 0;
 			}
 
 			e-card-with-sources {

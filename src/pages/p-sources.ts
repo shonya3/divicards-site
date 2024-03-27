@@ -117,6 +117,7 @@ export class SourcesPage extends LitElement {
 
 		.page {
 			padding: 2rem;
+			padding-bottom: 0;
 		}
 
 		.verify-link {
@@ -128,6 +129,7 @@ export class SourcesPage extends LitElement {
 			.page {
 				margin-top: 1rem;
 				padding: 0.5rem;
+				padding-bottom: 0;
 			}
 
 			.source-with-cards-list__item {
