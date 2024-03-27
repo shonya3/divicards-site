@@ -8,6 +8,17 @@ export const styles = css`
 		width: fit-content;
 	}
 
+	.th {
+		font-size: 14px;
+	}
+
+	.th,
+	.td {
+		padding: 0.4rem;
+		border: 1px solid rgba(160, 160, 160, 0.2);
+		text-align: center;
+	}
+
 	.table {
 		border-collapse: collapse;
 		border: 1px solid rgba(140, 140, 140, 0.3);
@@ -107,17 +118,6 @@ export const styles = css`
 	.confidence--low {
 		background-color: #f1c232;
 		color: black;
-	}
-
-	.th {
-		font-size: 14px;
-	}
-
-	.th,
-	.td {
-		padding: 0.4rem;
-		border: 1px solid rgba(160, 160, 160, 0.2);
-		text-align: center;
 	}
 
 	.col-card.td:not(:has(e-divination-card)) {
