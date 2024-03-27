@@ -18,7 +18,7 @@ export const styles = css`
 	}
 
 	.tbody {
-		width: 1820px;
+		width: 1801px;
 		display: table-row-group;
 		transform: translateX(-1px);
 	}
