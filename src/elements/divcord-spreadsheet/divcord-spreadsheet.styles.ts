@@ -29,7 +29,7 @@ export const styles = css`
 	}
 
 	.tbody {
-		width: 1820px;
+		width: 1821px;
 		display: table-row-group;
 		transform: translateX(-1px);
 	}
