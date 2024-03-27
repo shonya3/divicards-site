@@ -3,7 +3,7 @@ import { css } from 'lit';
 export const styles = css`
 	#root {
 		padding-top: 2rem;
-		height: calc(100vh - 100px);
+		height: calc(100vh - 70px);
 		overflow-y: scroll;
 		width: fit-content;
 	}
@@ -144,10 +144,14 @@ export const styles = css`
 		color: yellow;
 	}
 
-	@media (width < 25rem) {
+	@media (width < 30rem) {
 		.th,
 		.td {
 			padding: 0.4rem;
+		}
+
+		#root {
+			height: calc(100vh - 100px);
 		}
 	}
 `;
