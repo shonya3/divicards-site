@@ -23,13 +23,13 @@ export const styles = css`
 		border-collapse: collapse;
 		border: 1px solid rgba(140, 140, 140, 0.3);
 		table-layout: fixed;
-		width: 1550px;
+		width: 1570px;
 		font-size: 14px;
 		position: relative;
 	}
 
 	.tbody {
-		width: 1801px;
+		width: 1820px;
 		display: table-row-group;
 		transform: translateX(-1px);
 	}
@@ -88,7 +88,7 @@ export const styles = css`
 		width: 400px;
 	}
 	.col-verify {
-		width: 300px;
+		width: 320px;
 	}
 	.col-notes {
 		width: 300px;
@@ -113,6 +113,10 @@ export const styles = css`
 		flex-direction: row;
 		flex-wrap: wrap;
 		gap: 0.25rem;
+	}
+
+	.col-verify .sources-maps {
+		gap: 0.75rem;
 	}
 
 	.confidence {

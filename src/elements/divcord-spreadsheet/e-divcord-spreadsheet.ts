@@ -14,6 +14,7 @@ import { styles } from './divcord-spreadsheet.styles';
 import { Sort, type SortColumn, type Order } from './Sort';
 import { DirectiveResult } from 'lit/async-directive.js';
 import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
+import type { VerificationStatus } from '../../cards';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -102,22 +103,30 @@ export class DivcordSpreadsheetElement extends LitElement {
 	}
 
 	/**  Put maps into distinct container without gaps */
-	protected sourcesList(sources: Source[]): HTMLUListElement {
+	protected sourcesList(sources: Source[], verificationStatus: VerificationStatus): HTMLUListElement {
 		const mapsSources = document.createElement('div');
 		mapsSources.classList.add('sources-maps');
 		const ul = document.createElement('ul');
 		ul.classList.add('sources');
 		for (const source of sources) {
-			const sourceEl = Object.assign(document.createElement('e-source'), {
-				renderMode: 'strict',
-				source,
-				size: 'small',
-			});
+			{
+				let sourceEl: HTMLElement = Object.assign(document.createElement('e-source'), {
+					renderMode: 'strict',
+					source,
+					size: 'small',
+				});
 
-			if (source.type === 'Map') {
-				mapsSources.append(sourceEl);
-			} else {
-				ul.append(sourceEl);
+				if (verificationStatus === 'verify') {
+					const verifyEl = document.createElement('e-need-to-verify');
+					verifyEl.append(sourceEl);
+					sourceEl = verifyEl;
+				}
+
+				if (source.type === 'Map') {
+					mapsSources.append(sourceEl);
+				} else {
+					ul.append(sourceEl);
+				}
 			}
 		}
 
@@ -236,8 +245,8 @@ export class DivcordSpreadsheetElement extends LitElement {
 				${record.confidence}
 			</td>
 			<td class="td col-remaining-work">${record.remainingWork}</td>
-			<td class="td col-sources">${this.sourcesList(record.sources ?? [])}</td>
-			<td class="td col-verify">${this.sourcesList(record.verifySources)}</td>
+			<td class="td col-sources">${this.sourcesList(record.sources ?? [], 'done')}</td>
+			<td class="td col-verify">${this.sourcesList(record.verifySources, 'verify')}</td>
 			<td class="td col-notes">${formattedNotes(record)}</td>
 		</tr>`;
 	}
