@@ -140,10 +140,6 @@ export const styles = css`
 		color: black;
 	}
 
-	.col-card.td:not(:has(e-divination-card)) {
-		padding-block: 2.5rem;
-	}
-
 	.header-with-icon {
 		display: flex;
 		justify-content: center;
