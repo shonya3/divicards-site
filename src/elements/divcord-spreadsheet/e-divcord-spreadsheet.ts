@@ -226,7 +226,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 				: record.weight.toLocaleString('ru', { maximumFractionDigits: 2 });
 
 		return html`<tr>
-			<td class="td col-id">${record.id}</td>
+			<td class="td col-id"><a href=${divcordRecordHref(record.id)}>${record.id}</a></td>
 			<td class="td col-card">
 				${this.showCards
 					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
@@ -271,4 +271,8 @@ export class DivcordSpreadsheetElement extends LitElement {
 function formattedNotes(record: DivcordRecord): DirectiveResult<typeof UnsafeHTMLDirective> {
 	const text = record.notes?.replaceAll('\n', '<br>');
 	return unsafeHTML(text);
+}
+
+function divcordRecordHref(id: DivcordRecord['id']) {
+	return `https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0&range=B${id}`;
 }
