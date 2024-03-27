@@ -12,13 +12,13 @@ export const styles = css`
 		border-collapse: collapse;
 		border: 1px solid rgba(140, 140, 140, 0.3);
 		table-layout: fixed;
-		width: 1250px;
+		width: 1550px;
 		font-size: 14px;
 		position: relative;
 	}
 
 	.tbody {
-		width: 1500px;
+		width: 1800px;
 		display: table-row-group;
 		transform: translateX(-1px);
 	}
@@ -62,6 +62,14 @@ export const styles = css`
 	}
 	.col-verify {
 		width: 300px;
+	}
+	.col-notes {
+		width: 300px;
+	}
+	.col-notes.td {
+		text-align: left;
+		word-break: break-word;
+		color: #bcbcbc;
 	}
 
 	.sources {

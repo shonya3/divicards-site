@@ -12,6 +12,8 @@ import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 import { styles } from './divcord-spreadsheet.styles';
 import { Sort, type SortColumn, type Order } from './Sort';
+import { DirectiveResult } from 'lit/async-directive.js';
+import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -182,7 +184,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<!--<th class="th col-notes">Notes</th>-->
+						<th class="th col-notes">Notes</th>
 					</tr>
 					<tr class="show-cards-row">
 						<td class="td"></td>
@@ -234,21 +236,9 @@ export class DivcordSpreadsheetElement extends LitElement {
 				${record.confidence}
 			</td>
 			<td class="td col-remaining-work">${record.remainingWork}</td>
-			<td class="td col-sources">
-				<!--${(record.sources ?? []).map(source => {
-					return html`<e-source .source=${source}></e-source>`;
-				})}-->
-				${this.sourcesList(record.sources ?? [])}
-			</td>
-			<td class="td col-verify">
-				<!--${record.verifySources.map(source => {
-					return html`<e-need-to-verify>
-						<e-source size="small" .source=${source}></e-source>
-					</e-need-to-verify>`;
-				})}-->
-				${this.sourcesList(record.verifySources)}
-			</td>
-			<!--<td class="td td-notes">${record.notes}</td>-->
+			<td class="td col-sources">${this.sourcesList(record.sources ?? [])}</td>
+			<td class="td col-verify">${this.sourcesList(record.verifySources)}</td>
+			<td class="td col-notes">${formattedNotes(record)}</td>
 		</tr>`;
 	}
 
@@ -267,4 +257,9 @@ export class DivcordSpreadsheetElement extends LitElement {
 
 		${styles}
 	`;
+}
+
+function formattedNotes(record: DivcordRecord): DirectiveResult<typeof UnsafeHTMLDirective> {
+	const text = record.notes?.replaceAll('\n', '<br>');
+	return unsafeHTML(text);
 }
