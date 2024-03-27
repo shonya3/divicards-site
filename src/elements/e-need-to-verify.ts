@@ -26,7 +26,7 @@ export class NeedToVerifyElement extends LitElement {
 			<div class="slot-parent">
 				<slot></slot>
 			</div>
-			<e-need-to-verify-border style="z-index: -1"></e-need-to-verify-border>
+			<e-need-to-verify-border part="border"></e-need-to-verify-border>
 		`;
 	}
 
@@ -52,6 +52,7 @@ export class NeedToVerifyElement extends LitElement {
 		.slot-parent {
 			padding-inline: var(--padding-inline, 0rem);
 			padding-block: var(--padding-block, 0rem);
+			z-index: 1;
 		}
 
 		/** hint which tags are expected */
@@ -65,7 +66,7 @@ export class NeedToVerifyElement extends LitElement {
 @customElement('e-need-to-verify-border')
 export class NeedToVerifyBorderElement extends LitElement {
 	protected render(): TemplateResult {
-		return html`<p>Need to verify</p>`;
+		return html`<a href="/verify-faq">Need to verify</a>`;
 	}
 
 	static styles = css`
@@ -91,7 +92,7 @@ export class NeedToVerifyBorderElement extends LitElement {
 			box-shadow: 1px 1px 5px var(--color);
 		}
 
-		p {
+		a {
 			position: absolute;
 			top: 0;
 			right: 0;
@@ -100,6 +101,7 @@ export class NeedToVerifyBorderElement extends LitElement {
 
 			white-space: nowrap;
 			color: var(--color);
+			text-decoration: none;
 		}
 	`;
 }
