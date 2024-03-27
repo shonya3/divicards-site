@@ -59,7 +59,7 @@ export class DivcordPage extends LitElement {
 		onlyShowCardsWithNoConfirmedSources: new Storage('onlyShowCardsWithNoConfirmedSources', false),
 		onlyShowCardsWithSourcesToVerify: new Storage('onlyShowCardsWithSourcesToVerify', false),
 		showCards: new Storage('weightsPageShowCards', true),
-		activeView: new Storage('activeView', 'list'),
+		activeView: new Storage('activeView', 'table'),
 	};
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
