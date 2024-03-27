@@ -10,6 +10,7 @@ import '../elements/e-update-divcord-data';
 import '../elements/e-divcord-records-age';
 import '../elements/presets/e-divcord-presets';
 import '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
+import '../elements/e-sheets-link';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js';
@@ -217,6 +218,10 @@ export class DivcordPage extends LitElement {
 	render(): TemplateResult {
 		return html`<div class="page">
 			<header>
+				<e-sheets-link
+					href="https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0"
+					>Divcord Spreadsheet</e-sheets-link
+				>
 				<div class="load">
 					<div class="load_btn-and-status">
 						<e-update-divcord-data @records-updated=${this.#onRecordsUpdated}></e-update-divcord-data>
@@ -318,10 +323,18 @@ export class DivcordPage extends LitElement {
 			font-family: 'Geist';
 		}
 
+		e-sheets-link {
+			font-size: 1rem;
+		}
+
 		.page {
 			padding: 2rem;
 			padding-bottom: 0;
 			font-size: 14px;
+		}
+
+		.load {
+			margin-top: 1rem;
 		}
 
 		.load_btn-and-status {
