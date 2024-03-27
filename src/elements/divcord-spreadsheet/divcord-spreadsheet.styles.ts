@@ -49,6 +49,22 @@ export const styles = css`
 		border-right: none;
 	}
 
+	.col-id,
+	.col-card,
+	.col-weight,
+	.col-tag,
+	.col-confidence,
+	.col-remaining-work,
+	.col-notes {
+		background-color: #071924;
+	}
+	.col-sources {
+		background-color: #001b02;
+	}
+	.col-verify {
+		background-color: #000;
+	}
+
 	.col-id {
 		width: 100px;
 	}
