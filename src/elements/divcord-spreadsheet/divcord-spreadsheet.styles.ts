@@ -26,6 +26,7 @@ export const styles = css`
 		width: 1570px;
 		font-size: 14px;
 		position: relative;
+		height: 100%;
 	}
 
 	.tbody {
