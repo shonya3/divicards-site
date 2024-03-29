@@ -2,10 +2,10 @@ import { css } from 'lit';
 
 export const styles = css`
 	#root {
-		padding-top: 2rem;
 		height: calc(100vh - 70px);
 		overflow-y: scroll;
 		width: fit-content;
+		box-shadow: var(--sl-shadow-large);
 	}
 
 	.th {
@@ -36,7 +36,7 @@ export const styles = css`
 
 	.thead__headings {
 		position: sticky;
-		top: -40px;
+		top: -1px;
 		background-color: black;
 		z-index: 9999;
 	}
