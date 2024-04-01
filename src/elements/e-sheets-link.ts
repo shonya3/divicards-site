@@ -18,7 +18,9 @@ export class SheetsLinkElement extends LitElement {
 
 	protected render(): TemplateResult {
 		return html`<div class="el">
-			<sl-icon class="icon" name="file-earmark-spreadsheet"></sl-icon>
+			<slot name="icon">
+				<sl-icon class="icon" name="file-earmark-spreadsheet"></sl-icon>
+			</slot>
 			<a target="_blank" .href=${this.href}><slot></slot> </a>
 			${this.discordUsers.length
 				? html`<div class="discord-users">
@@ -27,6 +29,9 @@ export class SheetsLinkElement extends LitElement {
 						})}
 				  </div>`
 				: nothing}
+			<div class="custom">
+				<slot name="custom"></slot>
+			</div>
 		</div>`;
 	}
 
