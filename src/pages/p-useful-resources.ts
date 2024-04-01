@@ -24,7 +24,7 @@ const RESOURCES_DATA: Record<string, Data> = {
 	divcord: {
 		url: 'https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid',
 		title: 'Divcord Spreadsheet',
-		discordUsers: [],
+		discordUsers: ['Jasmine', 'kroIya', 'tikiheme'],
 		github: 'https://github.com/shonya3/divicards/tree/main/divcord',
 	},
 
@@ -174,6 +174,10 @@ export class UsefulResourcesPage extends LitElement {
 
 		nav h3 {
 			margin-left: 0.4rem;
+		}
+
+		h2 {
+			text-align: center;
 		}
 
 		.with-avatar {
