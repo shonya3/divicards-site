@@ -13,6 +13,7 @@ import './pages/p-source';
 import './pages/p-source-type';
 import './pages/p-verify-faq';
 import './pages/p-verify';
+import './pages/p-useful-resources';
 import './elements/divcord-spreadsheet/e-divcord-spreadsheet';
 
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
@@ -57,6 +58,13 @@ export const router = new Router({
 			title: 'Need to verify',
 			render: () => {
 				return html`<p-verify></p-verify>`;
+			},
+		},
+		{
+			path: '/useful-resources',
+			title: 'Useful Resources',
+			render: () => {
+				return html`<p-useful-resources></p-useful-resources>`;
 			},
 		},
 		{

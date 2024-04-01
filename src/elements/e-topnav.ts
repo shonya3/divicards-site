@@ -16,6 +16,7 @@ export class TopNavElement extends LitElement {
 		['/', 'Home'],
 		['/divcord', 'Divcord'],
 		['/verify', 'Need to verify'],
+		['/useful-resources', 'Useful Resources'],
 		['/weights', 'Weights'],
 		['/verify-faq', 'faq'],
 		['/sources', 'Sources'],
