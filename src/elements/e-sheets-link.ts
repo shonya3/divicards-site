@@ -21,6 +21,7 @@ declare global {
 export class SheetsLinkElement extends LitElement {
 	@property({ reflect: true }) href = '';
 	@property({ type: Array }) discordUsers: DiscordUsername[] = [];
+	@property({ type: Boolean, attribute: 'and-many-more' }) andManyMore: boolean = false;
 
 	protected render(): TemplateResult {
 		return html`<div class="el">
@@ -37,6 +38,7 @@ export class SheetsLinkElement extends LitElement {
 								username=${u}
 							></e-discord-avatar>`;
 						})}
+						${this.andManyMore ? html`<p>...and many more</p>` : nothing}
 				  </div>`
 				: nothing}
 			<div class="custom">
