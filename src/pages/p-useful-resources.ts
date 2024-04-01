@@ -16,8 +16,10 @@ type Data = {
 	discordUsers: DiscordUsername[];
 	github?: string;
 	icon?: CustomIcon;
+	seeWebsitePage?: WebsitePage;
 };
 
+type WebsitePage = { relativeUrl: string; label: string };
 type CustomIcon = { kind: 'image'; url: string; alt: string } | { kind: 'sl-icon'; name: string };
 
 const RESOURCES_DATA: Record<string, Data> = {
@@ -34,6 +36,10 @@ const RESOURCES_DATA: Record<string, Data> = {
 			'...and many more' as DiscordUsername,
 		],
 		github: 'https://github.com/shonya3/divicards/tree/main/divcord',
+		seeWebsitePage: {
+			relativeUrl: '/divcord',
+			label: 'See divcord page',
+		},
 	},
 
 	weights: {
@@ -41,6 +47,10 @@ const RESOURCES_DATA: Record<string, Data> = {
 		title: 'Weights Spreadsheet',
 		discordUsers: ['nerdyjoe'],
 		github: '',
+		seeWebsitePage: {
+			relativeUrl: '/weights',
+			label: 'See weights page',
+		},
 	},
 
 	bestDivMapFavourites: {
@@ -89,11 +99,20 @@ export class UsefulResourcesPage extends LitElement {
 							<e-sheets-link .discordUsers=${data.discordUsers} href=${data.url}>
 								${data.title} ${data.icon ? this.CustomIcon(data.icon) : nothing}
 							</e-sheets-link>
-							${data.github
-								? html`
-										<a href=${data.github} class="github">Repo <sl-icon name="github"></sl-icon></a>
-								  `
-								: nothing}
+							<div slot="custom">
+								${data.github
+									? html`
+											<a target="_blank" href=${data.github} class="github"
+												>Repo <sl-icon name="github"></sl-icon
+											></a>
+									  `
+									: nothing}
+								${data.seeWebsitePage
+									? html`<p>
+											<a href=${data.seeWebsitePage.relativeUrl}>${data.seeWebsitePage.label}</a>
+									  </p>`
+									: nothing}
+							</div>
 						</li>`;
 					})}
 				</ul>
