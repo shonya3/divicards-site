@@ -188,5 +188,9 @@ export class UsefulResourcesPage extends LitElement {
 			gap: 2rem;
 			list-style: none;
 		}
+
+		e-sheets-link::part(discord-user) {
+			font-size: 1rem;
+		}
 	`;
 }

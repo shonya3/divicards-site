@@ -11,6 +11,12 @@ declare global {
 	}
 }
 
+/**
+ * @slot - default - for link title
+ * @slot - icon - for custom icon
+ * @slot - custom - for any data
+ * @part discord-user
+ */
 @customElement('e-sheets-link')
 export class SheetsLinkElement extends LitElement {
 	@property({ reflect: true }) href = '';
@@ -25,7 +31,11 @@ export class SheetsLinkElement extends LitElement {
 			${this.discordUsers.length
 				? html`<div class="discord-users">
 						${this.discordUsers.map(u => {
-							return html`<e-discord-avatar size="24" username=${u}></e-discord-avatar>`;
+							return html`<e-discord-avatar
+								part="discord-user"
+								size="24"
+								username=${u}
+							></e-discord-avatar>`;
 						})}
 				  </div>`
 				: nothing}
