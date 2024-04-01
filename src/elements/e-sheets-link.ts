@@ -19,7 +19,7 @@ export class SheetsLinkElement extends LitElement {
 	protected render(): TemplateResult {
 		return html`<div class="el">
 			<sl-icon class="icon" name="file-earmark-spreadsheet"></sl-icon>
-			<a .href=${this.href}><slot></slot> </a>
+			<a target="_blank" .href=${this.href}><slot></slot> </a>
 			${this.discordUsers.length
 				? html`<div class="discord-users">
 						${this.discordUsers.map(u => {
