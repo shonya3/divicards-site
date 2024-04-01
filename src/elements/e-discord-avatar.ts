@@ -1,6 +1,6 @@
 import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { DISCORD_AVATARS } from '../gen/avatars';
+import { DISCORD_AVATARS, type DiscordUsername } from '../gen/avatars';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -10,7 +10,7 @@ declare global {
 
 @customElement('e-discord-avatar')
 export class DiscordAvatarElement extends LitElement {
-	@property({ reflect: true }) username: keyof typeof DISCORD_AVATARS = 'nerdyjoe';
+	@property({ reflect: true }) username: DiscordUsername = 'nerdyjoe';
 	@property({ type: Number, reflect: true }) size = 40;
 	@state() src: string =
 		'https://cdn.discordapp.com/avatars/212041922150137857/ed0f38962063b40da72b39db7662c3bf.webp';
@@ -18,7 +18,7 @@ export class DiscordAvatarElement extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('username')) {
-			const obj = DISCORD_AVATARS[this.username as keyof typeof DISCORD_AVATARS];
+			const obj = DISCORD_AVATARS[this.username as DiscordUsername];
 			if (obj) {
 				this.src = `${obj.url}?size=${this.size}`;
 				this.color = obj.color;
