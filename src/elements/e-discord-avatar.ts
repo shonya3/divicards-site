@@ -12,8 +12,7 @@ declare global {
 export class DiscordAvatarElement extends LitElement {
 	@property({ reflect: true }) username: DiscordUsername = 'nerdyjoe';
 	@property({ type: Number, reflect: true }) size = 40;
-	@state() src: string =
-		'https://cdn.discordapp.com/avatars/212041922150137857/ed0f38962063b40da72b39db7662c3bf.webp';
+	@state() src: string = '';
 	@state() color: string = '#fff';
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -31,8 +30,9 @@ export class DiscordAvatarElement extends LitElement {
 	}
 
 	protected render(): TemplateResult {
-		return html`<img width=${this.size} height=${this.size} src=${this.src} alt="Discord Avatar" /> ${this
-				.username}`;
+		return html`${this.src
+			? html`<img width=${this.size} height=${this.size} src=${this.src} alt="Discord Avatar" /> ${this.username}`
+			: this.username}`;
 	}
 
 	static styles = css`

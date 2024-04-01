@@ -24,7 +24,15 @@ const RESOURCES_DATA: Record<string, Data> = {
 	divcord: {
 		url: 'https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid',
 		title: 'Divcord Spreadsheet',
-		discordUsers: ['Jasmine', 'kroIya', 'tikiheme', 'Zimzams', 'Elinvynia', 'SHONYA3'],
+		discordUsers: [
+			'Jasmine',
+			'kroIya',
+			'tikiheme',
+			'Zimzams',
+			'Elinvynia',
+			'SHONYA3',
+			'...and many more' as DiscordUsername,
+		],
 		github: 'https://github.com/shonya3/divicards/tree/main/divcord',
 	},
 
