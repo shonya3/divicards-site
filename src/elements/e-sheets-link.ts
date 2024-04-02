@@ -1,4 +1,4 @@
-import { LitElement, html, css, TemplateResult, nothing } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { linkStyles } from '../linkStyles';
@@ -14,8 +14,6 @@ declare global {
 /**
  * @slot - default - for link title
  * @slot - icon - for custom icon
- * @slot - custom - for any data
- * @part discord-user
  */
 @customElement('e-sheets-link')
 export class SheetsLinkElement extends LitElement {
@@ -28,21 +26,7 @@ export class SheetsLinkElement extends LitElement {
 				<sl-icon class="icon" name="file-earmark-spreadsheet"></sl-icon>
 			</slot>
 			<a target="_blank" .href=${this.href}><slot></slot> </a>
-			${this.discordUsers.length
-				? html`<div class="discord-users">
-						${this.discordUsers.map(u => {
-							return html`<e-discord-avatar
-								part="discord-user"
-								size="24"
-								username=${u}
-							></e-discord-avatar>`;
-						})}
-				  </div>`
-				: nothing}
-			<div class="custom">
-				<slot name="custom"></slot>
-			</div>
-		</div>`;
+		</div> `;
 	}
 
 	static styles = css`

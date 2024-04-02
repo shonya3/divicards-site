@@ -11,7 +11,7 @@ declare global {
 @customElement('e-discord-avatar')
 export class DiscordAvatarElement extends LitElement {
 	@property({ reflect: true }) username: DiscordUsername = 'nerdyjoe';
-	@property({ type: Number, reflect: true }) size = 40;
+	@property({ type: Number, reflect: true }) size = 32;
 	@state() src: string = '';
 	@state() color: string = '#fff';
 

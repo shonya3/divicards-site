@@ -1,8 +1,9 @@
-import { LitElement, html, css, TemplateResult, nothing } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import '../elements/e-sheets-link';
-import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+
 import { DiscordUsername } from '../gen/avatars';
+import { CustomIcon, UsefulResource } from '../elements/usefulResources/types';
+import '../elements/usefulResources/e-useful-resource';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -10,19 +11,14 @@ declare global {
 	}
 }
 
-type Data = {
-	url: string;
-	title: string;
-	discordUsers: DiscordUsername[];
-	github?: string;
-	icon?: CustomIcon;
-	seeWebsitePage?: WebsitePage;
-};
+const RESOURCES_DATA: Record<string, UsefulResource> = {
+	bestDivMapFavourites: {
+		url: 'https://docs.google.com/spreadsheets/d/1CuD3Fgxte6fNaP0DoxkqSXfW2BkAXmJ7krNSS5k8Qxk/edit#gid=178188933',
+		title: '3.24 Favourite maps with Divination Scarab of Curation',
+		discordUsers: ['nerdyjoe'],
+		github: 'https://github.com/nerdyjoe314/divinationscarabs',
+	},
 
-type WebsitePage = { relativeUrl: string; label: string };
-type CustomIcon = { kind: 'image'; url: string; alt: string } | { kind: 'sl-icon'; name: string };
-
-const RESOURCES_DATA: Record<string, Data> = {
 	divcord: {
 		url: 'https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid',
 		title: 'Divcord Spreadsheet',
@@ -53,13 +49,6 @@ const RESOURCES_DATA: Record<string, Data> = {
 		},
 	},
 
-	bestDivMapFavourites: {
-		url: 'https://docs.google.com/spreadsheets/d/1CuD3Fgxte6fNaP0DoxkqSXfW2BkAXmJ7krNSS5k8Qxk/edit#gid=178188933',
-		title: 'Favourite maps with Divination Scarab of Curation',
-		discordUsers: ['nerdyjoe'],
-		github: 'https://github.com/nerdyjoe314/divinationscarabs',
-	},
-
 	mapsofexile: {
 		url: 'https://mapsofexile.com/',
 		title: 'Maps of Exile',
@@ -71,20 +60,7 @@ const RESOURCES_DATA: Record<string, Data> = {
 			alt: 'Maps of Exile',
 		},
 	},
-} as const;
-
-// <li>
-// 	$
-// 	{Object.values(OTHER_DATA).map(data => {
-// 		return html`<div>
-// 			<img width="24" height="24" src="https://mapsofexile.com/favicon.png" alt="Maps of Exile" />
-// 			<a href=${data.url}>${data.title}</a>
-// 			${data.github
-// 				? html` <a href=${data.github} class="github">Repo <sl-icon name="github"></sl-icon></a> `
-// 				: nothing}
-// 		</div>`;
-// 	})}
-// </li>;
+};
 
 @customElement('p-useful-resources')
 export class UsefulResourcesPage extends LitElement {
@@ -96,23 +72,7 @@ export class UsefulResourcesPage extends LitElement {
 				<ul class="list-resources">
 					${Object.values(RESOURCES_DATA).map(data => {
 						return html`<li>
-							<e-sheets-link .discordUsers=${data.discordUsers} href=${data.url}>
-								${data.title} ${data.icon ? this.CustomIcon(data.icon) : nothing}
-							</e-sheets-link>
-							<div slot="custom">
-								${data.github
-									? html`
-											<a target="_blank" href=${data.github} class="github"
-												>Repo <sl-icon name="github"></sl-icon
-											></a>
-									  `
-									: nothing}
-								${data.seeWebsitePage
-									? html`<p>
-											<a href=${data.seeWebsitePage.relativeUrl}>${data.seeWebsitePage.label}</a>
-									  </p>`
-									: nothing}
-							</div>
+							<e-useful-resource .resource=${data}></e-useful-resource>
 						</li>`;
 					})}
 				</ul>
@@ -218,6 +178,7 @@ export class UsefulResourcesPage extends LitElement {
 			flex-direction: column;
 			gap: 2rem;
 			list-style: none;
+			padding-inline-start: 0;
 		}
 
 		e-sheets-link::part(discord-user) {
