@@ -15,6 +15,7 @@ import { Sort, type SortColumn, type Order } from './Sort';
 import { DirectiveResult } from 'lit/async-directive.js';
 import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 import type { VerificationStatus } from '../../cards';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
