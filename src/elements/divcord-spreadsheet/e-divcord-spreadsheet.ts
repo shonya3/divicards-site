@@ -212,44 +212,44 @@ export class DivcordSpreadsheetElement extends LitElement {
 					${virtualize({
 						items: this.recordsState,
 						renderItem: (record: DivcordRecordAndWeight): TemplateResult => {
-							return this.TableRow(record);
+							const weightStr =
+								record.weight > 5
+									? record.weight.toLocaleString('ru', { maximumFractionDigits: 0 })
+									: record.weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+
+							return html`<tr>
+								<td class="td col-id"><a href=${divcordRecordHref(record.id)}>${record.id}</a></td>
+								<td class="td col-card">
+									${this.showCards
+										? html`
+												<e-divination-card size="small" name=${record.card}></e-divination-card>
+										  `
+										: html`<a @click=${this.#onAnchorCardNavigation} href="/card/${record.card}">
+												${record.card}
+										  </a>`}
+								</td>
+								<td class="td td-weight col-weight">${weightStr}</td>
+								<td class="td col-tag">${record.tagHypothesis}</td>
+								<td
+									class=${classMap({
+										td: true,
+										confidence: true,
+										[`confidence--${record.confidence}`]: true,
+										'col-confidence': true,
+									})}
+								>
+									${record.confidence}
+								</td>
+								<td class="td col-remaining-work">${record.remainingWork}</td>
+								<td class="td col-sources">${this.sourcesList(record.sources ?? [], 'done')}</td>
+								<td class="td col-verify">${this.sourcesList(record.verifySources, 'verify')}</td>
+								<td class="td col-notes">${formattedNotes(record)}</td>
+							</tr>`;
 						},
 					})}
 				</tbody>
 			</table>
 		</div>`;
-	}
-
-	protected TableRow(record: DivcordRecordAndWeight): TemplateResult {
-		const weightStr =
-			record.weight > 5
-				? record.weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-				: record.weight.toLocaleString('ru', { maximumFractionDigits: 2 });
-
-		return html`<tr>
-			<td class="td col-id"><a href=${divcordRecordHref(record.id)}>${record.id}</a></td>
-			<td class="td col-card">
-				${this.showCards
-					? html` <e-divination-card size="small" name=${record.card}></e-divination-card> `
-					: html`<a @click=${this.#onAnchorCardNavigation} href="/card/${record.card}"> ${record.card} </a>`}
-			</td>
-			<td class="td td-weight col-weight">${weightStr}</td>
-			<td class="td col-tag">${record.tagHypothesis}</td>
-			<td
-				class=${classMap({
-					td: true,
-					confidence: true,
-					[`confidence--${record.confidence}`]: true,
-					'col-confidence': true,
-				})}
-			>
-				${record.confidence}
-			</td>
-			<td class="td col-remaining-work">${record.remainingWork}</td>
-			<td class="td col-sources">${this.sourcesList(record.sources ?? [], 'done')}</td>
-			<td class="td col-verify">${this.sourcesList(record.verifySources, 'verify')}</td>
-			<td class="td col-notes">${formattedNotes(record)}</td>
-		</tr>`;
 	}
 
 	static styles = css`
