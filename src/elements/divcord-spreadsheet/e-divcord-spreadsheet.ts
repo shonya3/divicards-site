@@ -218,7 +218,9 @@ export class DivcordSpreadsheetElement extends LitElement {
 									: record.weight.toLocaleString('ru', { maximumFractionDigits: 2 });
 
 							return html`<tr>
-								<td class="td col-id"><a href=${divcordRecordHref(record.id)}>${record.id}</a></td>
+								<td class="td col-id">
+									<a target="_blank" href=${divcordRecordHref(record.id)}>${record.id}</a>
+								</td>
 								<td class="td col-card">
 									${this.showCards
 										? html`
