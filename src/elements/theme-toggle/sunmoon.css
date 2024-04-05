@@ -99,10 +99,8 @@
 }
 .theme-toggle {
 	--size: 2rem;
-	/* --icon-fill: hsl(210 10% 35%);
-	--icon-fill-hover: hsl(210 10 15%); */
-	--icon-fill: hsl(56, 100%, 80%);
-	--icon-fill-hover: hsl(56, 100%, 90%);
+	--icon-fill: hsl(210 10% 35%);
+	--icon-fill-hover: hsl(210 10 15%);
 
 	background: none;
 	border: none;

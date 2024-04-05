@@ -123,11 +123,20 @@ export class TopNavElement extends LitElement {
 
 		:host {
 			--bg-clr: var(--indigo-8, #3b5bdb);
-			--clr: #fff;
+			--bg-clr: var(--sl-color-gray-50);
+			--clr: var(--sl-color-gray-800);
+		}
+
+		a {
+			display: block;
+			padding-inline: 1rem;
+			padding-block: 0.5rem;
+			color: var(--clr);
+			text-decoration: none;
 		}
 
 		.navbar {
-			height: 65px;
+			height: 50px;
 			background-color: var(--bg-clr);
 			color: var(--clr);
 
@@ -156,22 +165,21 @@ export class TopNavElement extends LitElement {
 		}
 
 		.links__item--active {
+			color: var(--sl-color-gray-900);
+			z-index: 10;
+		}
+
+		.links__item--active a {
 		}
 
 		.links__active-item-background {
 			view-transition-name: active-link;
 			position: absolute;
 			inset: 0;
-			background-color: rgba(255, 255, 255, 0.1);
 			border-radius: 1rem;
-		}
-
-		a {
-			display: block;
-			padding-inline: 1rem;
-			padding-block: 0.5rem;
-			color: var(--clr);
-			text-decoration: none;
+			background-color: var(--sl-color-gray-300);
+			background-color: transparent;
+			box-shadow: var(--top-nav-active-shadow);
 		}
 
 		.links__item a:hover {
@@ -182,11 +190,13 @@ export class TopNavElement extends LitElement {
 			text-decoration: none;
 
 			background-color: rgba(255, 255, 255, 0.3);
+			background-color: var(--sl-color-gray-300);
 			border-radius: 1rem;
 		}
 
 		.links__item a:active {
 			background-color: rgba(255, 255, 255, 0.1);
+			background-color: var(--sl-color-gray-400);
 		}
 
 		.btn {
@@ -226,7 +236,7 @@ export class TopNavElement extends LitElement {
 			}
 
 			dialog::backdrop {
-				background-color: #3b5bdb;
+				background-color: var(--bg-clr);
 			}
 
 			.menu > .links {
