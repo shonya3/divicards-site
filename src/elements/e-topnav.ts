@@ -3,6 +3,8 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { startViewTransition } from '../utils';
 import { router } from '../router';
+import { ThemeToggle } from './theme-toggle/theme-toggle';
+ThemeToggle.define();
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -60,31 +62,6 @@ export class TopNavElement extends LitElement {
 		observer.observe(document.body);
 	}
 
-	// protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-	// 	this.menuDialogElement.showModal();
-	// }
-
-	protected renderMenu(): TemplateResult {
-		return html`<dialog id="menu" class="menu">
-			<ul class="links">
-				${this.linkItems.map(([pathname, s]) => {
-					return html`<li
-						class=${classMap({
-							links__item: true,
-							'links__item--active': pathname === this.pathname,
-						})}
-					>
-						<a href="${pathname}">${s}</a>
-						${pathname === this.pathname
-							? html`<div class="links__active-item-background"></div>`
-							: nothing}
-					</li>`;
-				})}
-			</ul>
-			<button @click=${() => this.menuDialogElement.close()} class="btn menu__close-button">Close</button>
-		</dialog>`;
-	}
-
 	protected render(): TemplateResult {
 		return html`<nav class="navbar">
 			<div class="logo"><a href="/">Divicards</a></div>
@@ -103,11 +80,29 @@ export class TopNavElement extends LitElement {
 					</li>`;
 				})}
 			</ul>
+			<theme-toggle></theme-toggle>
 
 			<button class="btn menu-button" type="button" @click=${() => this.menuDialogElement.showModal()}>
 				Menu
 			</button>
-			${this.renderMenu()}
+			<dialog id="menu" class="menu">
+				<ul class="links">
+					${this.linkItems.map(([pathname, s]) => {
+						return html`<li
+							class=${classMap({
+								links__item: true,
+								'links__item--active': pathname === this.pathname,
+							})}
+						>
+							<a href="${pathname}">${s}</a>
+							${pathname === this.pathname
+								? html`<div class="links__active-item-background"></div>`
+								: nothing}
+						</li>`;
+					})}
+				</ul>
+				<button @click=${() => this.menuDialogElement.close()} class="btn menu__close-button">Close</button>
+			</dialog>
 		</nav>`;
 	}
 
@@ -120,6 +115,10 @@ export class TopNavElement extends LitElement {
 
 		button {
 			font: inherit;
+		}
+
+		theme-toggle {
+			margin-right: 1rem;
 		}
 
 		:host {
@@ -148,8 +147,7 @@ export class TopNavElement extends LitElement {
 			display: flex;
 			margin-right: 10%;
 			margin-left: auto;
-			gap: 1rem;
-			text-transform: uppercase;
+			gap: 0.2rem;
 		}
 
 		.links__item {
@@ -178,7 +176,6 @@ export class TopNavElement extends LitElement {
 
 		.links__item a:hover {
 			display: block;
-			text-transform: uppercase;
 			padding-inline: 1rem;
 			padding-block: 0.5rem;
 			color: var(--clr);

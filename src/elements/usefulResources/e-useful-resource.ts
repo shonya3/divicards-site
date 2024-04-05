@@ -106,7 +106,7 @@ export class UsefulResourceElement extends LitElement {
             gap: 0.3rem;
         }
         .github__icon{
-            color: #fff;
+            color: var(--sl-color-gray-800);
         }
 
 		${linkStyles}

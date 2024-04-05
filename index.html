@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html class="sl-theme-dark" lang="en">
+<html lang="en">
+	<!-- <html class="" lang="en"></html> -->
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Vite + TS</title>
+		<link rel="stylesheet" href="/node_modules/@shoelace-style/shoelace/dist/themes/light.css" />
 		<link rel="stylesheet" href="/node_modules/@shoelace-style/shoelace/dist/themes/dark.css" />
 		<script type="module" src="/src/main.ts"></script>
 		<style>
 			:root {
-				color-scheme: dark;
 				font-family: 'Geist', sans-serif;
 
 				--card-width-small: 134px;
 				--card-width-medium: 268px;
 				--card-width-large: 326px;
 				--link-color-hover: var(--sl-color-sky-600, skyblue);
+			}
+
+			:root[data-theme='dark'] {
+				color-scheme: dark;
+				/* background-color: #202124;
+				color: #bdc1c6; */
 			}
 
 			html {
