@@ -42,6 +42,7 @@ function styles() {
 	return css`
 		:host {
 			display: inline-block;
+			color: #eee;
 
 			/* 507x98  */
 			--act-area-background-image: '';
