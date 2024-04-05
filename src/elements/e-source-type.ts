@@ -39,7 +39,7 @@ export class SourceTypeElement extends LitElement {
 
 		.source-type {
 			text-align: center;
-			color: var(--source-type-text-color, orange);
+			color: var(--source-type-text-color, var(--sl-color-orange-700));
 			font-weight: 500;
 			font-size: var(--source-type-font-size, 20px);
 		}
