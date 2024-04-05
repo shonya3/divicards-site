@@ -258,6 +258,7 @@ function styles() {
 
 		.divination-card {
 			font-family: 'fontin', Verdana, Arial;
+			border-radius: 0.3rem;
 
 			width: var(--card-width, var(--card-width-medium));
 			aspect-ratio: var(--card-aspect-ratio);
