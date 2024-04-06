@@ -119,12 +119,10 @@ export class TopNavElement extends LitElement {
 
 		theme-toggle {
 			margin-right: 1rem;
-			--size: 10px;
 		}
 
 		:host {
-			--bg-clr: var(--indigo-8, #3b5bdb);
-			--bg-clr: var(--sl-color-gray-50);
+			--menu-bg-clr: var(--sl-color-gray-50);
 			--clr: var(--sl-color-gray-800);
 		}
 
@@ -233,16 +231,16 @@ export class TopNavElement extends LitElement {
 				width: 100%;
 				height: 100vh;
 				border: none;
-				background-color: var(--bg-clr);
+				background-color: var(--menu-bg-clr);
 			}
 
 			dialog::backdrop {
-				background-color: var(--bg-clr);
+				background-color: var(--menu-bg-clr);
 			}
 
 			.menu > .links {
 				display: flex;
-				background-color: var(--bg-clr);
+				background-color: var(--menu-bg-clr);
 				padding: 0;
 				margin: 0;
 				inset: 0;
