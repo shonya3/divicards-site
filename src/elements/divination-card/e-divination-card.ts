@@ -369,6 +369,7 @@ function styles() {
 		}
 
 		.reward {
+			color: #ccc;
 			font-size: var(--reward-font-size, 0.8rem);
 			line-height: var(--reward-line-height);
 			letter-spacing: var(--reward-letter-spacing);
