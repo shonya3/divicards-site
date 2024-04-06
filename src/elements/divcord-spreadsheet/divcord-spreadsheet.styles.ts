@@ -6,6 +6,9 @@ export const styles = css`
 		overflow-y: scroll;
 		width: fit-content;
 		box-shadow: var(--sl-shadow-large);
+
+		color: #fff;
+		--source-color: hsl(240 7.3% 84%);
 	}
 
 	.th {
