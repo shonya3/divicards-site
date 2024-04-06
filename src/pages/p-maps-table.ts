@@ -6,7 +6,7 @@ import '../elements/e-source/e-source';
 import '../elements/e-page-controls';
 import '../elements/e-cards-by-source';
 import { poeData } from '../PoeData';
-import { CardBySource, cardsByMaps, sortByWeight } from '../cards';
+import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
@@ -29,20 +29,26 @@ export class MapsTablePage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
-	@state() cardsByMaps: Record<string, CardBySource[]> = {};
-
-	get filtered(): [string, CardBySource[]][] {
-		const filter = this.filter.trim().toLowerCase();
-		const entries = Object.entries(this.cardsByMaps)
-			.filter(([map]) => map.toLowerCase().includes(filter.trim().toLowerCase()))
-			.sort((a, b) => a[0].localeCompare(b[0]));
-
-		return entries;
-	}
+	@state() sourcesAndCards: SourceAndCards[] = [];
+	@state() filtered: SourceAndCards[] = [];
+	@state() paginated: SourceAndCards[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			this.cardsByMaps = cardsByMaps(this.divcordTable.records);
+			const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
+			sourcesAndCards.sort((a, b) => {
+				const aLevel = poeData.areaLevel(a.source.id, 'Map');
+				const bLevel = poeData.areaLevel(b.source.id, 'Map');
+				if (aLevel !== null && bLevel !== null) {
+					return aLevel - bLevel;
+				} else return 0;
+			});
+
+			for (const { cards } of sourcesAndCards) {
+				sortByWeight(cards, poeData);
+			}
+
+			this.sourcesAndCards = sourcesAndCards;
 		}
 
 		if (map.has('filter')) {
@@ -51,19 +57,19 @@ export class MapsTablePage extends LitElement {
 			url.searchParams.set('filter', this.filter);
 			window.history.replaceState({}, '', url);
 		}
-	}
 
-	get paginated(): [string, CardBySource[]][] {
-		const entries = paginate(this.filtered, this.page, this.perPage);
-		for (const [, cards] of entries) {
-			sortByWeight(cards, poeData);
+		if (map.has('filter') || map.has('sourcesAndCards')) {
+			const query = this.filter.trim().toLowerCase();
+			this.filtered = this.sourcesAndCards.filter(({ source }) => source.id.toLowerCase().includes(query));
 		}
-		return entries;
+
+		if (map.has('filtered') || map.has('page') || map.has('perPage')) {
+			this.paginated = paginate(this.filtered, this.page, this.perPage);
+		}
 	}
 
 	#onMapnameInput(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
-
 		this.filter = input.value;
 	}
 
@@ -90,40 +96,18 @@ export class MapsTablePage extends LitElement {
 						per-page=${this.perPage}
 					></e-page-controls>
 				</header>
-				${this.table()}
+				<ul>
+					${this.paginated.map(({ source, cards }) => {
+						return html`<li>
+							<e-source-with-cards
+								.showSourceType=${false}
+								.source=${source}
+								.cards=${cards}
+							></e-source-with-cards>
+						</li>`;
+					})}
+				</ul>
 			</div>
-		`;
-	}
-
-	protected table(): TemplateResult {
-		return html`
-			<table>
-				<thead>
-					<tr>
-						<th scope="col">Map</th>
-						<th scope="col">Cards</th>
-					</tr>
-				</thead>
-				<tbody>
-					${this.paginated.map(
-						([map, cards]) =>
-							html`
-								<tr>
-									<td>
-										<e-source
-											.size=${this.size}
-											.source=${{ id: map, type: 'Map', kind: 'source-with-member' } as const}
-											.showSourceType=${false}
-										></e-source>
-									</td>
-									<td>
-										<e-cards-by-source .cards=${cards}></e-cards-by-source>
-									</td>
-								</tr>
-							`
-					)}
-				</tbody>
-			</table>
 		`;
 	}
 
@@ -132,6 +116,11 @@ export class MapsTablePage extends LitElement {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
+		}
+
+		.page {
+			padding: 2rem;
+			padding-bottom: 0;
 		}
 
 		@media (max-width: 600px) {
