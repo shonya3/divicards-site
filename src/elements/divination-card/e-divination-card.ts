@@ -2,7 +2,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { html, css, PropertyValues, nothing, LitElement, TemplateResult } from 'lit';
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { styleMap } from 'lit/directives/style-map.js';
 import { cardsDataMap } from './data';
 import { DivcordTable } from '../../DivcordTable';
 import { consume } from '@lit/context';
@@ -72,17 +71,6 @@ export class DivinationCardElement extends LitElement {
 		return `https://web.poecdn.com/image/divination-card/${this.artFilename}.png`;
 	}
 
-	protected nameMarginTop(size: CardSize): '0rem' | '0.4rem' {
-		switch (size) {
-			case 'small':
-				return '0rem';
-			case 'medium':
-				return '0rem';
-			case 'large':
-				return '0.4rem';
-		}
-	}
-
 	protected willUpdate(changedProperties: PropertyValues<this>): void {
 		if (changedProperties.has('name')) {
 			if (this.name === 'Fire of unknown origin') {
@@ -116,20 +104,11 @@ export class DivinationCardElement extends LitElement {
 				})}
 			>
 				<a class="link" @click=${this.#onNavigation} href="/card/${this.name}"></a>
-				<div
-					class=${classMap({
-						skeleton: true,
-						[`skeleton--${this.size}`]: true,
-					})}
-					style=${styleMap({
-						'--card-width': `var(--card-width-${this.size})`,
-						'--card-height': `var(--card-height-${this.size})`,
-					})}
-				></div>
+				<div class="skeleton"></div>
 				<header
-					class="name"
-					style=${styleMap({
-						'margin-top': this.nameMarginTop(this.size),
+					class=${classMap({
+						name: true,
+						[`name--${this.size}`]: true,
 					})}
 				>
 					<a @click=${this.#onNavigation} href="/card/${this.name}"> ${this.name} </a>
@@ -305,6 +284,10 @@ function styles() {
 			color: #000;
 			text-decoration: none;
 		}
+		a:hover {
+			color: #083344;
+			text-decoration: underline;
+		}
 
 		.name {
 			line-height: var(--name-line-height, 1.5rem);
@@ -312,10 +295,8 @@ function styles() {
 			letter-spacing: -0.6px;
 			z-index: 4;
 		}
-
-		a:hover {
-			color: #083344;
-			text-decoration: underline;
+		.name--large {
+			margin-top: 0.4rem;
 		}
 
 		.stackSize {
@@ -332,12 +313,10 @@ function styles() {
 			font-size: 1rem;
 			height: 26px;
 		}
-
 		.stackSize--small {
 			top: 44.2%;
 			font-size: 0.6rem;
 		}
-
 		.stackSize--medium {
 			top: 46.3%;
 		}
