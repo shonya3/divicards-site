@@ -119,6 +119,7 @@ export class TopNavElement extends LitElement {
 
 		theme-toggle {
 			margin-right: 1rem;
+			--size: 10px;
 		}
 
 		:host {
