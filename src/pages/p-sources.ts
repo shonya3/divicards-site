@@ -107,7 +107,7 @@ export class SourcesPage extends LitElement {
 
 		a:link,
 		a:visited {
-			color: rgba(255, 255, 255, 0.85);
+			color: var(--sl-color-gray-800);
 		}
 
 		a:hover {
