@@ -151,28 +151,6 @@ export class MapsTablePage extends LitElement {
 		header {
 			border-bottom: none;
 		}
-		table {
-			min-width: 100%;
-			table-layout: fixed;
-			border-collapse: collapse;
-		}
-
-		tbody tr:nth-child(odd) {
-			background-color: #222;
-		}
-
-		th {
-			font-size: 20px;
-			padding: 1rem;
-		}
-
-		th:first-child {
-			width: 200px;
-		}
-
-		td {
-			text-align: center;
-		}
 
 		li {
 			list-style: none;
