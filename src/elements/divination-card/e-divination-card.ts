@@ -38,6 +38,15 @@ function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeD
 	return `global ${min_level ?? ''} - ${max_level ?? ''}`;
 }
 
+function imageurl(artFilename?: string): string {
+	if (artFilename) {
+		// console.warn(`Divination Card. No artFilename ${this.name}`);
+		return '';
+	}
+	// return `/images/cards/${this.artFilename}.png`;
+	return `https://web.poecdn.com/image/divination-card/${artFilename}.png`;
+}
+
 /**
  * @summary Divination Card
 
@@ -61,15 +70,6 @@ export class DivinationCardElement extends LitElement {
 	@state() artFilename: string = '';
 	@state() rewardHtml: string = '';
 	@state() minLevelOrRange?: string;
-
-	get imageUrl(): string {
-		if (!this.artFilename) {
-			// console.warn(`Divination Card. No artFilename ${this.name}`);
-			return '';
-		}
-		// return `/images/cards/${this.artFilename}.png`;
-		return `https://web.poecdn.com/image/divination-card/${this.artFilename}.png`;
-	}
 
 	protected willUpdate(changedProperties: PropertyValues<this>): void {
 		if (changedProperties.has('name')) {
@@ -115,7 +115,13 @@ export class DivinationCardElement extends LitElement {
 				</header>
 				<div class="imageWrapper">
 					<a @click=${this.#onNavigation} href="/card/${this.name}">
-						<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="card's image" />
+						<img
+							loading="lazy"
+							class="image"
+							width="100%"
+							src=${imageurl(this.artFilename)}
+							alt="card's image"
+						/>
 					</a>
 				</div>
 				<div
