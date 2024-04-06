@@ -117,7 +117,7 @@ export class DivinationCardElement extends LitElement {
 			'margin-top': this.nameMarginTop(this.size),
 		});
 
-		return html` <div class="element">
+		return html`<div class="element">
         <div
 			class=${classMap({
 				'divination-card': true,
@@ -153,10 +153,12 @@ export class DivinationCardElement extends LitElement {
 				</div>
 				<div class="${classMap({ 'bottom-half': true, size25: this.size === 'small' })}">
 					${staticHtml`${unsafeStatic(this.rewardHtml)}`}
-                    ${this.divider()}
-                    ${this.footer()}
+                    <div class="divider"></div>
+                    <footer>
+			            <p class="flavourText">${this.flavourText}</p>
+		            </footer>
 				</div>
-				${this.minLevelOrRange ? html` <div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> ` : nothing}
+				${this.minLevelOrRange ? html`<div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> ` : nothing}
 
 				<div class="boss">
 					<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>
@@ -164,16 +166,6 @@ export class DivinationCardElement extends LitElement {
 			</div>
 		</div>
         </div>`;
-	}
-
-	protected divider(): TemplateResult {
-		return html`<div class="divider"></div>`;
-	}
-
-	protected footer(): TemplateResult {
-		return html`<footer>
-			<p style="font-style: italic" class="flavourText">${this.flavourText}</p>
-		</footer>`;
 	}
 }
 
