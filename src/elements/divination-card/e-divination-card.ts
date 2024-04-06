@@ -16,12 +16,6 @@ declare global {
 
 export type CardSize = 'small' | 'medium' | 'large';
 
-export interface Props {
-	name: string;
-	size: CardSize;
-}
-export interface Events {}
-
 function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeData): string {
 	const globals = divcordTable.globalDrops();
 	const globalDropSource = globals.get(card);
@@ -39,7 +33,7 @@ function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeD
 }
 
 function imageurl(artFilename?: string): string {
-	if (artFilename) {
+	if (!artFilename) {
 		// console.warn(`Divination Card. No artFilename ${this.name}`);
 		return '';
 	}
@@ -96,6 +90,8 @@ export class DivinationCardElement extends LitElement {
 	}
 
 	protected render(): TemplateResult {
+		console.log(this.artFilename);
+		console.log(imageurl(this.artFilename));
 		return html`<div class="element">
 			<div
 				class=${classMap({
