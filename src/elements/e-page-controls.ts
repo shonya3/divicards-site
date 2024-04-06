@@ -85,7 +85,11 @@ export class PageControlsElement extends LitElement {
 		return html`
 			<div class="page-controls">
 				<div class="buttons">
-					<sl-icon-button name="chevron-left" ?disabled=${this.page === 1} @click=${this.decreasePage}
+					<sl-icon-button
+						aria-label="prev"
+						name="chevron-left"
+						?disabled=${this.page === 1}
+						@click=${this.decreasePage}
 						>prev</sl-icon-button
 					>
 					<sl-input
@@ -97,13 +101,18 @@ export class PageControlsElement extends LitElement {
 						@input=${this.#onPageInput}
 						min="1"
 					></sl-input>
-					<sl-icon-button .disabled=${this.isLastPage} name="chevron-right" @click=${this.increasePage}
+					<sl-icon-button
+						aria-label="next"
+						.disabled=${this.isLastPage}
+						name="chevron-right"
+						@click=${this.increasePage}
 						>next</sl-icon-button
 					>
 					<sl-icon-button .disabled=${this.isLastPage} name="chevron-double-right" @click=${this.toLastPage}
 						>next</sl-icon-button
 					>
 					<sl-input
+						aria-label="to last page"
 						class="per-page-input"
 						.helpText=${'per page'}
 						id="per-page"
