@@ -19,6 +19,18 @@ function formatNotes(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective
 	return unsafeHTML(escapeHtml(`${notes ?? ''}`).replaceAll('\n', '<br>'));
 }
 
+/**
+ * @cssproperty --greynote-color - The text color of greynote.
+ * @cssproperty --paragraph-color - The text color of notes and wiki disagreements.
+ * @cssproperty	--confidence--done-bg-color - The background color for Done confidence.
+ * @cssproperty --confidence--ok-bg-color - The background color for OK confidence.
+ * @cssproperty	--confidence--low-bg-color - The background color for Low confidence.
+ * @cssproperty	--confidence--none-bg-color - The background color for None confidence.
+ * @cssproperty	--confidence--done-color - The text color for Done confidence.
+ * @cssproperty --confidence--ok-color - The ok color for OK confidence.
+ * @cssproperty	--confidence--low-color - The text color for Low confidence.
+ * @cssproperty	--confidence--none-color - The text color for None confidence.
+ */
 @customElement('e-sourceful-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: DivcordRecord;
@@ -90,17 +102,28 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	}
 
 	static styles = css`
+		:host {
+			--greynote-color: var(--sl-color-gray-400);
+			--paragraph-color: var(--sl-color-gray-700);
+
+			--confidence--done-bg-color: green;
+			--confidence--ok-bg-color: #93c47d;
+			--confidence--low-bg-color: #f1c232;
+			--confidence--none-bg-color: red;
+
+			--confidence--done-color: white;
+			--confidence--ok-color: black;
+			--confidence--low-color: black;
+			--confidence--none-color: white;
+		}
+
 		* {
 			padding: 0;
 			margin: 0;
 		}
 
-		h3 {
-			color: #fff;
-		}
-
 		p {
-			color: #bcbcbc;
+			color: var(--paragraph-color);
 		}
 
 		.record {
@@ -108,31 +131,31 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		}
 
 		.greynote {
-			color: #bbb;
+			color: var(--greynote-color);
 			font-style: italic;
 		}
 
 		/** Confidence */
-
 		.confidence {
 			padding: 2rem;
 			font-size: 18px;
 			position: relative;
 		}
-
 		.confidence--done {
-			background-color: green;
+			background-color: var(--confidence--done-bg-color);
+			color: var(--confidence--done-color);
 		}
 		.confidence--ok {
-			background-color: #93c47d;
-			color: black;
-		}
-		.confidence--none {
-			background-color: red;
+			background-color: var(--confidence--ok-bg-color);
+			color: var(--confidence--ok-color);
 		}
 		.confidence--low {
-			background-color: #f1c232;
-			color: black;
+			background-color: var(--confidence--low-bg-color);
+			color: var(--confidence--low-color);
+		}
+		.confidence--none {
+			background-color: var(--confidence--none-bg-color);
+			color: var(--confidence--none-color);
 		}
 		.confidence-span {
 			font-size: 13px;
