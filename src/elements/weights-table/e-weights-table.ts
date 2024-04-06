@@ -159,6 +159,10 @@ export class WeightsTableElement extends LitElement {
 			box-sizing: border-box;
 		}
 
+		.th-weight sl-icon {
+			color: var(--sl-color-yellow-900);
+		}
+
 		:host {
 			display: block;
 		}

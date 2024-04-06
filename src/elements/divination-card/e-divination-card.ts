@@ -182,6 +182,8 @@ function styles() {
 		:host {
 			display: block;
 
+			--source-color: hsl(240 7.3% 84%);
+
 			--card-width-small: 168px;
 			--card-width-medium: 268px;
 			--card-width-large: 326px;

@@ -84,7 +84,15 @@ export class CardWithSourcesElement extends LitElement {
 		}
 
 		.wrapper {
-			width: var(--card-width);
+			width: calc(var(--card-width) + 4rem);
+		}
+
+		.wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			align-items: center;
+			padding: 2rem;
 		}
 
 		.sources {

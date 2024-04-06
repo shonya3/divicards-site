@@ -31,6 +31,7 @@ export class NoSourceInPoeDataError extends Error {
 
  * @cssproperty --padding-inline - The inline padding to use for for element.
  * @cssproperty --padding-block - The block padding to use for for element.
+ * @cccproperty --source-color - The Text color of source name.
  */
 @customElement('e-source')
 export class SourceElement extends LitElement {
