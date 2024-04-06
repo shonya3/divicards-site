@@ -273,7 +273,7 @@ function styles() {
 		}
 
 		.skeleton {
-			background: rgba(0, 0, 0, 0) url(/images/cards/divination-card.png) no-repeat center;
+			background: rgba(0, 0, 0, 0) url(/images/cards/avif/divination-card.avif) no-repeat center;
 			background-size: 105%;
 			z-index: 3;
 			position: absolute;
