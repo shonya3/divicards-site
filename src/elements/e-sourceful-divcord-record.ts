@@ -23,14 +23,9 @@ function formatNotes(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: DivcordRecord;
 
-	formattedNotes(): DirectiveResult<typeof UnsafeHTMLDirective> {
-		return unsafeHTML(escapeHtml(`${this.record.notes ?? ''}`).replaceAll('\n', '<br>'));
-	}
-
 	protected render(): TemplateResult {
 		return html`<div class="record">
 			${this.record.greynote === 'Empty' ? nothing : html`<div class="greynote">${this.record.greynote}</div>`}
-
 			<div>${this.record.card}</div>
 			${this.record.tagHypothesis
 				? html`<div class="tagHypothesis">
@@ -46,7 +41,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			>
 				<span class="confidence-span">Confidence</span> ${this.record.confidence}
 			</div>
-
 			${this.record.remainingWork === 'n/a'
 				? nothing
 				: html`<div class="remainingWork">
