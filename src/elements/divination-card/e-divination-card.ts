@@ -90,8 +90,6 @@ export class DivinationCardElement extends LitElement {
 	}
 
 	protected render(): TemplateResult {
-		console.log(this.artFilename);
-		console.log(imageurl(this.artFilename));
 		return html`<div class="element">
 			<div
 				class=${classMap({
