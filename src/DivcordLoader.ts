@@ -55,16 +55,21 @@ export class DivcordLoader extends EventEmitter<{
 		}
 	}
 
+	async fetchSpreadsheet(): Promise<Spreadsheet> {
+		await Promise.all([
+			this.#cache.add(richSourcesUrl('sources')),
+			this.#cache.add(sheetUrl()),
+			this.#cache.add(richSourcesUrl('verify')),
+		]);
+		const cached = await this.#cachedResponses();
+		const spreadsheet = await this.#deserializeResponses(cached!);
+		return spreadsheet;
+	}
+
 	async update(): Promise<DivcordRecord[]> {
 		try {
 			this.#setState('updating');
-			await Promise.all([
-				this.#cache.add(richSourcesUrl('sources')),
-				this.#cache.add(sheetUrl()),
-				this.#cache.add(richSourcesUrl('verify')),
-			]);
-			const cached = await this.#cachedResponses();
-			const spreadsheet = await this.#deserializeResponses(cached!);
+			const spreadsheet = await this.fetchSpreadsheet();
 			const records = await parseRecords(spreadsheet, poeData);
 			this.#storage.save(records);
 			this.#setState('updated');
