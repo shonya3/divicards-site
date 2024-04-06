@@ -2,6 +2,23 @@ import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import { escapeHtml } from './utils';
 
 export type ToastVariant = 'primary' | 'success' | 'neutral' | 'warning' | 'danger';
+export function toast(message: string, variant: ToastVariant = 'primary', duration = 100_000_000): Promise<void> {
+	const alert = Object.assign(document.createElement('sl-alert'), {
+		variant,
+		closable: true,
+		duration: duration,
+		innerHTML: `
+        <sl-icon name="${iconName(variant)}" slot="icon"></sl-icon>
+        ${prettifyMessage(message)}
+      `,
+	});
+
+	document.body.append(alert);
+	return alert.toast();
+}
+export function warningToast(message: string): Promise<void> {
+	return toast(message, 'warning');
+}
 
 function iconName(variant: ToastVariant): string {
 	switch (variant) {
@@ -45,23 +62,4 @@ function prettifyMessage(message: string): string {
 		: '';
 
 	return `${msg}${linkHtml}`;
-}
-
-export function toast(message: string, variant: ToastVariant = 'primary', duration = 100_000_000): Promise<void> {
-	const alert = Object.assign(document.createElement('sl-alert'), {
-		variant,
-		closable: true,
-		duration: duration,
-		innerHTML: `
-        <sl-icon name="${iconName(variant)}" slot="icon"></sl-icon>
-        ${prettifyMessage(message)}
-      `,
-	});
-
-	document.body.append(alert);
-	return alert.toast();
-}
-
-export function warningToast(message: string): Promise<void> {
-	return toast(message, 'warning');
 }
