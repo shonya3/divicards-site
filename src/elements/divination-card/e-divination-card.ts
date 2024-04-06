@@ -107,42 +107,38 @@ export class DivinationCardElement extends LitElement {
 		this.style.setProperty('view-transition-name', 'card');
 	}
 
-	protected override render(): TemplateResult {
-		const sizeMap = styleMap({
-			'--card-width': `var(--card-width-${this.size})`,
-			'--card-height': `var(--card-height-${this.size})`,
-		});
-
-		const nameTopPadding = styleMap({
-			'margin-top': this.nameMarginTop(this.size),
-		});
-
+	protected render(): TemplateResult {
 		return html`<div class="element">
-        <div
-			class=${classMap({
-				'divination-card': true,
-				[`divination-card--${this.size}`]: true,
-			})}
-		>
-			<a class="link" @click=${this.#onNavigation} href="/card/${this.name}"> </a>
-
-
 			<div
 				class=${classMap({
-					skeleton: true,
-					[`skeleton--${this.size}`]: true,
+					'divination-card': true,
+					[`divination-card--${this.size}`]: true,
 				})}
-				style=${sizeMap}
-			></div>
-			<header class="${classMap({ name: true })}" style=${nameTopPadding}>
-				<a @click=${this.#onNavigation} href="/card/${this.name}"> ${this.name} </a>
-			</header>
-			<div class="imageWrapper">
-				<a @click=${this.#onNavigation} href="/card/${this.name}">
-					<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="card's image" />
-				</a>
-			</div>
-
+			>
+				<a class="link" @click=${this.#onNavigation} href="/card/${this.name}"></a>
+				<div
+					class=${classMap({
+						skeleton: true,
+						[`skeleton--${this.size}`]: true,
+					})}
+					style=${styleMap({
+						'--card-width': `var(--card-width-${this.size})`,
+						'--card-height': `var(--card-height-${this.size})`,
+					})}
+				></div>
+				<header
+					class="name"
+					style=${styleMap({
+						'margin-top': this.nameMarginTop(this.size),
+					})}
+				>
+					<a @click=${this.#onNavigation} href="/card/${this.name}"> ${this.name} </a>
+				</header>
+				<div class="imageWrapper">
+					<a @click=${this.#onNavigation} href="/card/${this.name}">
+						<img loading="lazy" class="image" width="100%" src=${this.imageUrl} alt="card's image" />
+					</a>
+				</div>
 				<div
 					class=${classMap({
 						stackSize: true,
@@ -153,19 +149,20 @@ export class DivinationCardElement extends LitElement {
 				</div>
 				<div class="${classMap({ 'bottom-half': true, size25: this.size === 'small' })}">
 					${staticHtml`${unsafeStatic(this.rewardHtml)}`}
-                    <div class="divider"></div>
-                    <footer>
-			            <p class="flavourText">${this.flavourText}</p>
-		            </footer>
+					<div class="divider"></div>
+					<footer>
+						<p class="flavourText">${this.flavourText}</p>
+					</footer>
 				</div>
-				${this.minLevelOrRange ? html`<div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> ` : nothing}
+				${this.minLevelOrRange
+					? html`<div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> `
+					: nothing}
 
 				<div class="boss">
 					<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>
 				</div>
 			</div>
-		</div>
-        </div>`;
+		</div>`;
 	}
 }
 
