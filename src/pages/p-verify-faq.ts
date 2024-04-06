@@ -229,7 +229,7 @@ export class VerifyFaqPage extends LitElement {
 
 		a:link,
 		a:visited {
-			color: rgba(255, 255, 255, 0.85);
+			color: var(--sl-color-gray-800);
 		}
 
 		a:hover {
@@ -240,11 +240,11 @@ export class VerifyFaqPage extends LitElement {
 		p,
 		li,
 		em {
-			color: rgba(255, 255, 255, 0.75);
+			color: var(--sl-color-gray-700);
 		}
 
 		em {
-			color: rgba(255, 255, 255, 0.95);
+			color: var(--sl-color-gray-950);
 			font-size: 20px;
 		}
 
@@ -262,7 +262,6 @@ export class VerifyFaqPage extends LitElement {
 
 		nav {
 			max-width: fit-content;
-			border: 2px solid rgba(255, 255, 255, 0.2);
 
 			margin-top: 2rem;
 			padding-left: 1rem;
