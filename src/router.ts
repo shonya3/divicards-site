@@ -80,13 +80,13 @@ export const router = new Router({
 		{
 			path: '/maps',
 			title: 'Maps',
-			plugins: [lazy(() => import('./pages/p-maps-table'))],
+			plugins: [lazy(() => import('./pages/p-maps'))],
 			render: ({ query }) => {
-				return html`<p-maps-table
+				return html`<p-maps
 					.page=${Number(query.page ?? 1)}
 					.perPage=${Number(query['per-page'] ?? 10)}
 					filter=${query.filter}
-				></p-maps-table>`;
+				></p-maps>`;
 			},
 		},
 		{

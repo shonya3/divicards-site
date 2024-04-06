@@ -14,12 +14,12 @@ import { DivcordTable } from '../DivcordTable';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'p-maps-table': MapsTablePage;
+		'p-maps': MapsPage;
 	}
 }
 
-@customElement('p-maps-table')
-export class MapsTablePage extends LitElement {
+@customElement('p-maps')
+export class MapsPage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
 	@property({ reflect: true }) size: CardSize = 'medium';
