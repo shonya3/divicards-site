@@ -248,6 +248,7 @@ function styles() {
 			bottom: 0;
 			right: 0.75rem;
 			font-size: var(--digits-font-size);
+			color: #eee;
 		}
 
 		.boss {
