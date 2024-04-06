@@ -37,8 +37,8 @@ function imageurl(artFilename?: string): string {
 		// console.warn(`Divination Card. No artFilename ${this.name}`);
 		return '';
 	}
-	// return `/images/cards/${this.artFilename}.png`;
-	return `https://web.poecdn.com/image/divination-card/${artFilename}.png`;
+	return `/images/cards/avif/${artFilename}.avif`;
+	// return `https://web.poecdn.com/image/divination-card/${artFilename}.png`;
 }
 
 /**
