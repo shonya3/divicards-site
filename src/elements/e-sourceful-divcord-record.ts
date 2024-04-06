@@ -7,6 +7,7 @@ import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
 import type { DivcordRecord } from '../gen/divcord';
 import { DirectiveResult } from 'lit/async-directive.js';
+import { escapeHtml } from '../utils';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -14,13 +15,16 @@ declare global {
 	}
 }
 
+function formatNotes(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective> {
+	return unsafeHTML(escapeHtml(`${notes ?? ''}`).replaceAll('\n', '<br>'));
+}
+
 @customElement('e-sourceful-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: DivcordRecord;
 
 	formattedNotes(): DirectiveResult<typeof UnsafeHTMLDirective> {
-		const text = this.record.notes?.replaceAll('\n', '<br>');
-		return unsafeHTML(text);
+		return unsafeHTML(escapeHtml(`${this.record.notes ?? ''}`).replaceAll('\n', '<br>'));
 	}
 
 	protected render(): TemplateResult {
@@ -85,7 +89,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			${this.record.notes
 				? html`<div class="notes">
 						<h3>notes</h3>
-						<p>${this.formattedNotes()}</p>
+						<p>${formatNotes(this.record.notes)}</p>
 				  </div>`
 				: nothing}
 		</div>`;

@@ -17,6 +17,12 @@ export function paginate<T>(arr: T[], page: number, perPage: number): T[] {
 	return arr.slice(start, end);
 }
 
+export function escapeHtml(html: string): string {
+	const div = document.createElement('div');
+	div.textContent = html;
+	return div.innerHTML;
+}
+
 export class SlConverter {
 	static #SL_DELIMETER = 'sl-v' as const;
 	static toSlValue<T extends string>(s: T): string {
