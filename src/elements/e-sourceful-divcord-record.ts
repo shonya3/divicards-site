@@ -25,9 +25,14 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 	protected render(): TemplateResult {
 		return html`<div class="record">
-			${this.greynote()}
+			${this.record.greynote === 'Empty' ? nothing : html`<div class="greynote">${this.record.greynote}</div>`}
+
 			<div>${this.record.card}</div>
-			${this.tagHypothesis()}
+			${this.record.tagHypothesis
+				? html`<div class="tagHypothesis">
+						<h2>${this.record.tagHypothesis}</h2>
+				  </div>`
+				: nothing}
 			<div
 				title="Confidence"
 				class=${classMap({
@@ -56,56 +61,34 @@ export class SourcefulDivcordRecordElement extends LitElement {
 						</ul>
 				  </div>`
 				: nothing}
-			${this.wikiDisagreements()} ${this.sourcesWithTagButNotOnWiki()} ${this.notes()}
+			${this.record.wikiDisagreements
+				? html`<div class="wikiDisagreements">
+						<h3>Wiki disagreements</h3>
+						<p>${this.record.wikiDisagreements}</p>
+				  </div>`
+				: nothing}
+			${this.record.verifySources.length
+				? html`<div class="sourcesWithTagButNotOnWiki">
+						<h3>Need to verify</h3>
+						<e-verify-faq-alert class="verify-faq-alert"></e-verify-faq-alert>
+						<ul class="need-to-verify_list">
+							${this.record.verifySources.map(
+								source => html`<li>
+									<e-need-to-verify>
+										<e-source .source=${source}></e-source>
+									</e-need-to-verify>
+								</li>`
+							)}
+						</ul>
+				  </div>`
+				: nothing}
+			${this.record.notes
+				? html`<div class="notes">
+						<h3>notes</h3>
+						<p>${this.formattedNotes()}</p>
+				  </div>`
+				: nothing}
 		</div>`;
-	}
-
-	protected greynote(): TemplateResult | typeof nothing {
-		const markup = html`<div class="greynote">${this.record.greynote}</div>`;
-		return this.record.greynote === 'Empty' ? nothing : markup;
-	}
-
-	protected tagHypothesis(): TemplateResult | typeof nothing {
-		const markup = html`<div class="tagHypothesis">
-			<h2>${this.record.tagHypothesis}</h2>
-		</div>`;
-		return this.record.tagHypothesis ? markup : nothing;
-	}
-
-	protected wikiDisagreements(): TemplateResult | typeof nothing {
-		const markup = html`<div class="wikiDisagreements">
-			<h3>Wiki disagreements</h3>
-			<p>${this.record.wikiDisagreements}</p>
-		</div>`;
-		return this.record.wikiDisagreements ? markup : nothing;
-	}
-
-	protected sourcesWithTagButNotOnWiki(): TemplateResult | typeof nothing {
-		if (!this.record.verifySources.length) {
-			return nothing;
-		}
-
-		return html`<div class="sourcesWithTagButNotOnWiki">
-			<h3>Need to verify</h3>
-			<e-verify-faq-alert class="verify-faq-alert"></e-verify-faq-alert>
-			<ul class="need-to-verify_list">
-				${this.record.verifySources.map(
-					source => html`<li>
-						<e-need-to-verify>
-							<e-source .source=${source}></e-source>
-						</e-need-to-verify>
-					</li>`
-				)}
-			</ul>
-		</div>`;
-	}
-
-	protected notes(): TemplateResult | typeof nothing {
-		const markup = html`<div class="notes">
-			<h3>notes</h3>
-			<p>${this.formattedNotes()}</p>
-		</div>`;
-		return this.record.notes ? markup : nothing;
 	}
 
 	static styles = css`
