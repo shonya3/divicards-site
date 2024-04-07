@@ -149,7 +149,7 @@ export class MapElement extends LitElement {
 		}
 
 		.map-background {
-			background-image: url(/images/map-background-image.png);
+			background-image: url(/images/map-background-image.avif);
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: var(--image-width);
