@@ -1,4 +1,4 @@
-import { PoeData, poeData } from './PoeData';
+import { poeData } from './PoeData';
 import { warningToast } from './toast';
 import { sortByWeight } from './cards';
 import type { DivcordRecord } from './gen/divcord';
@@ -10,6 +10,8 @@ declare module './storage' {
 		divcord: DivcordRecord[];
 	}
 }
+
+type WorkerMessage = { type: 'records'; data: DivcordRecord[] } | { type: 'ParseError'; data: string };
 
 const ONE_DAY_MILLISECONDS = 86_400_000;
 const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
@@ -67,10 +69,33 @@ export class DivcordLoader extends EventEmitter<{
 	}
 
 	async update(): Promise<DivcordRecord[]> {
-		try {
+		const promise = new Promise<DivcordRecord[]>(async resolve => {
+			const worker = new Worker(new URL('./worker.ts', import.meta.url), {
+				type: 'module',
+			});
+			worker.addEventListener('message', (e: MessageEvent<WorkerMessage>) => {
+				const message = e.data;
+				switch (message.type) {
+					case 'ParseError': {
+						warningToast(message.data);
+						break;
+					}
+					case 'records': {
+						resolve(message.data);
+						break;
+					}
+				}
+			});
+
 			this.#setState('updating');
-			const spreadsheet = await this.fetchSpreadsheet();
-			const records = await parseRecords(spreadsheet, poeData);
+			const spreadsheet = await divcordLoader.fetchSpreadsheet();
+			worker.postMessage({ spreadsheet, poeData });
+		});
+
+		try {
+			const records = await promise;
+			sortByWeight(records, poeData);
+			sortAllSourcesByLevel(records, poeData);
 			this.#storage.save(records);
 			this.#setState('updated');
 			this.emit('records-updated', records);
@@ -180,15 +205,6 @@ function richSourcesUrl(richColumnVariant: 'sources' | 'verify'): string {
 	const sheet = 'Cards_and_Hypotheses';
 	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}?&ranges=${sheet}!${column}3:${column}&includeGridData=true&key=${key}`;
 	return url;
-}
-
-async function parseRecords(divcord: Spreadsheet, poeData: PoeData): Promise<DivcordRecord[]> {
-	const { default: initWasm, parsed_records } = await import('./gen/divcordWasm/divcord_wasm.js');
-	await initWasm();
-	const records = parsed_records(JSON.stringify(divcord), JSON.stringify(poeData), warningToast) as DivcordRecord[];
-	sortByWeight(records, poeData);
-	sortAllSourcesByLevel(records, poeData);
-	return records;
 }
 
 const cache = await caches.open(CACHE_KEY);
