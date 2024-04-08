@@ -9,6 +9,7 @@ import './e-source/e-source';
 import { DivcordTable } from '../DivcordTable';
 import type { Source } from '../gen/Source';
 import { sortSourcesByLevel } from '../utils';
+import type { SourceSize } from './e-source/types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -27,40 +28,18 @@ export class CardWithSourcesElement extends LitElement {
 	@property() renderMode: RenderMode = 'compact';
 
 	@state() sources: Source[] = [];
+	@state() verifySources: Source[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('name') || map.has('divcordTable')) {
 			const sources = this.divcordTable.sourcesByCard(this.name);
 			sortSourcesByLevel(sources, poeData);
 			this.sources = sources;
+
+			const verifySources = this.divcordTable.verifySourcesByCard(this.name);
+			sortSourcesByLevel(verifySources, poeData);
+			this.verifySources = verifySources;
 		}
-	}
-
-	/**  Put maps into distinct container without gaps */
-	protected sourcesList(): HTMLUListElement {
-		const mapsSources = document.createElement('div');
-		mapsSources.classList.add('sources-maps');
-		const ul = document.createElement('ul');
-		ul.classList.add('sources');
-		for (const source of this.sources) {
-			const sourceEl = Object.assign(document.createElement('e-source'), {
-				renderMode: this.renderMode,
-				source,
-				size: this.size,
-			});
-
-			if (source.type === 'Map') {
-				mapsSources.append(sourceEl);
-			} else {
-				ul.append(sourceEl);
-			}
-		}
-
-		if (mapsSources.children.length > 0) {
-			ul.append(mapsSources);
-		}
-
-		return ul;
 	}
 
 	render(): TemplateResult {
@@ -71,7 +50,7 @@ export class CardWithSourcesElement extends LitElement {
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
 				<e-divination-card part="card" .name=${this.name} .size=${this.size}></e-divination-card>
-				${this.sourcesList()}
+				${SourcesList(this.sources, this.renderMode, this.size)}
 			</div>
 		`;
 	}
@@ -106,4 +85,31 @@ export class CardWithSourcesElement extends LitElement {
 			flex-wrap: wrap;
 		}
 	`;
+}
+
+/**  Put maps into distinct container without gaps */
+function SourcesList(sources: Source[], renderMode: RenderMode, sourceSize: SourceSize): HTMLUListElement {
+	const mapsSources = document.createElement('div');
+	mapsSources.classList.add('sources-maps');
+	const ul = document.createElement('ul');
+	ul.classList.add('sources');
+	for (const source of sources) {
+		const sourceEl = Object.assign(document.createElement('e-source'), {
+			renderMode: renderMode,
+			source,
+			size: sourceSize,
+		});
+
+		if (source.type === 'Map') {
+			mapsSources.append(sourceEl);
+		} else {
+			ul.append(sourceEl);
+		}
+	}
+
+	if (mapsSources.children.length > 0) {
+		ul.append(mapsSources);
+	}
+
+	return ul;
 }
