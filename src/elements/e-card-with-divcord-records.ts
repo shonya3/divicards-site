@@ -17,7 +17,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ type: Array }) records!: DivcordRecord[];
 
 	render(): TemplateResult {
-		const allRecordsHasNoSources = this.records.every(s => (s.sources ?? []).length === 0);
+		const allRecordsHaveNoSources = this.records.every(s => s.sources.length === 0);
 
 		return html`<div class="view">
 			<slot name="card">
@@ -25,7 +25,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			</slot>
 			<main class="main">
 				<slot name="main-start"></slot>
-				${allRecordsHasNoSources
+				${allRecordsHaveNoSources
 					? html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
 					: nothing}
 				<ul>

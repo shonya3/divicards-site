@@ -14,7 +14,7 @@ export type DivcordRecord = {
 	sourcesWithTagButNotOnWiki?: string;
 	verifySources: Source[];
 	notes?: string;
-	sources?: Source[];
+	sources: Source[];
 };
 
 export type Greynote = (typeof GREYNOTE_VARIANTS)[number];

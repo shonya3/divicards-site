@@ -14,7 +14,7 @@ export class DivcordTable {
 	globalDrops(): Map<CardName, Source> {
 		const drops: Map<CardName, Source> = new Map();
 		for (const record of this.records) {
-			for (const source of record.sources ?? []) {
+			for (const source of record.sources) {
 				if (source.type === 'Global Drop') {
 					drops.set(record.card, source);
 				}
@@ -34,7 +34,7 @@ export class DivcordTable {
 		const sources: Source[] = [];
 		for (const record of this.records) {
 			if (record.card === card) {
-				sources.push(...(record.sources ?? []));
+				sources.push(...record.sources);
 			}
 		}
 
@@ -47,7 +47,7 @@ export class DivcordTable {
 
 		for (const record of this.records) {
 			const entry = map.get(record.card) ?? [];
-			for (const source of record.sources ?? []) {
+			for (const source of record.sources) {
 				entry.push(source);
 			}
 			map.set(record.card, entry);

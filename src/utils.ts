@@ -97,7 +97,7 @@ export class EventEmitter<Events> {
 }
 
 export function sortAllSourcesByLevel(records: DivcordRecord[], poeData: Readonly<PoeData>): void {
-	records.forEach(({ sources }) => sortSourcesByLevel(sources ?? [], poeData));
+	records.forEach(({ sources }) => sortSourcesByLevel(sources, poeData));
 }
 
 export function sortSourcesByLevel(sources: Source[], poeData: Readonly<PoeData>): void {

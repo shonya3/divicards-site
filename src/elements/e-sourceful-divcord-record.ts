@@ -59,11 +59,11 @@ export class SourcefulDivcordRecordElement extends LitElement {
 						<h3>Remaining Work</h3>
 						<span>${this.record.remainingWork}</span>
 				  </div>`}
-			${(this.record.sources ?? []).length > 0
+			${this.record.sources.length > 0
 				? html`<div class="wiki-agreements">
 						<h3>Verified drop sources</h3>
 						<ul class="wiki-agreements_sources">
-							${(this.record.sources ?? []).map(
+							${this.record.sources.map(
 								source => html`<li>
 									<e-source .source=${source}></e-source>
 								</li>`

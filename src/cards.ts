@@ -45,7 +45,7 @@ export function cardsByMapboss(boss: string, records: DivcordRecord[], poeData: 
 	}
 
 	for (const record of records) {
-		if ((record.sources ?? []).some(s => s.id === boss)) {
+		if (record.sources.some(s => s.id === boss)) {
 			cards.push({ card: record.card, status: 'done' });
 		}
 
@@ -61,7 +61,7 @@ export function cardsByActboss(boss: string, records: DivcordRecord[]): CardBySo
 	const cards: CardBySource[] = [];
 
 	for (const record of records) {
-		if ((record.sources ?? []).some(s => s.id === boss)) {
+		if (record.sources.some(s => s.id === boss)) {
 			cards.push({ card: record.card, status: 'done' });
 		}
 
@@ -101,7 +101,7 @@ export function cardsBySource(source: Source, records: DivcordRecord[], poeData:
 
 	for (const record of records) {
 		// for DONE sources
-		const sourcePresentsInRecord = (record.sources ?? []).some(
+		const sourcePresentsInRecord = record.sources.some(
 			s => s.id === source.id && s.kind === source.kind && s.type === source.type
 		);
 
@@ -133,7 +133,7 @@ export function cardsBySourceTypes(
 	const set: Set<string> = new Set();
 
 	for (const record of records) {
-		const fileteredSources = (record.sources ?? []).filter(s => sourceTypes.includes(s.type));
+		const fileteredSources = record.sources.filter(s => sourceTypes.includes(s.type));
 		for (const source of fileteredSources) {
 			sourceMap.set(source.id, source);
 			const cards = map.get(source.id) ?? [];

@@ -429,8 +429,8 @@ function createFilteredCards({
 		.filter(card => {
 			if (shouldApplySelectFilters && onlyShowCardsWithNoConfirmedSources) {
 				const records = divcordTable.recordsByCard(card);
-				const allRecordsHasNoSources = records.every(s => (s.sources ?? []).length === 0);
-				return allRecordsHasNoSources;
+				const allRecordsHaveNoSources = records.every(s => s.sources.length === 0);
+				return allRecordsHaveNoSources;
 			} else {
 				return true;
 			}

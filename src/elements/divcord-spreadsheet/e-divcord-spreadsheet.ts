@@ -243,7 +243,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 									${record.confidence}
 								</td>
 								<td class="td col-remaining-work">${record.remainingWork}</td>
-								<td class="td col-sources">${this.sourcesList(record.sources ?? [], 'done')}</td>
+								<td class="td col-sources">${this.sourcesList(record.sources, 'done')}</td>
 								<td class="td col-verify">${this.sourcesList(record.verifySources, 'verify')}</td>
 								<td class="td col-notes">${formattedNotes(record)}</td>
 							</tr>`;
