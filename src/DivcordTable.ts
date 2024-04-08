@@ -31,14 +31,36 @@ export class DivcordTable {
 
 	/** Returns Array of sources from all records, accociated with given card */
 	sourcesByCard(card: string): Source[] {
-		const sources: Source[] = [];
-		for (const record of this.records) {
-			if (record.card === card) {
-				sources.push(...record.sources);
-			}
-		}
+		const ids: Set<string> = new Set();
+		return this.records
+			.filter(record => record.card === card)
+			.flatMap(({ sources }) =>
+				sources.filter(source => {
+					if (ids.has(source.id)) {
+						return false;
+					} else {
+						ids.add(source.id);
+						return true;
+					}
+				})
+			);
+	}
 
-		return Array.from(new Set(sources));
+	/** Returns Array of need-to-verify sources from all records, accociated with given card */
+	verifySourcesByCard(card: string): Source[] {
+		const ids: Set<string> = new Set();
+		return this.records
+			.filter(record => record.card === card)
+			.flatMap(({ verifySources }) =>
+				verifySources.filter(source => {
+					if (ids.has(source.id)) {
+						return false;
+					} else {
+						ids.add(source.id);
+						return true;
+					}
+				})
+			);
 	}
 
 	/** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card */
