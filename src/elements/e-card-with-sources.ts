@@ -10,6 +10,7 @@ import { DivcordTable } from '../DivcordTable';
 import type { Source } from '../gen/Source';
 import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';
+import './e-sources';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -51,7 +52,12 @@ export class CardWithSourcesElement extends LitElement {
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
 				<e-divination-card part="card" .name=${this.name} .size=${this.cardSize}></e-divination-card>
-				${SourcesList(this.sources, this.renderMode, this.sourceSize)}
+				<e-sources
+					.sources=${this.sources}
+					.size=${this.sourceSize}
+					verification-status="done"
+					.renderMode=${this.renderMode}
+				></e-sources>
 			</div>
 		`;
 	}
@@ -71,46 +77,5 @@ export class CardWithSourcesElement extends LitElement {
 			display: flex;
 			flex-direction: column;
 		}
-
-		.sources {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-			margin-top: 0.25rem;
-			column-gap: 0.5rem;
-		}
-
-		.sources-maps {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-		}
 	`;
-}
-
-/**  Put maps into distinct container without gaps */
-function SourcesList(sources: Source[], renderMode: RenderMode, sourceSize: SourceSize): HTMLUListElement {
-	const mapsSources = document.createElement('div');
-	mapsSources.classList.add('sources-maps');
-	const ul = document.createElement('ul');
-	ul.classList.add('sources');
-	for (const source of sources) {
-		const sourceEl = Object.assign(document.createElement('e-source'), {
-			renderMode: renderMode,
-			source,
-			size: sourceSize,
-		});
-
-		if (source.type === 'Map') {
-			mapsSources.append(sourceEl);
-		} else {
-			ul.append(sourceEl);
-		}
-	}
-
-	if (mapsSources.children.length > 0) {
-		ul.append(mapsSources);
-	}
-
-	return ul;
 }

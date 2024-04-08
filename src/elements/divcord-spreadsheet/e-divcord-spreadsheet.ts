@@ -7,17 +7,14 @@ import '../divination-card/e-divination-card';
 import '../e-source/e-source';
 import '../e-need-to-verify';
 import { classMap } from 'lit/directives/class-map.js';
-import { Source } from '../../gen/Source';
 import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 import { styles } from './divcord-spreadsheet.styles';
 import { Sort, type SortColumn, type Order } from './Sort';
 import { DirectiveResult } from 'lit/async-directive.js';
 import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
-import type { VerificationStatus } from '../../cards';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { SourceSize } from '../e-source/types';
-import { RenderMode } from '../types';
+import '../e-sources';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -211,10 +208,20 @@ export class DivcordSpreadsheetElement extends LitElement {
 								</td>
 								<td class="td col-remaining-work">${record.remainingWork}</td>
 								<td class="td col-sources">
-									${SourcesList(record.sources, 'small', 'compact', 'done')}
+									<e-sources
+										.sources=${record.sources}
+										size="small"
+										render-mode="compact"
+										verification-status="done"
+									></e-sources>
 								</td>
 								<td class="td col-verify">
-									${SourcesList(record.verifySources, 'small', 'compact', 'verify')}
+									<e-sources
+										.sources=${record.verifySources}
+										size="small"
+										render-mode="compact"
+										verification-status="verify"
+									></e-sources>
 								</td>
 								<td class="td col-notes">${formattedNotes(record)}</td>
 							</tr>`;
@@ -249,44 +256,4 @@ function formattedNotes(record: DivcordRecord): DirectiveResult<typeof UnsafeHTM
 
 function divcordRecordHref(id: DivcordRecord['id']) {
 	return `https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0&range=B${id}`;
-}
-
-/**  Put maps into distinct container without gaps */
-function SourcesList(
-	sources: Source[],
-	size: SourceSize,
-	renderMode: RenderMode,
-	verificationStatus: VerificationStatus
-): HTMLUListElement {
-	const mapsSources = document.createElement('div');
-	mapsSources.classList.add('sources-maps');
-	const ul = document.createElement('ul');
-	ul.classList.add('sources');
-	for (const source of sources) {
-		{
-			let sourceEl: HTMLElement = Object.assign(document.createElement('e-source'), {
-				renderMode,
-				source,
-				size,
-			});
-
-			if (verificationStatus === 'verify') {
-				const verifyEl = document.createElement('e-need-to-verify');
-				verifyEl.append(sourceEl);
-				sourceEl = verifyEl;
-			}
-
-			if (source.type === 'Map') {
-				mapsSources.append(sourceEl);
-			} else {
-				ul.append(sourceEl);
-			}
-		}
-	}
-
-	if (mapsSources.children.length > 0) {
-		ul.append(mapsSources);
-	}
-
-	return ul;
 }

@@ -103,22 +103,6 @@ export const styles = css`
 		color: #bcbcbc;
 	}
 
-	.sources {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		margin-top: 0.25rem;
-		gap: 0.5rem;
-		column-gap: 0.5rem;
-	}
-
-	.sources-maps {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 0.25rem;
-	}
-
 	.col-verify .sources-maps {
 		gap: 0.75rem;
 	}
