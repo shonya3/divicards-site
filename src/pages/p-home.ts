@@ -14,6 +14,7 @@ import { sortByWeight } from '../cards';
 import { SearchCardsCriteria, searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
+import type { SourceSize } from '../elements/e-source/types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -25,8 +26,10 @@ declare global {
 export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
-	@property({ reflect: true }) size: CardSize = 'medium';
-	@property({ reflect: true }) filter: string = '';
+	@property({ reflect: true }) cardSize: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'small';
+	@property({ reflect: true })
+	filter: string = '';
 	@property({ type: Array }) searchCriterias: SearchCardsCriteria[] = Array.from(SEARCH_CRITERIA_VARIANTS);
 
 	@consume({ context: divcordTableContext, subscribe: true })
@@ -100,7 +103,8 @@ export class HomePage extends LitElement {
 						<e-card-with-sources
 							.name=${card}
 							.divcordTable=${this.divcordTable}
-							.size=${this.size}
+							.cardSize=${this.cardSize}
+							.sourceSize=${this.sourceSize}
 						></e-card-with-sources>
 					</li>`;
 				})}

@@ -23,7 +23,8 @@ declare global {
 @customElement('e-card-with-sources')
 export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
-	@property({ reflect: true }) size: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ type: Object }) divcordTable!: DivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 
@@ -44,13 +45,13 @@ export class CardWithSourcesElement extends LitElement {
 
 	render(): TemplateResult {
 		const wrapperStyles = styleMap({
-			'--card-width': `var(--card-width-${this.size})`,
+			'--card-width': `var(--card-width-${this.cardSize})`,
 		});
 
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
-				<e-divination-card part="card" .name=${this.name} .size=${this.size}></e-divination-card>
-				${SourcesList(this.sources, this.renderMode, this.size)}
+				<e-divination-card part="card" .name=${this.name} .size=${this.cardSize}></e-divination-card>
+				${SourcesList(this.sources, this.renderMode, this.sourceSize)}
 			</div>
 		`;
 	}

@@ -29,7 +29,13 @@ export class CardPage extends LitElement {
 
 		return html`<div class="page">
 			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
-				<e-card-with-sources slot="card" .name=${this.card} size="large" .divcordTable=${this.divcordTable}>
+				<e-card-with-sources
+					slot="card"
+					.name=${this.card}
+					card-size="large"
+					source-size="medium"
+					.divcordTable=${this.divcordTable}
+				>
 				</e-card-with-sources>
 				${card
 					? html`
