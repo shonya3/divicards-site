@@ -135,7 +135,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		}
 	}
 
-	for (const [card, sources] of divcordTable.cardSourcesMap()) {
+	for (const [card, sources] of divcordTable.cardSourcesAndVerifySourcesMap()) {
 		for (const source of sources) {
 			if (source.id.toLowerCase().includes(query)) {
 				cards.push(card);
@@ -146,16 +146,13 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 						...cards,
 						...bosses
 							.flatMap(({ name }) => cardsByMapboss(name, divcordTable.records, poeData))
-							.filter(({ status }) => status === 'done')
 							.map(({ card }) => card),
 					];
 				}
 				if (source.type === 'Act') {
 					const actArea = poeData.acts.find(a => a.id === source.id)!;
 					for (const fight of actArea.bossfights) {
-						for (const card of cardsByActboss(fight.name, divcordTable.records)
-							.filter(({ status }) => status === 'done')
-							.map(({ card }) => card)) {
+						for (const card of cardsByActboss(fight.name, divcordTable.records).map(({ card }) => card)) {
 							cards.push(card);
 						}
 					}
@@ -175,9 +172,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 				containsSomeActArea = true;
 
 				for (const fight of actArea.bossfights) {
-					for (const card of cardsByActboss(fight.name, divcordTable.records)
-						.filter(c => c.status === 'done')
-						.map(c => c.card)) {
+					for (const card of cardsByActboss(fight.name, divcordTable.records).map(c => c.card)) {
 						cards.push(card);
 					}
 				}
@@ -205,14 +200,12 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		)
 		.flatMap(({ bossfights }) => bossfights)
 		.flatMap(({ name }) => cardsByActboss(name, divcordTable.records))
-		.filter(({ status }) => status === 'done')
 		.map(({ card }) => card);
 
 	// If map area directly drops no cards, but some of its bosses can
 	const cardsFromMapBosses = poeData.mapbosses
 		.filter(boss => boss.maps.some(map => map.toLowerCase().includes(query)))
 		.flatMap(({ name }) => cardsByMapboss(name, divcordTable.records, poeData))
-		.filter(({ status }) => status === 'done')
 		.map(({ card }) => card);
 
 	return cards.concat(cardsFromActBosses, cardsFromMapBosses);

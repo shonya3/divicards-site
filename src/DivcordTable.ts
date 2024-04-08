@@ -64,6 +64,20 @@ export class DivcordTable {
 	}
 
 	/** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card */
+	cardSourcesAndVerifySourcesMap(): Map<CardName, Source[]> {
+		const map: Map<string, Source[]> = new Map();
+
+		for (const record of this.records) {
+			const entry = map.get(record.card) ?? [];
+			record.sources.forEach(s => entry.push(s));
+			record.verifySources.forEach(s => entry.push(s));
+			map.set(record.card, entry);
+		}
+
+		return map;
+	}
+
+	/** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card */
 	cardSourcesMap(): Map<CardName, Source[]> {
 		const map: Map<string, Source[]> = new Map();
 
