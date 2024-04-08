@@ -44,6 +44,10 @@ export class SourcesElement extends LitElement {
 			flex-wrap: wrap;
 			gap: 0.2rem;
 		}
+
+		.sources-maps--verify {
+			gap: 0.75rem;
+		}
 	`;
 }
 
@@ -56,6 +60,9 @@ function SourcesList(
 ): HTMLUListElement {
 	const mapsSources = document.createElement('div');
 	mapsSources.classList.add('sources-maps');
+	if (verificationStatus === 'verify') {
+		mapsSources.classList.add('sources-maps--verify');
+	}
 	const ul = document.createElement('ul');
 	ul.classList.add('sources');
 	for (const source of sources) {

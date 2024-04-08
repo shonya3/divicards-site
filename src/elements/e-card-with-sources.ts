@@ -58,6 +58,12 @@ export class CardWithSourcesElement extends LitElement {
 					verification-status="done"
 					.renderMode=${this.renderMode}
 				></e-sources>
+				<e-sources
+					.sources=${this.verifySources}
+					.size=${this.sourceSize}
+					verification-status="verify"
+					.renderMode=${this.renderMode}
+				></e-sources>
 			</div>
 		`;
 	}

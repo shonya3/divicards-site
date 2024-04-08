@@ -103,10 +103,6 @@ export const styles = css`
 		color: #bcbcbc;
 	}
 
-	.col-verify .sources-maps {
-		gap: 0.75rem;
-	}
-
 	.confidence {
 		position: relative;
 		text-transform: uppercase;
