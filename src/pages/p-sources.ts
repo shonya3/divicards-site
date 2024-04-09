@@ -115,23 +115,12 @@ export class SourcesPage extends LitElement {
 			text-decoration: underline;
 		}
 
-		.page {
-			padding: 2rem;
-			padding-bottom: 0;
-		}
-
 		.verify-link {
 			display: block;
 			margin-block: 2rem;
 		}
 
 		@media (max-width: 600px) {
-			.page {
-				margin-top: 1rem;
-				padding: 0.5rem;
-				padding-bottom: 0;
-			}
-
 			.source-with-cards-list__item {
 				margin-inline: auto;
 			}

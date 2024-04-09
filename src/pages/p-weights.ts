@@ -93,20 +93,6 @@ export class WeightsPage extends LitElement {
 		.spreadsheet-icon {
 			color: var(--sl-color-green-700);
 		}
-
-		.page {
-			padding: 2rem;
-			padding-top: 1rem;
-			padding-bottom: 0rem;
-		}
-
-		@media (width <=600px) {
-			.page {
-				margin-top: 1rem;
-				padding: 0.5rem;
-				padding-bottom: 0;
-			}
-		}
 	`;
 }
 

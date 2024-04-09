@@ -328,8 +328,6 @@ export class DivcordPage extends LitElement {
 		}
 
 		.page {
-			padding: 2rem;
-			padding-bottom: 0;
 			font-size: 14px;
 		}
 
@@ -377,12 +375,6 @@ export class DivcordPage extends LitElement {
 		}
 
 		@media (max-width: 600px) {
-			.page {
-				margin-top: 1rem;
-				padding: 0.5rem;
-				padding-bottom: 0;
-			}
-
 			e-card-with-divcord-records::part(card) {
 				width: fit-content;
 				margin-inline: auto;

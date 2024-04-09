@@ -289,11 +289,6 @@ export class VerifyPage extends LitElement {
 			width: fit-content;
 		}
 
-		.page {
-			padding: 2rem;
-			padding-bottom: 0;
-		}
-
 		.heading {
 			text-align: center;
 		}
@@ -393,12 +388,6 @@ export class VerifyPage extends LitElement {
 		/** media */
 
 		@media (width <= 600px) {
-			.page {
-				margin-top: 1rem;
-				padding: 0.5rem;
-				padding-bottom: 0;
-			}
-
 			.list {
 				margin-left: 0;
 			}

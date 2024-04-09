@@ -58,25 +58,27 @@ export class RootElement extends LitElement {
 
 		:host {
 			display: block;
-			height: 100vh;
+			min-height: 100vh;
 			--source-color: var(--sl-color-gray-800);
 		}
 
-		.wrapper {
-			height: 100vh;
-			display: flex;
-			flex-direction: column;
+		.header {
+			position: sticky;
+			top: 0;
+			z-index: 10;
 		}
 
 		.outlet {
-			flex-grow: 1;
-			height: 90vh;
+			padding: 2rem;
+			padding-bottom: 0;
 		}
 
-		.outlet > * {
-			height: 100%;
-			display: block;
-			overflow-y: scroll;
+		@media (width <= 600px) {
+			.outlet {
+				margin-top: 1rem;
+				padding: 0.5rem;
+				padding-bottom: 0;
+			}
 		}
 	`;
 }

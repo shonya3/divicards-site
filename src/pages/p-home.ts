@@ -124,13 +124,6 @@ export class HomePage extends LitElement {
 			display: block;
 		}
 
-		@media (max-width: 600px) {
-			.page {
-				margin-top: 1rem;
-				padding: 0.5rem;
-			}
-		}
-
 		header {
 			margin-top: 1rem;
 			justify-content: center;

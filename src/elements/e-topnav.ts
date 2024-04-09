@@ -142,6 +142,8 @@ export class TopNavElement extends LitElement {
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
+
+			margin-left: calc(100vw - 100%);
 		}
 
 		.logo {

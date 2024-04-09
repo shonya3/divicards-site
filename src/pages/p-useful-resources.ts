@@ -130,39 +130,6 @@ export class UsefulResourcesPage extends LitElement {
 			max-width: 100%;
 		}
 
-		nav {
-			max-width: fit-content;
-			border: 2px solid rgba(255, 255, 255, 0.2);
-
-			margin-top: 2rem;
-			padding-left: 1rem;
-			padding-right: 4rem;
-		}
-
-		@media (width < 425px) {
-			nav {
-				padding-inline: 0.4rem;
-			}
-
-			ol {
-				padding: 2rem;
-			}
-		}
-
-		nav a {
-			text-decoration: none;
-		}
-
-		nav ol {
-			display: flex;
-			flex-direction: column;
-			gap: 0.25rem;
-		}
-
-		nav h3 {
-			margin-left: 0.4rem;
-		}
-
 		h2 {
 			text-align: center;
 		}
