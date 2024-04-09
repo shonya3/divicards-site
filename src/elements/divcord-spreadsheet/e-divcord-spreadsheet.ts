@@ -242,6 +242,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 		${linkStyles}
 
 		:host {
+			width: fit-content;
 			display: block;
 		}
 

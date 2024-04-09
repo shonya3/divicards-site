@@ -2,6 +2,20 @@ import { css } from 'lit';
 
 export const styles = css`
 	#root {
+		--w-col-id: 100px;
+		--w-col-card: 200px;
+		--w-col-weight: 100px;
+		--w-col-tag: 200px;
+		--w-col-confidence: 110px;
+		--w-col-remaining-work: 100px;
+		--w-col-sources: 400px;
+		--w-col-verify: 320px;
+		--w-col-notes: 300px;
+		--w-table: calc(
+			var(--w-col-id) + var(--w-col-card) + var(--w-col-weight) + var(--w-col-tag) + var(--w-col-confidence) +
+				var(--w-col-remaining-work) + var(--w-col-sources) + var(--w-col-verify) + var(--w-col-notes)
+		);
+
 		height: calc(100vh - 70px);
 		overflow-y: scroll;
 		width: fit-content;
@@ -18,24 +32,27 @@ export const styles = css`
 	.th,
 	.td {
 		padding: 0.4rem;
-		border: 1px solid rgba(160, 160, 160, 0.2);
+		border: 1px solid rgba(160, 160, 160, 0.4);
 		text-align: center;
+		border-collapse: collapse;
 	}
 
 	.table {
 		border-collapse: collapse;
-		border: 1px solid rgba(140, 140, 140, 0.3);
+		border: 1px solid rgba(140, 140, 140, 0.4);
 		table-layout: fixed;
-		width: 1570px;
+		width: fit-content;
 		font-size: 14px;
 		position: relative;
 		height: 100%;
+		background-color: #121212;
 	}
 
 	.tbody {
-		width: 1821px;
+		width: var(--w-table);
 		display: table-row-group;
 		transform: translateX(-1px);
+		border-collapse: collapse;
 	}
 
 	.thead__headings {
