@@ -24,11 +24,11 @@ export class DivcordLoader extends EventEmitter<{
 	'records-updated': DivcordRecord[];
 }> {
 	#state: State = 'idle';
-	#cache: Cache;
+	#cache: Promise<Cache>;
 	#storage = new Storage('divcord', []);
-	constructor(cache: Cache) {
+	constructor() {
 		super();
-		this.#cache = cache;
+		this.#cache = caches.open(CACHE_KEY);
 	}
 
 	get state(): State {
@@ -58,10 +58,11 @@ export class DivcordLoader extends EventEmitter<{
 	}
 
 	async fetchSpreadsheet(): Promise<Spreadsheet> {
+		const cache = await this.#cache;
 		await Promise.all([
-			this.#cache.add(richSourcesUrl('sources')),
-			this.#cache.add(sheetUrl()),
-			this.#cache.add(richSourcesUrl('verify')),
+			cache.add(richSourcesUrl('sources')),
+			cache.add(sheetUrl()),
+			cache.add(richSourcesUrl('verify')),
 		]);
 		const cached = await this.#cachedResponses();
 		const spreadsheet = await this.#deserializeResponses(cached!);
@@ -88,7 +89,7 @@ export class DivcordLoader extends EventEmitter<{
 			});
 
 			this.#setState('updating');
-			const spreadsheet = await divcordLoader.fetchSpreadsheet();
+			const spreadsheet = await this.fetchSpreadsheet();
 			worker.postMessage({ spreadsheet, poeData });
 		});
 
@@ -151,9 +152,10 @@ export class DivcordLoader extends EventEmitter<{
 	}
 
 	async #cachedResponses(): Promise<CachedResponses | null> {
-		const richSources = await this.#cache.match(richSourcesUrl('sources'));
-		const richVerify = await this.#cache.match(richSourcesUrl('verify'));
-		const sheet = await this.#cache.match(sheetUrl());
+		const cache = await this.#cache;
+		const richSources = await cache.match(richSourcesUrl('sources'));
+		const richVerify = await cache.match(richSourcesUrl('verify'));
+		const sheet = await cache.match(sheetUrl());
 		if (!richSources || !sheet || !richVerify) return null;
 		return {
 			richVerify,
@@ -207,5 +209,4 @@ function richSourcesUrl(richColumnVariant: 'sources' | 'verify'): string {
 	return url;
 }
 
-const cache = await caches.open(CACHE_KEY);
-export const divcordLoader = new DivcordLoader(cache);
+export const divcordLoader = new DivcordLoader();
