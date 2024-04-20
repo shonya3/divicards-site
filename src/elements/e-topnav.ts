@@ -134,6 +134,10 @@ export class TopNavElement extends LitElement {
 			text-decoration: none;
 		}
 
+		dialog {
+			max-width: 100%;
+		}
+
 		.navbar {
 			height: 50px;
 			background-color: var(--bg-clr);
