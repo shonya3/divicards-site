@@ -216,7 +216,7 @@ export class TopNavElement extends LitElement {
 			display: none;
 		}
 
-		@media (width < 1100px) {
+		@media (width < 1400px) {
 			.links {
 				display: none;
 			}
