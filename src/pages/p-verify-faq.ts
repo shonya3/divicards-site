@@ -18,8 +18,8 @@ export class VerifyFaqPage extends LitElement {
 			if (target instanceof HTMLAnchorElement) {
 				const { hash } = new URL(target.href);
 				const el = this.shadowRoot?.querySelector(hash);
-				console.log(el);
 				if (el) {
+					(el as HTMLElement).style.setProperty('scroll-margin-top', '100px');
 					el.scrollIntoView();
 				}
 			}
@@ -31,6 +31,7 @@ export class VerifyFaqPage extends LitElement {
 		if (hash) {
 			const el = this.shadowRoot?.querySelector(hash);
 			if (el) {
+				(el as HTMLElement).style.setProperty('scroll-margin-top', '100px');
 				el.scrollIntoView();
 			}
 		}
