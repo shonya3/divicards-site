@@ -81,7 +81,8 @@ export class VerifyPage extends LitElement {
 			if (target instanceof HTMLAnchorElement) {
 				const { hash } = new URL(target.href);
 				const el = this.shadowRoot?.getElementById(hash.slice(1));
-				if (el) {
+				if (el && el instanceof HTMLElement) {
+					el.style.setProperty('scroll-margin-top', '50px');
 					el.scrollIntoView({ behavior: 'smooth' });
 				}
 			}
@@ -103,8 +104,9 @@ export class VerifyPage extends LitElement {
 		const { hash } = new URL(window.location.href);
 		if (hash) {
 			const el = this.shadowRoot?.getElementById(hash.slice(1));
-			if (el) {
+			if (el && el instanceof HTMLElement) {
 				await new Promise(r => setTimeout(r, 0));
+				el.style.setProperty('scroll-margin-top', '50px');
 				el.scrollIntoView();
 			}
 		}

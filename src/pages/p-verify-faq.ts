@@ -19,7 +19,7 @@ export class VerifyFaqPage extends LitElement {
 				const { hash } = new URL(target.href);
 				const el = this.shadowRoot?.querySelector(hash);
 				if (el) {
-					(el as HTMLElement).style.setProperty('scroll-margin-top', '100px');
+					(el as HTMLElement).style.setProperty('scroll-margin-top', '50px');
 					el.scrollIntoView();
 				}
 			}
@@ -31,7 +31,7 @@ export class VerifyFaqPage extends LitElement {
 		if (hash) {
 			const el = this.shadowRoot?.querySelector(hash);
 			if (el) {
-				(el as HTMLElement).style.setProperty('scroll-margin-top', '100px');
+				(el as HTMLElement).style.setProperty('scroll-margin-top', '50px');
 				el.scrollIntoView();
 			}
 		}
