@@ -160,6 +160,7 @@ function styles() {
 
 			--font-small: 0.8rem;
 
+			--flavour-text-color: rgba(167, 90, 27, 1);
 			--item-normal: 0, 0%, 78%;
 			--item-rare: 60, 100%, 73%;
 			--item-magic: 240, 100%, 77%;
@@ -360,7 +361,7 @@ function styles() {
 		.flavourText {
 			font-size: var(--flavour-font-size, 1rem);
 			line-height: var(--flavour-line-height, 1.2rem);
-			color: rgba(167, 90, 27, 1);
+			color: var(--flavour-text-color);
 			text-wrap: balance;
 			font-style: italic;
 		}
@@ -378,54 +379,47 @@ function styles() {
 			margin-left: 0.8rem;
 		}
 
-		.currencyItem {
-			color: hsla(var(--item-currency));
-		}
-
-		.uniqueItem {
-			color: hsla(var(--item-unique));
-		}
-
-		.fractured {
-			color: hsla(var(--item-fractured));
-		}
-
-		.enchanted {
-			color: hsla(var(--item-enchanted));
-		}
-
-		.normal {
-			color: hsla(var(--item-normal));
-		}
-
 		.default {
 			color: #7f7f7f;
 		}
-
+		.fractured {
+			color: hsla(var(--item-fractured));
+		}
+		.enchanted {
+			color: hsla(var(--item-enchanted));
+		}
+		.normal,
+		.normalItem {
+			color: hsla(var(--item-normal));
+		}
+		.magic,
 		.magicItem {
 			color: hsla(var(--item-magic));
 		}
-
+		.rare,
 		.rareItem {
 			color: hsla(var(--item-rare));
+		}
+		.unique,
+		.uniqueItem {
+			color: hsla(var(--item-unique));
+		}
+		.gem,
+		.gemItem {
+			color: hsla(var(--item-gem));
+		}
+		.currency,
+		.currencyItem {
+			color: hsla(var(--item-currency));
 		}
 		.corrupted {
 			color: hsla(var(--item-corrupted));
 		}
-		.rare {
-			color: hsla(var(--item-rare));
-		}
-
 		.divination {
 			color: #0ebaff;
 		}
-
 		.augmented {
 			color: var(--item-augmented);
-		}
-
-		.gemItem {
-			color: hsla(var(--item-gem));
 		}
 
 		.size22 {
