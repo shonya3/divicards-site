@@ -1,12 +1,17 @@
 import { linkStyles } from './../linkStyles';
-import { LitElement, html, css, TemplateResult } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { poeData } from '../PoeData';
 import '../elements/weights-table/e-weights-table';
 import '../elements/e-discord-avatar';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { Storage } from '../storage';
 import type { WeightsTableElement } from '../elements/weights-table/e-weights-table';
+import { consume } from '@lit/context';
+import { DivcordTable } from '../DivcordTable';
+import { divcordTableContext } from '../context';
+import { RowDataForWeightsTable } from '../elements/weights-table/types';
+import { prepareRowData } from '../elements/weights-table/lib';
 
 declare module '../storage' {
 	interface Registry {
@@ -22,12 +27,18 @@ declare global {
 
 @customElement('p-weights')
 export class WeightsPage extends LitElement {
-	#showCardsStorage = new Storage('weightsPageShowCards', false);
-	#rows = Object.values(poeData.cards).map(({ name, weight }) => ({ name, weight }));
+	@consume({ context: divcordTableContext, subscribe: true })
+	@state()
+	divcordTable!: DivcordTable;
 
-	constructor() {
-		super();
-		this.#rows.sort((a, b) => b.weight - a.weight);
+	#showCardsStorage = new Storage('weightsPageShowCards', false);
+	@state() rows: Array<RowDataForWeightsTable> = [];
+
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('divcordTable')) {
+			this.rows = Object.values(poeData.cards).map(card => prepareRowData(card, this.divcordTable.records));
+			this.rows.sort((a, b) => b.weight - a.weight);
+		}
 	}
 
 	#onShowCardsChanged(e: Event) {
@@ -53,7 +64,7 @@ export class WeightsPage extends LitElement {
 					class="section-table__table"
 					ordered-by="weight"
 					.showCards=${this.#showCardsStorage.load()}
-					.rows=${this.#rows}
+					.rows=${this.rows}
 				></e-weights-table>
 			</section>
 		</div>`;

@@ -9,6 +9,7 @@ import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
 import '../divination-card/e-divination-card';
 import '../e-source/e-source';
+import { weightCellContent } from './lib';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -86,25 +87,31 @@ export class WeightsTableVerifySources extends LitElement {
 			</thead>
 
 			<tbody>
-				${this.rowsClone.map(({ name, weight, sources }, index) => {
-					const weightStr =
-						weight > 5
-							? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-							: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+				${this.rowsClone.map((cardRowData, index) => {
+					const weightStr = weightCellContent(cardRowData);
 
 					return keyed(
-						name,
+						cardRowData.name,
 						html`<tr>
 							<td class="td">${index + 1}</td>
 							<td class="td">
 								<e-need-to-verify>
-									<e-divination-card size="small" name=${name}></e-divination-card>
+									<e-divination-card size="small" name=${cardRowData.name}></e-divination-card>
 								</e-need-to-verify>
 							</td>
-							<td class="td td-weight">${weightStr}</td>
+							<td class="td td-weight">
+								<p
+									class=${classMap({
+										'td-weight__label': true,
+										[`td-weight__label--${cardRowData.kind}`]: true,
+									})}
+								>
+									${weightStr}
+								</p>
+							</td>
 							<td class="td">
 								<ul class="sources-list">
-									${sources.map(
+									${cardRowData.sources.map(
 										source => html`<li><e-source size="medium" .source=${source}></e-source></li>`
 									)}
 								</ul>

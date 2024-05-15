@@ -38,6 +38,7 @@ export type Card = {
 	minLevel: number | null;
 	maxLevel?: number;
 	weight: number;
+	preReworkWeight: number;
 	league?: LeagueReleaseInfo | null;
 };
 

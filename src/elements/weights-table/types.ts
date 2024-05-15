@@ -1,6 +1,11 @@
 import type { Source } from '../../gen/Source';
-import type { Card } from '../../gen/poeData';
 
 export type Order = 'asc' | 'desc';
-export type RowDataForWeightsTable = Pick<Card, 'name' | 'weight'>;
+
+export type RowDataForWeightsTable = {
+	kind: 'disabled' | 'normal' | 'show-pre-rework-weight';
+	name: string;
+	weight: number;
+	preReworkWeight: number;
+};
 export type RowDataForWeightsTableVerifySources = RowDataForWeightsTable & { sources: Source[] };

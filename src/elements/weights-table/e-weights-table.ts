@@ -9,6 +9,7 @@ import { Sort } from './Sort';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
+import { weightCellContent } from './lib';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -120,22 +121,33 @@ export class WeightsTableElement extends LitElement {
 				</thead>
 
 				<tbody>
-					${this.rowsLimited.map(({ name, weight }, index) => {
-						const weightStr =
-							weight > 5
-								? weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-								: weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+					${this.rowsLimited.map((cardRowData, index) => {
+						const weightStr = weightCellContent(cardRowData);
 
 						return keyed(
-							name,
+							cardRowData.name,
 							html`<tr>
 								<td class="td">${index + 1}</td>
 								<td class="td">
 									${this.showCards
-										? html` <e-divination-card size="small" name=${name}></e-divination-card> `
-										: html`${name}`}
+										? html`
+												<e-divination-card
+													size="small"
+													name=${cardRowData.name}
+												></e-divination-card>
+										  `
+										: html`${cardRowData.name}`}
 								</td>
-								<td class="td td-weight">${weightStr}</td>
+								<td class="td td-weight">
+									<p
+										class=${classMap({
+											'td-weight__label': true,
+											[`td-weight__label--${cardRowData.kind}`]: true,
+										})}
+									>
+										${weightStr}
+									</p>
+								</td>
 							</tr>`
 						);
 					})}
