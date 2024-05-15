@@ -3,6 +3,56 @@
   "version": 1.1,
   "properties": [
     {
+      "name": "--greynote-color",
+      "description": "The text color of greynote.",
+      "values": []
+    },
+    {
+      "name": "--paragraph-color",
+      "description": "The text color of notes and wiki disagreements.",
+      "values": []
+    },
+    {
+      "name": "--confidence--done-bg-color",
+      "description": "The background color for Done confidence.",
+      "values": []
+    },
+    {
+      "name": "--confidence--ok-bg-color",
+      "description": "The background color for OK confidence.",
+      "values": []
+    },
+    {
+      "name": "--confidence--low-bg-color",
+      "description": "The background color for Low confidence.",
+      "values": []
+    },
+    {
+      "name": "--confidence--none-bg-color",
+      "description": "The background color for None confidence.",
+      "values": []
+    },
+    {
+      "name": "--confidence--done-color",
+      "description": "The text color for Done confidence.",
+      "values": []
+    },
+    {
+      "name": "--confidence--ok-color",
+      "description": "The ok color for OK confidence.",
+      "values": []
+    },
+    {
+      "name": "--confidence--low-color",
+      "description": "The text color for Low confidence.",
+      "values": []
+    },
+    {
+      "name": "--confidence--none-color",
+      "description": "The text color for None confidence.",
+      "values": []
+    },
+    {
       "name": "--padding-inline",
       "description": "The inline padding to use for for element.",
       "values": []
@@ -21,7 +71,10 @@
       "name": "--padding-block",
       "description": "The block padding to use for for element.",
       "values": []
-    }
+    },
+    { "name": "--size", "values": [] },
+    { "name": "--icon-fill", "values": [] },
+    { "name": "--icon-fill", "values": [] }
   ],
   "pseudoElements": [
     { "name": "::part(card)", "description": "Divination card element" }

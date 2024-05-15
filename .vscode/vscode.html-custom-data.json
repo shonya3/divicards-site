@@ -7,17 +7,8 @@
       "description": "\n---\n",
       "attributes": [
         { "name": "pathname", "values": [] },
-        {
-          "name": "divcordTable",
-          "values": [{ "name": "SourcefulDivcordTable" }]
-        }
+        { "name": "divcordTable", "values": [{ "name": "DivcordTable" }] }
       ],
-      "references": []
-    },
-    {
-      "name": "a",
-      "description": "\n---\n",
-      "attributes": [],
       "references": []
     },
     {
@@ -31,14 +22,12 @@
     },
     {
       "name": "e-card-with-sources",
-      "description": "\n---\n\n\n### **Methods:**\n \n\n### **CSS Parts:**\n - **card** - Divination card element",
+      "description": "\n---\n\n\n### **CSS Parts:**\n - **card** - Divination card element",
       "attributes": [
         { "name": "name", "values": [] },
-        { "name": "size", "values": [{ "name": "CardSize" }] },
-        {
-          "name": "divcordTable",
-          "values": [{ "name": "SourcefulDivcordTable" }]
-        },
+        { "name": "card-size", "values": [{ "name": "CardSize" }] },
+        { "name": "source-size", "values": [{ "name": "SourceSize" }] },
+        { "name": "divcordTable", "values": [{ "name": "DivcordTable" }] },
         { "name": "renderMode", "values": [{ "name": "RenderMode" }] }
       ],
       "references": []
@@ -47,7 +36,18 @@
       "name": "e-cards-by-source",
       "description": "\n---\n\n\n### **Events:**\n - **boss-navigation** - undefined",
       "attributes": [
-        { "name": "cards", "values": [{ "name": "CardBySource[]" }] }
+        { "name": "cards", "values": [{ "name": "CardBySource[]" }] },
+        { "name": "source-size", "values": [{ "name": "CardSize" }] },
+        { "name": "card-size", "values": [{ "name": "CardSize" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-discord-avatar",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "username", "values": [{ "name": "DiscordUsername" }] },
+        { "name": "size", "values": [] }
       ],
       "references": []
     },
@@ -58,14 +58,14 @@
       "references": []
     },
     {
-      "name": "e-navbar",
+      "name": "e-divcord-records-age",
       "description": "\n---\n",
-      "attributes": [{ "name": "linkItems", "values": [{ "name": "array" }] }],
+      "attributes": [{ "name": "date", "values": [{ "name": "Date" }] }],
       "references": []
     },
     {
       "name": "e-need-to-verify",
-      "description": "Notifiyng border for e-divination-card and e-source, when it needs to be verified.\r\nExample:\r\n```js\r\n<e-need-to-verify>\r\n<e-divination-card name=\"The Doctor\"></e-divination-card>\r\n</e-need-to-verify>\r\n```\n---\n",
+      "description": "Notifiyng border for e-divination-card and e-source, when it needs to be verified.\nExample:\n```js\n<e-need-to-verify>\n<e-divination-card name=\"The Doctor\"></e-divination-card>\n</e-need-to-verify>\n```\n---\n",
       "attributes": [],
       "references": []
     },
@@ -86,6 +86,27 @@
       "references": []
     },
     {
+      "name": "e-relative-time",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "date", "values": [{ "name": "Date" }] },
+        {
+          "name": "unit",
+          "values": [{ "name": "seconds" }, { "name": "minutes" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-sheets-link",
+      "description": "\n---\n\n\n### **Slots:**\n - _default_ - default - for link title\n- _default_ - icon - for custom icon",
+      "attributes": [
+        { "name": "href", "values": [] },
+        { "name": "discordUsers", "values": [{ "name": "DiscordUsername[]" }] }
+      ],
+      "references": []
+    },
+    {
       "name": "e-source-type",
       "description": "\n---\n",
       "attributes": [
@@ -97,18 +118,46 @@
       "name": "e-source-with-cards",
       "description": "\n---\n",
       "attributes": [
-        { "name": "source", "values": [{ "name": "ISource" }] },
+        { "name": "source", "values": [{ "name": "Source" }] },
         { "name": "cards", "values": [{ "name": "CardBySource[]" }] },
-        { "name": "showSourceType", "values": [] }
+        { "name": "showSourceType", "values": [] },
+        { "name": "source-size", "values": [{ "name": "CardSize" }] },
+        { "name": "card-size", "values": [{ "name": "CardSize" }] }
       ],
       "references": []
     },
     {
       "name": "e-sourceful-divcord-record",
-      "description": "\n---\n",
+      "description": "\n---\n\n\n### **CSS Properties:**\n - **--greynote-color** - The text color of greynote. _(default: undefined)_\n- **--paragraph-color** - The text color of notes and wiki disagreements. _(default: undefined)_\n- **--confidence--done-bg-color** - The background color for Done confidence. _(default: undefined)_\n- **--confidence--ok-bg-color** - The background color for OK confidence. _(default: undefined)_\n- **--confidence--low-bg-color** - The background color for Low confidence. _(default: undefined)_\n- **--confidence--none-bg-color** - The background color for None confidence. _(default: undefined)_\n- **--confidence--done-color** - The text color for Done confidence. _(default: undefined)_\n- **--confidence--ok-color** - The ok color for OK confidence. _(default: undefined)_\n- **--confidence--low-color** - The text color for Low confidence. _(default: undefined)_\n- **--confidence--none-color** - The text color for None confidence. _(default: undefined)_",
       "attributes": [
         { "name": "record", "values": [{ "name": "DivcordRecord" }] }
       ],
+      "references": []
+    },
+    {
+      "name": "e-sources",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "sources", "values": [{ "name": "Source[]" }] },
+        { "name": "size", "values": [{ "name": "SourceSize" }] },
+        { "name": "render-mode", "values": [{ "name": "RenderMode" }] },
+        {
+          "name": "verification-status",
+          "values": [{ "name": "VerificationStatus" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-topnav",
+      "description": "\n---\n",
+      "attributes": [{ "name": "linkItems", "values": [{ "name": "array" }] }],
+      "references": []
+    },
+    {
+      "name": "e-update-divcord-data",
+      "description": "\n---\n",
+      "attributes": [],
       "references": []
     },
     {
@@ -132,32 +181,10 @@
         { "name": "filter", "values": [] },
         { "name": "shouldApplySelectFilters", "values": [] },
         { "name": "onlyShowCardsWithNoConfirmedSources", "values": [] },
-        { "name": "onlyShowCardsWithSourcesToVerify", "values": [] }
+        { "name": "onlyShowCardsWithSourcesToVerify", "values": [] },
+        { "name": "showCards", "values": [] },
+        { "name": "active-view", "values": [{ "name": "ActiveView" }] }
       ],
-      "references": []
-    },
-    {
-      "name": "e-relative-time",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "date", "values": [{ "name": "Date" }] },
-        {
-          "name": "unit",
-          "values": [{ "name": "seconds" }, { "name": "minutes" }]
-        }
-      ],
-      "references": []
-    },
-    {
-      "name": "e-divcord-records-age",
-      "description": "\n---\n",
-      "attributes": [{ "name": "date", "values": [{ "name": "Date" }] }],
-      "references": []
-    },
-    {
-      "name": "e-update-divcord-data",
-      "description": "\n---\n",
-      "attributes": [],
       "references": []
     },
     {
@@ -166,7 +193,8 @@
       "attributes": [
         { "name": "page", "values": [] },
         { "name": "per-page", "values": [] },
-        { "name": "size", "values": [{ "name": "CardSize" }] },
+        { "name": "cardSize", "values": [{ "name": "CardSize" }] },
+        { "name": "source-size", "values": [{ "name": "SourceSize" }] },
         { "name": "filter", "values": [] },
         {
           "name": "searchCriterias",
@@ -176,7 +204,7 @@
       "references": []
     },
     {
-      "name": "p-maps-table",
+      "name": "p-maps",
       "description": "\n---\n",
       "attributes": [
         { "name": "page", "values": [] },
@@ -197,7 +225,7 @@
     {
       "name": "p-source",
       "description": "\n---\n",
-      "attributes": [{ "name": "source", "values": [{ "name": "ISource" }] }],
+      "attributes": [{ "name": "source", "values": [{ "name": "Source" }] }],
       "references": []
     },
     {
@@ -218,6 +246,12 @@
       "references": []
     },
     {
+      "name": "p-useful-resources",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
       "name": "p-verify-faq",
       "description": "\n---\n",
       "attributes": [],
@@ -227,6 +261,29 @@
       "name": "p-verify",
       "description": "\n---\n",
       "attributes": [],
+      "references": []
+    },
+    {
+      "name": "p-weights",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "e-divcord-spreadsheet",
+      "description": "\n---\n\n\n### **Events:**\n - **show-cards-changed** - undefined",
+      "attributes": [
+        { "name": "show-cards", "values": [] },
+        {
+          "name": "records",
+          "values": [{ "name": "DivcordRecordAndWeight[]" }]
+        },
+        { "name": "weight-order", "values": [{ "name": "Order" }] },
+        { "name": "card-order", "values": [{ "name": "Order" }] },
+        { "name": "id-order", "values": [{ "name": "Order" }] },
+        { "name": "verify-order", "values": [{ "name": "Order" }] },
+        { "name": "ordered-by", "values": [{ "name": "SortColumn" }] }
+      ],
       "references": []
     },
     {
@@ -243,8 +300,8 @@
       "name": "e-act-area",
       "description": "\n---\n",
       "attributes": [
-        { "name": "actArea", "values": [{ "name": "IActArea" }] },
-        { "name": "size", "values": [{ "name": "Size" }] },
+        { "name": "actArea", "values": [{ "name": "ActArea" }] },
+        { "name": "size", "values": [{ "name": "SourceSize" }] },
         { "name": "href", "values": [] }
       ],
       "references": []
@@ -253,8 +310,8 @@
       "name": "e-actboss",
       "description": "\n---\n",
       "attributes": [
-        { "name": "boss", "values": [{ "name": "IBossfight" }] },
-        { "name": "actArea", "values": [{ "name": "IActArea" }] },
+        { "name": "boss", "values": [{ "name": "Bossfight" }] },
+        { "name": "actArea", "values": [{ "name": "ActArea" }] },
         { "name": "href", "values": [] },
         { "name": "renderMode", "values": [{ "name": "RenderMode" }] }
       ],
@@ -264,7 +321,7 @@
       "name": "e-map",
       "description": "\n---\n",
       "attributes": [
-        { "name": "map", "values": [{ "name": "IMap" }] },
+        { "name": "map", "values": [{ "name": "MapArea" }] },
         {
           "name": "size",
           "values": [{ "name": "small" }, { "name": "medium" }]
@@ -279,8 +336,8 @@
       "name": "e-mapboss",
       "description": "\n---\n",
       "attributes": [
-        { "name": "boss", "values": [{ "name": "IMapBoss" }] },
-        { "name": "maps", "values": [{ "name": "IMap[]" }] },
+        { "name": "boss", "values": [{ "name": "MapBoss" }] },
+        { "name": "maps", "values": [{ "name": "MapArea[]" }] },
         {
           "name": "size",
           "values": [
@@ -298,26 +355,23 @@
       "name": "e-source",
       "description": "Any dropsource of divination card: map, act, etc\n---\n\n\n### **CSS Properties:**\n - **--padding-inline** - The inline padding to use for for element. _(default: undefined)_\n- **--padding-block** - The block padding to use for for element. _(default: undefined)_",
       "attributes": [
-        { "name": "source", "values": [{ "name": "ISource" }] },
+        { "name": "source", "values": [{ "name": "Source" }] },
         { "name": "showSourceType", "values": [] },
-        { "name": "size", "values": [{ "name": "CardSize" }] },
+        { "name": "size", "values": [{ "name": "SourceSize" }] },
         { "name": "renderMode", "values": [{ "name": "RenderMode" }] },
-        {
-          "name": "actSize",
-          "values": [{ "name": "small" }, { "name": "large" }]
-        }
+        { "name": "actSize", "values": [{ "name": "SourceSize" }] }
       ],
       "references": []
     },
     {
       "name": "e-input",
-      "description": "\n---\n\n\n### **Events:**\n - **input** - undefined\n\n### **Methods:**\n - **focus(options: _FocusOptions_)** - Sets focus on the input.\n- **blur()** - Removes focus from the input.\n- **select()** - Selects all the text in the input.\n- **setSelectionRange(selectionStart: _number_, selectionEnd: _number_, selectionDirection: _'forward' | 'backward' | 'none'_)** - Sets the start and end positions of the text selection (0-based).\n- **setRangeText(replacement: _string_, start: _number_, end: _number_, selectMode: _'select' | 'start' | 'end' | 'preserve'_)** - Replaces a range of text with a new string.\n- **showPicker()** - Displays the browser picker for an input element (only works if the browser supports it for the input type).\n- **stepUp()** - Increments the value of a numeric input type by the value of the step attribute.\n- **stepDown()** - Decrements the value of a numeric input type by the value of the step attribute.\n- **checkValidity()** - Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.\n- **reportValidity()** - Checks for validity and shows the browser's validation message if the control is invalid.\n- **setCustomValidity(message: _string_)** - Sets a custom validation message. Pass an empty string to restore validity.",
+      "description": "\n---\n\n\n### **Events:**\n - **input** - undefined\n\n### **Methods:**\n - **focus(options: _FocusOptions_): _void_** - Sets focus on the input.\n- **blur(): _void_** - Removes focus from the input.\n- **select(): _void_** - Selects all the text in the input.\n- **setSelectionRange(selectionStart: _number_, selectionEnd: _number_, selectionDirection: _'forward' | 'backward' | 'none'_): _void_** - Sets the start and end positions of the text selection (0-based).\n- **setRangeText(replacement: _string_, start: _number_, end: _number_, selectMode: _'select' | 'start' | 'end' | 'preserve'_): _void_** - Replaces a range of text with a new string.\n- **showPicker(): _void_** - Displays the browser picker for an input element (only works if the browser supports it for the input type).\n- **stepUp(): _void_** - Increments the value of a numeric input type by the value of the step attribute.\n- **stepDown(): _void_** - Decrements the value of a numeric input type by the value of the step attribute.\n- **checkValidity(): _boolean_** - Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.\n- **reportValidity(): _boolean_** - Checks for validity and shows the browser's validation message if the control is invalid.\n- **setCustomValidity(message: _string_): _void_** - Sets a custom validation message. Pass an empty string to restore validity.",
       "attributes": [
         { "name": "datalistItems", "values": [{ "name": "string[]" }] },
         { "name": "title", "values": [] },
         {
           "name": "type",
-          "description": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\r\nto `text`.",
+          "description": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\nto `text`.",
           "values": [
             { "name": "" },
             { "name": "date" },
@@ -409,7 +463,7 @@
         },
         {
           "name": "form",
-          "description": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\r\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\r\nthe same document or shadow root for this to work.",
+          "description": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\nthe same document or shadow root for this to work.",
           "values": []
         },
         {
@@ -444,7 +498,7 @@
         },
         {
           "name": "step",
-          "description": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\r\nimplied, allowing any numeric value. Only applies to date and number input types.",
+          "description": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\nimplied, allowing any numeric value. Only applies to date and number input types.",
           "values": [{ "name": "any" }]
         },
         {
@@ -466,7 +520,7 @@
         },
         {
           "name": "autocomplete",
-          "description": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\r\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.",
+          "description": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.",
           "values": []
         },
         {
@@ -494,7 +548,7 @@
         },
         {
           "name": "inputmode",
-          "description": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\r\nkeyboard on supportive devices.",
+          "description": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\nkeyboard on supportive devices.",
           "values": [
             { "name": "none" },
             { "name": "text" },
@@ -506,6 +560,61 @@
             { "name": "url" }
           ]
         }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-divcord-presets",
+      "description": "Controls for divcord presets\n---\n\n\n### **Events:**\n - **config-updated** - Emitted when active config options updated\n- **preset-applied** - undefined\n- **custom-presets-updated** - undefined",
+      "attributes": [
+        { "name": "customPresets", "values": [{ "name": "PresetConfig[]" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "theme-toggle",
+      "description": "\n---\n\n\n### **CSS Properties:**\n - **--size** - undefined _(default: undefined)_\n- **--icon-fill** - undefined _(default: undefined)_\n- **--icon-fill** - undefined _(default: undefined)_",
+      "attributes": [{ "name": "theme", "values": [] }],
+      "references": []
+    },
+    {
+      "name": "e-useful-resource",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "resource", "values": [{ "name": "UsefulResource" }] }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-weights-table-verify-sources",
+      "description": "\n---\n",
+      "attributes": [
+        {
+          "name": "rows",
+          "values": [{ "name": "RowDataForWeightsTableVerifySources[]" }]
+        },
+        { "name": "weight-order", "values": [{ "name": "Order" }] },
+        { "name": "name-order", "values": [{ "name": "Order" }] },
+        {
+          "name": "ordered-by",
+          "values": [{ "name": "name" }, { "name": "weight" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "e-weights-table",
+      "description": "\n---\n\n\n### **Events:**\n - **show-cards-changed** - undefined",
+      "attributes": [
+        { "name": "rows", "values": [{ "name": "RowDataForWeightsTable[]" }] },
+        { "name": "weight-order", "values": [{ "name": "Order" }] },
+        { "name": "name-order", "values": [{ "name": "Order" }] },
+        {
+          "name": "ordered-by",
+          "values": [{ "name": "name" }, { "name": "weight" }]
+        },
+        { "name": "limit", "values": [] },
+        { "name": "show-cards", "values": [] }
       ],
       "references": []
     }
