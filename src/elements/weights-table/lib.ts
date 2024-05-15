@@ -1,18 +1,18 @@
-import { RowDataForWeightsTable, RowDataForWeightsTableVerifySources } from './types';
+import { WeightData, RowDataForWeightsTableVerifySources } from './types';
 import { Card } from '../../gen/poeData';
 import { DivcordRecord } from '../../gen/divcord';
 import { Source } from '../../gen/Source';
 
-export function weightCellContent(cardRowData: RowDataForWeightsTable | RowDataForWeightsTableVerifySources) {
-	switch (cardRowData.kind) {
+export function weightCellContent(weightData: WeightData | RowDataForWeightsTableVerifySources) {
+	switch (weightData.kind) {
 		case 'disabled': {
 			return 'disabled';
 		}
 		case 'normal': {
-			return formatWeight(cardRowData.weight);
+			return formatWeight(weightData.weight);
 		}
 		case 'show-pre-rework-weight': {
-			return formatWeight(cardRowData.preReworkWeight);
+			return formatWeight(weightData.preReworkWeight);
 		}
 	}
 }
@@ -26,7 +26,7 @@ function formatWeight(weight: number, formatters: Record<0 | 2, Intl.NumberForma
 	return formatters[maximumFractionDigits].format(weight);
 }
 
-export function prepareRowData(card: Card, records: DivcordRecord[]): RowDataForWeightsTable {
+export function prepareWeightData(card: Card, records: DivcordRecord[]): WeightData {
 	const cardRow = {
 		name: card.name,
 		weight: card.weight,
@@ -53,7 +53,7 @@ export function prepareRowData(card: Card, records: DivcordRecord[]): RowDataFor
 	} as const;
 }
 
-export function prepareRowDataSources(
+export function prepareWeightDataSources(
 	card: Card,
 	records: Array<DivcordRecord>,
 	sources: Array<Source>

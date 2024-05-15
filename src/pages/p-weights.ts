@@ -10,8 +10,8 @@ import type { WeightsTableElement } from '../elements/weights-table/e-weights-ta
 import { consume } from '@lit/context';
 import { DivcordTable } from '../DivcordTable';
 import { divcordTableContext } from '../context';
-import { RowDataForWeightsTable } from '../elements/weights-table/types';
-import { prepareRowData } from '../elements/weights-table/lib';
+import { WeightData } from '../elements/weights-table/types';
+import { prepareWeightData } from '../elements/weights-table/lib';
 
 declare module '../storage' {
 	interface Registry {
@@ -32,11 +32,11 @@ export class WeightsPage extends LitElement {
 	divcordTable!: DivcordTable;
 
 	#showCardsStorage = new Storage('weightsPageShowCards', false);
-	@state() rows: Array<RowDataForWeightsTable> = [];
+	@state() rows: Array<WeightData> = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			this.rows = Object.values(poeData.cards).map(card => prepareRowData(card, this.divcordTable.records));
+			this.rows = Object.values(poeData.cards).map(card => prepareWeightData(card, this.divcordTable.records));
 			this.rows.sort((a, b) => b.weight - a.weight);
 		}
 	}

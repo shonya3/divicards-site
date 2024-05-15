@@ -15,7 +15,7 @@ import type { Card } from '../gen/poeData';
 import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/types';
 import '../elements/weights-table/e-weights-table-verify-sources';
 import { DivcordRecord } from '../gen/divcord';
-import { prepareRowDataSources } from '../elements/weights-table/lib';
+import { prepareWeightDataSources } from '../elements/weights-table/lib';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -32,7 +32,7 @@ function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowDataFo
 			),
 		}))
 		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null && obj.sources.length > 0)
-		.map(({ card, sources }) => prepareRowDataSources(card, records, sources));
+		.map(({ card, sources }) => prepareWeightDataSources(card, records, sources));
 }
 
 @customElement('p-verify')

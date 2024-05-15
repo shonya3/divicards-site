@@ -2,10 +2,11 @@ import type { Source } from '../../gen/Source';
 
 export type Order = 'asc' | 'desc';
 
-export type RowDataForWeightsTable = {
-	kind: 'disabled' | 'normal' | 'show-pre-rework-weight';
+export type WeightData = {
+	kind: WeightKind;
 	name: string;
 	weight: number;
 	preReworkWeight: number;
 };
-export type RowDataForWeightsTableVerifySources = RowDataForWeightsTable & { sources: Source[] };
+export type WeightKind = 'disabled' | 'normal' | 'show-pre-rework-weight';
+export type RowDataForWeightsTableVerifySources = WeightData & { sources: Source[] };
