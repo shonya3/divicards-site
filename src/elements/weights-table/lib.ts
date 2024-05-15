@@ -55,30 +55,29 @@ export function prepareWeightDataSources(
 	records: Array<DivcordRecord>,
 	sources: Array<Source>
 ): RowDataForWeightsTableVerifySources {
-	const cardRow = {
-		name: card.name,
-		weight: card.weight,
-		preReworkWeight: card.preReworkWeight,
-		sources,
-	};
-
 	if (card.weight > 0) {
 		return {
 			kind: 'normal',
-			...cardRow,
+			weight: card.weight,
+			name: card.name,
+			sources,
 		} as const;
 	}
 
 	if (checkCardDisabled(card.name, records)) {
 		return {
 			kind: 'disabled',
-			...cardRow,
+			weight: 0,
+			name: card.name,
+			sources,
 		} as const;
 	}
 
 	return {
 		kind: 'show-pre-rework-weight',
-		...cardRow,
+		weight: card.preReworkWeight,
+		name: card.name,
+		sources,
 	} as const;
 }
 
