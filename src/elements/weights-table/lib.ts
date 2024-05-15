@@ -12,7 +12,7 @@ export function weightCellContent(weightData: WeightData | RowDataForWeightsTabl
 			return formatWeight(weightData.weight);
 		}
 		case 'show-pre-rework-weight': {
-			return formatWeight(weightData.preReworkWeight);
+			return formatWeight(weightData.weight);
 		}
 	}
 }
@@ -29,8 +29,7 @@ function formatWeight(weight: number, formatters: Record<0 | 2, Intl.NumberForma
 export function prepareWeightData(card: Card, records: DivcordRecord[]): WeightData {
 	const cardRow = {
 		name: card.name,
-		weight: card.weight,
-		preReworkWeight: card.preReworkWeight,
+		weight: card.preReworkWeight,
 	};
 
 	if (card.weight > 0) {

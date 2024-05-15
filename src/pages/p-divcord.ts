@@ -30,6 +30,7 @@ import {
 	DivcordSpreadsheetElement,
 } from '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import { poeData } from '../PoeData';
+import { prepareWeightData } from '../elements/weights-table/lib';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -465,11 +466,7 @@ function someCardRecordHasGreynoteWorkVariant(
 }
 
 function prepareDivcordRecordsAndWeight(records: DivcordRecord[]): DivcordRecordAndWeight[] {
-	const weights: Record<string, number> = Object.fromEntries(
-		Object.values(poeData.cards).map(({ name, weight }) => [name, weight])
-	);
-
 	return records.map(record => {
-		return { ...record, weight: weights[record.card] };
+		return { ...record, weightData: prepareWeightData(poeData.cards[record.card], records) };
 	});
 }

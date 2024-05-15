@@ -12,7 +12,9 @@ export class Sort {
 
 	static byWeight(records: DivcordRecordAndWeight[], order: Order): void {
 		records.sort((a, b) =>
-			order === 'asc' ? Number(a.weight) - Number(b.weight) : Number(b.weight) - Number(a.weight)
+			order === 'asc'
+				? Number(a.weightData.weight) - Number(b.weightData.weight)
+				: Number(b.weightData.weight) - Number(a.weightData.weight)
 		);
 	}
 

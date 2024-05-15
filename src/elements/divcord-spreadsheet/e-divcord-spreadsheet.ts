@@ -15,6 +15,8 @@ import { DirectiveResult } from 'lit/async-directive.js';
 import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '../e-sources';
+import { WeightData } from '../weights-table/types';
+import { weightCellContent } from '../weights-table/lib';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -23,7 +25,7 @@ declare global {
 }
 
 export interface DivcordRecordAndWeight extends DivcordRecord {
-	weight: number;
+	weightData: WeightData;
 }
 
 @customElement('e-divcord-spreadsheet')
@@ -176,10 +178,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 					${virtualize({
 						items: this.recordsState,
 						renderItem: (record: DivcordRecordAndWeight): TemplateResult => {
-							const weightStr =
-								record.weight > 5
-									? record.weight.toLocaleString('ru', { maximumFractionDigits: 0 })
-									: record.weight.toLocaleString('ru', { maximumFractionDigits: 2 });
+							const weightStr = weightCellContent(record.weightData);
 
 							return html`<tr>
 								<td class="td col-id">
@@ -194,7 +193,16 @@ export class DivcordSpreadsheetElement extends LitElement {
 												${record.card}
 										  </a>`}
 								</td>
-								<td class="td td-weight col-weight">${weightStr}</td>
+								<td class="td td-weight col-weight">
+									<p
+										class=${classMap({
+											'td-weight__label': true,
+											[`td-weight__label--${record.weightData.kind}`]: true,
+										})}
+									>
+										${weightStr}
+									</p>
+								</td>
 								<td class="td col-tag">${record.tagHypothesis}</td>
 								<td
 									class=${classMap({
