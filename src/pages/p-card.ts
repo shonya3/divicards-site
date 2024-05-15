@@ -41,6 +41,7 @@ export class CardPage extends LitElement {
 		let weight = card?.weight ?? 1;
 		if (weight > 0 && weight < 1) weight = 1;
 		const weightStr = weightCellContent(this.weightData);
+		console.log(this.weightData);
 
 		return html`<div class="page">
 			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>

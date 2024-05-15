@@ -29,11 +29,11 @@ function formatWeight(weight: number, formatters: Record<0 | 2, Intl.NumberForma
 export function prepareWeightData(card: Card, records: DivcordRecord[]): WeightData {
 	const cardRow = {
 		name: card.name,
-		weight: card.preReworkWeight,
 	};
 
 	if (card.weight > 0) {
 		return {
+			weight: card.weight,
 			kind: 'normal',
 			...cardRow,
 		} as const;
@@ -41,12 +41,14 @@ export function prepareWeightData(card: Card, records: DivcordRecord[]): WeightD
 
 	if (checkCardDisabled(card.name, records)) {
 		return {
+			weight: 0,
 			kind: 'disabled',
 			...cardRow,
 		} as const;
 	}
 
 	return {
+		weight: card.preReworkWeight,
 		kind: 'show-pre-rework-weight',
 		...cardRow,
 	} as const;
