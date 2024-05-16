@@ -1,6 +1,5 @@
 import { WeightData, RowDataForWeightsTableVerifySources } from './types';
 import { Card } from '../../gen/poeData';
-import { DivcordRecord } from '../../gen/divcord';
 import { Source } from '../../gen/Source';
 
 export function weightCellContent(weightData: WeightData | RowDataForWeightsTableVerifySources) {
@@ -26,7 +25,7 @@ function formatWeight(weight: number, formatters: Record<0 | 2, Intl.NumberForma
 	return formatters[maximumFractionDigits].format(weight);
 }
 
-export function prepareWeightData(card: Card, records: DivcordRecord[]): WeightData {
+export function prepareWeightData(card: Card): WeightData {
 	if (card.weight > 0) {
 		return {
 			kind: 'normal',
@@ -35,7 +34,7 @@ export function prepareWeightData(card: Card, records: DivcordRecord[]): WeightD
 		} as const;
 	}
 
-	if (checkCardDisabled(card.name, records)) {
+	if (card.disabled) {
 		return {
 			kind: 'disabled',
 			name: card.name,
@@ -50,11 +49,7 @@ export function prepareWeightData(card: Card, records: DivcordRecord[]): WeightD
 	} as const;
 }
 
-export function prepareWeightDataSources(
-	card: Card,
-	records: Array<DivcordRecord>,
-	sources: Array<Source>
-): RowDataForWeightsTableVerifySources {
+export function prepareWeightDataSources(card: Card, sources: Array<Source>): RowDataForWeightsTableVerifySources {
 	if (card.weight > 0) {
 		return {
 			kind: 'normal',
@@ -64,7 +59,7 @@ export function prepareWeightDataSources(
 		} as const;
 	}
 
-	if (checkCardDisabled(card.name, records)) {
+	if (card.disabled) {
 		return {
 			kind: 'disabled',
 			weight: 0,
@@ -79,14 +74,4 @@ export function prepareWeightDataSources(
 		name: card.name,
 		sources,
 	} as const;
-}
-
-export function checkCardDisabled(name: string, records: DivcordRecord[]): boolean {
-	for (const record of records) {
-		if (record.card === name && record.sources.map(s => s.type).includes('Disabled')) {
-			return true;
-		}
-	}
-
-	return false;
 }

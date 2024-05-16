@@ -32,7 +32,7 @@ function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowDataFo
 			),
 		}))
 		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null && obj.sources.length > 0)
-		.map(({ card, sources }) => prepareWeightDataSources(card, records, sources));
+		.map(({ card, sources }) => prepareWeightDataSources(card, sources));
 }
 
 @customElement('p-verify')

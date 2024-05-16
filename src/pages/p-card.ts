@@ -30,7 +30,7 @@ export class CardPage extends LitElement {
 		if (map.has('divcordTable')) {
 			const card = poeData.find.card(this.card);
 			if (card) {
-				this.weightData = prepareWeightData(card, this.divcordTable.records);
+				this.weightData = prepareWeightData(card);
 			}
 		}
 	}

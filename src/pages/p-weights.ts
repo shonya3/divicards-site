@@ -36,7 +36,7 @@ export class WeightsPage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			this.rows = Object.values(poeData.cards).map(card => prepareWeightData(card, this.divcordTable.records));
+			this.rows = Object.values(poeData.cards).map(prepareWeightData);
 			this.rows.sort((a, b) => b.weight - a.weight);
 		}
 	}

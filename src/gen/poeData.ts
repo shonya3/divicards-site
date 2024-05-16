@@ -40,6 +40,7 @@ export type Card = {
 	weight: number;
 	preReworkWeight: number;
 	league?: LeagueReleaseInfo | null;
+	disabled: boolean;
 };
 
 export type MapArea = {
