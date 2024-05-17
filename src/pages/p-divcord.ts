@@ -147,6 +147,19 @@ export class DivcordPage extends LitElement {
 		}
 	}
 
+	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
+		super.attributeChangedCallback(name, old, value);
+
+		if (name === 'filter') {
+			if (old === value || old == null) {
+				return;
+			}
+			const url = new URL(window.location.href);
+			url.searchParams.set('filter', this.filter);
+			window.history.pushState(null, '', url);
+		}
+	}
+
 	protected render(): TemplateResult {
 		return html`<div class="page">
 			<header>

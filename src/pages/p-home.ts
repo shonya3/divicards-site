@@ -39,12 +39,6 @@ export class HomePage extends LitElement {
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];
 
-	async #onCardnameInput(e: InputEvent) {
-		const input = e.target as HTMLInputElement;
-		this.page = 1;
-		this.filter = input.value;
-	}
-
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('filter') || map.has('searchCriterias') || map.has('divcordTable')) {
 			const query = this.filter.trim().toLowerCase();
@@ -58,10 +52,17 @@ export class HomePage extends LitElement {
 		}
 	}
 
-	#onCriteriasSelect(e: Event) {
-		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<SearchCardsCriteria>(opt));
-		this.searchCriterias = options;
+	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
+		super.attributeChangedCallback(name, old, value);
+
+		if (name === 'filter') {
+			if (old === value || old == null) {
+				return;
+			}
+			const url = new URL(window.location.href);
+			url.searchParams.set('filter', this.filter);
+			window.history.pushState(null, '', url);
+		}
 	}
 
 	render(): TemplateResult {
@@ -110,6 +111,18 @@ export class HomePage extends LitElement {
 				})}
 			</ul>
 		</div>`;
+	}
+
+	async #onCardnameInput(e: InputEvent) {
+		const input = e.target as HTMLInputElement;
+		this.page = 1;
+		this.filter = input.value;
+	}
+
+	#onCriteriasSelect(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<SearchCardsCriteria>(opt));
+		this.searchCriterias = options;
 	}
 
 	static styles = css`

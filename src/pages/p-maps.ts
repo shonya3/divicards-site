@@ -51,13 +51,6 @@ export class MapsPage extends LitElement {
 			this.sourcesAndCards = sourcesAndCards;
 		}
 
-		if (map.has('filter')) {
-			const url = new URL(window.location.href);
-
-			url.searchParams.set('filter', this.filter);
-			window.history.replaceState({}, '', url);
-		}
-
 		if (map.has('filter') || map.has('sourcesAndCards')) {
 			const query = this.filter.trim().toLowerCase();
 			this.filtered = this.sourcesAndCards.filter(({ source }) => source.id.toLowerCase().includes(query));
@@ -65,6 +58,20 @@ export class MapsPage extends LitElement {
 
 		if (map.has('filtered') || map.has('page') || map.has('perPage')) {
 			this.paginated = paginate(this.filtered, this.page, this.perPage);
+		}
+	}
+
+	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
+		console.log('AttributeChangedCallback', { name, old, value });
+		super.attributeChangedCallback(name, old, value);
+
+		if (name === 'filter') {
+			if (old === value || old == null) {
+				return;
+			}
+			const url = new URL(window.location.href);
+			url.searchParams.set('filter', this.filter);
+			window.history.pushState(null, '', url);
 		}
 	}
 
