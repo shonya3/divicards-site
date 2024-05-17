@@ -87,27 +87,6 @@ export class DivcordPage extends LitElement {
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
-	#onRecordsUpdated() {
-		this.ageEl.lastUpdated.run();
-	}
-
-	#onConfigUpdated(e: Event) {
-		const target = e.target as DivcordPresetsElement;
-		this.config = { ...target.config };
-	}
-
-	#onPresetApplied(e: CustomEvent<PresetConfig>) {
-		this.#applyPreset(e.detail);
-	}
-
-	#onCustomPresetsUpdated(e: CustomEvent<PresetConfig[]>) {
-		this.customPresets = e.detail;
-	}
-
-	#onShowCardsChanged(e: Event) {
-		this.showCards = (e.target as DivcordSpreadsheetElement).showCards;
-	}
-
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('showCards')) {
 			this.#storage.showCards.save(this.showCards);
@@ -168,55 +147,7 @@ export class DivcordPage extends LitElement {
 		}
 	}
 
-	findPreset(name: string): PresetConfig | null {
-		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
-	}
-
-	async #onCardnameInput(e: InputEvent) {
-		const input = e.target as HTMLInputElement;
-		this.page = 1;
-		this.filter = input.value;
-	}
-
-	#onshouldApplySelectFiltersCheckbox(e: InputEvent) {
-		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
-		if (typeof target.checked === 'boolean') {
-			this.shouldApplySelectFilters = target.checked;
-		}
-	}
-
-	#applyPreset(preset: PresetConfig) {
-		this.#storage.latestPresetApplied.save(preset.name);
-		this.config = preset;
-		toast(`"${preset.name}" applied`, 'primary', 3000);
-	}
-
-	#ononlyShowCardsWithNoConfirmedSourcesCheckbox(e: InputEvent) {
-		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
-		if (typeof target.checked === 'boolean') {
-			this.onlyShowCardsWithNoConfirmedSources = target.checked;
-			this.#storage.onlyShowCardsWithNoConfirmedSources.save(target.checked);
-		}
-	}
-
-	#onOnlyShowCardsWithSourcesToVerifyCheckbox(e: InputEvent) {
-		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
-		if (typeof target.checked === 'boolean') {
-			this.onlyShowCardsWithSourcesToVerify = target.checked;
-			this.#storage.onlyShowCardsWithSourcesToVerify.save(target.checked);
-		}
-	}
-
-	#onActiveViewChanged(e: InputEvent) {
-		const target = e.target as EventTarget & { value: string };
-		if (target && target.value) {
-			if (target.value === 'list' || target.value === 'table') {
-				this.activeView = target.value;
-			}
-		}
-	}
-
-	render(): TemplateResult {
+	protected render(): TemplateResult {
 		return html`<div class="page">
 			<header>
 				<e-sheets-link
@@ -314,6 +245,75 @@ export class DivcordPage extends LitElement {
 					  ></e-divcord-spreadsheet>`}
 			</div>
 		</div>`;
+	}
+
+	#onRecordsUpdated() {
+		this.ageEl.lastUpdated.run();
+	}
+
+	#onConfigUpdated(e: Event) {
+		const target = e.target as DivcordPresetsElement;
+		this.config = { ...target.config };
+	}
+
+	#onPresetApplied(e: CustomEvent<PresetConfig>) {
+		this.#applyPreset(e.detail);
+	}
+
+	#onCustomPresetsUpdated(e: CustomEvent<PresetConfig[]>) {
+		this.customPresets = e.detail;
+	}
+
+	#onShowCardsChanged(e: Event) {
+		this.showCards = (e.target as DivcordSpreadsheetElement).showCards;
+	}
+
+	findPreset(name: string): PresetConfig | null {
+		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
+	}
+
+	async #onCardnameInput(e: InputEvent) {
+		const input = e.target as HTMLInputElement;
+		this.page = 1;
+		this.filter = input.value;
+	}
+
+	#onshouldApplySelectFiltersCheckbox(e: InputEvent) {
+		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
+		if (typeof target.checked === 'boolean') {
+			this.shouldApplySelectFilters = target.checked;
+		}
+	}
+
+	#applyPreset(preset: PresetConfig) {
+		this.#storage.latestPresetApplied.save(preset.name);
+		this.config = preset;
+		toast(`"${preset.name}" applied`, 'primary', 3000);
+	}
+
+	#ononlyShowCardsWithNoConfirmedSourcesCheckbox(e: InputEvent) {
+		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
+		if (typeof target.checked === 'boolean') {
+			this.onlyShowCardsWithNoConfirmedSources = target.checked;
+			this.#storage.onlyShowCardsWithNoConfirmedSources.save(target.checked);
+		}
+	}
+
+	#onOnlyShowCardsWithSourcesToVerifyCheckbox(e: InputEvent) {
+		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
+		if (typeof target.checked === 'boolean') {
+			this.onlyShowCardsWithSourcesToVerify = target.checked;
+			this.#storage.onlyShowCardsWithSourcesToVerify.save(target.checked);
+		}
+	}
+
+	#onActiveViewChanged(e: InputEvent) {
+		const target = e.target as EventTarget & { value: string };
+		if (target && target.value) {
+			if (target.value === 'list' || target.value === 'table') {
+				this.activeView = target.value;
+			}
+		}
 	}
 
 	static styles = css`
