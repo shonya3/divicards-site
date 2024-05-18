@@ -14,7 +14,7 @@ declare global {
 	}
 }
 
-export type CardSize = 'small' | 'medium' | 'large';
+export type CardSize = '50' | '75' | 'small' | 'medium' | 'large';
 
 function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeData): string {
 	const globals = divcordTable.globalDrops();
@@ -244,15 +244,40 @@ function styles() {
 			position: relative;
 		}
 
+		.divination-card--50 {
+			--card-width: 50px;
+			--reward-font-size: 3.2px;
+			--digits-font-size: 3.2px;
+			--flavour-font-size: 3.2px;
+			--flavour-line-height: 3.2px;
+			--name-font-size: 5px;
+			--name-line-height: 5px;
+			--stack-size-font-size: 8px;
+			--stack-size-top: 34%;
+			--bottom-half-margin-top: 0;
+		}
+
+		.divination-card--75 {
+			--card-width: 75px;
+			--name-font-size: 7px;
+			--name-line-height: 6.5px;
+			--reward-font-size: 7px;
+			--flavour-font-size: 5px;
+			--flavour-line-height: 4.5px;
+			--stack-size-font-size: 10px;
+			--stack-size-top: 38%;
+			--bottom-half-margin-top: 0;
+			--digits-font-size: 3.2px;
+		}
+
 		.divination-card--small {
 			--card-width: var(--card-width-small);
-			--reward-font-size: 0.8rem;
-			--digits-font-size: 0.6rem;
-			--reward-font-size: 0.8rem;
-			--flavour-font-size: 0.7rem;
-			--flavour-line-height: 0.7rem;
 			--name-font-size: 12px;
 			--name-line-height: 15px;
+			--reward-font-size: 0.8rem;
+			--digits-font-size: 0.6rem;
+			--flavour-font-size: 0.7rem;
+			--flavour-line-height: 0.7rem;
 		}
 
 		.divination-card--medium {
@@ -308,10 +333,10 @@ function styles() {
 			position: absolute;
 			color: #c8c8c8;
 			left: 8%;
-			top: 46.8%;
+			top: var(--stack-size-top, 46.8%);
 			z-index: 4;
 			width: 16%;
-			font-size: 1rem;
+			font-size: var(--stack-size-font-size, 1rem);
 			height: 26px;
 		}
 		.stackSize--small {
@@ -330,7 +355,7 @@ function styles() {
 			z-index: 4;
 			margin: 0 6% 6%;
 
-			margin-top: 0.4rem;
+			margin-top: var(--bottom-half-margin-top, 0.4rem);
 			display: flex;
 			flex-direction: column;
 			justify-content: space-evenly;
