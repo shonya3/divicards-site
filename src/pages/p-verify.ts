@@ -16,6 +16,7 @@ import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/t
 import '../elements/weights-table/e-weights-table-verify-sources';
 import { DivcordRecord } from '../gen/divcord';
 import { prepareWeightDataSources } from '../elements/weights-table/lib';
+import type { SourceSize } from '../elements/e-source/types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -44,7 +45,7 @@ export class VerifyPage extends LitElement {
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() detailsOfContentsOpen = true;
 	@state() cardSize: CardSize = 'small';
-	@state() sourceSize: CardSize = 'medium';
+	@state() sourceSize: SourceSize = 'medium';
 	@state() byCategory: {
 		maps: SourceAndCards[];
 		acts: SourceAndCards[];

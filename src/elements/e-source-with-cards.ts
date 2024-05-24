@@ -5,6 +5,7 @@ import type { Source } from '../gen/Source';
 import './e-source/e-source';
 import './e-cards-by-source';
 import type { CardSize } from './divination-card/e-divination-card';
+import type { SourceSize } from './e-source/types';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -17,7 +18,7 @@ export class SourceWithCardsElement extends LitElement {
 	@property({ type: Object }) source!: Source;
 	@property({ type: Array }) cards!: CardBySource[];
 	@property({ type: Boolean }) showSourceType = true;
-	@property({ reflect: true, attribute: 'source-size' }) sourceSize: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
 
 	@query('.source') mainSourceElement!: HTMLElement;
