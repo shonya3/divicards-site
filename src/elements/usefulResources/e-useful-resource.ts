@@ -97,7 +97,6 @@ export class UsefulResourceElement extends LitElement {
 		}
 
         .see-page, .github{
-           color: rgba(255, 255, 255, 0.75);
         }
 
         .github{

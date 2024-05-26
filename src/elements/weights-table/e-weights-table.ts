@@ -165,20 +165,24 @@ export class WeightsTableElement extends LitElement {
 	}
 
 	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
-
-		.th-weight sl-icon {
-			color: var(--sl-color-yellow-900);
-		}
-
 		:host {
 			display: block;
 		}
 
-		${tableStyles}
+		@layer reset {
+			* {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+			}
+		}
+
+		@layer table-styles {
+			${tableStyles}
+		}
+
+		sl-icon {
+			color: var(--sl-color-yellow-900);
+		}
 	`;
 }
