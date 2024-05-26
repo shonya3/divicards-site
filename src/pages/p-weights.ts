@@ -57,16 +57,37 @@ export class WeightsPage extends LitElement {
 				</a>
 				<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
 			</p>
-			<section class="section-table">
-				<h3>Weights Table</h3>
-				<e-weights-table
-					@show-cards-changed=${this.#onShowCardsChanged}
-					class="section-table__table"
-					ordered-by="weight"
-					.showCards=${this.#showCardsStorage.load()}
-					.rows=${this.rows}
-				></e-weights-table>
-			</section>
+			<main class="main">
+				<section class="section-table">
+					<h3>Weights Table</h3>
+					<e-weights-table
+						@show-cards-changed=${this.#onShowCardsChanged}
+						class="section-table__table"
+						ordered-by="weight"
+						.showCards=${this.#showCardsStorage.load()}
+						.rows=${this.rows}
+					></e-weights-table>
+				</section>
+				<article class="section-links">
+					<h3>Deep dive</h3>
+					<p>For better understanding, read <em>poorFishwife's</em> posts on these reddit threads:</p>
+					<ul>
+						<li>
+							<a href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
+								>Hihi reddit! 🐟❤️ What's your favourite Divination Card? Mine is The Vast,
+								because...</a
+							>
+						</li>
+						<li>
+							<a
+								href="https://www.reddit.com/r/pathofexile/comments/wsi0j8/complete_divination_card_dropweight_tables_drop/"
+								>Complete Divination Card Dropweight Tables, Drop Estimates for New 3.19 Cards, and
+								Player IIQ Formula | Prohibited Library Digest</a
+							>
+						</li>
+					</ul>
+				</article>
+			</main>
 		</div>`;
 	}
 
@@ -78,6 +99,7 @@ export class WeightsPage extends LitElement {
 		}
 
 		${linkStyles}
+		${articleCss()}
 		a:link {
 			text-decoration: underline;
 		}
@@ -87,8 +109,11 @@ export class WeightsPage extends LitElement {
 			margin-bottom: 3rem;
 		}
 
-		.section-table {
+		.main {
 			margin-top: 2rem;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6rem;
 		}
 
 		.section-table__table {
@@ -108,3 +133,78 @@ export class WeightsPage extends LitElement {
 }
 
 // https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906
+
+export function articleCss() {
+	return css`
+		article {
+			max-width: min(47ch, calc(100% - 3rem));
+			font-size: 18px;
+			margin-bottom: 12rem;
+		}
+
+		a:link,
+		a:visited {
+			color: var(--sl-color-gray-800);
+		}
+
+		a:hover {
+			color: var(--link-color-hover, skyblue);
+			text-decoration: underline;
+		}
+
+		h3 {
+			margin-bottom: 1.5rem;
+		}
+
+		ul {
+			margin: 1rem;
+		}
+
+		p,
+		li,
+		em {
+			color: var(--sl-color-gray-700);
+		}
+
+		em {
+			color: var(--sl-color-gray-950);
+			font-size: 20px;
+		}
+
+		img {
+			max-width: 100%;
+		}
+
+		nav {
+			max-width: fit-content;
+
+			margin-top: 2rem;
+			padding-left: 1rem;
+			padding-right: 4rem;
+		}
+
+		@media (width < 425px) {
+			nav {
+				padding-inline: 0.4rem;
+			}
+
+			ol {
+				padding: 2rem;
+			}
+		}
+
+		nav a {
+			text-decoration: none;
+		}
+
+		nav ol {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+		}
+
+		nav h3 {
+			margin-left: 0.4rem;
+		}
+	`;
+}
