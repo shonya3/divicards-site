@@ -70,7 +70,7 @@ export class WeightsPage extends LitElement {
 				</section>
 				<article class="section-links">
 					<h3>Deep dive</h3>
-					<p>For better understanding, read <em>poorFishwife's</em> posts on these reddit threads:</p>
+					<p>For better understanding, read <em>poorFishwife's</em> posts in these reddit threads:</p>
 					<ul>
 						<li>
 							<a href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
