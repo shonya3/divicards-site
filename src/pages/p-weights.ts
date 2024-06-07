@@ -60,17 +60,17 @@ export class WeightsPage extends LitElement {
 	protected render(): TemplateResult {
 		return html`<div class="page">
 			<h1 class="heading">Weights</h1>
-			<p class="weights-spreadsheet-p">
-				<sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
-				<a
-					href="https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906"
-					>Weights spreadsheet by
-				</a>
-				<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
-			</p>
 			<main class="main">
 				<section class="section-table">
 					<h2>Weights Table</h2>
+					<p class="weights-spreadsheet-p">
+						<sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
+						<a
+							href="https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906"
+							>Weights spreadsheet by
+						</a>
+						<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
+					</p>
 					<e-weights-table
 						@show-cards-changed=${this.#onShowCardsChanged}
 						class="section-table__table"
@@ -132,17 +132,17 @@ export class WeightsPage extends LitElement {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 6rem;
+			justify-content: center;
 		}
 
 		.links-and-faq {
-			max-width: 70ch;
+			max-width: 60ch;
 			display: flex;
 			flex-direction: column;
 			gap: 6rem;
 		}
 
 		.faq {
-			width: 70ch;
 			& > h2 {
 				margin-bottom: 2rem;
 			}
