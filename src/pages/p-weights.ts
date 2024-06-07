@@ -28,9 +28,8 @@ declare global {
 
 const faq = [
 	{
-		q: `Do we "know"  that Rain of Chaos "actually" weighs ~121000 or is it just a random number we came up with and scaled everything else against that?
-In other words.. would there be any issue if we renormalized all the weights to be 10x larger than they currently are?`,
-		a: `Yes, we do know, roughly:
+		q: `Do we "know"  that Rain of Chaos "actually" weighs ~121000`,
+		a: `Yes.
 The original Rain of Chaos natural weight value estimate was based on tracking index items of known weight (e.g. Active Skill Gems) in large samples. Since we know those index items' exact DropPool weights, the estimate was pretty good.
 The rough size of that value was reverified in 3.22 by a few of us carefully counting thousands of natural Card drops and index items in T16 Castle Ruins.
 Sampling indicated that the true value may be slightly lower, but it's quite close. Since past estimates were normalized to 121400, to make comparisons to prior leagues easier, most people just stick with that value even if it may be slightly high.`,
