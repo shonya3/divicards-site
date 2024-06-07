@@ -75,6 +75,10 @@ export class WeightsTableElement extends LitElement {
 		this.limit = null;
 	}
 
+	#onShowLess() {
+		this.limit = 5;
+	}
+
 	#onShowCardsToggled(e: Event) {
 		const target = e.target;
 		if (target && 'checked' in target && typeof target.checked === 'boolean') {
@@ -164,10 +168,17 @@ export class WeightsTableElement extends LitElement {
 						);
 					})}
 					${this.limit !== null && this.limit < this.rowsClone.length
-						? html`<tr class="show-more">
-								<td class="td" colspan="3" class="show-more__td">
+						? html`<tr>
+								<td class="td" colspan="3">
 									<sl-button @click=${this.#onShowMore}>Show more</sl-button>
 									<sl-button @click=${this.#onShowAll}>Show All</sl-button>
+								</td>
+						  </tr>`
+						: nothing}
+					${this.limit === null || this.limit > 20
+						? html`<tr class="sticky">
+								<td class="td" colspan="3">
+									<sl-button @click=${this.#onShowLess} size="large">Show less</sl-button>
 								</td>
 						  </tr>`
 						: nothing}
@@ -199,6 +210,13 @@ export class WeightsTableElement extends LitElement {
 
 		sl-icon {
 			color: var(--sl-color-yellow-900);
+		}
+
+		.sticky {
+			bottom: 0;
+			position: sticky;
+			z-index: 20000;
+			background-color: rgba(255, 255, 255, 0.3);
 		}
 	`;
 }
