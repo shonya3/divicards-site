@@ -142,11 +142,9 @@ export class HomePage extends LitElement {
 			justify-content: center;
 			max-width: 600px;
 			margin-inline: auto;
-		}
-
-		@media (max-width: 600px) {
-			header {
-				padding: 0.2rem;
+			padding: 0.2rem;
+			@media (width >=460px) {
+				padding: 0rem;
 			}
 		}
 

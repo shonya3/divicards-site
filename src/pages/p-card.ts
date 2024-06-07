@@ -77,10 +77,11 @@ export class CardPage extends LitElement {
 			view-transition-name: card;
 		}
 
-		@media (max-width: 600px) {
-			e-card-with-sources {
-				width: fit-content;
-				margin-inline: auto;
+		e-card-with-sources {
+			margin-inline: auto;
+			width: fit-content;
+			@media (width >= 460px) {
+				margin-inline: 0;
 			}
 		}
 

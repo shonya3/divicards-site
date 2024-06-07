@@ -266,17 +266,16 @@ export class VerifyFaqPage extends LitElement {
 			max-width: fit-content;
 
 			margin-top: 2rem;
-			padding-left: 1rem;
-			padding-right: 4rem;
+			padding-inline: 0.4rem;
+			@media (width >= 460px) {
+				padding-inline: 1rem;
+			}
 		}
 
-		@media (width < 425px) {
-			nav {
-				padding-inline: 0.4rem;
-			}
-
-			ol {
-				padding: 2rem;
+		ol {
+			padding: 2rem;
+			@media (width >=460px) {
+				padding: 0rem;
 			}
 		}
 

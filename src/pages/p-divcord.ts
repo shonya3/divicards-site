@@ -388,10 +388,10 @@ export class DivcordPage extends LitElement {
 			gap: 1rem;
 		}
 
-		@media (max-width: 600px) {
-			e-card-with-divcord-records::part(card) {
-				width: fit-content;
-				margin-inline: auto;
+		e-card-with-divcord-records::part(card) {
+			margin-inline: auto;
+			@media (width >= 460px) {
+				margin-inline: 0;
 			}
 		}
 

@@ -15,9 +15,12 @@ export const styles = css`
 
 	.th,
 	.td {
-		padding: 1rem;
+		padding: 0.5rem;
 		border: 1px solid rgba(160, 160, 160, 0.2);
 		text-align: center;
+		@media (width >=460px) {
+			padding: 1rem;
+		}
 	}
 
 	.header-with-icon {
@@ -28,8 +31,11 @@ export const styles = css`
 	}
 
 	.td-weight {
-		font-weight: 700;
-		font-size: 20px;
+		font-weight: 600;
+		font-size: 17px;
+		@media (width >=460px) {
+			font-size: 18px;
+		}
 	}
 
 	.ordered-by {
@@ -48,12 +54,5 @@ export const styles = css`
 		transform: translate(-100%, -100%);
 		color: pink;
 		font-size: 11px;
-	}
-
-	@media (width < 25rem) {
-		.th,
-		.td {
-			padding: 0.4rem;
-		}
 	}
 `;

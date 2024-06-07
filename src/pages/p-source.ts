@@ -51,9 +51,10 @@ export class SourcePage extends LitElement {
 			view-transition-name: source;
 		}
 
-		@media (width <=600px) {
-			e-source-with-cards {
-				margin-inline: auto;
+		e-source-with-cards {
+			margin-inline: auto;
+			@media (width >= 460px) {
+				margin-inline: 0;
 			}
 		}
 	`;

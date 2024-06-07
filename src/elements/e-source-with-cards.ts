@@ -72,11 +72,5 @@ export class SourceWithCardsElement extends LitElement {
 		e-source {
 			margin-inline: auto;
 		}
-
-		@media (width <=700px) {
-			e-source {
-				margin-inline: auto;
-			}
-		}
 	`;
 }

@@ -25,6 +25,10 @@ export const styles = css`
 		--source-color: hsl(240 7.3% 84%);
 	}
 
+	#root {
+		height: calc(100vh - 150px);
+	}
+
 	.th {
 		font-size: 14px;
 	}
@@ -173,16 +177,5 @@ export const styles = css`
 		transform: translate(-100%, -100%);
 		color: pink;
 		font-size: 11px;
-	}
-
-	@media (width < 30rem) {
-		.th,
-		.td {
-			padding: 0.4rem;
-		}
-
-		#root {
-			height: calc(100vh - 100px);
-		}
 	}
 `;

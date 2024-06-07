@@ -77,18 +77,18 @@ export class SourceTypePage extends LitElement {
 			box-sizing: border-box;
 		}
 
-		@media (width <=600px) {
-			e-source-with-cards {
-				margin-inline: auto;
+		e-source-with-cards {
+			margin-inline: auto;
+			@media (width >= 460px) {
+				margin-inline: 0;
 			}
-		}
-
-		li:not(:first-child) {
-			margin-top: 4rem;
 		}
 
 		li {
 			list-style: none;
+			&:not(:first-child) {
+				margin-top: 4rem;
+			}
 		}
 
 		e-source-type {

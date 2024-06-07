@@ -120,9 +120,10 @@ export class SourcesPage extends LitElement {
 			margin-block: 2rem;
 		}
 
-		@media (max-width: 600px) {
-			.source-with-cards-list__item {
-				margin-inline: auto;
+		.source-with-cards-list__item {
+			margin-inline: auto;
+			@media (width >= 460px) {
+				margin-inline: 0rem;
 			}
 		}
 
