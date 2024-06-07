@@ -63,14 +63,15 @@ export const styles = css`
 	/** Table of contents */
 
 	.table-of-contents {
-		max-width: 400px;
+		margin-inline: auto;
+		max-width: 600px;
 		right: 100px;
 		top: 100px;
 		z-index: 200000;
 		margin-top: 2rem;
-		border: 1px solid var(--sl-color-gray-300);
 		@media (width >=1950px) {
 			position: fixed;
+			max-width: 400px;
 		}
 	}
 

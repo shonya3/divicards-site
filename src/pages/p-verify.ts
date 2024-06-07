@@ -17,6 +17,7 @@ import { DivcordRecord } from '../gen/divcord';
 import { prepareWeightDataSources } from '../elements/weights-table/lib';
 import type { SourceSize } from '../elements/e-source/types';
 import { styles } from './p-verify.styles';
+import '@shoelace-style/shoelace/dist/components/details/details.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -139,8 +140,7 @@ export class VerifyPage extends LitElement {
 			<main class="main">
 				<h1 class="heading">Need to verify</h1>
 				<e-verify-faq-alert></e-verify-faq-alert>
-				<details class="table-of-contents" ?open=${this.detailsOfContentsOpen}>
-					<summary class="table-of-contents__summary">Table of contents</summary>
+				<sl-details summary="Table of contents" class="table-of-contents" ?open=${this.detailsOfContentsOpen}>
 					<div class="table-of-contents__inner">
 						<ol class="brief-table-of-contents" start="1">
 							<li>
@@ -163,7 +163,7 @@ export class VerifyPage extends LitElement {
 						<a class="category-heading-link" href="#other">Other</a>
 						${this.ContentsList(this.byCategory.other)}
 					</div>
-				</details>
+				</sl-details>
 
 				<h3 class="category-heading" id="maps">Maps</h3>
 				${this.SourceWithCardsList(this.byCategory.maps)}
