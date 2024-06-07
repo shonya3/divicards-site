@@ -36,7 +36,10 @@ The original Rain of Chaos natural weight value estimate was based on tracking i
 
 The rough size of that value was reverified in 3.22 by a few of us carefully counting thousands of natural Card drops and index items in T16 Castle Ruins.
 
-Sampling indicated that the true value may be slightly lower, but it's quite close. Since past estimates were normalized to 121400, to make comparisons to prior leagues easier, most people just stick with that value even if it may be slightly high.`,
+Sampling indicated that the true value may be slightly lower, but it's quite close. Since past estimates were normalized to 121400, to make comparisons to prior leagues easier, most people just stick with that value even if it may be slightly high.
+
+tikiheme (poorFishwife) — 28/05/2024 08:59
+`,
 	},
 ];
 
