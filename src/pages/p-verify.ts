@@ -75,49 +75,6 @@ export class VerifyPage extends LitElement {
 		});
 	}
 
-	// #activeScrollEl: HTMLElement | null = null;
-	// get activeScrollEl(): HTMLElement | null {
-	// 	return this.#activeScrollEl;
-	// }
-	// set activeScrollEl(val: HTMLElement | null) {
-	// 	if (val === null) return;
-
-	// 	this.#activeScrollEl?.classList.remove('active');
-	// 	this.#activeScrollEl = val;
-	// 	this.#activeScrollEl.classList.add('active');
-
-	// 	if (!this.#InView(this.detailsOfContents, val)) {
-	// 		val.scrollIntoView();
-	// 	}
-	// }
-	// #InView(container: HTMLElement, el: HTMLElement) {
-	// 	const containerScrollTop = container.scrollTop;
-	// 	const rect = el.getBoundingClientRect();
-
-	// 	if (rect.top < 100) {
-	// 		return false;
-	// 	}
-
-	// 	return containerScrollTop + Math.abs(rect.y) < container.clientHeight;
-	// }
-	// const obs = new IntersectionObserver(
-	// 	entries => {
-	// 		entries.forEach(e => {
-	// 			if (e.intersectionRatio === 1) {
-	// 				const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
-	// 				if (a instanceof HTMLAnchorElement) {
-	// 					this.activeScrollEl = a;
-	// 				}
-	// 			}
-	// 		});
-	// 	},
-	// 	{ threshold: 1 }
-	// );
-
-	// for (const li of this.sourceWithCardsList.querySelectorAll('li')) {
-	// 	obs.observe(li);
-	// }
-
 	protected async firstUpdated(_changedProperties: PropertyValueMap<this>): Promise<void> {
 		const { hash } = new URL(window.location.href);
 		if (hash) {
@@ -440,3 +397,46 @@ const groupBy = <T>(arr: T[], cb: (el: T, index: number, arr: T[]) => string): R
 
 	return record;
 };
+
+// #activeScrollEl: HTMLElement | null = null;
+// get activeScrollEl(): HTMLElement | null {
+// 	return this.#activeScrollEl;
+// }
+// set activeScrollEl(val: HTMLElement | null) {
+// 	if (val === null) return;
+
+// 	this.#activeScrollEl?.classList.remove('active');
+// 	this.#activeScrollEl = val;
+// 	this.#activeScrollEl.classList.add('active');
+
+// 	if (!this.#InView(this.detailsOfContents, val)) {
+// 		val.scrollIntoView();
+// 	}
+// }
+// #InView(container: HTMLElement, el: HTMLElement) {
+// 	const containerScrollTop = container.scrollTop;
+// 	const rect = el.getBoundingClientRect();
+
+// 	if (rect.top < 100) {
+// 		return false;
+// 	}
+
+// 	return containerScrollTop + Math.abs(rect.y) < container.clientHeight;
+// }
+// const obs = new IntersectionObserver(
+// 	entries => {
+// 		entries.forEach(e => {
+// 			if (e.intersectionRatio === 1) {
+// 				const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
+// 				if (a instanceof HTMLAnchorElement) {
+// 					this.activeScrollEl = a;
+// 				}
+// 			}
+// 		});
+// 	},
+// 	{ threshold: 1 }
+// );
+
+// for (const li of this.sourceWithCardsList.querySelectorAll('li')) {
+// 	obs.observe(li);
+// }
