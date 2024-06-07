@@ -89,7 +89,9 @@ export class WeightsPage extends LitElement {
 				<div class="links-and-faq">
 					<div class="faq">
 						<h2>Questions and answers</h2>
-						${faq.map(el => html`<sl-details summary=${el.q}>${formatWithNewlines(el.a)}</sl-details>`)}
+						${faq.map(
+							el => html`<sl-details summary=${el.q}><p>${formatWithNewlines(el.a)}</p></sl-details>`
+						)}
 					</div>
 
 					<article class="section-links">
