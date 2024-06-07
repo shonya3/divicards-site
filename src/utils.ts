@@ -3,6 +3,8 @@ import { asyncAppend } from 'lit/directives/async-append.js';
 import type { Source } from './gen/Source';
 import type { PoeData } from './PoeData';
 import type { DivcordRecord } from './gen/divcord';
+import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { DirectiveResult } from 'lit/async-directive.js';
 
 export function sourceHref(source: Source): string {
 	if (source.kind === 'empty-source') {
@@ -139,4 +141,8 @@ export function sourceLevel(source: Source, poeData: Readonly<PoeData>): number 
 			return null;
 		}
 	}
+}
+
+export function formatWithNewlines(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective> {
+	return unsafeHTML(escapeHtml(`${notes ?? ''}`).replaceAll('\n', '<br>'));
 }

@@ -13,6 +13,7 @@ import { divcordTableContext } from '../context';
 import { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
+import { formatWithNewlines } from '../utils';
 
 declare module '../storage' {
 	interface Registry {
@@ -30,8 +31,11 @@ const faq = [
 	{
 		q: `Do we "know"  that Rain of Chaos "actually" weighs ~121000?`,
 		a: `Yes.
+        
 The original Rain of Chaos natural weight value estimate was based on tracking index items of known weight (e.g. Active Skill Gems) in large samples. Since we know those index items' exact DropPool weights, the estimate was pretty good.
+
 The rough size of that value was reverified in 3.22 by a few of us carefully counting thousands of natural Card drops and index items in T16 Castle Ruins.
+
 Sampling indicated that the true value may be slightly lower, but it's quite close. Since past estimates were normalized to 121400, to make comparisons to prior leagues easier, most people just stick with that value even if it may be slightly high.`,
 	},
 ];
@@ -82,7 +86,7 @@ export class WeightsPage extends LitElement {
 				<div class="links-and-faq">
 					<div class="faq">
 						<h2>Questions and answers</h2>
-						${faq.map(el => html`<sl-details summary=${el.q}>${el.a}</sl-details>`)}
+						${faq.map(el => html`<sl-details summary=${el.q}>${formatWithNewlines(el.a)}</sl-details>`)}
 					</div>
 
 					<article class="section-links">
