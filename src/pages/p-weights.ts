@@ -122,6 +122,11 @@ export class WeightsPage extends LitElement {
 			text-decoration: underline;
 		}
 
+		.page {
+			margin-inline: auto;
+			max-width: 1400px;
+		}
+
 		.main {
 			margin-top: 2rem;
 			display: flex;
