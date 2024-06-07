@@ -76,7 +76,7 @@ export class RootElement extends LitElement {
 		@media (width <= 600px) {
 			.outlet {
 				margin-top: 1rem;
-				padding: 0.5rem;
+				padding: 1rem;
 				padding-bottom: 0;
 			}
 		}

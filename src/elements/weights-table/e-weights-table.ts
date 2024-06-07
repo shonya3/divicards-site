@@ -25,7 +25,8 @@ export class WeightsTableElement extends LitElement {
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
 	@property({ type: Number, reflect: true }) limit: null | number = 5;
-	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = false;
+	@property({ type: Boolean, reflect: true, attribute: 'show-cards' })
+	showCards = false;
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
 	@state() private rowsClone: WeightData[] = [];
@@ -85,7 +86,9 @@ export class WeightsTableElement extends LitElement {
 							<div class="header-with-icon">
 								Weight
 								<sl-icon
-									class=${classMap({ 'ordered-by': this.orderedBy === 'weight' })}
+									class=${classMap({
+										'ordered-by': this.orderedBy === 'weight',
+									})}
 									@click=${this.#toggleWeightOrder}
 									.name=${this.weightIcon}
 								></sl-icon>
