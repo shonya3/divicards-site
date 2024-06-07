@@ -12,6 +12,7 @@ import { DivcordTable } from '../DivcordTable';
 import { divcordTableContext } from '../context';
 import { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
+import '@shoelace-style/shoelace/dist/components/details/details.js';
 
 declare module '../storage' {
 	interface Registry {
@@ -24,6 +25,17 @@ declare global {
 		'p-weights': WeightsPage;
 	}
 }
+
+const faq = [
+	{
+		q: `Do we "know"  that Rain of Chaos "actually" weighs ~121000 or is it just a random number we came up with and scaled everything else against that?
+In other words.. would there be any issue if we renormalized all the weights to be 10x larger than they currently are?`,
+		a: `Yes, we do know, roughly:
+The original Rain of Chaos natural weight value estimate was based on tracking index items of known weight (e.g. Active Skill Gems) in large samples. Since we know those index items' exact DropPool weights, the estimate was pretty good.
+The rough size of that value was reverified in 3.22 by a few of us carefully counting thousands of natural Card drops and index items in T16 Castle Ruins.
+Sampling indicated that the true value may be slightly lower, but it's quite close. Since past estimates were normalized to 121400, to make comparisons to prior leagues easier, most people just stick with that value even if it may be slightly high.`,
+	},
+];
 
 @customElement('p-weights')
 export class WeightsPage extends LitElement {
@@ -59,7 +71,7 @@ export class WeightsPage extends LitElement {
 			</p>
 			<main class="main">
 				<section class="section-table">
-					<h3>Weights Table</h3>
+					<h2>Weights Table</h2>
 					<e-weights-table
 						@show-cards-changed=${this.#onShowCardsChanged}
 						class="section-table__table"
@@ -68,25 +80,32 @@ export class WeightsPage extends LitElement {
 						.rows=${this.rows}
 					></e-weights-table>
 				</section>
-				<article class="section-links">
-					<h3>Deep dive</h3>
-					<p>For better understanding, read <em>poorFishwife's</em> posts in these reddit threads:</p>
-					<ul>
-						<li>
-							<a href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
-								>Hihi reddit! 🐟❤️ What's your favourite Divination Card? Mine is The Vast,
-								because...</a
-							>
-						</li>
-						<li>
-							<a
-								href="https://www.reddit.com/r/pathofexile/comments/wsi0j8/complete_divination_card_dropweight_tables_drop/"
-								>Complete Divination Card Dropweight Tables, Drop Estimates for New 3.19 Cards, and
-								Player IIQ Formula | Prohibited Library Digest</a
-							>
-						</li>
-					</ul>
-				</article>
+				<div class="links-and-faq">
+					<div class="faq">
+						<h2>Questions and answers</h2>
+						${faq.map(el => html`<sl-details summary=${el.q}>${el.a}</sl-details>`)}
+					</div>
+
+					<article class="section-links">
+						<h2>Deep dive</h2>
+						<p>For better understanding, read <em>poorFishwife's</em> posts in these reddit threads:</p>
+						<ul>
+							<li>
+								<a href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
+									>Hihi reddit! 🐟❤️ What's your favourite Divination Card? Mine is The Vast,
+									because...</a
+								>
+							</li>
+							<li>
+								<a
+									href="https://www.reddit.com/r/pathofexile/comments/wsi0j8/complete_divination_card_dropweight_tables_drop/"
+									>Complete Divination Card Dropweight Tables, Drop Estimates for New 3.19 Cards, and
+									Player IIQ Formula | Prohibited Library Digest</a
+								>
+							</li>
+						</ul>
+					</article>
+				</div>
 			</main>
 		</div>`;
 	}
@@ -104,16 +123,30 @@ export class WeightsPage extends LitElement {
 			text-decoration: underline;
 		}
 
-		.heading {
-			text-align: center;
-			margin-bottom: 3rem;
-		}
-
 		.main {
 			margin-top: 2rem;
 			display: flex;
 			flex-wrap: wrap;
 			gap: 6rem;
+		}
+
+		.links-and-faq {
+			max-width: 70ch;
+			display: flex;
+			flex-direction: column;
+			gap: 6rem;
+		}
+
+		.faq {
+			width: 70ch;
+			& > h2 {
+				margin-bottom: 2rem;
+			}
+		}
+
+		.heading {
+			text-align: center;
+			margin-bottom: 3rem;
 		}
 
 		.section-table__table {
@@ -137,9 +170,8 @@ export class WeightsPage extends LitElement {
 export function articleCss() {
 	return css`
 		article {
-			max-width: min(47ch, calc(100% - 3rem));
+			max-width: min(60ch, calc(100% - 3rem));
 			font-size: 18px;
-			margin-bottom: 12rem;
 		}
 
 		a:link,
@@ -152,6 +184,7 @@ export function articleCss() {
 			text-decoration: underline;
 		}
 
+		h2,
 		h3 {
 			margin-bottom: 1.5rem;
 		}
