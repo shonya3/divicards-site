@@ -29,7 +29,8 @@ export class WeightsTableElement extends LitElement {
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
 	@state() private rowsClone: WeightData[] = [];
-	@state() private rowsLimited: WeightData[] = [];
+	/** Visible rows by current limit */
+	@state() private rowsLimitedVisible: WeightData[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('rows')) {
@@ -51,7 +52,7 @@ export class WeightsTableElement extends LitElement {
 		}
 
 		if (map.has('rows') || map.has('limit') || map.has('nameOrder') || map.has('weightOrder')) {
-			this.rowsLimited = this.limit ? this.rowsClone.slice(0, this.limit) : this.rowsClone;
+			this.rowsLimitedVisible = this.limit ? this.rowsClone.slice(0, this.limit) : this.rowsClone;
 		}
 	}
 
@@ -130,7 +131,7 @@ export class WeightsTableElement extends LitElement {
 				</thead>
 
 				<tbody>
-					${this.rowsLimited.map((cardRowData, index) => {
+					${this.rowsLimitedVisible.map((cardRowData, index) => {
 						const weightStr = weightCellContent(cardRowData);
 
 						return keyed(
