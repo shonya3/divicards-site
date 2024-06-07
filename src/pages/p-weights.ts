@@ -178,8 +178,6 @@ export class WeightsPage extends LitElement {
 	`;
 }
 
-// https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906
-
 export function articleCss() {
 	return css`
 		article {
@@ -215,42 +213,6 @@ export function articleCss() {
 		em {
 			color: var(--sl-color-gray-950);
 			font-size: 20px;
-		}
-
-		img {
-			max-width: 100%;
-		}
-
-		nav {
-			max-width: fit-content;
-
-			margin-top: 2rem;
-			padding-left: 1rem;
-			padding-right: 4rem;
-		}
-
-		@media (width < 425px) {
-			nav {
-				padding-inline: 0.4rem;
-			}
-
-			ol {
-				padding: 2rem;
-			}
-		}
-
-		nav a {
-			text-decoration: none;
-		}
-
-		nav ol {
-			display: flex;
-			flex-direction: column;
-			gap: 0.25rem;
-		}
-
-		nav h3 {
-			margin-left: 0.4rem;
 		}
 	`;
 }

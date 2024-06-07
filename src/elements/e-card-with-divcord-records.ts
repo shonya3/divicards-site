@@ -11,6 +11,9 @@ declare global {
 	}
 }
 
+/**
+ * @summary Element for card page and divcord page list
+ */
 @customElement('e-card-with-divcord-records')
 export class CardWithDivcordRecordsElement extends LitElement {
 	@property({ reflect: true }) card!: string;
@@ -28,7 +31,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 				${allRecordsHaveNoSources
 					? html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
 					: nothing}
-				<ul>
+				<ul class="records">
 					${this.records.map(
 						record =>
 							html`<li>
@@ -43,7 +46,11 @@ export class CardWithDivcordRecordsElement extends LitElement {
 	static styles = css`
 		.view {
 			display: flex;
+			flex-direction: column;
 			gap: 2rem;
+			@media (width >= 640px) {
+				flex-direction: row;
+			}
 		}
 
 		.main {
@@ -58,20 +65,14 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			box-sizing: border-box;
 		}
 
-		ul {
+		.records {
 			list-style: none;
 			display: flex;
 			gap: 2rem;
 			flex-wrap: wrap;
-		}
-
-		@media (max-width: 600px) {
-			.view {
-				flex-direction: column;
-			}
-
-			ul {
-				flex-direction: column;
+			flex-direction: column;
+			@media (width >=640px) {
+				flex-direction: row;
 			}
 		}
 	`;

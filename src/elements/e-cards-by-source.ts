@@ -13,6 +13,9 @@ declare global {
 	}
 }
 
+/**
+ * @summary group of cards for dropsource page and maps page
+ */
 @customElement('e-cards-by-source')
 export class CardsBySourceElement extends LitElement {
 	@property({ type: Array }) cards: CardBySource[] = [];
@@ -57,35 +60,25 @@ export class CardsBySourceElement extends LitElement {
 			margin: 0;
 		}
 
-		ul {
-			list-style: none;
-			display: flex;
-			flex-wrap: wrap;
-		}
-
 		.cards {
 			display: flex;
-			flex-wrap: wrap;
 			list-style: none;
 			gap: 1rem;
-		}
-
-		li {
-			display: flex;
-			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-		}
+			flex-wrap: wrap;
+			@media (width >=640px) {
+				justify-content: start;
+			}
 
-		li > e-need-to-verify {
-			margin-bottom: 18px;
-		}
-
-		@media (width <= 700px) {
-			.cards {
+			& > li {
+				display: flex;
 				flex-direction: column;
 				align-items: center;
-				flex-wrap: nowrap;
+				justify-content: center;
+				& > e-need-to-verify {
+					margin-bottom: 18px;
+				}
 			}
 		}
 	`;

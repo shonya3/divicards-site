@@ -138,19 +138,15 @@ export class PageControlsElement extends LitElement {
 			display: flex;
 			align-items: center;
 			flex-wrap: wrap;
-			gap: 1rem;
+			@media (width >= 640px) {
+				gap: 1rem;
+			}
 		}
 
 		.buttons {
 			display: flex;
 			gap: 0.4rem;
 			align-items: center;
-		}
-
-		@media (max-width: 600px) {
-			.buttons {
-				gap: 0rem;
-			}
 		}
 
 		sl-icon-button {

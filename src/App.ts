@@ -69,14 +69,12 @@ export class RootElement extends LitElement {
 		}
 
 		.outlet {
-			padding: 2rem;
+			margin-top: 1rem;
+			padding: 1rem;
 			padding-bottom: 0;
-		}
 
-		@media (width <= 600px) {
-			.outlet {
-				margin-top: 1rem;
-				padding: 1rem;
+			@media (width >= 640px) {
+				padding: 2rem;
 				padding-bottom: 0;
 			}
 		}
