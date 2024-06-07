@@ -1,3 +1,4 @@
+import { linkStyles } from './../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, PropertyValueMap, nothing, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -82,6 +83,10 @@ export class WeightsTableElement extends LitElement {
 		}
 	}
 
+	#handleNavSetTransitionName(e: Event) {
+		(e.target as HTMLElement).style.setProperty('view-transition-name', 'card');
+	}
+
 	protected render(): TemplateResult {
 		return html`
 			<table class="table">
@@ -136,7 +141,14 @@ export class WeightsTableElement extends LitElement {
 													name=${cardRowData.name}
 												></e-divination-card>
 										  `
-										: html`${cardRowData.name}`}
+										: html`
+												<a
+													class="link"
+													@click=${this.#handleNavSetTransitionName}
+													href="/card/${cardRowData.name}"
+													>${cardRowData.name}</a
+												>
+										  `}
 								</td>
 								<td class="td td-weight">
 									<p
@@ -179,6 +191,10 @@ export class WeightsTableElement extends LitElement {
 
 		@layer table-styles {
 			${tableStyles}
+		}
+
+		@layer link-styles {
+			${linkStyles}
 		}
 
 		sl-icon {
