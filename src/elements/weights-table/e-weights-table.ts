@@ -56,42 +56,6 @@ export class WeightsTableElement extends LitElement {
 		}
 	}
 
-	#toggleWeightOrder() {
-		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'weight';
-	}
-
-	#toggleNameOrder() {
-		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'name';
-	}
-
-	#onShowMore() {
-		if (this.limit !== null) {
-			this.limit += 20;
-		}
-	}
-
-	#onShowAll() {
-		this.limit = null;
-	}
-
-	#onShowLess() {
-		this.limit = 5;
-	}
-
-	#onShowCardsToggled(e: Event) {
-		const target = e.target;
-		if (target && 'checked' in target && typeof target.checked === 'boolean') {
-			this.showCards = target.checked;
-			this.dispatchEvent(new Event('show-cards-changed'));
-		}
-	}
-
-	#handleNavSetTransitionName(e: Event) {
-		(e.target as HTMLElement).style.setProperty('view-transition-name', 'card');
-	}
-
 	protected render(): TemplateResult {
 		return html`
 			<table class="table">
@@ -133,7 +97,6 @@ export class WeightsTableElement extends LitElement {
 				<tbody>
 					${this.rowsLimitedVisible.map((cardRowData, index) => {
 						const weightStr = weightCellContent(cardRowData);
-
 						return keyed(
 							cardRowData.name,
 							html`<tr>
@@ -186,6 +149,42 @@ export class WeightsTableElement extends LitElement {
 				</tbody>
 			</table>
 		`;
+	}
+
+	#toggleWeightOrder() {
+		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'weight';
+	}
+
+	#toggleNameOrder() {
+		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'name';
+	}
+
+	#onShowMore() {
+		if (this.limit !== null) {
+			this.limit += 20;
+		}
+	}
+
+	#onShowAll() {
+		this.limit = null;
+	}
+
+	#onShowLess() {
+		this.limit = 5;
+	}
+
+	#onShowCardsToggled(e: Event) {
+		const target = e.target;
+		if (target && 'checked' in target && typeof target.checked === 'boolean') {
+			this.showCards = target.checked;
+			this.dispatchEvent(new Event('show-cards-changed'));
+		}
+	}
+
+	#handleNavSetTransitionName(e: Event) {
+		(e.target as HTMLElement).style.setProperty('view-transition-name', 'card');
 	}
 
 	static styles = css`
