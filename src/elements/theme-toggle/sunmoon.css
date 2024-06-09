@@ -119,11 +119,6 @@
 	--icon-fill: hsl(210 10% 70%);
 	--icon-fill-hover: hsl(210 15% 90%);
 }
-/* @media (hover: none) {
-	.theme-toggle {
-		--size: 48px;
-	}
-} */
 * {
 	box-sizing: border-box;
 	margin: 0;

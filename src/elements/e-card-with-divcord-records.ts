@@ -22,7 +22,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 	render(): TemplateResult {
 		const allRecordsHaveNoSources = this.records.every(s => s.sources.length === 0);
 
-		return html`<div class="view">
+		return html`
 			<slot name="card">
 				<e-divination-card part="card" size="large" .name=${this.card}></e-divination-card>
 			</slot>
@@ -40,13 +40,20 @@ export class CardWithDivcordRecordsElement extends LitElement {
 					)}
 				</ul>
 			</main>
-		</div>`;
+		`;
 	}
 
 	static styles = css`
-		.view {
+		* {
+			padding: 0rem;
+			margin: 0rem;
+			box-sizing: border-box;
+		}
+
+		:host {
 			display: flex;
 			flex-direction: column;
+			max-width: max-content;
 			gap: 2rem;
 			@media (width >= 640px) {
 				flex-direction: row;
@@ -57,12 +64,6 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			display: flex;
 			flex-direction: column;
 			gap: 2rem;
-		}
-
-		* {
-			padding: 0rem;
-			margin: 0rem;
-			box-sizing: border-box;
 		}
 
 		.records {
