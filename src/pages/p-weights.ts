@@ -38,7 +38,7 @@ The rough size of that value was reverified in 3.22 by a few of us carefully cou
 
 Sampling indicated that the true value may be slightly lower, but it's quite close. Since past estimates were normalized to 121400, to make comparisons to prior leagues easier, most people just stick with that value even if it may be slightly high.
 
-tikiheme (poorFishwife) — 28/05/2024 08:59
+<a target="_blank" href="https://discord.com/channels/991073626721763429/991092200957952152/1244892691192479795">tikiheme (poorFishwife) — 28/05/2024 08:59</a>
 `,
 	},
 ];
@@ -90,7 +90,10 @@ export class WeightsPage extends LitElement {
 					<div class="faq">
 						<h2>Questions and answers</h2>
 						${faq.map(
-							el => html`<sl-details summary=${el.q}><p>${formatWithNewlines(el.a)}</p></sl-details>`
+							el =>
+								html`<sl-details summary=${el.q}
+									><p>${formatWithNewlines(el.a, { escape: false })}</p></sl-details
+								>`
 						)}
 					</div>
 

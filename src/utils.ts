@@ -143,6 +143,15 @@ export function sourceLevel(source: Source, poeData: Readonly<PoeData>): number 
 	}
 }
 
-export function formatWithNewlines(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective> {
-	return unsafeHTML(escapeHtml(`${notes ?? ''}`).replaceAll('\n', '<br>'));
+export function formatWithNewlines(
+	markup = '',
+	options?: { escape: boolean }
+): DirectiveResult<typeof UnsafeHTMLDirective> {
+	const escape = options?.escape ?? true;
+	if (!escape) {
+		console.log('here');
+		return unsafeHTML(markup.replaceAll('\n', '<br>'));
+	}
+
+	return unsafeHTML(escapeHtml(markup).replaceAll('\n', '<br>'));
 }
