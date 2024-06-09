@@ -16,7 +16,7 @@ import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '../e-sources';
 import { WeightData } from '../weights-table/types';
-import { weightCellContent } from '../weights-table/lib';
+import '../../elements/weights-table/e-weight-value';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -178,8 +178,6 @@ export class DivcordSpreadsheetElement extends LitElement {
 					${virtualize({
 						items: this.recordsState,
 						renderItem: (record: DivcordRecordAndWeight): TemplateResult => {
-							const weightStr = weightCellContent(record.weightData);
-
 							return html`<tr>
 								<td class="td col-id">
 									<a target="_blank" href=${divcordRecordHref(record.id)}>${record.id}</a>
@@ -194,14 +192,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 										  </a>`}
 								</td>
 								<td class="td td-weight col-weight">
-									<p
-										class=${classMap({
-											'td-weight__label': true,
-											[`td-weight__label--${record.weightData.kind}`]: true,
-										})}
-									>
-										${weightStr}
-									</p>
+									<e-weight-value .weightData=${record.weightData}></e-weight-value>
 								</td>
 								<td class="td col-tag">${record.tagHypothesis}</td>
 								<td

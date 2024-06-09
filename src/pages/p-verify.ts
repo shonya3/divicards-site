@@ -14,10 +14,10 @@ import type { Card } from '../gen/poeData';
 import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/types';
 import '../elements/weights-table/e-weights-table-verify-sources';
 import { DivcordRecord } from '../gen/divcord';
-import { prepareWeightDataSources } from '../elements/weights-table/lib';
 import type { SourceSize } from '../elements/e-source/types';
 import { styles } from './p-verify.styles';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
+import { prepareWeightData } from '../elements/weights-table/lib';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -34,7 +34,10 @@ function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowDataFo
 			),
 		}))
 		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null && obj.sources.length > 0)
-		.map(({ card, sources }) => prepareWeightDataSources(card, sources));
+		.map(({ card, sources }) => ({
+			...prepareWeightData(card),
+			sources,
+		}));
 }
 
 @customElement('p-verify')

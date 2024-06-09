@@ -41,18 +41,4 @@ export const styles = css`
 	.ordered-by {
 		color: yellow;
 	}
-
-	.td-weight__label {
-		position: relative;
-	}
-
-	.td-weight__label--show-pre-rework-weight::after {
-		content: '3.23';
-		position: absolute;
-		top: 0;
-		right: 0;
-		transform: translate(-100%, -100%);
-		color: pink;
-		font-size: 11px;
-	}
 `;

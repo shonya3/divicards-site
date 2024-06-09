@@ -9,7 +9,7 @@ import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
 import '../divination-card/e-divination-card';
 import '../e-source/e-source';
-import { weightCellContent } from './lib';
+import '../weights-table/e-weight-value';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -88,8 +88,6 @@ export class WeightsTableVerifySources extends LitElement {
 
 			<tbody>
 				${this.rowsClone.map((cardRowData, index) => {
-					const weightStr = weightCellContent(cardRowData);
-
 					return keyed(
 						cardRowData.name,
 						html`<tr>
@@ -100,14 +98,7 @@ export class WeightsTableVerifySources extends LitElement {
 								</e-need-to-verify>
 							</td>
 							<td class="td td-weight">
-								<p
-									class=${classMap({
-										'td-weight__label': true,
-										[`td-weight__label--${cardRowData.kind}`]: true,
-									})}
-								>
-									${weightStr}
-								</p>
+								<e-weight-value .weightData=${cardRowData}></e-weight-value>
 							</td>
 							<td class="td">
 								<ul class="sources-list">

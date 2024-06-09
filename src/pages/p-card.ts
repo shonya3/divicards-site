@@ -7,8 +7,8 @@ import { divcordTableContext } from '../context';
 import { poeData } from '../PoeData';
 import { DivcordTable } from '../DivcordTable';
 import type { WeightData } from '../elements/weights-table/types';
-import { prepareWeightData, weightCellContent } from '../elements/weights-table/lib';
-import { classMap } from 'lit/directives/class-map.js';
+import { prepareWeightData } from '../elements/weights-table/lib';
+import '../elements/weights-table/e-weight-value';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -40,8 +40,6 @@ export class CardPage extends LitElement {
 		const league = card?.league;
 		let weight = card?.weight ?? 1;
 		if (weight > 0 && weight < 1) weight = 1;
-		const weightStr = weightCellContent(this.weightData);
-		console.log(this.weightData);
 
 		return html`<div class="page">
 			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
@@ -56,15 +54,8 @@ export class CardPage extends LitElement {
 				${card
 					? html`
 							<div slot="main-start">
-								${league ? html`<div>Release: ${league.name} ${league.version}</div>` : nothing}
-								<div
-									class=${classMap({
-										'weight-label': true,
-										[`weight-label--${this.weightData.kind}`]: true,
-									})}
-								>
-									Weight: ${weightStr}
-								</div>
+								${league ? html`<div>Release: ${league.name} ${league.version}</div>` : nothing} Weight:
+								<e-weight-value .weightData=${this.weightData}></e-weight-value>
 							</div>
 					  `
 					: nothing}
@@ -83,16 +74,6 @@ export class CardPage extends LitElement {
 			@media (width >= 460px) {
 				margin-inline: 0;
 			}
-		}
-
-		.weight-label {
-			position: relative;
-		}
-
-		.weight-label--show-pre-rework-weight::after {
-			content: '(3.23)';
-			color: pink;
-			font-size: 11px;
 		}
 	`;
 }

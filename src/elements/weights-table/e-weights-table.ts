@@ -10,7 +10,7 @@ import { Sort } from './Sort';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
-import { weightCellContent } from './lib';
+import './e-weight-value';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -99,7 +99,6 @@ export class WeightsTableElement extends LitElement {
 
 				<tbody>
 					${this.rowsLimitedVisible.map((cardRowData, index) => {
-						const weightStr = weightCellContent(cardRowData);
 						return keyed(
 							cardRowData.name,
 							html`<tr>
@@ -122,14 +121,7 @@ export class WeightsTableElement extends LitElement {
 										  `}
 								</td>
 								<td class="td td-weight">
-									<p
-										class=${classMap({
-											'td-weight__label': true,
-											[`td-weight__label--${cardRowData.kind}`]: true,
-										})}
-									>
-										${weightStr}
-									</p>
+									<e-weight-value .weightData=${cardRowData}></e-weight-value>
 								</td>
 							</tr>`
 						);
