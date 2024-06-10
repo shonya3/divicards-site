@@ -45,12 +45,6 @@ import type { CSSResultGroup, TemplateResult } from 'lit';
  * @csspart suffix - The container that wraps the suffix.
  */
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-input': InputElement;
-	}
-}
-
 @customElement('e-input')
 export class InputElement extends LitElement {
 	static styles: CSSResultGroup = styles;
@@ -484,5 +478,11 @@ export class InputElement extends LitElement {
 				</div>
 			</div>
 		`;
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-input': InputElement;
 	}
 }

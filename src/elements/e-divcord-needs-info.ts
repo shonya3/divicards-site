@@ -2,12 +2,6 @@ import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-divcord-needs-info': DivcordNeedsInfoElement;
-	}
-}
-
 @customElement('e-divcord-needs-info')
 export class DivcordNeedsInfoElement extends LitElement {
 	@property({ reflect: true }) card: string = '';
@@ -59,4 +53,10 @@ export class DivcordNeedsInfoElement extends LitElement {
 			font-family: Geist;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-divcord-needs-info': DivcordNeedsInfoElement;
+	}
 }

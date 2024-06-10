@@ -5,12 +5,6 @@ import './e-sourceful-divcord-record';
 import './e-divcord-needs-info';
 import type { DivcordRecord } from '../gen/divcord';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-card-with-divcord-records': CardWithDivcordRecordsElement;
-	}
-}
-
 /**
  * @summary Element for card page and divcord page list
  */
@@ -77,4 +71,10 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			}
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-card-with-divcord-records': CardWithDivcordRecordsElement;
+	}
 }

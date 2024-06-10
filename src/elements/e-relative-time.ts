@@ -1,12 +1,6 @@
 import { LitElement, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-relative-time': RelativeTimeElement;
-	}
-}
-
 @customElement('e-relative-time')
 export class RelativeTimeElement extends LitElement {
 	#fmt = new Intl.RelativeTimeFormat('en');
@@ -65,4 +59,10 @@ export class RelativeTimeElement extends LitElement {
 			display: inline;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-relative-time': RelativeTimeElement;
+	}
 }

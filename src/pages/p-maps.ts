@@ -12,12 +12,6 @@ import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
 import { DivcordTable } from '../DivcordTable';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-maps': MapsPage;
-	}
-}
-
 @customElement('p-maps')
 export class MapsPage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
@@ -155,4 +149,10 @@ export class MapsPage extends LitElement {
 			gap: 0.6rem;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-maps': MapsPage;
+	}
 }

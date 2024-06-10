@@ -32,12 +32,6 @@ import {
 import { poeData } from '../PoeData';
 import { prepareWeightData } from '../elements/weights-table/lib';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-divcord': DivcordPage;
-	}
-}
-
 declare module '../storage' {
 	interface Registry {
 		customPresets: PresetConfig[];
@@ -48,8 +42,6 @@ declare module '../storage' {
 		activeView: ActiveView;
 	}
 }
-
-type ActiveView = 'list' | 'table';
 
 @customElement('p-divcord')
 export class DivcordPage extends LitElement {
@@ -482,4 +474,12 @@ function prepareDivcordRecordsAndWeight(records: DivcordRecord[]): DivcordRecord
 	return records.map(record => {
 		return { ...record, weightData: prepareWeightData(poeData.cards[record.card]) };
 	});
+}
+
+type ActiveView = 'list' | 'table';
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-divcord': DivcordPage;
+	}
 }

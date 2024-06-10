@@ -9,16 +9,6 @@ import type { DivcordRecord } from '../gen/divcord';
 import { DirectiveResult } from 'lit/async-directive.js';
 import { escapeHtml } from '../utils';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-sourceful-divcord-record': SourcefulDivcordRecordElement;
-	}
-}
-
-function formatNotes(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective> {
-	return unsafeHTML(escapeHtml(`${notes ?? ''}`).replaceAll('\n', '<br>'));
-}
-
 /**
  * @cssproperty --greynote-color - The text color of greynote.
  * @cssproperty --paragraph-color - The text color of notes and wiki disagreements.
@@ -211,4 +201,14 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			margin-top: 2rem;
 		}
 	`;
+}
+
+function formatNotes(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective> {
+	return unsafeHTML(escapeHtml(`${notes ?? ''}`).replaceAll('\n', '<br>'));
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-sourceful-divcord-record': SourcefulDivcordRecordElement;
+	}
 }

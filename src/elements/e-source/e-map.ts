@@ -6,12 +6,6 @@ import { dispatchSetTransitionName } from '../../events';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-map': MapElement;
-	}
-}
-
 @customElement('e-map')
 export class MapElement extends LitElement {
 	@property({ type: Object }) map!: MapArea;
@@ -157,4 +151,10 @@ export class MapElement extends LitElement {
 			height: var(--image-width);
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-map': MapElement;
+	}
 }

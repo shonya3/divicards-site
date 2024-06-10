@@ -5,12 +5,6 @@ import type { SourceSize } from './e-source/types';
 import type { RenderMode } from './types';
 import type { VerificationStatus } from '../cards';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-sources': SourcesElement;
-	}
-}
-
 @customElement('e-sources')
 export class SourcesElement extends LitElement {
 	@property({ type: Array }) sources: Source[] = [];
@@ -92,4 +86,10 @@ function SourcesList(
 	}
 
 	return ul;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-sources': SourcesElement;
+	}
 }

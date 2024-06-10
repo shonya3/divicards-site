@@ -5,12 +5,6 @@ import { linkStyles } from '../linkStyles';
 import '../elements/e-discord-avatar';
 import type { DiscordUsername } from '../gen/avatars';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-sheets-link': SheetsLinkElement;
-	}
-}
-
 /**
  * @slot - default - for link title
  * @slot - icon - for custom icon
@@ -55,4 +49,10 @@ export class SheetsLinkElement extends LitElement {
 			color: var(--sl-color-green-700);
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-sheets-link': SheetsLinkElement;
+	}
 }

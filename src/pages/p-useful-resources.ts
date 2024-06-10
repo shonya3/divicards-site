@@ -5,12 +5,6 @@ import { DiscordUsername } from '../gen/avatars';
 import { CustomIcon, UsefulResource } from '../elements/usefulResources/types';
 import '../elements/usefulResources/e-useful-resource';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-useful-resources': UsefulResourcesPage;
-	}
-}
-
 const RESOURCES_DATA: Record<string, UsefulResource> = {
 	bestDivMapFavourites: {
 		url: 'https://docs.google.com/spreadsheets/d/1CuD3Fgxte6fNaP0DoxkqSXfW2BkAXmJ7krNSS5k8Qxk/edit#gid=178188933',
@@ -152,4 +146,10 @@ export class UsefulResourcesPage extends LitElement {
 			font-size: 1rem;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-useful-resources': UsefulResourcesPage;
+	}
 }

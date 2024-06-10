@@ -8,39 +8,6 @@ import { consume } from '@lit/context';
 import { divcordTableContext } from '../../context';
 import { PoeData, poeData } from '../../PoeData';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-divination-card': DivinationCardElement;
-	}
-}
-
-export type CardSize = '50' | '75' | 'small' | 'medium' | 'large';
-
-function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeData): string {
-	const globals = divcordTable.globalDrops();
-	const globalDropSource = globals.get(card);
-	if (!globalDropSource) {
-		return String(poeData.cardMinLevel(card));
-	}
-
-	const { min_level, max_level } = globalDropSource;
-
-	if (min_level && !max_level) {
-		return `global ${min_level}+`;
-	}
-
-	return `global ${min_level ?? ''} - ${max_level ?? ''}`;
-}
-
-function imageurl(artFilename?: string): string {
-	if (!artFilename) {
-		// console.warn(`Divination Card. No artFilename ${this.name}`);
-		return '';
-	}
-	return `/images/cards/avif/${artFilename}.avif`;
-	// return `https://web.poecdn.com/image/divination-card/${artFilename}.png`;
-}
-
 /**
  * @summary Divination Card
 
@@ -508,4 +475,37 @@ function styles() {
 			line-height: 1.15rem;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-divination-card': DivinationCardElement;
+	}
+}
+
+export type CardSize = '50' | '75' | 'small' | 'medium' | 'large';
+
+function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeData): string {
+	const globals = divcordTable.globalDrops();
+	const globalDropSource = globals.get(card);
+	if (!globalDropSource) {
+		return String(poeData.cardMinLevel(card));
+	}
+
+	const { min_level, max_level } = globalDropSource;
+
+	if (min_level && !max_level) {
+		return `global ${min_level}+`;
+	}
+
+	return `global ${min_level ?? ''} - ${max_level ?? ''}`;
+}
+
+function imageurl(artFilename?: string): string {
+	if (!artFilename) {
+		// console.warn(`Divination Card. No artFilename ${this.name}`);
+		return '';
+	}
+	return `/images/cards/avif/${artFilename}.avif`;
+	// return `https://web.poecdn.com/image/divination-card/${artFilename}.png`;
 }

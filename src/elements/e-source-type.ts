@@ -2,16 +2,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { LitElement, TemplateResult, css, html } from 'lit';
 import type { SourceType } from '../gen/Source';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-source-type': SourceTypeElement;
-	}
-}
-
-export function sourceTypeHref(sourceType: SourceType): string {
-	return `/source-type/${sourceType}`;
-}
-
 @customElement('e-source-type')
 export class SourceTypeElement extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
@@ -48,4 +38,14 @@ export class SourceTypeElement extends LitElement {
 			color: var(--link-color-hover, skyblue);
 		}
 	`;
+}
+
+function sourceTypeHref(sourceType: SourceType): string {
+	return `/source-type/${sourceType}`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-source-type': SourceTypeElement;
+	}
 }

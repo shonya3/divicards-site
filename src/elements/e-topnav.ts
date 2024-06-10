@@ -6,12 +6,6 @@ import { router } from '../router';
 import { ThemeToggle } from './theme-toggle/theme-toggle';
 ThemeToggle.define();
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-topnav': TopNavElement;
-	}
-}
-
 @customElement('e-topnav')
 export class TopNavElement extends LitElement {
 	@property({ type: Array }) linkItems = [
@@ -266,4 +260,10 @@ export class TopNavElement extends LitElement {
 			}
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-topnav': TopNavElement;
+	}
 }

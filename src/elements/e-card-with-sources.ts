@@ -12,12 +12,6 @@ import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';
 import './e-sources';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-card-with-sources': CardWithSourcesElement;
-	}
-}
-
 /**
  * @csspart card - Divination card element
  */
@@ -84,4 +78,10 @@ export class CardWithSourcesElement extends LitElement {
 			flex-direction: column;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-card-with-sources': CardWithSourcesElement;
+	}
 }

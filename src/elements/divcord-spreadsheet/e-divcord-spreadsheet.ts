@@ -18,16 +18,6 @@ import '../e-sources';
 import { WeightData } from '../weights-table/types';
 import '../../elements/weights-table/e-weight-value';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-divcord-spreadsheet': DivcordSpreadsheetElement;
-	}
-}
-
-export interface DivcordRecordAndWeight extends DivcordRecord {
-	weightData: WeightData;
-}
-
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
 	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
@@ -256,4 +246,14 @@ function formattedNotes(record: DivcordRecord): DirectiveResult<typeof UnsafeHTM
 
 function divcordRecordHref(id: DivcordRecord['id']) {
 	return `https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0&range=B${id}`;
+}
+
+export interface DivcordRecordAndWeight extends DivcordRecord {
+	weightData: WeightData;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-divcord-spreadsheet': DivcordSpreadsheetElement;
+	}
 }

@@ -7,12 +7,6 @@ import './e-cards-by-source';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-source-with-cards': SourceWithCardsElement;
-	}
-}
-
 @customElement('e-source-with-cards')
 export class SourceWithCardsElement extends LitElement {
 	@property({ type: Object }) source!: Source;
@@ -73,4 +67,10 @@ export class SourceWithCardsElement extends LitElement {
 			margin-inline: auto;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-source-with-cards': SourceWithCardsElement;
+	}
 }

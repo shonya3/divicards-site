@@ -10,12 +10,6 @@ import { poeData } from '../PoeData';
 import type { Source } from '../gen/Source';
 import { DivcordTable } from '../DivcordTable';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-source': SourcePage;
-	}
-}
-
 @customElement('p-source')
 export class SourcePage extends LitElement {
 	@property({ type: Object }) source!: Source;
@@ -58,4 +52,10 @@ export class SourcePage extends LitElement {
 			}
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-source': SourcePage;
+	}
 }

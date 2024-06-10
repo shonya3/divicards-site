@@ -12,12 +12,6 @@ import { poeData } from '../PoeData';
 import { DivcordTable } from '../DivcordTable';
 import { ArrayAsyncRenderer } from '../utils';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-source-type': SourceTypePage;
-	}
-}
-
 @customElement('p-source-type')
 export class SourceTypePage extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
@@ -98,4 +92,10 @@ export class SourceTypePage extends LitElement {
 			view-transition-name: source-type;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-source-type': SourceTypePage;
+	}
 }

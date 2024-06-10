@@ -2,12 +2,6 @@ import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { WeightData } from './types';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-weight-value': WeightValueElement;
-	}
-}
-
 /**
  * @summary - Shows weight value. Also shows pre-rework game version
  *            if card is unobtainable from divination cards anymore.
@@ -63,4 +57,10 @@ const fmts = {
 function formatWeight(weight: number, formatters: Record<0 | 2, Intl.NumberFormat> = fmts) {
 	const maximumFractionDigits = weight > 5 ? 0 : 2;
 	return formatters[maximumFractionDigits].format(weight);
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-weight-value': WeightValueElement;
+	}
 }

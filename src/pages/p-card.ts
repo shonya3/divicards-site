@@ -10,12 +10,6 @@ import type { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-card': CardPage;
-	}
-}
-
 @customElement('p-card')
 export class CardPage extends LitElement {
 	@property({ reflect: true }) card!: string;
@@ -76,4 +70,10 @@ export class CardPage extends LitElement {
 			}
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-card': CardPage;
+	}
 }

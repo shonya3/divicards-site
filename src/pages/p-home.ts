@@ -16,12 +16,6 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-home': HomePage;
-	}
-}
-
 @customElement('p-home')
 export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
@@ -159,4 +153,10 @@ export class HomePage extends LitElement {
 			justify-content: center;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-home': HomePage;
+	}
 }

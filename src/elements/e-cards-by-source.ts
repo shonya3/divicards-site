@@ -7,12 +7,6 @@ import './e-need-to-verify';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-cards-by-source': CardsBySourceElement;
-	}
-}
-
 /**
  * @summary group of cards for dropsource page and maps page
  */
@@ -82,4 +76,10 @@ export class CardsBySourceElement extends LitElement {
 			}
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-cards-by-source': CardsBySourceElement;
+	}
 }

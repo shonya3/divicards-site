@@ -16,12 +16,6 @@ import { SlConverter } from '../utils';
 import { SOURCE_TYPE_VARIANTS, SourceType } from '../gen/Source';
 import type { DivcordRecord } from '../gen/divcord';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-sources': SourcesPage;
-	}
-}
-
 @customElement('p-sources')
 export class SourcesPage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
@@ -153,4 +147,10 @@ export class SourcesPage extends LitElement {
 			font-size: 0.8rem;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-sources': SourcesPage;
+	}
 }

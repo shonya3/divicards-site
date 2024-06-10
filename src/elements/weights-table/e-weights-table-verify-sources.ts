@@ -12,12 +12,6 @@ import '../e-source/e-source';
 import '../weights-table/e-weight-value';
 import { Source } from '../../gen/Source';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-weights-table-verify-sources': WeightsTableVerifySources;
-	}
-}
-
 @customElement('e-weights-table-verify-sources')
 export class WeightsTableVerifySources extends LitElement {
 	@property({ type: Array }) rows: RowData[] = [];
@@ -46,16 +40,6 @@ export class WeightsTableVerifySources extends LitElement {
 				Sort.byName(this.rowsClone, this.nameOrder);
 			}
 		}
-	}
-
-	#toggleWeightOrder() {
-		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'weight';
-	}
-
-	#toggleNameOrder() {
-		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'name';
 	}
 
 	protected render(): TemplateResult {
@@ -115,6 +99,16 @@ export class WeightsTableVerifySources extends LitElement {
 		</table>`;
 	}
 
+	#toggleWeightOrder() {
+		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'weight';
+	}
+
+	#toggleNameOrder() {
+		this.nameOrder = this.nameOrder === 'asc' ? 'desc' : 'asc';
+		this.orderedBy = 'name';
+	}
+
 	static styles = css`
 		* {
 			padding: 0;
@@ -138,3 +132,8 @@ export class WeightsTableVerifySources extends LitElement {
 }
 
 export type RowData = WeightData & { sources: Array<Source> };
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-weights-table-verify-sources': WeightsTableVerifySources;
+	}
+}

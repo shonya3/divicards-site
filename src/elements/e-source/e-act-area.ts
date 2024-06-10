@@ -6,12 +6,6 @@ import { dispatchSetTransitionName } from '../../events';
 import type { ActArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-act-area': ActAreaElement;
-	}
-}
-
 @customElement('e-act-area')
 export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
@@ -122,4 +116,10 @@ function styles() {
 			font-size: var(--act-area-area-level-font-size);
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-act-area': ActAreaElement;
+	}
 }

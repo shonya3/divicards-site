@@ -5,12 +5,6 @@ import type { CustomIcon, UsefulResource } from './types';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '../e-discord-avatar';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-useful-resource': UsefulResourceElement;
-	}
-}
-
 function CustomHeadingIcon(icon: CustomIcon) {
 	switch (icon.kind) {
 		case 'image':
@@ -110,4 +104,10 @@ export class UsefulResourceElement extends LitElement {
 
 		${linkStyles}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-useful-resource': UsefulResourceElement;
+	}
 }

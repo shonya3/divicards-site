@@ -1,13 +1,6 @@
 import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-need-to-verify': NeedToVerifyElement;
-		'e-need-to-verify-border': NeedToVerifyBorderElement;
-	}
-}
-
 /**
  * @summary Notifiyng border for e-divination-card and e-source, when it needs to be verified.
  * Example:
@@ -104,4 +97,11 @@ export class NeedToVerifyBorderElement extends LitElement {
 			text-decoration: none;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-need-to-verify': NeedToVerifyElement;
+		'e-need-to-verify-border': NeedToVerifyBorderElement;
+	}
 }

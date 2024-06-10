@@ -2,12 +2,6 @@ import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { DISCORD_AVATARS, type DiscordUsername } from '../gen/avatars';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-discord-avatar': DiscordAvatarElement;
-	}
-}
-
 @customElement('e-discord-avatar')
 export class DiscordAvatarElement extends LitElement {
 	@property({ reflect: true }) username: DiscordUsername = 'nerdyjoe';
@@ -54,4 +48,10 @@ export class DiscordAvatarElement extends LitElement {
 			border-radius: 50%;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-discord-avatar': DiscordAvatarElement;
+	}
 }

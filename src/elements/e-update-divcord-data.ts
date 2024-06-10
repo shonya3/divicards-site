@@ -4,12 +4,6 @@ import { divcordLoader, type State } from '../DivcordLoader';
 import { Task } from '@lit/task';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-update-divcord-data': UpdateDivcordDataElement;
-	}
-}
-
 @customElement('e-update-divcord-data')
 export class UpdateDivcordDataElement extends LitElement {
 	@state() loaderState!: State;
@@ -63,4 +57,10 @@ export class UpdateDivcordDataElement extends LitElement {
 			font-family: 'geist';
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-update-divcord-data': UpdateDivcordDataElement;
+	}
 }

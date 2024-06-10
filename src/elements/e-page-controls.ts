@@ -5,12 +5,6 @@ import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import { router } from '../router';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-page-controls': PageControlsElement;
-	}
-}
-
 @customElement('e-page-controls')
 export class PageControlsElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
@@ -161,4 +155,8 @@ export class PageControlsElement extends LitElement {
 	`;
 }
 
-// <sl-button circle>44</sl-button>;
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-page-controls': PageControlsElement;
+	}
+}

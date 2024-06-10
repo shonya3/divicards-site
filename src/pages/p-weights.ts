@@ -21,12 +21,6 @@ declare module '../storage' {
 	}
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-weights': WeightsPage;
-	}
-}
-
 const faq = [
 	{
 		q: `Do we "know"  that Rain of Chaos "actually" weighs ~121000?`,
@@ -218,4 +212,10 @@ export function articleCss() {
 			font-size: 20px;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-weights': WeightsPage;
+	}
 }

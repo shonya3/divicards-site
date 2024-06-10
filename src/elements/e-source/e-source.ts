@@ -14,12 +14,6 @@ import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-source': SourceElement;
-	}
-}
-
 export class NoSourceInPoeDataError extends Error {
 	constructor(source: Source) {
 		super(`No ${source.type} in poeData ${source.id}`);
@@ -201,5 +195,11 @@ export class SourceElement extends LitElement {
 				</ul>
 			</div>
 		`;
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-source': SourceElement;
 	}
 }

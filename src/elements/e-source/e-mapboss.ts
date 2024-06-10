@@ -8,12 +8,6 @@ import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea, MapBoss } from '../../gen/poeData';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-mapboss': MapBossElement;
-	}
-}
-
 @customElement('e-mapboss')
 export class MapBossElement extends LitElement {
 	@property({ type: Object }) boss!: MapBoss;
@@ -107,4 +101,10 @@ export class MapBossElement extends LitElement {
 			order: 2;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-mapboss': MapBossElement;
+	}
 }

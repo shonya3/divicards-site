@@ -2,12 +2,6 @@ import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import '../elements/e-discord-avatar';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-verify-faq': VerifyFaqPage;
-	}
-}
-
 @customElement('p-verify-faq')
 export class VerifyFaqPage extends LitElement {
 	constructor() {
@@ -299,4 +293,10 @@ export class VerifyFaqPage extends LitElement {
 			gap: 0.2rem;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-verify-faq': VerifyFaqPage;
+	}
 }

@@ -12,12 +12,6 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
 import './e-weight-value';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-weights-table': WeightsTableElement;
-	}
-}
-
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
 	@property({ type: Array }) rows: WeightData[] = [];
@@ -214,4 +208,10 @@ export class WeightsTableElement extends LitElement {
 			background-color: rgba(255, 255, 255, 0.3);
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-weights-table': WeightsTableElement;
+	}
 }

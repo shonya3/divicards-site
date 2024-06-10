@@ -8,12 +8,6 @@ import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { ActArea, Bossfight } from '../../gen/poeData';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-actboss': ActBossElement;
-	}
-}
-
 @customElement('e-actboss')
 export class ActBossElement extends LitElement {
 	@property({ type: Object }) boss!: Bossfight;
@@ -64,4 +58,10 @@ export class ActBossElement extends LitElement {
 			transform: translateY(0.4rem);
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-actboss': ActBossElement;
+	}
 }

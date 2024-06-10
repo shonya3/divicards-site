@@ -19,12 +19,6 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-divcord-presets': DivcordPresetsElement;
-	}
-}
-
 /**
  * @summary Controls for divcord presets
  *
@@ -330,4 +324,10 @@ export class DivcordPresetsElement extends LitElement {
 			min-width: 400px;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-divcord-presets': DivcordPresetsElement;
+	}
 }

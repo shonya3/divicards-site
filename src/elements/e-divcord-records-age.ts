@@ -4,12 +4,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { divcordLoader } from '../DivcordLoader';
 import './e-relative-time';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'e-divcord-records-age': DivcordRecordsAgeElement;
-	}
-}
-
 @customElement('e-divcord-records-age')
 export class DivcordRecordsAgeElement extends LitElement {
 	@property({ type: Object }) date?: Date;
@@ -48,4 +42,10 @@ export class DivcordRecordsAgeElement extends LitElement {
 			margin: 0;
 		}
 	`;
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'e-divcord-records-age': DivcordRecordsAgeElement;
+	}
 }
