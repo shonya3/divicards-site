@@ -43,111 +43,6 @@ export class DivcordPresetsElement extends LitElement {
 		}
 	}
 
-	connectedCallback(): void {
-		super.connectedCallback();
-		window.addEventListener('keydown', this.#onKeydown.bind(this));
-	}
-
-	disconnectedCallback(): void {
-		super.disconnectedCallback();
-		window.removeEventListener('keydown', this.#onKeydown.bind(this));
-	}
-
-	#updateConfig(newConfig: Omit<PresetConfig, 'name'>) {
-		this.config = newConfig;
-		this.dispatchEvent(new Event('config-updated'));
-	}
-
-	#applyPreset(preset: PresetConfig) {
-		this.#updateConfig({ ...preset });
-		this.dispatchEvent(new CustomEvent('preset-applied', { detail: preset, bubbles: true, composed: true }));
-	}
-
-	#updateCustomPresets(customPresets: PresetConfig[]) {
-		this.dispatchEvent(
-			new CustomEvent('custom-presets-updated', { detail: customPresets, bubbles: true, composed: true })
-		);
-	}
-
-	#onGreynotesSelectChange(e: Event) {
-		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<Greynote>(opt));
-		this.#updateConfig({ ...this.config, greynote: options });
-	}
-	#onRemainingWorkSelectChange(e: Event) {
-		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<RemainingWork>(opt));
-		this.#updateConfig({ ...this.config, remainingWork: options });
-	}
-	#onConfidenceSelectChange(e: Event) {
-		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<Confidence>(opt));
-		this.#updateConfig({ ...this.config, confidence: options });
-	}
-
-	#onPlusPresetClicked() {
-		this.presetActionState = 'adding';
-	}
-
-	#onDeleteModeActivate() {
-		this.presetActionState = 'deleting';
-	}
-
-	#onCancelClicked() {
-		this.presetActionState = 'idle';
-	}
-
-	#onTrashClicked() {
-		const customPresets = this.customPresets.filter(preset => {
-			return !this.presetsForDelete.has(preset.name);
-		});
-		this.#updateCustomPresets(customPresets);
-
-		this.presetsForDelete = new Set();
-		this.presetActionState = 'idle';
-	}
-
-	#onKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') {
-			this.presetActionState = 'idle';
-		}
-	}
-
-	findPreset(name: string): PresetConfig | null {
-		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
-	}
-
-	@query('#input-new-preset-name') inputNewPresetNameEl!: HTMLInputElement;
-	#onSubmitNewPreset(e: SubmitEvent) {
-		e.preventDefault();
-		const name = this.inputNewPresetNameEl.value;
-		if (!name) {
-			return;
-		}
-
-		if (this.findPreset(name)) {
-			this.inputNewPresetNameEl.setCustomValidity('Duplicate names');
-			return;
-		}
-
-		this.inputNewPresetNameEl.value = '';
-
-		const newPreset = { ...this.config, name };
-
-		const customPresets = [...this.customPresets, newPreset];
-
-		this.#updateCustomPresets(customPresets);
-		this.presetActionState = 'idle';
-	}
-
-	#onPresetChecked(e: Event) {
-		const target = e.target as EventTarget & { checked: boolean; value: string };
-		const name = target.value;
-		const checked = target.checked;
-		checked ? this.presetsForDelete.add(name) : this.presetsForDelete.delete(name);
-		this.presetsForDelete = new Set(this.presetsForDelete);
-	}
-
 	protected render(): TemplateResult {
 		return html`
 			<div
@@ -217,6 +112,111 @@ export class DivcordPresetsElement extends LitElement {
 				</div>
 			</div>
 		`;
+	}
+
+	connectedCallback(): void {
+		super.connectedCallback();
+		window.addEventListener('keydown', this.onEscapePressed);
+	}
+
+	disconnectedCallback(): void {
+		super.disconnectedCallback();
+		window.removeEventListener('keydown', this.onEscapePressed);
+	}
+
+	#updateConfig(newConfig: Omit<PresetConfig, 'name'>) {
+		this.config = newConfig;
+		this.dispatchEvent(new Event('config-updated'));
+	}
+
+	#applyPreset(preset: PresetConfig) {
+		this.#updateConfig({ ...preset });
+		this.dispatchEvent(new CustomEvent('preset-applied', { detail: preset, bubbles: true, composed: true }));
+	}
+
+	#updateCustomPresets(customPresets: PresetConfig[]) {
+		this.dispatchEvent(
+			new CustomEvent('custom-presets-updated', { detail: customPresets, bubbles: true, composed: true })
+		);
+	}
+
+	#onGreynotesSelectChange(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<Greynote>(opt));
+		this.#updateConfig({ ...this.config, greynote: options });
+	}
+	#onRemainingWorkSelectChange(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<RemainingWork>(opt));
+		this.#updateConfig({ ...this.config, remainingWork: options });
+	}
+	#onConfidenceSelectChange(e: Event) {
+		const target = e.target as EventTarget & { value: string[] };
+		const options = target.value.map(opt => SlConverter.fromSlValue<Confidence>(opt));
+		this.#updateConfig({ ...this.config, confidence: options });
+	}
+
+	#onPlusPresetClicked() {
+		this.presetActionState = 'adding';
+	}
+
+	#onDeleteModeActivate() {
+		this.presetActionState = 'deleting';
+	}
+
+	#onCancelClicked() {
+		this.presetActionState = 'idle';
+	}
+
+	#onTrashClicked() {
+		const customPresets = this.customPresets.filter(preset => {
+			return !this.presetsForDelete.has(preset.name);
+		});
+		this.#updateCustomPresets(customPresets);
+
+		this.presetsForDelete = new Set();
+		this.presetActionState = 'idle';
+	}
+
+	onEscapePressed = (e: KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			this.presetActionState = 'idle';
+		}
+	};
+
+	findPreset(name: string): PresetConfig | null {
+		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
+	}
+
+	@query('#input-new-preset-name') inputNewPresetNameEl!: HTMLInputElement;
+	#onSubmitNewPreset(e: SubmitEvent) {
+		e.preventDefault();
+		const name = this.inputNewPresetNameEl.value;
+		if (!name) {
+			return;
+		}
+
+		if (this.findPreset(name)) {
+			this.inputNewPresetNameEl.setCustomValidity('Duplicate names');
+			return;
+		}
+
+		this.inputNewPresetNameEl.value = '';
+
+		const newPreset = { ...this.config, name };
+
+		const customPresets = [...this.customPresets, newPreset];
+
+		this.#updateCustomPresets(customPresets);
+		this.presetActionState = 'idle';
+	}
+
+	#onPresetChecked(e: Event) {
+		const target = e.target as EventTarget & { checked: boolean; value: string };
+		const name = target.value;
+		const checked = target.checked;
+		checked ? this.presetsForDelete.add(name) : this.presetsForDelete.delete(name);
+		this.presetsForDelete = new Set(this.presetsForDelete);
 	}
 
 	protected AddingPresets(): TemplateResult | typeof nothing {
