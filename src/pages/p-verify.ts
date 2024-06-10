@@ -19,22 +19,17 @@ import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import { WeightData } from '../elements/weights-table/types';
 
-declare global {
-	interface HTMLElementTagNameMap {
-		'p-verify': VerifyPage;
-	}
-}
-
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
+	#cardSize: CardSize = 'small';
+	#sourceSize: SourceSize = 'medium';
+
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
 	divcordTable!: DivcordTable;
 
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() detailsOfContentsOpen = true;
-	@state() cardSize: CardSize = 'small';
-	@state() sourceSize: SourceSize = 'medium';
 	@state() byCategory: {
 		maps: SourceAndCards[];
 		acts: SourceAndCards[];
@@ -154,20 +149,20 @@ export class VerifyPage extends LitElement {
 				<h3 class="category-heading" id="maps">Maps</h3>
 				${SourceWithCardsList({
 					sourcesAndCards: this.byCategory.maps,
-					cardSize: this.cardSize,
-					sourceSize: this.sourceSize,
+					cardSize: this.#cardSize,
+					sourceSize: this.#sourceSize,
 				})}
 				<h3 class="category-heading" id="acts">Acts</h3>
 				${SourceWithCardsList({
 					sourcesAndCards: this.byCategory.acts,
-					cardSize: this.cardSize,
-					sourceSize: this.sourceSize,
+					cardSize: this.#cardSize,
+					sourceSize: this.#sourceSize,
 				})}
 				<h3 class="category-heading" id="other">Other</h3>
 				${SourceWithCardsList({
 					sourcesAndCards: this.byCategory.other,
-					cardSize: this.cardSize,
-					sourceSize: this.sourceSize,
+					cardSize: this.#cardSize,
+					sourceSize: this.#sourceSize,
 				})}
 				<details id="details-weights-table" class="details-weights-table" open>
 					<summary class="details-weights-table__summary">Weights Table</summary>
@@ -316,3 +311,9 @@ const groupBy = <T>(arr: T[], cb: (el: T, index: number, arr: T[]) => string): R
 // for (const li of this.sourceWithCardsList.querySelectorAll('li')) {
 // 	obs.observe(li);
 // }
+
+declare global {
+	interface HTMLElementTagNameMap {
+		'p-verify': VerifyPage;
+	}
+}
