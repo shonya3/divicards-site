@@ -157,7 +157,7 @@ export const styles = css`
 	}
 
 	.td-weight {
-		font-weight: 700;
+		font-weight: 600;
 		font-size: 20px;
 	}
 
@@ -177,5 +177,9 @@ export const styles = css`
 		transform: translate(-100%, -100%);
 		color: pink;
 		font-size: 11px;
+	}
+
+	e-weight-value {
+		display: block;
 	}
 `;
