@@ -39,6 +39,10 @@ export const styles = css`
 	}
 
 	sl-icon {
-		color: var(--sl-color-yellow-900);
+		color: var(--sl-color-gray-900);
+	}
+
+	.ordered-by {
+		color: var(--sl-color-yellow-700);
 	}
 `;
