@@ -11,33 +11,18 @@ import '../elements/e-verify-faq-alert';
 import '../elements/e-need-to-verify';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import type { Card } from '../gen/poeData';
-import { RowDataForWeightsTableVerifySources } from '../elements/weights-table/types';
 import '../elements/weights-table/e-weights-table-verify-sources';
 import { DivcordRecord } from '../gen/divcord';
 import type { SourceSize } from '../elements/e-source/types';
 import { styles } from './p-verify.styles';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { prepareWeightData } from '../elements/weights-table/lib';
+import { WeightData } from '../elements/weights-table/types';
 
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-verify': VerifyPage;
 	}
-}
-
-function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowDataForWeightsTableVerifySources[] {
-	return Object.entries(groupBy(records, ({ card }) => card))
-		.map(([card, records]) => ({
-			card: poeData.find.card(card),
-			sources: records.flatMap(record =>
-				record.verifySources.filter(({ type }) => type === 'Map' || type === 'Act')
-			),
-		}))
-		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null && obj.sources.length > 0)
-		.map(({ card, sources }) => ({
-			...prepareWeightData(card),
-			sources,
-		}));
 }
 
 @customElement('p-verify')
@@ -55,8 +40,7 @@ export class VerifyPage extends LitElement {
 		acts: SourceAndCards[];
 		other: SourceAndCards[];
 	} = Object.create({});
-	@state() verifyTableData: RowDataForWeightsTableVerifySources[] = [];
-
+	@state() verifyTableData: RowData[] = [];
 	@state() cardWeightsGrouped: Record<string, { card: string; weight: number; source: Source }[]> = Object.create({});
 
 	@query('.table-of-contents') detailsOfContents!: HTMLDetailsElement;
@@ -65,7 +49,6 @@ export class VerifyPage extends LitElement {
 
 	constructor() {
 		super();
-
 		this.addEventListener('click', e => {
 			const target = e.composedPath()[0];
 			if (target instanceof HTMLAnchorElement) {
@@ -227,6 +210,22 @@ export class VerifyPage extends LitElement {
 	}
 
 	static styles = styles;
+}
+
+type RowData = WeightData & { sources: Array<Source> };
+function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowData[] {
+	return Object.entries(groupBy(records, ({ card }) => card))
+		.map(([card, records]) => ({
+			card: poeData.find.card(card),
+			sources: records.flatMap(record =>
+				record.verifySources.filter(({ type }) => type === 'Map' || type === 'Act')
+			),
+		}))
+		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null && obj.sources.length > 0)
+		.map(({ card, sources }) => ({
+			...prepareWeightData(card),
+			sources,
+		}));
 }
 
 type GroupBy = <T, Key extends string>(
