@@ -197,10 +197,6 @@ export class WeightsTableElement extends LitElement {
 			${linkStyles}
 		}
 
-		sl-icon {
-			color: var(--sl-color-yellow-900);
-		}
-
 		.sticky {
 			bottom: 0;
 			position: sticky;

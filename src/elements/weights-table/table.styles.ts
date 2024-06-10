@@ -38,7 +38,7 @@ export const styles = css`
 		}
 	}
 
-	.ordered-by {
-		color: yellow;
+	sl-icon {
+		color: var(--sl-color-yellow-900);
 	}
 `;
