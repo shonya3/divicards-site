@@ -27,7 +27,7 @@ export class WeightValueElement extends LitElement {
 			box-sizing: border-box;
 		}
 		:host {
-			display: flex;
+			display: inline-flex;
 			justify-content: center;
 		}
 		.pre-rework-version {
