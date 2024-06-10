@@ -178,8 +178,4 @@ export const styles = css`
 		color: pink;
 		font-size: 11px;
 	}
-
-	e-weight-value {
-		display: block;
-	}
 `;

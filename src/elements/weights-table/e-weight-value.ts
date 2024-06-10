@@ -28,6 +28,7 @@ export class WeightValueElement extends LitElement {
 		}
 		:host {
 			display: flex;
+			justify-content: center;
 		}
 		.pre-rework-version {
 			color: var(--sl-color-fuchsia-900);
