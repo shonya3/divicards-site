@@ -2,7 +2,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import type { Order, RowDataForWeightsTableVerifySources } from './types';
+import type { Order, WeightData } from './types';
 import '../e-need-to-verify';
 import { keyed } from 'lit/directives/keyed.js';
 import { styles as tableStyles } from './table.styles';
@@ -10,6 +10,7 @@ import { Sort } from './Sort';
 import '../divination-card/e-divination-card';
 import '../e-source/e-source';
 import '../weights-table/e-weight-value';
+import { Source } from '../../gen/Source';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -19,13 +20,13 @@ declare global {
 
 @customElement('e-weights-table-verify-sources')
 export class WeightsTableVerifySources extends LitElement {
-	@property({ type: Array }) rows: RowDataForWeightsTableVerifySources[] = [];
+	@property({ type: Array }) rows: RowData[] = [];
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
-	@state() private rowsClone: RowDataForWeightsTableVerifySources[] = [];
+	@state() private rowsClone: RowData[] = [];
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('rows')) {
@@ -135,3 +136,5 @@ export class WeightsTableVerifySources extends LitElement {
 		}
 	`;
 }
+
+export type RowData = WeightData & { sources: Array<Source> };

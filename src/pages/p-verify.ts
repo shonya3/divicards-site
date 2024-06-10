@@ -17,7 +17,7 @@ import type { SourceSize } from '../elements/e-source/types';
 import { styles } from './p-verify.styles';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { prepareWeightData } from '../elements/weights-table/lib';
-import { WeightData } from '../elements/weights-table/types';
+import { RowData } from '../elements/weights-table/e-weights-table-verify-sources';
 
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
@@ -227,7 +227,6 @@ function ContentsList({ sourcesAndCards }: { sourcesAndCards: SourceAndCards[] }
 	</ul>`;
 }
 
-type RowData = WeightData & { sources: Array<Source> };
 function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowData[] {
 	return Object.entries(groupBy(records, ({ card }) => card))
 		.map(([card, records]) => ({
