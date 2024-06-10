@@ -143,20 +143,32 @@ export class VerifyPage extends LitElement {
 						</ol>
 
 						<a class="category-heading-link" href="#maps">Maps</a>
-						${this.ContentsList(this.byCategory.maps)}
+						${ContentsList({ sourcesAndCards: this.byCategory.maps })}
 						<a class="category-heading-link" href="#acts">Acts</a>
-						${this.ContentsList(this.byCategory.acts)}
+						${ContentsList({ sourcesAndCards: this.byCategory.acts })}
 						<a class="category-heading-link" href="#other">Other</a>
-						${this.ContentsList(this.byCategory.other)}
+						${ContentsList({ sourcesAndCards: this.byCategory.other })}
 					</div>
 				</sl-details>
 
 				<h3 class="category-heading" id="maps">Maps</h3>
-				${this.SourceWithCardsList(this.byCategory.maps)}
+				${SourceWithCardsList({
+					sourcesAndCards: this.byCategory.maps,
+					cardSize: this.cardSize,
+					sourceSize: this.sourceSize,
+				})}
 				<h3 class="category-heading" id="acts">Acts</h3>
-				${this.SourceWithCardsList(this.byCategory.acts)}
+				${SourceWithCardsList({
+					sourcesAndCards: this.byCategory.acts,
+					cardSize: this.cardSize,
+					sourceSize: this.sourceSize,
+				})}
 				<h3 class="category-heading" id="other">Other</h3>
-				${this.SourceWithCardsList(this.byCategory.other)}
+				${SourceWithCardsList({
+					sourcesAndCards: this.byCategory.other,
+					cardSize: this.cardSize,
+					sourceSize: this.sourceSize,
+				})}
 				<details id="details-weights-table" class="details-weights-table" open>
 					<summary class="details-weights-table__summary">Weights Table</summary>
 					<e-weights-table-verify-sources .rows=${this.verifyTableData}></e-weights-table-verify-sources>
@@ -165,51 +177,59 @@ export class VerifyPage extends LitElement {
 		</div>`;
 	}
 
-	protected SourceWithCardsList(sourcesAndCards: SourceAndCards[]): TemplateResult {
-		return html`<ul class="source-with-cards-list">
-			${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
-				let name = source.id;
-				if (source.type === 'Act') {
-					const area = poeData.find.actArea(source.id);
-					if (area) {
-						name = area.name;
-					}
-				}
-				const hash = name.replaceAll(' ', '_');
-				return html`
-					<li id="${hash}">
-						<e-source-with-cards
-							card-size=${this.cardSize}
-							source-size=${this.sourceSize}
-							.source=${source}
-							.cards=${cards}
-						></e-source-with-cards>
-					</li>
-				`;
-			})}
-		</ul>`;
-	}
-
-	protected ContentsList(sourcesAndCards: SourceAndCards[]): TemplateResult {
-		return html`<ul>
-			${sourcesAndCards.map(({ source, cards }) => {
-				let name = source.id;
-				if (source.type === 'Act') {
-					const area = poeData.find.actArea(source.id);
-					if (area) {
-						name = area.name;
-					}
-				}
-				const hash = name.replaceAll(' ', '_');
-				const cardsString = cards.map(({ card }) => card).join(', ');
-				return html`<li>
-					<a href="#${hash}">${name} <span style="font-size: 11px; color: #999">${cardsString}</span></a>
-				</li> `;
-			})}
-		</ul>`;
-	}
-
 	static styles = styles;
+}
+
+function SourceWithCardsList({
+	sourcesAndCards,
+	cardSize,
+	sourceSize,
+}: {
+	sourcesAndCards: SourceAndCards[];
+	cardSize: CardSize;
+	sourceSize: SourceSize;
+}): TemplateResult {
+	return html`<ul class="source-with-cards-list">
+		${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
+			let name = source.id;
+			if (source.type === 'Act') {
+				const area = poeData.find.actArea(source.id);
+				if (area) {
+					name = area.name;
+				}
+			}
+			const hash = name.replaceAll(' ', '_');
+			return html`
+				<li id="${hash}">
+					<e-source-with-cards
+						card-size=${cardSize}
+						source-size=${sourceSize}
+						.source=${source}
+						.cards=${cards}
+					></e-source-with-cards>
+				</li>
+			`;
+		})}
+	</ul>`;
+}
+
+function ContentsList({ sourcesAndCards }: { sourcesAndCards: SourceAndCards[] }): TemplateResult {
+	return html`<ul>
+		${sourcesAndCards.map(({ source, cards }) => {
+			let name = source.id;
+			if (source.type === 'Act') {
+				const area = poeData.find.actArea(source.id);
+				if (area) {
+					name = area.name;
+				}
+			}
+			const hash = name.replaceAll(' ', '_');
+			const cardsString = cards.map(({ card }) => card).join(', ');
+			return html`<li>
+				<a href="#${hash}">${name} <span style="font-size: 11px; color: #999">${cardsString}</span></a>
+			</li> `;
+		})}
+	</ul>`;
 }
 
 type RowData = WeightData & { sources: Array<Source> };
