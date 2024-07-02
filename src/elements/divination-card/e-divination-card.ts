@@ -6,7 +6,6 @@ import { cardsDataMap } from './data';
 import { DivcordTable } from '../../DivcordTable';
 import { consume } from '@lit/context';
 import { divcordTableContext } from '../../context';
-import { PoeData, poeData } from '../../PoeData';
 import { styles } from './divination-card.styles';
 
 /**
@@ -26,10 +25,10 @@ export class DivinationCardElement extends LitElement {
 	divcordTable?: DivcordTable;
 
 	@state() stackSize: number = 0;
-	@state() flavourText: string = ``;
-	@state() artFilename: string = '';
-	@state() rewardHtml: string = '';
-	@state() minLevelOrRange?: string;
+	@state() flavourText = ``;
+	@state() artFilename = '';
+	@state() rewardHtml = '';
+	@state() dropLevel = '';
 
 	protected willUpdate(changedProperties: PropertyValues<this>): void {
 		if (changedProperties.has('name')) {
@@ -43,11 +42,8 @@ export class DivinationCardElement extends LitElement {
 				this.flavourText = cardData.flavourText;
 				this.artFilename = cardData.artFilename;
 				this.rewardHtml = cardData.rewardHtml;
+				this.dropLevel = cardData.dropLevel.label;
 			}
-		}
-
-		if (changedProperties.has('divcordTable') && this.divcordTable) {
-			this.minLevelOrRange = minLevelOrRange(this.name, this.divcordTable, poeData);
 		}
 	}
 
@@ -95,9 +91,7 @@ export class DivinationCardElement extends LitElement {
 						<p class="flavourText">${this.flavourText}</p>
 					</footer>
 				</div>
-				${this.minLevelOrRange
-					? html`<div title="Min. Level" class="min-level">${this.minLevelOrRange}</div> `
-					: nothing}
+				<div title="drop level" class="min-level">${this.dropLevel}</div>
 
 				<div class="boss">
 					<slot name="boss"> ${this.boss ? html`${this.boss}` : nothing} </slot>
@@ -113,22 +107,6 @@ export class DivinationCardElement extends LitElement {
 }
 
 export type CardSize = '50' | '75' | 'small' | 'medium' | 'large';
-
-function minLevelOrRange(card: string, divcordTable: DivcordTable, poeData: PoeData): string {
-	const globals = divcordTable.globalDrops();
-	const globalDropSource = globals.get(card);
-	if (!globalDropSource) {
-		return String(poeData.cardMinLevel(card));
-	}
-
-	const { min_level, max_level } = globalDropSource;
-
-	if (min_level && !max_level) {
-		return `global ${min_level}+`;
-	}
-
-	return `global ${min_level ?? ''} - ${max_level ?? ''}`;
-}
 
 function imageurl(artFilename?: string): string {
 	if (!artFilename) {

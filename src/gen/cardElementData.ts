@@ -7,4 +7,10 @@ export type CardElementData = {
 	flavourText: string;
 	stackSize: number | null;
 	rewardHtml: string;
+	dropLevel: DropLevel;
+};
+
+export type DropLevel = {
+	level: { min: number | null; max: number | null };
+	label: string;
 };

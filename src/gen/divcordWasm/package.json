@@ -1,5 +1,6 @@
 {
   "name": "divcord_wasm",
+  "type": "module",
   "collaborators": [
     "shonya3 <poeshonya3@gmail.com>"
   ],
@@ -9,7 +10,7 @@
     "divcord_wasm.js",
     "divcord_wasm.d.ts"
   ],
-  "module": "divcord_wasm.js",
+  "main": "divcord_wasm.js",
   "types": "divcord_wasm.d.ts",
   "sideEffects": [
     "./snippets/*"
