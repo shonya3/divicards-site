@@ -3,9 +3,6 @@ import { html, PropertyValues, nothing, LitElement, TemplateResult } from 'lit';
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { cardsDataMap } from './data';
-import { DivcordTable } from '../../DivcordTable';
-import { consume } from '@lit/context';
-import { divcordTableContext } from '../../context';
 import { styles } from './divination-card.styles';
 
 /**
@@ -19,10 +16,6 @@ export class DivinationCardElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) boss?: string;
-
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable?: DivcordTable;
 
 	@state() stackSize: number = 0;
 	@state() flavourText = ``;
