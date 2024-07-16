@@ -77,6 +77,40 @@
     { "name": "--icon-fill", "values": [] }
   ],
   "pseudoElements": [
-    { "name": "::part(card)", "description": "Divination card element" }
+    { "name": "::part(card)", "description": "Divination card element" },
+    {
+      "name": "::part(form-control)",
+      "description": "The form control that wraps the label, input, and help text."
+    },
+    {
+      "name": "::part(form-control-label)",
+      "description": "The label's wrapper."
+    },
+    {
+      "name": "::part(form-control-input)",
+      "description": "The input's wrapper."
+    },
+    {
+      "name": "::part(form-control-help-text)",
+      "description": "The help text's wrapper."
+    },
+    { "name": "::part(base)", "description": "The component's base wrapper." },
+    {
+      "name": "::part(input)",
+      "description": "The internal `<input>` control."
+    },
+    {
+      "name": "::part(prefix)",
+      "description": "The container that wraps the prefix."
+    },
+    { "name": "::part(clear-button)", "description": "The clear button." },
+    {
+      "name": "::part(password-toggle-button)",
+      "description": "The password toggle button."
+    },
+    {
+      "name": "::part(suffix)",
+      "description": "The container that wraps the suffix."
+    }
   ]
 }
