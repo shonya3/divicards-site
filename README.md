@@ -12,3 +12,10 @@ Drops data goes from [Divcord Spreadsheet](https://docs.google.com/spreadsheets/
 We open stacked decks to calculate weights of cards.
 You can share your cards sample from stacked decks with [Divicards app](https://github.com/shonya3/divicards/releases/latest) in
 [Prohibited Library discord](https://discord.com/channels/991073626721763429/991092518995251231)
+
+#### Run website locally
+
+```bash
+pnpm install
+pnpm dev
+```
