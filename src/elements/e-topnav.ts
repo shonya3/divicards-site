@@ -11,7 +11,8 @@ export class TopNavElement extends LitElement {
 	@property({ type: Array }) linkItems = [
 		['/', 'Home'],
 		['/divcord', 'Divcord'],
-		['/verify', 'Need to verify'],
+		// // 3.25 SKIP for now
+		// ['/verify', 'Need to verify'],
 		['/useful-resources', 'Useful Resources'],
 		['/weights', 'Weights'],
 		['/verify-faq', 'faq'],
