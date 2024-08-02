@@ -59,11 +59,7 @@ export class DivcordLoader extends EventEmitter<{
 
 	async fetchSpreadsheet(): Promise<Spreadsheet> {
 		const cache = await this.#cache;
-		await Promise.all([
-			cache.add(richSourcesUrl('sources')),
-			cache.add(sheetUrl()),
-			cache.add(richSourcesUrl('verify')),
-		]);
+		await Promise.all([cache.add(richSourcesUrl()), cache.add(sheetUrl())]);
 		const cached = await this.#cachedResponses();
 		const spreadsheet = await this.#deserializeResponses(cached!);
 		return spreadsheet;
@@ -153,24 +149,18 @@ export class DivcordLoader extends EventEmitter<{
 
 	async #cachedResponses(): Promise<CachedResponses | null> {
 		const cache = await this.#cache;
-		const richSources = await cache.match(richSourcesUrl('sources'));
-		const richVerify = await cache.match(richSourcesUrl('verify'));
+		const richSources = await cache.match(richSourcesUrl());
 		const sheet = await cache.match(sheetUrl());
-		if (!richSources || !sheet || !richVerify) return null;
+		if (!richSources || !sheet) return null;
 		return {
-			richVerify,
 			richSources,
 			sheet,
 		};
 	}
 
 	async #deserializeResponses(cached: CachedResponses): Promise<Spreadsheet> {
-		const [rich_sources_column, sheet, rich_verify_column] = await Promise.all([
-			cached.richSources.json(),
-			cached.sheet.json(),
-			cached.richVerify.json(),
-		]);
-		return { rich_sources_column, sheet, rich_verify_column };
+		const [rich_confirmations_new_325, sheet] = await Promise.all([cached.richSources.json(), cached.sheet.json()]);
+		return { rich_confirmations_new_325, sheet };
 	}
 
 	async #fromStaticJson(): Promise<DivcordRecord[]> {
@@ -181,14 +171,12 @@ export class DivcordLoader extends EventEmitter<{
 
 type CachedResponses = {
 	richSources: Response;
-	richVerify: Response;
 	sheet: Response;
 };
 
 type Spreadsheet = {
 	sheet: object;
-	rich_sources_column: object;
-	rich_verify_column: object;
+	rich_confirmations_new_325: object;
 };
 
 function sheetUrl(): string {
@@ -200,8 +188,8 @@ function sheetUrl(): string {
 	return url;
 }
 
-function richSourcesUrl(richColumnVariant: 'sources' | 'verify'): string {
-	const column = richColumnVariant === 'sources' ? 'F' : 'H';
+function richSourcesUrl(): string {
+	const column = 'G';
 	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
 	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
 	const sheet = 'Cards_and_Hypotheses';
