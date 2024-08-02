@@ -146,7 +146,7 @@ export class MapsPage extends LitElement {
 			padding: 0.4rem;
 			display: flex;
 			flex-wrap: wrap;
-			gap: 0.6rem;
+			gap: 4rem;
 		}
 	`;
 }

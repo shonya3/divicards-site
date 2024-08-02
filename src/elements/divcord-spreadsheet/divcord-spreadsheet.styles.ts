@@ -124,6 +124,12 @@ export const styles = css`
 		color: #bcbcbc;
 	}
 
+	.td.col-verify,
+	.col-verify,
+	.th.col-verify {
+		display: none;
+	}
+
 	.confidence {
 		position: relative;
 		text-transform: uppercase;
