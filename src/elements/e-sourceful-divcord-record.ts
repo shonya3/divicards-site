@@ -61,12 +61,12 @@ export class SourcefulDivcordRecordElement extends LitElement {
 						</ul>
 				  </div>`
 				: nothing}
-			${this.record.wikiDisagreements
+			<!-- ${this.record.wikiDisagreements
 				? html`<div class="wikiDisagreements">
 						<h3>Wiki disagreements</h3>
 						<p>${this.record.wikiDisagreements}</p>
 				  </div>`
-				: nothing}
+				: nothing} -->
 			${this.record.verifySources.length
 				? html`<div class="sourcesWithTagButNotOnWiki">
 						<h3>Need to verify</h3>
@@ -84,7 +84,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 				: nothing}
 			${this.record.notes
 				? html`<div class="notes">
-						<h3>notes</h3>
+						<h3>Notes</h3>
 						<p>${formatNotes(this.record.notes)}</p>
 				  </div>`
 				: nothing}
@@ -199,6 +199,11 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			max-width: 65ch;
 			font-size: 1rem;
 			margin-top: 2rem;
+		}
+
+		h3 {
+			margin-bottom: 1rem;
+			font-size: 24px;
 		}
 	`;
 }
