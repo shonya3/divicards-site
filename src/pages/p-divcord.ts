@@ -414,8 +414,9 @@ function createFilteredCards({
 	const query = filter.trim().toLowerCase();
 
 	const cardsByQuery = searchCardsByQuery(query, Array.from(SEARCH_CRITERIA_VARIANTS), divcordTable);
+	console.log(cardsByQuery.length);
 
-	return cardsByQuery
+	const cards = cardsByQuery
 		.filter(card => {
 			if (shouldApplySelectFilters && onlyShowCardsWithSourcesToVerify) {
 				const records = divcordTable.recordsByCard(card);
@@ -435,6 +436,18 @@ function createFilteredCards({
 		})
 		.filter(card => {
 			if (shouldApplySelectFilters) {
+				const hasConfidence = someCardRecordHasConfidenceVariant(card, config.confidence, divcordTable);
+				const hasGreynote = someCardRecordHasGreynoteWorkVariant(card, config.greynote, divcordTable);
+				const hasRemainingWork = someCardRecordHasRemainingWorkVariant(
+					card,
+					config.remainingWork,
+					divcordTable
+				);
+
+				if (card === 'A Chilling Wind') {
+					console.log({ card, hasConfidence, hasGreynote, hasRemainingWork });
+				}
+
 				return (
 					someCardRecordHasConfidenceVariant(card, config.confidence, divcordTable) &&
 					someCardRecordHasGreynoteWorkVariant(card, config.greynote, divcordTable) &&
@@ -444,6 +457,8 @@ function createFilteredCards({
 				return true;
 			}
 		});
+	console.log(cards);
+	return cards;
 }
 
 function someCardRecordHasConfidenceVariant(

@@ -32,6 +32,7 @@ export const GREYNOTE_VARIANTS = [
 	'strongbox',
 	'Global Drop',
 	'Vendor',
+	'atlas',
 ] as const;
 export const REMAINING_WORK_VARIANTS = [
 	'n/a',
