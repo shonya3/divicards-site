@@ -9,6 +9,7 @@ export const SOURCE_TYPE_VARIANTS = [
 	"Map",
 	"Act Boss",
 	"Map Boss",
+	"Breach monsters",
 	"All T3/T4 (boss) Harvest monsters",
 	"Maven's Invitation: The Feared",
 	"Uul-Netol, Unburdened Flesh (in Breachstones)",
