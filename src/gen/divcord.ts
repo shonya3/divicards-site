@@ -10,8 +10,6 @@ export type DivcordRecord = {
 	tagHypothesis?: string;
 	confidence: Confidence;
 	remainingWork: RemainingWork;
-	wikiDisagreements?: string;
-	sourcesWithTagButNotOnWiki?: string;
 	verifySources: Source[];
 	notes?: string;
 	sources: Source[];
@@ -42,5 +40,7 @@ export const REMAINING_WORK_VARIANTS = [
 	'story only',
 	'legacy tag',
 	'open ended',
+	'atlas',
+	'story',
 ] as const;
 export const CONFIDENCE_VARIANTS = ['none', 'low', 'ok', 'done'] as const;
