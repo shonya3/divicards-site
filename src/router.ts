@@ -12,6 +12,7 @@ import './pages/p-card';
 import './pages/p-source';
 import './pages/p-source-type';
 import './pages/p-verify-faq';
+import './pages/p-verify';
 import './pages/p-useful-resources';
 import './elements/divcord-spreadsheet/e-divcord-spreadsheet';
 
@@ -53,13 +54,13 @@ export const router = new Router({
 				return html`<p-card .card=${name}></p-card>`;
 			},
 		},
-		// {
-		// 	path: '/verify',
-		// 	title: 'Need to verify',
-		// 	render: () => {
-		// 		return html`<p-verify></p-verify>`;
-		// 	},
-		// },
+		{
+			path: '/verify',
+			title: 'Need to verify',
+			render: () => {
+				return html`<p-verify></p-verify>`;
+			},
+		},
 		{
 			path: '/useful-resources',
 			title: 'Useful Resources',
