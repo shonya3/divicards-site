@@ -61,12 +61,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 						</ul>
 				  </div>`
 				: nothing}
-			<!-- ${this.record.wikiDisagreements
-				? html`<div class="wikiDisagreements">
-						<h3>Wiki disagreements</h3>
-						<p>${this.record.wikiDisagreements}</p>
-				  </div>`
-				: nothing} -->
 			${this.record.verifySources.length
 				? html`<div class="sourcesWithTagButNotOnWiki">
 						<h3>Need to verify</h3>
@@ -170,13 +164,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			display: flex;
 			gap: 0.8rem;
 			flex-wrap: wrap;
-		}
-
-		.wikiDisagreements {
-			display: flex;
-			gap: 0.8rem;
-			flex-wrap: wrap;
-			margin-top: 2rem;
 		}
 
 		.sourcesWithTagButNotOnWiki {
