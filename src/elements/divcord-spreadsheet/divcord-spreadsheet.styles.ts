@@ -145,6 +145,17 @@ export const styles = css`
 		color: black;
 	}
 
+	.remaining-work--reverify {
+		background-color: #9fc5e8;
+	}
+	.remaining-work--story {
+		background-color: #efa7c5;
+	}
+	.remaining-work--confirm {
+		background-color: #f5d379;
+		color: black;
+	}
+
 	.header-with-icon {
 		display: flex;
 		justify-content: center;

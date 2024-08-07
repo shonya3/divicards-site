@@ -195,7 +195,17 @@ export class DivcordSpreadsheetElement extends LitElement {
 								>
 									${record.confidence}
 								</td>
-								<td class="td col-remaining-work">${record.remainingWork}</td>
+								<td
+									class=${classMap({
+										td: true,
+										'col-remaining-work': true,
+										'remaining-work--story': record.remainingWork === 'story',
+										'remaining-work--reverify': record.remainingWork === 'reverify',
+										'remaining-work--confirm': record.remainingWork === 'confirm',
+									})}
+								>
+									${record.remainingWork}
+								</td>
 								<td class="td col-sources">
 									<e-sources
 										.sources=${record.sources}
