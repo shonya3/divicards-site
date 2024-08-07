@@ -114,7 +114,7 @@ export class HomePage extends LitElement {
 									.divcordTable=${this.divcordTable}
 									.cardSize=${this.cardSize}
 									.sourceSize=${this.sourceSize}
-									@navigate=${() => this.#setCardViewTransition(card)}
+									@navigate=${() => this.#setActiveCard(card)}
 									part="card"
 							  ></e-card-with-sources>`
 							: html`<e-card-with-sources
@@ -122,7 +122,7 @@ export class HomePage extends LitElement {
 									.divcordTable=${this.divcordTable}
 									.cardSize=${this.cardSize}
 									.sourceSize=${this.sourceSize}
-									@navigate=${() => this.#setCardViewTransition(card)}
+									@navigate=${() => this.#setActiveCard(card)}
 							  ></e-card-with-sources>`}
 					</li>`;
 				})}
@@ -130,7 +130,7 @@ export class HomePage extends LitElement {
 		</div>`;
 	}
 
-	#setCardViewTransition(card: string) {
+	#setActiveCard(card: string) {
 		window.activeCard = card;
 		this.activeCard = card;
 	}
