@@ -17,6 +17,7 @@ import './pages/p-useful-resources';
 import './elements/divcord-spreadsheet/e-divcord-spreadsheet';
 
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
+import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
 
 export const router = new Router({
 	routes: [
@@ -47,11 +48,20 @@ export const router = new Router({
 			render: () => html`<p-verify-faq></p-verify-faq>`,
 		},
 		{
-			path: '/card/:name',
-			title: context => decodeURI(context.params!.name),
+			path: '/card/:slug',
+			title: context => {
+				const slug = context.params?.slug;
+				if (!slug) {
+					return 'Not Found';
+				}
+				return findCardBySlug(slug)?.name ?? 'Not Found';
+			},
 			render: context => {
-				const name = decodeURI(context.params.name);
-				return html`<p-card .card=${name}></p-card>`;
+				const card = findCardBySlug(context.params.slug);
+				if (!card) {
+					return html`<p>Card Not Found</p>`;
+				}
+				return html`<p-card .card=${card!.name}></p-card>`;
 			},
 		},
 		{

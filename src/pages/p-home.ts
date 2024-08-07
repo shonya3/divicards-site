@@ -16,6 +16,15 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
 
+declare global {
+	interface Window {
+		/*
+		 * Active card state for page transitions view-transition-name: card
+		 */
+		activeCard?: string;
+	}
+}
+
 @customElement('p-home')
 export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
@@ -30,6 +39,10 @@ export class HomePage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	/**
+	 * Active card state for page transitions view-transition-name: card
+	 */
+	@state() activeCard: string | null = window.activeCard ?? null;
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];
 
@@ -95,16 +108,31 @@ export class HomePage extends LitElement {
 			<ul class="cards">
 				${this.paginated.map(card => {
 					return html`<li>
-						<e-card-with-sources
-							.name=${card}
-							.divcordTable=${this.divcordTable}
-							.cardSize=${this.cardSize}
-							.sourceSize=${this.sourceSize}
-						></e-card-with-sources>
+						${card === this.activeCard
+							? html`<e-card-with-sources
+									.name=${card}
+									.divcordTable=${this.divcordTable}
+									.cardSize=${this.cardSize}
+									.sourceSize=${this.sourceSize}
+									@navigate=${() => this.#setCardViewTransition(card)}
+									part="card"
+							  ></e-card-with-sources>`
+							: html`<e-card-with-sources
+									.name=${card}
+									.divcordTable=${this.divcordTable}
+									.cardSize=${this.cardSize}
+									.sourceSize=${this.sourceSize}
+									@navigate=${() => this.#setCardViewTransition(card)}
+							  ></e-card-with-sources>`}
 					</li>`;
 				})}
 			</ul>
 		</div>`;
+	}
+
+	#setCardViewTransition(card: string) {
+		window.activeCard = card;
+		this.activeCard = card;
 	}
 
 	async #onCardnameInput(e: InputEvent) {

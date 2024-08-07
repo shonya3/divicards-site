@@ -4,6 +4,7 @@ import './divination-card/e-divination-card';
 import './e-sourceful-divcord-record';
 import './e-divcord-needs-info';
 import type { DivcordRecord } from '../gen/divcord';
+import 'poe-custom-elements/divination-card.js';
 
 /**
  * @summary Element for card page and divcord page list
@@ -18,7 +19,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 
 		return html`
 			<slot name="card">
-				<e-divination-card part="card" size="large" .name=${this.card}></e-divination-card>
+				<poe-divination-card part="card" size="large" .name=${this.card}></poe-divination-card>
 			</slot>
 			<main class="main">
 				<slot name="main-start"></slot>

@@ -11,9 +11,11 @@ import type { Source } from '../gen/Source';
 import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';
 import './e-sources';
+import 'poe-custom-elements/divination-card.js';
 
 /**
  * @csspart card - Divination card element
+ * @event   navigate Event - Emits on divination card navigation.
  */
 @customElement('e-card-with-sources')
 export class CardWithSourcesElement extends LitElement {
@@ -45,7 +47,13 @@ export class CardWithSourcesElement extends LitElement {
 
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
-				<e-divination-card part="card" .name=${this.name} .size=${this.cardSize}></e-divination-card>
+				<poe-divination-card
+					@navigate=${this.#dispatchNavigate}
+					.hrefPattern=${`/card/{{slug}}`}
+					part="card"
+					.name=${this.name}
+					.size=${this.cardSize}
+				></poe-divination-card>
 				<e-sources
 					.sources=${this.sources}
 					.size=${this.sourceSize}
@@ -60,6 +68,10 @@ export class CardWithSourcesElement extends LitElement {
 				></e-sources>
 			</div>
 		`;
+	}
+
+	#dispatchNavigate() {
+		this.dispatchEvent(new Event('navigate'));
 	}
 
 	static styles = css`
