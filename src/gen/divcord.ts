@@ -42,5 +42,6 @@ export const REMAINING_WORK_VARIANTS = [
 	'open ended',
 	'atlas',
 	'story',
+	'reverify',
 ] as const;
 export const CONFIDENCE_VARIANTS = ['none', 'low', 'ok', 'done'] as const;
