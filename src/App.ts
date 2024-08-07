@@ -1,6 +1,6 @@
 import { provide } from '@lit/context';
 import { LitElement, html, css, TemplateResult } from 'lit';
-import { customElement, query, property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { divcordLoader } from './DivcordLoader';
 import { divcordTableContext } from './context';
 import { DivcordTable } from './DivcordTable';
@@ -16,7 +16,6 @@ declare global {
 
 @customElement('app-root')
 export class RootElement extends LitElement {
-	@query('.outlet') outlet!: HTMLElement;
 	@property() pathname?: string;
 
 	@provide({ context: divcordTableContext })
@@ -37,7 +36,9 @@ export class RootElement extends LitElement {
 			<header class="header">
 				<e-topnav></e-topnav>
 			</header>
-			<div class="outlet"></div>
+			<div class="outlet">
+				<slot></slot>
+			</div>
 		</div>`;
 	}
 

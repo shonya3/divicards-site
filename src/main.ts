@@ -16,7 +16,7 @@ await root.updateComplete;
 router.addEventListener('route-changed', async _e => {
 	await startViewTransition(() => {
 		root.pathname = new URL(window.location.href).pathname;
-		render(router.render(), root.outlet);
+		render(router.render(), root);
 	});
 });
 router.dispatchEvent(new Event('route-changed'));
