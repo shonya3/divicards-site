@@ -11,6 +11,7 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
 import './e-weight-value';
+import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
 
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
@@ -26,6 +27,10 @@ export class WeightsTableElement extends LitElement {
 	@state() private rowsClone: WeightData[] = [];
 	/** Visible rows by current limit */
 	@state() private rowsLimitedVisible: WeightData[] = [];
+	/**
+	 * Active card state for page transitions view-transition-name: card
+	 */
+	@state() activeCard: string | null = window.activeCard ?? null;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('rows')) {
@@ -53,6 +58,7 @@ export class WeightsTableElement extends LitElement {
 
 	protected render(): TemplateResult {
 		return html`
+			${this.activeCard}
 			<table class="table">
 				<thead>
 					<tr class="show-cards-row">
@@ -100,18 +106,38 @@ export class WeightsTableElement extends LitElement {
 								<td class="td">
 									${this.showCards
 										? html`
-												<e-divination-card
-													size="small"
-													name=${cardRowData.name}
-												></e-divination-card>
+												${cardRowData.name === this.activeCard
+													? html`<e-divination-card
+															size="small"
+															name=${cardRowData.name}
+															@navigate=${() => this.#setActiveCard(cardRowData.name)}
+															part="card"
+													  ></e-divination-card>`
+													: html`<e-divination-card
+															size="small"
+															name=${cardRowData.name}
+															@navigate=${() => this.#setActiveCard(cardRowData.name)}
+													  ></e-divination-card>`}
 										  `
 										: html`
-												<a
-													class="link"
-													@click=${this.#handleNavSetTransitionName}
-													href="/card/${cardRowData.name}"
-													>${cardRowData.name}</a
-												>
+												${cardRowData.name === this.activeCard
+													? html`<a
+															class="link"
+															@click=${() => this.#setActiveCard(cardRowData.name)}
+															href="/card/${cardElementData.find(
+																card => card.name === cardRowData.name
+															)?.slug}"
+															part="card"
+															>${cardRowData.name}</a
+													  >`
+													: html`<a
+															class="link"
+															@click=${() => this.#setActiveCard(cardRowData.name)}
+															href="/card/${cardElementData.find(
+																card => card.name === cardRowData.name
+															)?.slug}"
+															>${cardRowData.name}</a
+													  >`}
 										  `}
 								</td>
 								<td class="td td-weight">
@@ -138,6 +164,11 @@ export class WeightsTableElement extends LitElement {
 				</tbody>
 			</table>
 		`;
+	}
+
+	#setActiveCard(card: string) {
+		window.activeCard = card;
+		this.activeCard = card;
 	}
 
 	#toggleWeightOrder() {
@@ -170,10 +201,6 @@ export class WeightsTableElement extends LitElement {
 			this.showCards = target.checked;
 			this.dispatchEvent(new Event('show-cards-changed'));
 		}
-	}
-
-	#handleNavSetTransitionName(e: Event) {
-		(e.target as HTMLElement).style.setProperty('view-transition-name', 'card');
 	}
 
 	static styles = css`

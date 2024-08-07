@@ -73,6 +73,7 @@ export class WeightsPage extends LitElement {
 						<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
 					</p>
 					<e-weights-table
+						exportparts="card"
 						@show-cards-changed=${this.#onShowCardsChanged}
 						class="section-table__table"
 						ordered-by="weight"
