@@ -89,7 +89,6 @@ export class SourceTypePage extends LitElement {
 			width: fit-content;
 			margin-inline: auto;
 			display: block;
-			view-transition-name: source-type;
 		}
 	`;
 }

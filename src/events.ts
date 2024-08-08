@@ -3,15 +3,14 @@ export type TransitionName = 'source' | 'card' | 'source-type';
 export class NavigateTransitionEvent extends Event {
 	transitionName: TransitionName;
 	constructor(transitionName: TransitionName) {
-		super('a-transition');
+		super('navigate-transition');
 		this.transitionName = transitionName;
 	}
 }
 
 declare global {
 	interface HTMLElementEventMap {
-		'navigate-transition': Event;
-		'a-transition': NavigateTransitionEvent;
+		'navigate-transition': NavigateTransitionEvent;
 	}
 }
 
