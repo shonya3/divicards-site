@@ -1,8 +1,8 @@
-export type SourceWithMember = { type: SourceType; id: string; kind: SourceWithMemberKind; min_level?: number; max_level?: number };
+export type SourceWithMember = { type: SourceType; id: string; kind: SourceWithMemberKind; min_level?: number; max_level?: number; idSlug: string; typeSlug: string };
 export type EmptySourceKind = 'empty-source';
 export type SourceWithMemberKind = 'source-with-member';
 export type Kind = EmptySourceKind | SourceWithMemberKind;
-export type EmptySource = { type: SourceType; id: string; kind: EmptySourceKind; min_level?: number; max_level?: number};
+export type EmptySource = { type: SourceType; id: string; kind: EmptySourceKind; min_level?: number; max_level?: number; idSlug: string; typeSlug: string };
 export type Source = SourceWithMember | EmptySource;
 export const SOURCE_TYPE_VARIANTS = [
 	"Act",
