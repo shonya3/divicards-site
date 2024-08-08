@@ -13,6 +13,7 @@ import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
+import { dispatchTransition } from '../../events';
 
 export class NoSourceInPoeDataError extends Error {
 	constructor(source: Source) {
@@ -22,7 +23,7 @@ export class NoSourceInPoeDataError extends Error {
 
 /**
  * @summary Any dropsource of divination card: map, act, etc
-
+ * @event       navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
  * @cssproperty --padding-inline - The inline padding to use for for element.
  * @cssproperty --padding-block - The block padding to use for for element.
  * @cccproperty --source-color - The Text color of source name.
@@ -47,13 +48,6 @@ export class SourceElement extends LitElement {
 
 	constructor() {
 		super();
-		this.addEventListener('set-transition-name', e => {
-			this.#setViewTransitionName(e.detail);
-		});
-	}
-
-	#setViewTransitionName(transitionName = 'source') {
-		this.style.setProperty('view-transition-name', transitionName);
 	}
 
 	protected sourceElement(): TemplateResult | typeof nothing {
@@ -111,9 +105,7 @@ export class SourceElement extends LitElement {
 			default: {
 				if (!this.source.id) return nothing;
 
-				return html`<a
-					@click=${this.#setViewTransitionName.bind(this, 'source')}
-					href=${sourceHref(this.source)}
+				return html`<a @click=${dispatchTransition.bind(this, 'source')} href=${sourceHref(this.source)}
 					>${this.source.id}</a
 				>`;
 			}

@@ -2,10 +2,13 @@ import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { dispatchSetTransitionName } from '../../events';
 import type { ActArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
+import { dispatchTransition } from '../../events';
 
+/**
+ * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
+ */
 @customElement('e-act-area')
 export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
@@ -24,7 +27,7 @@ export class ActAreaElement extends LitElement {
 				'act-area--medium': this.size === 'medium',
 			})}
 		>
-			<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
+			<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name"
 				>${this.actArea.name} (Act ${this.actArea.act})</a
 			>
 			<div class="area-level">Monster level: ${this.actArea.areaLevel}</div>

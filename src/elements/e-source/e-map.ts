@@ -2,10 +2,13 @@ import { linkStyles } from '../../linkStyles';
 import { LitElement, html, nothing, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { dispatchSetTransitionName } from '../../events';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
+import { dispatchTransition } from '../../events';
 
+/**
+ * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
+ */
 @customElement('e-map')
 export class MapElement extends LitElement {
 	@property({ type: Object }) map!: MapArea;
@@ -62,7 +65,7 @@ export class MapElement extends LitElement {
 						'map-background': !this.map.unique,
 					})}
 				>
-					<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
+					<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name"
 						><img
 							class=${classMap({ 'img-map-glyph': true })}
 							width=${this.imageWidth}
@@ -79,7 +82,7 @@ export class MapElement extends LitElement {
 	protected renderName(): TemplateResult | typeof nothing {
 		return this.renderMode === 'normal'
 			? html`
-					<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
+					<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name"
 						>${this.map.name}</a
 					>
 			  `

@@ -3,11 +3,14 @@ import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, nothing, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-act-area';
-import { dispatchSetTransitionName } from '../../events';
+import { dispatchTransition } from '../../events';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { ActArea, Bossfight } from '../../gen/poeData';
 
+/**
+ * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
+ */
 @customElement('e-actboss')
 export class ActBossElement extends LitElement {
 	@property({ type: Object }) boss!: Bossfight;
@@ -31,7 +34,7 @@ export class ActBossElement extends LitElement {
 				  ></e-act-area>`
 				: nothing}
 
-			<a href=${this.href} @click=${dispatchSetTransitionName.bind(this, 'source')} class="bossname"
+			<a href=${this.href} @click=${dispatchTransition.bind(this, 'source')} class="bossname"
 				>${this.boss.name}
 				${this.renderMode === 'compact' ? html`<span>(Act ${this.actArea.act})</span>` : nothing}
 			</a>

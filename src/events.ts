@@ -1,18 +1,20 @@
 export type TransitionName = 'source' | 'card' | 'source-type';
-export class SetTransitionNameEvent extends CustomEvent<TransitionName> {
+
+export class NavigateTransitionEvent extends Event {
+	transitionName: TransitionName;
 	constructor(transitionName: TransitionName) {
-		super('set-transition-name', { detail: transitionName, bubbles: true, composed: true });
+		super('a-transition');
+		this.transitionName = transitionName;
 	}
 }
 
 declare global {
 	interface HTMLElementEventMap {
-		'set-transition-name': SetTransitionNameEvent;
+		'navigate-transition': Event;
+		'a-transition': NavigateTransitionEvent;
 	}
 }
 
-export function dispatchSetTransitionName(this: HTMLElement & { href?: string }, transitionName: TransitionName): void {
-	if (this.href) {
-		this.dispatchEvent(new SetTransitionNameEvent(transitionName));
-	}
+export function dispatchTransition(this: HTMLElement, transitionName: TransitionName) {
+	this.dispatchEvent(new NavigateTransitionEvent(transitionName));
 }

@@ -3,11 +3,14 @@ import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './e-map';
-import { dispatchSetTransitionName } from '../../events';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea, MapBoss } from '../../gen/poeData';
+import { dispatchTransition } from '../../events';
 
+/**
+ * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
+ */
 @customElement('e-mapboss')
 export class MapBossElement extends LitElement {
 	@property({ type: Object }) boss!: MapBoss;
@@ -42,11 +45,10 @@ export class MapBossElement extends LitElement {
 						></e-map>`
 				)}
 			</ul>
-			<a @click=${dispatchSetTransitionName.bind(this, 'source')} href=${this.href} class="name"
-				>${this.boss.name}</a
-			>
+			<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name">${this.boss.name}</a>
 		</div>`;
 	}
+
 	static styles = css`
 		* {
 			padding: 0;
