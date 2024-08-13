@@ -17,11 +17,11 @@
 		"@custom-elements-manifest/analyzer": "^0.10.3",
 		"@typescript-eslint/eslint-plugin": "^8.1.0",
 		"@typescript-eslint/parser": "^8.1.0",
-		"custom-element-vs-code-integration": "^1.2.2",
+		"custom-element-vs-code-integration": "^1.4.1",
 		"eslint": "^9.9.0",
 		"lit-analyzer": "^2.0.3",
-		"typescript": "^5.4",
-		"vite": "^5.1.1"
+		"typescript": "^5.5.4",
+		"vite": "^5.4.0"
 	},
 	"dependencies": {
 		"@lit-labs/virtualizer": "^2.0.14",
