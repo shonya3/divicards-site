@@ -1,4 +1,5 @@
 import { DivcordRecord } from './gen/divcord';
+import { slug } from './gen/divcordWasm/divcord_wasm';
 import { SourceWithMember, Source, SourceType, SOURCE_TYPE_VARIANTS } from './gen/Source';
 import { PoeData, poeData } from './PoeData';
 
@@ -81,7 +82,10 @@ export function cardsBySource(source: Source, records: DivcordRecord[], poeData:
 			for (const card of cardsByMapboss(boss.name, records, poeData)) {
 				cards.push({
 					...card,
-					transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
+					transitiveSource: createSource({
+						id: boss.name,
+						type: 'Map Boss',
+					}),
 				});
 			}
 		}
@@ -93,7 +97,10 @@ export function cardsBySource(source: Source, records: DivcordRecord[], poeData:
 			for (const card of cardsByActboss(fight.name, records)) {
 				cards.push({
 					...card,
-					transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+					transitiveSource: createSource({
+						id: fight.name,
+						type: 'Act Boss',
+					}),
 				});
 			}
 		}
@@ -144,7 +151,10 @@ export function cardsBySourceTypes(
 					for (const boss of poeData.find.bossesOfMap(source.id)) {
 						for (const card of cardsByMapboss(boss.name, records, poeData)) {
 							cards.push({
-								transitiveSource: { id: boss.name, kind: 'source-with-member', type: 'Map Boss' },
+								transitiveSource: createSource({
+									id: boss.name,
+									type: 'Map Boss',
+								}),
 								...card,
 							});
 						}
@@ -159,7 +169,10 @@ export function cardsBySourceTypes(
 						for (const card of cardsByActboss(fight.name, records)) {
 							cards.push({
 								...card,
-								transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+								transitiveSource: createSource({
+									id: fight.name,
+									type: 'Act Boss',
+								}),
 							});
 						}
 					}
@@ -188,13 +201,16 @@ export function cardsBySourceTypes(
 					for (const card of cardsByActboss(fight.name, records)) {
 						cards.push({
 							...card,
-							transitiveSource: { id: fight.name, kind: 'source-with-member', type: 'Act Boss' },
+							transitiveSource: createSource({
+								id: fight.name,
+								type: 'Act Boss',
+							}),
 						});
 					}
 				}
 
 				map.set(area.id, cards);
-				sourceMap.set(area.id, { id: area.id, type: 'Act', kind: 'source-with-member' });
+				sourceMap.set(area.id, createSource({ id: area.id, type: 'Act' }));
 			}
 		}
 	}
@@ -207,12 +223,15 @@ export function cardsBySourceTypes(
 					const cardsFromBoss: CardBySource[] = cardsByMapboss(boss.name, records, poeData).map(card => {
 						return {
 							...card,
-							transitiveSource: { id: boss.name, type: 'Map Boss', kind: 'source-with-member' },
+							transitiveSource: createSource({
+								id: boss.name,
+								type: 'Map Boss',
+							}),
 						};
 					});
 
 					map.set(atlasMapName, cardsFromBoss);
-					sourceMap.set(atlasMapName, { id: atlasMapName, type: 'Map', kind: 'source-with-member' });
+					sourceMap.set(atlasMapName, createSource({ id: atlasMapName, type: 'Map' }));
 				}
 			}
 		}
@@ -260,4 +279,14 @@ export function _sourcetypesMap(sourcesAndCards: SourceAndCards[]): Map<SourceTy
 	map = new Map(entries);
 
 	return map;
+}
+
+function createSource({ type, id }: { type: SourceType; id: string }): SourceWithMember {
+	return {
+		id: id,
+		idSlug: slug(id),
+		type,
+		typeSlug: slug(type),
+		kind: 'source-with-member',
+	};
 }
