@@ -18,6 +18,11 @@ export function find_cards_by_source_types(types: any, records: any, poe_data: s
 * @param {string} s
 * @returns {string}
 */
+export function slug(s: string): string;
+/**
+* @param {string} s
+* @returns {string}
+*/
 export function slugify(s: string): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -26,6 +31,7 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly parsed_records: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
   readonly find_cards_by_source_types: (a: number, b: number, c: number, d: number) => number;
+  readonly slug: (a: number, b: number, c: number) => void;
   readonly slugify: (a: number, b: number, c: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
