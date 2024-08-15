@@ -19,6 +19,9 @@ import './elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
 
+import sourcesJson from './sources.json';
+const sources = sourcesJson as Record<string, Source>;
+
 export const router = new Router({
 	routes: [
 		{
@@ -78,13 +81,24 @@ export const router = new Router({
 				return html`<p-useful-resources></p-useful-resources>`;
 			},
 		},
+		// {
+		// 	path: '/source',
+		// 	title: context => decodeURI(context.query!.id),
+		// 	render: context => {
+		// 		const id: string = context.query.id;
+		// 		const type = context.query.type as SourceType;
+		// 		const source: Source = { id, type, kind: 'source-with-member' };
+		// 		return html`<p-source .source=${source}></p-source>`;
+		// 	},
+		// },
 		{
-			path: '/source',
+			path: '/source/:typeSlug/:idSlug',
 			title: context => decodeURI(context.query!.id),
 			render: context => {
-				const id: string = context.query.id;
-				const type = context.query.type as SourceType;
-				const source: Source = { id, type, kind: 'source-with-member' };
+				const source = sources[context.params.idSlug];
+				if (!source) {
+					return html`<h2>Not Found</h2>`;
+				}
 				return html`<p-source .source=${source}></p-source>`;
 			},
 		},
