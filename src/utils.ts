@@ -10,7 +10,8 @@ export function sourceHref(source: Source): string {
 	if (source.kind === 'empty-source') {
 		return '';
 	}
-	return `/source?type=${source.type}&id=${source.id}`;
+	return `/source/${source.typeSlug}/${source.idSlug}`;
+	// return `/source?type=${source.type}&id=${source.id}`;
 }
 
 export function paginate<T>(arr: T[], page: number, perPage: number): T[] {
