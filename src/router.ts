@@ -93,8 +93,9 @@ export const router = new Router({
 		// },
 		{
 			path: '/source/:typeSlug/:idSlug',
-			title: context => decodeURI(context.query!.id),
+			title: context => sources[context.params!.idSlug].id ?? 'Not found',
 			render: context => {
+				context.title = 'hiiiii';
 				const source = sources[context.params.idSlug];
 				if (!source) {
 					return html`<h2>Not Found</h2>`;
