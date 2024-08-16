@@ -6,6 +6,7 @@ import './e-source/e-source';
 import './e-cards-by-source';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
+import { NavigateTransitionEvent, redispatchTransition } from '../events';
 
 /**
  * Dropsource with it's divination cards list
@@ -28,6 +29,7 @@ export class SourceWithCardsElement extends LitElement {
 				size=${this.sourceSize}
 				.source=${this.source}
 				.showSourceType=${this.showSourceType}
+				@navigate-transition=${(e: NavigateTransitionEvent) => redispatchTransition.call(this, e)}
 			></e-source>
 			<e-cards-by-source
 				card-size=${this.cardSize}

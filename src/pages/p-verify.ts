@@ -20,6 +20,7 @@ import { styles } from './p-verify.styles';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import { RowData } from '../elements/weights-table/e-weights-table-verify-sources';
+import { NavigateTransitionEvent } from '../events';
 
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
@@ -30,6 +31,8 @@ export class VerifyPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	/** Dropsource involved in view transitions */
+	@state() activeSource?: string = window.activeSource;
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() detailsOfContentsOpen = true;
 	@state() byCategory: {
@@ -153,18 +156,24 @@ export class VerifyPage extends LitElement {
 					sourcesAndCards: this.byCategory.maps,
 					cardSize: this.#cardSize,
 					sourceSize: this.#sourceSize,
+					onNavigateTransition: this.#handleNavigateTransition,
+					activeSource: this.activeSource,
 				})}
 				<h3 class="category-heading" id="acts">Acts</h3>
 				${SourceWithCardsList({
 					sourcesAndCards: this.byCategory.acts,
 					cardSize: this.#cardSize,
 					sourceSize: this.#sourceSize,
+					onNavigateTransition: this.#handleNavigateTransition,
+					activeSource: this.activeSource,
 				})}
 				<h3 class="category-heading" id="other">Other</h3>
 				${SourceWithCardsList({
 					sourcesAndCards: this.byCategory.other,
 					cardSize: this.#cardSize,
 					sourceSize: this.#sourceSize,
+					onNavigateTransition: this.#handleNavigateTransition,
+					activeSource: this.activeSource,
 				})}
 				<details id="details-weights-table" class="details-weights-table" open>
 					<summary class="details-weights-table__summary">Weights Table</summary>
@@ -174,6 +183,11 @@ export class VerifyPage extends LitElement {
 		</div>`;
 	}
 
+	#handleNavigateTransition(e: NavigateTransitionEvent) {
+		window.activeSource = e.sourceSlug;
+		this.activeSource = e.sourceSlug;
+	}
+
 	static styles = styles;
 }
 
@@ -181,10 +195,14 @@ function SourceWithCardsList({
 	sourcesAndCards,
 	cardSize,
 	sourceSize,
+	onNavigateTransition,
+	activeSource,
 }: {
 	sourcesAndCards: SourceAndCards[];
 	cardSize: CardSize;
 	sourceSize: SourceSize;
+	onNavigateTransition: (e: NavigateTransitionEvent) => void;
+	activeSource: string | undefined;
 }): TemplateResult {
 	return html`<ul class="source-with-cards-list">
 		${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
@@ -196,6 +214,22 @@ function SourceWithCardsList({
 				}
 			}
 			const hash = name.replaceAll(' ', '_');
+
+			if (source.idSlug === activeSource) {
+				return html`
+					<li id="${hash}">
+						<e-source-with-cards
+							card-size=${cardSize}
+							source-size=${sourceSize}
+							.source=${source}
+							.cards=${cards}
+							@navigate-transition=${onNavigateTransition}
+							part="active-source"
+						></e-source-with-cards>
+					</li>
+				`;
+			}
+
 			return html`
 				<li id="${hash}">
 					<e-source-with-cards
@@ -203,6 +237,7 @@ function SourceWithCardsList({
 						source-size=${sourceSize}
 						.source=${source}
 						.cards=${cards}
+						@navigate-transition=${onNavigateTransition}
 					></e-source-with-cards>
 				</li>
 			`;
