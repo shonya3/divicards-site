@@ -15,6 +15,7 @@ import { SearchCardsCriteria, searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } fro
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
+import { NavigateTransitionEvent } from '../events';
 
 declare global {
 	interface Window {
@@ -22,6 +23,7 @@ declare global {
 		 * Active card state for page transitions view-transition-name: card
 		 */
 		activeCard?: string;
+		activeSource?: string;
 	}
 }
 
@@ -43,6 +45,8 @@ export class HomePage extends LitElement {
 	 * Active card state for page transitions view-transition-name: card
 	 */
 	@state() activeCard: string | null = window.activeCard ?? null;
+	/** Dropsource involved in view transitions */
+	@state() activeSource?: string = window.activeSource;
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];
 
@@ -115,6 +119,9 @@ export class HomePage extends LitElement {
 									.cardSize=${this.cardSize}
 									.sourceSize=${this.sourceSize}
 									@navigate=${() => this.#setActiveCard(card)}
+									@navigate-transition=${this.#handleNavigateTransition}
+									.activeSource=${this.activeSource}
+									exportparts="active-source"
 									part="card"
 							  ></e-card-with-sources>`
 							: html`<e-card-with-sources
@@ -122,12 +129,20 @@ export class HomePage extends LitElement {
 									.divcordTable=${this.divcordTable}
 									.cardSize=${this.cardSize}
 									.sourceSize=${this.sourceSize}
+									@navigate-transition=${this.#handleNavigateTransition}
+									.activeSource=${this.activeSource}
+									exportparts="active-source"
 									@navigate=${() => this.#setActiveCard(card)}
 							  ></e-card-with-sources>`}
 					</li>`;
 				})}
 			</ul>
 		</div>`;
+	}
+
+	#handleNavigateTransition(e: NavigateTransitionEvent) {
+		window.activeSource = e.sourceSlug;
+		this.activeSource = e.sourceSlug;
 	}
 
 	#setActiveCard(card: string) {

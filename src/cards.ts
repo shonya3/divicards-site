@@ -281,7 +281,7 @@ export function _sourcetypesMap(sourcesAndCards: SourceAndCards[]): Map<SourceTy
 	return map;
 }
 
-function createSource({ type, id }: { type: SourceType; id: string }): SourceWithMember {
+export function createSource({ type, id }: { type: SourceType; id: string }): SourceWithMember {
 	return {
 		id: id,
 		idSlug: slug(id),

@@ -4,16 +4,29 @@ import type { Source } from '../gen/Source';
 import type { SourceSize } from './e-source/types';
 import type { RenderMode } from './types';
 import type { VerificationStatus } from '../cards';
+import { redispatchTransition } from '../events';
 
+/**
+ * @csspart active-source - Dropsource involved in view transitions.
+ */
 @customElement('e-sources')
 export class SourcesElement extends LitElement {
 	@property({ type: Array }) sources: Source[] = [];
 	@property({ reflect: true }) size: SourceSize = 'small';
 	@property({ reflect: true, attribute: 'render-mode' }) renderMode: RenderMode = 'compact';
 	@property({ reflect: true, attribute: 'verification-status' }) verificationStatus: VerificationStatus = 'done';
+	/** Dropsource involved in view transitions */
+	@property({ reflect: true, attribute: 'active-source' }) activeSource?: string;
 
 	protected render(): HTMLUListElement {
-		return SourcesList(this.sources, this.size, this.renderMode, this.verificationStatus);
+		return SourcesList.call(
+			this,
+			this.sources,
+			this.size,
+			this.renderMode,
+			this.verificationStatus,
+			this.activeSource
+		);
 	}
 
 	static styles = css`
@@ -47,10 +60,12 @@ export class SourcesElement extends LitElement {
 
 /**  Put maps into distinct container without gaps */
 function SourcesList(
+	this: HTMLElement,
 	sources: Source[],
 	size: SourceSize,
 	renderMode: RenderMode,
-	verificationStatus: VerificationStatus
+	verificationStatus: VerificationStatus,
+	activeSource: string | null = null
 ): HTMLUListElement {
 	const mapsSources = document.createElement('div');
 	mapsSources.classList.add('sources-maps');
@@ -65,6 +80,14 @@ function SourcesList(
 				renderMode,
 				source,
 				size,
+			});
+
+			if (activeSource === source.idSlug) {
+				sourceEl.setAttribute('part', 'active-source');
+			}
+
+			sourceEl.addEventListener('navigate-transition', e => {
+				redispatchTransition.call(this, e);
 			});
 
 			if (verificationStatus === 'verify') {

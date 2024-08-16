@@ -13,6 +13,7 @@ import { dispatchTransition } from '../../events';
 export class ActAreaElement extends LitElement {
 	static override styles = [styles()];
 
+	@property({ reflect: true }) slug!: string;
 	@property({ type: Object }) actArea!: ActArea;
 	@property({ reflect: true }) size: SourceSize = 'large';
 	@property({ reflect: true }) href = '';
@@ -27,7 +28,7 @@ export class ActAreaElement extends LitElement {
 				'act-area--medium': this.size === 'medium',
 			})}
 		>
-			<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name"
+			<a @click=${dispatchTransition.bind(this, 'source', this.slug)} href=${this.href} class="name"
 				>${this.actArea.name} (Act ${this.actArea.act})</a
 			>
 			<div class="area-level">Monster level: ${this.actArea.areaLevel}</div>

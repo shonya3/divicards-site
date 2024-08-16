@@ -11,8 +11,10 @@ import type { Source } from '../gen/Source';
 import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';
 import './e-sources';
+import { NavigateTransitionEvent, redispatchTransition } from '../events';
 
 /**
+ * @csspart active-source - Dropsource involved in view transitions.
  * @csspart card - Divination card element
  * @event   navigate Event - Emits on divination card navigation.
  */
@@ -23,6 +25,8 @@ export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ type: Object }) divcordTable!: DivcordTable;
 	@property() renderMode: RenderMode = 'compact';
+	/** Dropsource involved in view transitions */
+	@property({ reflect: true, attribute: 'active-source' }) activeSource?: string;
 
 	@state() sources: Source[] = [];
 	@state() verifySources: Source[] = [];
@@ -58,12 +62,18 @@ export class CardWithSourcesElement extends LitElement {
 					.size=${this.sourceSize}
 					verification-status="done"
 					.renderMode=${this.renderMode}
+					.activeSource=${this.activeSource}
+					exportparts="active-source"
+					@navigate-transition=${this.#redispatchTransition}
 				></e-sources>
 				<e-sources
 					.sources=${this.verifySources}
 					.size=${this.sourceSize}
 					verification-status="verify"
 					.renderMode=${this.renderMode}
+					.activeSource=${this.activeSource}
+					exportparts="active-source"
+					@navigate-transition=${this.#redispatchTransition}
 				></e-sources>
 			</div>
 		`;
@@ -71,6 +81,10 @@ export class CardWithSourcesElement extends LitElement {
 
 	#dispatchNavigate() {
 		this.dispatchEvent(new Event('navigate'));
+	}
+
+	#redispatchTransition(e: NavigateTransitionEvent) {
+		redispatchTransition.call(this, e);
 	}
 
 	static styles = css`

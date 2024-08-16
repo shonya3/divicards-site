@@ -11,6 +11,7 @@ import { dispatchTransition } from '../../events';
  */
 @customElement('e-map')
 export class MapElement extends LitElement {
+	@property({ reflect: true }) slug!: string;
 	@property({ type: Object }) map!: MapArea;
 	@property({ reflect: true }) size: 'small' | 'medium' = 'medium';
 	@property({ reflect: true }) href = '';
@@ -65,7 +66,7 @@ export class MapElement extends LitElement {
 						'map-background': !this.map.unique,
 					})}
 				>
-					<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name"
+					<a @click=${dispatchTransition.bind(this, 'source', this.slug)} href=${this.href} class="name"
 						><img
 							class=${classMap({ 'img-map-glyph': true })}
 							width=${this.imageWidth}
@@ -82,7 +83,7 @@ export class MapElement extends LitElement {
 	protected renderName(): TemplateResult | typeof nothing {
 		return this.renderMode === 'normal'
 			? html`
-					<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name"
+					<a @click=${dispatchTransition.bind(this, 'source', this.slug)} href=${this.href} class="name"
 						>${this.map.name}</a
 					>
 			  `

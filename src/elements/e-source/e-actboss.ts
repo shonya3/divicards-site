@@ -7,12 +7,14 @@ import { dispatchTransition } from '../../events';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { ActArea, Bossfight } from '../../gen/poeData';
+import { createSource } from '../../cards';
 
 /**
  * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
  */
 @customElement('e-actboss')
 export class ActBossElement extends LitElement {
+	@property({ reflect: true }) slug!: string;
 	@property({ type: Object }) boss!: Bossfight;
 	@property({ type: Object }) actArea!: ActArea;
 	@property({ reflect: true }) href: string = '';
@@ -27,14 +29,14 @@ export class ActBossElement extends LitElement {
 		>
 			${this.renderMode === 'normal'
 				? html`<e-act-area
-						.href=${sourceHref({ type: 'Act', id: this.actArea.id, kind: 'source-with-member' })}
+						.href=${sourceHref(createSource({ type: 'Act', id: this.actArea.id }))}
 						class="act-area"
 						size="small"
 						.actArea=${this.actArea}
 				  ></e-act-area>`
 				: nothing}
 
-			<a href=${this.href} @click=${dispatchTransition.bind(this, 'source')} class="bossname"
+			<a href=${this.href} @click=${dispatchTransition.bind(this, 'source', this.slug)} class="bossname"
 				>${this.boss.name}
 				${this.renderMode === 'compact' ? html`<span>(Act ${this.actArea.act})</span>` : nothing}
 			</a>

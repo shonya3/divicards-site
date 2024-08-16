@@ -7,12 +7,14 @@ import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea, MapBoss } from '../../gen/poeData';
 import { dispatchTransition } from '../../events';
+import { createSource } from '../../cards';
 
 /**
- * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
+ *  @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
  */
 @customElement('e-mapboss')
 export class MapBossElement extends LitElement {
+	@property({ reflect: true }) slug!: string;
 	@property({ type: Object }) boss!: MapBoss;
 	@property({ type: Array }) maps: MapArea[] = [];
 	@property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
@@ -37,7 +39,7 @@ export class MapBossElement extends LitElement {
 				${this.maps.map(
 					m =>
 						html`<e-map
-							.href=${sourceHref({ type: 'Map', id: m.name, kind: 'source-with-member' })}
+							.href=${sourceHref(createSource({ type: 'Map', id: m.name }))}
 							.size=${this.size === 'large' ? 'medium' : this.size}
 							.map=${m}
 							.renderMode=${this.renderMode}
@@ -45,7 +47,9 @@ export class MapBossElement extends LitElement {
 						></e-map>`
 				)}
 			</ul>
-			<a @click=${dispatchTransition.bind(this, 'source')} href=${this.href} class="name">${this.boss.name}</a>
+			<a @click=${dispatchTransition.bind(this, 'source', this.slug)} href=${this.href} class="name"
+				>${this.boss.name}</a
+			>
 		</div>`;
 	}
 

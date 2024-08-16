@@ -13,7 +13,7 @@ import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
-import { NavigateTransitionEvent, dispatchTransition } from '../../events';
+import { NavigateTransitionEvent, dispatchTransition, redispatchTransition } from '../../events';
 
 export class NoSourceInPoeDataError extends Error {
 	constructor(source: Source) {
@@ -69,6 +69,7 @@ export class SourceElement extends LitElement {
 				}
 
 				return html`<e-act-area
+					.slug=${this.source.idSlug}
 					@navigate-transition=${this.#redispatchTransition}
 					.href=${sourceHref(this.source)}
 					.actArea=${area}
@@ -79,6 +80,7 @@ export class SourceElement extends LitElement {
 				const res = poeData.find.actBossAndArea(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-actboss
+					.slug=${this.source.idSlug}
 					.href=${sourceHref(this.source)}
 					.boss=${res.boss}
 					.actArea=${res.area}
@@ -90,6 +92,7 @@ export class SourceElement extends LitElement {
 				const map = poeData.find.map(this.source.id);
 				if (!map) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-map
+					.slug=${this.source.idSlug}
 					.href=${sourceHref(this.source)}
 					.size=${this.size === 'large' ? 'medium' : this.size}
 					.map=${map}
@@ -101,6 +104,7 @@ export class SourceElement extends LitElement {
 				const res = poeData.find.mapBossAndMaps(this.source.id);
 				if (!res) throw new NoSourceInPoeDataError(this.source);
 				return html`<e-mapboss
+					.slug=${this.source.idSlug}
 					.href=${sourceHref(this.source)}
 					.size=${this.size}
 					.boss=${res.boss}
@@ -113,7 +117,9 @@ export class SourceElement extends LitElement {
 			default: {
 				if (!this.source.id) return nothing;
 
-				return html`<a @click=${dispatchTransition.bind(this, 'source')} href=${sourceHref(this.source)}
+				return html`<a
+					@click=${dispatchTransition.bind(this, 'source', this.source.idSlug)}
+					href=${sourceHref(this.source)}
 					>${this.source.id}</a
 				>`;
 			}
@@ -121,7 +127,7 @@ export class SourceElement extends LitElement {
 	}
 
 	#redispatchTransition(e: NavigateTransitionEvent) {
-		dispatchTransition.bind(this, e.transitionName);
+		redispatchTransition.call(this, e);
 	}
 
 	render(): TemplateResult {

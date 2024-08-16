@@ -10,6 +10,9 @@ import { poeData } from '../PoeData';
 import type { Source } from '../gen/Source';
 import { DivcordTable } from '../DivcordTable';
 
+/**
+ * @csspart source - Dropsource.
+ */
 @customElement('p-source')
 export class SourcePage extends LitElement {
 	@property({ type: Object }) source!: Source;
@@ -30,7 +33,7 @@ export class SourcePage extends LitElement {
 
 	render(): TemplateResult {
 		return html`<div class="page">
-			<e-source-with-cards .source=${this.source} .cards=${this.cards}></e-source-with-cards>
+			<e-source-with-cards exportparts="source" .source=${this.source} .cards=${this.cards}></e-source-with-cards>
 		</div>`;
 	}
 
@@ -39,10 +42,6 @@ export class SourcePage extends LitElement {
 			list-style: none;
 			display: flex;
 			flex-wrap: wrap;
-		}
-
-		e-source-with-cards::part(source) {
-			view-transition-name: source;
 		}
 
 		e-source-with-cards {

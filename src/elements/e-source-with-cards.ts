@@ -1,5 +1,5 @@
 import { LitElement, TemplateResult, css, html } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import type { CardBySource } from '../cards';
 import type { Source } from '../gen/Source';
 import './e-source/e-source';
@@ -7,6 +7,10 @@ import './e-cards-by-source';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
 
+/**
+ * Dropsource with it's divination cards list
+ * @csspart source - Dropsource.
+ */
 @customElement('e-source-with-cards')
 export class SourceWithCardsElement extends LitElement {
 	@property({ type: Object }) source!: Source;
@@ -14,17 +18,6 @@ export class SourceWithCardsElement extends LitElement {
 	@property({ type: Boolean }) showSourceType = true;
 	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
-
-	@query('.source') mainSourceElement!: HTMLElement;
-
-	constructor() {
-		super();
-		this.addEventListener('boss-navigation', this.#onBossNavigation.bind(this));
-	}
-
-	#onBossNavigation() {
-		this.mainSourceElement.style.setProperty('view-transition-name', 'none');
-	}
 
 	render(): TemplateResult {
 		return html`<div class="wrapper">
