@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, TemplateResult, css, html, nothing } from 'lit';
+import { LitElement, PropertyValueMap, PropertyValues, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '../elements/e-card-with-sources';
 import '../elements/e-card-with-divcord-records';
@@ -27,6 +27,10 @@ export class CardPage extends LitElement {
 				this.weightData = prepareWeightData(card);
 			}
 		}
+	}
+
+	protected firstUpdated(_changedProperties: PropertyValues): void {
+		window.activeCard = this.card;
 	}
 
 	render(): TemplateResult {
