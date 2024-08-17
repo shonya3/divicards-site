@@ -17,6 +17,7 @@ import { NavigateTransitionEvent, redispatchTransition } from '../events';
  * @csspart active-source - Dropsource involved in view transitions.
  * @csspart card - Divination card element
  * @event   navigate Event - Emits on divination card navigation.
+ * @event   navigate-transition NavigateTransitionEvent - Emits on navigation.
  */
 @customElement('e-card-with-sources')
 export class CardWithSourcesElement extends LitElement {

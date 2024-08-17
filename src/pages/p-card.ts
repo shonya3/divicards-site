@@ -9,6 +9,7 @@ import { DivcordTable } from '../DivcordTable';
 import type { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
+import { NavigateTransitionEvent } from '../events';
 
 @customElement('p-card')
 export class CardPage extends LitElement {
@@ -19,6 +20,8 @@ export class CardPage extends LitElement {
 	divcordTable!: DivcordTable;
 
 	@state() weightData!: WeightData;
+	/** Dropsource involved in view transitions */
+	@state() activeSource?: string = window.activeSource;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
@@ -42,12 +45,14 @@ export class CardPage extends LitElement {
 		return html`<div class="page">
 			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
 				<e-card-with-sources
-					exportparts="card"
+					exportparts="card,active-source"
 					slot="card"
 					.name=${this.card}
 					card-size="large"
 					source-size="medium"
 					.divcordTable=${this.divcordTable}
+					.activeSource=${this.activeSource}
+					@navigate-transition=${this.#handleNavigateTransition}
 				>
 				</e-card-with-sources>
 				${card
@@ -62,11 +67,12 @@ export class CardPage extends LitElement {
 		</div>`;
 	}
 
-	static styles = css`
-		e-card-with-sources::part(card) {
-			view-transition-name: card;
-		}
+	#handleNavigateTransition(e: NavigateTransitionEvent) {
+		window.activeSource = e.sourceSlug;
+		this.activeSource = e.sourceSlug;
+	}
 
+	static styles = css`
 		e-card-with-sources {
 			margin-inline: auto;
 			width: fit-content;
