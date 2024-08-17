@@ -24,7 +24,11 @@ export class DivinationCardElement extends LitElement {
 			.boss=${this.boss}
 			.hrefPattern=${`/card/{{slug}}`}
 			@navigate=${this.#dispatchNavigate}
-		></poe-divination-card>`;
+		>
+			<div slot="boss">
+				<slot name="boss"></slot>
+			</div>
+		</poe-divination-card>`;
 	}
 	#dispatchNavigate() {
 		this.dispatchEvent(new Event('navigate'));
