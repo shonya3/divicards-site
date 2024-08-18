@@ -104,6 +104,7 @@ export class MapsPage extends LitElement {
 								.showSourceType=${false}
 								.source=${source}
 								.cards=${cards}
+								.cardSize=${`small`}
 							></e-source-with-cards>
 						</li>`;
 					})}
