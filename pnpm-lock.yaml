@@ -27,8 +27,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       poe-custom-elements:
-        specifier: ^0.3.5
-        version: 0.3.5
+        specifier: ^0.3.6
+        version: 0.3.6
       urlpattern-polyfill:
         specifier: ^10.0.0
         version: 10.0.0
@@ -932,8 +932,8 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  poe-custom-elements@0.3.5:
-    resolution: {integrity: sha512-JeagsRD1q0xjEU36ayhbivInb0Alu84NWPKzF+S6bdVWXIAHT70/glJfPJiF5gCXE82NotDWeypDydI2CbsCPQ==}
+  poe-custom-elements@0.3.6:
+    resolution: {integrity: sha512-4rFAONtRdWF9KbpJ/0M9zQR+P6K4aggPDBFzPYu+fv9qetiARBOiHHcifHrlvNFz5SiG2bvs6iie4wklQrfRsQ==}
 
   postcss@8.4.41:
     resolution: {integrity: sha512-TesUflQ0WKZqAvg52PWL6kHgLKP6xB6heTOdoYM0Wt2UHyxNa4K25EZZMgKns3BH1RLVbZCREPpLY0rhnNoHVQ==}
@@ -1992,7 +1992,7 @@ snapshots:
 
   picomatch@2.3.1: {}
 
-  poe-custom-elements@0.3.5:
+  poe-custom-elements@0.3.6:
     dependencies:
       '@floating-ui/dom': 1.6.10
       lit: 3.2.0
