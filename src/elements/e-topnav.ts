@@ -69,7 +69,7 @@ export class TopNavElement extends LitElement {
 					>
 						<a href=${pathname}>${s}</a>
 						${pathname === this.pathname
-							? html`<div class="links__active-item-background"></div>`
+							? html`<div part="active-link" class="links__active-item-background"></div>`
 							: nothing}
 					</li>`;
 				})}
@@ -172,7 +172,6 @@ export class TopNavElement extends LitElement {
 		}
 
 		.links__active-item-background {
-			view-transition-name: active-link;
 			position: absolute;
 			inset: 0;
 			border-radius: 1rem;

@@ -62,6 +62,10 @@
 				color: var(--sl-color-sky-600, skyblue);
 			}
 
+			app-root::part(active-link) {
+				view-transition-name: active-link;
+			}
+
 			p-card::part(card),
 			p-home::part(card),
 			p-weights::part(active-card),

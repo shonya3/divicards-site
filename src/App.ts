@@ -34,7 +34,7 @@ export class RootElement extends LitElement {
 	render(): TemplateResult {
 		return html`<div class="wrapper">
 			<header class="header">
-				<e-topnav></e-topnav>
+				<e-topnav exportparts="active-link"></e-topnav>
 			</header>
 			<div class="outlet">
 				<slot></slot>
