@@ -58,7 +58,6 @@ export class MapsPage extends LitElement {
 	}
 
 	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
-		console.log('AttributeChangedCallback', { name, old, value });
 		super.attributeChangedCallback(name, old, value);
 
 		if (name === 'filter') {

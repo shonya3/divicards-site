@@ -150,7 +150,6 @@ export function formatWithNewlines(
 ): DirectiveResult<typeof UnsafeHTMLDirective> {
 	const escape = options?.escape ?? true;
 	if (!escape) {
-		console.log('here');
 		return unsafeHTML(markup.replaceAll('\n', '<br>'));
 	}
 
