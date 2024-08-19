@@ -29,7 +29,9 @@ export class MapsPage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData);
+			const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData).filter(
+				({ cards }) => cards.length > 0
+			);
 			sourcesAndCards.sort((a, b) => {
 				const aLevel = poeData.areaLevel(a.source.id, 'Map');
 				const bLevel = poeData.areaLevel(b.source.id, 'Map');
