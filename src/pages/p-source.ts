@@ -26,6 +26,7 @@ export class SourcePage extends LitElement {
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable') || map.has('source')) {
 			const cards = cardsBySource(this.source, this.divcordTable.records, poeData);
+			console.log(cards);
 			sortByWeight(cards, poeData);
 			this.cards = cards;
 		}

@@ -127,7 +127,8 @@ export function cardsBySource(source: Source, records: DivcordRecord[], poeData:
 		}
 	}
 
-	return cards;
+	// return cards;
+	return dedupeCards(cards);
 }
 
 export function cardsBySourceTypes(
@@ -239,10 +240,22 @@ export function cardsBySourceTypes(
 
 	const sourcesAndCards = Array.from(map.entries()).map(([sourceId, cards]) => {
 		const source = sourceMap.get(sourceId)!;
-		return { source, cards };
+		return { source, cards: dedupeCards(cards) };
 	});
 
 	return sourcesAndCards;
+}
+
+function dedupeCards(cards: Array<CardBySource>): Array<CardBySource> {
+	const added: Set<string> = new Set();
+	return cards.filter(({ card }) => {
+		if (added.has(card)) {
+			return false;
+		}
+
+		added.add(card);
+		return true;
+	});
 }
 
 /**
