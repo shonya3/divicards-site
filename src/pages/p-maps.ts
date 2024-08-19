@@ -168,6 +168,7 @@ export class MapsPage extends LitElement {
 		}
 
 		ul {
+			margin-top: 2rem;
 			padding: 0.4rem;
 			display: flex;
 			flex-wrap: wrap;
