@@ -414,7 +414,6 @@ function createFilteredCards({
 	const query = filter.trim().toLowerCase();
 
 	const cardsByQuery = searchCardsByQuery(query, Array.from(SEARCH_CRITERIA_VARIANTS), divcordTable);
-	console.log(cardsByQuery.length);
 
 	const cards = cardsByQuery
 		.filter(card => {
@@ -444,20 +443,11 @@ function createFilteredCards({
 					divcordTable
 				);
 
-				if (card === 'A Chilling Wind') {
-					console.log({ card, hasConfidence, hasGreynote, hasRemainingWork });
-				}
-
-				return (
-					someCardRecordHasConfidenceVariant(card, config.confidence, divcordTable) &&
-					someCardRecordHasGreynoteWorkVariant(card, config.greynote, divcordTable) &&
-					someCardRecordHasRemainingWorkVariant(card, config.remainingWork, divcordTable)
-				);
+				return hasConfidence && hasGreynote && hasRemainingWork;
 			} else {
 				return true;
 			}
 		});
-	console.log(cards);
 	return cards;
 }
 
