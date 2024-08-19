@@ -53,7 +53,6 @@ export class CardWithSourcesElement extends LitElement {
 			<div style=${wrapperStyles} class="wrapper">
 				<e-divination-card
 					@navigate=${this.#dispatchNavigate}
-					.hrefPattern=${`/card/{{slug}}`}
 					part="card"
 					.name=${this.name}
 					.size=${this.cardSize}
