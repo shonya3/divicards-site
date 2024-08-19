@@ -14,6 +14,7 @@ import { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { formatWithNewlines } from '../utils';
+import { NavigateTransitionEvent } from '../events';
 
 declare module '../storage' {
 	interface Registry {
@@ -43,6 +44,8 @@ export class WeightsPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	@state() activeCard = window.activeCard;
+
 	#showCardsStorage = new Storage('weightsPageShowCards', false);
 	@state() rows: Array<WeightData> = [];
 
@@ -56,6 +59,14 @@ export class WeightsPage extends LitElement {
 	#onShowCardsChanged(e: Event) {
 		const target = e.target as WeightsTableElement;
 		this.#showCardsStorage.save(target.showCards);
+	}
+
+	#handleNavigateTransition(e: NavigateTransitionEvent) {
+		if (e.transitionName === 'card') {
+			console.log(e);
+			window.activeCard = e.slug;
+			this.activeCard = e.slug;
+		}
 	}
 
 	protected render(): TemplateResult {
@@ -73,7 +84,9 @@ export class WeightsPage extends LitElement {
 						<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
 					</p>
 					<e-weights-table
-						exportparts="card"
+						.activeCard=${this.activeCard}
+						exportparts="active-card"
+						@navigate-transition=${this.#handleNavigateTransition}
 						@show-cards-changed=${this.#onShowCardsChanged}
 						class="section-table__table"
 						ordered-by="weight"

@@ -2,11 +2,11 @@ export type TransitionName = 'source' | 'card' | 'source-type';
 
 export class NavigateTransitionEvent extends Event {
 	transitionName: TransitionName;
-	sourceSlug?: string;
-	constructor(transitionName: TransitionName, sourceSlug?: string) {
+	slug?: string;
+	constructor(transitionName: TransitionName, slug?: string) {
 		super('navigate-transition');
 		this.transitionName = transitionName;
-		this.sourceSlug = sourceSlug;
+		this.slug = slug;
 	}
 }
 
@@ -16,9 +16,9 @@ declare global {
 	}
 }
 
-export function dispatchTransition(this: HTMLElement, transitionName: TransitionName, sourceSlug?: string) {
-	this.dispatchEvent(new NavigateTransitionEvent(transitionName, sourceSlug));
+export function dispatchTransition(this: HTMLElement, transitionName: TransitionName, slug?: string) {
+	this.dispatchEvent(new NavigateTransitionEvent(transitionName, slug));
 }
 export function redispatchTransition(this: HTMLElement, e: NavigateTransitionEvent) {
-	this.dispatchEvent(new NavigateTransitionEvent(e.transitionName, e.sourceSlug));
+	this.dispatchEvent(new NavigateTransitionEvent(e.transitionName, e.slug));
 }

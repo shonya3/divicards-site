@@ -52,7 +52,7 @@ export class CardWithSourcesElement extends LitElement {
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
 				<e-divination-card
-					@navigate=${this.#dispatchNavigate}
+					@navigate-transition=${this.#redispatchTransition}
 					part="card"
 					.name=${this.name}
 					.size=${this.cardSize}
@@ -79,11 +79,8 @@ export class CardWithSourcesElement extends LitElement {
 		`;
 	}
 
-	#dispatchNavigate() {
-		this.dispatchEvent(new Event('navigate'));
-	}
-
 	#redispatchTransition(e: NavigateTransitionEvent) {
+		console.log('redispatch', e);
 		redispatchTransition.call(this, e);
 	}
 

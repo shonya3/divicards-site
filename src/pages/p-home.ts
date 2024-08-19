@@ -16,6 +16,7 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
 import { NavigateTransitionEvent } from '../events';
+import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
 
 declare global {
 	interface Window {
@@ -44,7 +45,7 @@ export class HomePage extends LitElement {
 	/**
 	 * Active card state for page transitions view-transition-name: card
 	 */
-	@state() activeCard: string | null = window.activeCard ?? null;
+	@state() activeCard?: string = window.activeCard;
 	/** Dropsource involved in view transitions */
 	@state() activeSource?: string = window.activeSource;
 	@state() filtered: string[] = [];
@@ -112,13 +113,12 @@ export class HomePage extends LitElement {
 			<ul class="cards">
 				${this.paginated.map(card => {
 					return html`<li>
-						${card === this.activeCard
+						${cardElementData.find(c => c.name === card)?.slug === this.activeCard
 							? html`<e-card-with-sources
 									.name=${card}
 									.divcordTable=${this.divcordTable}
 									.cardSize=${this.cardSize}
 									.sourceSize=${this.sourceSize}
-									@navigate=${() => this.#setActiveCard(card)}
 									@navigate-transition=${this.#handleNavigateTransition}
 									.activeSource=${this.activeSource}
 									exportparts="active-source"
@@ -132,7 +132,6 @@ export class HomePage extends LitElement {
 									@navigate-transition=${this.#handleNavigateTransition}
 									.activeSource=${this.activeSource}
 									exportparts="active-source"
-									@navigate=${() => this.#setActiveCard(card)}
 							  ></e-card-with-sources>`}
 					</li>`;
 				})}
@@ -141,13 +140,15 @@ export class HomePage extends LitElement {
 	}
 
 	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		window.activeSource = e.sourceSlug;
-		this.activeSource = e.sourceSlug;
-	}
+		if (e.transitionName === 'card') {
+			window.activeCard = e.slug;
+			this.activeCard = e.slug;
+		}
 
-	#setActiveCard(card: string) {
-		window.activeCard = card;
-		this.activeCard = card;
+		if (e.transitionName === 'source') {
+			window.activeSource = e.slug;
+			this.activeSource = e.slug;
+		}
 	}
 
 	async #onCardnameInput(e: InputEvent) {

@@ -184,8 +184,8 @@ export class VerifyPage extends LitElement {
 	}
 
 	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		window.activeSource = e.sourceSlug;
-		this.activeSource = e.sourceSlug;
+		window.activeSource = e.slug;
+		this.activeSource = e.slug;
 	}
 
 	static styles = styles;

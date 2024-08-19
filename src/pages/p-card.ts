@@ -10,6 +10,7 @@ import type { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
 import { NavigateTransitionEvent } from '../events';
+import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
 
 @customElement('p-card')
 export class CardPage extends LitElement {
@@ -33,7 +34,8 @@ export class CardPage extends LitElement {
 	}
 
 	protected firstUpdated(_changedProperties: PropertyValues): void {
-		window.activeCard = this.card;
+		const slug = cardElementData.find(c => c.name === this.card)?.slug;
+		window.activeCard = slug;
 	}
 
 	render(): TemplateResult {
@@ -68,8 +70,8 @@ export class CardPage extends LitElement {
 	}
 
 	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		window.activeSource = e.sourceSlug;
-		this.activeSource = e.sourceSlug;
+		window.activeSource = e.slug;
+		this.activeSource = e.slug;
 	}
 
 	static styles = css`

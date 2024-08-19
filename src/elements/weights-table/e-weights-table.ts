@@ -12,7 +12,13 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
 import './e-weight-value';
 import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
+import { dispatchTransition, NavigateTransitionEvent, redispatchTransition } from '../../events';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
+/**
+ * @csspart active-card - Active for view transition card(Optional).
+ * @event   navigate-transition Emits on card or source navigation
+ */
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
 	@property({ type: Array }) rows: WeightData[] = [];
@@ -30,7 +36,7 @@ export class WeightsTableElement extends LitElement {
 	/**
 	 * Active card state for page transitions view-transition-name: card
 	 */
-	@state() activeCard: string | null = window.activeCard ?? null;
+	@property({ reflect: true, attribute: 'active-card' }) activeCard?: string;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('rows')) {
@@ -99,46 +105,29 @@ export class WeightsTableElement extends LitElement {
 
 				<tbody>
 					${this.rowsLimitedVisible.map((cardRowData, index) => {
+						const slug = cardElementData.find(c => c.name === cardRowData.name)?.slug;
 						return keyed(
 							cardRowData.name,
 							html`<tr>
 								<td class="td">${index + 1}</td>
 								<td class="td">
 									${this.showCards
-										? html`
-												${cardRowData.name === this.activeCard
-													? html`<e-divination-card
-															size="small"
-															name=${cardRowData.name}
-															@navigate=${() => this.#setActiveCard(cardRowData.name)}
-															part="card"
-													  ></e-divination-card>`
-													: html`<e-divination-card
-															size="small"
-															name=${cardRowData.name}
-															@navigate=${() => this.#setActiveCard(cardRowData.name)}
-													  ></e-divination-card>`}
-										  `
-										: html`
-												${cardRowData.name === this.activeCard
-													? html`<a
-															class="link"
-															@click=${() => this.#setActiveCard(cardRowData.name)}
-															href="/card/${cardElementData.find(
-																card => card.name === cardRowData.name
-															)?.slug}"
-															part="card"
-															>${cardRowData.name}</a
-													  >`
-													: html`<a
-															class="link"
-															@click=${() => this.#setActiveCard(cardRowData.name)}
-															href="/card/${cardElementData.find(
-																card => card.name === cardRowData.name
-															)?.slug}"
-															>${cardRowData.name}</a
-													  >`}
-										  `}
+										? html`<e-divination-card
+												size="small"
+												name=${cardRowData.name}
+												@navigate-transition=${(e: NavigateTransitionEvent) =>
+													redispatchTransition.call(this, e)}
+												part=${ifDefined(slug === this.activeCard ? 'active-card' : undefined)}
+										  ></e-divination-card>`
+										: html`<a
+												class="link"
+												@click=${() => this.#dispatchCardTransition(cardRowData.name)}
+												href="/card/${cardElementData.find(
+													card => card.name === cardRowData.name
+												)?.slug}"
+												part=${ifDefined(slug === this.activeCard ? 'active-card' : undefined)}
+												>${cardRowData.name}</a
+										  >`}
 								</td>
 								<td class="td td-weight">
 									<e-weight-value .weightData=${cardRowData}></e-weight-value>
@@ -166,9 +155,9 @@ export class WeightsTableElement extends LitElement {
 		`;
 	}
 
-	#setActiveCard(card: string) {
-		window.activeCard = card;
-		this.activeCard = card;
+	#dispatchCardTransition(card: string) {
+		const slug = cardElementData.find(c => c.name === card)?.slug;
+		dispatchTransition.call(this, 'card', slug);
 	}
 
 	#toggleWeightOrder() {

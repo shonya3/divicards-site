@@ -2,12 +2,14 @@ import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import 'poe-custom-elements/divination-card.js';
 import type { CardSize } from 'poe-custom-elements/divination-card.js';
+import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
+import { dispatchTransition } from '../../events';
 export type { CardSize } from 'poe-custom-elements/divination-card.js';
 
 /**
  * @summary Divination Card
 
- * @event       navigate Event - Emits on divination card navigation.
+ * @event       navigate-transition Event - Emits on divination card navigation.
  * @cssproperty --padding-inline - The inline padding to use for for element.
  * @cssproperty --padding-block - The block padding to use for for element.
  * 
@@ -32,7 +34,8 @@ export class DivinationCardElement extends LitElement {
 		</poe-divination-card>`;
 	}
 	#dispatchNavigate() {
-		this.dispatchEvent(new Event('navigate'));
+		const slug = cardElementData.find(card => card.name === this.name)?.slug;
+		dispatchTransition.call(this, 'card', slug);
 	}
 }
 

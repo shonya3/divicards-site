@@ -11,7 +11,12 @@ import { consume } from '@lit/context';
 import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
 import { DivcordTable } from '../DivcordTable';
+import { NavigateTransitionEvent } from '../events';
 
+/**
+ * @csspart active-source - Active for view transition source(Optional).
+ * @csspart active-card - Active for view transition card(Optional).
+ */
 @customElement('p-maps')
 export class MapsPage extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
@@ -26,6 +31,19 @@ export class MapsPage extends LitElement {
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() filtered: SourceAndCards[] = [];
 	@state() paginated: SourceAndCards[] = [];
+	@state() activeCard = window.activeCard;
+	@state() activeSource = window.activeSource;
+
+	#handleNavigateTransition(e: NavigateTransitionEvent) {
+		if (e.transitionName === 'card') {
+			window.activeCard = e.slug;
+			this.activeCard = e.slug;
+		}
+		if (e.transitionName === 'source') {
+			window.activeSource = e.slug;
+			this.activeSource = e.slug;
+		}
+	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
@@ -106,6 +124,11 @@ export class MapsPage extends LitElement {
 								.source=${source}
 								.cards=${cards}
 								.cardSize=${`small`}
+								@navigate-transition=${this.#handleNavigateTransition}
+								.activeCard=${this.activeCard}
+								exportparts=${this.activeSource === source.idSlug
+									? `source:active-source,active-card`
+									: `active-card`}
 							></e-source-with-cards>
 						</li>`;
 					})}

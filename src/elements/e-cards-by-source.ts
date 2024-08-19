@@ -6,15 +6,21 @@ import './e-source/e-source';
 import './e-need-to-verify';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { NavigateTransitionEvent, redispatchTransition } from '../events';
+import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
 
 /**
  * @summary group of cards for dropsource page and maps page
+ * @csspart active-card - Active for view transition card(Optional).
+ * @event   navigate-transition Emits on card or source navigation
  */
 @customElement('e-cards-by-source')
 export class CardsBySourceElement extends LitElement {
 	@property({ type: Array }) cards: CardBySource[] = [];
 	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'active-card' }) activeCard?: string;
 
 	#onBossNavigation() {
 		this.dispatchEvent(new Event('boss-navigation', { bubbles: true, composed: true }));
@@ -23,10 +29,14 @@ export class CardsBySourceElement extends LitElement {
 	protected render(): TemplateResult {
 		return html`<ul class="cards">
 			${this.cards.map(({ card, transitiveSource, status }) => {
+				const slug = cardElementData.find(s => s.name === card)?.slug;
+				const isActiveCard = this.activeCard === slug ? true : undefined;
 				const cardHtml = html`<e-divination-card
 					size=${this.cardSize}
 					.name=${card}
 					.boss=${transitiveSource?.id}
+					part=${ifDefined(isActiveCard ? 'active-card' : undefined)}
+					@navigate-transition=${(e: NavigateTransitionEvent) => redispatchTransition.call(this, e)}
 				>
 					${transitiveSource
 						? html`<e-source

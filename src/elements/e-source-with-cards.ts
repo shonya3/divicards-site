@@ -11,6 +11,8 @@ import { NavigateTransitionEvent, redispatchTransition } from '../events';
 /**
  * Dropsource with it's divination cards list
  * @csspart source - Dropsource.
+ * @csspart active-card - Active for view transition card(Optional).
+ * @event   navigate-transition Emits on card or source navigation
  */
 @customElement('e-source-with-cards')
 export class SourceWithCardsElement extends LitElement {
@@ -19,6 +21,7 @@ export class SourceWithCardsElement extends LitElement {
 	@property({ type: Boolean }) showSourceType = true;
 	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
+	@property({ reflect: true, attribute: 'active-card' }) activeCard?: string;
 
 	render(): TemplateResult {
 		return html`<div class="wrapper">
@@ -32,10 +35,15 @@ export class SourceWithCardsElement extends LitElement {
 				@navigate-transition=${(e: NavigateTransitionEvent) => redispatchTransition.call(this, e)}
 			></e-source>
 			<e-cards-by-source
+				exportparts="active-card"
 				card-size=${this.cardSize}
 				source-size=${this.sourceSize}
 				class="cards"
 				.cards=${this.cards}
+				.activeCard=${this.activeCard}
+				@navigate-transition=${(e: NavigateTransitionEvent) => {
+					redispatchTransition.call(this, e);
+				}}
 			></e-cards-by-source>
 		</div>`;
 	}
