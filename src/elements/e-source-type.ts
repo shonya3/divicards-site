@@ -2,6 +2,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { LitElement, TemplateResult, css, html } from 'lit';
 import type { SourceType } from '../gen/Source';
 import { dispatchTransition } from '../events';
+// import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 /**
  * @event navigate-transition NavigateTransitionEvent - Emits on clicking the link element.
@@ -44,6 +45,7 @@ export class SourceTypeElement extends LitElement {
 }
 
 function sourceTypeHref(sourceType: SourceType): string {
+	// return `/source-type/${slug(sourceType)}`
 	return `/source-type/${sourceType}`;
 }
 

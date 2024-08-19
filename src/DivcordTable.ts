@@ -10,20 +10,6 @@ export class DivcordTable {
 		this.records = records;
 	}
 
-	/** Returns Map, where key is card name and value is Source object with global drop type and information about min and max level drop */
-	globalDrops(): Map<CardName, Source> {
-		const drops: Map<CardName, Source> = new Map();
-		for (const record of this.records) {
-			for (const source of record.sources) {
-				if (source.type === 'Global Drop') {
-					drops.set(record.card, source);
-				}
-			}
-		}
-
-		return drops;
-	}
-
 	/** Returns Array of all card names */
 	cards(): CardName[] {
 		return Array.from(new Set(this.records.map(r => r.card)));
