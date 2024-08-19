@@ -10,13 +10,13 @@ ThemeToggle.define();
 export class TopNavElement extends LitElement {
 	@property({ type: Array }) linkItems = [
 		['/', 'Home'],
+		['/maps', 'Maps'],
 		['/divcord', 'Divcord'],
 		['/verify', 'Need to verify'],
 		['/useful-resources', 'Useful Resources'],
 		['/weights', 'Weights'],
 		['/verify-faq', 'faq'],
 		['/sources', 'Sources'],
-		['/maps', 'Maps'],
 	];
 
 	@state() pathname = new URL(window.location.href).pathname || '/home';
