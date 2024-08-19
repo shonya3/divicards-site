@@ -21,7 +21,7 @@ import { escapeHtml } from '../utils';
  * @cssproperty	--confidence--low-color - The text color for Low confidence.
  * @cssproperty	--confidence--none-color - The text color for None confidence.
  */
-@customElement('e-sourceful-divcord-record')
+@customElement('e-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
 	@property({ type: Object }) record!: DivcordRecord;
 
@@ -201,6 +201,6 @@ function formatNotes(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'e-sourceful-divcord-record': SourcefulDivcordRecordElement;
+		'e-divcord-record': SourcefulDivcordRecordElement;
 	}
 }

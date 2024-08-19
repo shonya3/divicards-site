@@ -1,7 +1,7 @@
 import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './divination-card/e-divination-card';
-import './e-sourceful-divcord-record';
+import './e-divcord-record';
 import './e-divcord-needs-info';
 import type { DivcordRecord } from '../gen/divcord';
 import 'poe-custom-elements/divination-card.js';
@@ -30,7 +30,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 					${this.records.map(
 						record =>
 							html`<li>
-								<e-sourceful-divcord-record .record=${record}></e-sourceful-divcord-record>
+								<e-divcord-record .record=${record}></e-divcord-record>
 							</li>`
 					)}
 				</ul>

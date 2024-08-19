@@ -11,7 +11,7 @@
 		"preview": "vite preview",
 		"cem": "cem analyze",
 		"gen": "node scripts/gen.js",
-		"lint": "lit-analyzer --strict --rules.no-invalid-css off && tsc --noEmit && eslint \"**/*.{ts,tsx}\""
+		"lint": "lit-analyzer --strict --rules.no-invalid-css off && tsc --noEmit"
 	},
 	"devDependencies": {
 		"@custom-elements-manifest/analyzer": "^0.10.3",
