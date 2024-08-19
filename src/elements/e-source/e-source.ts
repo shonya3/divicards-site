@@ -51,7 +51,7 @@ export class SourceElement extends LitElement {
 	}
 
 	protected sourceElement(): TemplateResult | typeof nothing {
-		if (this.source.kind === 'empty-source') {
+		if (this.source.kind === 'category') {
 			return nothing;
 		}
 
@@ -131,7 +131,7 @@ export class SourceElement extends LitElement {
 	}
 
 	render(): TemplateResult {
-		const shouldRenderSourceType = this.renderMode === 'normal' || this.source.kind === 'empty-source';
+		const shouldRenderSourceType = this.renderMode === 'normal' || this.source.kind === 'category';
 
 		return html`
 			<div

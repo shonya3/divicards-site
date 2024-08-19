@@ -7,7 +7,7 @@ import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { DirectiveResult } from 'lit/async-directive.js';
 
 export function sourceHref(source: Source): string {
-	if (source.kind === 'empty-source') {
+	if (source.kind === 'category') {
 		return '';
 	}
 	return `/source/${source.typeSlug}/${source.idSlug}`;

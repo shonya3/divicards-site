@@ -1,6 +1,6 @@
 import { DivcordRecord } from './gen/divcord';
 import { slug } from './gen/divcordWasm/divcord_wasm';
-import { SourceWithMember, Source, SourceType, SOURCE_TYPE_VARIANTS } from './gen/Source';
+import { Source, SourceType, SOURCE_TYPE_VARIANTS } from './gen/Source';
 import { PoeData, poeData } from './PoeData';
 
 /** Drop source and array of cards with verification status and possible transitive source */
@@ -17,7 +17,7 @@ export type CardBySource = {
 	/** card name */
 	card: string;
 	/** Source associated with another source. For example, if we search cards by maps, map boss will be a transitive source */
-	transitiveSource?: SourceWithMember;
+	transitiveSource?: Source;
 	/** Verification status for card drop from this source: is it done or need to be verified  */
 	status: VerificationStatus;
 };
@@ -281,12 +281,12 @@ export function _sourcetypesMap(sourcesAndCards: SourceAndCards[]): Map<SourceTy
 	return map;
 }
 
-export function createSource({ type, id }: { type: SourceType; id: string }): SourceWithMember {
+export function createSource({ type, id }: { type: SourceType; id: string }): Source {
 	return {
 		id: id,
 		idSlug: slug(id),
 		type,
 		typeSlug: slug(type),
-		kind: 'source-with-member',
+		kind: 'source',
 	};
 }
