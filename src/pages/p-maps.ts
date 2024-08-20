@@ -47,29 +47,29 @@ export class MapsPage extends LitElement {
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
-			const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData).filter(
-				({ cards }) => cards.length > 0
-			);
-			sourcesAndCards.sort((a, b) => {
-				let aLevel = poeData.areaLevel(a.source.id, 'Map') ?? 0;
-				let bLevel = poeData.areaLevel(b.source.id, 'Map') ?? 0;
+			const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData)
+				// Only show maps that are present in current atlas
+				.filter(({ cards }) => cards.length > 0)
+				.sort((a, b) => {
+					let aLevel = poeData.areaLevel(a.source.id, 'Map') ?? 0;
+					let bLevel = poeData.areaLevel(b.source.id, 'Map') ?? 0;
 
-				// put unique maps to the end
-				const aMap = poeData.find.map(a.source.id);
-				if (aMap?.unique) {
-					aLevel += 1000;
-				}
-				const bMap = poeData.find.map(b.source.id);
-				if (bMap?.unique) {
-					bLevel += 1000;
-				}
+					// put unique maps to the end
+					const aMap = poeData.find.map(a.source.id);
+					if (aMap?.unique) {
+						aLevel += 1000;
+					}
+					const bMap = poeData.find.map(b.source.id);
+					if (bMap?.unique) {
+						bLevel += 1000;
+					}
 
-				return aLevel - bLevel;
-			});
+					return aLevel - bLevel;
+				});
 
-			for (const { cards } of sourcesAndCards) {
+			sourcesAndCards.forEach(({ cards }) => {
 				sortByWeight(cards, poeData);
-			}
+			});
 
 			this.sourcesAndCards = sourcesAndCards;
 		}
