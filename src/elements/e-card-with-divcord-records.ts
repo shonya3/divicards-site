@@ -26,7 +26,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			</slot>
 			<main class="main">
 				<slot name="main-start"></slot>
-				${allRecordsHaveNoSources
+				${allRecordsHaveNoSources && !this.records.some(record => record.remainingWork === 'reverify')
 					? html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
 					: nothing}
 				<ul class="records">
