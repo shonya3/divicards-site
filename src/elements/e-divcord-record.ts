@@ -28,12 +28,8 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	protected render(): TemplateResult {
 		return html`<div class="record">
 			${this.record.greynote === 'Empty' ? nothing : html`<div class="greynote">${this.record.greynote}</div>`}
-			<div>${this.record.card}</div>
-			${this.record.tagHypothesis
-				? html`<div class="tagHypothesis">
-						<h2>${this.record.tagHypothesis}</h2>
-				  </div>`
-				: nothing}
+			<div class="cardName">${this.record.card}</div>
+			${this.record.tagHypothesis ? html`<div class="tagHypothesis">${this.record.tagHypothesis}</div>` : nothing}
 			<div
 				title="Confidence"
 				class=${classMap({
@@ -87,6 +83,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 	static styles = css`
 		:host {
+			display: block;
 			--greynote-color: var(--sl-color-gray-400);
 			--paragraph-color: var(--sl-color-gray-700);
 
@@ -112,6 +109,15 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		.record {
 			max-width: 600px;
+		}
+
+		.cardName {
+			color: var(--sl-color-gray-700);
+		}
+
+		.tagHypothesis {
+			font-style: italic;
+			color: var(--sl-color-gray-500);
 		}
 
 		.greynote {
@@ -190,7 +196,8 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		h3 {
 			margin-bottom: 1rem;
-			font-size: 24px;
+			font-size: 20px;
+			font-weight: 500;
 		}
 	`;
 }
