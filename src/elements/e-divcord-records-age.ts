@@ -41,6 +41,10 @@ export class DivcordRecordsAgeElement extends LitElement {
 			padding: 0;
 			margin: 0;
 		}
+
+		:host {
+			color: var(--sl-color-gray-500);
+		}
 	`;
 }
 
