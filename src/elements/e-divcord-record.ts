@@ -41,8 +41,15 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			</div>
 			${this.record.remainingWork === 'n/a'
 				? nothing
-				: html`<div class="remainingWork">
-						<h3>Remaining Work</h3>
+				: html`<div
+						class="${classMap({
+							'remaining-work': true,
+							'remaining-work--story': this.record.remainingWork === 'story',
+							'remaining-work--reverify': this.record.remainingWork === 'reverify',
+							'remaining-work--confirm': this.record.remainingWork === 'confirm',
+						})}"
+				  >
+						<span class="remaining-work-span">Remaining Work</span>
 						<span>${this.record.remainingWork}</span>
 				  </div>`}
 			${this.record.sources.length > 0
@@ -147,17 +154,29 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			background-color: var(--confidence--none-bg-color);
 			color: var(--confidence--none-color);
 		}
-		.confidence-span {
-			font-size: 13px;
+		.confidence-span,
+		.remaining-work-span {
+			font-size: 14px;
 			position: absolute;
 			bottom: 5px;
 			right: 5px;
 		}
 
-		.remainingWork {
-			display: flex;
-			align-items: center;
-			gap: 2rem;
+		.remaining-work {
+			padding: 2rem;
+			font-size: 18px;
+			position: relative;
+			color: black;
+		}
+		.remaining-work--reverify {
+			background-color: #9fc5e8;
+		}
+		.remaining-work--story {
+			background-color: #efa7c5;
+		}
+		.remaining-work--confirm {
+			background-color: #f5d379;
+			color: black;
 		}
 
 		.wiki-agreements {
