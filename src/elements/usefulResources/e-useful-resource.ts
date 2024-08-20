@@ -29,7 +29,7 @@ export class UsefulResourceElement extends LitElement {
 				${this.resource.github
 					? html`
 							<a target="_blank" href=${this.resource.github} class="github"
-								>Repo <sl-icon class="github__icon" name="github"></sl-icon
+								>Repo <sl-icon name="github"></sl-icon
 							></a>
 					  `
 					: nothing}
@@ -62,12 +62,24 @@ export class UsefulResourceElement extends LitElement {
 		}
 
 		:host {
-			border: 1px solid #fff
-			width: 350px;
+			display: flex;
+			flex-direction: column;
+			gap: 0.2rem;
+		}
 
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
+		@layer links {
+			${linkStyles}
+		}
+
+		:where(a:link, a:visited) {
+			color: var(--sl-color-gray-700);
+		}
+
+		.heading {
+			a {
+				font-weight: 500;
+				color: var(--sl-color-gray-900);
+			}
 		}
 
 		.color-green {
@@ -77,12 +89,12 @@ export class UsefulResourceElement extends LitElement {
 			display: flex;
 			align-items: center;
 			gap: 0.4rem;
-            margin-bottom: 0.2rem;
+			margin-bottom: 0.2rem;
 		}
 		.contributors {
 			display: flex;
 			flex-wrap: wrap;
-            column-gap: 0.8rem;
+			column-gap: 0.8rem;
 		}
 		.heading__icon {
 			min-width: 24px;
@@ -90,19 +102,15 @@ export class UsefulResourceElement extends LitElement {
 			font-size: 24px;
 		}
 
-        .see-page, .github{
-        }
+		.github {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
 
-        .github{
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .github__icon{
-            color: var(--sl-color-gray-800);
-        }
-
-		${linkStyles}
+			sl-icon {
+				color: var(--sl-color-gray-800);
+			}
+		}
 	`;
 }
 
