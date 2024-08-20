@@ -9,7 +9,7 @@ export class VerifyFaqAlertElement extends LitElement {
 			<sl-alert open>
 				<img
 					slot="icon"
-					src="/images/45px-Divcord.avif"
+					src="/images/45px-Divcord.png"
 					decoding="async"
 					width="45"
 					height="45"
