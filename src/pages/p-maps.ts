@@ -182,6 +182,7 @@ export class MapsPage extends LitElement {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 4rem;
+			justify-content: center;
 		}
 	`;
 }
