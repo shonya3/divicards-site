@@ -82,7 +82,7 @@ export class UsefulResourceElement extends LitElement {
 
 		.main {
 			padding-left: 2rem;
-			margin-top: 0.5rem;
+			margin-top: 0.4rem;
 		}
 
 		.color-green {
