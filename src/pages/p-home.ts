@@ -16,7 +16,6 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
 import { NavigateTransitionEvent } from '../events';
-import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 declare global {
@@ -25,6 +24,9 @@ declare global {
 		 * Active card state for page transitions view-transition-name: card
 		 */
 		activeCard?: string;
+		/*
+		 * Active source state for page transitions view-transition-name: source
+		 */
 		activeSource?: string;
 	}
 }
