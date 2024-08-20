@@ -80,7 +80,6 @@ export class CardWithSourcesElement extends LitElement {
 	}
 
 	#redispatchTransition(e: NavigateTransitionEvent) {
-		console.log('redispatch', e);
 		redispatchTransition.call(this, e);
 	}
 
