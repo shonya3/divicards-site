@@ -63,7 +63,6 @@ export class WeightsPage extends LitElement {
 
 	#handleNavigateTransition(e: NavigateTransitionEvent) {
 		if (e.transitionName === 'card') {
-			console.log(e);
 			window.activeCard = e.slug;
 			this.activeCard = e.slug;
 		}

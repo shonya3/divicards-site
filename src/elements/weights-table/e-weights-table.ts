@@ -64,7 +64,6 @@ export class WeightsTableElement extends LitElement {
 
 	protected render(): TemplateResult {
 		return html`
-			${this.activeCard}
 			<table class="table">
 				<thead>
 					<tr class="show-cards-row">
