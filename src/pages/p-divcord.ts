@@ -1,3 +1,4 @@
+import { linkStyles } from './../linkStyles';
 import { LitElement, PropertyValueMap, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { consume } from '@lit/context';
@@ -155,6 +156,10 @@ export class DivcordPage extends LitElement {
 	protected render(): TemplateResult {
 		return html`<div class="page">
 			<header>
+				<div class="join-divcord">
+					<sl-icon name="discord"></sl-icon>
+					<a class="join-divcord" href="https://discord.gg/mpnYHbxHXs">Join Divcord!</a>
+				</div>
 				<e-sheets-link
 					href="https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0"
 					>Divcord Spreadsheet</e-sheets-link
@@ -327,6 +332,20 @@ export class DivcordPage extends LitElement {
 			margin: 0;
 			box-sizing: border-box;
 			font-family: 'Geist';
+		}
+
+		@layer links {
+			${linkStyles}
+		}
+
+		.join-divcord {
+			font-size: 1rem;
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
+			a {
+				text-decoration: underline;
+			}
 		}
 
 		e-sheets-link {
