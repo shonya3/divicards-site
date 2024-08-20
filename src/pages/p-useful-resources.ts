@@ -137,7 +137,7 @@ export class UsefulResourcesPage extends LitElement {
 		.list-resources {
 			display: flex;
 			flex-direction: column;
-			gap: 2rem;
+			gap: 2.5rem;
 			list-style: none;
 			padding-inline-start: 0;
 		}

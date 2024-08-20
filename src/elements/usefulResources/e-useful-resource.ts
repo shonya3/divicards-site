@@ -25,33 +25,35 @@ export class UsefulResourceElement extends LitElement {
 					: html`<sl-icon class="heading__icon color-green" name="file-earmark-spreadsheet"></sl-icon>`}
 				<h3><a target="_blank" .href=${this.resource.url}>${this.resource.title}</a></h3>
 			</div>
-			<div>
-				${this.resource.github
-					? html`
-							<a target="_blank" href=${this.resource.github} class="github"
-								>Repo <sl-icon name="github"></sl-icon
-							></a>
-					  `
+			<div class="main">
+				<div>
+					${this.resource.github
+						? html`
+								<a target="_blank" href=${this.resource.github} class="github"
+									>Github <sl-icon name="github"></sl-icon
+								></a>
+						  `
+						: nothing}
+					${this.resource.seeWebsitePage
+						? html`<p>
+								<a class="see-page" href=${this.resource.seeWebsitePage.relativeUrl}
+									>${this.resource.seeWebsitePage.label}</a
+								>
+						  </p>`
+						: nothing}
+				</div>
+				${this.resource.discordUsers.length
+					? html`<div class="contributors">
+							${this.resource.discordUsers.map(u => {
+								return html`<e-discord-avatar
+									part="discord-user"
+									size="24"
+									username=${u}
+								></e-discord-avatar>`;
+							})}
+					  </div>`
 					: nothing}
-				${this.resource.seeWebsitePage
-					? html`<p>
-							<a class="see-page" href=${this.resource.seeWebsitePage.relativeUrl}
-								>${this.resource.seeWebsitePage.label}</a
-							>
-					  </p>`
-					: nothing}
-			</div>
-			${this.resource.discordUsers.length
-				? html`<div class="contributors">
-						${this.resource.discordUsers.map(u => {
-							return html`<e-discord-avatar
-								part="discord-user"
-								size="24"
-								username=${u}
-							></e-discord-avatar>`;
-						})}
-				  </div>`
-				: nothing} `;
+			</div>`;
 	}
 
 	static styles = css`
@@ -78,6 +80,11 @@ export class UsefulResourceElement extends LitElement {
 			}
 		}
 
+		.main {
+			padding-left: 2rem;
+			margin-top: 0.5rem;
+		}
+
 		.color-green {
 			color: var(--sl-color-green-700);
 		}
@@ -91,6 +98,7 @@ export class UsefulResourceElement extends LitElement {
 			display: flex;
 			flex-wrap: wrap;
 			column-gap: 0.8rem;
+			margin-top: 0.4rem;
 		}
 		.heading__icon {
 			min-width: 24px;
