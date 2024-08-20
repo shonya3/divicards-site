@@ -51,11 +51,20 @@ export class MapsPage extends LitElement {
 				({ cards }) => cards.length > 0
 			);
 			sourcesAndCards.sort((a, b) => {
-				const aLevel = poeData.areaLevel(a.source.id, 'Map');
-				const bLevel = poeData.areaLevel(b.source.id, 'Map');
-				if (aLevel !== null && bLevel !== null) {
-					return aLevel - bLevel;
-				} else return 0;
+				let aLevel = poeData.areaLevel(a.source.id, 'Map') ?? 0;
+				let bLevel = poeData.areaLevel(b.source.id, 'Map') ?? 0;
+
+				// put unique maps to the end
+				const aMap = poeData.find.map(a.source.id);
+				if (aMap?.unique) {
+					aLevel += 1000;
+				}
+				const bMap = poeData.find.map(b.source.id);
+				if (bMap?.unique) {
+					bLevel += 1000;
+				}
+
+				return aLevel - bLevel;
 			});
 
 			for (const { cards } of sourcesAndCards) {
