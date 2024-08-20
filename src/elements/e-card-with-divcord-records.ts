@@ -19,7 +19,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 
 		return html`
 			<slot name="card">
-				<poe-divination-card part="card" size="large" .name=${this.card}></poe-divination-card>
+				<e-divination-card part="card" size="large" .name=${this.card}></e-divination-card>
 			</slot>
 			<main class="main">
 				<slot name="main-start"></slot>
