@@ -6,7 +6,7 @@ export const linkStyles = css`
 	}
 
 	:where(a:link, a:visited) {
-		color: var(--source-color, #bbbbbb);
+		color: var(--sl-color-gray-700);
 	}
 
 	:where(a:hover) {

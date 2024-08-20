@@ -71,10 +71,6 @@ export class UsefulResourceElement extends LitElement {
 			${linkStyles}
 		}
 
-		:where(a:link, a:visited) {
-			color: var(--sl-color-gray-700);
-		}
-
 		.heading {
 			a {
 				font-weight: 500;
