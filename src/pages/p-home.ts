@@ -17,6 +17,7 @@ import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
 import { NavigateTransitionEvent } from '../events';
 import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
+import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 declare global {
 	interface Window {
@@ -28,6 +29,10 @@ declare global {
 	}
 }
 
+/**
+ * @csspart active-source Active source for view-transition(optional).
+ * @csspart active-card   Active card for view-transition(optional).
+ */
 @customElement('p-home')
 export class HomePage extends LitElement {
 	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
@@ -113,26 +118,17 @@ export class HomePage extends LitElement {
 			<ul class="cards">
 				${this.paginated.map(card => {
 					return html`<li>
-						${cardElementData.find(c => c.name === card)?.slug === this.activeCard
-							? html`<e-card-with-sources
-									.name=${card}
-									.divcordTable=${this.divcordTable}
-									.cardSize=${this.cardSize}
-									.sourceSize=${this.sourceSize}
-									@navigate-transition=${this.#handleNavigateTransition}
-									.activeSource=${this.activeSource}
-									exportparts="active-source"
-									part="card"
-							  ></e-card-with-sources>`
-							: html`<e-card-with-sources
-									.name=${card}
-									.divcordTable=${this.divcordTable}
-									.cardSize=${this.cardSize}
-									.sourceSize=${this.sourceSize}
-									@navigate-transition=${this.#handleNavigateTransition}
-									.activeSource=${this.activeSource}
-									exportparts="active-source"
-							  ></e-card-with-sources>`}
+						<e-card-with-sources
+							.name=${card}
+							.divcordTable=${this.divcordTable}
+							.cardSize=${this.cardSize}
+							.sourceSize=${this.sourceSize}
+							@navigate-transition=${this.#handleNavigateTransition}
+							.activeSource=${this.activeSource}
+							exportparts=${slug(card) === this.activeCard
+								? 'active-source,card:active-card'
+								: 'active-source'}
+						></e-card-with-sources>
 					</li>`;
 				})}
 			</ul>
