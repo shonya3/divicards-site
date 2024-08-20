@@ -60,8 +60,16 @@ export class CardPage extends LitElement {
 				${card
 					? html`
 							<div slot="main-start">
-								${league ? html`<div>Release: ${league.name} ${league.version}</div>` : nothing} Weight:
-								<e-weight-value .weightData=${this.weightData}></e-weight-value>
+								${league
+									? html`<div>
+											<span class="text-gray-700">Release:</span>
+											<span class="text-gray-900">${league.name} ${league.version}</span>
+									  </div>`
+									: nothing}
+								<span class="text-gray-700">Weight:</span>
+								<span class="text-gray-900"
+									><e-weight-value .weightData=${this.weightData}></e-weight-value
+								></span>
 							</div>
 					  `
 					: nothing}
@@ -81,6 +89,13 @@ export class CardPage extends LitElement {
 			@media (width >= 460px) {
 				margin-inline: 0;
 			}
+		}
+
+		.text-gray-900 {
+			color: var(--sl-color-gray-900);
+		}
+		.text-gray-700 {
+			color: var(--sl-color-gray-700);
 		}
 	`;
 }
