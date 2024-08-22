@@ -23,6 +23,7 @@ import { RowData } from '../elements/weights-table/e-weights-table-verify-source
 import { NavigateTransitionEvent } from '../events';
 import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
+import '@shoelace-style/shoelace/dist/components/range/range.js';
 
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
@@ -44,8 +45,11 @@ export class VerifyPage extends LitElement {
 		acts: SourceAndCards[];
 		other: SourceAndCards[];
 	} = Object.create({});
-	@state() verifyTableData: RowData[] = [];
+	@state() weightsTableData: RowData[] = [];
+	@state() filteredWeightsTableData: RowData[] = [];
 	@state() cardWeightsGrouped: Record<string, { card: string; weight: number; source: Source }[]> = Object.create({});
+	/** Minimum weight for Weights Table slider */
+	@state() minimumWeight = 10000;
 
 	@query('.table-of-contents') detailsOfContents!: HTMLDetailsElement;
 	@query('details ul') contentsLinksList!: HTMLElement;
@@ -128,7 +132,7 @@ export class VerifyPage extends LitElement {
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable') || map.has('activeView')) {
 			if (this.activeView === 'weights-table') {
-				this.verifyTableData = weightsTableData(this.divcordTable.records, poeData);
+				this.weightsTableData = weightsTableData(this.divcordTable.records, poeData);
 			} else {
 				// skip if already set up
 				if (this.sourcesAndCards.length > 0) {
@@ -176,6 +180,12 @@ export class VerifyPage extends LitElement {
 
 				this.sourcesAndCards = structuredClone(cards);
 			}
+		}
+
+		if (map.has('divcordTable') || map.has('activeView') || map.has('minimumWeight')) {
+			this.filteredWeightsTableData = this.weightsTableData
+				.filter(({ weight }) => weight >= this.minimumWeight)
+				.sort((a, b) => b.weight - a.weight);
 		}
 	}
 
@@ -233,17 +243,26 @@ export class VerifyPage extends LitElement {
 					],
 					[
 						'weights-table',
-						() => html`
-							<!-- <details id="details-weights-table" class="details-weights-table" open> -->
-							<e-weights-table-verify-sources
-								.rows=${this.verifyTableData}
-							></e-weights-table-verify-sources>
-							<!-- </details> -->
+						() => html`<sl-range @sl-change=${this.#changeMinimumWeight} .value=${
+							this.minimumWeight
+						} .label=${`Showing ${this.filteredWeightsTableData.length} cards with weight > ${formatWeight(
+							this.minimumWeight
+						)}`} min="0" step="100" max="30000"></sl-range>
+								<e-weights-table-verify-sources
+									.rows=${this.filteredWeightsTableData}
+								></e-weights-table-verify-sources>
+								<!-- </details> -->
+							</sl-sl>
 						`,
 					],
 				])}
 			</main>
 		</div>`;
+	}
+
+	#changeMinimumWeight(e: Event) {
+		const value = Number((e.target as HTMLInputElement).value);
+		this.minimumWeight = value;
 	}
 
 	#handleNavigateTransition(e: NavigateTransitionEvent) {
@@ -431,4 +450,13 @@ function linkLabel(activeView: ActiveView) {
 		case 'weights-table':
 			return 'Weights Table';
 	}
+}
+
+const fmts = {
+	'0': new Intl.NumberFormat('en', { maximumFractionDigits: 0 }),
+	'2': new Intl.NumberFormat('en', { maximumFractionDigits: 2 }),
+};
+function formatWeight(weight: number, formatters: Record<0 | 2, Intl.NumberFormat> = fmts) {
+	const maximumFractionDigits = weight > 5 ? 0 : 2;
+	return formatters[maximumFractionDigits].format(weight);
 }

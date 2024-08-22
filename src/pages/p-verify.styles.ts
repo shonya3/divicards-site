@@ -51,6 +51,10 @@ export const styles = css`
 		}
 	}
 
+	sl-range {
+		margin-bottom: 1rem;
+	}
+
 	e-verify-faq-alert {
 		margin-top: 3rem;
 		margin-inline: auto;
