@@ -247,7 +247,7 @@ export class VerifyPage extends LitElement {
 							this.minimumWeight
 						} .label=${`Showing ${this.filteredWeightsTableData.length} cards with weight > ${formatWeight(
 							this.minimumWeight
-						)}`} min="0" step="100" max="30000"></sl-range>
+						)}`} min="0" step="100" max="10000"></sl-range>
 								<e-weights-table-verify-sources
 									.rows=${this.filteredWeightsTableData}
 								></e-weights-table-verify-sources>
