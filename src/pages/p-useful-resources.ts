@@ -8,7 +8,7 @@ import '../elements/usefulResources/e-useful-resource';
 const RESOURCES_DATA: Record<string, UsefulResource> = {
 	bestDivMapFavourites: {
 		url: 'https://docs.google.com/spreadsheets/d/1CuD3Fgxte6fNaP0DoxkqSXfW2BkAXmJ7krNSS5k8Qxk/edit#gid=178188933',
-		title: '3.24 Favourite maps with Divination Scarab of Curation',
+		title: 'Favourite maps with Divination Scarab of Curation',
 		discordUsers: ['nerdyjoe'],
 		github: 'https://github.com/nerdyjoe314/divinationscarabs',
 	},
