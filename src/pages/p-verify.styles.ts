@@ -29,7 +29,6 @@ export const styles = css`
 
 	header {
 		max-width: 1220px;
-		margin-inline: auto;
 		> div {
 			display: flex;
 			align-items: center;
