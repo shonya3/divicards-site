@@ -46,6 +46,7 @@ export const styles = css`
 
 			.nav-link--active {
 				color: red;
+				text-decoration: underline;
 			}
 		}
 	}
