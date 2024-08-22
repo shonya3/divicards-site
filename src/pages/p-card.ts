@@ -10,7 +10,7 @@ import type { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
 import { NavigateTransitionEvent } from '../events';
-import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
+import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 @customElement('p-card')
 export class CardPage extends LitElement {
@@ -34,8 +34,7 @@ export class CardPage extends LitElement {
 	}
 
 	protected firstUpdated(_changedProperties: PropertyValues): void {
-		const slug = cardElementData.find(c => c.name === this.card)?.slug;
-		window.activeCard = slug;
+		window.activeCard = slug(this.card);
 	}
 
 	render(): TemplateResult {

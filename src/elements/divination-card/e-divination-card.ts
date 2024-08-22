@@ -2,8 +2,8 @@ import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import 'poe-custom-elements/divination-card.js';
 import type { CardSize } from 'poe-custom-elements/divination-card.js';
-import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
 import { dispatchTransition } from '../../events';
+import { slug } from '../../gen/divcordWasm/divcord_wasm';
 export type { CardSize } from 'poe-custom-elements/divination-card.js';
 
 /**
@@ -34,8 +34,7 @@ export class DivinationCardElement extends LitElement {
 		</poe-divination-card>`;
 	}
 	#dispatchNavigate() {
-		const slug = cardElementData.find(card => card.name === this.name)?.slug;
-		dispatchTransition.call(this, 'card', slug);
+		dispatchTransition.call(this, 'card', slug(this.name));
 	}
 }
 

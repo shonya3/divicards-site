@@ -11,9 +11,9 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
 import './e-weight-value';
-import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
 import { dispatchTransition, NavigateTransitionEvent, redispatchTransition } from '../../events';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { slug } from '../../gen/divcordWasm/divcord_wasm';
 
 /**
  * @csspart active-card - Active for view transition card(Optional).
@@ -104,7 +104,7 @@ export class WeightsTableElement extends LitElement {
 
 				<tbody>
 					${this.rowsLimitedVisible.map((cardRowData, index) => {
-						const slug = cardElementData.find(c => c.name === cardRowData.name)?.slug;
+						const card_slug = slug(cardRowData.name);
 						return keyed(
 							cardRowData.name,
 							html`<tr>
@@ -116,15 +116,17 @@ export class WeightsTableElement extends LitElement {
 												name=${cardRowData.name}
 												@navigate-transition=${(e: NavigateTransitionEvent) =>
 													redispatchTransition.call(this, e)}
-												part=${ifDefined(slug === this.activeCard ? 'active-card' : undefined)}
+												part=${ifDefined(
+													card_slug === this.activeCard ? 'active-card' : undefined
+												)}
 										  ></e-divination-card>`
 										: html`<a
 												class="link"
 												@click=${() => this.#dispatchCardTransition(cardRowData.name)}
-												href="/card/${cardElementData.find(
-													card => card.name === cardRowData.name
-												)?.slug}"
-												part=${ifDefined(slug === this.activeCard ? 'active-card' : undefined)}
+												href="/card/${card_slug}"
+												part=${ifDefined(
+													card_slug === this.activeCard ? 'active-card' : undefined
+												)}
 												>${cardRowData.name}</a
 										  >`}
 								</td>
@@ -155,8 +157,7 @@ export class WeightsTableElement extends LitElement {
 	}
 
 	#dispatchCardTransition(card: string) {
-		const slug = cardElementData.find(c => c.name === card)?.slug;
-		dispatchTransition.call(this, 'card', slug);
+		dispatchTransition.call(this, 'card', slug(card));
 	}
 
 	#toggleWeightOrder() {

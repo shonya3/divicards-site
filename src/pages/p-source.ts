@@ -9,9 +9,11 @@ import { CardBySource, cardsBySource, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import type { Source } from '../gen/Source';
 import { DivcordTable } from '../DivcordTable';
+import { NavigateTransitionEvent } from '../events';
 
 /**
  * @csspart source - Dropsource.
+ * @csspart active-card - Active card for view-transition(Optional).
  */
 @customElement('p-source')
 export class SourcePage extends LitElement {
@@ -21,12 +23,16 @@ export class SourcePage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	@state() activeCard?: string = window.activeCard;
 	@state() cards!: CardBySource[];
+
+	protected firstUpdated(): void {
+		window.activeSource = this.source.idSlug;
+	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable') || map.has('source')) {
 			const cards = cardsBySource(this.source, this.divcordTable.records, poeData);
-			console.log(cards);
 			sortByWeight(cards, poeData);
 			this.cards = cards;
 		}
@@ -34,8 +40,21 @@ export class SourcePage extends LitElement {
 
 	render(): TemplateResult {
 		return html`<div class="page">
-			<e-source-with-cards exportparts="source" .source=${this.source} .cards=${this.cards}></e-source-with-cards>
+			<e-source-with-cards
+				@navigate-transition=${this.#handleNavigateTransition}
+				.activeCard=${this.activeCard}
+				exportparts="source,active-card"
+				.source=${this.source}
+				.cards=${this.cards}
+			></e-source-with-cards>
 		</div>`;
+	}
+
+	#handleNavigateTransition(e: NavigateTransitionEvent) {
+		if (e.transitionName === 'card') {
+			window.activeCard = e.slug;
+			this.activeCard = e.slug;
+		}
 	}
 
 	static styles = css`

@@ -8,7 +8,7 @@ import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { NavigateTransitionEvent, redispatchTransition } from '../events';
-import { cardElementData } from 'poe-custom-elements/divination-card/data.js';
+import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 /**
  * @summary group of cards for dropsource page and maps page
@@ -29,13 +29,11 @@ export class CardsBySourceElement extends LitElement {
 	protected render(): TemplateResult {
 		return html`<ul class="cards">
 			${this.cards.map(({ card, transitiveSource, status }) => {
-				const slug = cardElementData.find(s => s.name === card)?.slug;
-				const isActiveCard = this.activeCard === slug ? true : undefined;
 				const cardHtml = html`<e-divination-card
 					size=${this.cardSize}
 					.name=${card}
 					.boss=${transitiveSource?.id}
-					part=${ifDefined(isActiveCard ? 'active-card' : undefined)}
+					part=${ifDefined(this.activeCard === slug(card) ? 'active-card' : undefined)}
 					@navigate-transition=${(e: NavigateTransitionEvent) => redispatchTransition.call(this, e)}
 				>
 					${transitiveSource
