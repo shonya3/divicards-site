@@ -1,7 +1,7 @@
 // 3.25 SKIP for now
 
 import { LitElement, PropertyValueMap, TemplateResult, html } from 'lit';
-import { customElement, query, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { divcordTableContext } from '../context';
 import { DivcordTable } from '../DivcordTable';
 import { consume } from '@lit/context';
@@ -21,11 +21,15 @@ import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import { RowData } from '../elements/weights-table/e-weights-table-verify-sources';
 import { NavigateTransitionEvent } from '../events';
+import { choose } from 'lit/directives/choose.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
 	#cardSize: CardSize = 'small';
 	#sourceSize: SourceSize = 'medium';
+
+	@property() activeView: ActiveView = 'weights-table';
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -47,6 +51,20 @@ export class VerifyPage extends LitElement {
 	@query('details ul') contentsLinksList!: HTMLElement;
 	@query('.list') sourceWithCardsList!: HTMLElement;
 
+	// actView() {
+	// 	return html`<sl-radio-group
+	// 		@sl-change=${this.#onActiveViewChanged}
+	// 		class="select-view-controls"
+	// 		size="large"
+	// 		label="Select the view"
+	// 		name="a"
+	// 		value=${this.activeView}
+	// 	>
+	// 		<sl-radio-button value="list">List</sl-radio-button>
+	// 		<sl-radio-button value="table">Table</sl-radio-button>
+	// 	</sl-radio-group>`;
+	// }
+
 	constructor() {
 		super();
 		this.addEventListener('click', e => {
@@ -62,71 +80,25 @@ export class VerifyPage extends LitElement {
 		});
 	}
 
-	protected async firstUpdated(_changedProperties: PropertyValueMap<this>): Promise<void> {
-		const { hash } = new URL(window.location.href);
-		if (hash) {
-			const el = this.shadowRoot?.getElementById(hash.slice(1));
-			if (el && el instanceof HTMLElement) {
-				await new Promise(r => setTimeout(r, 0));
-				el.style.setProperty('scroll-margin-top', '50px');
-				el.scrollIntoView();
-			}
-		}
+	// protected async firstUpdated(_changedProperties: PropertyValueMap<this>): Promise<void> {
+	// 	const { hash } = new URL(window.location.href);
+	// 	if (hash) {
+	// 		const el = this.shadowRoot?.getElementById(hash.slice(1));
+	// 		if (el && el instanceof HTMLElement) {
+	// 			await new Promise(r => setTimeout(r, 0));
+	// 			el.style.setProperty('scroll-margin-top', '50px');
+	// 			el.scrollIntoView();
+	// 		}
+	// 	}
 
-		if (window.innerWidth < 1600) {
-			this.detailsOfContentsOpen = false;
-			this.detailsOfContents.style.setProperty('height', 'auto');
-		}
-	}
+	// 	if (window.innerWidth < 1600) {
+	// 		this.detailsOfContentsOpen = false;
+	// 		this.detailsOfContents.style.setProperty('height', 'auto');
+	// 	}
 
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable')) {
-			const sourcesAndCards = cardsBySourceTypes(
-				Array.from(SOURCE_TYPE_VARIANTS),
-				this.divcordTable.records,
-				poeData
-			)
-				.map(({ cards, source }) => ({
-					cards: cards.filter(c => c.status === 'verify'),
-					source,
-				}))
-				.filter(({ cards }) => cards.length > 0)
-				.sort((a, b) => b.cards.length - a.cards.length);
-			for (const { cards } of sourcesAndCards) {
-				sortByWeight(cards, poeData);
-			}
-
-			// move sources with solo Rebirth cards to the end
-			// to make it less spammy
-			const rebirth: SourceAndCards[] = [];
-			let cards: SourceAndCards[] = sourcesAndCards.filter(c => {
-				if (c.cards.length === 1 && c.cards.map(c => c.card).includes('Rebirth')) {
-					rebirth.push(c);
-					return false;
-				} else {
-					return true;
-				}
-			});
-			cards = [...cards, ...rebirth];
-
-			// Split by category
-			this.byCategory.acts = cards.filter(({ source }) => source.type === 'Act' || source.type === 'Act Boss');
-			this.byCategory.maps = cards.filter(({ source }) => source.type === 'Map' || source.type === 'Map Boss');
-			this.byCategory.other = cards.filter(({ source }) =>
-				['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
-			);
-
-			this.verifyTableData = weightsTableData(this.divcordTable.records, poeData);
-			this.sourcesAndCards = structuredClone(cards);
-		}
-	}
-
-	protected render(): TemplateResult {
-		return html`<div class="page">
-			<main class="main">
-				<h1 class="heading">Need to verify</h1>
-				<e-verify-faq-alert></e-verify-faq-alert>
-				<sl-details summary="Table of contents" class="table-of-contents" ?open=${this.detailsOfContentsOpen}>
+	/** 
+    <!-- <sl-details summary="Table of contents" class="table-of-contents" ?open=${this
+					.detailsOfContentsOpen}>
 					<div class="table-of-contents__inner">
 						<ol class="brief-table-of-contents" start="1">
 							<li>
@@ -149,36 +121,127 @@ export class VerifyPage extends LitElement {
 						<a class="category-heading-link" href="#other">Other</a>
 						${ContentsList({ sourcesAndCards: this.byCategory.other })}
 					</div>
-				</sl-details>
+				</sl-details> -->
+                **/
+	// }
 
-				<h3 class="category-heading" id="maps">Maps</h3>
-				${SourceWithCardsList({
-					sourcesAndCards: this.byCategory.maps,
-					cardSize: this.#cardSize,
-					sourceSize: this.#sourceSize,
-					onNavigateTransition: this.#handleNavigateTransition,
-					activeSource: this.activeSource,
-				})}
-				<h3 class="category-heading" id="acts">Acts</h3>
-				${SourceWithCardsList({
-					sourcesAndCards: this.byCategory.acts,
-					cardSize: this.#cardSize,
-					sourceSize: this.#sourceSize,
-					onNavigateTransition: this.#handleNavigateTransition,
-					activeSource: this.activeSource,
-				})}
-				<h3 class="category-heading" id="other">Other</h3>
-				${SourceWithCardsList({
-					sourcesAndCards: this.byCategory.other,
-					cardSize: this.#cardSize,
-					sourceSize: this.#sourceSize,
-					onNavigateTransition: this.#handleNavigateTransition,
-					activeSource: this.activeSource,
-				})}
-				<details id="details-weights-table" class="details-weights-table" open>
-					<summary class="details-weights-table__summary">Weights Table</summary>
-					<e-weights-table-verify-sources .rows=${this.verifyTableData}></e-weights-table-verify-sources>
-				</details>
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		if (map.has('divcordTable') || map.has('activeView')) {
+			if (this.activeView === 'weights-table') {
+				this.verifyTableData = weightsTableData(this.divcordTable.records, poeData);
+			} else {
+				// skip if already set up
+				if (this.sourcesAndCards.length > 0) {
+					return;
+				}
+
+				const sourcesAndCards = cardsBySourceTypes(
+					Array.from(SOURCE_TYPE_VARIANTS),
+					this.divcordTable.records,
+					poeData
+				)
+					.map(({ cards, source }) => ({
+						cards: cards.filter(c => c.status === 'verify'),
+						source,
+					}))
+					.filter(({ cards }) => cards.length > 0)
+					.sort((a, b) => b.cards.length - a.cards.length);
+				for (const { cards } of sourcesAndCards) {
+					sortByWeight(cards, poeData);
+				}
+
+				// move sources with solo Rebirth cards to the end
+				// to make it less spammy
+				const rebirth: SourceAndCards[] = [];
+				let cards: SourceAndCards[] = sourcesAndCards.filter(c => {
+					if (c.cards.length === 1 && c.cards.map(c => c.card).includes('Rebirth')) {
+						rebirth.push(c);
+						return false;
+					} else {
+						return true;
+					}
+				});
+				cards = [...cards, ...rebirth];
+
+				// Split by category
+				this.byCategory.acts = cards.filter(
+					({ source }) => source.type === 'Act' || source.type === 'Act Boss'
+				);
+				this.byCategory.maps = cards.filter(
+					({ source }) => source.type === 'Map' || source.type === 'Map Boss'
+				);
+				this.byCategory.other = cards.filter(({ source }) =>
+					['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
+				);
+
+				this.sourcesAndCards = structuredClone(cards);
+			}
+		}
+	}
+
+	protected render(): TemplateResult {
+		return html`<div class="page">
+			<header>
+				<h1 class="heading">Need to verify</h1>
+				<div>
+					<nav class="nav">
+						${ACTIVE_VIEW_VARIANTS.map(
+							variant =>
+								html`<a class=${classMap({
+									'nav-link--active': variant === this.activeView,
+								})} href=/verify/${variant}>${linkLabel(variant)}</a>`
+						)}
+					</nav>
+					<e-verify-faq-alert></e-verify-faq-alert>
+				</div>
+			</header>
+
+			<main class="main">
+				${choose(this.activeView, [
+					[
+						'acts',
+						() =>
+							html` ${SourceWithCardsList({
+								sourcesAndCards: this.byCategory.acts,
+								cardSize: this.#cardSize,
+								sourceSize: this.#sourceSize,
+								onNavigateTransition: this.#handleNavigateTransition,
+								activeSource: this.activeSource,
+							})}`,
+					],
+					[
+						'maps',
+						() =>
+							html` ${SourceWithCardsList({
+								sourcesAndCards: this.byCategory.maps,
+								cardSize: this.#cardSize,
+								sourceSize: this.#sourceSize,
+								onNavigateTransition: this.#handleNavigateTransition,
+								activeSource: this.activeSource,
+							})}`,
+					],
+					[
+						'others',
+						() =>
+							html` ${SourceWithCardsList({
+								sourcesAndCards: this.byCategory.other,
+								cardSize: this.#cardSize,
+								sourceSize: this.#sourceSize,
+								onNavigateTransition: this.#handleNavigateTransition,
+								activeSource: this.activeSource,
+							})}`,
+					],
+					[
+						'weights-table',
+						() => html`
+							<!-- <details id="details-weights-table" class="details-weights-table" open> -->
+							<e-weights-table-verify-sources
+								.rows=${this.verifyTableData}
+							></e-weights-table-verify-sources>
+							<!-- </details> -->
+						`,
+					],
+				])}
 			</main>
 		</div>`;
 	}
@@ -245,24 +308,24 @@ function SourceWithCardsList({
 	</ul>`;
 }
 
-function ContentsList({ sourcesAndCards }: { sourcesAndCards: SourceAndCards[] }): TemplateResult {
-	return html`<ul>
-		${sourcesAndCards.map(({ source, cards }) => {
-			let name = source.id;
-			if (source.type === 'Act') {
-				const area = poeData.find.actArea(source.id);
-				if (area) {
-					name = area.name;
-				}
-			}
-			const hash = name.replaceAll(' ', '_');
-			const cardsString = cards.map(({ card }) => card).join(', ');
-			return html`<li>
-				<a href="#${hash}">${name} <span style="font-size: 11px; color: #999">${cardsString}</span></a>
-			</li> `;
-		})}
-	</ul>`;
-}
+// function ContentsList({ sourcesAndCards }: { sourcesAndCards: SourceAndCards[] }): TemplateResult {
+// 	return html`<ul>
+// 		${sourcesAndCards.map(({ source, cards }) => {
+// 			let name = source.id;
+// 			if (source.type === 'Act') {
+// 				const area = poeData.find.actArea(source.id);
+// 				if (area) {
+// 					name = area.name;
+// 				}
+// 			}
+// 			const hash = name.replaceAll(' ', '_');
+// 			const cardsString = cards.map(({ card }) => card).join(', ');
+// 			return html`<li>
+// 				<a href="#${hash}">${name} <span style="font-size: 11px; color: #999">${cardsString}</span></a>
+// 			</li> `;
+// 		})}
+// 	</ul>`;
+// }
 
 function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowData[] {
 	return Object.entries(groupBy(records, ({ card }) => card))
@@ -351,5 +414,21 @@ const groupBy = <T>(arr: T[], cb: (el: T, index: number, arr: T[]) => string): R
 declare global {
 	interface HTMLElementTagNameMap {
 		'p-verify': VerifyPage;
+	}
+}
+
+export const ACTIVE_VIEW_VARIANTS = ['maps', 'acts', 'others', 'weights-table'] as const;
+export type ActiveView = (typeof ACTIVE_VIEW_VARIANTS)[number];
+
+function linkLabel(activeView: ActiveView) {
+	switch (activeView) {
+		case 'acts':
+			return 'Acts';
+		case 'maps':
+			return 'Maps';
+		case 'others':
+			return 'Others';
+		case 'weights-table':
+			return 'Weights Table';
 	}
 }

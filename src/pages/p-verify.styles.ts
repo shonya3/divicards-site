@@ -27,6 +27,30 @@ export const styles = css`
 		text-align: center;
 	}
 
+	header {
+		max-width: 1220px;
+		margin-inline: auto;
+		> div {
+			display: flex;
+			align-items: center;
+		}
+
+		.nav {
+			display: flex;
+			flex-direction: column;
+			flex-basis: 200px;
+			gap: 0.2rem;
+			a {
+				font-size: 24px;
+				/* padding: 0.4rem 1rem; */
+			}
+
+			.nav-link--active {
+				color: red;
+			}
+		}
+	}
+
 	e-verify-faq-alert {
 		margin-top: 3rem;
 		margin-inline: auto;
@@ -34,6 +58,7 @@ export const styles = css`
 	}
 
 	.main {
+		margin-top: 4rem;
 		max-width: 1400px;
 	}
 
@@ -111,10 +136,10 @@ export const styles = css`
 	/** details for weights table */
 	.details-weights-table,
 	.li-link-to-weights-table {
-		display: none;
+		/* display: none;
 		@media (width >= 640px) {
 			display: initial;
-		}
+		} */
 	}
 
 	.details-weights-table {

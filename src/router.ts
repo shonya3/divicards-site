@@ -20,6 +20,7 @@ import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
 
 import sourcesJson from './sources.json';
+import { ACTIVE_VIEW_VARIANTS, ActiveView } from './pages/p-verify';
 const sources = sourcesJson as Record<string, Source>;
 
 export const router = new Router({
@@ -71,7 +72,18 @@ export const router = new Router({
 			path: '/verify',
 			title: 'Need to verify',
 			render: () => {
-				return html`<p-verify></p-verify>`;
+				return html`<p-verify .activeView=${`weights-table`}></p-verify>`;
+			},
+		},
+		{
+			path: '/verify/:activeView',
+			title: 'Need to verify',
+			render: context => {
+				let activeView: ActiveView = 'weights-table';
+				if (ACTIVE_VIEW_VARIANTS.includes(context.params.activeView as ActiveView)) {
+					activeView = context.params.activeView as ActiveView;
+				}
+				return html`<p-verify .activeView=${activeView}></p-verify>`;
 			},
 		},
 		{
