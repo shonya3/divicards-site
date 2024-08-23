@@ -1,7 +1,7 @@
 // 3.25 SKIP for now
 
 import { LitElement, PropertyValueMap, TemplateResult, html } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { divcordTableContext } from '../context';
 import { DivcordTable } from '../DivcordTable';
 import { consume } from '@lit/context';
@@ -39,7 +39,6 @@ export class VerifyPage extends LitElement {
 	/** Dropsource involved in view transitions */
 	@state() activeSource?: string = window.activeSource;
 	@state() sourcesAndCards: SourceAndCards[] = [];
-	@state() detailsOfContentsOpen = true;
 	@state() byCategory: {
 		maps: SourceAndCards[];
 		acts: SourceAndCards[];
@@ -50,84 +49,6 @@ export class VerifyPage extends LitElement {
 	@state() cardWeightsGrouped: Record<string, { card: string; weight: number; source: Source }[]> = Object.create({});
 	/** Minimum weight for Weights Table slider */
 	@state() minimumWeight = 10000;
-
-	@query('.table-of-contents') detailsOfContents!: HTMLDetailsElement;
-	@query('details ul') contentsLinksList!: HTMLElement;
-	@query('.list') sourceWithCardsList!: HTMLElement;
-
-	// actView() {
-	// 	return html`<sl-radio-group
-	// 		@sl-change=${this.#onActiveViewChanged}
-	// 		class="select-view-controls"
-	// 		size="large"
-	// 		label="Select the view"
-	// 		name="a"
-	// 		value=${this.activeView}
-	// 	>
-	// 		<sl-radio-button value="list">List</sl-radio-button>
-	// 		<sl-radio-button value="table">Table</sl-radio-button>
-	// 	</sl-radio-group>`;
-	// }
-
-	constructor() {
-		super();
-		this.addEventListener('click', e => {
-			const target = e.composedPath()[0];
-			if (target instanceof HTMLAnchorElement) {
-				const { hash } = new URL(target.href);
-				const el = this.shadowRoot?.getElementById(hash.slice(1));
-				if (el && el instanceof HTMLElement) {
-					el.style.setProperty('scroll-margin-top', '50px');
-					el.scrollIntoView({ behavior: 'smooth' });
-				}
-			}
-		});
-	}
-
-	// protected async firstUpdated(_changedProperties: PropertyValueMap<this>): Promise<void> {
-	// 	const { hash } = new URL(window.location.href);
-	// 	if (hash) {
-	// 		const el = this.shadowRoot?.getElementById(hash.slice(1));
-	// 		if (el && el instanceof HTMLElement) {
-	// 			await new Promise(r => setTimeout(r, 0));
-	// 			el.style.setProperty('scroll-margin-top', '50px');
-	// 			el.scrollIntoView();
-	// 		}
-	// 	}
-
-	// 	if (window.innerWidth < 1600) {
-	// 		this.detailsOfContentsOpen = false;
-	// 		this.detailsOfContents.style.setProperty('height', 'auto');
-	// 	}
-
-	/** 
-    <!-- <sl-details summary="Table of contents" class="table-of-contents" ?open=${this
-					.detailsOfContentsOpen}>
-					<div class="table-of-contents__inner">
-						<ol class="brief-table-of-contents" start="1">
-							<li>
-								<a href="#maps"> Maps</a>
-							</li>
-							<li>
-								<a href="#acts"> Acts</a>
-							</li>
-							<li>
-								<a href="#other"> Other</a>
-							</li>
-
-							<li class="li-link-to-weights-table"><a href="#details-weights-table">Weights Table</a></li>
-						</ol>
-
-						<a class="category-heading-link" href="#maps">Maps</a>
-						${ContentsList({ sourcesAndCards: this.byCategory.maps })}
-						<a class="category-heading-link" href="#acts">Acts</a>
-						${ContentsList({ sourcesAndCards: this.byCategory.acts })}
-						<a class="category-heading-link" href="#other">Other</a>
-						${ContentsList({ sourcesAndCards: this.byCategory.other })}
-					</div>
-				</sl-details> -->
-                **/
-	// }
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable') || map.has('activeView')) {
@@ -327,25 +248,6 @@ function SourceWithCardsList({
 	</ul>`;
 }
 
-// function ContentsList({ sourcesAndCards }: { sourcesAndCards: SourceAndCards[] }): TemplateResult {
-// 	return html`<ul>
-// 		${sourcesAndCards.map(({ source, cards }) => {
-// 			let name = source.id;
-// 			if (source.type === 'Act') {
-// 				const area = poeData.find.actArea(source.id);
-// 				if (area) {
-// 					name = area.name;
-// 				}
-// 			}
-// 			const hash = name.replaceAll(' ', '_');
-// 			const cardsString = cards.map(({ card }) => card).join(', ');
-// 			return html`<li>
-// 				<a href="#${hash}">${name} <span style="font-size: 11px; color: #999">${cardsString}</span></a>
-// 			</li> `;
-// 		})}
-// 	</ul>`;
-// }
-
 function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowData[] {
 	return Object.entries(groupBy(records, ({ card }) => card))
 		.map(([card, records]) => ({
@@ -386,49 +288,6 @@ const groupBy = <T>(arr: T[], cb: (el: T, index: number, arr: T[]) => string): R
 
 	return record;
 };
-
-// #activeScrollEl: HTMLElement | null = null;
-// get activeScrollEl(): HTMLElement | null {
-// 	return this.#activeScrollEl;
-// }
-// set activeScrollEl(val: HTMLElement | null) {
-// 	if (val === null) return;
-
-// 	this.#activeScrollEl?.classList.remove('active');
-// 	this.#activeScrollEl = val;
-// 	this.#activeScrollEl.classList.add('active');
-
-// 	if (!this.#InView(this.detailsOfContents, val)) {
-// 		val.scrollIntoView();
-// 	}
-// }
-// #InView(container: HTMLElement, el: HTMLElement) {
-// 	const containerScrollTop = container.scrollTop;
-// 	const rect = el.getBoundingClientRect();
-
-// 	if (rect.top < 100) {
-// 		return false;
-// 	}
-
-// 	return containerScrollTop + Math.abs(rect.y) < container.clientHeight;
-// }
-// const obs = new IntersectionObserver(
-// 	entries => {
-// 		entries.forEach(e => {
-// 			if (e.intersectionRatio === 1) {
-// 				const a = this.contentsLinksList.querySelector(`[href = "#${e.target.id}"]`);
-// 				if (a instanceof HTMLAnchorElement) {
-// 					this.activeScrollEl = a;
-// 				}
-// 			}
-// 		});
-// 	},
-// 	{ threshold: 1 }
-// );
-
-// for (const li of this.sourceWithCardsList.querySelectorAll('li')) {
-// 	obs.observe(li);
-// }
 
 declare global {
 	interface HTMLElementTagNameMap {
