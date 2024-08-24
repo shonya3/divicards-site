@@ -24,9 +24,17 @@ import { NavigateTransitionEvent } from '../events';
 import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
+import { Storage } from '../storage';
+
+declare module '../storage' {
+	interface Registry {
+		pVerifyMinimumWeight: number;
+	}
+}
 
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
+	#minimumWeight = new Storage('pVerifyMinimumWeight', 10000);
 	#cardSize: CardSize = 'small';
 	#sourceSize: SourceSize = 'medium';
 
@@ -48,7 +56,7 @@ export class VerifyPage extends LitElement {
 	@state() filteredWeightsTableData: RowData[] = [];
 	@state() cardWeightsGrouped: Record<string, { card: string; weight: number; source: Source }[]> = Object.create({});
 	/** Minimum weight for Weights Table slider */
-	@state() minimumWeight = 10000;
+	@state() minimumWeight = this.#minimumWeight.load();
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable') || map.has('activeView')) {
@@ -183,6 +191,7 @@ export class VerifyPage extends LitElement {
 
 	#changeMinimumWeight(e: Event) {
 		const value = Number((e.target as HTMLInputElement).value);
+		this.#minimumWeight.save(value);
 		this.minimumWeight = value;
 	}
 
