@@ -47,11 +47,6 @@ export const router = new Router({
 			></p-divcord>`,
 		},
 		{
-			path: '/verify-faq',
-			title: 'faq',
-			render: () => html`<p-verify-faq></p-verify-faq>`,
-		},
-		{
 			path: '/card/:slug',
 			title: context => {
 				const slug = context.params?.slug;
@@ -79,6 +74,9 @@ export const router = new Router({
 			path: '/verify/:activeView',
 			title: 'Need to verify',
 			render: context => {
+				if (context.params.activeView === 'faq') {
+					return html`<p-verify-faq></p-verify-faq>`;
+				}
 				let activeView: ActiveView = 'weights-table';
 				if (ACTIVE_VIEW_VARIANTS.includes(context.params.activeView as ActiveView)) {
 					activeView = context.params.activeView as ActiveView;

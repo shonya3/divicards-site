@@ -15,7 +15,6 @@ export class TopNavElement extends LitElement {
 		['/verify', 'Need to verify'],
 		['/useful-resources', 'Useful Resources'],
 		['/weights', 'Weights'],
-		['/verify-faq', 'faq'],
 		['/sources', 'Sources'],
 	];
 

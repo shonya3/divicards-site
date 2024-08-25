@@ -59,7 +59,7 @@ export class NeedToVerifyElement extends LitElement {
 @customElement('e-need-to-verify-border')
 export class NeedToVerifyBorderElement extends LitElement {
 	protected render(): TemplateResult {
-		return html`<a href="/verify-faq">Need to verify</a>`;
+		return html`<a href="/verify/faq">Need to verify</a>`;
 	}
 
 	static styles = css`

@@ -16,7 +16,7 @@ export class VerifyFaqAlertElement extends LitElement {
 					alt="Icon Stacked decks with questionmark"
 				/>
 				<p>
-					Please take a moment to review our <a href="/verify-faq">faq</a> section. This will help you better
+					Please take a moment to review our <a href="/verify/faq">faq</a> section. This will help you better
 					understand the community rules and expectations. Thank you for your attention and for making a
 					constructive contribution!
 				</p>
