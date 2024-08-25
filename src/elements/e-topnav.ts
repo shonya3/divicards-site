@@ -12,7 +12,7 @@ export class TopNavElement extends LitElement {
 		['/', 'Home'],
 		['/maps', 'Maps'],
 		['/divcord', 'Divcord'],
-		['/verify', 'Need to verify'],
+		['/verify', 'Verify'],
 		['/useful-resources', 'Useful Resources'],
 		['/weights', 'Weights'],
 		['/sources', 'Sources'],
