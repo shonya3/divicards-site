@@ -19,7 +19,7 @@ import './elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
 
-import sourcesJson from './sources.json';
+import sourcesJson from './gen/json/sources.json';
 import { ACTIVE_VIEW_VARIANTS, ActiveView } from './pages/p-verify';
 const sources = sourcesJson as Record<string, Source>;
 
