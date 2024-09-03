@@ -1,5 +1,6 @@
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import { escapeHtml } from './utils';
+import { DivcordRecord } from './gen/divcord';
 
 export type ToastVariant = 'primary' | 'success' | 'neutral' | 'warning' | 'danger';
 export function toast(message: string, variant: ToastVariant = 'primary', duration = 100_000_000): Promise<void> {

@@ -7,7 +7,8 @@ import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
 import type { DivcordRecord } from '../gen/divcord';
 import { DirectiveResult } from 'lit/async-directive.js';
-import { escapeHtml } from '../utils';
+import { divcordRecordHref, escapeHtml } from '../utils';
+import { linkStyles } from '../linkStyles';
 
 /**
  * @cssproperty --greynote-color - The text color of greynote.
@@ -27,9 +28,10 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 	protected render(): TemplateResult {
 		return html`<div class="record">
-			${this.record.greynote === 'Empty' ? nothing : html`<div class="greynote">${this.record.greynote}</div>`}
-			<div class="cardName">${this.record.card}</div>
-			${this.record.tagHypothesis ? html`<div class="tagHypothesis">${this.record.tagHypothesis}</div>` : nothing}
+			<!-- ${this.record.greynote === 'Empty'
+				? nothing
+				: html`<div class="greynote">${this.record.greynote}</div>`} -->
+			<a href=${divcordRecordHref(this.record.id)} rel="noopener" class="cardName">${this.record.card}</a>
 			<div
 				title="Confidence"
 				class=${classMap({
@@ -105,6 +107,22 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			--confidence--none-color: white;
 		}
 
+		${linkStyles}
+
+		.cardName {
+			display: block;
+			padding-bottom: 0.4rem;
+			font-size: 1.2rem;
+			margin-bottom: 1.5rem;
+
+			&:not(:hover) {
+				&:link,
+				&:visited {
+					color: var(--sl-color-gray-950);
+				}
+			}
+		}
+
 		* {
 			padding: 0;
 			margin: 0;
@@ -116,10 +134,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		.record {
 			max-width: 600px;
-		}
-
-		.cardName {
-			color: var(--sl-color-gray-700);
 		}
 
 		.tagHypothesis {
@@ -214,8 +228,9 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		}
 
 		h3 {
+			margin-top: 4rem;
 			margin-bottom: 1rem;
-			font-size: 20px;
+			font-size: 1.05rem;
 			font-weight: 500;
 		}
 	`;
