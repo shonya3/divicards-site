@@ -31,7 +31,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			<!-- ${this.record.greynote === 'Empty'
 				? nothing
 				: html`<div class="greynote">${this.record.greynote}</div>`} -->
-			<a href=${divcordRecordHref(this.record.id)} rel="noopener" class="cardName">${this.record.card}</a>
+			<a href=${divcordRecordHref(this.record.id)} target="_blank" class="cardName">${this.record.card}</a>
 			<div
 				title="Confidence"
 				class=${classMap({
