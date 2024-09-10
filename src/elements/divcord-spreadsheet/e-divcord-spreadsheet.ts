@@ -17,6 +17,7 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '../e-sources';
 import { WeightData } from '../weights-table/types';
 import '../../elements/weights-table/e-weight-value';
+import { slug } from '../../gen/divcordWasm/divcord_wasm';
 
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
@@ -177,7 +178,10 @@ export class DivcordSpreadsheetElement extends LitElement {
 										? html`
 												<e-divination-card size="small" name=${record.card}></e-divination-card>
 										  `
-										: html`<a @click=${this.#onAnchorCardNavigation} href="/card/${record.card}">
+										: html`<a
+												@click=${this.#onAnchorCardNavigation}
+												href="/card/${slug(record.card)}"
+										  >
 												${record.card}
 										  </a>`}
 								</td>
