@@ -77,7 +77,46 @@
     { "name": "--icon-fill", "values": [] }
   ],
   "pseudoElements": [
+    { "name": "::part(card)", "description": "Divination card." },
+    {
+      "name": "::part(active-source)",
+      "description": "Dropsource involved in view transitions."
+    },
     { "name": "::part(card)", "description": "Divination card element" },
+    {
+      "name": "::part(active-card)",
+      "description": "Active for view transition card(Optional)."
+    },
+    { "name": "::part(source)", "description": "Dropsource." },
+    {
+      "name": "::part(active-card)",
+      "description": "Active for view transition card(Optional)."
+    },
+    {
+      "name": "::part(active-source)",
+      "description": "Dropsource involved in view transitions."
+    },
+    {
+      "name": "::part(active-source)",
+      "description": "Active source for view-transition(optional)."
+    },
+    {
+      "name": "::part(active-card)",
+      "description": "Active card for view-transition(optional)."
+    },
+    {
+      "name": "::part(active-source)",
+      "description": "Active for view transition source(Optional)."
+    },
+    {
+      "name": "::part(active-card)",
+      "description": "Active for view transition card(Optional)."
+    },
+    { "name": "::part(source)", "description": "Dropsource." },
+    {
+      "name": "::part(active-card)",
+      "description": "Active card for view-transition(Optional)."
+    },
     {
       "name": "::part(form-control)",
       "description": "The form control that wraps the label, input, and help text."
@@ -111,6 +150,10 @@
     {
       "name": "::part(suffix)",
       "description": "The container that wraps the suffix."
+    },
+    {
+      "name": "::part(active-card)",
+      "description": "Active for view transition card(Optional)."
     }
   ]
 }

@@ -12,7 +12,7 @@ import { NavigateTransitionEvent, redispatchTransition } from '../events';
  * Dropsource with it's divination cards list
  * @csspart source - Dropsource.
  * @csspart active-card - Active for view transition card(Optional).
- * @event   navigate-transition Emits on card or source navigation
+ * @event   navigate-transition - Emits on card or source navigation
  */
 @customElement('e-source-with-cards')
 export class SourceWithCardsElement extends LitElement {

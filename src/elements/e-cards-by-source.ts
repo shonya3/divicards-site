@@ -11,7 +11,7 @@ import { NavigateTransitionEvent, redispatchTransition } from '../events';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 /**
- * @summary group of cards for dropsource page and maps page
+ * Group of cards for dropsource page and maps page
  * @csspart active-card - Active for view transition card(Optional).
  * @event   navigate-transition Emits on card or source navigation
  */

@@ -12,8 +12,20 @@
       "references": []
     },
     {
+      "name": "a",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
+      "name": "theme-toggle",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
       "name": "e-card-with-divcord-records",
-      "description": "Element for card page and divcord page list\n---\n",
+      "description": "Element for card page and divcord page list\n---\n\n\n### **Slots:**\n - **card** - Divination card slot.\n- **main** - Slot at the top, before divcord records.\n\n### **CSS Parts:**\n - **card** - Divination card.",
       "attributes": [
         { "name": "card", "values": [] },
         { "name": "records", "values": [{ "name": "DivcordRecord[]" }] }
@@ -22,23 +34,29 @@
     },
     {
       "name": "e-card-with-sources",
-      "description": "\n---\n\n\n### **CSS Parts:**\n - **card** - Divination card element",
+      "description": "\n---\n\n\n### **Events:**\n - **navigate-transition** - NavigateTransitionEvent - Emits on navigation.\n\n### **CSS Parts:**\n - **active-source** - Dropsource involved in view transitions.\n- **card** - Divination card element",
       "attributes": [
         { "name": "name", "values": [] },
         { "name": "card-size", "values": [{ "name": "CardSize" }] },
         { "name": "source-size", "values": [{ "name": "SourceSize" }] },
         { "name": "divcordTable", "values": [{ "name": "DivcordTable" }] },
-        { "name": "renderMode", "values": [{ "name": "RenderMode" }] }
+        { "name": "renderMode", "values": [{ "name": "RenderMode" }] },
+        {
+          "name": "active-source",
+          "description": "Dropsource involved in view transitions",
+          "values": []
+        }
       ],
       "references": []
     },
     {
       "name": "e-cards-by-source",
-      "description": "group of cards for dropsource page and maps page\n---\n\n\n### **Events:**\n - **boss-navigation** - undefined",
+      "description": "group of cards for dropsource page and maps page\n---\n\n\n### **Events:**\n - **boss-navigation**\n- **navigate-transition** - Emits on card or source navigation\n\n### **CSS Parts:**\n - **active-card** - Active for view transition card(Optional).",
       "attributes": [
         { "name": "cards", "values": [{ "name": "CardBySource[]" }] },
         { "name": "source-size", "values": [{ "name": "SourceSize" }] },
-        { "name": "card-size", "values": [{ "name": "CardSize" }] }
+        { "name": "card-size", "values": [{ "name": "CardSize" }] },
+        { "name": "active-card", "values": [] }
       ],
       "references": []
     },
@@ -55,6 +73,14 @@
       "name": "e-divcord-needs-info",
       "description": "\n---\n",
       "attributes": [{ "name": "card", "values": [] }],
+      "references": []
+    },
+    {
+      "name": "e-divcord-record",
+      "description": "\n---\n\n\n### **CSS Properties:**\n - **--greynote-color** - The text color of greynote. _(default: undefined)_\n- **--paragraph-color** - The text color of notes and wiki disagreements. _(default: undefined)_\n- **--confidence--done-bg-color** - The background color for Done confidence. _(default: undefined)_\n- **--confidence--ok-bg-color** - The background color for OK confidence. _(default: undefined)_\n- **--confidence--low-bg-color** - The background color for Low confidence. _(default: undefined)_\n- **--confidence--none-bg-color** - The background color for None confidence. _(default: undefined)_\n- **--confidence--done-color** - The text color for Done confidence. _(default: undefined)_\n- **--confidence--ok-color** - The ok color for OK confidence. _(default: undefined)_\n- **--confidence--low-color** - The text color for Low confidence. _(default: undefined)_\n- **--confidence--none-color** - The text color for None confidence. _(default: undefined)_",
+      "attributes": [
+        { "name": "record", "values": [{ "name": "DivcordRecord" }] }
+      ],
       "references": []
     },
     {
@@ -108,7 +134,7 @@
     },
     {
       "name": "e-source-type",
-      "description": "\n---\n",
+      "description": "\n---\n\n\n### **Events:**\n - **navigate-transition** - NavigateTransitionEvent - Emits on clicking the link element.",
       "attributes": [
         { "name": "sourceType", "values": [{ "name": "SourceType" }] }
       ],
@@ -116,27 +142,20 @@
     },
     {
       "name": "e-source-with-cards",
-      "description": "\n---\n",
+      "description": "Dropsource with it's divination cards list\n---\n\n\n### **Events:**\n - **navigate-transition** - Emits on card or source navigation\n\n### **CSS Parts:**\n - **source** - Dropsource.\n- **active-card** - Active for view transition card(Optional).",
       "attributes": [
         { "name": "source", "values": [{ "name": "Source" }] },
         { "name": "cards", "values": [{ "name": "CardBySource[]" }] },
         { "name": "showSourceType", "values": [] },
         { "name": "source-size", "values": [{ "name": "SourceSize" }] },
-        { "name": "card-size", "values": [{ "name": "CardSize" }] }
-      ],
-      "references": []
-    },
-    {
-      "name": "e-sourceful-divcord-record",
-      "description": "\n---\n\n\n### **CSS Properties:**\n - **--greynote-color** - The text color of greynote. _(default: undefined)_\n- **--paragraph-color** - The text color of notes and wiki disagreements. _(default: undefined)_\n- **--confidence--done-bg-color** - The background color for Done confidence. _(default: undefined)_\n- **--confidence--ok-bg-color** - The background color for OK confidence. _(default: undefined)_\n- **--confidence--low-bg-color** - The background color for Low confidence. _(default: undefined)_\n- **--confidence--none-bg-color** - The background color for None confidence. _(default: undefined)_\n- **--confidence--done-color** - The text color for Done confidence. _(default: undefined)_\n- **--confidence--ok-color** - The ok color for OK confidence. _(default: undefined)_\n- **--confidence--low-color** - The text color for Low confidence. _(default: undefined)_\n- **--confidence--none-color** - The text color for None confidence. _(default: undefined)_",
-      "attributes": [
-        { "name": "record", "values": [{ "name": "DivcordRecord" }] }
+        { "name": "card-size", "values": [{ "name": "CardSize" }] },
+        { "name": "active-card", "values": [] }
       ],
       "references": []
     },
     {
       "name": "e-sources",
-      "description": "\n---\n",
+      "description": "\n---\n\n\n### **CSS Parts:**\n - **active-source** - Dropsource involved in view transitions.",
       "attributes": [
         { "name": "sources", "values": [{ "name": "Source[]" }] },
         { "name": "size", "values": [{ "name": "SourceSize" }] },
@@ -144,6 +163,11 @@
         {
           "name": "verification-status",
           "values": [{ "name": "VerificationStatus" }]
+        },
+        {
+          "name": "active-source",
+          "description": "Dropsource involved in view transitions",
+          "values": []
         }
       ],
       "references": []
@@ -189,7 +213,7 @@
     },
     {
       "name": "p-home",
-      "description": "\n---\n",
+      "description": "\n---\n\n\n### **CSS Parts:**\n - **active-source** - Active source for view-transition(optional).\n- **active-card** - Active card for view-transition(optional).",
       "attributes": [
         { "name": "page", "values": [] },
         { "name": "per-page", "values": [] },
@@ -205,7 +229,7 @@
     },
     {
       "name": "p-maps",
-      "description": "\n---\n",
+      "description": "\n---\n\n\n### **CSS Parts:**\n - **active-source** - Active for view transition source(Optional).\n- **active-card** - Active for view transition card(Optional).",
       "attributes": [
         { "name": "page", "values": [] },
         { "name": "per-page", "values": [] },
@@ -224,7 +248,7 @@
     },
     {
       "name": "p-source",
-      "description": "\n---\n",
+      "description": "\n---\n\n\n### **CSS Parts:**\n - **source** - Dropsource.\n- **active-card** - Active card for view-transition(Optional).",
       "attributes": [{ "name": "source", "values": [{ "name": "Source" }] }],
       "references": []
     },
@@ -260,7 +284,9 @@
     {
       "name": "p-verify",
       "description": "\n---\n",
-      "attributes": [],
+      "attributes": [
+        { "name": "activeView", "values": [{ "name": "ActiveView" }] }
+      ],
       "references": []
     },
     {
@@ -271,7 +297,7 @@
     },
     {
       "name": "e-divcord-spreadsheet",
-      "description": "\n---\n\n\n### **Events:**\n - **show-cards-changed** - undefined",
+      "description": "\n---\n\n\n### **Events:**\n - **show-cards-changed**",
       "attributes": [
         { "name": "show-cards", "values": [] },
         {
@@ -288,7 +314,7 @@
     },
     {
       "name": "e-divination-card",
-      "description": "Divination Card\n---\n\n\n### **CSS Properties:**\n - **--padding-inline** - The inline padding to use for for element. _(default: undefined)_\n- **--padding-block** - The block padding to use for for element. _(default: undefined)_",
+      "description": "Divination Card\n---\n\n\n### **Events:**\n - **navigate-transition** - Event - Emits on divination card navigation.\n\n### **CSS Properties:**\n - **--padding-inline** - The inline padding to use for for element. _(default: undefined)_\n- **--padding-block** - The block padding to use for for element. _(default: undefined)_",
       "attributes": [
         { "name": "name", "values": [] },
         { "name": "size", "values": [{ "name": "CardSize" }] },
@@ -298,8 +324,9 @@
     },
     {
       "name": "e-act-area",
-      "description": "\n---\n",
+      "description": "*\n---\n",
       "attributes": [
+        { "name": "slug", "values": [] },
         { "name": "actArea", "values": [{ "name": "ActArea" }] },
         { "name": "size", "values": [{ "name": "SourceSize" }] },
         { "name": "href", "values": [] }
@@ -308,8 +335,9 @@
     },
     {
       "name": "e-actboss",
-      "description": "\n---\n",
+      "description": "*\n---\n",
       "attributes": [
+        { "name": "slug", "values": [] },
         { "name": "boss", "values": [{ "name": "Bossfight" }] },
         { "name": "actArea", "values": [{ "name": "ActArea" }] },
         { "name": "href", "values": [] },
@@ -319,8 +347,9 @@
     },
     {
       "name": "e-map",
-      "description": "\n---\n",
+      "description": "*\n---\n",
       "attributes": [
+        { "name": "slug", "values": [] },
         { "name": "map", "values": [{ "name": "MapArea" }] },
         {
           "name": "size",
@@ -334,8 +363,9 @@
     },
     {
       "name": "e-mapboss",
-      "description": "\n---\n",
+      "description": "\n---\n\n\n### **Events:**\n - **navigate-transition** - NavigateTransitionEvent - Emits on clicking on any inner link element.",
       "attributes": [
+        { "name": "slug", "values": [] },
         { "name": "boss", "values": [{ "name": "MapBoss" }] },
         { "name": "maps", "values": [{ "name": "MapArea[]" }] },
         {
@@ -353,7 +383,7 @@
     },
     {
       "name": "e-source",
-      "description": "Any dropsource of divination card: map, act, etc\n---\n\n\n### **CSS Properties:**\n - **--padding-inline** - The inline padding to use for for element. _(default: undefined)_\n- **--padding-block** - The block padding to use for for element. _(default: undefined)_",
+      "description": "Any dropsource of divination card: map, act, etc\n---\n\n\n### **Events:**\n - **navigate-transition** - NavigateTransitionEvent - Emits on clicking on any inner link element.\n\n### **CSS Properties:**\n - **--padding-inline** - The inline padding to use for for element. _(default: undefined)_\n- **--padding-block** - The block padding to use for for element. _(default: undefined)_",
       "attributes": [
         { "name": "source", "values": [{ "name": "Source" }] },
         { "name": "showSourceType", "values": [] },
@@ -365,7 +395,7 @@
     },
     {
       "name": "e-input",
-      "description": "Inputs collect data from the user.\n---\n\n\n### **Events:**\n - **input** - undefined\n- **sl-blur** - Emitted when the control loses focus.\n- **sl-change** - Emitted when an alteration to the control's value is committed by the user.\n- **sl-clear** - Emitted when the clear button is activated.\n- **sl-focus** - Emitted when the control gains focus.\n- **sl-input** - Emitted when the control receives input.\n- **sl-invalid** - Emitted when the form control has been checked for validity and its constraints aren't satisfied.\n\n### **Methods:**\n - **focus(options: _FocusOptions_): _void_** - Sets focus on the input.\n- **blur(): _void_** - Removes focus from the input.\n- **select(): _void_** - Selects all the text in the input.\n- **setSelectionRange(selectionStart: _number_, selectionEnd: _number_, selectionDirection: _'forward' | 'backward' | 'none'_): _void_** - Sets the start and end positions of the text selection (0-based).\n- **setRangeText(replacement: _string_, start: _number_, end: _number_, selectMode: _'select' | 'start' | 'end' | 'preserve'_): _void_** - Replaces a range of text with a new string.\n- **showPicker(): _void_** - Displays the browser picker for an input element (only works if the browser supports it for the input type).\n- **stepUp(): _void_** - Increments the value of a numeric input type by the value of the step attribute.\n- **stepDown(): _void_** - Decrements the value of a numeric input type by the value of the step attribute.\n- **checkValidity(): _boolean_** - Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.\n- **reportValidity(): _boolean_** - Checks for validity and shows the browser's validation message if the control is invalid.\n- **setCustomValidity(message: _string_): _void_** - Sets a custom validation message. Pass an empty string to restore validity.\n\n### **Slots:**\n - **label** - The input's label. Alternatively, you can use the `label` attribute.\n- **prefix** - Used to prepend a presentational icon or similar element to the input.\n- **suffix** - Used to append a presentational icon or similar element to the input.\n- **clear-icon** - An icon to use in lieu of the default clear icon.\n- **show-password-icon** - An icon to use in lieu of the default show password icon.\n- **hide-password-icon** - An icon to use in lieu of the default hide password icon.\n- **help-text** - Text that describes how to use the input. Alternatively, you can use the `help-text` attribute.\n\n### **CSS Parts:**\n - **form-control** - The form control that wraps the label, input, and help text.\n- **form-control-label** - The label's wrapper.\n- **form-control-input** - The input's wrapper.\n- **form-control-help-text** - The help text's wrapper.\n- **base** - The component's base wrapper.\n- **input** - The internal `<input>` control.\n- **prefix** - The container that wraps the prefix.\n- **clear-button** - The clear button.\n- **password-toggle-button** - The password toggle button.\n- **suffix** - The container that wraps the suffix.",
+      "description": "Inputs collect data from the user.\n---\n\n\n### **Events:**\n - **input**\n- **sl-blur** - Emitted when the control loses focus.\n- **sl-change** - Emitted when an alteration to the control's value is committed by the user.\n- **sl-clear** - Emitted when the clear button is activated.\n- **sl-focus** - Emitted when the control gains focus.\n- **sl-input** - Emitted when the control receives input.\n- **sl-invalid** - Emitted when the form control has been checked for validity and its constraints aren't satisfied.\n\n### **Methods:**\n - **focus(options: _FocusOptions_): _void_** - Sets focus on the input.\n- **blur(): _void_** - Removes focus from the input.\n- **select(): _void_** - Selects all the text in the input.\n- **setSelectionRange(selectionStart: _number_, selectionEnd: _number_, selectionDirection: _'forward' | 'backward' | 'none'_): _void_** - Sets the start and end positions of the text selection (0-based).\n- **setRangeText(replacement: _string_, start: _number_, end: _number_, selectMode: _'select' | 'start' | 'end' | 'preserve'_): _void_** - Replaces a range of text with a new string.\n- **showPicker(): _void_** - Displays the browser picker for an input element (only works if the browser supports it for the input type).\n- **stepUp(): _void_** - Increments the value of a numeric input type by the value of the step attribute.\n- **stepDown(): _void_** - Decrements the value of a numeric input type by the value of the step attribute.\n- **checkValidity(): _boolean_** - Checks for validity but does not show a validation message. Returns `true` when valid and `false` when invalid.\n- **reportValidity(): _boolean_** - Checks for validity and shows the browser's validation message if the control is invalid.\n- **setCustomValidity(message: _string_): _void_** - Sets a custom validation message. Pass an empty string to restore validity.\n\n### **Slots:**\n - **label** - The input's label. Alternatively, you can use the `label` attribute.\n- **prefix** - Used to prepend a presentational icon or similar element to the input.\n- **suffix** - Used to append a presentational icon or similar element to the input.\n- **clear-icon** - An icon to use in lieu of the default clear icon.\n- **show-password-icon** - An icon to use in lieu of the default show password icon.\n- **hide-password-icon** - An icon to use in lieu of the default hide password icon.\n- **help-text** - Text that describes how to use the input. Alternatively, you can use the `help-text` attribute.\n\n### **CSS Parts:**\n - **form-control** - The form control that wraps the label, input, and help text.\n- **form-control-label** - The label's wrapper.\n- **form-control-input** - The input's wrapper.\n- **form-control-help-text** - The help text's wrapper.\n- **base** - The component's base wrapper.\n- **input** - The internal `<input>` control.\n- **prefix** - The container that wraps the prefix.\n- **clear-button** - The clear button.\n- **password-toggle-button** - The password toggle button.\n- **suffix** - The container that wraps the suffix.",
       "attributes": [
         { "name": "datalistItems", "values": [{ "name": "string[]" }] },
         { "name": "title", "values": [] },
@@ -565,7 +595,7 @@
     },
     {
       "name": "e-divcord-presets",
-      "description": "Controls for divcord presets\n---\n\n\n### **Events:**\n - **config-updated** - Emitted when active config options updated\n- **preset-applied** - undefined\n- **custom-presets-updated** - undefined",
+      "description": "Controls for divcord presets\n---\n\n\n### **Events:**\n - **config-updated** - Emitted when active config options updated\n- **preset-applied**\n- **custom-presets-updated**",
       "attributes": [
         { "name": "customPresets", "values": [{ "name": "PresetConfig[]" }] }
       ],
@@ -609,7 +639,7 @@
     },
     {
       "name": "e-weights-table",
-      "description": "\n---\n\n\n### **Events:**\n - **show-cards-changed** - undefined",
+      "description": "\n---\n\n\n### **Events:**\n - **show-cards-changed**\n- **navigate-transition** - Emits on card or source navigation\n\n### **CSS Parts:**\n - **active-card** - Active for view transition card(Optional).",
       "attributes": [
         { "name": "rows", "values": [{ "name": "WeightData[]" }] },
         { "name": "weight-order", "values": [{ "name": "Order" }] },
@@ -619,7 +649,12 @@
           "values": [{ "name": "name" }, { "name": "weight" }]
         },
         { "name": "limit", "values": [] },
-        { "name": "show-cards", "values": [] }
+        { "name": "show-cards", "values": [] },
+        {
+          "name": "active-card",
+          "description": "Active card state for page transitions view-transition-name: card",
+          "values": []
+        }
       ],
       "references": []
     }
