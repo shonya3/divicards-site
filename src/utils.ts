@@ -32,7 +32,7 @@ export class SlConverter {
 		return s.replaceAll(' ', this.#SL_DELIMETER);
 	}
 	static fromSlValue<T extends string>(s: string): T {
-		return s.replaceAll(this.#SL_DELIMETER, ' ') as T;
+		return s.replaceAll(SlConverter.#SL_DELIMETER, ' ') as T;
 	}
 }
 
