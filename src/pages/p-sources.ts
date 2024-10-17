@@ -48,7 +48,7 @@ export class SourcesPage extends LitElement {
 			<a class="verify-link" href="/verify">Check Need to verify list!</a>
 			<details open>
 				<summary>List of sourcetypes</summary>
-				<ul class="sourcetypes-list">
+				<ul id="list-of-source-types">
 					${Array.from(this.source_types_count_map).map(
 						([type, count]) =>
 							html`<li>
@@ -59,7 +59,7 @@ export class SourcesPage extends LitElement {
 				</ul>
 			</details>
 
-			<ul class="source-with-cards-list" style="padding-top: 4rem">
+			<ul id="sources-and-cards" style="padding-top: 4rem">
 				${this.sources_and_cards.map(
 					({ source, cards }) =>
 						html`<li class="source-with-cards-list__item">
@@ -80,6 +80,7 @@ export class SourcesPage extends LitElement {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
+			list-style: none;
 		}
 
 		a:link,
@@ -97,37 +98,35 @@ export class SourcesPage extends LitElement {
 			margin-block: 2rem;
 		}
 
-		.source-with-cards-list__item {
-			margin-inline: auto;
-			@media (width >= 460px) {
-				margin-inline: 0rem;
-			}
-		}
-
-		.source-with-cards-list li:not(:first-child) {
-			margin-top: 4rem;
-		}
-
-		li {
-			list-style: none;
-		}
-
-		.sourcetypes-list {
+		#list-of-source-types {
 			margin-left: 1rem;
 			display: flex;
 			flex-direction: column;
 			gap: 0.1rem;
 			--source-type-font-size: 1rem;
+
+			& li {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+
+				& span {
+					font-size: 0.8rem;
+				}
+			}
 		}
 
-		.sourcetypes-list li {
-			display: flex;
-			align-items: center;
-			gap: 0.25rem;
-		}
+		#sources-and-cards {
+			& li {
+				margin-inline: auto;
+				@media (width >= 460px) {
+					margin-inline: 0rem;
+				}
+			}
 
-		.sourcetypes-list span {
-			font-size: 0.8rem;
+			& li:not(:first-child) {
+				margin-top: 4rem;
+			}
 		}
 	`;
 }
