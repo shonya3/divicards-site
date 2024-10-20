@@ -6,8 +6,8 @@ import { DivcordTable } from './DivcordTable';
 import { startViewTransition } from './utils';
 
 // init divcord_wasm
-const wasm = await import('./gen/divcordWasm/divcord_wasm.js');
-await wasm.default();
+const divcord_wasm_package = await import('./gen/divcordWasm/divcord_wasm.js');
+await divcord_wasm_package.default();
 
 const records = await divcordLoader.getRecordsAndStartUpdateIfNeeded();
 const divcordTable = new DivcordTable(records);
