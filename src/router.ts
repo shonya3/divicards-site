@@ -129,11 +129,8 @@ export const router = new Router({
 			path: '/sources',
 			title: 'Sources',
 			plugins: [lazy(() => import('./pages/p-sources'))],
-			render: ({ query }) => {
-				return html`<p-sources
-					.page=${Number(query.page ?? 1)}
-					.perPage=${Number(query['per-page'] ?? 10)}
-				></p-sources>`;
+			render: () => {
+				return html`<p-sources></p-sources>`;
 			},
 		},
 		{
