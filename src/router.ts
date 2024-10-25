@@ -7,6 +7,15 @@ import { Router } from '@thepassle/app-tools/router.js';
 import { html } from 'lit';
 import { SourceType, Source } from './gen/Source';
 
+declare module '@thepassle/app-tools/router.js' {
+	interface Router {
+		/**
+		 * Indicates whether the View Transition should be skipped.
+		 */
+		skip_transition?: boolean;
+	}
+}
+
 import './pages/p-home';
 import './pages/p-card';
 import './pages/p-source';

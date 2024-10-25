@@ -26,6 +26,7 @@ export class PageControlsElement extends LitElement {
 					url.searchParams.set('per-page', String(this.perPage));
 				}
 
+				router.skip_transition = true;
 				router.navigate(url);
 			}
 		}
