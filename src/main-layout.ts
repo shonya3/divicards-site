@@ -1,55 +1,40 @@
 import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { linkStyles } from './linkStyles';
 import './elements/e-topnav';
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'app-root': RootElement;
+		'main-layout': MainLayoutElement;
 	}
 }
 
-@customElement('app-root')
-export class RootElement extends LitElement {
+@customElement('main-layout')
+export class MainLayoutElement extends LitElement {
 	render(): TemplateResult {
-		return html`<div class="wrapper">
-			<header class="header">
-				<e-topnav exportparts="active-link"></e-topnav>
+		return html`
+			<header id="header">
+				<slot name="header"></slot>
 			</header>
-			<div class="outlet">
-				<slot></slot>
+
+			<div id="page">
+				<slot name="page"></slot>
 			</div>
-		</div>`;
+		`;
 	}
 
 	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
-
-		@layer base {
-			${linkStyles}
-
-			a {
-				transition: 0.2s color;
-			}
-		}
-
 		:host {
 			display: block;
 			min-height: 100vh;
-			--source-color: var(--sl-color-gray-800);
 		}
 
-		.header {
+		#header {
 			position: sticky;
 			top: 0;
 			z-index: 10;
 		}
 
-		.outlet {
+		#page {
 			margin-top: 1rem;
 			padding: 1rem;
 			padding-bottom: 0;

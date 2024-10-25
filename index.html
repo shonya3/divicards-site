@@ -4,16 +4,20 @@
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite + TS</title>
+		<title>Divicards</title>
 		<link rel="stylesheet" href="/node_modules/@shoelace-style/shoelace/dist/themes/light.css" />
 		<link rel="stylesheet" href="/node_modules/@shoelace-style/shoelace/dist/themes/dark.css" />
 		<script type="module" src="/src/context/divcord/divcord-provider.ts"></script>
+		<script type="module" src="/src/main-layout.ts"></script>
 		<script type="module" src="/src/main.ts"></script>
 		<link rel="stylesheet" href="/src/styles.css" />
 	</head>
 	<body>
 		<divcord-provider>
-			<app-root></app-root>
+			<main-layout>
+				<e-topnav slot="header"></e-topnav>
+				<div slot="page"></div>
+			</main-layout>
 		</divcord-provider>
 	</body>
 </html>
