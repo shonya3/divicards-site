@@ -55,10 +55,6 @@ e-topnav::part(active-link) {
 	view-transition-name: active-link;
 }
 
-app-root::part(active-link) {
-	view-transition-name: active-link-app;
-}
-
 p-card::part(card),
 p-home::part(active-card),
 p-source::part(active-card),

@@ -2,7 +2,6 @@ import { LitElement, html, css, PropertyValueMap, nothing, TemplateResult } from
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { startViewTransition } from '../utils';
-import { router } from '../router';
 import { ThemeToggle } from './theme-toggle/theme-toggle';
 ThemeToggle.define();
 
