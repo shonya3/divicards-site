@@ -32,6 +32,17 @@ export class TopNavElement extends LitElement {
 		}
 	}
 
+	constructor() {
+		super();
+
+		this.addEventListener('click', async () => {
+			await startViewTransition(() => {
+				const pathname = new URL(window.location.href).pathname;
+				this.pathname = pathname || '/home';
+			});
+		});
+	}
+
 	connectedCallback(): void {
 		super.connectedCallback();
 		const observer = new ResizeObserver(entries => {
