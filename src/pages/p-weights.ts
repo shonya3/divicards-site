@@ -8,13 +8,13 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { Storage } from '../storage';
 import type { WeightsTableElement } from '../elements/weights-table/e-weights-table';
 import { consume } from '@lit/context';
-import { DivcordTable } from '../DivcordTable';
-import { divcordTableContext } from '../context';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { formatWithNewlines } from '../utils';
 import { NavigateTransitionEvent } from '../events';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 declare module '../storage' {
 	interface Registry {

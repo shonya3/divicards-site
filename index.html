@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-	<!-- <html class="" lang="en"></html> -->
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -8,80 +7,13 @@
 		<title>Vite + TS</title>
 		<link rel="stylesheet" href="/node_modules/@shoelace-style/shoelace/dist/themes/light.css" />
 		<link rel="stylesheet" href="/node_modules/@shoelace-style/shoelace/dist/themes/dark.css" />
+		<script type="module" src="/src/context/divcord/divcord-provider.ts"></script>
 		<script type="module" src="/src/main.ts"></script>
-		<style>
-			:root {
-				font-family: 'Geist', sans-serif;
-
-				--card-width-small: 134px;
-				--card-width-medium: 268px;
-				--card-width-large: 326px;
-				--link-color-hover: var(--sl-color-sky-600, skyblue);
-				--top-nav-active-shadow: 0 2px 8px rgb(0 0 0 / 14%);
-				--bg-clr: #fff;
-			}
-
-			:root[data-theme='dark'] {
-				color-scheme: dark;
-				/* background-color: #202124;
-				color: #bdc1c6; */
-				--top-nav-active-shadow: 0 2px 8px rgb(255 255 255 / 25%);
-				--bg-clr: #121212;
-			}
-
-			html {
-				height: 100vh;
-				overflow-y: scroll;
-			}
-
-			body {
-				font-size: 1rem;
-				margin: 0;
-				padding: 0;
-
-				height: 100vh;
-			}
-
-			@font-face {
-				font-family: 'Geist';
-				src: url('/Geist-Light.woff2') format('woff2');
-			}
-
-			@font-face {
-				font-family: 'fontin';
-				font-weight: normal;
-				font-style: normal;
-				src: url('/fontin.woff') format('woff');
-			}
-
-			.toast-link {
-				color: white;
-			}
-
-			.toast-link:hover {
-				color: var(--sl-color-sky-600, skyblue);
-			}
-
-			app-root::part(active-link) {
-				view-transition-name: active-link;
-			}
-
-			p-card::part(card),
-			p-home::part(active-card),
-			p-source::part(active-card),
-			p-weights::part(active-card),
-			p-maps::part(active-card) {
-				view-transition-name: card;
-			}
-
-			p-home::part(active-source),
-			p-source::part(source),
-			p-verify::part(active-source),
-			p-card::part(active-source),
-			p-maps::part(active-source) {
-				view-transition-name: active-source;
-			}
-		</style>
+		<link rel="stylesheet" href="/src/styles.css" />
 	</head>
-	<body></body>
+	<body>
+		<divcord-provider>
+			<app-root></app-root>
+		</divcord-provider>
+	</body>
 </html>

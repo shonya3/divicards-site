@@ -1,8 +1,8 @@
 import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { divcordLoader, type State } from '../DivcordLoader';
 import { Task } from '@lit/task';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
+import { divcordLoader, type State } from '../context/divcord/DivcordLoader';
 
 @customElement('e-update-divcord-data')
 export class UpdateDivcordDataElement extends LitElement {

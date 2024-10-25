@@ -8,10 +8,10 @@ import '../elements/e-cards-by-source';
 import { poeData } from '../PoeData';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { consume } from '@lit/context';
-import { divcordTableContext } from '../context';
 import { paginate } from '../utils';
-import { DivcordTable } from '../DivcordTable';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import { NavigateTransitionEvent } from '../events';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 /**
  * @csspart active-source - Active for view transition source(Optional).

@@ -1,11 +1,6 @@
-import { provide } from '@lit/context';
 import { LitElement, html, css, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { divcordLoader } from './DivcordLoader';
-import { divcordTableContext } from './context';
-import { DivcordTable } from './DivcordTable';
+import { customElement } from 'lit/decorators.js';
 import { linkStyles } from './linkStyles';
-import { toast } from './toast';
 import './elements/e-topnav';
 
 declare global {
@@ -16,21 +11,6 @@ declare global {
 
 @customElement('app-root')
 export class RootElement extends LitElement {
-	@property() pathname?: string;
-
-	@provide({ context: divcordTableContext })
-	@property({ type: Object })
-	divcordTable!: DivcordTable;
-
-	constructor() {
-		super();
-
-		divcordLoader.addEventListener('records-updated', records => {
-			this.divcordTable = new DivcordTable(records);
-			toast('Your Divcord data is up-to-date', 'success', 3000);
-		});
-	}
-
 	render(): TemplateResult {
 		return html`<div class="wrapper">
 			<header class="header">

@@ -1,11 +1,10 @@
 import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/e-divination-card';
-import { DivcordTable } from '../DivcordTable';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import '../elements/e-page-controls';
 import '../elements/e-card-with-sources';
 import { consume } from '@lit/context';
-import { divcordTableContext } from '../context';
 import { SlConverter, paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
@@ -17,6 +16,7 @@ import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
 import { NavigateTransitionEvent } from '../events';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 declare global {
 	interface Window {

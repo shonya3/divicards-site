@@ -2,8 +2,7 @@ import { linkStyles } from './../linkStyles';
 import { LitElement, PropertyValueMap, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { consume } from '@lit/context';
-import { DivcordTable } from '../DivcordTable';
-import { divcordTableContext } from '../context';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import '../elements/e-card-with-divcord-records';
 import '../elements/e-page-controls';
 import '../elements/input/e-input';
@@ -32,6 +31,7 @@ import {
 } from '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import { poeData } from '../PoeData';
 import { prepareWeightData } from '../elements/weights-table/lib';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 declare module '../storage' {
 	interface Registry {

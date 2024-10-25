@@ -3,14 +3,14 @@ import { customElement, property, state } from 'lit/decorators.js';
 import '../elements/e-card-with-sources';
 import '../elements/e-card-with-divcord-records';
 import { consume } from '@lit/context';
-import { divcordTableContext } from '../context';
 import { poeData } from '../PoeData';
-import { DivcordTable } from '../DivcordTable';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import type { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
 import { NavigateTransitionEvent } from '../events';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 @customElement('p-card')
 export class CardPage extends LitElement {

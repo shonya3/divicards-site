@@ -6,7 +6,7 @@ import { poeData } from '../PoeData';
 import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
-import { DivcordTable } from '../DivcordTable';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import type { Source } from '../gen/Source';
 import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';
@@ -14,6 +14,7 @@ import './e-sources';
 import { NavigateTransitionEvent, redispatchTransition } from '../events';
 
 /**
+ * Card + list of it's drop sources.
  * @csspart active-source - Dropsource involved in view transitions.
  * @csspart card - Divination card element
  * @event   navigate-transition NavigateTransitionEvent - Emits on navigation.
@@ -96,6 +97,10 @@ export class CardWithSourcesElement extends LitElement {
 		.wrapper {
 			display: flex;
 			flex-direction: column;
+		}
+
+		:host {
+			display: inline-block;
 		}
 	`;
 }

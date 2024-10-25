@@ -6,11 +6,11 @@ import '../elements/e-source/e-source';
 import '../elements/e-source-type';
 import './p-sources';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
-import { divcordTableContext } from '../context';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
-import { DivcordTable } from '../DivcordTable';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import { ArrayAsyncRenderer } from '../utils';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 @customElement('p-source-type')
 export class SourceTypePage extends LitElement {

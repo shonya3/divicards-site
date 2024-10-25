@@ -3,13 +3,13 @@ import { customElement, property, state } from 'lit/decorators.js';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import { consume } from '@lit/context';
-import { divcordTableContext } from '../context';
 import '../elements/e-source-with-cards';
 import { CardBySource, cardsBySource, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import type { Source } from '../gen/Source';
-import { DivcordTable } from '../DivcordTable';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import { NavigateTransitionEvent } from '../events';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 /**
  * @csspart source - Dropsource.

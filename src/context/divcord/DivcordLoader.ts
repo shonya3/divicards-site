@@ -1,11 +1,14 @@
-import { poeData } from './PoeData';
-import { warningToast } from './toast';
-import { sortByWeight } from './cards';
-import type { DivcordRecord } from './gen/divcord';
-import { Storage } from './storage';
-import { EventEmitter, sortAllSourcesByLevel } from './utils';
+import { poeData } from '../../PoeData.js';
+import { warningToast } from '../../toast.js';
+import { sortByWeight } from '../../cards.js';
+import type { DivcordRecord } from '../../gen/divcord.js';
+import { Storage } from '../../storage.js';
+import { EventEmitter, sortAllSourcesByLevel } from '../../utils.js';
 
-declare module './storage' {
+const divcord_wasm_package = await import('../../gen/divcordWasm/divcord_wasm.js');
+await divcord_wasm_package.default();
+
+declare module '../../storage' {
 	interface Registry {
 		divcord: DivcordRecord[];
 	}
@@ -174,7 +177,7 @@ export class DivcordLoader extends EventEmitter<{
 	}
 
 	async #fromStaticJson(): Promise<DivcordRecord[]> {
-		const { divcordRecordsFromJson } = await import('./gen/divcord.js');
+		const { divcordRecordsFromJson } = await import('../../gen/divcord.js');
 		return divcordRecordsFromJson;
 	}
 }

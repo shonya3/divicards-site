@@ -2,8 +2,7 @@
 
 import { LitElement, PropertyValueMap, TemplateResult, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { divcordTableContext } from '../context';
-import { DivcordTable } from '../DivcordTable';
+import { DivcordTable } from '../context/divcord/DivcordTable';
 import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { PoeData, poeData } from '../PoeData';
@@ -25,6 +24,7 @@ import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import { Storage } from '../storage';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 declare module '../storage' {
 	interface Registry {
