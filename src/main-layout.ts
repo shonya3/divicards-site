@@ -35,12 +35,11 @@ export class MainLayoutElement extends LitElement {
 		}
 
 		#page {
-			margin-top: 1rem;
 			padding: 1rem;
 			padding-bottom: 0;
 
 			@media (width >= 640px) {
-				padding: 2rem;
+				padding: 1.5rem;
 				padding-bottom: 0;
 			}
 		}
