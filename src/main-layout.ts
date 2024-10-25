@@ -8,6 +8,11 @@ declare global {
 	}
 }
 
+/**
+ * Main Layout for index.html
+ * @slot header
+ * @slot page
+ */
 @customElement('main-layout')
 export class MainLayoutElement extends LitElement {
 	render(): TemplateResult {
