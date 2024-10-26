@@ -3,6 +3,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { startViewTransition } from '../utils';
 import { ThemeToggle } from './theme-toggle/theme-toggle';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 ThemeToggle.define();
 
 @customElement('e-topnav')
@@ -72,7 +73,12 @@ export class TopNavElement extends LitElement {
 					</li>`;
 				})}
 			</ul>
-			<theme-toggle></theme-toggle>
+			<div class="icons">
+				<theme-toggle></theme-toggle>
+				<a href="https://github.com/shonya3/divicards-site">
+					<sl-icon name="github"></sl-icon>
+				</a>
+			</div>
 
 			<button class="btn menu-button" type="button" @click=${() => this.menuDialogElement.showModal()}>
 				Menu
@@ -109,10 +115,6 @@ export class TopNavElement extends LitElement {
 			font: inherit;
 		}
 
-		theme-toggle {
-			margin-right: 1rem;
-		}
-
 		:host {
 			--menu-bg-clr: var(--sl-color-gray-50);
 			--clr: var(--sl-color-gray-800);
@@ -124,6 +126,20 @@ export class TopNavElement extends LitElement {
 			padding-block: 0.5rem;
 			color: var(--clr);
 			text-decoration: none;
+		}
+
+		.icons {
+			display: flex;
+			align-items: center;
+			gap: 0rem;
+		}
+
+		sl-icon {
+			font-size: 1.5rem;
+
+			a {
+				all: unset;
+			}
 		}
 
 		dialog {
