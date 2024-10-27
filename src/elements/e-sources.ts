@@ -1,12 +1,14 @@
-import { LitElement, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { LitElement, PropertyValues, TemplateResult, css, html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import type { Source } from '../gen/Source';
 import type { SourceSize } from './e-source/types';
 import type { RenderMode } from './types';
 import type { VerificationStatus } from '../cards';
-import { redispatchTransition } from '../events';
+import { NavigateTransitionEvent, redispatchTransition } from '../events';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
+ * List of drop sources.
  * @csspart active-source - Dropsource involved in view transitions.
  */
 @customElement('e-sources')
@@ -18,15 +20,41 @@ export class SourcesElement extends LitElement {
 	/** Dropsource involved in view transitions */
 	@property({ reflect: true, attribute: 'active-source' }) activeSource?: string;
 
-	protected render(): HTMLUListElement {
-		return SourcesList.call(
-			this,
-			this.sources,
-			this.size,
-			this.renderMode,
-			this.verificationStatus,
-			this.activeSource
-		);
+	/** Only maps sources to render them separately. */
+	@state() sources_maps: Array<Source> = [];
+	/** All sources but maps. Maps are rendered separately. */
+	@state() sources_non_maps: Array<Source> = [];
+
+	protected willUpdate(map: PropertyValues<this>): void {
+		if (map.has('sources')) {
+			this.sources_maps = this.sources.filter(({ type }) => type === 'Map');
+			this.sources_non_maps = this.sources.filter(({ type }) => type !== 'Map');
+		}
+	}
+
+	protected render(): TemplateResult {
+		return html`${this.#list('non_maps')}${this.#list('maps')}`;
+	}
+
+	/** Reusable list of sources for maps and for non_maps */
+	#list(source_types: 'maps' | 'non_maps'): TemplateResult {
+		const sources = source_types === 'maps' ? this.sources_maps : this.sources_non_maps;
+		return html`<ul class="${source_types === 'maps' ? 'sources-maps' : 'sources'}">
+			${sources.map(source => {
+				const source_template = html`
+					<e-source
+						@navigate-transition=${(e: NavigateTransitionEvent) => redispatchTransition.call(this, e)}
+						part=${ifDefined(this.activeSource === source.idSlug ? 'active-source' : undefined)}
+						.renderMode=${this.renderMode}
+						.source=${source}
+						.size=${this.size}
+					></e-source>
+				`;
+				return this.verificationStatus === 'verify'
+					? html`<li><e-need-to-verify>${source_template}</e-need-to-verify></li>`
+					: html`<li>${source_template}</li>`;
+			})}
+		</ul>`;
 	}
 
 	static styles = css`
@@ -36,79 +64,23 @@ export class SourcesElement extends LitElement {
 			box-sizing: border-box;
 		}
 
-		.sources {
+		ul {
+			list-style: none;
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
+		}
+
+		.sources {
 			margin-top: 0.25rem;
 			column-gap: 0.5rem;
 			row-gap: 0.4rem;
 		}
 
 		.sources-maps {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
 			gap: 0.2rem;
 		}
-
-		.sources-maps--verify {
-			gap: 0.75rem;
-		}
 	`;
-}
-
-/**  Put maps into distinct container without gaps */
-function SourcesList(
-	this: HTMLElement,
-	sources: Source[],
-	size: SourceSize,
-	renderMode: RenderMode,
-	verificationStatus: VerificationStatus,
-	activeSource: string | null = null
-): HTMLUListElement {
-	const mapsSources = document.createElement('div');
-	mapsSources.classList.add('sources-maps');
-	if (verificationStatus === 'verify') {
-		mapsSources.classList.add('sources-maps--verify');
-	}
-	const ul = document.createElement('ul');
-	ul.classList.add('sources');
-	for (const source of sources) {
-		{
-			let sourceEl: HTMLElement = Object.assign(document.createElement('e-source'), {
-				renderMode,
-				source,
-				size,
-			});
-
-			if (activeSource === source.idSlug) {
-				sourceEl.setAttribute('part', 'active-source');
-			}
-
-			sourceEl.addEventListener('navigate-transition', e => {
-				redispatchTransition.call(this, e);
-			});
-
-			if (verificationStatus === 'verify') {
-				const verifyEl = document.createElement('e-need-to-verify');
-				verifyEl.append(sourceEl);
-				sourceEl = verifyEl;
-			}
-
-			if (source.type === 'Map') {
-				mapsSources.append(sourceEl);
-			} else {
-				ul.append(sourceEl);
-			}
-		}
-	}
-
-	if (mapsSources.children.length > 0) {
-		ul.append(mapsSources);
-	}
-
-	return ul;
 }
 
 declare global {
