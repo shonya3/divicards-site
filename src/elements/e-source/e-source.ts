@@ -13,7 +13,7 @@ import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
-import { NavigateTransitionEvent, dispatchTransition, redispatchTransition } from '../../events';
+import { dispatchTransition } from '../../events';
 
 export class NoSourceInPoeDataError extends Error {
 	constructor(source: Source) {
@@ -70,7 +70,6 @@ export class SourceElement extends LitElement {
 
 				return html`<e-act-area
 					.slug=${this.source.idSlug}
-					@navigate-transition=${this.#redispatchTransition}
 					.href=${sourceHref(this.source)}
 					.actArea=${area}
 					.size=${size}
@@ -85,7 +84,6 @@ export class SourceElement extends LitElement {
 					.boss=${res.boss}
 					.actArea=${res.area}
 					.renderMode=${this.renderMode}
-					@navigate-transition=${this.#redispatchTransition}
 				></e-actboss>`;
 			}
 			case 'Map': {
@@ -97,7 +95,6 @@ export class SourceElement extends LitElement {
 					.size=${this.size === 'large' ? 'medium' : this.size}
 					.map=${map}
 					.renderMode=${this.renderMode}
-					@navigate-transition=${this.#redispatchTransition}
 				></e-map>`;
 			}
 			case 'Map Boss': {
@@ -110,7 +107,6 @@ export class SourceElement extends LitElement {
 					.boss=${res.boss}
 					.maps=${res.maps}
 					.renderMode=${this.renderMode}
-					@navigate-transition=${this.#redispatchTransition}
 				></e-mapboss>`;
 			}
 
@@ -124,10 +120,6 @@ export class SourceElement extends LitElement {
 				>`;
 			}
 		}
-	}
-
-	#redispatchTransition(e: NavigateTransitionEvent) {
-		redispatchTransition.call(this, e);
 	}
 
 	render(): TemplateResult {

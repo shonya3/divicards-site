@@ -11,7 +11,6 @@ import type { Source } from '../gen/Source';
 import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';
 import './e-sources';
-import { NavigateTransitionEvent, redispatchTransition } from '../events';
 
 /**
  * Card + list of it's drop sources.
@@ -51,12 +50,7 @@ export class CardWithSourcesElement extends LitElement {
 
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
-				<e-divination-card
-					@navigate-transition=${this.#redispatchTransition}
-					part="card"
-					.name=${this.name}
-					.size=${this.cardSize}
-				></e-divination-card>
+				<e-divination-card part="card" .name=${this.name} .size=${this.cardSize}></e-divination-card>
 				<e-sources
 					.sources=${this.sources}
 					.size=${this.sourceSize}
@@ -64,7 +58,6 @@ export class CardWithSourcesElement extends LitElement {
 					.renderMode=${this.renderMode}
 					.activeSource=${this.activeSource}
 					exportparts="active-source"
-					@navigate-transition=${this.#redispatchTransition}
 				></e-sources>
 				<e-sources
 					.sources=${this.verifySources}
@@ -73,14 +66,9 @@ export class CardWithSourcesElement extends LitElement {
 					.renderMode=${this.renderMode}
 					.activeSource=${this.activeSource}
 					exportparts="active-source"
-					@navigate-transition=${this.#redispatchTransition}
 				></e-sources>
 			</div>
 		`;
-	}
-
-	#redispatchTransition(e: NavigateTransitionEvent) {
-		redispatchTransition.call(this, e);
 	}
 
 	static styles = css`

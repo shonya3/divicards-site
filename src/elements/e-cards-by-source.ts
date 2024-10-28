@@ -7,11 +7,10 @@ import './e-need-to-verify';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { NavigateTransitionEvent, redispatchTransition } from '../events';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 /**
- * Group of cards for dropsource page and maps page
+ * Group of cards by dropsource page and maps page
  * @csspart active-card - Active for view transition card(Optional).
  * @event   navigate-transition Emits on card or source navigation
  */
@@ -34,7 +33,6 @@ export class CardsBySourceElement extends LitElement {
 					.name=${card}
 					.boss=${transitiveSource?.id}
 					part=${ifDefined(this.activeCard === slug(card) ? 'active-card' : undefined)}
-					@navigate-transition=${(e: NavigateTransitionEvent) => redispatchTransition.call(this, e)}
 				>
 					${transitiveSource
 						? html`<e-source

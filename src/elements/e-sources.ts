@@ -4,8 +4,9 @@ import type { Source } from '../gen/Source';
 import type { SourceSize } from './e-source/types';
 import type { RenderMode } from './types';
 import type { VerificationStatus } from '../cards';
-import { NavigateTransitionEvent, redispatchTransition } from '../events';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import './e-source/e-source';
+import './e-need-to-verify';
 
 /**
  * List of drop sources.
@@ -43,7 +44,6 @@ export class SourcesElement extends LitElement {
 			${sources.map(source => {
 				const source_template = html`
 					<e-source
-						@navigate-transition=${(e: NavigateTransitionEvent) => redispatchTransition.call(this, e)}
 						part=${ifDefined(this.activeSource === source.idSlug ? 'active-source' : undefined)}
 						.renderMode=${this.renderMode}
 						.source=${source}
