@@ -13,9 +13,9 @@ import type { SourceSize } from './e-source/types';
 import './e-sources';
 
 /**
- * Card + list of it's drop sources.
- * @csspart active-source - Dropsource involved in view transitions.
- * @csspart card - Divination card element
+ * Divination card + list of it's drop sources.
+ * @csspart active_drop_source - Dropsource involved in view transitions.
+ * @csspart divination_card - Divination card element
  * @event   navigate-transition NavigateTransitionEvent - Emits on navigation.
  */
 @customElement('e-card-with-sources')
@@ -26,7 +26,7 @@ export class CardWithSourcesElement extends LitElement {
 	@property({ type: Object }) divcordTable!: DivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 	/** Dropsource involved in view transitions */
-	@property({ reflect: true, attribute: 'active-source' }) activeSource?: string;
+	@property({ reflect: true }) active_drop_source?: string;
 
 	@state() sources: Source[] = [];
 	@state() verifySources: Source[] = [];
@@ -50,22 +50,22 @@ export class CardWithSourcesElement extends LitElement {
 
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
-				<e-divination-card part="card" .name=${this.name} .size=${this.cardSize}></e-divination-card>
+				<e-divination-card part="divination_card" .name=${this.name} .size=${this.cardSize}></e-divination-card>
 				<e-sources
 					.sources=${this.sources}
 					.size=${this.sourceSize}
 					verification-status="done"
 					.renderMode=${this.renderMode}
-					.activeSource=${this.activeSource}
-					exportparts="active-source"
+					.active_drop_source=${this.active_drop_source}
+					exportparts="active_drop_source"
 				></e-sources>
 				<e-sources
 					.sources=${this.verifySources}
 					.size=${this.sourceSize}
 					verification-status="verify"
 					.renderMode=${this.renderMode}
-					.activeSource=${this.activeSource}
-					exportparts="active-source"
+					.active_drop_source=${this.active_drop_source}
+					exportparts="active_drop_source"
 				></e-sources>
 			</div>
 		`;

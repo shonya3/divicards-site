@@ -8,10 +8,17 @@ import { DivcordTable } from '../context/divcord/DivcordTable';
 import type { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
-import { NavigateTransitionEvent } from '../events';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
+import {
+	view_transition_names_context,
+	type ViewTransitionNamesContext,
+} from '../context/view-transition-name-provider';
 
+/**
+ * @csspart active_drop_source
+ * @csspart divination_card
+ */
 @customElement('p-card')
 export class CardPage extends LitElement {
 	@property({ reflect: true }) card!: string;
@@ -20,9 +27,11 @@ export class CardPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
+
 	@state() weightData!: WeightData;
-	/** Dropsource involved in view transitions */
-	@state() activeSource?: string = window.activeSource;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
@@ -34,7 +43,10 @@ export class CardPage extends LitElement {
 	}
 
 	protected firstUpdated(_changedProperties: PropertyValues): void {
-		window.activeCard = slug(this.card);
+		this.view_transition_names = {
+			...this.view_transition_names,
+			active_divination_card: slug(this.card),
+		};
 	}
 
 	render(): TemplateResult {
@@ -46,14 +58,13 @@ export class CardPage extends LitElement {
 		return html`<div class="page">
 			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
 				<e-card-with-sources
-					exportparts="card,active-source"
+					exportparts="divination_card,active_drop_source"
 					slot="card"
 					.name=${this.card}
 					card-size="large"
 					source-size="medium"
 					.divcordTable=${this.divcordTable}
-					.activeSource=${this.activeSource}
-					@navigate-transition=${this.#handleNavigateTransition}
+					.active_drop_source=${this.view_transition_names.active_drop_source}
 				>
 				</e-card-with-sources>
 				${card
@@ -74,11 +85,6 @@ export class CardPage extends LitElement {
 					: nothing}
 			</e-card-with-divcord-records>
 		</div>`;
-	}
-
-	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		window.activeSource = e.slug;
-		this.activeSource = e.slug;
 	}
 
 	static styles = css`

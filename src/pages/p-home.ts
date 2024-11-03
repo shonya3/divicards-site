@@ -14,9 +14,12 @@ import { SearchCardsCriteria, searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } fro
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
-import { NavigateTransitionEvent } from '../events';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
+import {
+	view_transition_names_context,
+	type ViewTransitionNamesContext,
+} from '../context/view-transition-name-provider';
 
 declare global {
 	interface Window {
@@ -32,8 +35,8 @@ declare global {
 }
 
 /**
- * @csspart active-source Active source for view-transition(optional).
- * @csspart active-card   Active card for view-transition(optional).
+ * @csspart active_drop_source Active source for view-transition(optional).
+ * @csspart active_divination-card   Active card for view-transition(optional).
  */
 @customElement('p-home')
 export class HomePage extends LitElement {
@@ -49,12 +52,10 @@ export class HomePage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
-	/**
-	 * Active card state for page transitions view-transition-name: card
-	 */
-	@state() activeCard?: string = window.activeCard;
-	/** Dropsource involved in view transitions */
-	@state() activeSource?: string = window.activeSource;
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
+
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];
 
@@ -125,28 +126,15 @@ export class HomePage extends LitElement {
 							.divcordTable=${this.divcordTable}
 							.cardSize=${this.cardSize}
 							.sourceSize=${this.sourceSize}
-							@navigate-transition=${this.#handleNavigateTransition}
-							.activeSource=${this.activeSource}
-							exportparts=${slug(card) === this.activeCard
-								? 'active-source,card:active-card'
-								: 'active-source'}
+							.active_drop_source=${this.view_transition_names.active_drop_source}
+							exportparts=${slug(card) === this.view_transition_names.active_divination_card
+								? 'active_drop_source,divination_card:active_divination_card'
+								: 'active_drop_source'}
 						></e-card-with-sources>
 					</li>`;
 				})}
 			</ul>
 		</div>`;
-	}
-
-	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		if (e.transitionName === 'card') {
-			window.activeCard = e.slug;
-			this.activeCard = e.slug;
-		}
-
-		if (e.transitionName === 'source') {
-			window.activeSource = e.slug;
-			this.activeSource = e.slug;
-		}
 	}
 
 	async #onCardnameInput(e: InputEvent) {

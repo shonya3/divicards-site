@@ -55,18 +55,18 @@ e-topnav::part(active-link) {
 	view-transition-name: active-link;
 }
 
-p-card::part(card),
-p-home::part(active-card),
+p-card::part(divination_card),
+p-home::part(active_divination_card),
 p-source::part(active-card),
 p-weights::part(active-card),
 p-maps::part(active-card) {
 	view-transition-name: card;
 }
 
-p-home::part(active-source),
+p-home::part(active_drop_source),
 p-source::part(source),
 p-verify::part(active-source),
-p-card::part(active-source),
+p-card::part(active_drop_source),
 p-maps::part(active-source) {
 	view-transition-name: active-source;
 }

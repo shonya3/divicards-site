@@ -10,7 +10,7 @@ import './e-need-to-verify';
 
 /**
  * List of drop sources.
- * @csspart active-source - Dropsource involved in view transitions.
+ * @csspart active_drop_source - Dropsource involved in view transitions.
  */
 @customElement('e-sources')
 export class SourcesElement extends LitElement {
@@ -19,7 +19,7 @@ export class SourcesElement extends LitElement {
 	@property({ reflect: true, attribute: 'render-mode' }) renderMode: RenderMode = 'compact';
 	@property({ reflect: true, attribute: 'verification-status' }) verificationStatus: VerificationStatus = 'done';
 	/** Dropsource involved in view transitions */
-	@property({ reflect: true, attribute: 'active-source' }) activeSource?: string;
+	@property({ reflect: true }) active_drop_source?: string;
 
 	/** Only maps sources to render them separately. */
 	@state() sources_maps: Array<Source> = [];
@@ -44,7 +44,7 @@ export class SourcesElement extends LitElement {
 			${sources.map(source => {
 				const source_template = html`
 					<e-source
-						part=${ifDefined(this.activeSource === source.idSlug ? 'active-source' : undefined)}
+						part=${ifDefined(this.active_drop_source === source.idSlug ? 'active_drop_source' : undefined)}
 						.renderMode=${this.renderMode}
 						.source=${source}
 						.size=${this.size}
