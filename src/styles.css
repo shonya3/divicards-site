@@ -64,7 +64,7 @@ p-maps::part(active_divination_card) {
 }
 
 p-home::part(active_drop_source),
-p-source::part(source),
+p-source::part(drop_source),
 p-verify::part(active_drop_source),
 p-card::part(active_drop_source),
 p-maps::part(active_drop_source) {

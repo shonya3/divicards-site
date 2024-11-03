@@ -12,6 +12,8 @@ import { DivcordTable } from '../context/divcord/DivcordTable';
 import { ArrayAsyncRenderer } from '../utils';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
 
+//TODO: add active_drop_source part
+
 @customElement('p-source-type')
 export class SourceTypePage extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;

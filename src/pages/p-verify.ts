@@ -231,7 +231,7 @@ function SourceWithCardsList({
 							source-size=${sourceSize}
 							.source=${source}
 							.cards=${cards}
-							exportparts="source:active_drop_source"
+							exportparts="drop_source:active_drop_source"
 						></e-source-with-cards>
 					</li>
 				`;

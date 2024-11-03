@@ -9,7 +9,7 @@ import type { SourceSize } from './e-source/types';
 
 /**
  * Dropsource with it's divination cards list
- * @csspart source - Dropsource.
+ * @csspart drop_source - Dropsource.
  * @csspart active_divination_card - Active for view transition card(Optional).
  * @event   navigate-transition - Emits on card or source navigation
  */
@@ -26,7 +26,7 @@ export class SourceWithCardsElement extends LitElement {
 		return html`<div class="wrapper">
 			<e-source
 				exportparts="source-type"
-				part="source"
+				part="drop_source"
 				class="source"
 				size=${this.sourceSize}
 				.source=${this.source}

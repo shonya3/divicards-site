@@ -15,7 +15,7 @@ import {
 } from '../context/view-transition-name-provider';
 
 /**
- * @csspart source - Dropsource.
+ * @csspart drop_source - Dropsource.
  * @csspart active_divination_card - Active card for view-transition(Optional).
  */
 @customElement('p-source')
@@ -51,7 +51,7 @@ export class SourcePage extends LitElement {
 		return html`<div class="page">
 			<e-source-with-cards
 				.active_divination_card=${this.view_transition_names.active_divination_card}
-				exportparts="source,active_divination_card"
+				exportparts="drop_source,active_divination_card"
 				.source=${this.source}
 				.cards=${this.cards}
 			></e-source-with-cards>
