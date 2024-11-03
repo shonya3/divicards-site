@@ -18,7 +18,7 @@ import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { DivcordRecordsAgeElement } from '../elements/e-divcord-records-age';
 import { DivcordPresetsElement } from '../elements/presets/e-divcord-presets';
-import { ArrayAsyncRenderer, paginate } from '../utils';
+import { paginate } from '../utils';
 import { Storage } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
 import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
@@ -32,6 +32,12 @@ import {
 import { poeData } from '../PoeData';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
+import {
+	view_transition_names_context,
+	type ViewTransitionNamesContext,
+} from '../context/view-transition-name-provider';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 declare module '../storage' {
 	interface Registry {
@@ -44,6 +50,9 @@ declare module '../storage' {
 	}
 }
 
+/**
+ * @csspart active_divination_card
+ */
 @customElement('p-divcord')
 export class DivcordPage extends LitElement {
 	#storage = {
@@ -70,10 +79,13 @@ export class DivcordPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
+
 	@state() recordsForTableView: DivcordRecordAndWeight[] = [];
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];
-	@state() paginatedCardsRenderer!: ArrayAsyncRenderer<string>;
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
 	@state() customPresets: PresetConfig[] = this.#storage.customPresets.load() ?? [];
@@ -128,7 +140,6 @@ export class DivcordPage extends LitElement {
 				onlyShowCardsWithSourcesToVerify: this.onlyShowCardsWithSourcesToVerify,
 			});
 			this.paginated = paginate(this.filtered, this.page, this.perPage);
-			this.paginatedCardsRenderer = new ArrayAsyncRenderer(this.paginated);
 
 			if (this.activeView === 'table') {
 				const set = new Set(this.filtered);
@@ -241,14 +252,23 @@ export class DivcordPage extends LitElement {
 								per-page=${this.perPage}
 							></e-page-controls>
 							<ul>
-								${this.paginatedCardsRenderer.render(card => {
-									return html`<e-card-with-divcord-records
-										.card=${card}
-										.records=${this.divcordTable.recordsByCard(card)}
-									></e-card-with-divcord-records>`;
+								${this.paginated.map(card => {
+									return html`<li>
+										<e-card-with-divcord-records
+											.card=${card}
+											.records=${this.divcordTable.recordsByCard(card)}
+											exportparts=${ifDefined(
+												this.view_transition_names.active_divination_card === slug(card)
+													? 'card:active_divination_card'
+													: undefined
+											)}
+										></e-card-with-divcord-records>
+									</li>`;
 								})}
 							</ul>`
 					: html`<e-divcord-spreadsheet
+							exportparts="active_divination_card"
+							.active_divination_card=${this.view_transition_names.active_divination_card}
 							@show-cards-changed=${this.#onShowCardsChanged}
 							.records=${this.recordsForTableView}
 							.showCards=${this.showCards}
@@ -411,6 +431,7 @@ export class DivcordPage extends LitElement {
 			flex-direction: column;
 			gap: 3rem;
 			margin-top: 2rem;
+			list-style: none;
 		}
 	`;
 }

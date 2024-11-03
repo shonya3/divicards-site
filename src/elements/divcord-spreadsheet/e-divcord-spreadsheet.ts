@@ -18,19 +18,25 @@ import '../e-sources';
 import { WeightData } from '../weights-table/types';
 import '../../elements/weights-table/e-weight-value';
 import { slug } from '../../gen/divcordWasm/divcord_wasm';
+import { NavigateTransitionEvent } from '../../events';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
+/**
+ * Adaptation of the Divcord google spreadsheet https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1&gid=0#gid=0
+ * @csspart active_divination_card
+ */
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
 	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
 	@property({ type: Array }) records: DivcordRecordAndWeight[] = [];
+	@property({ reflect: true }) active_divination_card?: string;
 
 	// Sort
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'card-order' }) cardOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'id-order' }) idOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'verify-order' }) verifyOrder: Order = 'desc';
-	@property({ reflect: true, attribute: 'ordered-by' })
-	orderedBy: SortColumn = 'id';
+	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: SortColumn = 'id';
 
 	@state() private recordsState: DivcordRecordAndWeight[] = [];
 	@state() private weightIcon = 'sort-down';
@@ -95,10 +101,12 @@ export class DivcordSpreadsheetElement extends LitElement {
 		this.orderedBy = column;
 	}
 
-	#onAnchorCardNavigation(e: Event) {
+	#onAnchorCardNavigation(e: Event, card: string) {
 		const target = e.composedPath()[0];
 		if (target instanceof HTMLAnchorElement) {
 			target.style.setProperty('view-transition-name', 'card');
+
+			this.dispatchEvent(new NavigateTransitionEvent('card', slug(card)));
 		}
 	}
 
@@ -176,10 +184,23 @@ export class DivcordSpreadsheetElement extends LitElement {
 								<td class="td col-card">
 									${this.showCards
 										? html`
-												<e-divination-card size="small" name=${record.card}></e-divination-card>
+												<e-divination-card
+													part=${ifDefined(
+														this.active_divination_card === slug(record.card)
+															? 'active_divination_card'
+															: undefined
+													)}
+													size="small"
+													name=${record.card}
+												></e-divination-card>
 										  `
 										: html`<a
-												@click=${this.#onAnchorCardNavigation}
+												part=${ifDefined(
+													this.active_divination_card === slug(record.card)
+														? 'active_divination_card'
+														: undefined
+												)}
+												@click=${(e: Event) => this.#onAnchorCardNavigation(e, record.card)}
 												href="/card/${slug(record.card)}"
 										  >
 												${record.card}

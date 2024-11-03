@@ -7,7 +7,7 @@ import type { DivcordRecord } from '../gen/divcord';
 import 'poe-custom-elements/divination-card.js';
 
 /**
- * @summary Element for card page and divcord page list
+ * Element for card page and divcord page list
  * @slot    card - Divination card slot.
  * @slot    main - Slot at the top, before divcord records.
  * @csspart card - Divination card.
@@ -50,6 +50,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 
 		:host {
 			display: flex;
+			align-items: start;
 			flex-direction: column;
 			max-width: max-content;
 			gap: 2rem;
