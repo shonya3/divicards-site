@@ -8,12 +8,15 @@ import { CardBySource, cardsBySource, sortByWeight } from '../cards';
 import { poeData } from '../PoeData';
 import type { Source } from '../gen/Source';
 import { DivcordTable } from '../context/divcord/DivcordTable';
-import { NavigateTransitionEvent } from '../events';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
+import {
+	view_transition_names_context,
+	type ViewTransitionNamesContext,
+} from '../context/view-transition-name-provider';
 
 /**
  * @csspart source - Dropsource.
- * @csspart active-card - Active card for view-transition(Optional).
+ * @csspart active_divination_card - Active card for view-transition(Optional).
  */
 @customElement('p-source')
 export class SourcePage extends LitElement {
@@ -23,11 +26,17 @@ export class SourcePage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
-	@state() activeCard?: string = window.activeCard;
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
+
 	@state() cards!: CardBySource[];
 
 	protected firstUpdated(): void {
-		window.activeSource = this.source.idSlug;
+		this.view_transition_names = {
+			...this.view_transition_names,
+			active_drop_source: this.source.idSlug,
+		};
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -41,20 +50,12 @@ export class SourcePage extends LitElement {
 	render(): TemplateResult {
 		return html`<div class="page">
 			<e-source-with-cards
-				@navigate-transition=${this.#handleNavigateTransition}
-				.activeCard=${this.activeCard}
-				exportparts="source,active-card"
+				.active_divination_card=${this.view_transition_names.active_divination_card}
+				exportparts="source,active_divination_card"
 				.source=${this.source}
 				.cards=${this.cards}
 			></e-source-with-cards>
 		</div>`;
-	}
-
-	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		if (e.transitionName === 'card') {
-			window.activeCard = e.slug;
-			this.activeCard = e.slug;
-		}
 	}
 
 	static styles = css`

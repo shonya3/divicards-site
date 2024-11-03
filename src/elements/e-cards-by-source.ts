@@ -11,7 +11,7 @@ import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 /**
  * Group of cards by dropsource page and maps page
- * @csspart active-card - Active for view transition card(Optional).
+ * @csspart active_divination_card - Active for view transition card(Optional).
  * @event   navigate-transition Emits on card or source navigation
  */
 @customElement('e-cards-by-source')
@@ -19,7 +19,7 @@ export class CardsBySourceElement extends LitElement {
 	@property({ type: Array }) cards: CardBySource[] = [];
 	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
-	@property({ reflect: true, attribute: 'active-card' }) activeCard?: string;
+	@property({ reflect: true }) active_divination_card?: string;
 
 	#onBossNavigation() {
 		this.dispatchEvent(new Event('boss-navigation', { bubbles: true, composed: true }));
@@ -32,7 +32,7 @@ export class CardsBySourceElement extends LitElement {
 					size=${this.cardSize}
 					.name=${card}
 					.boss=${transitiveSource?.id}
-					part=${ifDefined(this.activeCard === slug(card) ? 'active-card' : undefined)}
+					part=${ifDefined(this.active_divination_card === slug(card) ? 'active_divination_card' : undefined)}
 				>
 					${transitiveSource
 						? html`<e-source

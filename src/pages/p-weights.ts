@@ -13,8 +13,11 @@ import { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { formatWithNewlines } from '../utils';
-import { NavigateTransitionEvent } from '../events';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
+import {
+	view_transition_names_context,
+	type ViewTransitionNamesContext,
+} from '../context/view-transition-name-provider';
 
 declare module '../storage' {
 	interface Registry {
@@ -38,13 +41,18 @@ Sampling indicated that the true value may be slightly lower, but it's quite clo
 	},
 ];
 
+/**
+ * @csspart active_divination_card
+ */
 @customElement('p-weights')
 export class WeightsPage extends LitElement {
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
 	divcordTable!: DivcordTable;
 
-	@state() activeCard = window.activeCard;
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
 
 	#showCardsStorage = new Storage('weightsPageShowCards', false);
 	@state() rows: Array<WeightData> = [];
@@ -59,13 +67,6 @@ export class WeightsPage extends LitElement {
 	#onShowCardsChanged(e: Event) {
 		const target = e.target as WeightsTableElement;
 		this.#showCardsStorage.save(target.showCards);
-	}
-
-	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		if (e.transitionName === 'card') {
-			window.activeCard = e.slug;
-			this.activeCard = e.slug;
-		}
 	}
 
 	protected render(): TemplateResult {
@@ -83,9 +84,8 @@ export class WeightsPage extends LitElement {
 						<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
 					</p>
 					<e-weights-table
-						.activeCard=${this.activeCard}
-						exportparts="active-card"
-						@navigate-transition=${this.#handleNavigateTransition}
+						.active_divination_card=${this.view_transition_names.active_divination_card}
+						exportparts="active_divination_card"
 						@show-cards-changed=${this.#onShowCardsChanged}
 						class="section-table__table"
 						ordered-by="weight"

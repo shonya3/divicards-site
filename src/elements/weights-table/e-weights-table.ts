@@ -16,7 +16,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../../gen/divcordWasm/divcord_wasm';
 
 /**
- * @csspart active-card - Active for view transition card(Optional).
+ * @csspart active_divination_card - Active for view transition card(Optional).
  * @event   navigate-transition Emits on card or source navigation
  */
 @customElement('e-weights-table')
@@ -34,9 +34,9 @@ export class WeightsTableElement extends LitElement {
 	/** Visible rows by current limit */
 	@state() private rowsLimitedVisible: WeightData[] = [];
 	/**
-	 * Active card state for page transitions view-transition-name: card
+	 * Active card state for page transition
 	 */
-	@property({ reflect: true, attribute: 'active-card' }) activeCard?: string;
+	@property({ reflect: true }) active_divination_card?: string;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('rows')) {
@@ -115,7 +115,9 @@ export class WeightsTableElement extends LitElement {
 												size="small"
 												name=${cardRowData.name}
 												part=${ifDefined(
-													card_slug === this.activeCard ? 'active-card' : undefined
+													card_slug === this.active_divination_card
+														? 'active_divination_card'
+														: undefined
 												)}
 										  ></e-divination-card>`
 										: html`<a
@@ -123,7 +125,9 @@ export class WeightsTableElement extends LitElement {
 												@click=${() => this.#dispatchCardTransition(cardRowData.name)}
 												href="/card/${card_slug}"
 												part=${ifDefined(
-													card_slug === this.activeCard ? 'active-card' : undefined
+													card_slug === this.active_divination_card
+														? 'active_divination_card'
+														: undefined
 												)}
 												>${cardRowData.name}</a
 										  >`}

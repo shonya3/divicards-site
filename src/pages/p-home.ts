@@ -21,19 +21,6 @@ import {
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
 
-declare global {
-	interface Window {
-		/*
-		 * Active card state for page transitions view-transition-name: card
-		 */
-		activeCard?: string;
-		/*
-		 * Active source state for page transitions view-transition-name: source
-		 */
-		activeSource?: string;
-	}
-}
-
 /**
  * @csspart active_drop_source Active source for view-transition(optional).
  * @csspart active_divination-card   Active card for view-transition(optional).

@@ -10,12 +10,15 @@ import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
 import { consume } from '@lit/context';
 import { paginate } from '../utils';
 import { DivcordTable } from '../context/divcord/DivcordTable';
-import { NavigateTransitionEvent } from '../events';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
+import {
+	view_transition_names_context,
+	type ViewTransitionNamesContext,
+} from '../context/view-transition-name-provider';
 
 /**
- * @csspart active-source - Active for view transition source(Optional).
- * @csspart active-card - Active for view transition card(Optional).
+ * @csspart active_drop_source - Active for view transition source(Optional).
+ * @csspart active_divination_card - Active for view transition card(Optional).
  */
 @customElement('p-maps')
 export class MapsPage extends LitElement {
@@ -28,22 +31,13 @@ export class MapsPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
+
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() filtered: SourceAndCards[] = [];
 	@state() paginated: SourceAndCards[] = [];
-	@state() activeCard = window.activeCard;
-	@state() activeSource = window.activeSource;
-
-	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		if (e.transitionName === 'card') {
-			window.activeCard = e.slug;
-			this.activeCard = e.slug;
-		}
-		if (e.transitionName === 'source') {
-			window.activeSource = e.slug;
-			this.activeSource = e.slug;
-		}
-	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable')) {
@@ -133,11 +127,10 @@ export class MapsPage extends LitElement {
 								.source=${source}
 								.cards=${cards}
 								.cardSize=${`small`}
-								@navigate-transition=${this.#handleNavigateTransition}
-								.activeCard=${this.activeCard}
-								exportparts=${this.activeSource === source.idSlug
-									? `source:active-source,active-card`
-									: `active-card`}
+								.active_divination_card=${this.view_transition_names.active_divination_card}
+								exportparts=${this.view_transition_names.active_drop_source === source.idSlug
+									? `source:active_drop_source,active_divination_card`
+									: `active_divination_card`}
 							></e-source-with-cards>
 						</li>`;
 					})}

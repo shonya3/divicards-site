@@ -1,5 +1,3 @@
-// 3.25 SKIP for now
-
 import { LitElement, PropertyValueMap, TemplateResult, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { DivcordTable } from '../context/divcord/DivcordTable';
@@ -19,12 +17,15 @@ import { styles } from './p-verify.styles';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import { RowData } from '../elements/weights-table/e-weights-table-verify-sources';
-import { NavigateTransitionEvent } from '../events';
 import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import { Storage } from '../storage';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
+import {
+	view_transition_names_context,
+	type ViewTransitionNamesContext,
+} from '../context/view-transition-name-provider';
 
 declare module '../storage' {
 	interface Registry {
@@ -32,6 +33,9 @@ declare module '../storage' {
 	}
 }
 
+/**
+ * @csspart active_drop_source
+ */
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
 	#minimumWeight = new Storage('pVerifyMinimumWeight', 10000);
@@ -44,8 +48,10 @@ export class VerifyPage extends LitElement {
 	@state()
 	divcordTable!: DivcordTable;
 
-	/** Dropsource involved in view transitions */
-	@state() activeSource?: string = window.activeSource;
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
+
 	@state() sourcesAndCards: SourceAndCards[] = [];
 	@state() byCategory: {
 		maps: SourceAndCards[];
@@ -144,8 +150,7 @@ export class VerifyPage extends LitElement {
 								sourcesAndCards: this.byCategory.acts,
 								cardSize: this.#cardSize,
 								sourceSize: this.#sourceSize,
-								onNavigateTransition: this.#handleNavigateTransition,
-								activeSource: this.activeSource,
+								active_drop_source: this.view_transition_names.active_drop_source,
 							})}`,
 					],
 					[
@@ -155,8 +160,7 @@ export class VerifyPage extends LitElement {
 								sourcesAndCards: this.byCategory.maps,
 								cardSize: this.#cardSize,
 								sourceSize: this.#sourceSize,
-								onNavigateTransition: this.#handleNavigateTransition,
-								activeSource: this.activeSource,
+								active_drop_source: this.view_transition_names.active_drop_source,
 							})}`,
 					],
 					[
@@ -166,8 +170,7 @@ export class VerifyPage extends LitElement {
 								sourcesAndCards: this.byCategory.other,
 								cardSize: this.#cardSize,
 								sourceSize: this.#sourceSize,
-								onNavigateTransition: this.#handleNavigateTransition,
-								activeSource: this.activeSource,
+								active_drop_source: this.view_transition_names.active_drop_source,
 							})}`,
 					],
 					[
@@ -195,11 +198,6 @@ export class VerifyPage extends LitElement {
 		this.minimumWeight = value;
 	}
 
-	#handleNavigateTransition(e: NavigateTransitionEvent) {
-		window.activeSource = e.slug;
-		this.activeSource = e.slug;
-	}
-
 	static styles = styles;
 }
 
@@ -207,14 +205,12 @@ function SourceWithCardsList({
 	sourcesAndCards,
 	cardSize,
 	sourceSize,
-	onNavigateTransition,
-	activeSource,
+	active_drop_source,
 }: {
 	sourcesAndCards: SourceAndCards[];
 	cardSize: CardSize;
 	sourceSize: SourceSize;
-	onNavigateTransition: (e: NavigateTransitionEvent) => void;
-	activeSource: string | undefined;
+	active_drop_source: string | undefined;
 }): TemplateResult {
 	return html`<ul class="source-with-cards-list">
 		${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
@@ -227,7 +223,7 @@ function SourceWithCardsList({
 			}
 			const hash = name.replaceAll(' ', '_');
 
-			if (source.idSlug === activeSource) {
+			if (source.idSlug === active_drop_source) {
 				return html`
 					<li id="${hash}">
 						<e-source-with-cards
@@ -235,8 +231,7 @@ function SourceWithCardsList({
 							source-size=${sourceSize}
 							.source=${source}
 							.cards=${cards}
-							@navigate-transition=${onNavigateTransition}
-							part="active-source"
+							exportparts="source:active_drop_source"
 						></e-source-with-cards>
 					</li>
 				`;
@@ -249,7 +244,6 @@ function SourceWithCardsList({
 						source-size=${sourceSize}
 						.source=${source}
 						.cards=${cards}
-						@navigate-transition=${onNavigateTransition}
 					></e-source-with-cards>
 				</li>
 			`;

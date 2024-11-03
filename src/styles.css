@@ -57,16 +57,16 @@ e-topnav::part(active-link) {
 
 p-card::part(divination_card),
 p-home::part(active_divination_card),
-p-source::part(active-card),
-p-weights::part(active-card),
-p-maps::part(active-card) {
-	view-transition-name: card;
+p-source::part(active_divination_card),
+p-weights::part(active_divination_card),
+p-maps::part(active_divination_card) {
+	view-transition-name: active_divination_card;
 }
 
 p-home::part(active_drop_source),
 p-source::part(source),
-p-verify::part(active-source),
+p-verify::part(active_drop_source),
 p-card::part(active_drop_source),
-p-maps::part(active-source) {
-	view-transition-name: active-source;
+p-maps::part(active_drop_source) {
+	view-transition-name: active_drop_source;
 }

@@ -10,7 +10,7 @@ import type { SourceSize } from './e-source/types';
 /**
  * Dropsource with it's divination cards list
  * @csspart source - Dropsource.
- * @csspart active-card - Active for view transition card(Optional).
+ * @csspart active_divination_card - Active for view transition card(Optional).
  * @event   navigate-transition - Emits on card or source navigation
  */
 @customElement('e-source-with-cards')
@@ -20,7 +20,7 @@ export class SourceWithCardsElement extends LitElement {
 	@property({ type: Boolean }) showSourceType = true;
 	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
 	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
-	@property({ reflect: true, attribute: 'active-card' }) activeCard?: string;
+	@property({ reflect: true }) active_divination_card?: string;
 
 	render(): TemplateResult {
 		return html`<div class="wrapper">
@@ -33,12 +33,12 @@ export class SourceWithCardsElement extends LitElement {
 				.showSourceType=${this.showSourceType}
 			></e-source>
 			<e-cards-by-source
-				exportparts="active-card"
+				exportparts="active_divination_card"
 				card-size=${this.cardSize}
 				source-size=${this.sourceSize}
 				class="cards"
 				.cards=${this.cards}
-				.activeCard=${this.activeCard}
+				.active_divination_card=${this.active_divination_card}
 			></e-cards-by-source>
 		</div>`;
 	}
