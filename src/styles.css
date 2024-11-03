@@ -61,7 +61,6 @@ p-home::part(active_divination_card),
 p-source::part(active_divination_card),
 p-weights::part(active_divination_card),
 p-maps::part(active_divination_card) {
-	border: 2px solid red;
 	view-transition-name: active_divination_card;
 }
 
