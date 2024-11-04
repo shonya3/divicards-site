@@ -18,8 +18,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       '@shoelace-style/shoelace':
-        specifier: ^2.17.1
-        version: 2.17.1(@types/react@18.2.38)
+        specifier: ^2.18.0
+        version: 2.18.0(@types/react@18.2.38)
       '@thepassle/app-tools':
         specifier: ^0.9.12
         version: 0.9.12
@@ -27,8 +27,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
       poe-custom-elements:
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.14
+        version: 0.3.14
       urlpattern-polyfill:
         specifier: ^10.0.0
         version: 10.0.0
@@ -46,8 +46,8 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
       vite:
-        specifier: ^5.4.9
-        version: 5.4.9
+        specifier: ^5.4.10
+        version: 5.4.10
 
 packages:
 
@@ -210,8 +210,14 @@ packages:
   '@floating-ui/dom@1.6.10':
     resolution: {integrity: sha512-fskgCFv8J8OamCmyun8MfjB1Olfn+uZKjOKZ0vhYF3gRmEUXcGOjxWL8bBr7i4kIuPZ2KD2S3EUIOxnjC8kl2A==}
 
+  '@floating-ui/dom@1.6.12':
+    resolution: {integrity: sha512-NP83c0HjokcGVEMeoStg317VD9W7eDlGK7457dMBANbKA6GJZdc7rjujdgqzTaz93jkGgc5P/jeWbaCHnMNc+w==}
+
   '@floating-ui/utils@0.2.7':
     resolution: {integrity: sha512-X8R8Oj771YRl/w+c1HqAC1szL8zWQRwFvgDwT129k9ACdBoud/+/rX9V0qiMl6LWUdP9voC2nDVZYPMQQsb6eA==}
+
+  '@floating-ui/utils@0.2.8':
+    resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
 
   '@github/catalyst@1.6.0':
     resolution: {integrity: sha512-u8A+DameixqpeyHzvnJWTGj+wfiskQOYHzSiJscCWVfMkIT3rxnbHMtGh3lMthaRY21nbUOK71WcsCnCrXhBJQ==}
@@ -339,8 +345,8 @@ packages:
   '@shoelace-style/localize@3.1.2':
     resolution: {integrity: sha512-Hf45HeO+vdQblabpyZOTxJ4ZeZsmIUYXXPmoYrrR4OJ5OKxL+bhMz5mK8JXgl7HsoEowfz7+e248UGi861de9Q==}
 
-  '@shoelace-style/shoelace@2.17.1':
-    resolution: {integrity: sha512-fB9+bPHLg5zVwPbBKEqY3ghyttkJq9RuUzFMTZKweKrNKKDMUACtI8DlMYUqNwpdZMJhf7a0xeak6vFVBSxcbQ==}
+  '@shoelace-style/shoelace@2.18.0':
+    resolution: {integrity: sha512-uzpL0+8Qm8aE2ArcXBcKHkaPc6l7ymuVaN6xJM0yd2o3talcoXpuP+gRBsgggSZKuuJEa+JkEuLDdzzFnE/+jw==}
     engines: {node: '>=14.17.0'}
 
   '@thepassle/app-tools@0.9.12':
@@ -600,8 +606,8 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  poe-custom-elements@0.3.8:
-    resolution: {integrity: sha512-HfObEi6LuEaQhpchJwABqh1XYMlM27lFu9m/w0+dA6zXTjyKR7xb8NYV+IeN/J3ilgJ7B28WMnwbY0CbFVp0EA==}
+  poe-custom-elements@0.3.14:
+    resolution: {integrity: sha512-5Znvev5z3zmUsoTL4N9ozcpXjTYLPoUxYaBCiLVdzitgXMiPpkvhAMzM1OMWfxv+njGLHo7I9v2c1tSdq7i0pA==}
 
   postcss@8.4.47:
     resolution: {integrity: sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==}
@@ -698,8 +704,8 @@ packages:
   urlpattern-polyfill@10.0.0:
     resolution: {integrity: sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==}
 
-  vite@5.4.9:
-    resolution: {integrity: sha512-20OVpJHh0PAM0oSOELa5GaZNWeDjcAvQjGXy2Uyr+Tp+/D2/Hdz6NLgpJLsarPTA2QJ6v8mX2P1ZfbsSKvdMkg==}
+  vite@5.4.10:
+    resolution: {integrity: sha512-1hvaPshuPUtxeQ0hsVH3Mud0ZanOLwVTneA1EgbAM5LhaZEqyPWGRQ7BtaMvUrTDeEaC8pxtj6a6jku3x4z6SQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -866,14 +872,21 @@ snapshots:
 
   '@floating-ui/core@1.6.7':
     dependencies:
-      '@floating-ui/utils': 0.2.7
+      '@floating-ui/utils': 0.2.8
 
   '@floating-ui/dom@1.6.10':
     dependencies:
       '@floating-ui/core': 1.6.7
       '@floating-ui/utils': 0.2.7
 
+  '@floating-ui/dom@1.6.12':
+    dependencies:
+      '@floating-ui/core': 1.6.7
+      '@floating-ui/utils': 0.2.8
+
   '@floating-ui/utils@0.2.7': {}
+
+  '@floating-ui/utils@0.2.8': {}
 
   '@github/catalyst@1.6.0': {}
 
@@ -969,7 +982,7 @@ snapshots:
 
   '@shoelace-style/localize@3.1.2': {}
 
-  '@shoelace-style/shoelace@2.17.1(@types/react@18.2.38)':
+  '@shoelace-style/shoelace@2.18.0(@types/react@18.2.38)':
     dependencies:
       '@ctrl/tinycolor': 4.0.2
       '@floating-ui/dom': 1.6.10
@@ -1249,9 +1262,9 @@ snapshots:
 
   picomatch@2.3.1: {}
 
-  poe-custom-elements@0.3.8:
+  poe-custom-elements@0.3.14:
     dependencies:
-      '@floating-ui/dom': 1.6.10
+      '@floating-ui/dom': 1.6.12
       lit: 3.2.1
 
   postcss@8.4.47:
@@ -1342,7 +1355,7 @@ snapshots:
 
   urlpattern-polyfill@10.0.0: {}
 
-  vite@5.4.9:
+  vite@5.4.10:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.47
