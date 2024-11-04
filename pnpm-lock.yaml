@@ -18,8 +18,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       '@shoelace-style/shoelace':
-        specifier: ^2.18.0
-        version: 2.18.0(@types/react@18.2.38)
+        specifier: 2.17.1
+        version: 2.17.1(@types/react@18.3.12)
       '@thepassle/app-tools':
         specifier: ^0.9.12
         version: 0.9.12
@@ -55,8 +55,8 @@ packages:
     resolution: {integrity: sha512-2Yv65nlWnWlSpe3fXEyX5i7fx5kIKo4Qbcj+hMO0odwaneFjfXw5fdum+4yL20O0QiaHpia0cYQ9xpNMqrBwHg==}
     engines: {node: '>=6.9.0'}
 
-  '@ctrl/tinycolor@4.0.2':
-    resolution: {integrity: sha512-fKQinXE9pJ83J1n+C3rDl2xNLJwfoYNvXLRy5cYZA9hBJJw2q+sbb/AOSNKmLxnTWyNTmy4994dueSwP4opi5g==}
+  '@ctrl/tinycolor@4.1.0':
+    resolution: {integrity: sha512-WyOx8cJQ+FQus4Mm4uPIZA64gbk3Wxh0so5Lcii0aJifqwoVOlfFtorjLE0Hen4OYyHZMXDWqMmaQemBhgxFRQ==}
     engines: {node: '>=14'}
 
   '@custom-elements-manifest/analyzer@0.10.3':
@@ -207,14 +207,8 @@ packages:
   '@floating-ui/core@1.6.7':
     resolution: {integrity: sha512-yDzVT/Lm101nQ5TCVeK65LtdN7Tj4Qpr9RTXJ2vPFLqtLxwOrpoxAHAJI8J3yYWUc40J0BDBheaitK5SJmno2g==}
 
-  '@floating-ui/dom@1.6.10':
-    resolution: {integrity: sha512-fskgCFv8J8OamCmyun8MfjB1Olfn+uZKjOKZ0vhYF3gRmEUXcGOjxWL8bBr7i4kIuPZ2KD2S3EUIOxnjC8kl2A==}
-
   '@floating-ui/dom@1.6.12':
     resolution: {integrity: sha512-NP83c0HjokcGVEMeoStg317VD9W7eDlGK7457dMBANbKA6GJZdc7rjujdgqzTaz93jkGgc5P/jeWbaCHnMNc+w==}
-
-  '@floating-ui/utils@0.2.7':
-    resolution: {integrity: sha512-X8R8Oj771YRl/w+c1HqAC1szL8zWQRwFvgDwT129k9ACdBoud/+/rX9V0qiMl6LWUdP9voC2nDVZYPMQQsb6eA==}
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
@@ -231,8 +225,8 @@ packages:
   '@lit/context@1.1.3':
     resolution: {integrity: sha512-Auh37F4S0PZM93HTDfZWs97mmzaQ7M3vnTc9YvxAGyP3UItSK/8Fs0vTOGT+njuvOwbKio/l8Cx/zWL4vkutpQ==}
 
-  '@lit/react@1.0.2':
-    resolution: {integrity: sha512-UJ5TQ46DPcJDIzyjbwbj6Iye0XcpCxL2yb03zcWq1BpWchpXS3Z0BPVhg7zDfZLF6JemPml8u/gt/+KwJ/23sg==}
+  '@lit/react@1.0.6':
+    resolution: {integrity: sha512-QIss8MPh6qUoFJmuaF4dSHts3qCsA36S3HcOLiNPShxhgYPr4XJRnCBKPipk85sR9xr6TQrOcDMfexwbNdJHYA==}
     peerDependencies:
       '@types/react': 17 || 18
 
@@ -345,8 +339,8 @@ packages:
   '@shoelace-style/localize@3.1.2':
     resolution: {integrity: sha512-Hf45HeO+vdQblabpyZOTxJ4ZeZsmIUYXXPmoYrrR4OJ5OKxL+bhMz5mK8JXgl7HsoEowfz7+e248UGi861de9Q==}
 
-  '@shoelace-style/shoelace@2.18.0':
-    resolution: {integrity: sha512-uzpL0+8Qm8aE2ArcXBcKHkaPc6l7ymuVaN6xJM0yd2o3talcoXpuP+gRBsgggSZKuuJEa+JkEuLDdzzFnE/+jw==}
+  '@shoelace-style/shoelace@2.17.1':
+    resolution: {integrity: sha512-fB9+bPHLg5zVwPbBKEqY3ghyttkJq9RuUzFMTZKweKrNKKDMUACtI8DlMYUqNwpdZMJhf7a0xeak6vFVBSxcbQ==}
     engines: {node: '>=14.17.0'}
 
   '@thepassle/app-tools@0.9.12':
@@ -355,14 +349,11 @@ packages:
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
-  '@types/prop-types@15.7.11':
-    resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
+  '@types/prop-types@15.7.13':
+    resolution: {integrity: sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==}
 
-  '@types/react@18.2.38':
-    resolution: {integrity: sha512-cBBXHzuPtQK6wNthuVMV6IjHAFkdl/FOPFIlkd81/Cd1+IqkHu/A+w4g43kaQQoYHik/ruaQBDL72HyCy1vuMw==}
-
-  '@types/scheduler@0.16.8':
-    resolution: {integrity: sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==}
+  '@types/react@18.3.12':
+    resolution: {integrity: sha512-D2wOSq/d6Agt28q7rSI3jhU7G6aiuzljDGZ2hTZHIkrTLUI+AF3WMeKkEZ9nN2fkBAlcktT6vcZjDFiIhMYEQw==}
 
   '@types/trusted-types@2.0.5':
     resolution: {integrity: sha512-I3pkr8j/6tmQtKV/ZzHtuaqYSQvyjGRKH4go60Rr0IDLlFxuRT5V32uvB1mecM5G1EVAUyF/4r4QZ1GHgz+mxA==}
@@ -446,8 +437,8 @@ packages:
   composed-offset-position@0.0.4:
     resolution: {integrity: sha512-vMlvu1RuNegVE0YsCDSV/X4X10j56mq7PCIyOKK74FxkXzGLwhOUmdkJLSdOBOMwWycobGUMgft2lp+YgTe8hw==}
 
-  csstype@3.1.2:
-    resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+  csstype@3.1.3:
+    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
   custom-element-vs-code-integration@1.4.1:
     resolution: {integrity: sha512-aOQpNayEzXHUg7JRo/eIS8aCMiOPLuMwhANj4iFdAz3NnHy5Y0Us7uS/qSeJhYbl+5NddygQvp3is8L0ggxMbQ==}
@@ -782,7 +773,7 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.0
 
-  '@ctrl/tinycolor@4.0.2': {}
+  '@ctrl/tinycolor@4.1.0': {}
 
   '@custom-elements-manifest/analyzer@0.10.3':
     dependencies:
@@ -874,17 +865,10 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.8
 
-  '@floating-ui/dom@1.6.10':
-    dependencies:
-      '@floating-ui/core': 1.6.7
-      '@floating-ui/utils': 0.2.7
-
   '@floating-ui/dom@1.6.12':
     dependencies:
       '@floating-ui/core': 1.6.7
       '@floating-ui/utils': 0.2.8
-
-  '@floating-ui/utils@0.2.7': {}
 
   '@floating-ui/utils@0.2.8': {}
 
@@ -901,9 +885,9 @@ snapshots:
     dependencies:
       '@lit/reactive-element': 2.0.4
 
-  '@lit/react@1.0.2(@types/react@18.2.38)':
+  '@lit/react@1.0.6(@types/react@18.3.12)':
     dependencies:
-      '@types/react': 18.2.38
+      '@types/react': 18.3.12
 
   '@lit/reactive-element@2.0.4':
     dependencies:
@@ -982,11 +966,11 @@ snapshots:
 
   '@shoelace-style/localize@3.1.2': {}
 
-  '@shoelace-style/shoelace@2.18.0(@types/react@18.2.38)':
+  '@shoelace-style/shoelace@2.17.1(@types/react@18.3.12)':
     dependencies:
-      '@ctrl/tinycolor': 4.0.2
-      '@floating-ui/dom': 1.6.10
-      '@lit/react': 1.0.2(@types/react@18.2.38)
+      '@ctrl/tinycolor': 4.1.0
+      '@floating-ui/dom': 1.6.12
+      '@lit/react': 1.0.6(@types/react@18.3.12)
       '@shoelace-style/animations': 1.1.0
       '@shoelace-style/localize': 3.1.2
       composed-offset-position: 0.0.4
@@ -999,15 +983,12 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
-  '@types/prop-types@15.7.11': {}
+  '@types/prop-types@15.7.13': {}
 
-  '@types/react@18.2.38':
+  '@types/react@18.3.12':
     dependencies:
-      '@types/prop-types': 15.7.11
-      '@types/scheduler': 0.16.8
-      csstype: 3.1.2
-
-  '@types/scheduler@0.16.8': {}
+      '@types/prop-types': 15.7.13
+      csstype: 3.1.3
 
   '@types/trusted-types@2.0.5': {}
 
@@ -1091,7 +1072,7 @@ snapshots:
 
   composed-offset-position@0.0.4: {}
 
-  csstype@3.1.2: {}
+  csstype@3.1.3: {}
 
   custom-element-vs-code-integration@1.4.1(prettier@2.8.8):
     dependencies:
