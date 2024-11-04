@@ -22,6 +22,7 @@ import {
 } from '../context/view-transition-name-provider';
 
 /**
+ * Home page with cards, search and pagination.
  * @csspart active_drop_source Active source for view-transition(optional).
  * @csspart active_divination-card   Active card for view-transition(optional).
  */
@@ -73,39 +74,35 @@ export class HomePage extends LitElement {
 	}
 
 	render(): TemplateResult {
-		return html`<div class="page">
-			<header>
-				<form>
-					<div style="max-width: 600px">
-						<e-input
-							autofocus
-							label="Search"
-							.value=${this.filter}
-							.datalistItems=${this.divcordTable.cards()}
-							@input="${this.#onCardnameInput}"
-							type="text"
-						>
-						</e-input>
-						<sl-select
-							label="By"
-							.value=${this.searchCriterias.map(c => SlConverter.toSlValue(c))}
-							@sl-change=${this.#onCriteriasSelect}
-							multiple
-							clearable
-						>
-							${Array.from(SEARCH_CRITERIA_VARIANTS).map(c => {
-								return html`<sl-option value=${SlConverter.toSlValue(c)}>${c}</sl-option>`;
-							})}
-						</sl-select>
-					</div>
-				</form>
+		return html`
+			<div id="controls">
+				<e-input
+					autofocus
+					label="Search"
+					.value=${this.filter}
+					.datalistItems=${this.divcordTable.cards()}
+					@input="${this.#onCardnameInput}"
+					type="text"
+				>
+				</e-input>
+				<sl-select
+					label="By"
+					.value=${this.searchCriterias.map(c => SlConverter.toSlValue(c))}
+					@sl-change=${this.#onCriteriasSelect}
+					multiple
+					clearable
+				>
+					${Array.from(SEARCH_CRITERIA_VARIANTS).map(c => {
+						return html`<sl-option value=${SlConverter.toSlValue(c)}>${c}</sl-option>`;
+					})}
+				</sl-select>
 				<e-page-controls
 					.n=${this.filtered.length}
 					page=${this.page}
 					per-page=${this.perPage}
 				></e-page-controls>
-			</header>
-			<ul class="cards">
+			</div>
+			<ul id="cards">
 				${this.paginated.map(card => {
 					return html`<li>
 						<e-card-with-sources
@@ -121,7 +118,7 @@ export class HomePage extends LitElement {
 					</li>`;
 				})}
 			</ul>
-		</div>`;
+		`;
 	}
 
 	async #onCardnameInput(e: InputEvent) {
@@ -148,7 +145,7 @@ export class HomePage extends LitElement {
 			display: block;
 		}
 
-		header {
+		#controls {
 			margin-top: 1rem;
 			justify-content: center;
 			max-width: 600px;
@@ -159,7 +156,7 @@ export class HomePage extends LitElement {
 			}
 		}
 
-		.cards {
+		#cards {
 			margin-top: 3rem;
 			display: flex;
 			flex-wrap: wrap;
