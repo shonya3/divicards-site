@@ -20,6 +20,7 @@ import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
+import { repeat } from 'lit/directives/repeat.js';
 
 /**
  * Home page with cards, search and pagination.
@@ -102,9 +103,12 @@ export class HomePage extends LitElement {
 					per-page=${this.perPage}
 				></e-page-controls>
 			</div>
+
 			<ul id="divination-cards-list">
-				${this.paginated.map(card => {
-					return html`<li>
+				${repeat(
+					this.paginated,
+					card_name => card_name,
+					card => html`<li>
 						<e-card-with-sources
 							.name=${card}
 							.divcordTable=${this.divcordTable}
@@ -115,8 +119,8 @@ export class HomePage extends LitElement {
 								? 'active_drop_source,divination_card:active_divination_card'
 								: 'active_drop_source'}
 						></e-card-with-sources>
-					</li>`;
-				})}
+					</li>`
+				)}
 			</ul>
 		`;
 	}
