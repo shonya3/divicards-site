@@ -8,13 +8,13 @@ import { cardElementDataFromJson as cardElementData } from './gen/cardElementDat
 
 export const SEARCH_CRITERIA_VARIANTS = [
 	'name',
-	'flavour text',
+	'flavour_text',
 	'source',
-	'source type',
+	'source_type',
 	'reward',
-	'stack size',
-	'release version',
-	'release league',
+	'stack_size',
+	'release_version',
+	'release_league',
 ] as const;
 export type SearchCardsCriteria = (typeof SEARCH_CRITERIA_VARIANTS)[number];
 
@@ -39,16 +39,16 @@ export function searchCardsByQuery(
 	// 3.22 version pattern
 	const leagueVersionPattern = /\b\d+\.\d+\b/g;
 	const matchesVersionPattern = q.match(leagueVersionPattern);
-	if (matchesVersionPattern && criterias.includes('release version')) {
+	if (matchesVersionPattern && criterias.includes('release_version')) {
 		// if query matches version pattern, early return this exact list
 		return findByReleaseVersion(matchesVersionPattern, allCards);
 	}
 
-	if (criterias.includes('release league')) {
+	if (criterias.includes('release_league')) {
 		cards = cards.concat(findByReleaseLeague(q, allCards));
 	}
 
-	if (criterias.includes('stack size')) {
+	if (criterias.includes('stack_size')) {
 		cards = cards.concat(findByStackSize(q));
 	}
 
@@ -56,7 +56,7 @@ export function searchCardsByQuery(
 		cards = cards.concat(findByName(q, allCards));
 	}
 
-	if (criterias.includes('flavour text')) {
+	if (criterias.includes('flavour_text')) {
 		cards = cards.concat(findByFlavourText(q));
 	}
 
@@ -68,7 +68,7 @@ export function searchCardsByQuery(
 		cards = cards.concat(findBySourceId(q, divcordTable));
 	}
 
-	if (criterias.includes('source type')) {
+	if (criterias.includes('source_type')) {
 		cards = cards.concat(findBySourceType(q, divcordTable.records, poeData));
 	}
 

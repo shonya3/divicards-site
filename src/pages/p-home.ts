@@ -5,7 +5,7 @@ import { DivcordTable } from '../context/divcord/DivcordTable';
 import '../elements/e-page-controls';
 import '../elements/e-card-with-sources';
 import { consume } from '@lit/context';
-import { SlConverter, paginate } from '../utils';
+import { paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
 import { poeData } from '../PoeData';
@@ -82,19 +82,19 @@ export class HomePage extends LitElement {
 					label="Search"
 					.value=${this.filter}
 					.datalistItems=${this.divcordTable.cards()}
-					@input="${this.#onCardnameInput}"
+					@input="${this.#on_card_name_input}"
 					type="text"
 				>
 				</e-input>
 				<sl-select
 					label="By"
-					.value=${this.searchCriterias.map(c => SlConverter.toSlValue(c))}
-					@sl-change=${this.#onCriteriasSelect}
+					.value=${this.searchCriterias}
+					@sl-change=${this.#on_criterias_select}
 					multiple
 					clearable
 				>
-					${Array.from(SEARCH_CRITERIA_VARIANTS).map(c => {
-						return html`<sl-option value=${SlConverter.toSlValue(c)}>${c}</sl-option>`;
+					${Array.from(SEARCH_CRITERIA_VARIANTS).map(value => {
+						return html`<sl-option value=${value}>${value}</sl-option>`;
 					})}
 				</sl-select>
 				<e-page-controls
@@ -125,16 +125,15 @@ export class HomePage extends LitElement {
 		`;
 	}
 
-	async #onCardnameInput(e: InputEvent) {
+	#on_card_name_input(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
 		this.page = 1;
 		this.filter = input.value;
 	}
 
-	#onCriteriasSelect(e: Event) {
+	#on_criterias_select(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
-		const options = target.value.map(opt => SlConverter.fromSlValue<SearchCardsCriteria>(opt));
-		this.searchCriterias = options;
+		this.searchCriterias = target.value as Array<SearchCardsCriteria>;
 	}
 
 	static styles = css`
