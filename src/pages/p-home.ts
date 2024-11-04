@@ -75,7 +75,7 @@ export class HomePage extends LitElement {
 
 	render(): TemplateResult {
 		return html`
-			<div id="controls">
+			<div id="search-pagination-controls">
 				<e-input
 					autofocus
 					label="Search"
@@ -102,7 +102,7 @@ export class HomePage extends LitElement {
 					per-page=${this.perPage}
 				></e-page-controls>
 			</div>
-			<ul id="cards">
+			<ul id="divination-cards-list">
 				${this.paginated.map(card => {
 					return html`<li>
 						<e-card-with-sources
@@ -145,7 +145,7 @@ export class HomePage extends LitElement {
 			display: block;
 		}
 
-		#controls {
+		#search-pagination-controls {
 			margin-top: 1rem;
 			justify-content: center;
 			max-width: 600px;
@@ -156,7 +156,7 @@ export class HomePage extends LitElement {
 			}
 		}
 
-		#cards {
+		#divination-cards-list {
 			margin-top: 3rem;
 			display: flex;
 			flex-wrap: wrap;
