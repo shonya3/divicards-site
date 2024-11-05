@@ -38,6 +38,7 @@ import {
 } from '../context/view-transition-name-provider';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
+import { repeat } from 'lit/directives/repeat.js';
 
 declare module '../storage' {
 	interface Registry {
@@ -252,19 +253,23 @@ export class DivcordPage extends LitElement {
 								per-page=${this.perPage}
 							></e-pagination>
 							<ul>
-								${this.paginated.map(card => {
-									return html`<li>
-										<e-card-with-divcord-records
-											.card=${card}
-											.records=${this.divcordTable.recordsByCard(card)}
-											exportparts=${ifDefined(
-												this.view_transition_names.active_divination_card === slug(card)
-													? 'card:active_divination_card'
-													: undefined
-											)}
-										></e-card-with-divcord-records>
-									</li>`;
-								})}
+								${repeat(
+									this.paginated,
+									card => card,
+									card => {
+										return html`<li>
+											<e-card-with-divcord-records
+												.card=${card}
+												.records=${this.divcordTable.recordsByCard(card)}
+												exportparts=${ifDefined(
+													this.view_transition_names.active_divination_card === slug(card)
+														? 'card:active_divination_card'
+														: undefined
+												)}
+											></e-card-with-divcord-records>
+										</li>`;
+									}
+								)}
 							</ul>`
 					: html`<e-divcord-spreadsheet
 							exportparts="active_divination_card"
