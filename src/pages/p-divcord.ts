@@ -4,7 +4,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { consume } from '@lit/context';
 import { DivcordTable } from '../context/divcord/DivcordTable';
 import '../elements/e-card-with-divcord-records';
-import '../elements/e-page-controls';
+import '../elements/e-pagination';
 import '../elements/input/e-input';
 import '../elements/e-update-divcord-data';
 import '../elements/e-divcord-records-age';
@@ -246,11 +246,11 @@ export class DivcordPage extends LitElement {
 
 			<div class="active-view">
 				${this.activeView === 'list'
-					? html`<e-page-controls
+					? html`<e-pagination
 								.n=${this.filtered.length}
 								page=${this.page}
 								per-page=${this.perPage}
-							></e-page-controls>
+							></e-pagination>
 							<ul>
 								${this.paginated.map(card => {
 									return html`<li>

@@ -5,7 +5,7 @@ import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import { router } from '../router';
 
-@customElement('e-page-controls')
+@customElement('e-pagination')
 export class PageControlsElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
@@ -158,6 +158,6 @@ export class PageControlsElement extends LitElement {
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'e-page-controls': PageControlsElement;
+		'e-pagination': PageControlsElement;
 	}
 }

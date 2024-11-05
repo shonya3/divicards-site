@@ -3,7 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
-import '../elements/e-page-controls';
+import '../elements/e-pagination';
 import '../elements/e-cards-by-source';
 import { poeData } from '../PoeData';
 import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
@@ -113,11 +113,7 @@ export class MapsPage extends LitElement {
 							.datalistItems=${this.maps()}
 						></e-input>
 					</form>
-					<e-page-controls
-						.n=${this.filtered.length}
-						page=${this.page}
-						per-page=${this.perPage}
-					></e-page-controls>
+					<e-pagination .n=${this.filtered.length} page=${this.page} per-page=${this.perPage}></e-pagination>
 				</header>
 				<ul>
 					${this.paginated.map(({ source, cards }) => {

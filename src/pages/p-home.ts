@@ -2,7 +2,7 @@ import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/e-divination-card';
 import { DivcordTable } from '../context/divcord/DivcordTable';
-import '../elements/e-page-controls';
+import '../elements/e-pagination';
 import '../elements/e-card-with-sources';
 import { consume } from '@lit/context';
 import { paginate } from '../utils';
@@ -97,11 +97,7 @@ export class HomePage extends LitElement {
 						return html`<sl-option value=${value}>${value}</sl-option>`;
 					})}
 				</sl-select>
-				<e-page-controls
-					.n=${this.filtered.length}
-					page=${this.page}
-					per-page=${this.per_page}
-				></e-page-controls>
+				<e-pagination .n=${this.filtered.length} page=${this.page} per-page=${this.per_page}></e-pagination>
 			</div>
 
 			<ul id="divination-cards-list">
