@@ -61,8 +61,8 @@ export class CardPage extends LitElement {
 					exportparts="divination_card,active_drop_source"
 					slot="card"
 					.name=${this.card}
-					card-size="large"
-					source-size="medium"
+					card_size="large"
+					source_size="medium"
 					.divcordTable=${this.divcordTable}
 					.active_drop_source=${this.view_transition_names.active_drop_source}
 				>

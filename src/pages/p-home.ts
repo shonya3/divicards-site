@@ -29,10 +29,10 @@ import { repeat } from 'lit/directives/repeat.js';
  */
 @customElement('p-home')
 export class HomePage extends LitElement {
-	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
-	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
-	@property({ reflect: true }) cardSize: CardSize = 'medium';
-	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'small';
+	@property({ reflect: true, type: Number }) page = 1;
+	@property({ reflect: true, type: Number }) per_page = 10;
+	@property({ reflect: true }) card_size: CardSize = 'medium';
+	@property({ reflect: true }) source_size: SourceSize = 'small';
 	@property({ reflect: true })
 	filter: string = '';
 	@property({ type: Array }) searchCriterias: SearchCardsCriteria[] = Array.from(SEARCH_CRITERIA_VARIANTS);
@@ -56,8 +56,8 @@ export class HomePage extends LitElement {
 			this.filtered = cards;
 		}
 
-		if (map.has('filtered') || map.has('page') || map.has('perPage')) {
-			this.paginated = paginate(this.filtered, this.page, this.perPage);
+		if (map.has('filtered') || map.has('page') || map.has('per_page')) {
+			this.paginated = paginate(this.filtered, this.page, this.per_page);
 		}
 	}
 
@@ -100,7 +100,7 @@ export class HomePage extends LitElement {
 				<e-page-controls
 					.n=${this.filtered.length}
 					page=${this.page}
-					per-page=${this.perPage}
+					per-page=${this.per_page}
 				></e-page-controls>
 			</div>
 
@@ -112,8 +112,8 @@ export class HomePage extends LitElement {
 						<e-card-with-sources
 							.name=${card}
 							.divcordTable=${this.divcordTable}
-							.cardSize=${this.cardSize}
-							.sourceSize=${this.sourceSize}
+							.card_size=${this.card_size}
+							.source_size=${this.source_size}
 							.active_drop_source=${this.view_transition_names.active_drop_source}
 							exportparts=${slug(card) === this.view_transition_names.active_divination_card
 								? 'active_drop_source,divination_card:active_divination_card'

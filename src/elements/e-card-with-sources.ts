@@ -21,8 +21,8 @@ import './e-sources';
 @customElement('e-card-with-sources')
 export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
-	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
-	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
+	@property({ reflect: true }) card_size: CardSize = 'medium';
+	@property({ reflect: true }) source_size: SourceSize = 'medium';
 	@property({ type: Object }) divcordTable!: DivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 	/** Dropsource involved in view transitions */
@@ -45,15 +45,19 @@ export class CardWithSourcesElement extends LitElement {
 
 	render(): TemplateResult {
 		const wrapperStyles = styleMap({
-			'--card-width': `var(--card-width-${this.cardSize})`,
+			'--card-width': `var(--card-width-${this.card_size})`,
 		});
 
 		return html`
 			<div style=${wrapperStyles} class="wrapper">
-				<e-divination-card part="divination_card" .name=${this.name} .size=${this.cardSize}></e-divination-card>
+				<e-divination-card
+					part="divination_card"
+					.name=${this.name}
+					.size=${this.card_size}
+				></e-divination-card>
 				<e-sources
 					.sources=${this.sources}
-					.size=${this.sourceSize}
+					.size=${this.source_size}
 					verification-status="done"
 					.renderMode=${this.renderMode}
 					.active_drop_source=${this.active_drop_source}
@@ -61,7 +65,7 @@ export class CardWithSourcesElement extends LitElement {
 				></e-sources>
 				<e-sources
 					.sources=${this.verifySources}
-					.size=${this.sourceSize}
+					.size=${this.source_size}
 					verification-status="verify"
 					.renderMode=${this.renderMode}
 					.active_drop_source=${this.active_drop_source}
