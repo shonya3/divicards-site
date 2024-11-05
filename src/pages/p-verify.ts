@@ -26,6 +26,7 @@ import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 declare module '../storage' {
 	interface Registry {
@@ -40,8 +41,8 @@ declare module '../storage' {
 @customElement('p-verify')
 export class VerifyPage extends LitElement {
 	#minimumWeight = new Storage('pVerifyMinimumWeight', 10000);
-	#cardSize: CardSize = 'small';
-	#sourceSize: SourceSize = 'medium';
+	@property({ reflect: true }) card_size: CardSize = 'small';
+	@property({ reflect: true }) source_size: SourceSize = 'medium';
 
 	@property() activeView: ActiveView = 'weights-table';
 
@@ -144,36 +145,9 @@ export class VerifyPage extends LitElement {
 
 			<main class="main">
 				${choose(this.activeView, [
-					[
-						'acts',
-						() =>
-							html` ${SourceWithCardsList({
-								sourcesAndCards: this.byCategory.acts,
-								cardSize: this.#cardSize,
-								sourceSize: this.#sourceSize,
-								active_drop_source: this.view_transition_names.active_drop_source,
-							})}`,
-					],
-					[
-						'maps',
-						() =>
-							html` ${SourceWithCardsList({
-								sourcesAndCards: this.byCategory.maps,
-								cardSize: this.#cardSize,
-								sourceSize: this.#sourceSize,
-								active_drop_source: this.view_transition_names.active_drop_source,
-							})}`,
-					],
-					[
-						'others',
-						() =>
-							html` ${SourceWithCardsList({
-								sourcesAndCards: this.byCategory.other,
-								cardSize: this.#cardSize,
-								sourceSize: this.#sourceSize,
-								active_drop_source: this.view_transition_names.active_drop_source,
-							})}`,
-					],
+					['acts', () => this.#SourceWithCardsList(this.byCategory.acts)],
+					['maps', () => this.#SourceWithCardsList(this.byCategory.maps)],
+					['others', () => this.#SourceWithCardsList(this.byCategory.other)],
 					[
 						'weights-table',
 						() => html`<sl-range @sl-change=${this.#changeMinimumWeight} .value=${
@@ -194,6 +168,28 @@ export class VerifyPage extends LitElement {
 		</div>`;
 	}
 
+	#SourceWithCardsList(source_and_cards: Array<SourceAndCards>) {
+		return html`<ul class="source-with-cards-list">
+			${source_and_cards.map(({ source, cards }: SourceAndCards) => {
+				return html`
+					<li>
+						<e-source-with-cards
+							card-size=${this.card_size}
+							source-size=${this.source_size}
+							.source=${source}
+							.cards=${cards}
+							exportparts=${ifDefined(
+								this.view_transition_names.active_drop_source === source.idSlug
+									? 'drop_source:active_drop_source'
+									: undefined
+							)}
+						></e-source-with-cards>
+					</li>
+				`;
+			})}
+		</ul>`;
+	}
+
 	#changeMinimumWeight(e: Event) {
 		const value = Number((e.target as HTMLInputElement).value);
 		this.#minimumWeight.save(value);
@@ -201,56 +197,6 @@ export class VerifyPage extends LitElement {
 	}
 
 	static styles = styles;
-}
-
-function SourceWithCardsList({
-	sourcesAndCards,
-	cardSize,
-	sourceSize,
-	active_drop_source,
-}: {
-	sourcesAndCards: SourceAndCards[];
-	cardSize: CardSize;
-	sourceSize: SourceSize;
-	active_drop_source: string | undefined;
-}): TemplateResult {
-	return html`<ul class="source-with-cards-list">
-		${sourcesAndCards.map(({ source, cards }: SourceAndCards) => {
-			let name = source.id;
-			if (source.type === 'Act') {
-				const area = poeData.find.actArea(source.id);
-				if (area) {
-					name = area.name;
-				}
-			}
-			const hash = name.replaceAll(' ', '_');
-
-			if (source.idSlug === active_drop_source) {
-				return html`
-					<li id="${hash}">
-						<e-source-with-cards
-							card-size=${cardSize}
-							source-size=${sourceSize}
-							.source=${source}
-							.cards=${cards}
-							exportparts="drop_source:active_drop_source"
-						></e-source-with-cards>
-					</li>
-				`;
-			}
-
-			return html`
-				<li id="${hash}">
-					<e-source-with-cards
-						card-size=${cardSize}
-						source-size=${sourceSize}
-						.source=${source}
-						.cards=${cards}
-					></e-source-with-cards>
-				</li>
-			`;
-		})}
-	</ul>`;
 }
 
 function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowData[] {
