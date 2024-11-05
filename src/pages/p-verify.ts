@@ -34,6 +34,7 @@ declare module '../storage' {
 }
 
 /**
+ * @csspart active_divination_card
  * @csspart active_drop_source
  */
 @customElement('p-verify')
@@ -181,9 +182,10 @@ export class VerifyPage extends LitElement {
 							this.minimumWeight
 						)}`} min="0" step="100" max="10000"></sl-range>
 								<e-weights-table-verify-sources
+                                    .active_divination_card=${this.view_transition_names.active_divination_card}
+                                    exportparts="active_divination_card"
 									.rows=${this.filteredWeightsTableData}
 								></e-weights-table-verify-sources>
-								<!-- </details> -->
 							</sl-sl>
 						`,
 					],

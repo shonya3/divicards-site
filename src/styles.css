@@ -60,6 +60,7 @@ p-divcord::part(active_divination_card),
 p-home::part(active_divination_card),
 p-source::part(active_divination_card),
 p-weights::part(active_divination_card),
+p-verify::part(active_divination_card),
 p-maps::part(active_divination_card) {
 	view-transition-name: active_divination_card;
 }

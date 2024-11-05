@@ -11,13 +11,20 @@ import '../divination-card/e-divination-card';
 import '../e-source/e-source';
 import '../weights-table/e-weight-value';
 import { Source } from '../../gen/Source';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { slug } from '../../gen/divcordWasm/divcord_wasm';
 
+/**
+ * @csspart active_divination_card
+ */
 @customElement('e-weights-table-verify-sources')
 export class WeightsTableVerifySources extends LitElement {
 	@property({ type: Array }) rows: RowData[] = [];
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
 	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
+	@property({ reflect: true }) active_divination_card?: string;
+
 	@state() private weightIcon = 'sort-down';
 	@state() private nameIcon = 'sort-alpha-down-alt';
 	@state() private rowsClone: RowData[] = [];
@@ -79,7 +86,15 @@ export class WeightsTableVerifySources extends LitElement {
 							<td class="td">${index + 1}</td>
 							<td class="td">
 								<e-need-to-verify>
-									<e-divination-card size="small" name=${cardRowData.name}></e-divination-card>
+									<e-divination-card
+										part=${ifDefined(
+											this.active_divination_card === slug(cardRowData.name)
+												? 'active_divination_card'
+												: undefined
+										)}
+										size="small"
+										name=${cardRowData.name}
+									></e-divination-card>
 								</e-need-to-verify>
 							</td>
 							<td class="td td-weight">
