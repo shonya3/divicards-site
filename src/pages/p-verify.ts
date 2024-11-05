@@ -26,7 +26,6 @@ import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
-import { ifDefined } from 'lit/directives/if-defined.js';
 
 declare module '../storage' {
 	interface Registry {
@@ -174,15 +173,14 @@ export class VerifyPage extends LitElement {
 				return html`
 					<li>
 						<e-source-with-cards
+							.active_divination_card=${this.view_transition_names.active_divination_card}
 							card-size=${this.card_size}
 							source-size=${this.source_size}
 							.source=${source}
 							.cards=${cards}
-							exportparts=${ifDefined(
-								this.view_transition_names.active_drop_source === source.idSlug
-									? 'drop_source:active_drop_source'
-									: undefined
-							)}
+							exportparts=${this.view_transition_names.active_drop_source === source.idSlug
+								? 'active_divination_card,drop_source:active_drop_source'
+								: 'active_divination_card'}
 						></e-source-with-cards>
 					</li>
 				`;
