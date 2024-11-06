@@ -6,7 +6,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { createContext } from '@lit/context';
 import { DivcordTable } from './DivcordTable';
 import { divcordLoader } from './DivcordLoader';
-import { toast } from '../../toast';
+// import { toast } from '../../toast';
 import { Signal, signal } from '@lit-labs/signals';
 
 export const divcord_table_context = createContext<Signal.State<DivcordTable>>(Symbol('divcordTable'));
