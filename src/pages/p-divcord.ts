@@ -66,8 +66,8 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		showCards: new Storage('weightsPageShowCards', true),
 		activeView: new Storage('activeView', 'table'),
 	};
-	@property({ reflect: true, type: Number, attribute: 'page' }) page = 1;
-	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
+	@property({ reflect: true, type: Number }) page = 1;
+	@property({ reflect: true, type: Number }) per_page = 10;
 	@property({ reflect: true }) filter: string = '';
 	@property({ type: Boolean }) shouldApplySelectFilters = this.#storage.shouldApplyFilters.load();
 	@property({ type: Boolean }) onlyShowCardsWithNoConfirmedSources: boolean =
@@ -141,7 +141,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 				onlyShowCardsWithNoConfirmedSources: this.onlyShowCardsWithNoConfirmedSources,
 				onlyShowCardsWithSourcesToVerify: this.onlyShowCardsWithSourcesToVerify,
 			});
-			this.paginated = paginate(this.filtered, this.page, this.perPage);
+			this.paginated = paginate(this.filtered, this.page, this.per_page);
 
 			if (this.activeView === 'table') {
 				const set = new Set(this.filtered);
@@ -179,7 +179,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 				>
 				<div class="load">
 					<div class="load_btn-and-status">
-						<e-update-divcord-data @records-updated=${this.#onRecordsUpdated}></e-update-divcord-data>
+						<e-update-divcord-data @records-updated=${this.#on_records_updated}></e-update-divcord-data>
 						<e-divcord-records-age> </e-divcord-records-age>
 					</div>
 					<sl-alert class="load_tip" open>
@@ -197,7 +197,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 					<div class="apply-select-filters-control">
 						<sl-checkbox
 							.checked=${this.shouldApplySelectFilters}
-							@sl-input=${this.#onshouldApplySelectFiltersCheckbox}
+							@sl-input=${this.#on_should_apply_select_filters_change}
 							>Apply filters</sl-checkbox
 						>
 					</div>
@@ -205,18 +205,18 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 						? html`<div class="select-filters">
 								<e-divcord-presets
 									.customPresets=${this.customPresets}
-									@preset-applied=${this.#onPresetApplied}
-									@config-updated=${this.#onConfigUpdated}
-									@custom-presets-updated=${this.#onCustomPresetsUpdated}
+									@preset-applied=${this.#on_preset_apply}
+									@config-updated=${this.#on_config_update}
+									@custom-presets-updated=${this.#on_custom_preset_update}
 								></e-divcord-presets>
 								<sl-checkbox
 									.checked=${this.onlyShowCardsWithNoConfirmedSources}
-									@sl-input=${this.#ononlyShowCardsWithNoConfirmedSourcesCheckbox}
+									@sl-input=${this.#on_only_show_cards_with_no_confirmed_sources_change}
 									>Only show cards with no confirmed sources</sl-checkbox
 								>
 								<sl-checkbox
 									.checked=${this.onlyShowCardsWithSourcesToVerify}
-									@sl-input=${this.#onOnlyShowCardsWithSourcesToVerifyCheckbox}
+									@sl-input=${this.#on_only_show_cards_with_sources_to_verify_change}
 									>Only show cards with sources to verify</sl-checkbox
 								>
 						  </div> `
@@ -225,7 +225,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			</header>
 
 			<sl-radio-group
-				@sl-change=${this.#onActiveViewChanged}
+				@sl-change=${this.#on_active_view_change}
 				class="select-view-controls"
 				size="large"
 				label="Select the view"
@@ -251,7 +251,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 					? html`<e-pagination
 								.n=${this.filtered.length}
 								page=${this.page}
-								per_page=${this.perPage}
+								per_page=${this.per_page}
 							></e-pagination>
 							<ul>
 								${repeat(
@@ -275,7 +275,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 					: html`<e-divcord-spreadsheet
 							exportparts="active_divination_card"
 							.active_divination_card=${this.view_transition_names.active_divination_card}
-							@show-cards-changed=${this.#onShowCardsChanged}
+							@show-cards-changed=${this.#on_show_cards_change}
 							.records=${this.recordsForTableView}
 							.showCards=${this.showCards}
 					  ></e-divcord-spreadsheet>`}
@@ -283,24 +283,24 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		</div>`;
 	}
 
-	#onRecordsUpdated() {
+	#on_records_updated() {
 		this.ageEl.lastUpdated.run();
 	}
 
-	#onConfigUpdated(e: Event) {
+	#on_config_update(e: Event) {
 		const target = e.target as DivcordPresetsElement;
 		this.config = { ...target.config };
 	}
 
-	#onPresetApplied(e: CustomEvent<PresetConfig>) {
+	#on_preset_apply(e: CustomEvent<PresetConfig>) {
 		this.#applyPreset(e.detail);
 	}
 
-	#onCustomPresetsUpdated(e: CustomEvent<PresetConfig[]>) {
+	#on_custom_preset_update(e: CustomEvent<PresetConfig[]>) {
 		this.customPresets = e.detail;
 	}
 
-	#onShowCardsChanged(e: Event) {
+	#on_show_cards_change(e: Event) {
 		this.showCards = (e.target as DivcordSpreadsheetElement).showCards;
 	}
 
@@ -314,7 +314,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		this.filter = input.value;
 	}
 
-	#onshouldApplySelectFiltersCheckbox(e: InputEvent) {
+	#on_should_apply_select_filters_change(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
 			this.shouldApplySelectFilters = target.checked;
@@ -327,7 +327,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		toast(`"${preset.name}" applied`, 'primary', 3000);
 	}
 
-	#ononlyShowCardsWithNoConfirmedSourcesCheckbox(e: InputEvent) {
+	#on_only_show_cards_with_no_confirmed_sources_change(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
 			this.onlyShowCardsWithNoConfirmedSources = target.checked;
@@ -335,7 +335,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		}
 	}
 
-	#onOnlyShowCardsWithSourcesToVerifyCheckbox(e: InputEvent) {
+	#on_only_show_cards_with_sources_to_verify_change(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
 			this.onlyShowCardsWithSourcesToVerify = target.checked;
@@ -343,7 +343,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		}
 	}
 
-	#onActiveViewChanged(e: InputEvent) {
+	#on_active_view_change(e: InputEvent) {
 		const target = e.target as EventTarget & { value: string };
 		if (target && target.value) {
 			if (target.value === 'list' || target.value === 'table') {
