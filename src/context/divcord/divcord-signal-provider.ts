@@ -25,10 +25,10 @@ export class DivcordSignalProviderElement extends LitElement {
 
 	async connectedCallback(): Promise<void> {
 		super.connectedCallback();
-		divcordLoader.addEventListener('records-updated', records => {
-			this.divcord_table.set(new DivcordTable(records));
-			toast('Your Divcord data is up-to-date', 'success', 3000);
-		});
+		// divcordLoader.addEventListener('records-updated', records => {
+		// 	this.divcord_table.set(new DivcordTable(records));
+		// 	toast('Your Divcord data is up-to-date', 'success', 3000);
+		// });
 
 		const records = await divcordLoader.getRecordsAndStartUpdateIfNeeded();
 		this.divcord_table.set(new DivcordTable(records));
