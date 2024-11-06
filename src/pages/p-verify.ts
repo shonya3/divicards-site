@@ -2,7 +2,7 @@ import { LitElement, PropertyValueMap, TemplateResult, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { DivcordTable } from '../context/divcord/DivcordTable';
 import { consume } from '@lit/context';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
+import { SourceAndCards, cardsBySourceTypes, sort_by_weight } from '../cards';
 import { PoeData, poeData } from '../PoeData';
 import { SOURCE_TYPE_VARIANTS, Source } from '../gen/Source';
 import '../elements/e-source-with-cards';
@@ -87,7 +87,7 @@ export class VerifyPage extends LitElement {
 					.filter(({ cards }) => cards.length > 0)
 					.sort((a, b) => b.cards.length - a.cards.length);
 				for (const { cards } of sourcesAndCards) {
-					sortByWeight(cards, poeData);
+					sort_by_weight(cards, poeData);
 				}
 
 				// move sources with solo Rebirth cards to the end

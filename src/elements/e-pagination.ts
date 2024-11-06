@@ -8,13 +8,13 @@ import { router } from '../router';
 @customElement('e-pagination')
 export class PageControlsElement extends LitElement {
 	@property({ reflect: true, type: Number }) page = 1;
-	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
+	@property({ reflect: true, type: Number }) per_page = 10;
 	@property({ type: Number }) n: number = 0;
 
 	attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
 		super.attributeChangedCallback(name, _old, value);
 
-		if (name === 'page' || name === 'per-page') {
+		if (name === 'page' || name === 'per_page') {
 			const skip = _old === value || _old == null;
 
 			if (!skip) {
@@ -22,8 +22,8 @@ export class PageControlsElement extends LitElement {
 				if (name === 'page') {
 					url.searchParams.set('page', String(this.page));
 				}
-				if (name === 'per-page') {
-					url.searchParams.set('per-page', String(this.perPage));
+				if (name === 'per_page') {
+					url.searchParams.set('per_page', String(this.per_page));
 				}
 
 				router.skip_transition = true;
@@ -38,7 +38,7 @@ export class PageControlsElement extends LitElement {
 	}
 	#onPerPageInput(e: InputEvent) {
 		const target = e.composedPath()[0] as HTMLInputElement;
-		this.perPage = Number(target.value);
+		this.per_page = Number(target.value);
 	}
 
 	increasePage(): void {
@@ -46,7 +46,7 @@ export class PageControlsElement extends LitElement {
 	}
 
 	lastPageNumber(): number {
-		return Math.ceil(this.n / this.perPage);
+		return Math.ceil(this.n / this.per_page);
 	}
 
 	toLastPage(): void {
@@ -54,8 +54,8 @@ export class PageControlsElement extends LitElement {
 	}
 
 	showingRange(): [number, number] | null {
-		const start = (this.page - 1) * this.perPage;
-		let end = start + this.perPage;
+		const start = (this.page - 1) * this.per_page;
+		let end = start + this.per_page;
 		if (start + 1 <= 0 || end <= 0) {
 			return null;
 		}
@@ -108,12 +108,12 @@ export class PageControlsElement extends LitElement {
 					>
 					<sl-input
 						aria-label="to last page"
-						class="per-page-input"
+						class="per_page-input"
 						.helpText=${'per page'}
-						id="per-page"
+						id="per_page"
 						type="number"
 						min="1"
-						.value=${String(this.perPage)}
+						.value=${String(this.per_page)}
 						@input=${this.#onPerPageInput}
 					></sl-input>
 				</div>
@@ -148,7 +148,7 @@ export class PageControlsElement extends LitElement {
 			font-size: 1.2rem;
 		}
 
-		.per-page-input,
+		.per_page-input,
 		.page-input {
 			margin-top: 1.1rem;
 			width: 8ch;

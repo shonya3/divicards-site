@@ -6,7 +6,7 @@ import '../elements/e-source/e-source';
 import '../elements/e-pagination';
 import '../elements/e-cards-by-source';
 import { poeData } from '../PoeData';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
+import { SourceAndCards, cardsBySourceTypes, sort_by_weight } from '../cards';
 import { consume } from '@lit/context';
 import { paginate } from '../utils';
 import { DivcordTable } from '../context/divcord/DivcordTable';
@@ -62,7 +62,7 @@ export class MapsPage extends LitElement {
 				});
 
 			sourcesAndCards.forEach(({ cards }) => {
-				sortByWeight(cards, poeData);
+				sort_by_weight(cards, poeData);
 			});
 
 			this.sourcesAndCards = sourcesAndCards;
@@ -113,7 +113,7 @@ export class MapsPage extends LitElement {
 							.datalistItems=${this.maps()}
 						></e-input>
 					</form>
-					<e-pagination .n=${this.filtered.length} page=${this.page} per-page=${this.perPage}></e-pagination>
+					<e-pagination .n=${this.filtered.length} page=${this.page} per_page=${this.perPage}></e-pagination>
 				</header>
 				<ul>
 					${this.paginated.map(({ source, cards }) => {

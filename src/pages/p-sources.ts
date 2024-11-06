@@ -4,7 +4,7 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-source-type';
 import { poeData } from '../PoeData';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight, sourcetypesMap } from '../cards';
+import { SourceAndCards, cardsBySourceTypes, sort_by_weight, sourcetypesMap } from '../cards';
 import { consume } from '@lit/context';
 import { DivcordTable } from '../context/divcord/DivcordTable';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
@@ -33,7 +33,7 @@ export class SourcesPage extends LitElement {
 
 		if (map.has('selected_source_types') || map.has('divcordTable')) {
 			this.sources_and_cards = cardsBySourceTypes(this.selected_source_types, this.divcordTable.records, poeData);
-			this.sources_and_cards.forEach(({ cards }) => sortByWeight(cards, poeData));
+			this.sources_and_cards.forEach(({ cards }) => sort_by_weight(cards, poeData));
 		}
 	}
 

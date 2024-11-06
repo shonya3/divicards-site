@@ -4,7 +4,7 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import { consume } from '@lit/context';
 import '../elements/e-source-with-cards';
-import { CardBySource, cardsBySource, sortByWeight } from '../cards';
+import { CardBySource, cardsBySource, sort_by_weight } from '../cards';
 import { poeData } from '../PoeData';
 import type { Source } from '../gen/Source';
 import { DivcordTable } from '../context/divcord/DivcordTable';
@@ -42,7 +42,7 @@ export class SourcePage extends LitElement {
 	protected willUpdate(map: PropertyValueMap<this>): void {
 		if (map.has('divcordTable') || map.has('source')) {
 			const cards = cardsBySource(this.source, this.divcordTable.records, poeData);
-			sortByWeight(cards, poeData);
+			sort_by_weight(cards, poeData);
 			this.cards = cards;
 		}
 	}

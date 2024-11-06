@@ -21,7 +21,7 @@ import { DivcordPresetsElement } from '../elements/presets/e-divcord-presets';
 import { paginate } from '../utils';
 import { Storage } from '../storage';
 import { classMap } from 'lit/directives/class-map.js';
-import { searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
+import { search_cards_by_query, SEARCH_CRITERIA_VARIANTS } from '../search_cards_by_query';
 import { Confidence, RemainingWork, Greynote, DivcordRecord } from '../gen/divcord';
 import { DEFAULT_PRESETS, type PresetConfig } from '../elements/presets/presets';
 import { toast } from '../toast';
@@ -39,6 +39,7 @@ import {
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { repeat } from 'lit/directives/repeat.js';
+import { SignalWatcher } from '@lit-labs/signals';
 
 declare module '../storage' {
 	interface Registry {
@@ -55,7 +56,7 @@ declare module '../storage' {
  * @csspart active_divination_card
  */
 @customElement('p-divcord')
-export class DivcordPage extends LitElement {
+export class DivcordPage extends SignalWatcher(LitElement) {
 	#storage = {
 		customPresets: new Storage('customPresets', []),
 		shouldApplyFilters: new Storage('shouldApplyFilters', true),
@@ -250,7 +251,7 @@ export class DivcordPage extends LitElement {
 					? html`<e-pagination
 								.n=${this.filtered.length}
 								page=${this.page}
-								per-page=${this.perPage}
+								per_page=${this.perPage}
 							></e-pagination>
 							<ul>
 								${repeat(
@@ -458,7 +459,7 @@ function createFilteredCards({
 }): string[] {
 	const query = filter.trim().toLowerCase();
 
-	const cardsByQuery = searchCardsByQuery(query, Array.from(SEARCH_CRITERIA_VARIANTS), divcordTable);
+	const cardsByQuery = search_cards_by_query(query, Array.from(SEARCH_CRITERIA_VARIANTS), divcordTable);
 
 	const cards = cardsByQuery
 		.filter(card => {

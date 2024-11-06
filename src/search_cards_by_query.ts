@@ -1,4 +1,4 @@
-import { cardsByMapboss, cardsByActboss, sortByWeight, cardsBySourceTypes } from './cards';
+import { cardsByMapboss, cardsByActboss, sort_by_weight, cardsBySourceTypes } from './cards';
 import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './context/divcord/DivcordTable';
 import { SOURCE_TYPE_VARIANTS } from './gen/Source';
@@ -19,14 +19,14 @@ export const SEARCH_CRITERIA_VARIANTS = [
 export type SearchCardsCriteria = (typeof SEARCH_CRITERIA_VARIANTS)[number];
 
 let allCards: string[] = [];
-export function searchCardsByQuery(
+export function search_cards_by_query(
 	query: string,
 	criterias: SearchCardsCriteria[],
 	divcordTable: DivcordTable
 ): string[] {
 	if (!allCards.length) {
 		allCards = divcordTable.cards();
-		sortByWeight(allCards, poeData);
+		sort_by_weight(allCards, poeData);
 	}
 
 	if (!query && criterias.length === SEARCH_CRITERIA_VARIANTS.length) {

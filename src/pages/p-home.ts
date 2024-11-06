@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
+import { LitElement, PropertyValues, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/e-divination-card';
 import { DivcordTable } from '../context/divcord/DivcordTable';
@@ -9,18 +9,20 @@ import { paginate } from '../utils';
 import '../elements/input/e-input';
 import inputStyles from '../elements/input/input.styles';
 import { poeData } from '../PoeData';
-import { sortByWeight } from '../cards';
-import { SearchCardsCriteria, searchCardsByQuery, SEARCH_CRITERIA_VARIANTS } from '../searchCardsByQuery';
+import { sort_by_weight } from '../cards';
+import { SearchCardsCriteria, search_cards_by_query, SEARCH_CRITERIA_VARIANTS } from '../search_cards_by_query';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import type { SourceSize } from '../elements/e-source/types';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
-import { divcordTableContext } from '../context/divcord/divcord-provider';
 import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
 import { repeat } from 'lit/directives/repeat.js';
+import { computed, Signal, signal, SignalWatcher } from '@lit-labs/signals';
+import { effect } from 'signal-utils/subtle/microtask-effect';
+import { divcord_table_context } from '../context/divcord/divcord-signal-provider';
 
 /**
  * Home page with cards, search and pagination.
@@ -28,67 +30,77 @@ import { repeat } from 'lit/directives/repeat.js';
  * @csspart active_divination-card   Active card for view-transition(optional).
  */
 @customElement('p-home')
-export class HomePage extends LitElement {
-	@property({ reflect: true, type: Number }) page = 1;
-	@property({ reflect: true, type: Number }) per_page = 10;
+export class HomePage extends SignalWatcher(LitElement) {
+	@property({ type: Number, reflect: true }) page = 1;
+	@property({ type: Number, reflect: true }) per_page = 10;
+	@property({ reflect: true }) filter = '';
 	@property({ reflect: true }) card_size: CardSize = 'medium';
 	@property({ reflect: true }) source_size: SourceSize = 'small';
-	@property({ reflect: true })
-	filter: string = '';
-	@property({ type: Array }) searchCriterias: SearchCardsCriteria[] = Array.from(SEARCH_CRITERIA_VARIANTS);
+	@property({ attribute: false }) search_criterias = Array.from(SEARCH_CRITERIA_VARIANTS);
 
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: DivcordTable;
+	#page = signal(1);
+	#per_page = signal(10);
+	#filter = signal('');
+	#card_size = signal<CardSize>('medium');
+	#source_size = signal<SourceSize>('small');
+	#search_criterias = signal<Array<SearchCardsCriteria>>([]);
 
 	@consume({ context: view_transition_names_context, subscribe: true })
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	@state() filtered: string[] = [];
-	@state() paginated: string[] = [];
+	@consume({ context: divcord_table_context, subscribe: true })
+	@state()
+	divcord_table!: Signal.State<DivcordTable>;
 
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('filter') || map.has('searchCriterias') || map.has('divcordTable')) {
-			const query = this.filter.trim().toLowerCase();
-			const cards = searchCardsByQuery(query, this.searchCriterias, this.divcordTable);
-			sortByWeight(cards, poeData);
-			this.filtered = cards;
-		}
+	filtered = computed(() => {
+		const query = this.#filter.get().trim().toLowerCase();
+		const cards = search_cards_by_query(query, this.#search_criterias.get(), this.divcord_table.get());
+		sort_by_weight(cards, poeData);
+		return cards;
+	});
 
-		if (map.has('filtered') || map.has('page') || map.has('per_page')) {
-			this.paginated = paginate(this.filtered, this.page, this.per_page);
-		}
+	/** Paginated and filtered by search query and by weight cards. */
+	paginated = computed(() => {
+		return paginate(this.filtered.get(), this.#page.get(), this.#per_page.get());
+	});
+
+	protected willUpdate(map: PropertyValues<this>): void {
+		map.has('page') && this.#page.set(this.page);
+		map.has('per_page') && this.#per_page.set(this.per_page);
+		map.has('filter') && this.#filter.set(this.filter);
+		map.has('card_size') && this.#card_size.set(this.card_size);
+		map.has('source_size') && this.#source_size.set(this.source_size);
+		map.has('search_criterias') && this.#search_criterias.set(this.search_criterias);
 	}
 
-	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
-		super.attributeChangedCallback(name, old, value);
-
-		if (name === 'filter') {
-			if (old === value || old == null) {
+	protected firstUpdated(): void {
+		effect(() => {
+			const url = new URL(window.location.href);
+			if (!url.searchParams.get('filter') && !this.#filter.get()) {
 				return;
 			}
-			const url = new URL(window.location.href);
-			url.searchParams.set('filter', this.filter);
+
+			url.searchParams.set('filter', this.#filter.get());
 			window.history.pushState(null, '', url);
-		}
+		});
 	}
 
-	render(): TemplateResult {
+	protected render(): TemplateResult {
 		return html`
 			<div id="search-pagination-controls">
 				<e-input
 					autofocus
 					label="Search"
-					.value=${this.filter}
-					.datalistItems=${this.divcordTable.cards()}
+					.value=${this.#filter.get()}
+					.datalistItems=${this.divcord_table.get().cards()}
 					@input="${this.#on_card_name_input}"
 					type="text"
 				>
 				</e-input>
 				<sl-select
 					label="By"
-					.value=${this.searchCriterias}
+					.value=${this.#search_criterias.get()}
 					@sl-change=${this.#on_criterias_select}
 					multiple
 					clearable
@@ -97,19 +109,23 @@ export class HomePage extends LitElement {
 						return html`<sl-option value=${value}>${value}</sl-option>`;
 					})}
 				</sl-select>
-				<e-pagination .n=${this.filtered.length} page=${this.page} per-page=${this.per_page}></e-pagination>
+				<e-pagination
+					.n=${this.filtered.get().length}
+					page=${this.#page.get()}
+					per_page=${this.#per_page.get()}
+				></e-pagination>
 			</div>
 
 			<ul id="divination-cards-list">
 				${repeat(
-					this.paginated,
-					card_name => card_name,
+					this.paginated.get(),
+					card => card,
 					card => html`<li>
 						<e-card-with-sources
 							.name=${card}
-							.divcordTable=${this.divcordTable}
-							.card_size=${this.card_size}
-							.source_size=${this.source_size}
+							.divcordTable=${this.divcord_table.get()}
+							.card_size=${this.#card_size.get()}
+							.source_size=${this.#source_size.get()}
 							.active_drop_source=${this.view_transition_names.active_drop_source}
 							exportparts=${slug(card) === this.view_transition_names.active_divination_card
 								? 'active_drop_source,divination_card:active_divination_card'
@@ -123,13 +139,13 @@ export class HomePage extends LitElement {
 
 	#on_card_name_input(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
-		this.page = 1;
-		this.filter = input.value;
+		this.#page.set(1);
+		this.#filter.set(input.value);
 	}
 
 	#on_criterias_select(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
-		this.searchCriterias = target.value as Array<SearchCardsCriteria>;
+		this.#search_criterias.set(target.value as Array<SearchCardsCriteria>);
 	}
 
 	static styles = css`

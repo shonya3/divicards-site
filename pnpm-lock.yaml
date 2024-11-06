@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@lit-labs/signals':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@lit-labs/virtualizer':
         specifier: ^2.0.14
         version: 2.0.14
@@ -29,6 +32,9 @@ importers:
       poe-custom-elements:
         specifier: ^0.3.14
         version: 0.3.14
+      signal-utils:
+        specifier: ^0.20.0
+        version: 0.20.0(signal-polyfill@0.2.1)
       urlpattern-polyfill:
         specifier: ^10.0.0
         version: 10.0.0
@@ -215,6 +221,9 @@ packages:
 
   '@github/catalyst@1.6.0':
     resolution: {integrity: sha512-u8A+DameixqpeyHzvnJWTGj+wfiskQOYHzSiJscCWVfMkIT3rxnbHMtGh3lMthaRY21nbUOK71WcsCnCrXhBJQ==}
+
+  '@lit-labs/signals@0.1.1':
+    resolution: {integrity: sha512-QQYp2CyXzxaYho4EHKLLOHLMX0Jz8HWUfGGiCKyei54Vol0DqiPggbA1z3t53oYJ3mqU/NTWF+flfcY7Tfpozg==}
 
   '@lit-labs/ssr-dom-shim@1.2.0':
     resolution: {integrity: sha512-yWJKmpGE6lUURKAaIltoPIE/wrbY3TEkqQt+X0m+7fQNnAv0keydnYvbiJFP1PnMhizmIWRWOG5KLhYyc/xl+g==}
@@ -643,6 +652,14 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  signal-polyfill@0.2.1:
+    resolution: {integrity: sha512-HtchWosT4UT1i6yIMmxjg7gqkDT9lXvQtJRGVppi2TDwVjgs8cS+7ATVFqBvgJGThludjxrxJFOvmzzGSAc8OA==}
+
+  signal-utils@0.20.0:
+    resolution: {integrity: sha512-EH1pz4/hfwHOKX5Zdgo62RONuo0pHBWN0zxlBiQHmC1W2CffwNZdcNTvFcBT3QZppdfjx2MSmGYJWvCuLUN8FQ==}
+    peerDependencies:
+      signal-polyfill: ^0.2.0
+
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -873,6 +890,11 @@ snapshots:
   '@floating-ui/utils@0.2.8': {}
 
   '@github/catalyst@1.6.0': {}
+
+  '@lit-labs/signals@0.1.1':
+    dependencies:
+      lit: 3.2.1
+      signal-polyfill: 0.2.1
 
   '@lit-labs/ssr-dom-shim@1.2.0': {}
 
@@ -1299,6 +1321,12 @@ snapshots:
   semver@7.5.4:
     dependencies:
       lru-cache: 6.0.0
+
+  signal-polyfill@0.2.1: {}
+
+  signal-utils@0.20.0(signal-polyfill@0.2.1):
+    dependencies:
+      signal-polyfill: 0.2.1
 
   slash@3.0.0: {}
 

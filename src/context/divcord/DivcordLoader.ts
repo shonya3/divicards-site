@@ -1,6 +1,6 @@
 import { poeData } from '../../PoeData.js';
 import { warningToast } from '../../toast.js';
-import { sortByWeight } from '../../cards.js';
+import { sort_by_weight } from '../../cards.js';
 import type { DivcordRecord } from '../../gen/divcord.js';
 import { Storage } from '../../storage.js';
 import { EventEmitter, sortAllSourcesByLevel } from '../../utils.js';
@@ -98,7 +98,7 @@ export class DivcordLoader extends EventEmitter<{
 
 		try {
 			const records = await promise;
-			sortByWeight(records, poeData);
+			sort_by_weight(records, poeData);
 			sortAllSourcesByLevel(records, poeData);
 			this.#storage.save(records);
 			this.#setState('updated');

@@ -5,7 +5,7 @@ import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-source-type';
 import './p-sources';
-import { SourceAndCards, cardsBySourceTypes, sortByWeight } from '../cards';
+import { SourceAndCards, cardsBySourceTypes, sort_by_weight } from '../cards';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
 import { DivcordTable } from '../context/divcord/DivcordTable';
@@ -38,7 +38,7 @@ export class SourceTypePage extends LitElement {
 			}
 
 			for (const { cards } of sourcesAndCards) {
-				sortByWeight(cards, poeData);
+				sort_by_weight(cards, poeData);
 			}
 
 			this.sourcesAndCardsRenderer = new ArrayAsyncRenderer(sourcesAndCards);

@@ -30,7 +30,7 @@ export function cardsByMaps(records: DivcordRecord[]): Record<string, CardBySour
 }
 
 /** Sort cards by weight, start from the most rare. If card has no weight, force it to the end */
-export function sortByWeight(cards: { card: string }[] | string[], poeData: Readonly<PoeData>): void {
+export function sort_by_weight(cards: { card: string }[] | string[], poeData: Readonly<PoeData>): void {
 	const SORT_TO_THE_END_VALUE = 1_000_000;
 	cards.sort((a, b) => {
 		const aWeight = poeData.find.card(typeof a === 'string' ? a : a.card)?.weight || SORT_TO_THE_END_VALUE;
