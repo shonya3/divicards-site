@@ -43,12 +43,12 @@ import { SignalWatcher } from '@lit-labs/signals';
 
 declare module '../storage' {
 	interface Registry {
-		customPresets: PresetConfig[];
-		shouldApplyFilters: boolean;
-		latestPresetApplied: string;
-		onlyShowCardsWithNoConfirmedSources: boolean;
-		onlyShowCardsWithSourcesToVerify: boolean;
-		activeView: ActiveView;
+		custom_presets: PresetConfig[];
+		should_apply_filters: boolean;
+		latest_preset_applied: string;
+		only_show_cards_with_no_confirmed_sources: boolean;
+		only_show_cards_with_sources_to_verify: boolean;
+		active_view: ActiveView;
 	}
 }
 
@@ -58,24 +58,24 @@ declare module '../storage' {
 @customElement('p-divcord')
 export class DivcordPage extends SignalWatcher(LitElement) {
 	#storage = {
-		customPresets: new Storage('customPresets', []),
-		shouldApplyFilters: new Storage('shouldApplyFilters', true),
-		latestPresetApplied: new Storage('latestPresetApplied', ''),
-		onlyShowCardsWithNoConfirmedSources: new Storage('onlyShowCardsWithNoConfirmedSources', false),
-		onlyShowCardsWithSourcesToVerify: new Storage('onlyShowCardsWithSourcesToVerify', false),
+		custom_presets: new Storage('custom_presets', []),
+		should_apply_filters: new Storage('should_apply_filters', true),
+		latest_preset_applied: new Storage('latest_preset_applied', ''),
+		only_show_cards_with_no_confirmed_sources: new Storage('only_show_cards_with_no_confirmed_sources', false),
+		only_show_cards_with_sources_to_verify: new Storage('only_show_cards_with_sources_to_verify', false),
 		showCards: new Storage('weightsPageShowCards', true),
-		activeView: new Storage('activeView', 'table'),
+		active_view: new Storage('active_view', 'table'),
 	};
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number }) per_page = 10;
 	@property({ reflect: true }) filter: string = '';
-	@property({ type: Boolean }) shouldApplySelectFilters = this.#storage.shouldApplyFilters.load();
-	@property({ type: Boolean }) onlyShowCardsWithNoConfirmedSources: boolean =
-		this.#storage.onlyShowCardsWithNoConfirmedSources.load();
-	@property({ type: Boolean }) onlyShowCardsWithSourcesToVerify: boolean =
-		this.#storage.onlyShowCardsWithSourcesToVerify.load();
+	@property({ type: Boolean }) should_apply_filters = this.#storage.should_apply_filters.load();
+	@property({ type: Boolean }) only_show_cards_with_no_confirmed_sources: boolean =
+		this.#storage.only_show_cards_with_no_confirmed_sources.load();
+	@property({ type: Boolean }) only_show_cards_with_sources_to_verify: boolean =
+		this.#storage.only_show_cards_with_sources_to_verify.load();
 	@property({ type: Boolean }) showCards: boolean = this.#storage.showCards.load();
-	@property({ reflect: true, attribute: 'active-view' }) activeView: ActiveView = this.#storage.activeView.load();
+	@property({ reflect: true }) active_view: ActiveView = this.#storage.active_view.load();
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -85,12 +85,12 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	@state() recordsForTableView: DivcordRecordAndWeight[] = [];
+	@state() records_for_table_view: DivcordRecordAndWeight[] = [];
 	@state() filtered: string[] = [];
 	@state() paginated: string[] = [];
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
-	@state() customPresets: PresetConfig[] = this.#storage.customPresets.load() ?? [];
+	@state() custom_presets: PresetConfig[] = this.#storage.custom_presets.load() ?? [];
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
@@ -99,54 +99,54 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			this.#storage.showCards.save(this.showCards);
 		}
 
-		if (map.has('activeView')) {
-			this.#storage.activeView.save(this.activeView);
+		if (map.has('active_view')) {
+			this.#storage.active_view.save(this.active_view);
 		}
 
-		if (map.has('shouldApplySelectFilters')) {
-			this.#storage.shouldApplyFilters.save(this.shouldApplySelectFilters);
+		if (map.has('should_apply_filters')) {
+			this.#storage.should_apply_filters.save(this.should_apply_filters);
 		}
 
-		if (map.has('shouldApplySelectFilters')) {
-			if (this.shouldApplySelectFilters) {
-				const latestAppliedPresetName = this.#storage.latestPresetApplied.load() ?? '';
-				const preset = this.findPreset(latestAppliedPresetName);
+		if (map.has('should_apply_filters')) {
+			if (this.should_apply_filters) {
+				const latestAppliedPresetName = this.#storage.latest_preset_applied.load() ?? '';
+				const preset = this.find_preset(latestAppliedPresetName);
 				if (preset) {
-					this.#applyPreset(preset);
+					this.#apply_preset(preset);
 				}
 			}
 		}
 
-		if (map.has('customPresets')) {
-			this.#storage.customPresets.save(this.customPresets);
+		if (map.has('custom_presets')) {
+			this.#storage.custom_presets.save(this.custom_presets);
 		}
 
 		const keys: PropertyKey[] = [
 			'config',
 			'filter',
 			'divcordTable',
-			'shouldApplySelectFilters',
-			'onlyShowCardsWithNoConfirmedSources',
-			'onlyShowCardsWithSourcesToVerify',
+			'should_apply_filters',
+			'only_show_cards_with_no_confirmed_sources',
+			'only_show_cards_with_sources_to_verify',
 			'page',
 			'perPage',
-			'activeView',
+			'active_view',
 		];
 		if (Array.from(map.keys()).some(k => keys.includes(k))) {
 			this.filtered = createFilteredCards({
 				filter: this.filter,
 				divcordTable: this.divcordTable,
 				config: this.config,
-				shouldApplySelectFilters: this.shouldApplySelectFilters,
-				onlyShowCardsWithNoConfirmedSources: this.onlyShowCardsWithNoConfirmedSources,
-				onlyShowCardsWithSourcesToVerify: this.onlyShowCardsWithSourcesToVerify,
+				should_apply_filters: this.should_apply_filters,
+				only_show_cards_with_no_confirmed_sources: this.only_show_cards_with_no_confirmed_sources,
+				only_show_cards_with_sources_to_verify: this.only_show_cards_with_sources_to_verify,
 			});
 			this.paginated = paginate(this.filtered, this.page, this.per_page);
 
-			if (this.activeView === 'table') {
+			if (this.active_view === 'table') {
 				const set = new Set(this.filtered);
 
-				this.recordsForTableView = prepareDivcordRecordsAndWeight(
+				this.records_for_table_view = prepareDivcordRecordsAndWeight(
 					this.divcordTable.records.filter(record => set.has(record.card))
 				);
 			}
@@ -191,31 +191,31 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 				<section
 					class=${classMap({
 						'select-filters-section': true,
-						'select-filters-section--open': this.shouldApplySelectFilters,
+						'select-filters-section--open': this.should_apply_filters,
 					})}
 				>
 					<div class="apply-select-filters-control">
 						<sl-checkbox
-							.checked=${this.shouldApplySelectFilters}
+							.checked=${this.should_apply_filters}
 							@sl-input=${this.#on_should_apply_select_filters_change}
 							>Apply filters</sl-checkbox
 						>
 					</div>
-					${this.shouldApplySelectFilters
+					${this.should_apply_filters
 						? html`<div class="select-filters">
 								<e-divcord-presets
-									.customPresets=${this.customPresets}
+									.custom_presets=${this.custom_presets}
 									@preset-applied=${this.#on_preset_apply}
 									@config-updated=${this.#on_config_update}
 									@custom-presets-updated=${this.#on_custom_preset_update}
 								></e-divcord-presets>
 								<sl-checkbox
-									.checked=${this.onlyShowCardsWithNoConfirmedSources}
+									.checked=${this.only_show_cards_with_no_confirmed_sources}
 									@sl-input=${this.#on_only_show_cards_with_no_confirmed_sources_change}
 									>Only show cards with no confirmed sources</sl-checkbox
 								>
 								<sl-checkbox
-									.checked=${this.onlyShowCardsWithSourcesToVerify}
+									.checked=${this.only_show_cards_with_sources_to_verify}
 									@sl-input=${this.#on_only_show_cards_with_sources_to_verify_change}
 									>Only show cards with sources to verify</sl-checkbox
 								>
@@ -230,7 +230,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 				size="large"
 				label="Select the view"
 				name="a"
-				value=${this.activeView}
+				value=${this.active_view}
 			>
 				<sl-radio-button value="list">List</sl-radio-button>
 				<sl-radio-button value="table">Table</sl-radio-button>
@@ -247,7 +247,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			</section>
 
 			<div class="active-view">
-				${this.activeView === 'list'
+				${this.active_view === 'list'
 					? html`<e-pagination
 								.n=${this.filtered.length}
 								page=${this.page}
@@ -276,7 +276,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 							exportparts="active_divination_card"
 							.active_divination_card=${this.view_transition_names.active_divination_card}
 							@show-cards-changed=${this.#on_show_cards_change}
-							.records=${this.recordsForTableView}
+							.records=${this.records_for_table_view}
 							.showCards=${this.showCards}
 					  ></e-divcord-spreadsheet>`}
 			</div>
@@ -293,19 +293,19 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	}
 
 	#on_preset_apply(e: CustomEvent<PresetConfig>) {
-		this.#applyPreset(e.detail);
+		this.#apply_preset(e.detail);
 	}
 
 	#on_custom_preset_update(e: CustomEvent<PresetConfig[]>) {
-		this.customPresets = e.detail;
+		this.custom_presets = e.detail;
 	}
 
 	#on_show_cards_change(e: Event) {
 		this.showCards = (e.target as DivcordSpreadsheetElement).showCards;
 	}
 
-	findPreset(name: string): PresetConfig | null {
-		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
+	find_preset(name: string): PresetConfig | null {
+		return [...DEFAULT_PRESETS, ...this.custom_presets].find(p => p.name === name) ?? null;
 	}
 
 	async #onCardnameInput(e: InputEvent) {
@@ -317,12 +317,12 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	#on_should_apply_select_filters_change(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
-			this.shouldApplySelectFilters = target.checked;
+			this.should_apply_filters = target.checked;
 		}
 	}
 
-	#applyPreset(preset: PresetConfig) {
-		this.#storage.latestPresetApplied.save(preset.name);
+	#apply_preset(preset: PresetConfig) {
+		this.#storage.latest_preset_applied.save(preset.name);
 		this.config = preset;
 		toast(`"${preset.name}" applied`, 'primary', 3000);
 	}
@@ -330,16 +330,16 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	#on_only_show_cards_with_no_confirmed_sources_change(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
-			this.onlyShowCardsWithNoConfirmedSources = target.checked;
-			this.#storage.onlyShowCardsWithNoConfirmedSources.save(target.checked);
+			this.only_show_cards_with_no_confirmed_sources = target.checked;
+			this.#storage.only_show_cards_with_no_confirmed_sources.save(target.checked);
 		}
 	}
 
 	#on_only_show_cards_with_sources_to_verify_change(e: InputEvent) {
 		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
 		if (typeof target.checked === 'boolean') {
-			this.onlyShowCardsWithSourcesToVerify = target.checked;
-			this.#storage.onlyShowCardsWithSourcesToVerify.save(target.checked);
+			this.only_show_cards_with_sources_to_verify = target.checked;
+			this.#storage.only_show_cards_with_sources_to_verify.save(target.checked);
 		}
 	}
 
@@ -347,7 +347,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		const target = e.target as EventTarget & { value: string };
 		if (target && target.value) {
 			if (target.value === 'list' || target.value === 'table') {
-				this.activeView = target.value;
+				this.active_view = target.value;
 			}
 		}
 	}
@@ -446,16 +446,16 @@ function createFilteredCards({
 	filter,
 	divcordTable,
 	config,
-	shouldApplySelectFilters,
-	onlyShowCardsWithSourcesToVerify,
-	onlyShowCardsWithNoConfirmedSources,
+	should_apply_filters,
+	only_show_cards_with_sources_to_verify,
+	only_show_cards_with_no_confirmed_sources,
 }: {
 	filter: string;
 	divcordTable: DivcordTable;
 	config: Omit<PresetConfig, 'name'>;
-	shouldApplySelectFilters: boolean;
-	onlyShowCardsWithSourcesToVerify: boolean;
-	onlyShowCardsWithNoConfirmedSources: boolean;
+	should_apply_filters: boolean;
+	only_show_cards_with_sources_to_verify: boolean;
+	only_show_cards_with_no_confirmed_sources: boolean;
 }): string[] {
 	const query = filter.trim().toLowerCase();
 
@@ -463,7 +463,7 @@ function createFilteredCards({
 
 	const cards = cardsByQuery
 		.filter(card => {
-			if (shouldApplySelectFilters && onlyShowCardsWithSourcesToVerify) {
+			if (should_apply_filters && only_show_cards_with_sources_to_verify) {
 				const records = divcordTable.recordsByCard(card);
 				return records.some(r => r.verifySources.length > 0);
 			} else {
@@ -471,7 +471,7 @@ function createFilteredCards({
 			}
 		})
 		.filter(card => {
-			if (shouldApplySelectFilters && onlyShowCardsWithNoConfirmedSources) {
+			if (should_apply_filters && only_show_cards_with_no_confirmed_sources) {
 				const records = divcordTable.recordsByCard(card);
 				const allRecordsHaveNoSources = records.every(s => s.sources.length === 0);
 				return allRecordsHaveNoSources;
@@ -480,7 +480,7 @@ function createFilteredCards({
 			}
 		})
 		.filter(card => {
-			if (shouldApplySelectFilters) {
+			if (should_apply_filters) {
 				const hasConfidence = someCardRecordHasConfidenceVariant(card, config.confidence, divcordTable);
 				const hasGreynote = someCardRecordHasGreynoteWorkVariant(card, config.greynote, divcordTable);
 				const hasRemainingWork = someCardRecordHasRemainingWorkVariant(

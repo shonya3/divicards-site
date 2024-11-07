@@ -28,7 +28,7 @@ import { classMap } from 'lit/directives/class-map.js';
  */
 @customElement('e-divcord-presets')
 export class DivcordPresetsElement extends LitElement {
-	@property({ type: Array }) customPresets: PresetConfig[] = [];
+	@property({ type: Array }) custom_presets: PresetConfig[] = [];
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
 	@state() presetActionState: 'adding' | 'deleting' | 'idle' = 'idle';
@@ -58,7 +58,7 @@ export class DivcordPresetsElement extends LitElement {
 						preset =>
 							html`<sl-button @click=${this.#applyPreset.bind(this, preset)}>${preset.name}</sl-button>`
 					)}
-					${this.customPresets.map(preset => {
+					${this.custom_presets.map(preset => {
 						const btn = html`<sl-button @click=${this.#applyPreset.bind(this, preset)}
 							>${preset.name}</sl-button
 						>`;
@@ -169,7 +169,7 @@ export class DivcordPresetsElement extends LitElement {
 	}
 
 	#onTrashClicked() {
-		const customPresets = this.customPresets.filter(preset => {
+		const customPresets = this.custom_presets.filter(preset => {
 			return !this.presetsForDelete.has(preset.name);
 		});
 		this.#updateCustomPresets(customPresets);
@@ -185,7 +185,7 @@ export class DivcordPresetsElement extends LitElement {
 	};
 
 	findPreset(name: string): PresetConfig | null {
-		return [...DEFAULT_PRESETS, ...this.customPresets].find(p => p.name === name) ?? null;
+		return [...DEFAULT_PRESETS, ...this.custom_presets].find(p => p.name === name) ?? null;
 	}
 
 	@query('#input-new-preset-name') inputNewPresetNameEl!: HTMLInputElement;
@@ -205,7 +205,7 @@ export class DivcordPresetsElement extends LitElement {
 
 		const newPreset = { ...this.config, name };
 
-		const customPresets = [...this.customPresets, newPreset];
+		const customPresets = [...this.custom_presets, newPreset];
 
 		this.#updateCustomPresets(customPresets);
 		this.presetActionState = 'idle';
@@ -250,7 +250,7 @@ export class DivcordPresetsElement extends LitElement {
 	}
 
 	protected DeletingPresets(): TemplateResult | typeof nothing {
-		if (this.customPresets.length === 0) return nothing;
+		if (this.custom_presets.length === 0) return nothing;
 
 		switch (this.presetActionState) {
 			case 'idle': {
