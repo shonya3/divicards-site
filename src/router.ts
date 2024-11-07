@@ -51,7 +51,7 @@ export const router = new Router({
 			plugins: [lazy(() => import('./pages/p-divcord'))],
 			render: ({ query }) => html`<p-divcord
 				.page=${Number(query.page ?? 1)}
-				.per_page=${Number(query['per-page'] ?? 10)}
+				.per_page=${Number(query.per_page ?? 10)}
 				.filter=${query.filter ?? ''}
 			></p-divcord>`,
 		},
