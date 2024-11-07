@@ -40,6 +40,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { repeat } from 'lit/directives/repeat.js';
 import { SignalWatcher } from '@lit-labs/signals';
+import { use_local_storage } from '../composables/use_local_storage';
 
 declare module '../storage' {
 	interface Registry {
@@ -49,6 +50,7 @@ declare module '../storage' {
 		only_show_cards_with_no_confirmed_sources: boolean;
 		only_show_cards_with_sources_to_verify: boolean;
 		active_view: ActiveView;
+		show_cards_images: boolean;
 	}
 }
 
@@ -57,14 +59,13 @@ declare module '../storage' {
  */
 @customElement('p-divcord')
 export class DivcordPage extends SignalWatcher(LitElement) {
+	active_view = use_local_storage('active_view', 'table');
+	show_cards_images = use_local_storage('show_cards_images', true);
 	#storage = {
-		custom_presets: new Storage('custom_presets', []),
 		should_apply_filters: new Storage('should_apply_filters', true),
 		latest_preset_applied: new Storage('latest_preset_applied', ''),
 		only_show_cards_with_no_confirmed_sources: new Storage('only_show_cards_with_no_confirmed_sources', false),
 		only_show_cards_with_sources_to_verify: new Storage('only_show_cards_with_sources_to_verify', false),
-		showCards: new Storage('weightsPageShowCards', true),
-		active_view: new Storage('active_view', 'table'),
 	};
 	@property({ reflect: true, type: Number }) page = 1;
 	@property({ reflect: true, type: Number }) per_page = 10;
@@ -74,8 +75,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		this.#storage.only_show_cards_with_no_confirmed_sources.load();
 	@property({ type: Boolean }) only_show_cards_with_sources_to_verify: boolean =
 		this.#storage.only_show_cards_with_sources_to_verify.load();
-	@property({ type: Boolean }) showCards: boolean = this.#storage.showCards.load();
-	@property({ reflect: true }) active_view: ActiveView = this.#storage.active_view.load();
 
 	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
@@ -90,19 +89,11 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	@state() paginated: string[] = [];
 
 	@state() config: Omit<PresetConfig, 'name'> = DEFAULT_PRESETS[0];
-	@state() custom_presets: PresetConfig[] = this.#storage.custom_presets.load() ?? [];
+	@state() custom_presets = use_local_storage('custom_presets', []);
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('showCards')) {
-			this.#storage.showCards.save(this.showCards);
-		}
-
-		if (map.has('active_view')) {
-			this.#storage.active_view.save(this.active_view);
-		}
-
 		if (map.has('should_apply_filters')) {
 			this.#storage.should_apply_filters.save(this.should_apply_filters);
 		}
@@ -115,10 +106,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 					this.#apply_preset(preset);
 				}
 			}
-		}
-
-		if (map.has('custom_presets')) {
-			this.#storage.custom_presets.save(this.custom_presets);
 		}
 
 		const keys: PropertyKey[] = [
@@ -143,7 +130,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			});
 			this.paginated = paginate(this.filtered, this.page, this.per_page);
 
-			if (this.active_view === 'table') {
+			if (this.active_view.get() === 'table') {
 				const set = new Set(this.filtered);
 
 				this.records_for_table_view = prepareDivcordRecordsAndWeight(
@@ -204,7 +191,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 					${this.should_apply_filters
 						? html`<div class="select-filters">
 								<e-divcord-presets
-									.custom_presets=${this.custom_presets}
+									.custom_presets=${this.custom_presets.get()}
 									@preset-applied=${this.#on_preset_apply}
 									@config-updated=${this.#on_config_update}
 									@custom-presets-updated=${this.#on_custom_preset_update}
@@ -230,7 +217,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 				size="large"
 				label="Select the view"
 				name="a"
-				value=${this.active_view}
+				value=${this.active_view.get()}
 			>
 				<sl-radio-button value="list">List</sl-radio-button>
 				<sl-radio-button value="table">Table</sl-radio-button>
@@ -247,7 +234,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			</section>
 
 			<div class="active-view">
-				${this.active_view === 'list'
+				${this.active_view.get() === 'list'
 					? html`<e-pagination
 								.n=${this.filtered.length}
 								page=${this.page}
@@ -277,7 +264,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 							.active_divination_card=${this.view_transition_names.active_divination_card}
 							@show-cards-changed=${this.#on_show_cards_change}
 							.records=${this.records_for_table_view}
-							.showCards=${this.showCards}
+							.showCards=${this.show_cards_images.get()}
 					  ></e-divcord-spreadsheet>`}
 			</div>
 		</div>`;
@@ -297,15 +284,15 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	}
 
 	#on_custom_preset_update(e: CustomEvent<PresetConfig[]>) {
-		this.custom_presets = e.detail;
+		this.custom_presets.set(e.detail);
 	}
 
 	#on_show_cards_change(e: Event) {
-		this.showCards = (e.target as DivcordSpreadsheetElement).showCards;
+		this.show_cards_images.set((e.target as DivcordSpreadsheetElement).showCards);
 	}
 
 	find_preset(name: string): PresetConfig | null {
-		return [...DEFAULT_PRESETS, ...this.custom_presets].find(p => p.name === name) ?? null;
+		return [...DEFAULT_PRESETS, ...this.custom_presets.get()].find(p => p.name === name) ?? null;
 	}
 
 	async #onCardnameInput(e: InputEvent) {
@@ -347,7 +334,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		const target = e.target as EventTarget & { value: string };
 		if (target && target.value) {
 			if (target.value === 'list' || target.value === 'table') {
-				this.active_view = target.value;
+				this.active_view.set(target.value);
 			}
 		}
 	}
