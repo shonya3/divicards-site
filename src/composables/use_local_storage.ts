@@ -14,9 +14,3 @@ export function use_local_storage<Key extends keyof Registry>(storage_key: Key, 
 
 	return signal_value;
 }
-
-declare module '../storage' {
-	interface Registry {
-		'my-test-array': Array<number>;
-	}
-}
