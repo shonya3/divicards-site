@@ -39,7 +39,6 @@ import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { repeat } from 'lit/directives/repeat.js';
 import { computed, Signal, signal, SignalWatcher } from '@lit-labs/signals';
 import { use_local_storage } from '../composables/use_local_storage';
-import { effect } from 'signal-utils/subtle/microtask-effect';
 import { divcord_table_context } from '../context/divcord/divcord-signal-provider';
 
 declare module '../storage' {
@@ -110,14 +109,8 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
 	protected firstUpdated(_changedProperties: PropertyValues): void {
-		effect(() => {
-			if (this.should_apply_filters.get()) {
-				const preset = this.find_preset(this.latest_preset_applied.get());
-				if (preset) {
-					this.#apply_preset(preset);
-				}
-			}
-		});
+		const preset = this.find_preset(this.latest_preset_applied.get());
+		this.#apply_preset(preset);
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
@@ -294,7 +287,11 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		}
 	}
 
-	#apply_preset(preset: PresetConfig) {
+	#apply_preset(preset: PresetConfig | null) {
+		if (!this.should_apply_filters.get() || !preset) {
+			return;
+		}
+
 		this.latest_preset_applied.set(preset.name);
 		this.config.set(preset);
 		toast(`"${preset.name}" applied`, 'primary', 3000);
