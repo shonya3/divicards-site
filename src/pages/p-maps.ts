@@ -122,7 +122,7 @@ export class MapsPage extends LitElement {
 								.showSourceType=${false}
 								.source=${source}
 								.cards=${cards}
-								.cardSize=${`small`}
+								.card_size=${`small`}
 								.active_divination_card=${this.view_transition_names.active_divination_card}
 								exportparts=${this.view_transition_names.active_drop_source === source.idSlug
 									? `drop_source:active_drop_source,active_divination_card`

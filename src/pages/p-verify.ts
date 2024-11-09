@@ -174,8 +174,8 @@ export class VerifyPage extends LitElement {
 					<li>
 						<e-source-with-cards
 							.active_divination_card=${this.view_transition_names.active_divination_card}
-							card-size=${this.card_size}
-							source-size=${this.source_size}
+							.card_size=${this.card_size}
+							.source_size=${this.source_size}
 							.source=${source}
 							.cards=${cards}
 							exportparts=${this.view_transition_names.active_drop_source === source.idSlug

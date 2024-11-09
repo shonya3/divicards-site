@@ -17,8 +17,8 @@ import { slug } from '../gen/divcordWasm/divcord_wasm';
 @customElement('e-cards-by-source')
 export class CardsBySourceElement extends LitElement {
 	@property({ type: Array }) cards: CardBySource[] = [];
-	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
-	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
+	@property({ reflect: true }) source_size: SourceSize = 'medium';
+	@property({ reflect: true }) card_size: CardSize = 'medium';
 	@property({ reflect: true }) active_divination_card?: string;
 
 	#onBossNavigation() {
@@ -29,7 +29,7 @@ export class CardsBySourceElement extends LitElement {
 		return html`<ul class="cards">
 			${this.cards.map(({ card, transitiveSource, status }) => {
 				const cardHtml = html`<e-divination-card
-					size=${this.cardSize}
+					size=${this.card_size}
 					.name=${card}
 					.boss=${transitiveSource?.id}
 					part=${ifDefined(this.active_divination_card === slug(card) ? 'active_divination_card' : undefined)}
@@ -40,7 +40,7 @@ export class CardsBySourceElement extends LitElement {
 								.renderMode=${'compact'}
 								.source=${transitiveSource}
 								slot="boss"
-								size=${this.sourceSize}
+								size=${this.source_size}
 						  ></e-source>`
 						: nothing}
 				</e-divination-card>`;

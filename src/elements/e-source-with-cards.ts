@@ -18,8 +18,8 @@ export class SourceWithCardsElement extends LitElement {
 	@property({ type: Object }) source!: Source;
 	@property({ type: Array }) cards!: CardBySource[];
 	@property({ type: Boolean }) showSourceType = true;
-	@property({ reflect: true, attribute: 'source-size' }) sourceSize: SourceSize = 'medium';
-	@property({ reflect: true, attribute: 'card-size' }) cardSize: CardSize = 'medium';
+	@property({ reflect: true }) source_size: SourceSize = 'medium';
+	@property({ reflect: true }) card_size: CardSize = 'medium';
 	@property({ reflect: true }) active_divination_card?: string;
 
 	render(): TemplateResult {
@@ -28,14 +28,14 @@ export class SourceWithCardsElement extends LitElement {
 				exportparts="source-type"
 				part="drop_source"
 				class="source"
-				size=${this.sourceSize}
+				size=${this.source_size}
 				.source=${this.source}
 				.showSourceType=${this.showSourceType}
 			></e-source>
 			<e-cards-by-source
 				exportparts="active_divination_card"
-				card-size=${this.cardSize}
-				source-size=${this.sourceSize}
+				.card_size=${this.card_size}
+				.source_size=${this.source_size}
 				class="cards"
 				.cards=${this.cards}
 				.active_divination_card=${this.active_divination_card}
