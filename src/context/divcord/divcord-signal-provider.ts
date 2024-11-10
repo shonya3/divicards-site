@@ -6,7 +6,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { createContext } from '@lit/context';
 import { DivcordTable } from './DivcordTable';
 import { divcordLoader } from './DivcordLoader';
-// import { toast } from '../../toast';
+import { toast } from '../../toast';
 import { Signal, signal } from '@lit-labs/signals';
 
 export const divcord_table_context = createContext<Signal.State<DivcordTable>>(Symbol('divcordTable'));
@@ -25,10 +25,10 @@ export class DivcordSignalProviderElement extends LitElement {
 
 	async connectedCallback(): Promise<void> {
 		super.connectedCallback();
-		// divcordLoader.addEventListener('records-updated', records => {
-		// 	this.divcord_table.set(new DivcordTable(records));
-		// 	toast('Your Divcord data is up-to-date', 'success', 3000);
-		// });
+		divcordLoader.addEventListener('records-updated', records => {
+			this.divcord_table.set(new DivcordTable(records));
+			toast('Your Divcord data is up-to-date', 'success', 3000);
+		});
 
 		const records = await divcordLoader.getRecordsAndStartUpdateIfNeeded();
 		this.divcord_table.set(new DivcordTable(records));

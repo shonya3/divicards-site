@@ -12,20 +12,17 @@
 		<script type="module" src="/src/main.ts"></script>
 		<script type="module" src="/src/context/divcord/divcord-provider.ts"></script>
 		<script type="module" src="/src/context/view-transition-name-provider.ts"></script>
-		<script type="module" src="/src/context/divcord/divcord-signal-provider.ts"></script>
 		<script type="module" src="/src/main-layout.ts"></script>
 		<script type="module" src="/src/elements/e-topnav.ts"></script>
 	</head>
 	<body>
-		<divcord-signal-provider>
-			<divcord-provider>
-				<view-transition-names-provider>
-					<main-layout>
-						<e-topnav slot="header"></e-topnav>
-						<div slot="page"></div>
-					</main-layout>
-				</view-transition-names-provider>
-			</divcord-provider>
-		</divcord-signal-provider>
+		<divcord-provider>
+			<view-transition-names-provider>
+				<main-layout>
+					<e-topnav slot="header"></e-topnav>
+					<div slot="page"></div>
+				</main-layout>
+			</view-transition-names-provider>
+		</divcord-provider>
 	</body>
 </html>

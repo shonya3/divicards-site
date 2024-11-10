@@ -37,9 +37,9 @@ import {
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { repeat } from 'lit/directives/repeat.js';
-import { computed, Signal, signal, SignalWatcher } from '@lit-labs/signals';
+import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { use_local_storage } from '../composables/use_local_storage';
-import { divcord_table_context } from '../context/divcord/divcord-signal-provider';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 declare module '../storage' {
 	interface Registry {
@@ -65,6 +65,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	#page = signal(1);
 	#per_page = signal(10);
 	#filter = signal('');
+	#divcord_table = signal(new DivcordTable([]));
 
 	active_view = use_local_storage('active_view', 'table');
 	show_cards_images = use_local_storage('show_cards_images', true);
@@ -75,18 +76,26 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	custom_presets = use_local_storage('custom_presets', []);
 	config = signal<Omit<PresetConfig, 'name'>>(DEFAULT_PRESETS[0]);
 
+	@consume({ context: divcordTableContext, subscribe: true })
+	@state()
+	divcord_table!: DivcordTable;
+
+	@consume({ context: view_transition_names_context, subscribe: true })
+	@state()
+	view_transition_names!: ViewTransitionNamesContext;
+
 	records_for_table_view = computed(() => {
 		if (this.active_view.get() !== 'table') {
 			return [];
 		}
 		const set = new Set(this.filtered.get());
-		return prepareDivcordRecordsAndWeight(this.divcord_table.get().records.filter(record => set.has(record.card)));
+		return prepareDivcordRecordsAndWeight(this.#divcord_table.get().records.filter(record => set.has(record.card)));
 	});
 
 	filtered = computed(() => {
 		return createFilteredCards({
 			filter: this.#filter.get(),
-			divcordTable: this.divcord_table.get(),
+			divcordTable: this.#divcord_table.get(),
 			config: this.config.get(),
 			should_apply_filters: this.should_apply_filters.get(),
 			only_show_cards_with_no_confirmed_sources: this.only_show_cards_with_no_confirmed_sources.get(),
@@ -97,14 +106,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	paginated = computed(() => {
 		return paginate(this.filtered.get(), this.#page.get(), this.#per_page.get());
 	});
-
-	@consume({ context: divcord_table_context, subscribe: true })
-	@state()
-	divcord_table!: Signal.State<DivcordTable>;
-
-	@consume({ context: view_transition_names_context, subscribe: true })
-	@state()
-	view_transition_names!: ViewTransitionNamesContext;
 
 	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
 
@@ -117,6 +118,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		map.has('page') && this.#page.set(this.page);
 		map.has('per_page') && this.#per_page.set(this.per_page);
 		map.has('filter') && this.#filter.set(this.filter);
+		map.has('divcord_table') && this.#divcord_table.set(this.divcord_table);
 	}
 
 	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
@@ -205,7 +207,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			<section class="search">
 				<e-input
 					label="Search by anything"
-					.datalistItems=${this.divcord_table.get().cards()}
+					.datalistItems=${this.#divcord_table.get().cards()}
 					@input="${this.#onCardnameInput}"
 					type="text"
 				>
@@ -227,7 +229,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 										return html`<li>
 											<e-card-with-divcord-records
 												.card=${card}
-												.records=${this.divcord_table.get().recordsByCard(card)}
+												.records=${this.#divcord_table.get().recordsByCard(card)}
 												exportparts=${ifDefined(
 													this.view_transition_names.active_divination_card === slug(card)
 														? 'card:active_divination_card'

@@ -20,9 +20,9 @@ import {
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
 import { repeat } from 'lit/directives/repeat.js';
-import { computed, Signal, signal, SignalWatcher } from '@lit-labs/signals';
+import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { effect } from 'signal-utils/subtle/microtask-effect';
-import { divcord_table_context } from '../context/divcord/divcord-signal-provider';
+import { divcordTableContext } from '../context/divcord/divcord-provider';
 
 /**
  * Home page with cards, search and pagination.
@@ -44,18 +44,19 @@ export class HomePage extends SignalWatcher(LitElement) {
 	#card_size = signal<CardSize>('medium');
 	#source_size = signal<SourceSize>('small');
 	#search_criterias = signal<Array<SearchCardsCriteria>>([]);
+	#divcord_table = signal(new DivcordTable([]));
 
 	@consume({ context: view_transition_names_context, subscribe: true })
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	@consume({ context: divcord_table_context, subscribe: true })
+	@consume({ context: divcordTableContext, subscribe: true })
 	@state()
-	divcord_table!: Signal.State<DivcordTable>;
+	divcord_table!: DivcordTable;
 
 	filtered = computed(() => {
 		const query = this.#filter.get().trim().toLowerCase();
-		const cards = search_cards_by_query(query, this.#search_criterias.get(), this.divcord_table.get());
+		const cards = search_cards_by_query(query, this.#search_criterias.get(), this.#divcord_table.get());
 		sort_by_weight(cards, poeData);
 		return cards;
 	});
@@ -72,6 +73,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 		map.has('card_size') && this.#card_size.set(this.card_size);
 		map.has('source_size') && this.#source_size.set(this.source_size);
 		map.has('search_criterias') && this.#search_criterias.set(this.search_criterias);
+		map.has('divcord_table') && this.#divcord_table.set(this.divcord_table);
 	}
 
 	protected firstUpdated(): void {
@@ -93,7 +95,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 					autofocus
 					label="Search"
 					.value=${this.#filter.get()}
-					.datalistItems=${this.divcord_table.get().cards()}
+					.datalistItems=${this.#divcord_table.get().cards()}
 					@input="${this.#on_card_name_input}"
 					type="text"
 				>
@@ -123,7 +125,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 					card => html`<li>
 						<e-card-with-sources
 							.name=${card}
-							.divcordTable=${this.divcord_table.get()}
+							.divcordTable=${this.#divcord_table.get()}
 							.card_size=${this.#card_size.get()}
 							.source_size=${this.#source_size.get()}
 							.active_drop_source=${this.view_transition_names.active_drop_source}
