@@ -1,6 +1,10 @@
 import { css } from 'lit';
 
 export const linkStyles = css`
+	a {
+		text-underline-offset: 2px;
+	}
+
 	:where(a:link) {
 		text-decoration: none;
 	}

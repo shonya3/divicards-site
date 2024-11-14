@@ -25,6 +25,11 @@ export const styles = css`
 		--source-color: hsl(240 7.3% 84%);
 	}
 
+	a {
+		color: var(--link-color);
+		text-decoration: underline;
+	}
+
 	#root {
 		height: calc(100vh - 150px);
 	}

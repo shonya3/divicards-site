@@ -35,7 +35,8 @@ export class SheetsLinkElement extends LitElement {
 		}
 
 		${linkStyles}
-		a:link {
+		a {
+			color: var(--link-color);
 			text-decoration: underline;
 		}
 

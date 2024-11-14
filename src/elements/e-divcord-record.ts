@@ -110,17 +110,13 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		${linkStyles}
 
 		.cardName {
+			margin-bottom: 1.5rem;
 			display: block;
+			gap: 0.4rem;
 			padding-bottom: 0.4rem;
 			font-size: 1.2rem;
-			margin-bottom: 1.5rem;
-
-			&:not(:hover) {
-				&:link,
-				&:visited {
-					color: var(--sl-color-gray-950);
-				}
-			}
+			text-decoration: underline;
+			color: var(--link-color);
 		}
 
 		* {

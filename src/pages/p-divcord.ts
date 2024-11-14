@@ -340,6 +340,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			align-items: center;
 			gap: 0.3rem;
 			a {
+				color: var(--link-color);
 				text-decoration: underline;
 			}
 		}
