@@ -21,10 +21,6 @@ export class CardsBySourceElement extends LitElement {
 	@property({ reflect: true }) card_size: CardSize = 'medium';
 	@property({ reflect: true }) active_divination_card?: string;
 
-	#onBossNavigation() {
-		this.dispatchEvent(new Event('boss-navigation', { bubbles: true, composed: true }));
-	}
-
 	protected render(): TemplateResult {
 		return html`<ul class="cards">
 			${this.cards.map(({ card, transitiveSource, status }) => {
@@ -36,7 +32,6 @@ export class CardsBySourceElement extends LitElement {
 				>
 					${transitiveSource
 						? html`<e-source
-								@click=${this.#onBossNavigation}
 								.renderMode=${'compact'}
 								.source=${transitiveSource}
 								slot="boss"
