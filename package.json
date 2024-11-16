@@ -1,7 +1,7 @@
 {
 	"name": "divicards-site",
 	"private": true,
-	"version": "0.42.0",
+	"version": "0.43.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -18,7 +18,7 @@
 		"custom-element-vs-code-integration": "^1.4.1",
 		"lit-analyzer": "^2.0.3",
 		"typescript": "^5.6.3",
-		"vite": "^5.4.10"
+		"vite": "^5.4.11"
 	},
 	"dependencies": {
 		"@lit-labs/signals": "^0.1.1",
