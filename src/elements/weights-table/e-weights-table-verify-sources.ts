@@ -47,6 +47,17 @@ export class WeightsTableVerifySources extends LitElement {
 				Sort.byName(this.rowsClone, this.nameOrder);
 			}
 		}
+
+		if (map.has('rows') && !map.has('weightOrder') && !map.has('nameOrder')) {
+			if (this.orderedBy === 'weight') {
+				this.weightIcon = this.weightOrder === 'desc' ? 'sort-down' : 'sort-up';
+				Sort.byWeight(this.rowsClone, this.weightOrder);
+			}
+			if (this.orderedBy === 'name') {
+				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
+				Sort.byName(this.rowsClone, this.nameOrder);
+			}
+		}
 	}
 
 	protected render(): TemplateResult {
