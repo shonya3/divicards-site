@@ -17,7 +17,7 @@
 		"@custom-elements-manifest/analyzer": "^0.10.3",
 		"custom-element-vs-code-integration": "^1.4.1",
 		"lit-analyzer": "^2.0.3",
-		"typescript": "^5.6.3",
+		"typescript": "^5.7.2",
 		"vite": "^5.4.11"
 	},
 	"dependencies": {
