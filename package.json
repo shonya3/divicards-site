@@ -27,6 +27,7 @@
 		"@lit/task": "^1.0.1",
 		"@shoelace-style/shoelace": "2.17.1",
 		"@thepassle/app-tools": "^0.9.12",
+		"@zachleat/snow-fall": "^1.0.2",
 		"lit": "^3.2.1",
 		"poe-custom-elements": "^0.3.14",
 		"signal-utils": "^0.20.0",

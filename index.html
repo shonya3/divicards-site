@@ -14,13 +14,16 @@
 		<script type="module" src="/src/context/view-transition-name-provider.ts"></script>
 		<script type="module" src="/src/main-layout.ts"></script>
 		<script type="module" src="/src/elements/e-topnav.ts"></script>
+		<script type="module" src="/node_modules/@zachleat/snow-fall/snow-fall.js"></script>
 	</head>
 	<body>
 		<divcord-provider>
 			<view-transition-names-provider>
 				<main-layout>
 					<e-topnav slot="header"></e-topnav>
-					<div slot="page"></div>
+					<div slot="page">
+						<snow-fall count="100"></snow-fall>
+					</div>
 				</main-layout>
 			</view-transition-names-provider>
 		</divcord-provider>
