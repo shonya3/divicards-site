@@ -9,6 +9,7 @@
 	--top-nav-active-shadow: 0 2px 8px rgb(0 0 0 / 14%);
 	--bg-clr: #fff;
 	--source-color: var(--sl-color-gray-800);
+	--snow-color: skyblue;
 }
 
 :root[data-theme='dark'] {
@@ -17,6 +18,7 @@
 				color: #bdc1c6; */
 	--top-nav-active-shadow: 0 2px 8px rgb(255 255 255 / 25%);
 	--bg-clr: #121212;
+	--snow-color: unset;
 }
 
 html {
