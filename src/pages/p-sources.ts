@@ -59,7 +59,7 @@ export class SourcesPage extends LitElement {
 				</ul>
 			</details>
 
-			<ul id="sources-and-cards" style="padding-top: 4rem">
+			<ul id="sources-and-cards">
 				${this.sources_and_cards.map(
 					({ source, cards }) =>
 						html`<li class="source-with-cards-list__item">
@@ -117,6 +117,7 @@ export class SourcesPage extends LitElement {
 		}
 
 		#sources-and-cards {
+			padding-top: 4rem;
 			& li {
 				margin-inline: auto;
 				@media (width >= 460px) {
