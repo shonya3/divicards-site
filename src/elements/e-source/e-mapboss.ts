@@ -6,8 +6,8 @@ import './e-map';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea, MapBoss } from '../../gen/poeData';
-import { dispatchTransition } from '../../events';
 import { createSource } from '../../cards';
+import { NavigateTransitionEvent } from '../../events';
 
 /**
  *  @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
@@ -47,10 +47,12 @@ export class MapBossElement extends LitElement {
 						></e-map>`
 				)}
 			</ul>
-			<a @click=${dispatchTransition.bind(this, 'source', this.slug)} href=${this.href} class="name"
-				>${this.boss.name}</a
-			>
+			<a @click=${this.#dispatch_transition} href=${this.href} class="name">${this.boss.name}</a>
 		</div>`;
+	}
+
+	#dispatch_transition() {
+		this.dispatchEvent(new NavigateTransitionEvent('source', this.slug));
 	}
 
 	static styles = css`

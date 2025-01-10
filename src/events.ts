@@ -1,12 +1,12 @@
 export type TransitionName = 'source' | 'card' | 'source-type';
 
 export class NavigateTransitionEvent extends Event {
-	transitionName: TransitionName;
-	slug?: string;
-	constructor(transitionName: TransitionName, slug?: string) {
+	transition_name: TransitionName;
+	id?: string;
+	constructor(transition_name: TransitionName, id?: string) {
 		super('navigate-transition', { bubbles: true, composed: true });
-		this.transitionName = transitionName;
-		this.slug = slug;
+		this.transition_name = transition_name;
+		this.id = id;
 	}
 }
 
@@ -14,8 +14,4 @@ declare global {
 	interface HTMLElementEventMap {
 		'navigate-transition': NavigateTransitionEvent;
 	}
-}
-
-export function dispatchTransition(this: HTMLElement, transitionName: TransitionName, slug?: string) {
-	this.dispatchEvent(new NavigateTransitionEvent(transitionName, slug));
 }

@@ -11,9 +11,9 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
 import './e-weight-value';
-import { dispatchTransition } from '../../events';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../../gen/divcordWasm/divcord_wasm';
+import { NavigateTransitionEvent } from '../../events';
 
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
@@ -122,7 +122,7 @@ export class WeightsTableElement extends LitElement {
 										  ></e-divination-card>`
 										: html`<a
 												class="link"
-												@click=${() => this.#dispatchCardTransition(cardRowData.name)}
+												@click=${() => this.#dispatch_card_transition(cardRowData.name)}
 												href="/card/${card_slug}"
 												part=${ifDefined(
 													card_slug === this.active_divination_card
@@ -158,8 +158,8 @@ export class WeightsTableElement extends LitElement {
 		`;
 	}
 
-	#dispatchCardTransition(card: string) {
-		dispatchTransition.call(this, 'card', slug(card));
+	#dispatch_card_transition(card: string) {
+		this.dispatchEvent(new NavigateTransitionEvent('card', slug(card)));
 	}
 
 	#toggleWeightOrder() {

@@ -2,8 +2,8 @@ import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import 'poe-custom-elements/divination-card.js';
 import type { CardSize } from 'poe-custom-elements/divination-card.js';
-import { dispatchTransition } from '../../events';
 import { slug } from '../../gen/divcordWasm/divcord_wasm';
+import { NavigateTransitionEvent } from '../../events';
 export type { CardSize } from 'poe-custom-elements/divination-card.js';
 
 /**
@@ -26,15 +26,15 @@ export class DivinationCardElement extends LitElement {
 			.size=${this.size}
 			.boss=${this.boss}
 			.hrefPattern=${`/card/{{slug}}`}
-			@navigate=${this.#dispatchNavigate}
+			@navigate=${this.#dispatch_transition}
 		>
 			<div slot="boss">
 				<slot name="boss"></slot>
 			</div>
 		</poe-divination-card>`;
 	}
-	#dispatchNavigate() {
-		dispatchTransition.call(this, 'card', slug(this.name));
+	#dispatch_transition() {
+		this.dispatchEvent(new NavigateTransitionEvent('card', slug(this.name)));
 	}
 }
 

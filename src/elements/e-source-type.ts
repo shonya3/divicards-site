@@ -1,23 +1,13 @@
 import { customElement, property } from 'lit/decorators.js';
 import { LitElement, TemplateResult, css, html } from 'lit';
 import type { SourceType } from '../gen/Source';
-import { dispatchTransition } from '../events';
-// import { slug } from '../gen/divcordWasm/divcord_wasm';
 
-/**
- * @event navigate-transition NavigateTransitionEvent - Emits on clicking the link element.
- */
 @customElement('e-source-type')
 export class SourceTypeElement extends LitElement {
 	@property({ reflect: true }) sourceType!: SourceType;
 
 	render(): TemplateResult {
-		return html`<a
-			@click=${dispatchTransition.bind(this, 'source-type')}
-			href=${sourceTypeHref(this.sourceType)}
-			class="source-type"
-			>${this.sourceType}</a
-		>`;
+		return html`<a href=${sourceTypeHref(this.sourceType)} class="source-type">${this.sourceType}</a>`;
 	}
 
 	static styles = css`

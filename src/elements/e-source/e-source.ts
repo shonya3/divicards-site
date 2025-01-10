@@ -13,7 +13,7 @@ import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
-import { dispatchTransition } from '../../events';
+import { NavigateTransitionEvent } from '../../events';
 
 export class NoSourceInPoeDataError extends Error {
 	constructor(source: Source) {
@@ -113,9 +113,7 @@ export class SourceElement extends LitElement {
 			default: {
 				if (!this.source.id) return nothing;
 
-				return html`<a
-					@click=${dispatchTransition.bind(this, 'source', this.source.idSlug)}
-					href=${sourceHref(this.source)}
+				return html`<a @click=${this.#dispatch_source_transition} href=${sourceHref(this.source)}
 					>${this.source.id}</a
 				>`;
 			}
@@ -143,6 +141,10 @@ export class SourceElement extends LitElement {
 				<div part="source-id" class="source-id">${this.sourceElement()}</div>
 			</div>
 		`;
+	}
+
+	#dispatch_source_transition() {
+		this.dispatchEvent(new NavigateTransitionEvent('source', this.source.idSlug));
 	}
 
 	static styles = css`

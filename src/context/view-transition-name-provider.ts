@@ -29,12 +29,12 @@ export class ViewTransitionNamesProvider extends LitElement {
 	}
 
 	update_view_transition_names = (e: NavigateTransitionEvent) => {
-		if (e.transitionName === 'card') {
-			this.view_transition_names.active_divination_card = e.slug;
+		if (e.transition_name === 'card') {
+			this.view_transition_names.active_divination_card = e.id;
 		}
 
-		if (e.transitionName === 'source') {
-			this.view_transition_names.active_drop_source = e.slug;
+		if (e.transition_name === 'source') {
+			this.view_transition_names.active_drop_source = e.id;
 		}
 
 		this.view_transition_names = { ...this.view_transition_names };
