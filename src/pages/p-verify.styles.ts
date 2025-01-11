@@ -53,6 +53,21 @@ export const styles = css`
 
 	sl-range {
 		margin-bottom: 1rem;
+
+		[slot='label'] {
+			display: flex;
+			gap: 2rem;
+			font-weight: 600;
+			font-size: 20px;
+
+			& .min-weight span {
+				color: var(--sl-color-teal-800);
+			}
+
+			& .cards-found span {
+				color: var(--sl-color-pink-800);
+			}
+		}
 	}
 
 	e-verify-faq-alert {

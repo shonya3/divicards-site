@@ -151,9 +151,14 @@ export class VerifyPage extends LitElement {
 						'weights-table',
 						() => html`<sl-range @sl-change=${this.#changeMinimumWeight} .value=${
 							this.minimumWeight
-						} .label=${`Showing ${this.filteredWeightsTableData.length} cards with weight > ${formatWeight(
-							this.minimumWeight
-						)}`} min="0" step="100" max="10000"></sl-range>
+						} min="0" step="100" max="10000">
+                    <div slot="label">
+                        <p class="min-weight">weight <span>> ${formatWeight(this.minimumWeight)}</span></p>
+                        <p class="cards-found">
+                             <span>${this.filteredWeightsTableData.length}</span> cards
+                        </p>
+                    </div>    
+                    </sl-range>
 								<e-weights-table-verify-sources
                                     .active_divination_card=${this.view_transition_names.active_divination_card}
                                     exportparts="active_divination_card"
