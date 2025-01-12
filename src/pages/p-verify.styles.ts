@@ -53,6 +53,7 @@ export const styles = css`
 
 	sl-range {
 		margin-bottom: 1rem;
+		max-width: 300px;
 
 		[slot='label'] {
 			display: flex;

@@ -153,7 +153,7 @@ export class VerifyPage extends LitElement {
 							this.minimumWeight
 						} min="0" step="100" max="10000">
                     <div slot="label">
-                        <p class="min-weight">weight <span>> ${formatWeight(this.minimumWeight)}</span></p>
+                        <p class="min-weight">weight <span>${formatWeight(this.minimumWeight)}+</span></p>
                         <p class="cards-found">
                              <span>${this.filteredWeightsTableData.length}</span> cards
                         </p>
