@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@lit-labs/signals':
-        specifier: ^0.1.1
-        version: 0.1.1
+        specifier: ^0.1.2
+        version: 0.1.2
       '@lit-labs/virtualizer':
-        specifier: ^2.0.15
-        version: 2.0.15
+        specifier: ^2.1.0
+        version: 2.1.0
       '@lit/context':
         specifier: ^1.1.3
         version: 1.1.3
@@ -237,14 +237,14 @@ packages:
   '@github/catalyst@1.6.0':
     resolution: {integrity: sha512-u8A+DameixqpeyHzvnJWTGj+wfiskQOYHzSiJscCWVfMkIT3rxnbHMtGh3lMthaRY21nbUOK71WcsCnCrXhBJQ==}
 
-  '@lit-labs/signals@0.1.1':
-    resolution: {integrity: sha512-QQYp2CyXzxaYho4EHKLLOHLMX0Jz8HWUfGGiCKyei54Vol0DqiPggbA1z3t53oYJ3mqU/NTWF+flfcY7Tfpozg==}
+  '@lit-labs/signals@0.1.2':
+    resolution: {integrity: sha512-hkOL0ua4ILeHlaJ8IqFKS+Y+dpYznWaDhdikzwt3zJ1/LPz3Etft4OPIMoltzbBJS5pyXPRseD/uWRlET3ImEA==}
 
   '@lit-labs/ssr-dom-shim@1.2.0':
     resolution: {integrity: sha512-yWJKmpGE6lUURKAaIltoPIE/wrbY3TEkqQt+X0m+7fQNnAv0keydnYvbiJFP1PnMhizmIWRWOG5KLhYyc/xl+g==}
 
-  '@lit-labs/virtualizer@2.0.15':
-    resolution: {integrity: sha512-5sTsia0TX0RTsPKcOvH8UZ8n1f8q02R4iGX1RkjgdrxKcwHH6NFC2rIcpwKjftW85trloWguenDafGG0+7I8Tg==}
+  '@lit-labs/virtualizer@2.1.0':
+    resolution: {integrity: sha512-I79sNaalK9rD6FWO/AoxBMnA6jjNBrQu7F6lzz8W/GkQLcqveMWK3IrJAilso+XeFFn7BvlxBv6FqZaoMt+Qkg==}
 
   '@lit/context@1.1.3':
     resolution: {integrity: sha512-Auh37F4S0PZM93HTDfZWs97mmzaQ7M3vnTc9YvxAGyP3UItSK/8Fs0vTOGT+njuvOwbKio/l8Cx/zWL4vkutpQ==}
@@ -941,14 +941,14 @@ snapshots:
 
   '@github/catalyst@1.6.0': {}
 
-  '@lit-labs/signals@0.1.1':
+  '@lit-labs/signals@0.1.2':
     dependencies:
       lit: 3.2.1
       signal-polyfill: 0.2.1
 
   '@lit-labs/ssr-dom-shim@1.2.0': {}
 
-  '@lit-labs/virtualizer@2.0.15':
+  '@lit-labs/virtualizer@2.1.0':
     dependencies:
       lit: 3.2.1
       tslib: 2.6.2
