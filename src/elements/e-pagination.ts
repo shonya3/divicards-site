@@ -32,51 +32,8 @@ export class PageControlsElement extends LitElement {
 		}
 	}
 
-	#onPageInput(e: InputEvent) {
-		const target = e.composedPath()[0] as HTMLInputElement;
-		this.page = Number(target.value);
-	}
-	#onPerPageInput(e: InputEvent) {
-		const target = e.composedPath()[0] as HTMLInputElement;
-		this.per_page = Number(target.value);
-	}
-
-	increasePage(): void {
-		this.page++;
-	}
-
-	lastPageNumber(): number {
-		return Math.ceil(this.n / this.per_page);
-	}
-
-	toLastPage(): void {
-		this.page = this.lastPageNumber();
-	}
-
-	showingRange(): [number, number] | null {
-		const start = (this.page - 1) * this.per_page;
-		let end = start + this.per_page;
-		if (start + 1 <= 0 || end <= 0) {
-			return null;
-		}
-		if (end > this.n) {
-			end = this.n;
-		}
-		return [start + 1, end];
-	}
-
-	get isLastPage(): boolean {
-		return this.page === this.lastPageNumber();
-	}
-
-	decreasePage(): void {
-		if (this.page > 1) {
-			this.page--;
-		}
-	}
-
-	render(): TemplateResult {
-		const range = this.showingRange();
+	protected render(): TemplateResult {
+		const range = this.active_items_range();
 		return html`
 			<div class="page-controls">
 				<div class="buttons">
@@ -84,7 +41,7 @@ export class PageControlsElement extends LitElement {
 						aria-label="prev"
 						name="chevron-left"
 						?disabled=${this.page === 1}
-						@click=${this.decreasePage}
+						@click=${this.decrease_page}
 						>prev</sl-icon-button
 					>
 					<sl-input
@@ -93,17 +50,20 @@ export class PageControlsElement extends LitElement {
 						id="page"
 						type="number"
 						.value=${String(this.page)}
-						@input=${this.#onPageInput}
+						@input=${this.#h_page_input}
 						min="1"
 					></sl-input>
 					<sl-icon-button
 						aria-label="next"
-						.disabled=${this.isLastPage}
+						.disabled=${this.is_last_page}
 						name="chevron-right"
-						@click=${this.increasePage}
+						@click=${this.increase_page}
 						>next</sl-icon-button
 					>
-					<sl-icon-button .disabled=${this.isLastPage} name="chevron-double-right" @click=${this.toLastPage}
+					<sl-icon-button
+						.disabled=${this.is_last_page}
+						name="chevron-double-right"
+						@click=${this.to_last_page}
 						>next</sl-icon-button
 					>
 					<sl-input
@@ -114,7 +74,7 @@ export class PageControlsElement extends LitElement {
 						type="number"
 						min="1"
 						.value=${String(this.per_page)}
-						@input=${this.#onPerPageInput}
+						@input=${this.#h_per_page_input}
 					></sl-input>
 				</div>
 				<span class="current-items-label"
@@ -124,6 +84,44 @@ export class PageControlsElement extends LitElement {
 				>
 			</div>
 		`;
+	}
+
+	#h_page_input(e: InputEvent) {
+		const target = e.composedPath()[0] as HTMLInputElement;
+		this.page = Number(target.value);
+	}
+	#h_per_page_input(e: InputEvent) {
+		const target = e.composedPath()[0] as HTMLInputElement;
+		this.per_page = Number(target.value);
+	}
+
+	increase_page(): void {
+		this.page++;
+	}
+	decrease_page(): void {
+		this.page > 1 && this.page--;
+	}
+
+	last_page_number(): number {
+		return Math.ceil(this.n / this.per_page);
+	}
+	to_last_page(): void {
+		this.page = this.last_page_number();
+	}
+	get is_last_page(): boolean {
+		return this.page === this.last_page_number();
+	}
+
+	active_items_range(): [number, number] | null {
+		const start = (this.page - 1) * this.per_page;
+		let end = start + this.per_page;
+		if (start + 1 <= 0 || end <= 0) {
+			return null;
+		}
+		if (end > this.n) {
+			end = this.n;
+		}
+		return [start + 1, end];
 	}
 
 	static styles = css`
