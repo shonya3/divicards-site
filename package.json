@@ -29,7 +29,7 @@
 		"@thepassle/app-tools": "^0.9.12",
 		"@zachleat/snow-fall": "^1.0.3",
 		"lit": "^3.2.1",
-		"poe-custom-elements": "^0.3.14",
+		"poe-custom-elements": "^0.3.15",
 		"signal-utils": "^0.21.1",
 		"urlpattern-polyfill": "^10.0.0"
 	}

@@ -22,7 +22,7 @@ importers:
         version: 1.0.2
       '@shoelace-style/shoelace':
         specifier: 2.20.0
-        version: 2.20.0(@floating-ui/utils@0.2.8)(@types/react@18.3.12)
+        version: 2.20.0(@floating-ui/utils@0.2.9)(@types/react@18.3.12)
       '@thepassle/app-tools':
         specifier: ^0.9.12
         version: 0.9.12
@@ -33,8 +33,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
       poe-custom-elements:
-        specifier: ^0.3.14
-        version: 0.3.14
+        specifier: ^0.3.15
+        version: 0.3.15
       signal-utils:
         specifier: ^0.21.1
         version: 0.21.1(signal-polyfill@0.2.1)
@@ -231,8 +231,14 @@ packages:
   '@floating-ui/dom@1.6.12':
     resolution: {integrity: sha512-NP83c0HjokcGVEMeoStg317VD9W7eDlGK7457dMBANbKA6GJZdc7rjujdgqzTaz93jkGgc5P/jeWbaCHnMNc+w==}
 
+  '@floating-ui/dom@1.6.13':
+    resolution: {integrity: sha512-umqzocjDgNRGTuO7Q8CU32dkHkECqI8ZdMZ5Swb6QAM0t5rnlrN3lGo1hdpscRd3WS8T6DKYK4ephgIH9iRh3w==}
+
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+
+  '@floating-ui/utils@0.2.9':
+    resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
 
   '@github/catalyst@1.6.0':
     resolution: {integrity: sha512-u8A+DameixqpeyHzvnJWTGj+wfiskQOYHzSiJscCWVfMkIT3rxnbHMtGh3lMthaRY21nbUOK71WcsCnCrXhBJQ==}
@@ -641,8 +647,8 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  poe-custom-elements@0.3.14:
-    resolution: {integrity: sha512-5Znvev5z3zmUsoTL4N9ozcpXjTYLPoUxYaBCiLVdzitgXMiPpkvhAMzM1OMWfxv+njGLHo7I9v2c1tSdq7i0pA==}
+  poe-custom-elements@0.3.15:
+    resolution: {integrity: sha512-8DadFPapr1Bqy8aUqWPqFdQL/OlUg8++JKFgmmIs0Ozhxv2pLeJqb5jPsEa7HtiZzElZ0qsViJh+OF67IqsPmg==}
 
   postcss@8.5.3:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
@@ -937,7 +943,14 @@ snapshots:
       '@floating-ui/core': 1.6.7
       '@floating-ui/utils': 0.2.8
 
+  '@floating-ui/dom@1.6.13':
+    dependencies:
+      '@floating-ui/core': 1.6.7
+      '@floating-ui/utils': 0.2.9
+
   '@floating-ui/utils@0.2.8': {}
+
+  '@floating-ui/utils@0.2.9': {}
 
   '@github/catalyst@1.6.0': {}
 
@@ -1047,14 +1060,14 @@ snapshots:
 
   '@shoelace-style/localize@3.2.1': {}
 
-  '@shoelace-style/shoelace@2.20.0(@floating-ui/utils@0.2.8)(@types/react@18.3.12)':
+  '@shoelace-style/shoelace@2.20.0(@floating-ui/utils@0.2.9)(@types/react@18.3.12)':
     dependencies:
       '@ctrl/tinycolor': 4.1.0
       '@floating-ui/dom': 1.6.12
       '@lit/react': 1.0.6(@types/react@18.3.12)
       '@shoelace-style/animations': 1.2.0
       '@shoelace-style/localize': 3.2.1
-      composed-offset-position: 0.0.6(@floating-ui/utils@0.2.8)
+      composed-offset-position: 0.0.6(@floating-ui/utils@0.2.9)
       lit: 3.2.1
       qr-creator: 1.0.0
     transitivePeerDependencies:
@@ -1154,9 +1167,9 @@ snapshots:
 
   comment-parser@1.2.4: {}
 
-  composed-offset-position@0.0.6(@floating-ui/utils@0.2.8):
+  composed-offset-position@0.0.6(@floating-ui/utils@0.2.9):
     dependencies:
-      '@floating-ui/utils': 0.2.8
+      '@floating-ui/utils': 0.2.9
 
   csstype@3.1.3: {}
 
@@ -1331,9 +1344,9 @@ snapshots:
 
   picomatch@2.3.1: {}
 
-  poe-custom-elements@0.3.14:
+  poe-custom-elements@0.3.15:
     dependencies:
-      '@floating-ui/dom': 1.6.12
+      '@floating-ui/dom': 1.6.13
       lit: 3.2.1
 
   postcss@8.5.3:
