@@ -38,7 +38,7 @@ export class PageControlsElement extends LitElement {
 			<div class="page-controls">
 				<div class="buttons">
 					<sl-icon-button
-						aria-label="prev"
+						label="previous"
 						name="chevron-left"
 						?disabled=${this.page === 1}
 						@click=${this.decrease_page}
@@ -54,20 +54,19 @@ export class PageControlsElement extends LitElement {
 						min="1"
 					></sl-input>
 					<sl-icon-button
-						aria-label="next"
+						label="next"
 						.disabled=${this.is_last_page}
 						name="chevron-right"
 						@click=${this.increase_page}
-						>next</sl-icon-button
-					>
+						role="button"
+					></sl-icon-button>
 					<sl-icon-button
+						label="last page"
 						.disabled=${this.is_last_page}
 						name="chevron-double-right"
 						@click=${this.to_last_page}
-						>next</sl-icon-button
-					>
+					></sl-icon-button>
 					<sl-input
-						aria-label="to last page"
 						class="per_page-input"
 						.helpText=${'per page'}
 						id="per_page"
@@ -159,7 +158,7 @@ export class PageControlsElement extends LitElement {
 		.current-items-label {
 			color: var(--sl-color-gray-600);
 			font-size: 0.85rem;
-			padding-left: 1rem;
+			padding: 1rem;
 		}
 	`;
 }
