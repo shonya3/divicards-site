@@ -42,8 +42,7 @@ export class PageControlsElement extends LitElement {
 						name="chevron-left"
 						?disabled=${this.page === 1}
 						@click=${this.decrease_page}
-						>prev</sl-icon-button
-					>
+					></sl-icon-button>
 					<sl-input
 						class="page-input"
 						.helpText=${'page'}

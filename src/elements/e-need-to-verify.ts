@@ -89,12 +89,16 @@ export class NeedToVerifyBorderElement extends LitElement {
 			position: absolute;
 			top: 0;
 			right: 0;
-			font-size: 0.75rem;
+			font-size: 1rem;
 			translate: 0 -100%;
 
 			white-space: nowrap;
 			color: var(--color);
 			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	`;
 }
