@@ -1,4 +1,12 @@
 {
 	"html.customData": ["./vscode.html-custom-data.json"],
-	"css.customData": ["./vscode.css-custom-data.json"]
+	"css.customData": ["./vscode.css-custom-data.json"],
+	"cssVariables.lookupFiles": [
+		"**/*.css",
+		"**/*.scss",
+		"**/*.sass",
+		"**/*.less",
+		"node_modules/@shoelace-style/shoelace/dist/themes/dark.css",
+		"node_modules/@shoelace-style/shoelace/dist/themes/light.css"
+	]
 }

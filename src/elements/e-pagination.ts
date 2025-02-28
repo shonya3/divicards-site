@@ -117,7 +117,11 @@ export class PageControlsElement extends LitElement {
 						@input=${this.#onPerPageInput}
 					></sl-input>
 				</div>
-				${range !== null && this.n > 0 ? html` <p>${range[0]} - ${range[1]} of ${this.n}</p> ` : nothing}
+				<span class="current-items-label"
+					>${range !== null && this.n > 0
+						? html` <p>${range[0]} - ${range[1]} of ${this.n}</p> `
+						: nothing}</span
+				>
 			</div>
 		`;
 	}
