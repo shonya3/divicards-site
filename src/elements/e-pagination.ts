@@ -157,6 +157,12 @@ export class PageControlsElement extends LitElement {
 			margin-top: 1.1rem;
 			width: 8ch;
 		}
+
+		.current-items-label {
+			color: var(--sl-color-gray-600);
+			font-size: 0.85rem;
+			padding-left: 1rem;
+		}
 	`;
 }
 
