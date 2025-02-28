@@ -45,12 +45,12 @@ export class PageControlsElement extends LitElement {
 					></sl-icon-button>
 					<sl-input
 						class="page-input"
-						.helpText=${'page'}
 						id="page"
 						type="number"
 						.value=${String(this.page)}
 						@input=${this.#h_page_input}
 						min="1"
+						label="page"
 					></sl-input>
 					<sl-icon-button
 						label="next"
@@ -66,8 +66,8 @@ export class PageControlsElement extends LitElement {
 						@click=${this.to_last_page}
 					></sl-icon-button>
 					<sl-input
+						label="per page"
 						class="per_page-input"
-						.helpText=${'per page'}
 						id="per_page"
 						type="number"
 						min="1"
@@ -146,6 +146,15 @@ export class PageControlsElement extends LitElement {
 
 		sl-icon-button {
 			font-size: 1.2rem;
+		}
+
+		sl-input::part(form-control) {
+			display: flex;
+			flex-direction: column;
+		}
+
+		sl-input::part(form-control-label) {
+			order: 2;
 		}
 
 		.per_page-input,
