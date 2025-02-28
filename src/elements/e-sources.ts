@@ -38,8 +38,11 @@ export class SourcesElement extends LitElement {
 	}
 
 	/** Reusable list of sources for maps and for non_maps */
-	#list(source_types: 'maps' | 'non_maps'): TemplateResult {
+	#list(source_types: 'maps' | 'non_maps'): TemplateResult | null {
 		const sources = source_types === 'maps' ? this.sources_maps : this.sources_non_maps;
+		if (!sources.length) {
+			return null;
+		}
 		return html`<ul class="${source_types === 'maps' ? 'sources-maps' : 'sources'}">
 			${sources.map(source => {
 				const source_template = html`
@@ -78,6 +81,7 @@ export class SourcesElement extends LitElement {
 		}
 
 		.sources-maps {
+			margin-top: 0.25rem;
 			gap: 0.2rem;
 		}
 	`;
