@@ -75,7 +75,7 @@ export class TopNavElement extends LitElement {
 			</ul>
 			<div class="icons">
 				<theme-toggle></theme-toggle>
-				<a href="https://github.com/shonya3/divicards-site">
+				<a target="_blank" href="https://github.com/shonya3/divicards-site">
 					<sl-icon name="github"></sl-icon>
 				</a>
 			</div>
