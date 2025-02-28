@@ -70,7 +70,7 @@ export class NeedToVerifyBorderElement extends LitElement {
 		}
 
 		:host {
-			--color: var(--sl-color-teal-600, teal);
+			--color: var(--sl-color-teal-700, teal);
 
 			width: calc(100%);
 			height: calc(100%);
