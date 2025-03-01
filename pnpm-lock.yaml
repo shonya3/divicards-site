@@ -26,9 +26,6 @@ importers:
       '@thepassle/app-tools':
         specifier: ^0.9.12
         version: 0.9.12
-      '@zachleat/snow-fall':
-        specifier: ^1.0.3
-        version: 1.0.3
       lit:
         specifier: ^3.2.1
         version: 3.2.1
@@ -52,8 +49,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
       typescript:
-        specifier: ^5.7.3
-        version: 5.7.3
+        specifier: ^5.8.2
+        version: 5.8.2
       vite:
         specifier: 6.2.0
         version: 6.2.0
@@ -410,9 +407,6 @@ packages:
     resolution: {integrity: sha512-XVKH79pk4d3EHRhofete8eAnqto1e8mCRAqPV00KLNFzCWSe8sWmLnqKCqkPNARC6nksMaGrATnA5sPDRllMpQ==}
     engines: {node: '>=10.0.0'}
 
-  '@zachleat/snow-fall@1.0.3':
-    resolution: {integrity: sha512-Y9srRbmO+k31vSm+eINYRV9DRoeWGV5/hlAn9o34bLpoWo+T5945v6XGBrFzQYjhyEGB4j/4zXuTW1zTxp2Reg==}
-
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
@@ -741,8 +735,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.7.3:
-    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
+  typescript@5.8.2:
+    resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1093,8 +1087,6 @@ snapshots:
     dependencies:
       semver: 7.5.4
 
-  '@zachleat/snow-fall@1.0.3': {}
-
   ansi-regex@5.0.1: {}
 
   ansi-styles@3.2.1:
@@ -1440,7 +1432,7 @@ snapshots:
 
   typescript@5.4.2: {}
 
-  typescript@5.7.3: {}
+  typescript@5.8.2: {}
 
   typical@4.0.0: {}
 

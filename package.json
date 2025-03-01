@@ -17,7 +17,7 @@
 		"@custom-elements-manifest/analyzer": "^0.10.4",
 		"custom-element-vs-code-integration": "^1.5.0",
 		"lit-analyzer": "^2.0.3",
-		"typescript": "^5.7.3",
+		"typescript": "^5.8.2",
 		"vite": "6.2.0"
 	},
 	"dependencies": {
@@ -27,7 +27,6 @@
 		"@lit/task": "^1.0.2",
 		"@shoelace-style/shoelace": "2.20.0",
 		"@thepassle/app-tools": "^0.9.12",
-		"@zachleat/snow-fall": "^1.0.3",
 		"lit": "^3.2.1",
 		"poe-custom-elements": "^0.3.15",
 		"signal-utils": "^0.21.1",
