@@ -152,9 +152,11 @@ export const styles = css`
 
 	.remaining-work--reverify {
 		background-color: #9fc5e8;
+		color: black;
 	}
 	.remaining-work--story {
 		background-color: #efa7c5;
+		color: black;
 	}
 	.remaining-work--confirm {
 		background-color: #f5d379;

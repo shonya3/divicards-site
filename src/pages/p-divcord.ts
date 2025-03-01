@@ -339,13 +339,13 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			display: flex;
 			align-items: center;
 			gap: 0.3rem;
-			a {
-				color: var(--link-color);
+			&:link {
 				text-decoration: underline;
 			}
 		}
 
 		e-sheets-link {
+			margin-top: 0.5rem;
 			font-size: 1rem;
 		}
 

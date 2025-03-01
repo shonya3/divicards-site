@@ -9,11 +9,12 @@ export const linkStyles = css`
 		text-decoration: none;
 	}
 
-	:where(a:link, a:visited) {
+	a:link,
+	a:visited {
 		color: var(--sl-color-gray-700);
 	}
 
-	:where(a:hover) {
+	a:hover {
 		color: var(--link-color-hover, skyblue);
 		text-decoration: underline;
 	}

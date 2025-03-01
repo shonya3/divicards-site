@@ -4,8 +4,8 @@
 	--card-width-small: 134px;
 	--card-width-medium: 268px;
 	--card-width-large: 326px;
-	--link-color-hover: var(--sl-color-sky-800, skyblue);
-	--link-color: var(--sl-color-sky-800, skyblue);
+	--link-color-hover: var(--sl-color-sky-600, skyblue);
+	--link-color: var(--sl-color-blue-950, skyblue);
 	--top-nav-active-shadow: 0 2px 8px rgb(0 0 0 / 14%);
 	--bg-clr: #fff;
 	--source-color: var(--sl-color-gray-800);

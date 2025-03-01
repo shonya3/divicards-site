@@ -222,12 +222,12 @@ export class DivcordPresetsElement extends LitElement {
 	protected AddingPresets(): TemplateResult | typeof nothing {
 		switch (this.presetActionState) {
 			case 'idle': {
-				return html` <sl-icon-button
+				return html`<sl-icon-button
+					label="add preset"
 					@click=${this.#onPlusPresetClicked}
 					class="preset-action-btn"
 					name="plus-lg"
-					>next</sl-icon-button
-				>`;
+				></sl-icon-button>`;
 			}
 
 			case 'adding': {
