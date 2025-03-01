@@ -117,12 +117,13 @@ export class TopNavElement extends LitElement {
 
 		:host {
 			--menu-bg-clr: var(--sl-color-gray-50);
-			--clr: var(--sl-color-gray-800);
+			--clr: var(--sl-color-gray-700);
 		}
 
 		a {
 			display: block;
 			padding-inline: 1rem;
+			font-size: 14px;
 			padding-block: 0.5rem;
 			color: var(--clr);
 			text-decoration: none;
@@ -160,8 +161,12 @@ export class TopNavElement extends LitElement {
 
 		.logo {
 			margin-left: 10%;
-			font-size: 1.8rem;
 			margin-right: auto;
+
+			& a {
+				font-size: 1.5rem;
+				color: var(--sl-color-gray-950);
+			}
 		}
 
 		.links {
