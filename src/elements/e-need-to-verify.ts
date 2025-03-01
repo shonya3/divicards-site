@@ -70,7 +70,7 @@ export class NeedToVerifyBorderElement extends LitElement {
 		}
 
 		:host {
-			--color: var(--sl-color-teal-700, teal);
+			--color: var(--sl-color-sky-700, teal);
 
 			width: calc(100%);
 			height: calc(100%);
@@ -80,9 +80,9 @@ export class NeedToVerifyBorderElement extends LitElement {
 			left: 50%;
 			translate: -50% -50%;
 
-			border-radius: 0.5rem;
-			box-shadow: 4px 4px var(--color);
-			box-shadow: 1px 1px 5px var(--color);
+			border-radius: 0.3rem;
+			border: 2px dotted;
+			border-color: color-mix(in srgb, var(--color) 20%, transparent);
 		}
 
 		a {
