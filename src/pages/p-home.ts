@@ -101,6 +101,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 				>
 				</e-input>
 				<sl-select
+					id="select-by"
 					label="By"
 					.value=${this.#search_criterias.get()}
 					@sl-change=${this.#on_criterias_select}
@@ -160,6 +161,13 @@ export class HomePage extends SignalWatcher(LitElement) {
 
 		:host {
 			display: block;
+		}
+
+		#select-by {
+			display: none;
+			@media (width >= 600px) {
+				display: block;
+			}
 		}
 
 		#search-pagination-controls {
