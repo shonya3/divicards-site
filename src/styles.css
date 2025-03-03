@@ -57,6 +57,10 @@ body {
 e-topnav::part(active-link) {
 	view-transition-name: active-link;
 }
+::view-transition-old(active-link),
+::view-transition-new(active-link) {
+	height: 100%;
+}
 
 p-card::part(divination_card),
 p-divcord::part(active_divination_card),
