@@ -61,26 +61,11 @@ export class ArrayAsyncRenderer<T> {
 	}
 }
 
-/** Declare locally to make sure calling the method from document object is not possible. */
-interface ViewTransitionAPI {
-	startViewTransition: (cb: (...args: unknown[]) => unknown) => Promise<ViewTransition>;
-}
-
-export interface ViewTransition {
-	get ready(): Promise<void>;
-	get finished(): Promise<void>;
-	get updateCallbackDone(): Promise<void>;
-	skipTransition: () => void;
-}
-
-export async function startViewTransition(cb: (...args: unknown[]) => unknown): Promise<ViewTransition | void> {
-	if (Object.hasOwn(Document.prototype, 'startViewTransition')) {
-		return (document as Document & ViewTransitionAPI).startViewTransition(() => {
-			cb();
-		});
-	} else {
+export function startViewTransition(cb: (...args: unknown[]) => unknown): ViewTransition | void {
+	if (!document.startViewTransition) {
 		cb();
 	}
+	return document.startViewTransition(cb);
 }
 
 export class EventEmitter<Events> {
