@@ -18,7 +18,7 @@ export class TopNavElement extends LitElement {
 		['/sources', 'Sources'],
 	];
 
-	@state() pathname = new URL(window.location.href).pathname || '/home';
+	@state() pathname = new URL(window.location.href).pathname || '/';
 
 	@query('#menu') menuDialogElement!: HTMLDialogElement;
 
@@ -30,17 +30,6 @@ export class TopNavElement extends LitElement {
 				this.menuDialogElement.close();
 			}
 		}
-	}
-
-	constructor() {
-		super();
-
-		this.addEventListener('click', async () => {
-			await startViewTransition(() => {
-				const pathname = new URL(window.location.href).pathname;
-				this.pathname = pathname || '/home';
-			});
-		});
 	}
 
 	connectedCallback(): void {
@@ -61,6 +50,7 @@ export class TopNavElement extends LitElement {
 			<ul class="links">
 				${this.linkItems.map(([pathname, s]) => {
 					return html`<li
+						@click=${() => this.#change_active_pathname(pathname)}
 						class=${classMap({
 							links__item: true,
 							'links__item--active': pathname === this.pathname,
@@ -87,6 +77,7 @@ export class TopNavElement extends LitElement {
 				<ul class="links">
 					${this.linkItems.map(([pathname, s]) => {
 						return html`<li
+							@click=${this.#change_active_pathname}
 							class=${classMap({
 								links__item: true,
 								'links__item--active': pathname === this.pathname,
@@ -102,6 +93,17 @@ export class TopNavElement extends LitElement {
 				<button @click=${() => this.menuDialogElement.close()} class="btn menu__close-button">Close</button>
 			</dialog>
 		</nav>`;
+	}
+
+	async #change_active_pathname(pathname: string) {
+		// Skip frame, because there is autofocussed search input.
+		// And it does not play well with the view transition.
+		if (this.pathname === '/') {
+			await new Promise(requestAnimationFrame);
+		}
+		startViewTransition(() => {
+			this.pathname = pathname;
+		});
 	}
 
 	static styles = css`
