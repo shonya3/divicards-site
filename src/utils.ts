@@ -64,6 +64,7 @@ export class ArrayAsyncRenderer<T> {
 export function startViewTransition(cb: (...args: unknown[]) => unknown): ViewTransition | void {
 	if (!document.startViewTransition) {
 		cb();
+		return;
 	}
 	return document.startViewTransition(cb);
 }
