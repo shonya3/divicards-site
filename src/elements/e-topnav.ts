@@ -276,7 +276,7 @@ export class TopNavElement extends LitElement {
 				display: inline-block;
 				position: absolute;
 				right: 0rem;
-				top: 0.5rem;
+				margin-right: 2.5rem;
 			}
 		}
 	`;
