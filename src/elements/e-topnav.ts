@@ -258,6 +258,9 @@ export class TopNavElement extends LitElement {
 				background-color: var(--menu-bg-clr);
 			}
 
+			.links__active-item-background {
+				border-radius: 0;
+			}
 			.menu > .links {
 				display: flex;
 				background-color: var(--menu-bg-clr);
@@ -270,6 +273,10 @@ export class TopNavElement extends LitElement {
 
 				flex-direction: column;
 				text-align: center;
+
+				& a {
+					font-size: 1.3rem;
+				}
 			}
 
 			.menu__close-button {
