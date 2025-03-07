@@ -34,14 +34,14 @@ export class TopNavElement extends LitElement {
 
 	connectedCallback(): void {
 		super.connectedCallback();
-		const observer = new ResizeObserver(entries => {
-			const entry = entries[0];
-			if (entry.target.clientWidth > 1100) {
-				this.menuDialogElement.close();
-			}
-		});
+		// const observer = new ResizeObserver(entries => {
+		// 	const entry = entries[0];
+		// 	if (entry.target.clientWidth > 1100) {
+		// 		this.menuDialogElement.close();
+		// 	}
+		// });
 
-		observer.observe(document.body);
+		// observer.observe(document.body);
 	}
 
 	protected render(): TemplateResult {
@@ -245,6 +245,7 @@ export class TopNavElement extends LitElement {
 			}
 
 			dialog:modal {
+				position: relative;
 				inset: 0;
 				margin: 0;
 				padding: 0;
