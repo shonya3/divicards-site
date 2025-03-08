@@ -25,9 +25,12 @@ export const styles = css`
 		--source-color: hsl(240 7.3% 84%);
 	}
 
-	a {
-		color: var(--link-color);
+	a:link,
+	a:visited {
+		color: hsl(240 5.6% 73%);
 		text-decoration: underline;
+	}
+	a:hover {
 	}
 
 	#root {
