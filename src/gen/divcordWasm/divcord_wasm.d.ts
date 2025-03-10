@@ -3,10 +3,10 @@
 /**
 * @param {string} spreadsheet
 * @param {string} poe_data
-* @param {Function} toast
+* @param {Function} on_error
 * @returns {any}
 */
-export function parsed_records(spreadsheet: string, poe_data: string, toast: Function): any;
+export function parsed_records(spreadsheet: string, poe_data: string, on_error: Function): any;
 /**
 * @param {any} types
 * @param {any} records

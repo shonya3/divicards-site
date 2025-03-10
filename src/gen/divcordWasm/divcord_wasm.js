@@ -209,17 +209,17 @@ function addBorrowedObject(obj) {
 /**
 * @param {string} spreadsheet
 * @param {string} poe_data
-* @param {Function} toast
+* @param {Function} on_error
 * @returns {any}
 */
-export function parsed_records(spreadsheet, poe_data, toast) {
+export function parsed_records(spreadsheet, poe_data, on_error) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
         const ptr0 = passStringToWasm0(spreadsheet, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ptr1 = passStringToWasm0(poe_data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len1 = WASM_VECTOR_LEN;
-        wasm.parsed_records(retptr, ptr0, len0, ptr1, len1, addBorrowedObject(toast));
+        wasm.parsed_records(retptr, ptr0, len0, ptr1, len1, addBorrowedObject(on_error));
         var r0 = getInt32Memory0()[retptr / 4 + 0];
         var r1 = getInt32Memory0()[retptr / 4 + 1];
         var r2 = getInt32Memory0()[retptr / 4 + 2];
