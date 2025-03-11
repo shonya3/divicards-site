@@ -32,18 +32,6 @@ export class TopNavElement extends LitElement {
 		}
 	}
 
-	connectedCallback(): void {
-		super.connectedCallback();
-		// const observer = new ResizeObserver(entries => {
-		// 	const entry = entries[0];
-		// 	if (entry.target.clientWidth > 1100) {
-		// 		this.menuDialogElement.close();
-		// 	}
-		// });
-
-		// observer.observe(document.body);
-	}
-
 	protected render(): TemplateResult {
 		return html`<nav class="navbar">
 			<div class="logo"><a href="/">Divicards</a></div>
