@@ -24,6 +24,13 @@ import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { effect } from 'signal-utils/subtle/microtask-effect';
 import { divcordTableContext } from '../context/divcord/divcord-provider';
 
+const DEFAULTS = {
+	page: 1,
+	per_page: 10,
+	card_size: 'medium',
+	source_size: 'small',
+} as const;
+
 /**
  * Home page with cards, search and pagination.
  * @csspart active_drop_source Active source for view-transition(optional).
@@ -31,18 +38,18 @@ import { divcordTableContext } from '../context/divcord/divcord-provider';
  */
 @customElement('p-home')
 export class HomePage extends SignalWatcher(LitElement) {
-	@property({ type: Number, reflect: true }) page = 1;
-	@property({ type: Number, reflect: true }) per_page = 10;
+	@property({ type: Number, reflect: true }) page = DEFAULTS.page;
+	@property({ type: Number, reflect: true }) per_page = DEFAULTS.per_page;
 	@property({ reflect: true }) filter = '';
-	@property({ reflect: true }) card_size: CardSize = 'medium';
-	@property({ reflect: true }) source_size: SourceSize = 'small';
+	@property({ reflect: true }) card_size: CardSize = DEFAULTS.card_size;
+	@property({ reflect: true }) source_size: SourceSize = DEFAULTS.source_size;
 	@property({ attribute: false }) search_criterias = Array.from(SEARCH_CRITERIA_VARIANTS);
 
-	#page = signal(1);
-	#per_page = signal(10);
+	#page = signal(DEFAULTS.page);
+	#per_page = signal(DEFAULTS.per_page);
 	#filter = signal('');
-	#card_size = signal<CardSize>('medium');
-	#source_size = signal<SourceSize>('small');
+	#card_size = signal<CardSize>(DEFAULTS.card_size);
+	#source_size = signal<SourceSize>(DEFAULTS.source_size);
 	#search_criterias = signal<Array<SearchCardsCriteria>>([]);
 	#divcord_table = signal(new DivcordTable([]));
 
