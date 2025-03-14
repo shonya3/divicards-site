@@ -7,7 +7,6 @@ import '../elements/e-card-with-sources';
 import { consume } from '@lit/context';
 import { paginate } from '../utils';
 import '../elements/input/e-input';
-import inputStyles from '../elements/input/input.styles';
 import { poeData } from '../PoeData';
 import { sort_by_weight } from '../cards';
 import { SearchCardsCriteria, search_cards_by_query, SEARCH_CRITERIA_VARIANTS } from '../search_cards_by_query';
@@ -103,7 +102,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 					label="Search"
 					.value=${this.#filter.get()}
 					.datalistItems=${this.#divcord_table.get().cards()}
-					@input="${this.#on_card_name_input}"
+					@input="${this.#h_search_change}"
 					type="text"
 				>
 				</e-input>
@@ -111,7 +110,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 					id="select-by"
 					label="By"
 					.value=${this.#search_criterias.get()}
-					@sl-change=${this.#on_criterias_select}
+					@sl-change=${this.#h_criterias_select}
 					multiple
 					clearable
 				>
@@ -147,19 +146,18 @@ export class HomePage extends SignalWatcher(LitElement) {
 		`;
 	}
 
-	#on_card_name_input(e: InputEvent) {
+	#h_search_change(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
 		this.#page.set(1);
 		this.#filter.set(input.value);
 	}
 
-	#on_criterias_select(e: Event) {
+	#h_criterias_select(e: Event) {
 		const target = e.target as EventTarget & { value: string[] };
 		this.#search_criterias.set(target.value as Array<SearchCardsCriteria>);
 	}
 
 	static styles = css`
-		${inputStyles}
 		* {
 			padding: 0;
 			margin: 0;
