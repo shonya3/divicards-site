@@ -1,5 +1,5 @@
 import { linkStyles } from './../../linkStyles';
-import { LitElement, html, css, TemplateResult, PropertyValueMap, PropertyValues } from 'lit';
+import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
