@@ -55,7 +55,11 @@ export const styles = css`
 	}
 
 	.td {
-		border-bottom: 1px solid rgba(160, 160, 160, 0.4);
+		border-bottom: 1px solid rgba(160, 160, 160, 0.6);
+	}
+
+	.th {
+		font-weight: unset;
 	}
 
 	.th,

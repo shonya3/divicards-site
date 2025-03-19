@@ -1,5 +1,5 @@
 import { linkStyles } from './../../linkStyles';
-import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
+import { LitElement, html, css, TemplateResult, PropertyValueMap, PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
@@ -27,6 +27,12 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  */
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
+	protected firstUpdated(_changedProperties: PropertyValues): void {
+		const th = this.shadowRoot!.querySelector('th')!;
+		const styles = getComputedStyle(th);
+		console.log(styles['fontWeight']);
+	}
+
 	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
 	@property({ type: Array }) records: DivcordRecordAndWeight[] = [];
 	@property({ reflect: true }) active_divination_card?: string;
