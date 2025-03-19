@@ -34,24 +34,14 @@ export const styles = css`
 	}
 
 	#root {
+		width: var(--w-table);
 		height: calc(100vh - 150px);
 	}
 
-	.th {
-		font-size: 14px;
-	}
-
-	.th,
-	.td {
-		padding: 0.4rem;
-		border: 1px solid rgba(160, 160, 160, 0.4);
-		text-align: center;
-		border-collapse: collapse;
-	}
-
 	.table {
+		width: var(--w-table);
+
 		border-collapse: collapse;
-		border: 1px solid rgba(140, 140, 140, 0.4);
 		table-layout: fixed;
 		width: fit-content;
 		font-size: 14px;
@@ -60,11 +50,25 @@ export const styles = css`
 		background-color: #121212;
 	}
 
+	.show-cards-row .td {
+		border: none;
+	}
+
+	.td {
+		border-bottom: 1px solid rgba(160, 160, 160, 0.4);
+	}
+
+	.th,
+	.td {
+		padding: 0.4rem;
+		text-align: center;
+	}
+
 	.tbody {
 		width: var(--w-table);
+
 		display: table-row-group;
 		transform: translateX(-1px);
-		border-collapse: collapse;
 	}
 
 	.thead__headings {
@@ -99,37 +103,38 @@ export const styles = css`
 	}
 
 	.col-id {
-		width: 100px;
+		width: var(--w-col-id);
 	}
 	.col-card {
-		width: 200px;
+		width: var(--w-col-card);
 	}
 	.col-weight {
-		width: 100px;
+		width: var(--w-col-weight);
 	}
 	.col-tag {
 		word-break: break-word;
-		width: 200px;
+		width: var(--w-col-tag);
 	}
 	.col-confidence {
-		width: 100px;
+		width: var(--w-col-confidence);
 	}
 	.col-remaining-work {
-		width: 100px;
+		width: var(--w-col-remaining-work);
 	}
 	.col-sources {
-		width: 400px;
+		width: var(--w-col-sources);
 	}
 	.col-verify {
-		width: 320px;
+		width: var(--w-col-verify);
 	}
 	.col-notes {
-		width: 300px;
+		width: var(--w-col-notes);
 	}
 	.col-notes.td {
 		text-align: left;
 		word-break: break-word;
 		color: #bcbcbc;
+		width: var(--w-col-notes);
 	}
 
 	.confidence {
@@ -178,7 +183,7 @@ export const styles = css`
 	}
 
 	.td-weight {
-		font-weight: 600;
+		font-weight: 500;
 		font-size: 20px;
 	}
 
