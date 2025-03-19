@@ -27,12 +27,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  */
 @customElement('e-divcord-spreadsheet')
 export class DivcordSpreadsheetElement extends LitElement {
-	protected firstUpdated(_changedProperties: PropertyValues): void {
-		const th = this.shadowRoot!.querySelector('th')!;
-		const styles = getComputedStyle(th);
-		console.log(styles['fontWeight']);
-	}
-
 	@property({ type: Boolean, reflect: true, attribute: 'show-cards' }) showCards = true;
 	@property({ type: Array }) records: DivcordRecordAndWeight[] = [];
 	@property({ reflect: true }) active_divination_card?: string;
