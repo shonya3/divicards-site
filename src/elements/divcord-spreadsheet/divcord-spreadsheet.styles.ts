@@ -3,13 +3,13 @@ import { css } from 'lit';
 export const styles = css`
 	#root {
 		--w-col-id: 50px;
-		--w-col-card: 200px;
+		--w-col-card: 185px;
 		--w-col-weight: 80px;
 		--w-col-confidence: 80px;
 		--w-col-remaining-work: 80px;
-		--w-col-sources: 400px;
+		--w-col-sources: 300px;
 		--w-col-verify: 320px;
-		--w-col-notes: 300px;
+		--w-col-notes: 500px;
 		--w-table: calc(
 			var(--w-col-id) + var(--w-col-card) + var(--w-col-weight) + var(--w-col-confidence) +
 				var(--w-col-remaining-work) + var(--w-col-sources) + var(--w-col-verify) + var(--w-col-notes)
@@ -21,6 +21,15 @@ export const styles = css`
 		box-shadow: var(--sl-shadow-large);
 
 		color: #fff;
+		--sl-color-gray-300: hsl(240 5% 27.6%);
+		--sl-color-gray-400: hsl(240 5% 35.5%);
+		--sl-color-gray-500: hsl(240 3.7% 44%);
+		--sl-color-gray-600: hsl(240 5.3% 58%);
+		--sl-color-gray-700: hsl(240 5.6% 73%);
+		--sl-color-gray-800: hsl(240 7.3% 84%);
+		--sl-color-gray-900: hsl(240 9.1% 91.8%);
+		--sl-color-gray-950: hsl(0 0% 95%);
+		color: var(--sl-color-gray-800);
 		--source-color: hsl(240 7.3% 84%);
 	}
 
@@ -43,7 +52,6 @@ export const styles = css`
 		border-collapse: collapse;
 		table-layout: fixed;
 		width: fit-content;
-		font-size: 14px;
 		position: relative;
 		height: 100%;
 		background-color: #121212;
@@ -51,7 +59,6 @@ export const styles = css`
 
 	.show-cards-row .td {
 		border: none;
-		border-right: 1px solid rgba(160, 160, 160, 1);
 	}
 
 	.td {
@@ -61,13 +68,21 @@ export const styles = css`
 
 	.th {
 		font-weight: unset;
-		font-size: 12px;
+		font-size: 13px;
 		border-right: 1px solid rgba(160, 160, 160, 1);
+
+		& sl-icon {
+			font-size: 1rem;
+
+			&.ordered-by {
+				color: yellow;
+			}
+		}
 	}
 
 	.th,
 	.td {
-		padding: 0.4rem;
+		padding: 0.2rem;
 		text-align: center;
 	}
 
@@ -117,13 +132,20 @@ export const styles = css`
 	}
 	.col-sources {
 		width: var(--w-col-sources);
+
+		&.td {
+			vertical-align: top;
+		}
 	}
 	.col-verify {
 		width: var(--w-col-verify);
+
+		&.td {
+			vertical-align: top;
+		}
 	}
 	.col-notes {
 		width: var(--w-col-notes);
-		font-size: 13px;
 	}
 	.col-notes.td {
 		text-align: left;
@@ -173,16 +195,15 @@ export const styles = css`
 		gap: 0.4rem;
 	}
 
-	.td-notes {
+	.td.col-notes {
 		text-align: left;
+		vertical-align: top;
+		color: var(--sl-color-gray-800);
+		font-family: monospace;
 	}
 
 	.td-weight {
 		font-size: 16px;
-	}
-
-	.ordered-by {
-		color: yellow;
 	}
 
 	.td-weight__label {
