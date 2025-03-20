@@ -2,17 +2,16 @@ import { css } from 'lit';
 
 export const styles = css`
 	#root {
-		--w-col-id: 100px;
+		--w-col-id: 50px;
 		--w-col-card: 200px;
-		--w-col-weight: 100px;
-		--w-col-tag: 200px;
-		--w-col-confidence: 110px;
-		--w-col-remaining-work: 100px;
+		--w-col-weight: 80px;
+		--w-col-confidence: 80px;
+		--w-col-remaining-work: 80px;
 		--w-col-sources: 400px;
 		--w-col-verify: 320px;
 		--w-col-notes: 300px;
 		--w-table: calc(
-			var(--w-col-id) + var(--w-col-card) + var(--w-col-weight) + var(--w-col-tag) + var(--w-col-confidence) +
+			var(--w-col-id) + var(--w-col-card) + var(--w-col-weight) + var(--w-col-confidence) +
 				var(--w-col-remaining-work) + var(--w-col-sources) + var(--w-col-verify) + var(--w-col-notes)
 		);
 
@@ -52,14 +51,18 @@ export const styles = css`
 
 	.show-cards-row .td {
 		border: none;
+		border-right: 1px solid rgba(160, 160, 160, 1);
 	}
 
 	.td {
-		border-bottom: 1px solid rgba(160, 160, 160, 0.6);
+		border-bottom: 1px solid rgba(160, 160, 160, 1);
+		border-right: 1px solid rgba(160, 160, 160, 1);
 	}
 
 	.th {
 		font-weight: unset;
+		font-size: 12px;
+		border-right: 1px solid rgba(160, 160, 160, 1);
 	}
 
 	.th,
@@ -72,7 +75,7 @@ export const styles = css`
 		width: var(--w-table);
 
 		display: table-row-group;
-		transform: translateX(-1px);
+		transform: translateX(1px);
 	}
 
 	.thead__headings {
@@ -82,18 +85,9 @@ export const styles = css`
 		z-index: 9999;
 	}
 
-	.col-id.td {
-		border-left: none;
-	}
-
-	.col-verify.td {
-		border-right: none;
-	}
-
 	.col-id,
 	.col-card,
 	.col-weight,
-	.col-tag,
 	.col-confidence,
 	.col-remaining-work,
 	.col-notes {
@@ -115,10 +109,6 @@ export const styles = css`
 	.col-weight {
 		width: var(--w-col-weight);
 	}
-	.col-tag {
-		word-break: break-word;
-		width: var(--w-col-tag);
-	}
 	.col-confidence {
 		width: var(--w-col-confidence);
 	}
@@ -133,6 +123,7 @@ export const styles = css`
 	}
 	.col-notes {
 		width: var(--w-col-notes);
+		font-size: 13px;
 	}
 	.col-notes.td {
 		text-align: left;
@@ -187,8 +178,7 @@ export const styles = css`
 	}
 
 	.td-weight {
-		font-weight: 500;
-		font-size: 20px;
+		font-size: 16px;
 	}
 
 	.ordered-by {

@@ -115,7 +115,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 			<table class="table">
 				<thead class="thead">
 					<tr class="thead__headings">
-						<th class="th col-id">
+						<th scope="col" class="th col-id">
 							<div class="header-with-icon">
 								id
 								<sl-icon
@@ -125,7 +125,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<th class="th col-card">
+						<th scope="col" class="th col-card">
 							<div class="header-with-icon">
 								Card
 								<sl-icon
@@ -135,7 +135,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<th class="th col-weight">
+						<th scope="col" class="th col-weight">
 							<div class="header-with-icon">
 								Weight
 								<sl-icon
@@ -145,11 +145,10 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<th class="th col-tag">Tag</th>
-						<th class="th col-confidence">Confidence</th>
-						<th class="th col-remaining-work">Remaining Work</th>
-						<th class="th col-sources">Verified sources</th>
-						<th class="th col-verify">
+						<th scope="col" class="th col-confidence">Confidence</th>
+						<th scope="col" class="th col-remaining-work">Remaining Work</th>
+						<th scope="col" class="th col-sources">Verified sources</th>
+						<th scope="col" class="th col-verify">
 							<div class="header-with-icon">
 								Need to verify
 								<sl-icon
@@ -209,7 +208,6 @@ export class DivcordSpreadsheetElement extends LitElement {
 								<td class="td td-weight col-weight">
 									<e-weight-value .weightData=${record.weightData}></e-weight-value>
 								</td>
-								<td class="td col-tag">${record.tagHypothesis}</td>
 								<td
 									class=${classMap({
 										td: true,
