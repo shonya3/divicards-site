@@ -207,13 +207,12 @@ export class DivcordSpreadsheetElement extends LitElement {
 												${record.card}
 										  </a>`}
 								</td>
-								<td class="td td-weight cell-weight">
+								<td class="td cell-weight">
 									<e-weight-value .weightData=${record.weightData}></e-weight-value>
 								</td>
 								<td
 									class=${classMap({
 										td: true,
-										confidence: true,
 										[`confidence--${record.confidence}`]: true,
 										'cell-confidence': true,
 									})}
