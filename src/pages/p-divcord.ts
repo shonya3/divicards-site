@@ -164,13 +164,13 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 						'select-filters-section--open': this.should_apply_filters.get(),
 					})}
 				>
-					<div class="apply-select-filters-control">
+					<!-- <div class="apply-select-filters-control">
 						<sl-checkbox
 							.checked=${this.should_apply_filters.get()}
 							@sl-input=${this.#on_should_apply_select_filters_change}
 							>Apply filters</sl-checkbox
 						>
-					</div>
+					</div> -->
 					${this.should_apply_filters
 						? html`<div class="select-filters">
 								<e-divcord-presets
