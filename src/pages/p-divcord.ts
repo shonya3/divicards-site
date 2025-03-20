@@ -4,12 +4,12 @@ import { consume } from '@lit/context';
 import { DivcordTable } from '../context/divcord/DivcordTable';
 import '../elements/e-card-with-divcord-records';
 import '../elements/e-pagination';
-import '../elements/input/e-input';
 import '../elements/e-update-divcord-data';
 import '../elements/e-divcord-records-age';
 import '../elements/presets/e-divcord-presets';
 import '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import '../elements/e-sheets-link';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js';
@@ -197,7 +197,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			<sl-radio-group
 				@sl-change=${this.#on_active_view_change}
 				class="select-view-controls"
-				size="large"
 				label="Select the view"
 				name="a"
 				value=${this.active_view.get()}
@@ -207,13 +206,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			</sl-radio-group>
 
 			<section class="search">
-				<e-input
-					label="Search by anything"
-					.datalistItems=${this.#divcord_table.get().cards()}
-					@input="${this.#onCardnameInput}"
-					type="text"
-				>
-				</e-input>
+				<sl-input label="Search by anything" @input="${this.#onCardnameInput}" type="text"> </sl-input>
 			</section>
 
 			<div class="active-view">
