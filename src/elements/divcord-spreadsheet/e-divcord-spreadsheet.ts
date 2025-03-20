@@ -115,7 +115,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 			<table class="table">
 				<thead class="thead">
 					<tr class="thead__headings">
-						<th scope="col" class="th col-id">
+						<th scope="col" class="th cell-id">
 							<div class="header-with-icon">
 								id
 								<sl-icon
@@ -125,7 +125,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<th scope="col" class="th col-card">
+						<th scope="col" class="th cell-card">
 							<div class="header-with-icon">
 								Card
 								<sl-icon
@@ -135,7 +135,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<th scope="col" class="th col-weight">
+						<th scope="col" class="th cell-weight">
 							<div class="header-with-icon">
 								Weight
 								<sl-icon
@@ -145,10 +145,10 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<th scope="col" class="th col-confidence">Confidence</th>
-						<th scope="col" class="th col-remaining-work">Remaining Work</th>
-						<th scope="col" class="th col-sources">Verified sources</th>
-						<th scope="col" class="th col-verify">
+						<th scope="col" class="th cell-confidence">Confidence</th>
+						<th scope="col" class="th cell-remaining-work">Remaining Work</th>
+						<th scope="col" class="th cell-sources">Verified sources</th>
+						<th scope="col" class="th cell-verify">
 							<div class="header-with-icon">
 								Need to verify
 								<sl-icon
@@ -158,7 +158,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								></sl-icon>
 							</div>
 						</th>
-						<th class="th col-notes">Notes</th>
+						<th class="th cell-notes">Notes</th>
 					</tr>
 					<tr class="show-cards-row">
 						<td class="td"></td>
@@ -176,11 +176,13 @@ export class DivcordSpreadsheetElement extends LitElement {
 					${virtualize({
 						items: this.recordsState,
 						renderItem: (record: DivcordRecordAndWeight): TemplateResult => {
+							const notes = formattedNotes(record);
+
 							return html`<tr>
-								<td class="td col-id">
+								<td class="td cell-id">
 									<a target="_blank" href=${divcordRecordHref(record.id)}>${record.id}</a>
 								</td>
-								<td class="td col-card">
+								<td class="td cell-card">
 									${this.showCards
 										? html`
 												<e-divination-card
@@ -205,7 +207,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 												${record.card}
 										  </a>`}
 								</td>
-								<td class="td td-weight col-weight">
+								<td class="td td-weight cell-weight">
 									<e-weight-value .weightData=${record.weightData}></e-weight-value>
 								</td>
 								<td
@@ -213,7 +215,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 										td: true,
 										confidence: true,
 										[`confidence--${record.confidence}`]: true,
-										'col-confidence': true,
+										'cell-confidence': true,
 									})}
 								>
 									${record.confidence}
@@ -221,7 +223,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								<td
 									class=${classMap({
 										td: true,
-										'col-remaining-work': true,
+										'cell-remaining-work': true,
 										'remaining-work--story': record.remainingWork === 'story',
 										'remaining-work--reverify': record.remainingWork === 'reverify',
 										'remaining-work--confirm': record.remainingWork === 'confirm',
@@ -229,7 +231,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 								>
 									${record.remainingWork}
 								</td>
-								<td class="td col-sources">
+								<td class="td cell-sources">
 									<e-sources
 										.sources=${record.sources}
 										size="small"
@@ -237,7 +239,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 										verification-status="done"
 									></e-sources>
 								</td>
-								<td class="td col-verify">
+								<td class="td cell-verify">
 									<e-sources
 										.sources=${record.verifySources}
 										size="small"
@@ -245,7 +247,16 @@ export class DivcordSpreadsheetElement extends LitElement {
 										verification-status="verify"
 									></e-sources>
 								</td>
-								<td class="td col-notes">${formattedNotes(record)}</td>
+								<td class="td cell-notes">
+									<!-- ${notes
+										? html`<details>
+												<summary>Details</summary>
+												${formattedNotes(record)}
+										  </details>`
+										: null} -->
+
+									${notes}
+								</td>
 							</tr>`;
 						},
 					})}
@@ -272,8 +283,11 @@ export class DivcordSpreadsheetElement extends LitElement {
 	`;
 }
 
-function formattedNotes(record: DivcordRecord): DirectiveResult<typeof UnsafeHTMLDirective> {
+function formattedNotes(record: DivcordRecord): DirectiveResult<typeof UnsafeHTMLDirective> | null {
 	const text = record.notes?.replaceAll('\n', '<br>');
+	if (!text) {
+		return null;
+	}
 	return unsafeHTML(text);
 }
 
