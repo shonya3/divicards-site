@@ -15,7 +15,8 @@ export const styles = css`
 				var(--w-cell-remaining-work) + var(--w-cell-sources) + var(--w-cell-verify) + var(--w-cell-notes)
 		);
 
-		height: calc(100vh - 70px);
+		width: var(--w-table);
+		height: calc(100vh - 150px);
 		overflow-y: scroll;
 		width: fit-content;
 		box-shadow: var(--sl-shadow-large);
@@ -38,38 +39,30 @@ export const styles = css`
 		color: hsl(240 5.6% 73%);
 		text-decoration: underline;
 	}
-	a:hover {
-	}
-
-	#root {
-		width: var(--w-table);
-		height: calc(100vh - 150px);
-	}
 
 	.table {
 		width: var(--w-table);
 
 		border-collapse: collapse;
 		table-layout: fixed;
-		width: fit-content;
 		position: relative;
 		height: 100%;
 		background-color: #121212;
 	}
 
-	.show-cards-row .td {
-		border: none;
-	}
-
+	.th,
 	.td {
-		border-bottom: 1px solid rgba(160, 160, 160, 1);
-		border-right: 1px solid rgba(160, 160, 160, 1);
+		padding: 0.2rem;
+		text-align: center;
 	}
 
 	.th {
+		&:not(:last-of-type) {
+			border-right: 1px solid rgba(160, 160, 160, 1);
+		}
+
 		font-weight: unset;
 		font-size: 13px;
-		border-right: 1px solid rgba(160, 160, 160, 1);
 
 		& sl-icon {
 			font-size: 1rem;
@@ -80,16 +73,18 @@ export const styles = css`
 		}
 	}
 
-	.th,
-	.td {
-		padding: 0.2rem;
-		text-align: center;
+	.td:not(:last-child) {
+		border-bottom: 1px solid rgba(160, 160, 160, 1);
+		border-right: 1px solid rgba(160, 160, 160, 1);
+	}
+
+	.show-cards-row .td {
+		border: none;
 	}
 
 	.tbody {
 		width: var(--w-table);
 		display: table-row-group;
-		transform: translateX(1px);
 	}
 
 	.thead__headings {
