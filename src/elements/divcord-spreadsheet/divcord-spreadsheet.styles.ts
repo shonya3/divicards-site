@@ -1,6 +1,11 @@
 import { css } from 'lit';
 
 export const styles = css`
+	:host {
+		border: 1px solid var(--sl-color-indigo-600);
+		border-radius: 10x;
+	}
+
 	#root {
 		--w-cell-id: 50px;
 		--w-cell-card: 185px;
@@ -31,7 +36,7 @@ export const styles = css`
 		--z-table-header: 2;
 
 		width: fit-content;
-		height: calc(100vh - 150px);
+		height: calc(100vh - 180px);
 		color: var(--sl-color-gray-800);
 		overflow-y: scroll;
 		box-shadow: var(--sl-shadow-large);
