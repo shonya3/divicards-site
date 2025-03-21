@@ -11,7 +11,7 @@ export const linkStyles = css`
 
 	a:link,
 	a:visited {
-		color: var(--sl-color-gray-700);
+		color: var(--sl-color-gray-800);
 	}
 
 	a:hover {

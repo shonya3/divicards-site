@@ -33,13 +33,14 @@ export const styles = css`
 		width: fit-content;
 		height: calc(100vh - 180px);
 		color: var(--sl-color-gray-800);
+		--source-color: var(--sl-color-gray-800);
 		overflow-y: scroll;
 		box-shadow: var(--sl-shadow-large);
 	}
 
 	a:link,
 	a:visited {
-		color: var(--sl-color-gray-700);
+		color: var(--sl-color-gray-800);
 		text-decoration: underline;
 	}
 
@@ -48,7 +49,6 @@ export const styles = css`
 		border-collapse: collapse;
 		table-layout: fixed;
 		position: relative;
-		height: 100%;
 		background-color: #121212;
 	}
 
@@ -93,7 +93,9 @@ export const styles = css`
 		&:not(:last-child) {
 			border-right: 1px solid rgba(160, 160, 160, 1);
 		}
+	}
 
+	tr:not(:last-of-type) .td {
 		border-bottom: 1px solid rgba(160, 160, 160, 1);
 	}
 
