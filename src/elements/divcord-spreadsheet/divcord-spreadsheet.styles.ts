@@ -1,11 +1,6 @@
 import { css } from 'lit';
 
 export const styles = css`
-	:host {
-		border: 1px solid var(--sl-color-indigo-600);
-		border-radius: 10x;
-	}
-
 	#root {
 		--w-cell-id: 50px;
 		--w-cell-card: 185px;
