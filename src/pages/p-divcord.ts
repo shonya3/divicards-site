@@ -206,7 +206,13 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			</sl-radio-group>
 
 			<section class="search">
-				<sl-input label="Search by anything" @input="${this.#onCardnameInput}" type="text"> </sl-input>
+				<sl-input
+					label="Search by anything"
+					.value=${this.#filter.get()}
+					@input="${this.#h_search}"
+					type="text"
+				>
+				</sl-input>
 			</section>
 
 			<div class="active-view">
@@ -271,7 +277,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		return [...DEFAULT_PRESETS, ...this.custom_presets.get()].find(p => p.name === name) ?? null;
 	}
 
-	async #onCardnameInput(e: InputEvent) {
+	async #h_search(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
 		this.#page.set(1);
 		this.#filter.set(input.value);
