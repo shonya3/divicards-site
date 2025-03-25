@@ -96,12 +96,6 @@ export class CardPage extends LitElement {
 			}
 		}
 
-		e-card-with-divcord-records {
-			background-color: light-dark(red, blue);
-			background-color: light-dark(white, black);
-			padding: 2rem;
-		}
-
 		.text-gray-900 {
 			color: var(--sl-color-gray-900);
 		}
