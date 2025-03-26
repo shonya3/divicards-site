@@ -34,7 +34,7 @@ export class TopNavElement extends LitElement {
 
 	protected render(): TemplateResult {
 		return html`<nav class="navbar">
-			<div class="logo"><a href="/">Divicards</a></div>
+			<div class="logo"><a @click=${() => this.#change_active_pathname('/')} href="/">Divicards</a></div>
 			<ul class="links">
 				${this.linkItems.map(([pathname, s]) => {
 					return html`<li
@@ -65,7 +65,7 @@ export class TopNavElement extends LitElement {
 				<ul class="links">
 					${this.linkItems.map(([pathname, s]) => {
 						return html`<li
-							@click=${this.#change_active_pathname}
+							@click=${() => this.#change_active_pathname(pathname)}
 							class=${classMap({
 								links__item: true,
 								'links__item--active': pathname === this.pathname,
@@ -86,6 +86,8 @@ export class TopNavElement extends LitElement {
 	async #change_active_pathname(pathname: string) {
 		// Skip frame, because there is autofocussed search input.
 		// And it does not play well with the view transition.
+
+		console.log('here', pathname);
 		if (this.pathname === '/') {
 			await new Promise(requestAnimationFrame);
 		}
