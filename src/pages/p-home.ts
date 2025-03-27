@@ -37,15 +37,15 @@ const DEFAULTS = {
  */
 @customElement('p-home')
 export class HomePage extends SignalWatcher(LitElement) {
-	@property({ type: Number, reflect: true }) page = DEFAULTS.page;
-	@property({ type: Number, reflect: true }) per_page = DEFAULTS.per_page;
+	@property({ type: Number, reflect: true }) page: number = DEFAULTS.page;
+	@property({ type: Number, reflect: true }) per_page: number = DEFAULTS.per_page;
 	@property({ reflect: true }) filter = '';
 	@property({ reflect: true }) card_size: CardSize = DEFAULTS.card_size;
 	@property({ reflect: true }) source_size: SourceSize = DEFAULTS.source_size;
 	@property({ attribute: false }) search_criterias = Array.from(SEARCH_CRITERIA_VARIANTS);
 
-	#page = signal(DEFAULTS.page);
-	#per_page = signal(DEFAULTS.per_page);
+	#page = signal<number>(DEFAULTS.page);
+	#per_page = signal<number>(DEFAULTS.per_page);
 	#filter = signal('');
 	#card_size = signal<CardSize>(DEFAULTS.card_size);
 	#source_size = signal<SourceSize>(DEFAULTS.source_size);
