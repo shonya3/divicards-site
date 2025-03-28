@@ -30,13 +30,14 @@ import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
 
 import sourcesJson from './gen/json/sources2.json';
 import { ACTIVE_VIEW_VARIANTS, ActiveView } from './pages/p-verify';
+import { table_records } from './table_records';
 const sources = sourcesJson as Record<string, Source>;
 
 export const router = new Router({
 	routes: [
 		{
 			path: '/',
-			title: 'Divicards',
+			title: 'Divicards: PoE Card Drops & Weights',
 			render: ({ query }) => {
 				return html`<p-home
 					.page=${Number(query.page ?? 1)}
@@ -159,7 +160,7 @@ export const router = new Router({
 		{
 			path: '/spreadsheet',
 			title: 'Divcord spreadsheet',
-			render: () => html`<e-divcord-spreadsheet></e-divcord-spreadsheet>`,
+			render: () => html`<e-divcord-spreadsheet .records=${table_records}></e-divcord-spreadsheet>`,
 		},
 	],
 });
