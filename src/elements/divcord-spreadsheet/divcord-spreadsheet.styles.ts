@@ -182,9 +182,13 @@ export const styles = css`
 	}
 
 	/* Remaining work */
+	.td.cell-remaining-work {
+		word-break: break-all;
+	}
+
 	.remaining-work--reverify {
-		background-color: #9fc5e8;
 		color: black;
+		background-color: #9fc5e8;
 	}
 	.remaining-work--story {
 		background-color: #efa7c5;
