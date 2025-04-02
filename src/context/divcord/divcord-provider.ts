@@ -29,7 +29,7 @@ export class DivcordProviderElement extends LitElement {
 			toast('Your Divcord data is up-to-date', 'success', 3000);
 		});
 
-		const records = await divcordLoader.getRecordsAndStartUpdateIfNeeded();
+		const records = await divcordLoader.get_records_and_start_update_if_needed();
 		this.divcordTable = new DivcordTable(records);
 	}
 

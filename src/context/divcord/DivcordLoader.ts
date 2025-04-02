@@ -4,35 +4,33 @@ import { sort_by_weight } from '../../cards.js';
 import type { DivcordRecord } from '../../gen/divcord.js';
 import { Storage } from '../../storage.js';
 import { EventEmitter, sortAllSourcesByLevel } from '../../utils.js';
+import init, { fetch_spreadsheet } from '../../gen/divcordWasm/divcord_wasm.js';
 
-const divcord_wasm_package = await import('../../gen/divcordWasm/divcord_wasm.js');
-await divcord_wasm_package.default();
+await init();
 
 declare module '../../storage' {
 	interface Registry {
-		divcord: DivcordRecord[];
+		divcord: {
+			app_version: string;
+			last_updated: string;
+			records: Array<DivcordRecord>;
+		} | null;
 	}
 }
 
-type WorkerMessage = { type: 'records'; data: DivcordRecord[] } | { type: 'ParseError'; data: string };
+type WorkerMessage = { type: 'records'; data: Array<DivcordRecord> } | { type: 'ParseError'; data: string };
 
 const ONE_DAY_MILLISECONDS = 86_400_000;
-const CACHE_KEY = import.meta.env.PACKAGE_VERSION;
 
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
 export type State = 'idle' | 'updating' | 'updated' | 'error';
 
 export class DivcordLoader extends EventEmitter<{
 	'state-updated': State;
-	'records-updated': DivcordRecord[];
+	'records-updated': Array<DivcordRecord>;
 }> {
 	#state: State = 'idle';
-	#cache: Promise<Cache>;
-	#storage = new Storage('divcord', []);
-	constructor() {
-		super();
-		this.#cache = caches.open(CACHE_KEY);
-	}
+	#storage = new Storage('divcord', null);
 
 	get state(): State {
 		return this.#state;
@@ -43,37 +41,17 @@ export class DivcordLoader extends EventEmitter<{
 		this.emit('state-updated', val);
 	}
 
-	async getRecordsAndStartUpdateIfNeeded(): Promise<DivcordRecord[]> {
-		const validity = await this.checkValidity();
-		switch (validity) {
-			case 'valid': {
-				return this.#storage.load();
-			}
-			case 'stale': {
-				this.update();
-				return this.#storage.load();
-			}
-			case 'not exist': {
-				this.update();
-				return await this.#fromStaticJson();
-			}
+	async get_records_and_start_update_if_needed(): Promise<Array<DivcordRecord>> {
+		const validity = this.#check_validity();
+		if (validity === 'stale' || validity === 'not exist') {
+			this.update();
 		}
+
+		return await this.#freshest_available_records(validity);
 	}
 
-	async fetchSpreadsheet(): Promise<Spreadsheet> {
-		const cache = await this.#cache;
-		await Promise.all([
-			cache.add(richSourcesUrl('sources')),
-			cache.add(richSourcesUrl('verify')),
-			cache.add(sheetUrl()),
-		]);
-		const cached = await this.#cachedResponses();
-		const spreadsheet = await this.#deserializeResponses(cached!);
-		return spreadsheet;
-	}
-
-	async update(): Promise<DivcordRecord[]> {
-		const promise = new Promise<DivcordRecord[]>(async resolve => {
+	async update(): Promise<Array<DivcordRecord>> {
+		const promise = new Promise<Array<DivcordRecord>>(async resolve => {
 			const worker = new Worker(new URL('./worker.ts', import.meta.url), {
 				type: 'module',
 			});
@@ -92,7 +70,7 @@ export class DivcordLoader extends EventEmitter<{
 			});
 
 			this.#setState('updating');
-			const spreadsheet = await this.fetchSpreadsheet();
+			const spreadsheet = await fetch_spreadsheet();
 			worker.postMessage({ spreadsheet, poeData });
 		});
 
@@ -100,29 +78,33 @@ export class DivcordLoader extends EventEmitter<{
 			const records = await promise;
 			sort_by_weight(records, poeData);
 			sortAllSourcesByLevel(records, poeData);
-			this.#storage.save(records);
+			this.#storage.save({
+				app_version: import.meta.env.PACKAGE_VERSION,
+				records,
+				last_updated: new Date().toUTCString(),
+			});
 			this.#setState('updated');
 			this.emit('records-updated', records);
 			return records;
 		} catch (err) {
 			console.log(err);
 			this.#setState('error');
-			const records = await this.#freshestAvailableRecords();
+			const records = await this.#freshest_available_records();
 			return records;
 		}
 	}
 
-	async cacheDate(): Promise<Date | null> {
-		const resp = await this.#cachedResponses();
-		if (!resp) {
+	last_updated_date(): Date | null {
+		const stored = this.#storage.data;
+		if (!stored) {
 			return null;
 		}
 
-		return new Date(resp.richSources.headers.get('date')!);
+		return new Date(stored.last_updated);
 	}
 
-	async cacheAge(): Promise<number | null> {
-		const date = await this.cacheDate();
+	last_updated_age(): number | null {
+		const date = this.last_updated_date();
 		if (!date) {
 			return null;
 		}
@@ -130,86 +112,38 @@ export class DivcordLoader extends EventEmitter<{
 		return Date.now() - date.getTime();
 	}
 
-	async checkValidity(): Promise<CacheValidity> {
-		const millis = await this.cacheAge();
-		if (millis === null || !this.#storage.exists()) {
+	#check_validity(): CacheValidity {
+		if (!this.#storage.data) {
+			return 'not exist';
+		}
+
+		if (this.#storage.data.app_version !== import.meta.env.PACKAGE_VERSION) {
+			return 'stale';
+		}
+
+		const millis = this.last_updated_age();
+		if (millis === null) {
 			return 'not exist';
 		}
 
 		return millis < ONE_DAY_MILLISECONDS ? 'valid' : 'stale';
 	}
 
-	async #freshestAvailableRecords() {
-		const validity = await this.checkValidity();
-		switch (validity) {
+	async #freshest_available_records(validity?: CacheValidity) {
+		const val = validity ? validity : this.#check_validity();
+
+		switch (val) {
 			case 'valid': {
-				return this.#storage.load()!;
+				return this.#storage.load()!.records;
 			}
 			case 'stale': {
-				return this.#storage.load()!;
+				return this.#storage.load()!.records;
 			}
 			case 'not exist': {
-				return await this.#fromStaticJson();
+				return (await import('../../gen/divcord.js')).prepared_records;
 			}
 		}
 	}
-
-	async #cachedResponses(): Promise<CachedResponses | null> {
-		const cache = await this.#cache;
-		const richSources = await cache.match(richSourcesUrl('sources'));
-		const richVerify = await cache.match(richSourcesUrl('verify'));
-		const sheet = await cache.match(sheetUrl());
-		if (!richSources || !richVerify || !sheet) return null;
-		return {
-			richVerify,
-			richSources,
-			sheet,
-		};
-	}
-
-	async #deserializeResponses(cached: CachedResponses): Promise<Spreadsheet> {
-		const [rich_confirmations_new_325, rich_to_confirm_or_reverify, sheet] = await Promise.all([
-			cached.richSources.json(),
-			cached.richVerify.json(),
-			cached.sheet.json(),
-		]);
-		return { rich_confirmations_new_325, rich_to_confirm_or_reverify, sheet };
-	}
-
-	async #fromStaticJson(): Promise<DivcordRecord[]> {
-		const { divcordRecordsFromJson } = await import('../../gen/divcord.js');
-		return divcordRecordsFromJson;
-	}
-}
-
-type CachedResponses = {
-	richSources: Response;
-	richVerify: Response;
-	sheet: Response;
-};
-
-type Spreadsheet = {
-	sheet: object;
-	rich_confirmations_new_325: object;
-	rich_to_confirm_or_reverify: object;
-};
-
-function sheetUrl(): string {
-	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
-	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
-	const sheet = 'Cards_and_Hypotheses';
-	const range = `${sheet}!A3:Z`;
-	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${range}?key=${key}`;
-	return url;
-}
-
-function richSourcesUrl(richColumn: 'sources' | 'verify'): string {
-	const column = richColumn === 'sources' ? 'G' : 'H';
-	const key = 'AIzaSyBVoDF_twBBT_MEV5nfNgekVHUSn9xodfg';
-	const spreadsheet_id = '1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU';
-	const sheet = 'Cards_and_Hypotheses';
-	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}?&ranges=${sheet}!${column}3:${column}&includeGridData=true&key=${key}`;
-	return url;
 }
 
 export const divcordLoader = new DivcordLoader();

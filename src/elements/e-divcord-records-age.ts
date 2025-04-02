@@ -19,7 +19,7 @@ export class DivcordRecordsAgeElement extends LitElement {
 
 	lastUpdated = new Task(this, {
 		async task() {
-			return await divcordLoader.cacheDate();
+			return divcordLoader.last_updated_date();
 		},
 		args: () => [],
 	});
