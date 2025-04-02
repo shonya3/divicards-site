@@ -15,6 +15,7 @@ import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
 
 /**
  * @csspart active_drop_source - Active for view transition source(Optional).
@@ -106,12 +107,7 @@ export class MapsPage extends LitElement {
 			<div class="page">
 				<header>
 					<form>
-						<e-input
-							label="Enter map name"
-							@input="${this.#onMapnameInput}"
-							type="text"
-							.datalistItems=${this.maps()}
-						></e-input>
+						<sl-input label="Enter map name" @input="${this.#onMapnameInput}" type="text"></sl-input>
 					</form>
 					<e-pagination .n=${this.filtered.length} page=${this.page} per_page=${this.perPage}></e-pagination>
 				</header>

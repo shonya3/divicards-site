@@ -6,12 +6,12 @@ import '../elements/e-pagination';
 import '../elements/e-card-with-sources';
 import { consume } from '@lit/context';
 import { paginate } from '../utils';
-import '../elements/input/e-input';
 import { poeData } from '../PoeData';
 import { sort_by_weight } from '../cards';
 import { SearchCardsCriteria, search_cards_by_query, SEARCH_CRITERIA_VARIANTS } from '../search_cards_by_query';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
 import type { SourceSize } from '../elements/e-source/types';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import {
@@ -97,15 +97,14 @@ export class HomePage extends SignalWatcher(LitElement) {
 	protected render(): TemplateResult {
 		return html`
 			<div id="search-pagination-controls">
-				<e-input
+				<sl-input
 					autofocus
 					label="Search"
 					.value=${this.#filter.get()}
-					.datalistItems=${this.#divcord_table.get().cards()}
 					@input="${this.#h_search_change}"
 					type="text"
 				>
-				</e-input>
+				</sl-input>
 				<sl-select
 					id="select-by"
 					label="By"
