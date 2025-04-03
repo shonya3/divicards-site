@@ -50,7 +50,7 @@ export class DivcordLoader extends EventEmitter<{
 
 	async update(): Promise<Array<DivcordRecord>> {
 		try {
-			const records = await fetch_divcord_records(JSON.stringify(poeData), warningToast);
+			const records = await fetch_divcord_records(poeData, warningToast);
 			sort_by_weight(records, poeData);
 			sortAllSourcesByLevel(records, poeData);
 			this.#storage.save({
