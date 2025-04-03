@@ -1,10 +1,10 @@
 import { poeData } from '../../PoeData.js';
-import { warningToast } from '../../toast.js';
 import { sort_by_weight } from '../../cards.js';
 import type { DivcordRecord } from '../../gen/divcord.js';
 import { Storage } from '../../storage.js';
 import { EventEmitter, sortAllSourcesByLevel } from '../../utils.js';
-import init, { fetch_spreadsheet } from '../../gen/divcordWasm/divcord_wasm.js';
+import init, { fetch_divcord_records } from '../../gen/divcordWasm/divcord_wasm.js';
+import { warningToast } from '../../toast.js';
 
 await init();
 
@@ -17,8 +17,6 @@ declare module '../../storage' {
 		} | null;
 	}
 }
-
-type WorkerMessage = { type: 'records'; data: Array<DivcordRecord> } | { type: 'ParseError'; data: string };
 
 const ONE_DAY_MILLISECONDS = 86_400_000;
 
@@ -51,31 +49,8 @@ export class DivcordLoader extends EventEmitter<{
 	}
 
 	async update(): Promise<Array<DivcordRecord>> {
-		const promise = new Promise<Array<DivcordRecord>>(async resolve => {
-			const worker = new Worker(new URL('./worker.ts', import.meta.url), {
-				type: 'module',
-			});
-			worker.addEventListener('message', (e: MessageEvent<WorkerMessage>) => {
-				const message = e.data;
-				switch (message.type) {
-					case 'ParseError': {
-						warningToast(message.data);
-						break;
-					}
-					case 'records': {
-						resolve(message.data);
-						break;
-					}
-				}
-			});
-
-			this.#setState('updating');
-			const spreadsheet = await fetch_spreadsheet();
-			worker.postMessage({ spreadsheet, poeData });
-		});
-
 		try {
-			const records = await promise;
+			const records = await fetch_divcord_records(JSON.stringify(poeData), warningToast);
 			sort_by_weight(records, poeData);
 			sortAllSourcesByLevel(records, poeData);
 			this.#storage.save({
