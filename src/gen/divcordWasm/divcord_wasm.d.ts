@@ -1,8 +1,10 @@
 /* tslint:disable */
 /* eslint-disable */
+/**
+ * Fetch spreadsheet and parse.
+ */
 export function fetch_divcord_records(poe_data: any, on_error: Function): Promise<any>;
 export function slug(s: string): string;
-export function fetch_spreadsheet(): Promise<any>;
 export function slugify(s: string): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -11,7 +13,6 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly fetch_divcord_records: (a: any, b: any) => any;
   readonly slug: (a: number, b: number) => [number, number];
-  readonly fetch_spreadsheet: () => any;
   readonly slugify: (a: number, b: number) => [number, number];
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
@@ -20,8 +21,8 @@ export interface InitOutput {
   readonly __wbindgen_export_4: WebAssembly.Table;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_export_6: WebAssembly.Table;
-  readonly closure182_externref_shim: (a: number, b: number, c: any) => void;
-  readonly closure204_externref_shim: (a: number, b: number, c: any, d: any) => void;
+  readonly closure177_externref_shim: (a: number, b: number, c: any) => void;
+  readonly closure199_externref_shim: (a: number, b: number, c: any, d: any) => void;
   readonly __wbindgen_start: () => void;
 }
 

@@ -198,6 +198,7 @@ function debugString(val) {
     return className;
 }
 /**
+ * Fetch spreadsheet and parse.
  * @param {any} poe_data
  * @param {Function} on_error
  * @returns {Promise<any>}
@@ -227,14 +228,6 @@ export function slug(s) {
 }
 
 /**
- * @returns {Promise<any>}
- */
-export function fetch_spreadsheet() {
-    const ret = wasm.fetch_spreadsheet();
-    return ret;
-}
-
-/**
  * @param {string} s
  * @returns {string}
  */
@@ -253,12 +246,12 @@ export function slugify(s) {
     }
 }
 
-function __wbg_adapter_46(arg0, arg1, arg2) {
-    wasm.closure182_externref_shim(arg0, arg1, arg2);
+function __wbg_adapter_42(arg0, arg1, arg2) {
+    wasm.closure177_externref_shim(arg0, arg1, arg2);
 }
 
-function __wbg_adapter_143(arg0, arg1, arg2, arg3) {
-    wasm.closure204_externref_shim(arg0, arg1, arg2, arg3);
+function __wbg_adapter_134(arg0, arg1, arg2, arg3) {
+    wasm.closure199_externref_shim(arg0, arg1, arg2, arg3);
 }
 
 const __wbindgen_enum_RequestCredentials = ["omit", "same-origin", "include"];
@@ -436,7 +429,7 @@ function __wbg_get_imports() {
                 const a = state0.a;
                 state0.a = 0;
                 try {
-                    return __wbg_adapter_143(a, state0.b, arg0, arg1);
+                    return __wbg_adapter_134(a, state0.b, arg0, arg1);
                 } finally {
                     state0.a = a;
                 }
@@ -449,10 +442,6 @@ function __wbg_get_imports() {
     };
     imports.wbg.__wbg_new_405e22f390576ce2 = function() {
         const ret = new Object();
-        return ret;
-    };
-    imports.wbg.__wbg_new_5e0be73521bc8c17 = function() {
-        const ret = new Map();
         return ret;
     };
     imports.wbg.__wbg_new_78feb108b6472713 = function() {
@@ -510,10 +499,6 @@ function __wbg_get_imports() {
     };
     imports.wbg.__wbg_set_65595bdd868b3009 = function(arg0, arg1, arg2) {
         arg0.set(arg1, arg2 >>> 0);
-    };
-    imports.wbg.__wbg_set_8fc6bf8a5b1071d1 = function(arg0, arg1, arg2) {
-        const ret = arg0.set(arg1, arg2);
-        return ret;
     };
     imports.wbg.__wbg_setbody_5923b78a95eedf29 = function(arg0, arg1) {
         arg0.body = arg1;
@@ -591,10 +576,6 @@ function __wbg_get_imports() {
         const ret = +arg0;
         return ret;
     };
-    imports.wbg.__wbindgen_bigint_from_i64 = function(arg0) {
-        const ret = arg0;
-        return ret;
-    };
     imports.wbg.__wbindgen_bigint_from_u64 = function(arg0) {
         const ret = BigInt.asUintN(64, arg0);
         return ret;
@@ -613,8 +594,8 @@ function __wbg_get_imports() {
         const ret = false;
         return ret;
     };
-    imports.wbg.__wbindgen_closure_wrapper681 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 183, __wbg_adapter_46);
+    imports.wbg.__wbindgen_closure_wrapper644 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 178, __wbg_adapter_42);
         return ret;
     };
     imports.wbg.__wbindgen_debug_string = function(arg0, arg1) {
@@ -649,10 +630,6 @@ function __wbg_get_imports() {
     imports.wbg.__wbindgen_is_object = function(arg0) {
         const val = arg0;
         const ret = typeof(val) === 'object' && val !== null;
-        return ret;
-    };
-    imports.wbg.__wbindgen_is_string = function(arg0) {
-        const ret = typeof(arg0) === 'string';
         return ret;
     };
     imports.wbg.__wbindgen_is_undefined = function(arg0) {
