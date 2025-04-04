@@ -70,14 +70,18 @@ export const router = new Router({
 				if (!card) {
 					return html`<p>Card Not Found</p>`;
 				}
-				return html`<p-card .card=${card!.name}></p-card>`;
+				return html`<divcord-provider>
+					<p-card .card=${card!.name}></p-card>
+				</divcord-provider>`;
 			},
 		},
 		{
 			path: '/verify',
 			title: 'Need to verify',
 			render: () => {
-				return html`<p-verify .activeView=${`weights-table`}></p-verify>`;
+				return html`<divcord-provider>
+					<p-verify .activeView=${`weights-table`}></p-verify>
+				</divcord-provider>`;
 			},
 		},
 		{
@@ -91,7 +95,9 @@ export const router = new Router({
 				if (ACTIVE_VIEW_VARIANTS.includes(context.params.activeView as ActiveView)) {
 					activeView = context.params.activeView as ActiveView;
 				}
-				return html`<p-verify .activeView=${activeView}></p-verify>`;
+				return html`<divcord-provider>
+					<p-verify .activeView=${activeView}></p-verify>
+				</divcord-provider>`;
 			},
 		},
 		{
@@ -120,7 +126,9 @@ export const router = new Router({
 				if (!source) {
 					return html`<h2>Not Found</h2>`;
 				}
-				return html`<p-source .source=${source}></p-source>`;
+				return html`<divcord-provider>
+					<p-source .source=${source}></p-source>
+				</divcord-provider>`;
 			},
 		},
 		{
@@ -128,11 +136,13 @@ export const router = new Router({
 			title: 'Maps',
 			plugins: [lazy(() => import('./pages/p-maps'))],
 			render: ({ query }) => {
-				return html`<p-maps
-					.page=${Number(query.page ?? 1)}
-					.perPage=${Number(query['per-page'] ?? 10)}
-					filter=${query.filter}
-				></p-maps>`;
+				return html`<divcord-provider
+					><p-maps
+						.page=${Number(query.page ?? 1)}
+						.perPage=${Number(query['per-page'] ?? 10)}
+						filter=${query.filter}
+					></p-maps
+				></divcord-provider>`;
 			},
 		},
 		{
@@ -140,21 +150,27 @@ export const router = new Router({
 			title: 'Sources',
 			plugins: [lazy(() => import('./pages/p-sources'))],
 			render: () => {
-				return html`<p-sources></p-sources>`;
+				return html`<divcord-provider>
+					<p-sources></p-sources>
+				</divcord-provider>`;
 			},
 		},
 		{
 			path: '/weights',
 			title: 'Weights',
 			plugins: [lazy(() => import('./pages/p-weights'))],
-			render: () => html`<p-weights></p-weights>`,
+			render: () => html`<divcord-provider>
+				<p-weights></p-weights>
+			</divcord-provider>`,
 		},
 		{
 			path: '/source-type/:id',
 			title: context => decodeURI(context.params!.id),
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
-				return html`<p-source-type .sourceType=${sourceType}></p-source-type>`;
+				return html`<divcord-provider>
+					<p-source-type .sourceType=${sourceType}></p-source-type>
+				</divcord-provider>`;
 			},
 		},
 		{

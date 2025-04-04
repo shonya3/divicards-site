@@ -1,10 +1,9 @@
 import { LitElement, PropertyValueMap, PropertyValues, TemplateResult, html, nothing } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { consume } from '@lit/context';
 import { DivcordTable } from '../context/divcord/DivcordTable';
 import '../elements/e-card-with-divcord-records';
 import '../elements/e-pagination';
-import '../elements/e-update-divcord-data';
 import '../elements/e-divcord-records-age';
 import '../elements/presets/e-divcord-presets';
 import '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
@@ -15,7 +14,6 @@ import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 import '@shoelace-style/shoelace/dist/components/radio-button/radio-button.js';
 import '@shoelace-style/shoelace/dist/components/radio-group/radio-group.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { DivcordRecordsAgeElement } from '../elements/e-divcord-records-age';
 import { DivcordPresetsElement } from '../elements/presets/e-divcord-presets';
 import { paginate } from '../utils';
 import { classMap } from 'lit/directives/class-map.js';
@@ -38,8 +36,8 @@ import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { repeat } from 'lit/directives/repeat.js';
 import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { use_local_storage } from '../composables/use_local_storage';
-import { divcordTableContext } from '../context/divcord/divcord-provider';
 import { styles } from './p-divcord.styles';
+import { divcord_store } from '../stores/divcord';
 
 declare module '../storage' {
 	interface Registry {
@@ -67,7 +65,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	#page = signal(1);
 	#per_page = signal(10);
 	#filter = signal('');
-	#divcord_table = signal(new DivcordTable([]));
 
 	active_view = use_local_storage('active_view', 'table');
 	show_cards_images = use_local_storage('show_cards_images', true);
@@ -78,10 +75,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	custom_presets = use_local_storage('custom_presets', []);
 	config = signal<Omit<PresetConfig, 'name'>>(DEFAULT_PRESETS[0]);
 
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcord_table!: DivcordTable;
-
 	@consume({ context: view_transition_names_context, subscribe: true })
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
@@ -91,13 +84,13 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 			return [];
 		}
 		const set = new Set(this.filtered.get());
-		return prepareDivcordRecordsAndWeight(this.#divcord_table.get().records.filter(record => set.has(record.card)));
+		return prepareDivcordRecordsAndWeight(divcord_store.table.get().records.filter(record => set.has(record.card)));
 	});
 
 	filtered = computed(() => {
 		return createFilteredCards({
 			filter: this.#filter.get(),
-			divcordTable: this.#divcord_table.get(),
+			divcordTable: divcord_store.table.get(),
 			config: this.config.get(),
 			should_apply_filters: this.should_apply_filters.get(),
 			only_show_cards_with_no_confirmed_sources: this.only_show_cards_with_no_confirmed_sources.get(),
@@ -109,8 +102,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		return paginate(this.filtered.get(), this.#page.get(), this.#per_page.get());
 	});
 
-	@query('e-divcord-records-age') ageEl!: DivcordRecordsAgeElement;
-
 	protected firstUpdated(_changedProperties: PropertyValues): void {
 		const preset = this.find_preset(this.latest_preset_applied.get());
 		this.#apply_preset(preset);
@@ -120,7 +111,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		map.has('page') && this.#page.set(this.page);
 		map.has('per_page') && this.#per_page.set(this.per_page);
 		map.has('filter') && this.#filter.set(this.filter);
-		map.has('divcord_table') && this.#divcord_table.set(this.divcord_table);
 	}
 
 	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
@@ -137,6 +127,8 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 	}
 
 	protected render(): TemplateResult {
+		const last_updated_date = divcord_store.last_updated_date.get();
+
 		return html`<div class="page">
 			<header>
 				<div class="join-divcord">
@@ -149,8 +141,12 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 				>
 				<div class="load">
 					<div class="load_btn-and-status">
-						<e-update-divcord-data @records-updated=${this.#on_records_updated}></e-update-divcord-data>
-						<e-divcord-records-age> </e-divcord-records-age>
+						<sl-button .loading=${divcord_store.state.get() === 'updating'} @click=${divcord_store.update}>
+							<p class="reload">Load divcord data</p>
+						</sl-button>
+						${last_updated_date
+							? html`<e-divcord-records-age .date=${last_updated_date}> </e-divcord-records-age>`
+							: null}
 					</div>
 					<sl-alert class="load_tip" open>
 						<sl-icon slot="icon" name="info-circle"></sl-icon>
@@ -230,7 +226,7 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 										return html`<li>
 											<e-card-with-divcord-records
 												.card=${card}
-												.records=${this.#divcord_table.get().recordsByCard(card)}
+												.records=${divcord_store.table.get().recordsByCard(card)}
 												exportparts=${ifDefined(
 													this.view_transition_names.active_divination_card === slug(card)
 														? 'card:active_divination_card'
@@ -250,10 +246,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 					  ></e-divcord-spreadsheet>`}
 			</div>
 		</div>`;
-	}
-
-	#on_records_updated() {
-		this.ageEl.lastUpdated.run();
 	}
 
 	#on_config_update(e: Event) {
