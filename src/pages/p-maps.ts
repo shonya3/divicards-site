@@ -6,77 +6,82 @@ import '../elements/e-source/e-source';
 import '../elements/e-pagination';
 import '../elements/e-cards-by-source';
 import { poeData } from '../PoeData';
-import { SourceAndCards, cardsBySourceTypes, sort_by_weight } from '../cards';
+import { cardsBySourceTypes, sort_by_weight, SourceAndCards } from '../cards';
 import { consume } from '@lit/context';
 import { paginate } from '../utils';
-import { DivcordTable } from '../context/divcord/DivcordTable';
-import { divcordTableContext } from '../context/divcord/divcord-provider';
 import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
+import { computed, signal, SignalWatcher } from '@lit-labs/signals';
+import { divcord_store } from '../stores/divcord';
+
+const DEFAULTS = {
+	page: 1,
+	per_page: 10,
+} as const;
 
 /**
  * @csspart active_drop_source - Active for view transition source(Optional).
  * @csspart active_divination_card - Active for view transition card(Optional).
  */
 @customElement('p-maps')
-export class MapsPage extends LitElement {
-	@property({ reflect: true, type: Number }) page = 1;
-	@property({ reflect: true, type: Number, attribute: 'per-page' }) perPage = 10;
+export class MapsPage extends SignalWatcher(LitElement) {
+	@property({ reflect: true, type: Number }) page: number = DEFAULTS.page;
+	@property({ reflect: true, type: Number, attribute: 'per-page' }) per_page: number = DEFAULTS.per_page;
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) filter: string = '';
 
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: DivcordTable;
+	#page = signal<number>(DEFAULTS.page);
+	#per_page = signal<number>(DEFAULTS.per_page);
+	#filter = signal('');
 
 	@consume({ context: view_transition_names_context, subscribe: true })
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	@state() sourcesAndCards: SourceAndCards[] = [];
-	@state() filtered: SourceAndCards[] = [];
-	@state() paginated: SourceAndCards[] = [];
+	#sources_and_cards = computed<Array<SourceAndCards>>(() => {
+		const sources_and_cards = cardsBySourceTypes(['Map'], divcord_store.records.get(), poeData)
+			// Only show maps that are present in current atlas
+			.filter(({ cards }) => cards.length > 0)
+			.sort((a, b) => {
+				let aLevel = poeData.areaLevel(a.source.id, 'Map') ?? 0;
+				let bLevel = poeData.areaLevel(b.source.id, 'Map') ?? 0;
 
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable')) {
-			const sourcesAndCards = cardsBySourceTypes(['Map'], this.divcordTable.records, poeData)
-				// Only show maps that are present in current atlas
-				.filter(({ cards }) => cards.length > 0)
-				.sort((a, b) => {
-					let aLevel = poeData.areaLevel(a.source.id, 'Map') ?? 0;
-					let bLevel = poeData.areaLevel(b.source.id, 'Map') ?? 0;
+				// put unique maps to the end
+				const aMap = poeData.find.map(a.source.id);
+				if (aMap?.unique) {
+					aLevel += 1000;
+				}
+				const bMap = poeData.find.map(b.source.id);
+				if (bMap?.unique) {
+					bLevel += 1000;
+				}
 
-					// put unique maps to the end
-					const aMap = poeData.find.map(a.source.id);
-					if (aMap?.unique) {
-						aLevel += 1000;
-					}
-					const bMap = poeData.find.map(b.source.id);
-					if (bMap?.unique) {
-						bLevel += 1000;
-					}
-
-					return aLevel - bLevel;
-				});
-
-			sourcesAndCards.forEach(({ cards }) => {
-				sort_by_weight(cards, poeData);
+				return aLevel - bLevel;
 			});
 
-			this.sourcesAndCards = sourcesAndCards;
-		}
+		sources_and_cards.forEach(({ cards }) => {
+			sort_by_weight(cards, poeData);
+		});
 
-		if (map.has('filter') || map.has('sourcesAndCards')) {
-			const query = this.filter.trim().toLowerCase();
-			this.filtered = this.sourcesAndCards.filter(({ source }) => source.id.toLowerCase().includes(query));
-		}
+		return sources_and_cards;
+	});
 
-		if (map.has('filtered') || map.has('page') || map.has('perPage')) {
-			this.paginated = paginate(this.filtered, this.page, this.perPage);
-		}
+	#filtered = computed<Array<SourceAndCards>>(() => {
+		const query = this.filter.trim().toLocaleLowerCase();
+		return this.#sources_and_cards.get().filter(({ source }) => source.id.toLowerCase().includes(query));
+	});
+
+	#paginated = computed<Array<SourceAndCards>>(() => {
+		return paginate(this.#filtered.get(), this.#page.get(), this.#per_page.get());
+	});
+
+	protected willUpdate(map: PropertyValueMap<this>): void {
+		map.has('page') && this.#page.set(this.page);
+		map.has('per_page') && this.#per_page.set(this.per_page);
+		map.has('filter') && this.#filter.set(this.filter);
 	}
 
 	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
@@ -92,27 +97,21 @@ export class MapsPage extends LitElement {
 		}
 	}
 
-	#onMapnameInput(e: InputEvent) {
-		const input = e.target as HTMLInputElement;
-		this.filter = input.value;
-	}
-
-	maps(): string[] {
-		const mapnames = poeData.maps.map(({ name }) => name);
-		mapnames.sort((a, b) => a.localeCompare(b));
-		return mapnames;
-	}
 	protected render(): TemplateResult {
 		return html`
 			<div class="page">
 				<header>
 					<form>
-						<sl-input label="Enter map name" @input="${this.#onMapnameInput}" type="text"></sl-input>
+						<sl-input label="Enter map name" @input="${this.#h_search_change}" type="text"></sl-input>
 					</form>
-					<e-pagination .n=${this.filtered.length} page=${this.page} per_page=${this.perPage}></e-pagination>
+					<e-pagination
+						.n=${this.#filtered.get().length}
+						page=${this.#page.get()}
+						per_page=${this.#per_page.get()}
+					></e-pagination>
 				</header>
 				<ul>
-					${this.paginated.map(({ source, cards }) => {
+					${this.#paginated.get().map(({ source, cards }) => {
 						return html`<li>
 							<e-source-with-cards
 								.showSourceType=${false}
@@ -129,6 +128,11 @@ export class MapsPage extends LitElement {
 				</ul>
 			</div>
 		`;
+	}
+
+	#h_search_change(e: InputEvent) {
+		const input = e.target as HTMLInputElement;
+		this.filter = input.value;
 	}
 
 	static styles = css`

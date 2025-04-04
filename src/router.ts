@@ -136,13 +136,11 @@ export const router = new Router({
 			title: 'Maps',
 			plugins: [lazy(() => import('./pages/p-maps'))],
 			render: ({ query }) => {
-				return html`<divcord-provider
-					><p-maps
-						.page=${Number(query.page ?? 1)}
-						.perPage=${Number(query['per-page'] ?? 10)}
-						filter=${query.filter}
-					></p-maps
-				></divcord-provider>`;
+				return html`<p-maps
+					.page=${Number(query.page ?? 1)}
+					.per_page=${Number(query.per_page ?? 10)}
+					filter=${query.filter}
+				></p-maps>`;
 			},
 		},
 		{
