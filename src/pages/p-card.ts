@@ -1,84 +1,73 @@
-import { LitElement, PropertyValueMap, PropertyValues, TemplateResult, css, html, nothing } from 'lit';
+import { LitElement, PropertyValues, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '../elements/e-card-with-sources';
 import '../elements/e-card-with-divcord-records';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
-import { DivcordTable } from '../context/divcord/DivcordTable';
-import type { WeightData } from '../elements/weights-table/types';
 import { prepareWeightData } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
-import { divcordTableContext } from '../context/divcord/divcord-provider';
 import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
+import { SignalWatcher } from '@lit-labs/signals';
+import { divcord_store } from '../stores/divcord';
+import { NavigateTransitionEvent } from '../events';
 
 /**
  * @csspart active_drop_source
  * @csspart divination_card
  */
 @customElement('p-card')
-export class CardPage extends LitElement {
+export class CardPage extends SignalWatcher(LitElement) {
 	@property({ reflect: true }) card!: string;
-
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: DivcordTable;
 
 	@consume({ context: view_transition_names_context, subscribe: true })
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	@state() weightData!: WeightData;
-
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable')) {
-			const card = poeData.find.card(this.card);
-			if (card) {
-				this.weightData = prepareWeightData(card);
-			}
-		}
-	}
-
-	protected firstUpdated(_changedProperties: PropertyValues): void {
-		this.view_transition_names = {
-			...this.view_transition_names,
-			active_divination_card: slug(this.card),
-		};
+	connectedCallback(): void {
+		super.connectedCallback();
+		this.dispatchEvent(new NavigateTransitionEvent('card', slug(this.card)));
 	}
 
 	render(): TemplateResult {
 		const card = poeData.find.card(this.card);
-		const league = card?.league;
-		let weight = card?.weight ?? 1;
-		if (weight > 0 && weight < 1) weight = 1;
+
+		if (!card) {
+			return html`<p>Card ${this.card} not found</p>`;
+		}
 
 		return html`<div class="page">
-			<e-card-with-divcord-records .card=${this.card} .records=${this.divcordTable.recordsByCard(this.card)}>
+			<e-card-with-divcord-records
+				.card=${this.card}
+				.records=${divcord_store.table.get().recordsByCard(this.card)}
+			>
 				<e-card-with-sources
 					exportparts="divination_card,active_drop_source"
 					slot="card"
 					.name=${this.card}
 					card_size="large"
 					source_size="medium"
-					.divcordTable=${this.divcordTable}
+					.divcordTable=${divcord_store.table.get()}
 					.active_drop_source=${this.view_transition_names.active_drop_source}
 				>
 				</e-card-with-sources>
 				${card
 					? html`
 							<div slot="main-start">
-								${league
+								${card.league
 									? html`<div>
 											<span class="text-gray-700">Release:</span>
-											<span class="text-gray-900">${league.name} ${league.version}</span>
+											<span class="text-gray-900"
+												>${card.league.name} ${card.league.version}</span
+											>
 									  </div>`
 									: nothing}
 								<span class="text-gray-700">Weight:</span>
 								<span class="text-gray-900"
-									><e-weight-value .weightData=${this.weightData}></e-weight-value
+									><e-weight-value .weightData=${prepareWeightData(card)}></e-weight-value
 								></span>
 							</div>
 					  `

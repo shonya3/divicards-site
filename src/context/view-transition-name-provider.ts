@@ -20,7 +20,7 @@ export const view_transition_names_context = createContext<ViewTransitionNamesCo
 @customElement('view-transition-names-provider')
 export class ViewTransitionNamesProvider extends LitElement {
 	@provide({ context: view_transition_names_context })
-	@property({ type: Object })
+	@property({ type: Object, reflect: true })
 	view_transition_names: ViewTransitionNamesContext = {};
 
 	constructor() {
@@ -29,6 +29,7 @@ export class ViewTransitionNamesProvider extends LitElement {
 	}
 
 	update_view_transition_names = (e: NavigateTransitionEvent) => {
+		console.log(e);
 		if (e.transition_name === 'card') {
 			this.view_transition_names.active_divination_card = e.id;
 		}

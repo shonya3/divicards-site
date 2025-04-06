@@ -13,6 +13,7 @@ import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
+import { NavigateTransitionEvent } from '../events';
 
 /**
  * @csspart drop_source - Dropsource.
@@ -32,11 +33,9 @@ export class SourcePage extends LitElement {
 
 	@state() cards!: CardBySource[];
 
-	protected firstUpdated(): void {
-		this.view_transition_names = {
-			...this.view_transition_names,
-			active_drop_source: this.source.idSlug,
-		};
+	connectedCallback(): void {
+		super.connectedCallback();
+		this.dispatchEvent(new NavigateTransitionEvent('source', this.source.idSlug));
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {

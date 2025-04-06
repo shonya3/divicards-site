@@ -70,9 +70,7 @@ export const router = new Router({
 				if (!card) {
 					return html`<p>Card Not Found</p>`;
 				}
-				return html`<divcord-provider>
-					<p-card .card=${card!.name}></p-card>
-				</divcord-provider>`;
+				return html` <p-card .card=${card!.name}></p-card> `;
 			},
 		},
 		{
