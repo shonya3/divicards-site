@@ -4,7 +4,7 @@ import '../elements/e-card-with-sources';
 import '../elements/e-card-with-divcord-records';
 import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
-import { prepareWeightData } from '../elements/weights-table/lib';
+import { prepare_weight_data } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import {
@@ -67,7 +67,7 @@ export class CardPage extends SignalWatcher(LitElement) {
 									: nothing}
 								<span class="text-gray-700">Weight:</span>
 								<span class="text-gray-900"
-									><e-weight-value .weightData=${prepareWeightData(card)}></e-weight-value
+									><e-weight-value .weightData=${prepare_weight_data(card)}></e-weight-value
 								></span>
 							</div>
 					  `

@@ -15,7 +15,7 @@ import { DivcordRecord } from '../gen/divcord';
 import type { SourceSize } from '../elements/e-source/types';
 import { styles } from './p-verify.styles';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
-import { prepareWeightData } from '../elements/weights-table/lib';
+import { prepare_weight_data } from '../elements/weights-table/lib';
 import { RowData } from '../elements/weights-table/e-weights-table-verify-sources';
 import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -212,7 +212,7 @@ function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowData[]
 		}))
 		.filter((obj): obj is { card: Card; sources: Source[] } => obj.card !== null && obj.sources.length > 0)
 		.map(({ card, sources }) => ({
-			...prepareWeightData(card),
+			...prepare_weight_data(card),
 			sources,
 		}));
 }

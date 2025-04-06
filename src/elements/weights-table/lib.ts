@@ -1,7 +1,8 @@
 import { WeightData } from './types';
 import { Card } from '../../gen/poeData';
+import { poeData } from '../../PoeData';
 
-export function prepareWeightData(card: Card): WeightData {
+export function prepare_weight_data(card: Card): WeightData {
 	if (card.weight > 0) {
 		return {
 			kind: 'normal',
@@ -14,7 +15,7 @@ export function prepareWeightData(card: Card): WeightData {
 		return {
 			kind: 'disabled',
 			name: card.name,
-			weight: 0,
+			weight: -1,
 		};
 	}
 
@@ -23,4 +24,11 @@ export function prepareWeightData(card: Card): WeightData {
 		name: card.name,
 		weight: card.preReworkWeight,
 	};
+}
+
+/** Rows data for weights table */
+export function prepare_rows(): Array<WeightData> {
+	const rows = Object.values(poeData.cards).map(prepare_weight_data);
+	rows.sort((a, b) => b.weight - a.weight);
+	return rows;
 }

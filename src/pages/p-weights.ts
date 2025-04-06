@@ -1,23 +1,20 @@
 import { linkStyles } from './../linkStyles';
-import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
+import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { poeData } from '../PoeData';
 import '../elements/weights-table/e-weights-table';
 import '../elements/e-discord-avatar';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { Storage } from '../storage';
 import type { WeightsTableElement } from '../elements/weights-table/e-weights-table';
 import { consume } from '@lit/context';
-import { DivcordTable } from '../context/divcord/DivcordTable';
-import { WeightData } from '../elements/weights-table/types';
-import { prepareWeightData } from '../elements/weights-table/lib';
+import { prepare_rows } from '../elements/weights-table/lib';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import { formatWithNewlines } from '../utils';
-import { divcordTableContext } from '../context/divcord/divcord-provider';
 import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
+import { use_local_storage } from '../composables/use_local_storage';
+import { SignalWatcher } from '@lit-labs/signals';
 
 declare module '../storage' {
 	interface Registry {
@@ -45,28 +42,17 @@ Sampling indicated that the true value may be slightly lower, but it's quite clo
  * @csspart active_divination_card
  */
 @customElement('p-weights')
-export class WeightsPage extends LitElement {
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: DivcordTable;
-
+export class WeightsPage extends SignalWatcher(LitElement) {
 	@consume({ context: view_transition_names_context, subscribe: true })
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	#showCardsStorage = new Storage('weightsPageShowCards', false);
-	@state() rows: Array<WeightData> = [];
-
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable')) {
-			this.rows = Object.values(poeData.cards).map(prepareWeightData);
-			this.rows.sort((a, b) => b.weight - a.weight);
-		}
-	}
+	#show_cards = use_local_storage('weightsPageShowCards', false);
+	#rows = prepare_rows();
 
 	#onShowCardsChanged(e: Event) {
 		const target = e.target as WeightsTableElement;
-		this.#showCardsStorage.save(target.showCards);
+		this.#show_cards.set(target.showCards);
 	}
 
 	protected render(): TemplateResult {
@@ -89,8 +75,8 @@ export class WeightsPage extends LitElement {
 						@show-cards-changed=${this.#onShowCardsChanged}
 						class="section-table__table"
 						ordered-by="weight"
-						.showCards=${this.#showCardsStorage.load()}
-						.rows=${this.rows}
+						.showCards=${this.#show_cards.get()}
+						.rows=${this.#rows}
 					></e-weights-table>
 				</section>
 				<div class="links-and-faq">

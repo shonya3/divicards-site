@@ -26,7 +26,7 @@ import {
 	DivcordSpreadsheetElement,
 } from '../elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import { poeData } from '../PoeData';
-import { prepareWeightData } from '../elements/weights-table/lib';
+import { prepare_weight_data } from '../elements/weights-table/lib';
 import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
@@ -397,7 +397,7 @@ function someCardRecordHasGreynoteWorkVariant(
 
 function prepareDivcordRecordsAndWeight(records: DivcordRecord[]): DivcordRecordAndWeight[] {
 	return records.map(record => {
-		return { ...record, weightData: prepareWeightData(poeData.cards[record.card]) };
+		return { ...record, weightData: prepare_weight_data(poeData.cards[record.card]) };
 	});
 }
 

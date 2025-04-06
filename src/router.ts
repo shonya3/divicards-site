@@ -153,9 +153,7 @@ export const router = new Router({
 			path: '/weights',
 			title: 'Weights',
 			plugins: [lazy(() => import('./pages/p-weights'))],
-			render: () => html`<divcord-provider>
-				<p-weights></p-weights>
-			</divcord-provider>`,
+			render: () => html` <p-weights></p-weights> `,
 		},
 		{
 			path: '/source-type/:id',
