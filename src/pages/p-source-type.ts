@@ -1,55 +1,46 @@
-import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { LitElement, TemplateResult, css, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import type { SourceType } from '../gen/Source';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-source-type';
 import './p-sources';
-import { SourceAndCards, cardsBySourceTypes, sort_by_weight } from '../cards';
-import { consume } from '@lit/context';
+import { cardsBySourceTypes, sort_by_weight } from '../cards';
 import { poeData } from '../PoeData';
-import { DivcordTable } from '../context/divcord/DivcordTable';
 import { ArrayAsyncRenderer } from '../utils';
-import { divcordTableContext } from '../context/divcord/divcord-provider';
+import { computed, SignalWatcher } from '@lit-labs/signals';
+import { divcord_store } from '../stores/divcord';
 
 //TODO: add active_drop_source part
 
 @customElement('p-source-type')
-export class SourceTypePage extends LitElement {
+export class SourceTypePage extends SignalWatcher(LitElement) {
 	@property({ reflect: true }) sourceType!: SourceType;
 
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: DivcordTable;
-
-	@state() sourcesAndCardsRenderer!: ArrayAsyncRenderer<SourceAndCards>;
-
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable')) {
-			const sourcesAndCards = cardsBySourceTypes([this.sourceType], this.divcordTable.records, poeData);
-			if (this.sourceType === 'Act' || this.sourceType === 'Map') {
-				sourcesAndCards.sort((a, b) => {
-					const aLevel = poeData.areaLevel(a.source.id, this.sourceType as 'Act' | 'Map');
-					const bLevel = poeData.areaLevel(b.source.id, this.sourceType as 'Act' | 'Map');
-					if (aLevel !== null && bLevel !== null) {
-						return this.sourceType === 'Act' ? bLevel - aLevel : aLevel - bLevel;
-					} else return 0;
-				});
-			}
-
-			for (const { cards } of sourcesAndCards) {
-				sort_by_weight(cards, poeData);
-			}
-
-			this.sourcesAndCardsRenderer = new ArrayAsyncRenderer(sourcesAndCards);
+	#sources_and_cards_renderer = computed(() => {
+		const sourcesAndCards = cardsBySourceTypes([this.sourceType], divcord_store.records.get(), poeData);
+		if (this.sourceType === 'Act' || this.sourceType === 'Map') {
+			sourcesAndCards.sort((a, b) => {
+				const aLevel = poeData.areaLevel(a.source.id, this.sourceType as 'Act' | 'Map');
+				const bLevel = poeData.areaLevel(b.source.id, this.sourceType as 'Act' | 'Map');
+				if (aLevel !== null && bLevel !== null) {
+					return this.sourceType === 'Act' ? bLevel - aLevel : aLevel - bLevel;
+				} else return 0;
+			});
 		}
-	}
+
+		for (const { cards } of sourcesAndCards) {
+			sort_by_weight(cards, poeData);
+		}
+
+		return new ArrayAsyncRenderer(sourcesAndCards);
+	});
 
 	protected render(): TemplateResult {
 		return html`<div class="page">
 			<e-source-type .sourceType=${this.sourceType}></e-source-type>
 			<ul>
-				${this.sourcesAndCardsRenderer.render(({ source, cards }) => {
+				${this.#sources_and_cards_renderer.get().render(({ source, cards }) => {
 					return html`<li>
 						<e-source-with-cards
 							.showSourceType=${false}

@@ -151,16 +151,14 @@ export const router = new Router({
 			path: '/weights',
 			title: 'Weights',
 			plugins: [lazy(() => import('./pages/p-weights'))],
-			render: () => html` <p-weights></p-weights> `,
+			render: () => html`<p-weights></p-weights>`,
 		},
 		{
 			path: '/source-type/:id',
 			title: context => decodeURI(context.params!.id),
 			render: ({ params }) => {
 				const sourceType = decodeURI(params.id) as SourceType;
-				return html`<divcord-provider>
-					<p-source-type .sourceType=${sourceType}></p-source-type>
-				</divcord-provider>`;
+				return html`<p-source-type .sourceType=${sourceType}></p-source-type>`;
 			},
 		},
 		// for debug
