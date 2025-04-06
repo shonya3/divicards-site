@@ -144,9 +144,7 @@ export const router = new Router({
 			title: 'Sources',
 			plugins: [lazy(() => import('./pages/p-sources'))],
 			render: () => {
-				return html`<divcord-provider>
-					<p-sources></p-sources>
-				</divcord-provider>`;
+				return html`<p-sources></p-sources>`;
 			},
 		},
 		{
