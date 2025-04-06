@@ -1,6 +1,6 @@
 import { cardsByMapboss, cardsByActboss, sort_by_weight, cardsBySourceTypes } from './cards';
 import { poeData, PoeData } from './PoeData';
-import { DivcordTable } from './context/divcord/DivcordTable';
+import { DivcordTable } from './DivcordTable';
 import { SOURCE_TYPE_VARIANTS } from './gen/Source';
 import type { DivcordRecord } from './gen/divcord';
 import type { ActArea } from './gen/poeData';

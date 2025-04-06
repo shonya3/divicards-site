@@ -77,9 +77,7 @@ export const router = new Router({
 			path: '/verify',
 			title: 'Need to verify',
 			render: () => {
-				return html`<divcord-provider>
-					<p-verify .activeView=${`weights-table`}></p-verify>
-				</divcord-provider>`;
+				return html`<p-verify .activeView=${`weights-table`}></p-verify>`;
 			},
 		},
 		{
@@ -93,9 +91,7 @@ export const router = new Router({
 				if (ACTIVE_VIEW_VARIANTS.includes(context.params.activeView as ActiveView)) {
 					activeView = context.params.activeView as ActiveView;
 				}
-				return html`<divcord-provider>
-					<p-verify .activeView=${activeView}></p-verify>
-				</divcord-provider>`;
+				return html`<p-verify .activeView=${activeView}></p-verify>`;
 			},
 		},
 		{

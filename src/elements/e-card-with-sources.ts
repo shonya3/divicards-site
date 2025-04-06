@@ -6,7 +6,7 @@ import { poeData } from '../PoeData';
 import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
-import { DivcordTable } from '../context/divcord/DivcordTable';
+import { DivcordTable } from '../DivcordTable';
 import type { Source } from '../gen/Source';
 import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';

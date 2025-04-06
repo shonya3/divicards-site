@@ -1,6 +1,5 @@
 import { LitElement, PropertyValueMap, TemplateResult, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { DivcordTable } from '../context/divcord/DivcordTable';
 import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sort_by_weight } from '../cards';
 import { PoeData, poeData } from '../PoeData';
@@ -20,12 +19,13 @@ import { RowData } from '../elements/weights-table/e-weights-table-verify-source
 import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
-import { Storage } from '../storage';
-import { divcordTableContext } from '../context/divcord/divcord-provider';
 import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
+import { computed, signal, SignalWatcher } from '@lit-labs/signals';
+import { divcord_store } from '../stores/divcord';
+import { use_local_storage } from '../composables/use_local_storage';
 
 declare module '../storage' {
 	interface Registry {
@@ -38,91 +38,76 @@ declare module '../storage' {
  * @csspart active_drop_source
  */
 @customElement('p-verify')
-export class VerifyPage extends LitElement {
-	#minimumWeight = new Storage('pVerifyMinimumWeight', 10000);
+export class VerifyPage extends SignalWatcher(LitElement) {
 	@property({ reflect: true }) card_size: CardSize = 'small';
 	@property({ reflect: true }) source_size: SourceSize = 'medium';
+	@property({ reflect: true }) activeView: ActiveView = 'weights-table';
 
-	@property() activeView: ActiveView = 'weights-table';
-
-	@consume({ context: divcordTableContext, subscribe: true })
-	@state()
-	divcordTable!: DivcordTable;
+	#minimum_weight = use_local_storage('pVerifyMinimumWeight', 10000);
+	#active_view = signal<ActiveView>('weights-table');
 
 	@consume({ context: view_transition_names_context, subscribe: true })
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	@state() sourcesAndCards: SourceAndCards[] = [];
-	@state() byCategory: {
+	#weights_table_data = computed<Array<RowData>>(() => {
+		return weightsTableData(divcord_store.records.get(), poeData);
+	});
+	#filtered_weights_table_data = computed<Array<RowData>>(() => {
+		return this.#weights_table_data
+			.get()
+			.filter(({ weight }) => weight >= this.#minimum_weight.get())
+			.sort((a, b) => b.weight - a.weight);
+	});
+
+	#sources_and_cards = computed(() => {
+		const sourcesAndCards = cardsBySourceTypes(
+			Array.from(SOURCE_TYPE_VARIANTS),
+			divcord_store.records.get(),
+			poeData
+		)
+			.map(({ cards, source }) => ({
+				cards: cards.filter(c => c.status === 'verify'),
+				source,
+			}))
+			.filter(({ cards }) => cards.length > 0)
+			.sort((a, b) => b.cards.length - a.cards.length);
+		for (const { cards } of sourcesAndCards) {
+			sort_by_weight(cards, poeData);
+		}
+
+		// move sources with solo Rebirth cards to the end
+		// to make it less spammy
+		const rebirth: SourceAndCards[] = [];
+		let cards: SourceAndCards[] = sourcesAndCards.filter(c => {
+			if (c.cards.length === 1 && c.cards.map(c => c.card).includes('Rebirth')) {
+				rebirth.push(c);
+				return false;
+			} else {
+				return true;
+			}
+		});
+		return [...cards, ...rebirth];
+	});
+
+	/** Split by category */
+	#by_category = computed<{
 		maps: SourceAndCards[];
 		acts: SourceAndCards[];
 		other: SourceAndCards[];
-	} = Object.create({});
-	@state() weightsTableData: RowData[] = [];
-	@state() filteredWeightsTableData: RowData[] = [];
-	@state() cardWeightsGrouped: Record<string, { card: string; weight: number; source: Source }[]> = Object.create({});
-	/** Minimum weight for Weights Table slider */
-	@state() minimumWeight = this.#minimumWeight.load();
+	}>(() => {
+		const cards = this.#sources_and_cards.get();
+		return {
+			acts: cards.filter(({ source }) => source.type === 'Act' || source.type === 'Act Boss'),
+			maps: cards.filter(({ source }) => source.type === 'Map' || source.type === 'Map Boss'),
+			other: cards.filter(({ source }) =>
+				['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
+			),
+		};
+	});
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('divcordTable') || map.has('activeView')) {
-			if (this.activeView === 'weights-table') {
-				this.weightsTableData = weightsTableData(this.divcordTable.records, poeData);
-			} else {
-				// skip if already set up
-				if (this.sourcesAndCards.length > 0) {
-					return;
-				}
-
-				const sourcesAndCards = cardsBySourceTypes(
-					Array.from(SOURCE_TYPE_VARIANTS),
-					this.divcordTable.records,
-					poeData
-				)
-					.map(({ cards, source }) => ({
-						cards: cards.filter(c => c.status === 'verify'),
-						source,
-					}))
-					.filter(({ cards }) => cards.length > 0)
-					.sort((a, b) => b.cards.length - a.cards.length);
-				for (const { cards } of sourcesAndCards) {
-					sort_by_weight(cards, poeData);
-				}
-
-				// move sources with solo Rebirth cards to the end
-				// to make it less spammy
-				const rebirth: SourceAndCards[] = [];
-				let cards: SourceAndCards[] = sourcesAndCards.filter(c => {
-					if (c.cards.length === 1 && c.cards.map(c => c.card).includes('Rebirth')) {
-						rebirth.push(c);
-						return false;
-					} else {
-						return true;
-					}
-				});
-				cards = [...cards, ...rebirth];
-
-				// Split by category
-				this.byCategory.acts = cards.filter(
-					({ source }) => source.type === 'Act' || source.type === 'Act Boss'
-				);
-				this.byCategory.maps = cards.filter(
-					({ source }) => source.type === 'Map' || source.type === 'Map Boss'
-				);
-				this.byCategory.other = cards.filter(({ source }) =>
-					['Act', 'Map', 'Act Boss', 'Map Boss'].every(type => type !== source.type)
-				);
-
-				this.sourcesAndCards = structuredClone(cards);
-			}
-		}
-
-		if (map.has('divcordTable') || map.has('activeView') || map.has('minimumWeight')) {
-			this.filteredWeightsTableData = this.weightsTableData
-				.filter(({ weight }) => weight >= this.minimumWeight)
-				.sort((a, b) => b.weight - a.weight);
-		}
+		map.has('activeView') && this.#active_view.set(this.activeView);
 	}
 
 	protected render(): TemplateResult {
@@ -134,7 +119,7 @@ export class VerifyPage extends LitElement {
 						${ACTIVE_VIEW_VARIANTS.map(
 							variant =>
 								html`<a class=${classMap({
-									'nav-link--active': variant === this.activeView,
+									'nav-link--active': variant === this.#active_view.get(),
 								})} href=/verify/${variant}>${linkLabel(variant)}</a>`
 						)}
 					</nav>
@@ -143,26 +128,26 @@ export class VerifyPage extends LitElement {
 			</header>
 
 			<main class="main">
-				${choose(this.activeView, [
-					['acts', () => this.#SourceWithCardsList(this.byCategory.acts)],
-					['maps', () => this.#SourceWithCardsList(this.byCategory.maps)],
-					['others', () => this.#SourceWithCardsList(this.byCategory.other)],
+				${choose(this.#active_view.get(), [
+					['acts', () => this.#SourceWithCardsList(this.#by_category.get().acts)],
+					['maps', () => this.#SourceWithCardsList(this.#by_category.get().maps)],
+					['others', () => this.#SourceWithCardsList(this.#by_category.get().other)],
 					[
 						'weights-table',
-						() => html`<sl-range @sl-change=${this.#changeMinimumWeight} .value=${
-							this.minimumWeight
-						} min="0" step="100" max="10000">
+						() => html`<sl-range @sl-change=${
+							this.#change_minimum_weight
+						} .value=${this.#minimum_weight.get()} min="0" step="100" max="10000">
                     <div slot="label">
-                        <p class="min-weight">weight <span>${formatWeight(this.minimumWeight)}+</span></p>
+                        <p class="min-weight">weight <span>${formatWeight(this.#minimum_weight.get())}+</span></p>
                         <p class="cards-found">
-                             <span>${this.filteredWeightsTableData.length}</span> cards
+                             <span>${this.#filtered_weights_table_data.get().length}</span> cards
                         </p>
                     </div>    
                     </sl-range>
 								<e-weights-table-verify-sources
                                     .active_divination_card=${this.view_transition_names.active_divination_card}
                                     exportparts="active_divination_card"
-									.rows=${this.filteredWeightsTableData}
+									.rows=${this.#filtered_weights_table_data.get()}
 								></e-weights-table-verify-sources>
 							</sl-sl>
 						`,
@@ -193,10 +178,9 @@ export class VerifyPage extends LitElement {
 		</ul>`;
 	}
 
-	#changeMinimumWeight(e: Event) {
+	#change_minimum_weight(e: Event): void {
 		const value = Number((e.target as HTMLInputElement).value);
-		this.#minimumWeight.save(value);
-		this.minimumWeight = value;
+		this.#minimum_weight.set(value);
 	}
 
 	static styles = styles;

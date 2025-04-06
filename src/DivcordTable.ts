@@ -1,5 +1,5 @@
-import type { Source } from '../../gen/Source';
-import type { DivcordRecord } from '../../gen/divcord';
+import type { Source } from './gen/Source';
+import type { DivcordRecord } from './gen/divcord';
 
 type CardName = string;
 

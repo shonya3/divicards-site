@@ -6,7 +6,7 @@ import { computed, signal } from '@lit-labs/signals';
 import { DivcordRecord } from '../gen/divcord.js';
 import { CacheValidity, State } from '../context/divcord/DivcordLoader.js';
 import { use_local_storage } from '../composables/use_local_storage.js';
-import { DivcordTable } from '../context/divcord/DivcordTable.js';
+import { DivcordTable } from '../DivcordTable.js';
 import { fetch_divcord_records } from '../gen/divcordWasm/divcord_wasm.js';
 import { sort_by_weight } from '../cards.js';
 import { sortAllSourcesByLevel } from '../utils.js';

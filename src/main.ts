@@ -1,4 +1,3 @@
-import './context/divcord/divcord-provider';
 import './context/view-transition-name-provider';
 import './main-layout';
 import './elements/e-topnav';

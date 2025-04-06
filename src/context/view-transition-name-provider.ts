@@ -29,7 +29,6 @@ export class ViewTransitionNamesProvider extends LitElement {
 	}
 
 	update_view_transition_names = (e: NavigateTransitionEvent) => {
-		console.log(e);
 		if (e.transition_name === 'card') {
 			this.view_transition_names.active_divination_card = e.id;
 		}

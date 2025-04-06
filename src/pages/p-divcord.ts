@@ -1,7 +1,7 @@
 import { LitElement, PropertyValueMap, PropertyValues, TemplateResult, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { consume } from '@lit/context';
-import { DivcordTable } from '../context/divcord/DivcordTable';
+import { DivcordTable } from '../DivcordTable';
 import '../elements/e-card-with-divcord-records';
 import '../elements/e-pagination';
 import '../elements/e-divcord-records-age';
