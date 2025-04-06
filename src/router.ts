@@ -124,9 +124,7 @@ export const router = new Router({
 				if (!source) {
 					return html`<h2>Not Found</h2>`;
 				}
-				return html`<divcord-provider>
-					<p-source .source=${source}></p-source>
-				</divcord-provider>`;
+				return html`<p-source .source=${source}></p-source> `;
 			},
 		},
 		{
