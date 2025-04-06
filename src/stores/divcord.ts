@@ -4,7 +4,6 @@ await init_divcord_wasm();
 import { effect } from 'signal-utils/subtle/microtask-effect';
 import { computed, signal } from '@lit-labs/signals';
 import { DivcordRecord } from '../gen/divcord.js';
-import { CacheValidity, State } from '../context/divcord/DivcordLoader.js';
 import { use_local_storage } from '../composables/use_local_storage.js';
 import { DivcordTable } from '../DivcordTable.js';
 import { fetch_divcord_records } from '../gen/divcordWasm/divcord_wasm.js';
@@ -13,7 +12,19 @@ import { sortAllSourcesByLevel } from '../utils.js';
 import { poeData } from '../PoeData.js';
 import { toast, warningToast } from '../toast.js';
 
+declare module '../storage' {
+	interface Registry {
+		divcord: {
+			app_version: string;
+			last_updated: string;
+			records: Array<DivcordRecord>;
+		} | null;
+	}
+}
+
 const ONE_DAY_MILLISECONDS = 86_400_000;
+export type CacheValidity = 'valid' | 'stale' | 'not exist';
+export type State = 'idle' | 'updating' | 'updated' | 'error';
 
 function create_divcord_store() {
 	const records = signal<Array<DivcordRecord>>([]);
