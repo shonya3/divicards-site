@@ -11,9 +11,9 @@ type ColorTheme = 'light' | 'dark';
 
 const themeUtils = Object.freeze({
 	LOCAL_STORAGE_KEY: 'theme-preference',
-	// getSystemPreference(): ColorTheme {
-	// 	return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-	// },
+	getSystemPreference(): ColorTheme {
+		return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+	},
 	getStorageValue(): string | null {
 		return localStorage.getItem(this.LOCAL_STORAGE_KEY);
 	},
@@ -21,11 +21,10 @@ const themeUtils = Object.freeze({
 	getTheme(): ColorTheme {
 		const storagePreference = this.getStorageValue();
 		if (!storagePreference) {
-			// return this.getSystemPreference();
-			return 'dark';
+			return this.getSystemPreference();
 		}
 
-		if (storagePreference !== 'dark' && storagePreference !== 'light') return 'dark';
+		if (storagePreference !== 'dark' && storagePreference !== 'light') return 'light';
 		return storagePreference;
 	},
 
