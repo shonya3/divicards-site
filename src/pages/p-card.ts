@@ -6,14 +6,14 @@ import { consume } from '@lit/context';
 import { poeData } from '../PoeData';
 import { prepare_weight_data } from '../elements/weights-table/lib';
 import '../elements/weights-table/e-weight-value';
-import { slug } from '../gen/divcordWasm/divcord_wasm';
 import {
+	UpdateViewTransitionNameEvent,
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
 import { SignalWatcher } from '@lit-labs/signals';
 import { divcord_store } from '../stores/divcord';
-import { NavigateTransitionEvent } from '../events';
+import { slug } from '../gen/divcordWasm/divcord_wasm';
 
 /**
  * @csspart active_drop_source
@@ -29,7 +29,7 @@ export class CardPage extends SignalWatcher(LitElement) {
 
 	connectedCallback(): void {
 		super.connectedCallback();
-		this.dispatchEvent(new NavigateTransitionEvent('card', slug(this.card)));
+		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'card', value: slug(this.card) }));
 	}
 
 	render(): TemplateResult {

@@ -18,8 +18,8 @@ import '../e-sources';
 import { WeightData } from '../weights-table/types';
 import '../../elements/weights-table/e-weight-value';
 import { slug } from '../../gen/divcordWasm/divcord_wasm';
-import { NavigateTransitionEvent } from '../../events';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 
 /**
  * Adaptation of the Divcord google spreadsheet https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1&gid=0#gid=0
@@ -106,7 +106,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 		if (target instanceof HTMLAnchorElement) {
 			target.style.setProperty('view-transition-name', 'card');
 
-			this.dispatchEvent(new NavigateTransitionEvent('card', slug(card)));
+			this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'card', value: slug(card) }));
 		}
 	}
 

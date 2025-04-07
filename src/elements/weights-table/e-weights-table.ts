@@ -13,7 +13,7 @@ import '../divination-card/e-divination-card';
 import './e-weight-value';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../../gen/divcordWasm/divcord_wasm';
-import { NavigateTransitionEvent } from '../../events';
+import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
@@ -159,7 +159,7 @@ export class WeightsTableElement extends LitElement {
 	}
 
 	#dispatch_card_transition(card: string) {
-		this.dispatchEvent(new NavigateTransitionEvent('card', slug(card)));
+		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'card', value: slug(card) }));
 	}
 
 	#toggleWeightOrder() {

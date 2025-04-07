@@ -4,7 +4,7 @@ import { html, css, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { ActArea } from '../../gen/poeData';
 import type { SourceSize } from './types';
-import { NavigateTransitionEvent } from '../../events';
+import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 
 /**
  * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
@@ -36,7 +36,7 @@ export class ActAreaElement extends LitElement {
 	}
 
 	#dispatch_transition() {
-		this.dispatchEvent(new NavigateTransitionEvent('source', this.slug));
+		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'source', value: this.slug }));
 	}
 }
 

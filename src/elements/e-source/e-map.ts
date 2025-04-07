@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import type { RenderMode } from '../types';
 import type { MapArea } from '../../gen/poeData';
-import { NavigateTransitionEvent } from '../../events';
+import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 
 /**
  * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
@@ -87,7 +87,7 @@ export class MapElement extends LitElement {
 	}
 
 	#dispatch_transition() {
-		this.dispatchEvent(new NavigateTransitionEvent('source', this.slug));
+		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'source', value: this.slug }));
 	}
 
 	static styles = css`

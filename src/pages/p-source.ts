@@ -8,10 +8,10 @@ import { CardBySource, cardsBySource, sort_by_weight } from '../cards';
 import { poeData } from '../PoeData';
 import type { Source } from '../gen/Source';
 import {
+	UpdateViewTransitionNameEvent,
 	view_transition_names_context,
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
-import { NavigateTransitionEvent } from '../events';
 import { computed, SignalWatcher } from '@lit-labs/signals';
 import { divcord_store } from '../stores/divcord';
 
@@ -35,7 +35,7 @@ export class SourcePage extends SignalWatcher(LitElement) {
 
 	connectedCallback(): void {
 		super.connectedCallback();
-		this.dispatchEvent(new NavigateTransitionEvent('source', this.source.idSlug));
+		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'source', value: this.source.idSlug }));
 	}
 
 	render(): TemplateResult {
