@@ -110,6 +110,20 @@ export class TopNavElement extends LitElement {
 			--clr: var(--sl-color-gray-700);
 		}
 
+		.navbar {
+			max-width: 1440px;
+			margin-inline: auto;
+			height: 50px;
+			background-color: var(--bg-clr);
+			color: var(--clr);
+
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			opacity: 95%;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		}
+
 		a {
 			display: block;
 			padding-inline: 1rem;
@@ -135,18 +149,6 @@ export class TopNavElement extends LitElement {
 
 		dialog {
 			max-width: 100%;
-		}
-
-		.navbar {
-			height: 50px;
-			background-color: var(--bg-clr);
-			color: var(--clr);
-
-			display: flex;
-			justify-content: space-around;
-			align-items: center;
-			opacity: 95%;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 		}
 
 		.logo {
