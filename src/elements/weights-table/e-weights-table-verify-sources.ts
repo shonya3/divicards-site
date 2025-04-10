@@ -111,10 +111,10 @@ export class WeightsTableVerifySources extends LitElement {
 							<td class="td td-weight">
 								<e-weight-value .weightData=${cardRowData}></e-weight-value>
 							</td>
-							<td class="td">
+							<td class="td sources">
 								<ul class="sources-list">
 									${cardRowData.sources.map(
-										source => html`<li><e-source size="medium" .source=${source}></e-source></li>`
+										source => html`<li><e-source size="small" .source=${source}></e-source></li>`
 									)}
 								</ul>
 							</td>
@@ -145,6 +145,7 @@ export class WeightsTableVerifySources extends LitElement {
 
 		:host {
 			display: block;
+			max-width: 1080px;
 		}
 
 		${tableStyles}
@@ -153,6 +154,10 @@ export class WeightsTableVerifySources extends LitElement {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 2rem;
+		}
+
+		.sources {
+			vertical-align: top;
 		}
 	`;
 }

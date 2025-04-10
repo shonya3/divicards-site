@@ -233,19 +233,19 @@ declare global {
 	}
 }
 
-export const ACTIVE_VIEW_VARIANTS = ['maps', 'acts', 'others', 'weights-table'] as const;
+export const ACTIVE_VIEW_VARIANTS = ['weights-table', 'maps', 'acts', 'others'] as const;
 export type ActiveView = (typeof ACTIVE_VIEW_VARIANTS)[number];
 
 function linkLabel(activeView: ActiveView) {
 	switch (activeView) {
 		case 'acts':
-			return 'Acts';
+			return 'acts';
 		case 'maps':
-			return 'Maps';
+			return 'maps';
 		case 'others':
-			return 'Others';
+			return 'others';
 		case 'weights-table':
-			return 'Weights Table';
+			return 'weights';
 	}
 }
 

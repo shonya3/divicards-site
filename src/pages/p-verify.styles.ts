@@ -17,6 +17,11 @@ export const styles = css`
 		--need-to-verify-border: none;
 	}
 
+	.page {
+		max-width: 1080px;
+		margin-inline: auto;
+	}
+
 	${linkStyles}
 
 	e-source-with-cards {
