@@ -131,7 +131,7 @@ export class SourceElement extends LitElement {
 					'font--larger': !this.sourceHasSpecialElement,
 				})}
 			>
-				${this.showSourceType && shouldRenderSourceType
+				${this.showSourceType && shouldRenderSourceType && this.source.type !== 'Act'
 					? html`<e-source-type
 							part="source-type"
 							class="source-type"
