@@ -75,6 +75,11 @@ export class SourceTypePage extends SignalWatcher(LitElement) {
 		}
 
 		e-source-with-cards {
+			&::part(drop_source) {
+				--source-font-size: 1.2rem;
+				margin-inline: 0;
+			}
+
 			margin-inline: auto;
 			@media (width >= 460px) {
 				margin-inline: 0;
