@@ -74,12 +74,20 @@ export class SourcesPage extends SignalWatcher(LitElement) {
 			padding: 0;
 			margin: 0;
 			box-sizing: border-box;
-			list-style: none;
+		}
+
+		.page {
+			max-width: 1080px;
+			margin-inline: auto;
 		}
 
 		a:link,
 		a:visited {
 			color: var(--sl-color-gray-800);
+		}
+
+		ul {
+			list-style: none;
 		}
 
 		a:hover {

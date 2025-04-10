@@ -39,13 +39,14 @@ export class SourceTypePage extends SignalWatcher(LitElement) {
 	protected render(): TemplateResult {
 		return html`<div class="page">
 			<e-source-type .sourceType=${this.sourceType}></e-source-type>
-			<ul>
+			<ul id="list">
 				${this.#sources_and_cards_renderer.get().render(({ source, cards }) => {
 					return html`<li>
 						<e-source-with-cards
 							.showSourceType=${false}
 							.source=${source}
 							.cards=${cards}
+							card_size="small"
 						></e-source-with-cards>
 					</li>`;
 				})}
@@ -64,6 +65,15 @@ export class SourceTypePage extends SignalWatcher(LitElement) {
 			box-sizing: border-box;
 		}
 
+		.page {
+			max-width: 1080px;
+			margin-inline: auto;
+		}
+
+		#list {
+			margin-top: 4rem;
+		}
+
 		e-source-with-cards {
 			margin-inline: auto;
 			@media (width >= 460px) {
@@ -79,7 +89,6 @@ export class SourceTypePage extends SignalWatcher(LitElement) {
 		}
 
 		e-source-type {
-			width: fit-content;
 			margin-inline: auto;
 			display: block;
 		}

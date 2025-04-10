@@ -40,6 +40,7 @@ export class CardPage extends SignalWatcher(LitElement) {
 		}
 
 		return html`<div class="page">
+			<h2>${this.card}</h2>
 			<e-card-with-divcord-records
 				.card=${this.card}
 				.records=${divcord_store.table.get().recordsByCard(this.card)}
@@ -77,6 +78,11 @@ export class CardPage extends SignalWatcher(LitElement) {
 	}
 
 	static styles = css`
+		.page {
+			max-width: 1080px;
+			margin-inline: auto;
+		}
+
 		e-card-with-sources {
 			margin-inline: auto;
 			width: fit-content;
