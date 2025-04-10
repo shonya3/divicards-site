@@ -23,6 +23,8 @@ export class MainLayoutElement extends LitElement {
 			<div id="page">
 				<slot name="page"></slot>
 			</div>
+
+			<footer id="footer"></footer>
 		`;
 	}
 
@@ -46,6 +48,10 @@ export class MainLayoutElement extends LitElement {
 				padding: 1.5rem;
 				padding-bottom: 0;
 			}
+		}
+
+		#footer {
+			padding: 2rem;
 		}
 	`;
 }
