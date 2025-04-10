@@ -35,6 +35,8 @@ export class MainLayoutElement extends LitElement {
 		}
 
 		#header {
+			max-width: 1440px;
+			margin-inline: auto;
 			position: sticky;
 			top: 0;
 			z-index: 10;
