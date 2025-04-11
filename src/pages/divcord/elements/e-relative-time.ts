@@ -1,4 +1,4 @@
-import { LitElement, css } from 'lit';
+import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('e-relative-time')
@@ -48,17 +48,6 @@ export class RelativeTimeElement extends LitElement {
 
 		return this.minutesRelativeString();
 	}
-
-	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-		}
-
-		:host {
-			display: inline;
-		}
-	`;
 }
 
 declare global {

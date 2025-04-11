@@ -1,25 +1,25 @@
-import { linkStyles } from './../../linkStyles';
 import { LitElement, html, css, TemplateResult, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
-import '../divination-card/e-divination-card';
-import '../e-source/e-source';
-import '../e-need-to-verify';
+import '../../../../elements/divination-card/e-divination-card';
+import '../../../../elements/e-source/e-source';
+import '../../../../elements/e-need-to-verify';
+import '../../../../elements/e-sources';
+import '../../../../elements/weights-table/e-weight-value';
 import { classMap } from 'lit/directives/class-map.js';
-import type { DivcordRecord } from '../../gen/divcord';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 import { styles } from './divcord-spreadsheet.styles';
 import { Sort, type SortColumn, type Order } from './Sort';
 import { DirectiveResult } from 'lit/async-directive.js';
 import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import '../e-sources';
-import { WeightData } from '../weights-table/types';
-import '../../elements/weights-table/e-weight-value';
-import { slug } from '../../gen/divcordWasm/divcord_wasm';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
+import { UpdateViewTransitionNameEvent } from '../../../../context/view-transition-name-provider';
+import { WeightData } from '../../../../elements/weights-table/types';
+import { DivcordRecord } from '../../../../gen/divcord';
+import { slug } from '../../../../gen/divcordWasm/divcord_wasm';
+import { linkStyles } from '../../../../linkStyles';
 
 /**
  * Adaptation of the Divcord google spreadsheet https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1&gid=0#gid=0

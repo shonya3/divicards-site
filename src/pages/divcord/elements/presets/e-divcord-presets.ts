@@ -1,6 +1,6 @@
 import { LitElement, html, css, nothing, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
-import { DEFAULT_PRESETS, type PresetConfig } from './presets';
+import { PresetConfig, DEFAULT_PRESETS } from './presets';
 import {
 	Greynote,
 	RemainingWork,
@@ -8,8 +8,8 @@ import {
 	GREYNOTE_VARIANTS,
 	CONFIDENCE_VARIANTS,
 	REMAINING_WORK_VARIANTS,
-} from '../../gen/divcord';
-import { SlConverter } from '../../utils';
+} from '../../../../gen/divcord';
+import { SlConverter } from '../../../../utils';
 
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';

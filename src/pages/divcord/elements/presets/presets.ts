@@ -5,7 +5,7 @@ import {
 	GREYNOTE_VARIANTS,
 	CONFIDENCE_VARIANTS,
 	REMAINING_WORK_VARIANTS,
-} from '../../gen/divcord';
+} from '../../../../gen/divcord';
 
 export type PresetConfig = {
 	name: string;

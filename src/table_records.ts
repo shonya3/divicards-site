@@ -1,4 +1,4 @@
-import { DivcordRecordAndWeight } from './elements/divcord-spreadsheet/e-divcord-spreadsheet';
+import { DivcordRecordAndWeight } from './pages/divcord/elements/divcord-spreadsheet/e-divcord-spreadsheet';
 
 export const table_records = [
 	{

@@ -1,5 +1,5 @@
 import { css } from 'lit';
-import { linkStyles } from '../linkStyles';
+import { linkStyles } from '../../linkStyles';
 
 export const styles = css`
 	* {

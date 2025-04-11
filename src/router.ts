@@ -23,7 +23,7 @@ import './pages/p-source-type';
 import './pages/p-verify-faq';
 import './pages/p-verify';
 import './pages/p-useful-resources';
-import './elements/divcord-spreadsheet/e-divcord-spreadsheet';
+import './pages/divcord/elements/divcord-spreadsheet/e-divcord-spreadsheet';
 
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
@@ -49,7 +49,7 @@ export const router = new Router({
 		{
 			path: '/divcord',
 			title: 'Divcord',
-			plugins: [lazy(() => import('./pages/p-divcord'))],
+			plugins: [lazy(() => import('./pages/divcord/p-divcord'))],
 			render: ({ query }) => html`<p-divcord
 				.page=${Number(query.page ?? 1)}
 				.per_page=${Number(query.per_page ?? 10)}
