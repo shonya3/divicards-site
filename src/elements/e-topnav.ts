@@ -84,11 +84,6 @@ export class TopNavElement extends LitElement {
 	}
 
 	async #change_active_pathname(pathname: string) {
-		// Skip frame, because there is autofocussed search input.
-		// And it does not play well with the view transition.
-		if (this.pathname === '/') {
-			await new Promise(requestAnimationFrame);
-		}
 		startViewTransition(() => {
 			this.pathname = pathname;
 		});
