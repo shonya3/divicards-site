@@ -1,6 +1,6 @@
 import './context/view-transition-name-provider';
 import './main-layout';
-import './elements/e-topnav';
+import './elements/e-topnav/e-topnav';
 import { render } from 'lit';
 import { router } from './router';
 import { startViewTransition } from './utils';
