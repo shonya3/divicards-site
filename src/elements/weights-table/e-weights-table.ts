@@ -14,6 +14,7 @@ import './e-weight-value';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../../gen/divcordWasm/divcord_wasm';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
+import 'poe-custom-elements/item-card.js';
 
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
@@ -121,16 +122,20 @@ export class WeightsTableElement extends LitElement {
 												)}
 										  ></e-divination-card>`
 										: html`<a
-												class="link"
+												class="textual-card-link"
 												@click=${() => this.#dispatch_card_transition(cardRowData.name)}
 												href="/card/${card_slug}"
-												part=${ifDefined(
-													card_slug === this.active_divination_card
-														? 'active_divination_card'
-														: undefined
-												)}
-												>${cardRowData.name}</a
-										  >`}
+										  >
+												<poe-item-card .name=${cardRowData.name}></poe-item-card>
+												<span
+													part=${ifDefined(
+														card_slug === this.active_divination_card
+															? 'active_divination_card'
+															: undefined
+													)}
+													>${cardRowData.name}</span
+												>
+										  </a>`}
 								</td>
 								<td class="td td-weight">
 									<e-weight-value .weightData=${cardRowData}></e-weight-value>
@@ -220,6 +225,16 @@ export class WeightsTableElement extends LitElement {
 			position: sticky;
 			z-index: 20000;
 			background-color: rgba(255, 255, 255, 0.3);
+		}
+
+		.textual-card-link {
+			& poe-item-card {
+				--poe-item-size: 30px;
+			}
+
+			display: flex;
+			align-items: center;
+			gap: 0.4rem;
 		}
 	`;
 }
