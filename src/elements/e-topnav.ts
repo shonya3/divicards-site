@@ -1,9 +1,9 @@
 import { LitElement, html, css, PropertyValueMap, nothing, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { startViewTransition } from '../utils';
 import { ThemeToggle } from './theme-toggle/theme-toggle';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import { router } from '../router';
 ThemeToggle.define();
 
 @customElement('e-topnav')
@@ -58,20 +58,17 @@ export class TopNavElement extends LitElement {
 				</a>
 			</div>
 
-			<button class="btn menu-button" type="button" @click=${() => this.menuDialogElement.showModal()}>
-				Menu
-			</button>
+			<a class="btn menu-button" type="button" @click=${() => this.menuDialogElement.showModal()}> Menu </a>
 			<dialog id="menu" class="menu">
 				<ul class="links">
 					${this.linkItems.map(([pathname, s]) => {
 						return html`<li
-							@click=${() => this.#change_active_pathname(pathname)}
 							class=${classMap({
 								links__item: true,
 								'links__item--active': pathname === this.pathname,
 							})}
 						>
-							<a href="${pathname}">${s}</a>
+							<a @click=${() => this.#change_active_pathname(pathname)} href="${pathname}">${s}</a>
 							${pathname === this.pathname
 								? html`<div class="links__active-item-background"></div>`
 								: nothing}
@@ -84,9 +81,9 @@ export class TopNavElement extends LitElement {
 	}
 
 	async #change_active_pathname(pathname: string) {
-		startViewTransition(() => {
+		router.update_during_transition = () => {
 			this.pathname = pathname;
-		});
+		};
 	}
 
 	static styles = css`
@@ -171,13 +168,13 @@ export class TopNavElement extends LitElement {
 
 		.links__item--active {
 			color: var(--sl-color-gray-900);
-			z-index: 10;
 		}
 
 		.links__item--active a {
 		}
 
 		.links__active-item-background {
+			z-index: -1;
 			position: absolute;
 			inset: 0;
 			border-radius: 1rem;
@@ -208,7 +205,6 @@ export class TopNavElement extends LitElement {
 			border: none;
 			background-color: transparent;
 			padding: 1rem;
-			cursor: pointer;
 		}
 
 		.menu-button {

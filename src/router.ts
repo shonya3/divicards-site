@@ -13,6 +13,12 @@ declare module '@thepassle/app-tools/router.js' {
 		 * Indicates whether the View Transition should be skipped.
 		 */
 		skip_transition?: boolean;
+
+		/**
+		 * A callback that runs **inside** the View Transition,
+		 * just before rendering the new view.
+		 */
+		update_during_transition?: () => void;
 	}
 }
 
