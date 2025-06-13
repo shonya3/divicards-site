@@ -9,7 +9,7 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '../elements/e-source-with-cards';
 import { SlConverter } from '../utils';
-import { SourceType } from '../gen/Source';
+import { SourceType } from '../../gen/Source';
 import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { divcord_store } from '../stores/divcord';
 

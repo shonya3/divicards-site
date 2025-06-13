@@ -6,12 +6,17 @@
 	"type": "module",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "node gen.js"
+		"dev": "node gen.js",
+		"build-timeline": "tsx ./build-timeline.ts"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"execa": "^8.0.1"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.1",
+		"tsx": "^4.20.3"
 	}
 }

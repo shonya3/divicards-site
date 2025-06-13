@@ -1,10 +1,10 @@
 import { cardsByMapboss, cardsByActboss, sort_by_weight, cardsBySourceTypes } from './cards';
 import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
-import { SOURCE_TYPE_VARIANTS } from './gen/Source';
-import type { DivcordRecord } from './gen/divcord';
-import type { ActArea } from './gen/poeData';
-import { cardElementDataFromJson as cardElementData } from './gen/cardElementData';
+import { SOURCE_TYPE_VARIANTS } from '../gen/Source';
+import type { DivcordRecord } from '../gen/divcord';
+import type { ActArea } from '../gen/poeData';
+import { cardElementDataFromJson as cardElementData } from '../gen/cardElementData';
 
 export const SEARCH_CRITERIA_VARIANTS = [
 	'name',

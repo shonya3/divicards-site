@@ -1,6 +1,6 @@
-import { DivcordRecord } from './gen/divcord';
-import { slug } from './gen/divcordWasm/divcord_wasm';
-import { Source, SourceType, SOURCE_TYPE_VARIANTS } from './gen/Source';
+import { DivcordRecord } from '../gen/divcord';
+import { slug } from '../gen/divcordWasm/divcord_wasm';
+import { Source, SourceType, SOURCE_TYPE_VARIANTS } from '../gen/Source';
 import { PoeData, poeData } from './PoeData';
 
 /** Drop source and array of cards with verification status and possible transitive source */

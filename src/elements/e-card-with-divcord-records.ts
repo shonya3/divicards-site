@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import './divination-card/e-divination-card';
 import './e-divcord-record';
 import './e-divcord-needs-info';
-import type { DivcordRecord } from '../gen/divcord';
+import type { DivcordRecord } from '../../gen/divcord';
 import 'poe-custom-elements/divination-card.js';
 
 /**

@@ -6,7 +6,7 @@ import { consume } from '@lit/context';
 import '../elements/e-source-with-cards';
 import { CardBySource, cardsBySource, sort_by_weight } from '../cards';
 import { poeData } from '../PoeData';
-import type { Source } from '../gen/Source';
+import type { Source } from '../../gen/Source';
 import {
 	UpdateViewTransitionNameEvent,
 	view_transition_names_context,

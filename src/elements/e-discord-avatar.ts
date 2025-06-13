@@ -1,6 +1,6 @@
 import { LitElement, html, css, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { DISCORD_AVATARS, type DiscordUsername } from '../gen/avatars';
+import { DISCORD_AVATARS, type DiscordUsername } from '../../gen/avatars';
 
 @customElement('e-discord-avatar')
 export class DiscordAvatarElement extends LitElement {

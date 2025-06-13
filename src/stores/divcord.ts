@@ -1,12 +1,12 @@
-import init_divcord_wasm from '../gen/divcordWasm/divcord_wasm.js';
+import init_divcord_wasm from '../../gen/divcordWasm/divcord_wasm.js';
 await init_divcord_wasm();
 
 import { effect } from 'signal-utils/subtle/microtask-effect';
 import { computed, signal } from '@lit-labs/signals';
-import { DivcordRecord } from '../gen/divcord.js';
+import { DivcordRecord } from '../../gen/divcord.js';
 import { use_local_storage } from '../composables/use_local_storage.js';
 import { DivcordTable } from '../DivcordTable.js';
-import { fetch_divcord_records } from '../gen/divcordWasm/divcord_wasm.js';
+import { fetch_divcord_records } from '../../gen/divcordWasm/divcord_wasm.js';
 import { sort_by_weight } from '../cards.js';
 import { sortAllSourcesByLevel } from '../utils.js';
 import { poeData } from '../PoeData.js';
@@ -74,7 +74,7 @@ function create_divcord_store() {
 				return storage.get()!.records;
 			}
 			case 'not exist': {
-				return (await import('../gen/divcord.js')).prepared_records;
+				return (await import('../../gen/divcord.js')).prepared_records;
 			}
 		}
 	}

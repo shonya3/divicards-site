@@ -5,7 +5,7 @@ if (!globalThis.URLPattern) {
 
 import { Router } from '@thepassle/app-tools/router.js';
 import { html } from 'lit';
-import { SourceType, Source } from './gen/Source';
+import { SourceType, Source } from '../gen/Source';
 
 declare module '@thepassle/app-tools/router.js' {
 	interface Router {
@@ -34,7 +34,7 @@ import './pages/divcord/elements/divcord-spreadsheet/e-divcord-spreadsheet';
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
 import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
 
-import sourcesJson from './gen/json/sources2.json';
+import sourcesJson from '../gen/json/sources2.json';
 import { ACTIVE_VIEW_VARIANTS, ActiveView } from './pages/p-verify';
 // import { table_records } from './table_records';
 const sources = sourcesJson as Record<string, Source>;

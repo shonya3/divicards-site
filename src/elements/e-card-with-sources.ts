@@ -7,7 +7,7 @@ import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
 import { DivcordTable } from '../DivcordTable';
-import type { Source } from '../gen/Source';
+import type { Source } from '../../gen/Source';
 import { sortSourcesByLevel } from '../utils';
 import type { SourceSize } from './e-source/types';
 import './e-sources';

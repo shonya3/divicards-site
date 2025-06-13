@@ -12,7 +12,7 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
 import './e-weight-value';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { slug } from '../../gen/divcordWasm/divcord_wasm';
+import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 import 'poe-custom-elements/item-card.js';
 

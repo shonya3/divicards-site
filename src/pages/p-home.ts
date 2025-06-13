@@ -12,7 +12,7 @@ import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 import type { SourceSize } from '../elements/e-source/types';
-import { slug } from '../gen/divcordWasm/divcord_wasm';
+import { slug } from '../../gen/divcordWasm/divcord_wasm';
 import {
 	view_transition_names_context,
 	type ViewTransitionNamesContext,

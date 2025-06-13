@@ -1,6 +1,6 @@
 import { LitElement, PropertyValues, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import type { Source } from '../gen/Source';
+import type { Source } from '../../gen/Source';
 import type { SourceSize } from './e-source/types';
 import type { RenderMode } from './types';
 import type { VerificationStatus } from '../cards';

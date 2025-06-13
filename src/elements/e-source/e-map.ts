@@ -3,7 +3,7 @@ import { LitElement, html, nothing, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import type { RenderMode } from '../types';
-import type { MapArea } from '../../gen/poeData';
+import type { MapArea } from '../../../gen/poeData';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 
 /**

@@ -10,9 +10,9 @@ import { Sort } from './Sort';
 import '../divination-card/e-divination-card';
 import '../e-source/e-source';
 import '../weights-table/e-weight-value';
-import { Source } from '../../gen/Source';
+import { Source } from '../../../gen/Source';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { slug } from '../../gen/divcordWasm/divcord_wasm';
+import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 
 /**
  * @csspart active_divination_card

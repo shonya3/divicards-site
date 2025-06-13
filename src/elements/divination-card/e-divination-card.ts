@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import 'poe-custom-elements/divination-card.js';
 import type { CardSize } from 'poe-custom-elements/divination-card.js';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
-import { slug } from '../../gen/divcordWasm/divcord_wasm';
+import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 export type { CardSize } from 'poe-custom-elements/divination-card.js';
 
 /**

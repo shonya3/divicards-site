@@ -17,8 +17,8 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { UpdateViewTransitionNameEvent } from '../../../../context/view-transition-name-provider';
 import { WeightData } from '../../../../elements/weights-table/types';
-import { DivcordRecord } from '../../../../gen/divcord';
-import { slug } from '../../../../gen/divcordWasm/divcord_wasm';
+import { DivcordRecord } from '../../../../../gen/divcord';
+import { slug } from '../../../../../gen/divcordWasm/divcord_wasm';
 import { linkStyles } from '../../../../linkStyles';
 
 /**

@@ -2,7 +2,7 @@ import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { LitElement, PropertyValueMap, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { Source } from '../../gen/Source';
+import type { Source } from '../../../gen/Source';
 import './e-act-area';
 import './e-map';
 import './e-mapboss';
@@ -11,7 +11,7 @@ import '../e-source-type';
 import { poeData } from '../../PoeData';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { MapArea } from '../../gen/poeData';
+import type { MapArea } from '../../../gen/poeData';
 import type { SourceSize } from './types';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 

@@ -19,7 +19,7 @@ import { DEFAULT_PRESETS, type PresetConfig } from './elements/presets/presets';
 import { paginate } from '../../utils';
 import { classMap } from 'lit/directives/class-map.js';
 import { search_cards_by_query, SEARCH_CRITERIA_VARIANTS } from '../../search_cards_by_query';
-import { Confidence, RemainingWork, Greynote, DivcordRecord } from '../../gen/divcord';
+import { Confidence, RemainingWork, Greynote, DivcordRecord } from '../../../gen/divcord';
 import { toast } from '../../toast';
 import {
 	DivcordRecordAndWeight,
@@ -32,7 +32,7 @@ import {
 	type ViewTransitionNamesContext,
 } from '../../context/view-transition-name-provider';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { slug } from '../../gen/divcordWasm/divcord_wasm';
+import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 import { repeat } from 'lit/directives/repeat.js';
 import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { use_local_storage } from '../../composables/use_local_storage';

@@ -5,7 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import './e-map';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { MapArea, MapBoss } from '../../gen/poeData';
+import type { MapArea, MapBoss } from '../../../gen/poeData';
 import { createSource } from '../../cards';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 

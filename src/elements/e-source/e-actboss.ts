@@ -5,7 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import './e-act-area';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
-import type { ActArea, Bossfight } from '../../gen/poeData';
+import type { ActArea, Bossfight } from '../../../gen/poeData';
 import { createSource } from '../../cards';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 

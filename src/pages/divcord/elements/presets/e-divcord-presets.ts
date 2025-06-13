@@ -8,7 +8,7 @@ import {
 	GREYNOTE_VARIANTS,
 	CONFIDENCE_VARIANTS,
 	REMAINING_WORK_VARIANTS,
-} from '../../../../gen/divcord';
+} from '../../../../../gen/divcord';
 import { SlConverter } from '../../../../utils';
 
 import '@shoelace-style/shoelace/dist/components/select/select.js';

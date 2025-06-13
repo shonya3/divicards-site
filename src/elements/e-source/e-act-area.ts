@@ -2,7 +2,7 @@ import { linkStyles } from '../../linkStyles';
 import { classMap } from 'lit/directives/class-map.js';
 import { html, css, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { ActArea } from '../../gen/poeData';
+import type { ActArea } from '../../../gen/poeData';
 import type { SourceSize } from './types';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 

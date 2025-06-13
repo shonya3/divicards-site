@@ -7,7 +7,7 @@ import './e-need-to-verify';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { SourceSize } from './e-source/types';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { slug } from '../gen/divcordWasm/divcord_wasm';
+import { slug } from '../../gen/divcordWasm/divcord_wasm';
 
 /**
  * Group of cards by dropsource page and maps page

@@ -1,8 +1,8 @@
 import { TemplateResult, html } from 'lit';
 import { asyncAppend } from 'lit/directives/async-append.js';
-import type { Source } from './gen/Source';
+import type { Source } from '../gen/Source';
 import type { PoeData } from './PoeData';
-import type { DivcordRecord } from './gen/divcord';
+import type { DivcordRecord } from '../gen/divcord';
 import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { DirectiveResult } from 'lit/async-directive.js';
 

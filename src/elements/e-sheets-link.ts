@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { linkStyles } from '../linkStyles';
 import '../elements/e-discord-avatar';
-import type { DiscordUsername } from '../gen/avatars';
+import type { DiscordUsername } from '../../gen/avatars';
 
 /**
  * @slot - default - for link title

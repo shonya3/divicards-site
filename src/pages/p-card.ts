@@ -13,7 +13,7 @@ import {
 } from '../context/view-transition-name-provider';
 import { SignalWatcher } from '@lit-labs/signals';
 import { divcord_store } from '../stores/divcord';
-import { slug } from '../gen/divcordWasm/divcord_wasm';
+import { slug } from '../../gen/divcordWasm/divcord_wasm';
 
 /**
  * @csspart active_drop_source

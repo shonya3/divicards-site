@@ -1,5 +1,5 @@
 import { WeightData } from './types';
-import { Card } from '../../gen/poeData';
+import { Card } from '../../../gen/poeData';
 import { poeData } from '../../PoeData';
 
 export function prepare_weight_data(card: Card): WeightData {

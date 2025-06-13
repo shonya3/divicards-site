@@ -5,7 +5,7 @@ import './e-source/e-source';
 import './e-need-to-verify';
 import './e-verify-faq-alert';
 import { classMap } from 'lit/directives/class-map.js';
-import type { DivcordRecord } from '../gen/divcord';
+import type { DivcordRecord } from '../../gen/divcord';
 import { DirectiveResult } from 'lit/async-directive.js';
 import { divcordRecordHref, escapeHtml } from '../utils';
 import { linkStyles } from '../linkStyles';

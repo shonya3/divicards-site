@@ -1,4 +1,4 @@
-import { DiscordUsername } from '../../gen/avatars';
+import { DiscordUsername } from '../../../gen/avatars';
 
 export type UsefulResource = {
 	url: string;

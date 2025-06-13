@@ -1,6 +1,6 @@
 import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import type { SourceType } from '../gen/Source';
+import type { SourceType } from '../../gen/Source';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-source-type';
