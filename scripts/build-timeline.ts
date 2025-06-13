@@ -1,5 +1,4 @@
-// build-timeline.ts (Conceptual Node.js script)
-
+import { execSync } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -132,7 +131,7 @@ export function diffDivcordRecordsDeep(
 
 // --- Configuration ---
 // Path to your separate data repository where JSONs are stored
-const DATA_REPO_PATH = path.resolve('../divicards-data'); // Adjust as needed
+const DATA_REPO_PATH = path.resolve(__dirname, '../../divicards-timeline'); // Assumes divicards-timeline is a sibling to divicards-site
 const SNAPSHOTS_DIR = path.join(DATA_REPO_PATH, 'snapshots');
 const TIMELINE_FILE_PATH = path.join(DATA_REPO_PATH, 'timeline_changes.json');
 
@@ -179,9 +178,7 @@ type DailyCardChanges = Record<string, CardLevelChange>;
 
 async function main() {
 	console.log('hello main');
-	const records = await fetchLatestDivcordRecords();
-	console.log(records.length);
-	return;
+
 	const today = new Date();
 	const yesterday = new Date(today);
 	yesterday.setDate(today.getDate() - 1);
@@ -314,12 +311,20 @@ async function main() {
 	}
 
 	// 6. (Optional) Commit and push to data repository
-	// console.log('Run git commands to commit and push changes in the data repository:');
-	// console.log(`cd ${DATA_REPO_PATH}`);
-	// console.log(`git add .`);
-	// console.log(`git commit -m "Update data for ${todayDateStr}"`);
-	// console.log(`git push`);
-
+	if (Object.keys(cardLevelChangesToday).length > 0) {
+		console.log('Committing and pushing changes to data repository...');
+		try {
+			// Ensure commands are run in the data repository's directory
+			const gitOptions = { cwd: DATA_REPO_PATH, stdio: 'inherit' } as const; // stdio: 'inherit' will show git output in console
+			execSync(`git add .`, gitOptions);
+			execSync(`git commit -m "Update data for ${todayDateStr}"`, gitOptions);
+			execSync(`git push`, gitOptions);
+			console.log('Successfully committed and pushed data updates.');
+		} catch (gitError) {
+			console.error('Failed to commit and push data updates:', gitError);
+			// Decide if this should be a fatal error for the script
+		}
+	}
 	console.log('Timeline build process complete.');
 }
 
