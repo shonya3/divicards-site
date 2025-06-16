@@ -311,20 +311,20 @@ async function main() {
 	}
 
 	// 6. (Optional) Commit and push to data repository
-	if (Object.keys(cardLevelChangesToday).length > 0) {
-		console.log('Committing and pushing changes to data repository...');
-		try {
-			// Ensure commands are run in the data repository's directory
-			const gitOptions = { cwd: DATA_REPO_PATH, stdio: 'inherit' } as const; // stdio: 'inherit' will show git output in console
-			execSync(`git add .`, gitOptions);
-			execSync(`git commit -m "Update data for ${todayDateStr}"`, gitOptions);
-			execSync(`git push`, gitOptions);
-			console.log('Successfully committed and pushed data updates.');
-		} catch (gitError) {
-			console.error('Failed to commit and push data updates:', gitError);
-			// Decide if this should be a fatal error for the script
-		}
-	}
+	// if (Object.keys(cardLevelChangesToday).length > 0) {
+	// 	console.log('Committing and pushing changes to data repository...');
+	// 	try {
+	// 		// Ensure commands are run in the data repository's directory
+	// 		const gitOptions = { cwd: DATA_REPO_PATH, stdio: 'inherit' } as const; // stdio: 'inherit' will show git output in console
+	// 		execSync(`git add .`, gitOptions);
+	// 		execSync(`git commit -m "Update data for ${todayDateStr}"`, gitOptions);
+	// 		execSync(`git push`, gitOptions);
+	// 		console.log('Successfully committed and pushed data updates.');
+	// 	} catch (gitError) {
+	// 		console.error('Failed to commit and push data updates:', gitError);
+	// 		// Decide if this should be a fatal error for the script
+	// 	}
+	// }
 	console.log('Timeline build process complete.');
 }
 
