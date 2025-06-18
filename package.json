@@ -28,7 +28,7 @@
 		"@shoelace-style/shoelace": "2.20.1",
 		"@thepassle/app-tools": "0.9.13",
 		"lit": "3.3.0",
-		"poe-custom-elements": "0.3.16",
+		"poe-custom-elements": "0.3.18",
 		"signal-utils": "0.21.1",
 		"urlpattern-polyfill": "10.1.0"
 	}
