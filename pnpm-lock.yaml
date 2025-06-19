@@ -24,8 +24,8 @@ importers:
         specifier: 2.20.1
         version: 2.20.1(@floating-ui/utils@0.2.9)(@types/react@18.3.12)
       '@thepassle/app-tools':
-        specifier: 0.9.13
-        version: 0.9.13
+        specifier: ^0.10
+        version: 0.10.0
       lit:
         specifier: 3.3.0
         version: 3.3.0
@@ -396,8 +396,8 @@ packages:
     resolution: {integrity: sha512-FSghU95jZPGbwr/mybVvk66qRZYpx5FkXL+vLNpy1Vp8UsdwSxXjIHE3fsvMbKWTKi9UFfewHTkc5e7jAqRYoQ==}
     engines: {node: '>=14.17.0'}
 
-  '@thepassle/app-tools@0.9.13':
-    resolution: {integrity: sha512-ydAsh+zOivN0IHXgbVHR21nT7NpcoyFFVMcxRaiI1+4LcFLVC/rcWxcp87MiKagUKBsGvD4+SFJwk4hXWDF0yw==}
+  '@thepassle/app-tools@0.10.0':
+    resolution: {integrity: sha512-SV72QGdYyGuQUaqvUxao2dY9IwaMqDXZQ7hTMyeBM8mc4XVU8wSsk+BprwzGVdbMMRWzTV8t01M4XIDLIK0OrQ==}
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
@@ -1106,7 +1106,7 @@ snapshots:
       - '@floating-ui/utils'
       - '@types/react'
 
-  '@thepassle/app-tools@0.9.13': {}
+  '@thepassle/app-tools@0.10.0': {}
 
   '@types/estree@1.0.7': {}
 
