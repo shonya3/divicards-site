@@ -23,6 +23,7 @@ export const SOURCE_TYPE_VARIANTS = [
 	"Argus",
 	"All Invasion Bosses",
 	"All Vaal Side Area Bosses",
+	"Incarnation",
 	"Breachlord Boss Domain",
 	"Architect",
 	"Shaper Guardian Boss",
