@@ -52,8 +52,8 @@ importers:
         specifier: 5.8.3
         version: 5.8.3
       vite:
-        specifier: ^7
-        version: 7.0.0
+        specifier: ^6
+        version: 6.3.5
 
 packages:
 
@@ -774,19 +774,19 @@ packages:
   urlpattern-polyfill@10.1.0:
     resolution: {integrity: sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw==}
 
-  vite@7.0.0:
-    resolution: {integrity: sha512-ixXJB1YRgDIw2OszKQS9WxGHKwLdCsbQNkpJN171udl6szi/rIySHL6/Os3s2+oE4P/FLD4dxg4mD7Wust+u5g==}
-    engines: {node: ^20.19.0 || >=22.12.0}
+  vite@6.3.5:
+    resolution: {integrity: sha512-cZn6NDFE7wdTpINgs++ZJ4N49W2vRp8LCKrn3Ob1kYNtOo21vfDoaV5GzBfLU4MovSAB8uNRm4jgzVQZ+mBzPQ==}
+    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
-      '@types/node': ^20.19.0 || >=22.12.0
+      '@types/node': ^18.0.0 || ^20.0.0 || >=22.0.0
       jiti: '>=1.21.0'
-      less: ^4.0.0
+      less: '*'
       lightningcss: ^1.21.0
-      sass: ^1.70.0
-      sass-embedded: ^1.70.0
-      stylus: '>=0.54.8'
-      sugarss: ^5.0.0
+      sass: '*'
+      sass-embedded: '*'
+      stylus: '*'
+      sugarss: '*'
       terser: ^5.16.0
       tsx: ^4.8.1
       yaml: ^2.4.2
@@ -1488,7 +1488,7 @@ snapshots:
 
   urlpattern-polyfill@10.1.0: {}
 
-  vite@7.0.0:
+  vite@6.3.5:
     dependencies:
       esbuild: 0.25.0
       fdir: 6.4.6(picomatch@4.0.2)
