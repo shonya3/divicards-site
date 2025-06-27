@@ -44,7 +44,7 @@ body {
 }
 
 .toast-link {
-	color: white;
+	color: var(--sl-color-neutral-900);
 }
 
 .toast-link:hover {
