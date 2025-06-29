@@ -19,10 +19,18 @@ export function prepare_weight_data(card: Card): WeightData {
 		};
 	}
 
+	if (card.preReworkWeight > 0) {
+		return {
+			kind: 'show-pre-rework-weight',
+			name: card.name,
+			weight: card.preReworkWeight,
+		};
+	}
+
 	return {
-		kind: 'show-pre-rework-weight',
+		kind: 'no-data',
 		name: card.name,
-		weight: card.preReworkWeight,
+		weight: 0,
 	};
 }
 

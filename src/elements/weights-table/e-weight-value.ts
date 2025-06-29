@@ -48,6 +48,10 @@ function weightLabel(weightData: WeightData) {
 		case 'show-pre-rework-weight': {
 			return formatWeight(weightData.weight);
 		}
+
+		case 'no-data': {
+			return 'no data';
+		}
 	}
 }
 
