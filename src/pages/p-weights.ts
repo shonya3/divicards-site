@@ -95,13 +95,16 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 						<p>For better understanding, read <em>poorFishwife's</em> posts in these reddit threads:</p>
 						<ul>
 							<li>
-								<a href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
+								<a
+									target="_blank"
+									href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
 									>Hihi reddit! 🐟❤️ What's your favourite Divination Card? Mine is The Vast,
 									because...</a
 								>
 							</li>
 							<li>
 								<a
+									target="_blank"
 									href="https://www.reddit.com/r/pathofexile/comments/wsi0j8/complete_divination_card_dropweight_tables_drop/"
 									>Complete Divination Card Dropweight Tables, Drop Estimates for New 3.19 Cards, and
 									Player IIQ Formula | Prohibited Library Digest</a
