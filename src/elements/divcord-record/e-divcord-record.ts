@@ -1,16 +1,16 @@
 import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { UnsafeHTMLDirective, unsafeHTML } from 'lit/directives/unsafe-html.js';
-import './e-source/e-source';
-import './e-need-to-verify';
-import './e-verify-faq-alert';
+import '../e-source/e-source';
+import '../e-need-to-verify';
+import '../e-verify-faq-alert';
+import './e-divcord-record-notes.js';
 import { classMap } from 'lit/directives/class-map.js';
-import type { DivcordRecord } from '../../gen/divcord';
-import { DirectiveResult } from 'lit/async-directive.js';
-import { divcordRecordHref, escapeHtml } from '../utils';
-import { linkStyles } from '../linkStyles';
+import type { DivcordRecord } from '../../../gen/divcord';
+import { divcordRecordHref } from '../../utils';
+import { linkStyles } from '../../linkStyles';
 
 /**
+ * A row in divcord spreadsheet
  * @cssproperty --greynote-color - The text color of greynote.
  * @cssproperty --paragraph-color - The text color of notes and wiki disagreements.
  * @cssproperty	--confidence--done-bg-color - The background color for Done confidence.
@@ -81,12 +81,8 @@ export class SourcefulDivcordRecordElement extends LitElement {
 						</ul>
 				  </div>`
 				: nothing}
-			${this.record.notes
-				? html`<div class="notes">
-						<h3>Notes</h3>
-						<p>${formatNotes(this.record.notes)}</p>
-				  </div>`
-				: nothing}
+
+			<e-divcord-record-notes class="notes" .notes=${this.record.notes}></e-divcord-record-notes>
 		</div>`;
 	}
 
@@ -218,8 +214,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		}
 
 		.notes {
-			max-width: 65ch;
-			font-size: 1rem;
 			margin-top: 2rem;
 		}
 
@@ -230,10 +224,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			font-weight: 500;
 		}
 	`;
-}
-
-function formatNotes(notes?: string): DirectiveResult<typeof UnsafeHTMLDirective> {
-	return unsafeHTML(escapeHtml(`${notes ?? ''}`).replaceAll('\n', '<br>'));
 }
 
 declare global {
