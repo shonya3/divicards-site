@@ -32,16 +32,15 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			></e-divcord-record-remaining-work>
 
 			${this.record.sources.length > 0
-				? html`<div class="wiki-agreements">
-						<h3>Verified drop sources</h3>
-						<ul class="wiki-agreements_sources">
+				? html`
+						<ul class="verified-drops">
 							${this.record.sources.map(
 								source => html`<li>
 									<e-source .source=${source}></e-source>
 								</li>`
 							)}
 						</ul>
-				  </div>`
+				  `
 				: nothing}
 			${this.record.verifySources.length
 				? html`<div class="sourcesWithTagButNotOnWiki">
@@ -111,16 +110,12 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			font-style: italic;
 		}
 
-		.wiki-agreements {
-			margin-top: 2rem;
-		}
-
-		.wiki-agreements_sources {
-			margin-top: 0.5rem;
-			list-style: none;
+		.verified-drops {
 			display: flex;
 			gap: 0.8rem;
+			list-style: none;
 			flex-wrap: wrap;
+			padding-block: var(--sl-spacing-2x-large);
 		}
 
 		.sourcesWithTagButNotOnWiki {
@@ -140,7 +135,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		}
 
 		.notes {
-			margin-top: 2rem;
+			margin-top: var(--sl-spacing-large);
 		}
 
 		h3 {

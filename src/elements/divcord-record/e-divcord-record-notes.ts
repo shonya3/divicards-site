@@ -32,10 +32,6 @@ export class DivcordRecordNotesElement extends LitElement {
 			max-width: 65ch;
 		}
 
-		.notes-details {
-			margin-top: var(--sl-spacing-large);
-		}
-
 		.notes-details::part(base) {
 			border: 1px solid var(--sl-color-neutral-200);
 			border-radius: var(--sl-border-radius-medium);
