@@ -4,23 +4,14 @@ import '../e-source/e-source';
 import '../e-need-to-verify';
 import '../e-verify-faq-alert';
 import './e-divcord-record-notes.js';
-import { classMap } from 'lit/directives/class-map.js';
+import './e-divcord-record-confidence.js';
+import './e-divcord-record-remaining-work.js';
 import type { DivcordRecord } from '../../../gen/divcord';
 import { divcordRecordHref } from '../../utils';
 import { linkStyles } from '../../linkStyles';
 
 /**
  * A row in divcord spreadsheet
- * @cssproperty --greynote-color - The text color of greynote.
- * @cssproperty --paragraph-color - The text color of notes and wiki disagreements.
- * @cssproperty	--confidence--done-bg-color - The background color for Done confidence.
- * @cssproperty --confidence--ok-bg-color - The background color for OK confidence.
- * @cssproperty	--confidence--low-bg-color - The background color for Low confidence.
- * @cssproperty	--confidence--none-bg-color - The background color for None confidence.
- * @cssproperty	--confidence--done-color - The text color for Done confidence.
- * @cssproperty --confidence--ok-color - The ok color for OK confidence.
- * @cssproperty	--confidence--low-color - The text color for Low confidence.
- * @cssproperty	--confidence--none-color - The text color for None confidence.
  */
 @customElement('e-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
@@ -31,29 +22,15 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			<!-- ${this.record.greynote === 'Empty'
 				? nothing
 				: html`<div class="greynote">${this.record.greynote}</div>`} -->
-			<a href=${divcordRecordHref(this.record.id)} target="_blank" class="cardName">${this.record.card}</a>
-			<div
-				title="Confidence"
-				class=${classMap({
-					confidence: true,
-					[`confidence--${this.record.confidence}`]: true,
-				})}
+			<a href=${divcordRecordHref(this.record.id)} target="_blank" class="cardName"
+				>#${this.record.id} ${this.record.card}</a
 			>
-				<span class="confidence-span">Confidence</span> ${this.record.confidence}
-			</div>
-			${this.record.remainingWork === 'n/a'
-				? nothing
-				: html`<div
-						class="${classMap({
-							'remaining-work': true,
-							'remaining-work--story': this.record.remainingWork === 'story',
-							'remaining-work--reverify': this.record.remainingWork === 'reverify',
-							'remaining-work--confirm': this.record.remainingWork === 'confirm',
-						})}"
-				  >
-						<span class="remaining-work-span">Remaining Work</span>
-						<span>${this.record.remainingWork}</span>
-				  </div>`}
+
+			<e-divcord-record-confidence .confidence=${this.record.confidence}></e-divcord-record-confidence>
+			<e-divcord-record-remaining-work
+				.remainingWork=${this.record.remainingWork}
+			></e-divcord-record-remaining-work>
+
 			${this.record.sources.length > 0
 				? html`<div class="wiki-agreements">
 						<h3>Verified drop sources</h3>
@@ -91,16 +68,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			display: block;
 			--greynote-color: var(--sl-color-gray-400);
 			--paragraph-color: var(--sl-color-gray-700);
-
-			--confidence--done-bg-color: green;
-			--confidence--ok-bg-color: #93c47d;
-			--confidence--low-bg-color: #f1c232;
-			--confidence--none-bg-color: red;
-
-			--confidence--done-color: white;
-			--confidence--ok-color: black;
-			--confidence--low-color: black;
-			--confidence--none-color: white;
 		}
 
 		${linkStyles}
@@ -117,13 +84,12 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		}
 
 		.cardName {
-			margin-bottom: 1.5rem;
 			display: block;
-			gap: 0.4rem;
-			padding-bottom: 0.4rem;
-			font-size: 1.2rem;
+			gap: var(--sl-spacing-x-small);
+			padding-bottom: var(--sl-spacing-x-small);
+			font-size: var(--sl-font-size-medium);
 			text-decoration: underline;
-			color: var(--link-color);
+			font-weight: var(--sl-font-weight-bold);
 		}
 
 		* {
@@ -143,53 +109,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 		.greynote {
 			color: var(--greynote-color);
 			font-style: italic;
-		}
-
-		/** Confidence */
-		.confidence {
-			padding: 2rem;
-			font-size: 18px;
-			position: relative;
-		}
-		.confidence--done {
-			background-color: var(--confidence--done-bg-color);
-			color: var(--confidence--done-color);
-		}
-		.confidence--ok {
-			background-color: var(--confidence--ok-bg-color);
-			color: var(--confidence--ok-color);
-		}
-		.confidence--low {
-			background-color: var(--confidence--low-bg-color);
-			color: var(--confidence--low-color);
-		}
-		.confidence--none {
-			background-color: var(--confidence--none-bg-color);
-			color: var(--confidence--none-color);
-		}
-		.confidence-span,
-		.remaining-work-span {
-			font-size: 14px;
-			position: absolute;
-			bottom: 5px;
-			right: 5px;
-		}
-
-		.remaining-work {
-			padding: 2rem;
-			font-size: 18px;
-			position: relative;
-			color: black;
-		}
-		.remaining-work--reverify {
-			background-color: #9fc5e8;
-		}
-		.remaining-work--story {
-			background-color: #efa7c5;
-		}
-		.remaining-work--confirm {
-			background-color: #f5d379;
-			color: black;
 		}
 
 		.wiki-agreements {
