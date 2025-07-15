@@ -9,7 +9,7 @@ import 'poe-custom-elements/divination-card.js';
 /**
  * Element for card page and divcord page list
  * @slot    card - Divination card slot.
- * @slot    main - Slot at the top, before divcord records.
+ * @slot    main-start - The very start of the main section.
  * @csspart card - Divination card.
  */
 @customElement('e-card-with-divcord-records')

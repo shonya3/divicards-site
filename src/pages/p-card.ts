@@ -55,24 +55,18 @@ export class CardPage extends SignalWatcher(LitElement) {
 					.active_drop_source=${this.view_transition_names.active_drop_source}
 				>
 				</e-card-with-sources>
-				${card
-					? html`
-							<div slot="main-start">
-								${card.league
-									? html`<div>
-											<span class="text-gray-700">Release:</span>
-											<span class="text-gray-900"
-												>${card.league.name} ${card.league.version}</span
-											>
-									  </div>`
-									: nothing}
-								<span class="text-gray-700">Weight:</span>
-								<span class="text-gray-900"
-									><e-weight-value .weightData=${prepare_weight_data(card)}></e-weight-value
-								></span>
-							</div>
-					  `
-					: nothing}
+				<div slot="main-start">
+					${card.league
+						? html`<div>
+								<span class="text-gray-700">Release:</span>
+								<span class="text-gray-900">${card.league.name} ${card.league.version}</span>
+						  </div>`
+						: nothing}
+					<span class="text-gray-700">Weight:</span>
+					<span class="text-gray-900"
+						><e-weight-value .weightData=${prepare_weight_data(card)}></e-weight-value
+					></span>
+				</div>
 			</e-card-with-divcord-records>
 		</div>`;
 	}
