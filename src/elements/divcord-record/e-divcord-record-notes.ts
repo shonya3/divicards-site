@@ -1,5 +1,6 @@
 import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import '@shoelace-style/shoelace/dist/components/details/details.js';
 
 @customElement('e-divcord-record-notes')
 export class DivcordRecordNotesElement extends LitElement {
