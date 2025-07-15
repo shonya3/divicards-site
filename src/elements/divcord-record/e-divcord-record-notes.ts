@@ -49,6 +49,7 @@ export class DivcordRecordNotesElement extends LitElement {
 
 		.notes-details::part(content) {
 			padding: var(--sl-spacing-medium);
+			font-size: var(--sl-font-size-small);
 		}
 
 		.notes-details ul {
