@@ -1,10 +1,11 @@
-import { LitElement, TemplateResult, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './divination-card/e-divination-card';
-import './e-divcord-record';
+import './divcord-record/e-divcord-record';
 import './e-divcord-needs-info';
 import type { DivcordRecord } from '../../gen/divcord';
 import 'poe-custom-elements/divination-card.js';
+import { when } from 'lit/directives/when.js';
 
 /**
  * Element for card page and divcord page list
@@ -19,6 +20,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 
 	render(): TemplateResult {
 		const allRecordsHaveNoSources = this.records.every(s => s.sources.length === 0);
+		const hasReverifySource = this.records.some(record => record.remainingWork === 'reverify');
 
 		return html`
 			<slot name="card">
@@ -26,9 +28,12 @@ export class CardWithDivcordRecordsElement extends LitElement {
 			</slot>
 			<main class="main">
 				<slot name="main-start"></slot>
-				${allRecordsHaveNoSources && !this.records.some(record => record.remainingWork === 'reverify')
-					? html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
-					: nothing}
+
+				${when(
+					allRecordsHaveNoSources && !hasReverifySource,
+					() => html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
+				)}
+
 				<ul class="records">
 					${this.records.map(
 						record =>
