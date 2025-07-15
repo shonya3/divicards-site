@@ -105,6 +105,17 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		${linkStyles}
 
+		.record {
+			min-width: 400px;
+			max-width: 600px;
+
+			border: solid 1px var(--sl-color-neutral-200);
+			border-radius: var(--sl-border-radius-medium);
+			box-shadow: var(--sl-shadow-small);
+
+			padding: 2rem;
+		}
+
 		.cardName {
 			margin-bottom: 1.5rem;
 			display: block;
@@ -122,10 +133,6 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 		p {
 			color: var(--paragraph-color);
-		}
-
-		.record {
-			max-width: 600px;
 		}
 
 		.tagHypothesis {
