@@ -23,7 +23,7 @@ declare module '@thepassle/app-tools/router.js' {
 }
 
 import './pages/p-home';
-import './pages/p-card';
+import './pages/card/p-card';
 import './pages/p-source';
 import './pages/p-source-type';
 import './pages/p-verify-faq';
