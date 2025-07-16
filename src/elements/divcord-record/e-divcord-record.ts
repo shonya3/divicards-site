@@ -11,7 +11,7 @@ import { divcordRecordHref } from '../../utils';
 import { linkStyles } from '../../linkStyles';
 
 /**
- * A row in divcord spreadsheet
+ * A block representation of a in divcord spreadsheet row.
  */
 @customElement('e-divcord-record')
 export class SourcefulDivcordRecordElement extends LitElement {
@@ -19,11 +19,10 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 	protected render(): TemplateResult {
 		return html`<div class="record">
-			<!-- ${this.record.greynote === 'Empty'
-				? nothing
-				: html`<div class="greynote">${this.record.greynote}</div>`} -->
-			<a href=${divcordRecordHref(this.record.id)} target="_blank" class="cardName"
-				>#${this.record.id} ${this.record.card}</a
+			${this.record.greynote === 'Empty' ? nothing : html`<span class="greynote">${this.record.greynote}</span>`}
+
+			<a href=${divcordRecordHref(this.record.id)} target="_blank" class="cardName">
+				#${this.record.id} ${this.record.card}</a
 			>
 
 			<e-divcord-record-confidence .confidence=${this.record.confidence}></e-divcord-record-confidence>
@@ -33,7 +32,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 
 			${this.record.sources.length > 0
 				? html`
-						<ul class="verified-drops">
+						<ul class="sources-list">
 							${this.record.sources.map(
 								source => html`<li>
 									<e-source .source=${source}></e-source>
@@ -43,10 +42,10 @@ export class SourcefulDivcordRecordElement extends LitElement {
 				  `
 				: nothing}
 			${this.record.verifySources.length
-				? html`<div class="sourcesWithTagButNotOnWiki">
+				? html`<div class="verify-sources">
 						<h3>Need to verify</h3>
-						<e-verify-faq-alert class="verify-faq-alert"></e-verify-faq-alert>
-						<ul class="need-to-verify_list">
+						<e-verify-faq-alert></e-verify-faq-alert>
+						<ul>
 							${this.record.verifySources.map(
 								source => html`<li>
 									<e-need-to-verify>
@@ -63,6 +62,11 @@ export class SourcefulDivcordRecordElement extends LitElement {
 	}
 
 	static styles = css`
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
 		:host {
 			display: block;
 			--greynote-color: var(--sl-color-gray-400);
@@ -91,51 +95,37 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			font-weight: var(--sl-font-weight-bold);
 		}
 
-		* {
-			padding: 0;
-			margin: 0;
-		}
-
-		p {
-			color: var(--paragraph-color);
-		}
-
-		.tagHypothesis {
-			font-style: italic;
-			color: var(--sl-color-gray-500);
-		}
-
 		.greynote {
 			color: var(--greynote-color);
 			font-style: italic;
 		}
 
-		.verified-drops {
+		.sources-list {
 			display: flex;
-			gap: 0.8rem;
+			gap: var(--sl-spacing-small);
 			list-style: none;
 			flex-wrap: wrap;
 			padding-block: var(--sl-spacing-2x-large);
 		}
 
-		.sourcesWithTagButNotOnWiki {
+		.verify-sources {
 			margin-top: 2rem;
-		}
 
-		.verify-faq-alert {
-			margin-top: 0.4rem;
-		}
+			& e-verify-faq-alert {
+				margin-top: var(--sl-spacing-small);
+			}
 
-		.need-to-verify_list {
-			margin-top: 0.5rem;
-			list-style: none;
-			display: flex;
-			gap: 2rem;
-			flex-wrap: wrap;
+			& ul {
+				margin-top: var(--sl-spacing-x-small);
+				list-style: none;
+				display: flex;
+				gap: 2rem;
+				flex-wrap: wrap;
+			}
 		}
 
 		.notes {
-			margin-top: var(--sl-spacing-large);
+			margin-top: var(--sl-spacing-4x-large);
 		}
 
 		h3 {
