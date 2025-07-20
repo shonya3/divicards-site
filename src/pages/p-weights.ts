@@ -60,7 +60,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 			<h1 class="heading">Weights</h1>
 			<main class="main">
 				<section class="section-table">
-					<h2>Weights Table</h2>
+					<h2>Weights Table <span class="current-league">3.26</span></h2>
 					<p class="weights-spreadsheet-p">
 						<sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
 						<a
@@ -163,6 +163,11 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 
 		.section-table__table {
 			margin-top: 0.4rem;
+		}
+
+		.current-league {
+			color: var(--sl-color-blue-600);
+			font-weight: var(--sl-font-weight-bold);
 		}
 
 		.weights-spreadsheet-p {
