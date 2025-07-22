@@ -1,7 +1,9 @@
 export type Order = 'asc' | 'desc';
+export type WeightHistory = Record<string, number>;
+
 export type WeightData = {
-	kind: WeightKind;
 	name: string;
-	weight: number;
+	disabled: boolean;
+	weights: WeightHistory;
+	latestWeight: number;
 };
-export type WeightKind = 'disabled' | 'normal' | 'show-pre-rework-weight' | 'no-data';

@@ -56,8 +56,8 @@ export class VerifyPage extends SignalWatcher(LitElement) {
 	#filtered_weights_table_data = computed<Array<RowData>>(() => {
 		return this.#weights_table_data
 			.get()
-			.filter(({ weight }) => weight >= this.#minimum_weight.get())
-			.sort((a, b) => b.weight - a.weight);
+			.filter(({ latestWeight }) => latestWeight >= this.#minimum_weight.get())
+			.sort((a, b) => b.latestWeight - a.latestWeight);
 	});
 
 	#sources_and_cards = computed(() => {

@@ -9,7 +9,7 @@ import { styles as tableStyles } from './table.styles';
 import { Sort } from './Sort';
 import '../divination-card/e-divination-card';
 import '../e-source/e-source';
-import '../weights-table/e-weight-value';
+import '../weights-table/e-weight-breakdown.js';
 import { Source } from '../../../gen/Source';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../../../gen/divcordWasm/divcord_wasm';
@@ -109,7 +109,7 @@ export class WeightsTableVerifySources extends LitElement {
 								</e-need-to-verify>
 							</td>
 							<td class="td td-weight">
-								<e-weight-value .weightData=${cardRowData}></e-weight-value>
+								<e-weight-breakdown .weights=${cardRowData.weights}></e-weight-breakdown>
 							</td>
 							<td class="td sources">
 								<ul class="sources-list">

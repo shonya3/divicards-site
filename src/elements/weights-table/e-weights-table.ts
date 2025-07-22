@@ -10,11 +10,11 @@ import { Sort } from './Sort';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import '../divination-card/e-divination-card';
-import './e-weight-value';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 import 'poe-custom-elements/item-card.js';
+import './e-weight-breakdown.js';
 
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
@@ -138,7 +138,7 @@ export class WeightsTableElement extends LitElement {
 										  </a>`}
 								</td>
 								<td class="td td-weight">
-									<e-weight-value .weightData=${cardRowData}></e-weight-value>
+									<e-weight-breakdown .weights=${cardRowData.weights}></e-weight-breakdown>
 								</td>
 							</tr>`
 						);

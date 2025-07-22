@@ -15,6 +15,7 @@
 	},
 	"devDependencies": {
 		"@custom-elements-manifest/analyzer": "0.10.4",
+		"@types/semver": "^7.7.0",
 		"custom-element-vs-code-integration": "1.5.0",
 		"lit-analyzer": "2.0.3",
 		"typescript": "5.8.3",
@@ -29,6 +30,7 @@
 		"@thepassle/app-tools": "^0.10",
 		"lit": "3.3.1",
 		"poe-custom-elements": "0.3.18",
+		"semver": "^7.7.2",
 		"signal-utils": "0.21.1",
 		"urlpattern-polyfill": "10.1.0"
 	}

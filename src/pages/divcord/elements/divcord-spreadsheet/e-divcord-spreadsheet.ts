@@ -6,7 +6,7 @@ import '../../../../elements/divination-card/e-divination-card';
 import '../../../../elements/e-source/e-source';
 import '../../../../elements/e-need-to-verify';
 import '../../../../elements/e-sources';
-import '../../../../elements/weights-table/e-weight-value';
+import '../../../../elements/weights-table/e-weight-breakdown.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
 import { styles } from './divcord-spreadsheet.styles';
@@ -20,6 +20,7 @@ import { WeightData } from '../../../../elements/weights-table/types';
 import { DivcordRecord } from '../../../../../gen/divcord';
 import { slug } from '../../../../../gen/divcordWasm/divcord_wasm';
 import { linkStyles } from '../../../../linkStyles';
+import { poeData } from '../../../../PoeData.js';
 
 /**
  * Adaptation of the Divcord google spreadsheet https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1&gid=0#gid=0
@@ -208,7 +209,9 @@ export class DivcordSpreadsheetElement extends LitElement {
 										  </a>`}
 								</td>
 								<td class="td cell-weight">
-									<e-weight-value .weightData=${record.weightData}></e-weight-value>
+									<e-weight-breakdown
+										.weights=${poeData.find.card(record.card)?.weights ?? {}}
+									></e-weight-breakdown>
 								</td>
 								<td
 									class=${classMap({

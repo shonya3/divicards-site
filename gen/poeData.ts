@@ -37,8 +37,7 @@ export type Card = {
 	name: string;
 	minLevel: number | null;
 	maxLevel?: number;
-	weight: number;
-	preReworkWeight: number;
+	weights: Record<string, number>;
 	league?: LeagueReleaseInfo | null;
 	disabled: boolean;
 };

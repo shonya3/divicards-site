@@ -1,42 +1,26 @@
 import { WeightData } from './types';
-import { Card } from '../../../gen/poeData';
+import type { Card } from '../../../gen/poeData';
 import { poeData } from '../../PoeData';
+import * as semver from 'semver';
 
 export function prepare_weight_data(card: Card): WeightData {
-	if (card.weight > 0) {
-		return {
-			kind: 'normal',
-			name: card.name,
-			weight: card.weight,
-		};
-	}
-
-	if (card.disabled) {
-		return {
-			kind: 'disabled',
-			name: card.name,
-			weight: -1,
-		};
-	}
-
-	if (card.preReworkWeight > 0) {
-		return {
-			kind: 'show-pre-rework-weight',
-			name: card.name,
-			weight: card.preReworkWeight,
-		};
-	}
+	const weights = structuredClone(card.weights);
+	const leagueNames = Object.keys(weights).sort((a, b) =>
+		semver.rcompare(semver.coerce(a) ?? '0.0.0', semver.coerce(b) ?? '0.0.0')
+	);
+	const latestWeight = leagueNames.length > 0 ? weights[leagueNames[0]] : 0;
 
 	return {
-		kind: 'no-data',
 		name: card.name,
-		weight: 0,
+		disabled: card.disabled,
+		weights,
+		latestWeight: card.disabled ? -1 : latestWeight,
 	};
 }
 
 /** Rows data for weights table */
 export function prepare_rows(): Array<WeightData> {
 	const rows = Object.values(poeData.cards).map(prepare_weight_data);
-	rows.sort((a, b) => b.weight - a.weight);
+	rows.sort((a, b) => b.latestWeight - a.latestWeight);
 	return rows;
 }
