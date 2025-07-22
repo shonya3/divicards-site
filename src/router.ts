@@ -36,7 +36,6 @@ import { findCardBySlug } from 'poe-custom-elements/divination-card/data.js';
 
 import sourcesJson from '../gen/json/sources2.json';
 import { ACTIVE_VIEW_VARIANTS, ActiveView } from './pages/p-verify';
-// import { table_records } from './table_records';
 const sources = sourcesJson as Record<string, Source>;
 
 export const router = new Router({
@@ -163,11 +162,5 @@ export const router = new Router({
 				return html`<p-source-type .sourceType=${sourceType}></p-source-type>`;
 			},
 		},
-		// for debug
-		// {
-		// 	path: '/spreadsheet',
-		// 	title: 'Divcord spreadsheet',
-		// 	render: () => html`<e-divcord-spreadsheet .records=${table_records}></e-divcord-spreadsheet>`,
-		// },
 	],
 });

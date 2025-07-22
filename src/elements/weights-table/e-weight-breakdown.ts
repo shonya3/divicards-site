@@ -1,8 +1,10 @@
 import { LitElement, html, css, nothing, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { formatWeight, getLatestVersions } from './weights.js';
+import { classMap } from 'lit/directives/class-map.js';
 import type { WeightData } from './types.js';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 @customElement('e-weight-breakdown')
@@ -28,6 +30,16 @@ export class WeightBreakdownElement extends LitElement {
 			display: flex;
 			align-items: center;
 			gap: 0.5rem;
+		}
+		.fallback-icon {
+			color: var(--sl-color-primary-600);
+			font-size: 14px;
+			margin-left: -0.25rem;
+		}
+		.no-data-span {
+			cursor: help;
+			border-bottom: 1px dotted;
+			color: var(--sl-color-neutral-600);
 		}
 		.delta {
 			font-size: 12px;
@@ -85,15 +97,24 @@ export class WeightBreakdownElement extends LitElement {
 	`;
 
 	render() {
-		if (!this.weightData) {
-			return html`<span>-</span>`;
-		}
+		if (!this.weightData) return html`<span>-</span>`;
 
-		if (this.weightData.disabled) {
-			return html`<span>disabled</span>`;
+		switch (this.weightData.displayKind) {
+			case 'disabled':
+				return html`<span>disabled</span>`;
+			case 'no-data':
+			case 'normal':
+			case 'fallback-to-prerework':
+				return this.renderWeightDisplay();
+			default:
+				return html`<span>-</span>`;
 		}
+	}
 
-		const { weights } = this.weightData;
+	private renderWeightDisplay(): TemplateResult {
+		if (!this.weightData) return html``;
+
+		const { weights, displayWeight, displayKind, fallbackSourceLeague } = this.weightData;
 
 		if (!weights || Object.keys(weights).length === 0) {
 			return html`<span>-</span>`;
@@ -104,53 +125,72 @@ export class WeightBreakdownElement extends LitElement {
 		if (!latest) {
 			const singleWeight = Object.values(weights)[0];
 			return html`<div class="weight-container">
-				<div class="latest-weight"><span>${singleWeight ? formatWeight(singleWeight) : '—'}</span></div>
+				<div class="latest-weight">
+					<span>${singleWeight ? formatWeight(singleWeight) : '—'}</span>
+				</div>
 			</div>`;
 		}
 
-		const { latestWeight } = this.weightData;
 		const previousWeight = previous ? weights[previous] : undefined;
 
 		const renderDelta = (): TemplateResult | typeof nothing => {
-			const lWeight = latestWeight ?? 0;
-
-			// No previous version to compare to.
-			if (previous == null) {
-				// If there's a weight, it's new. Otherwise, show nothing.
-				return lWeight > 0
-					? html`<span class="delta delta--new" title="New in patch ${latest}">NEW</span>`
-					: nothing;
-			}
-
-			const pWeight = previousWeight ?? 0;
-
-			// Previous version exists.
-			// If it's new (previous was 0), show NEW badge.
-			if (lWeight > 0 && pWeight === 0) {
-				return html`<span class="delta delta--new" title="New in patch ${latest}">NEW</span>`;
-			}
-
-			const delta = lWeight - pWeight;
-
-			// Don't show if there's no change.
-			// The threshold is set to 0.05 to align with the single-digit precision
-			// of formatWeight for small numbers, preventing "0.0" deltas.
-			if (Math.abs(delta) < 0.05) {
+			if (displayKind === 'fallback-to-prerework' || displayKind === 'no-data') {
 				return nothing;
 			}
 
+			const lWeight = displayWeight ?? 0;
+
+			// No previous version to compare to.
+			if (previous == null) {
+				return nothing;
+			}
+
+			const pWeight = previousWeight ?? 0;
+			const delta = lWeight - pWeight;
+
+			// To avoid showing a "+0" or "-0" delta, we check if the rounded delta is zero using the same logic as
+			// the formatWeight() utility. This can happen with very small floating point differences, or with small
+			// numbers that round to zero with the given precision (e.g., -0.04 rounds to 0 with one decimal place).
+			const precision = Math.abs(delta) > 5 ? 0 : 1;
+			const p = Math.pow(10, precision);
+			const roundedDelta = Math.round(delta * p) / p;
+
+			if (roundedDelta === 0) {
+				return nothing;
+			}
+
+			if (pWeight === 0 && lWeight > 0) {
+				return html`<span class="delta delta--new">new</span>`;
+			}
+
+			const direction = delta > 0 ? 'up' : 'down';
+			return html`<span
+				class=${classMap({ delta: true, 'delta--up': direction === 'up', 'delta--down': direction === 'down' })}
+				>${formatWeight(delta, { signDisplay: 'always' })}</span
+			>`;
+		};
+
+		const renderFallbackIcon = () => {
+			if (displayKind !== 'fallback-to-prerework') {
+				return nothing;
+			}
+			const content = `Pre-rework weight from patch ${fallbackSourceLeague} is shown.`;
 			return html`
-				<span class="delta ${delta > 0 ? 'delta--up' : 'delta--down'}" title="Change from patch ${previous}">
-					${formatWeight(delta, { signDisplay: 'always' })}
-				</span>
+				<sl-tooltip .content=${content}>
+					<sl-icon name="info-circle" class="fallback-icon"></sl-icon>
+				</sl-tooltip>
 			`;
 		};
 
 		return html`
 			<div class="weight-container">
 				<div class="latest-weight">
-					<span>${formatWeight(latestWeight)}</span>
-					${renderDelta()}
+					${displayKind === 'no-data'
+						? html`<sl-tooltip
+								content="The card has a weight of 0 in the current league. To avoid showing potentially outdated information, no fallback weight from a previous league is displayed."
+								><span class="no-data-span">no data</span></sl-tooltip
+						  >`
+						: html`<span>${formatWeight(displayWeight)}</span> ${renderFallbackIcon()} ${renderDelta()}`}
 				</div>
 				${allSorted.length > 1
 					? html`
@@ -158,10 +198,10 @@ export class WeightBreakdownElement extends LitElement {
 								<table class="history-table">
 									<tbody>
 										${allSorted.map(
-											version => html`
+											league => html`
 												<tr>
-													<td>${version}:</td>
-													<td>${formatWeight(weights[version])}</td>
+													<td>${league}:</td>
+													<td>${formatWeight(weights[league])}</td>
 												</tr>
 											`
 										)}
@@ -169,7 +209,7 @@ export class WeightBreakdownElement extends LitElement {
 								</table>
 							</sl-details>
 					  `
-					: ''}
+					: nothing}
 			</div>
 		`;
 	}

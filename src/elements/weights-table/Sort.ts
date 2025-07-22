@@ -6,6 +6,6 @@ export class Sort {
 	}
 
 	static byWeight(cards: WeightData[], order: Order): void {
-		cards.sort((a, b) => (order === 'asc' ? a.latestWeight - b.latestWeight : b.latestWeight - a.latestWeight));
+		cards.sort((a, b) => (order === 'asc' ? a.displayWeight - b.displayWeight : b.displayWeight - a.displayWeight));
 	}
 }

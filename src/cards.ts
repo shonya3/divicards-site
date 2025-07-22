@@ -1,6 +1,7 @@
 import { DivcordRecord } from '../gen/divcord';
 import { slug } from '../gen/divcordWasm/divcord_wasm';
 import { Source, SourceType, SOURCE_TYPE_VARIANTS } from '../gen/Source';
+import { prepare_weight_data } from './elements/weights-table/lib';
 import { PoeData, poeData } from './PoeData';
 
 /** Drop source and array of cards with verification status and possible transitive source */
@@ -31,11 +32,22 @@ export function cardsByMaps(records: DivcordRecord[]): Record<string, CardBySour
 
 /** Sort cards by weight, start from the most rare. If card has no weight, force it to the end */
 export function sort_by_weight(cards: { card: string }[] | string[], poeData: Readonly<PoeData>): void {
-	const SORT_TO_THE_END_VALUE = 1_000_000;
+	const SORT_TO_THE_END = 1_000_000;
+	const getSortableWeight = (cardName: string): number => {
+		const card = poeData.find.card(cardName);
+		if (!card) return SORT_TO_THE_END;
+
+		const weightData = prepare_weight_data(card);
+		if (weightData.displayKind === 'disabled' || weightData.displayKind === 'no-data') {
+			return SORT_TO_THE_END;
+		}
+		return weightData.displayWeight;
+	};
+
 	cards.sort((a, b) => {
-		const aWeight = poeData.find.card(typeof a === 'string' ? a : a.card)?.weight || SORT_TO_THE_END_VALUE;
-		const bWeight = poeData.find.card(typeof b === 'string' ? b : b.card)?.weight || SORT_TO_THE_END_VALUE;
-		return Number(aWeight) - Number(bWeight);
+		const aWeight = getSortableWeight(typeof a === 'string' ? a : a.card);
+		const bWeight = getSortableWeight(typeof b === 'string' ? b : b.card);
+		return aWeight - bWeight;
 	});
 }
 

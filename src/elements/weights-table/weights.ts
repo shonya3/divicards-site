@@ -42,5 +42,5 @@ export function formatWeight(
 	const rounded = Math.round(weight * p) / p;
 
 	// Intl.NumberFormat can format 0 as -0, so we handle it explicitly.
-	return formatters[key].format(rounded === 0 ? 0 : weight);
+	return formatters[key].format(rounded === 0 ? 0 : rounded);
 }
