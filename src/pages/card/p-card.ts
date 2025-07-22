@@ -14,6 +14,7 @@ import { divcord_store } from '../../stores/divcord';
 import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 import './e-card-fact.js';
 import '../../elements/weights-table/e-weight-breakdown.js';
+import { prepare_weight_data } from '../../elements/weights-table/lib.js';
 
 /**
  * A card fact chip used for displaying a label and a value.
@@ -60,7 +61,7 @@ export class CardPage extends SignalWatcher(LitElement) {
 						? html`<e-card-fact label="Release">${card.league.name} ${card.league.version}</e-card-fact>`
 						: nothing}
 					<e-card-fact label="Weight">
-						<e-weight-breakdown .weights=${card.weights}></e-weight-breakdown>
+						<e-weight-breakdown .weightData=${prepare_weight_data(card)}></e-weight-breakdown>
 					</e-card-fact>
 				</div>
 			</e-card-with-divcord-records>

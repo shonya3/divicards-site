@@ -109,7 +109,7 @@ export class WeightsTableVerifySources extends LitElement {
 								</e-need-to-verify>
 							</td>
 							<td class="td td-weight">
-								<e-weight-breakdown .weights=${cardRowData.weights}></e-weight-breakdown>
+								<e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
 							</td>
 							<td class="td sources">
 								<ul class="sources-list">

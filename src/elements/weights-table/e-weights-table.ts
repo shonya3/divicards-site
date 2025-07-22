@@ -138,7 +138,7 @@ export class WeightsTableElement extends LitElement {
 										  </a>`}
 								</td>
 								<td class="td td-weight">
-									<e-weight-breakdown .weights=${cardRowData.weights}></e-weight-breakdown>
+									<e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
 								</td>
 							</tr>`
 						);

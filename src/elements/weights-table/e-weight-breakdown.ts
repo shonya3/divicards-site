@@ -1,13 +1,14 @@
 import { LitElement, html, css, nothing, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { formatWeight, getLatestVersions } from './weights.js';
+import type { WeightData } from './types.js';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 @customElement('e-weight-breakdown')
 export class WeightBreakdownElement extends LitElement {
 	@property({ type: Object })
-	weights: Record<string, number> = {};
+	weightData?: WeightData;
 
 	static styles = css`
 		:host {
@@ -84,21 +85,31 @@ export class WeightBreakdownElement extends LitElement {
 	`;
 
 	render() {
-		if (!this.weights || Object.keys(this.weights).length === 0) {
+		if (!this.weightData) {
 			return html`<span>-</span>`;
 		}
 
-		const { latest, previous, allSorted } = getLatestVersions(this.weights);
+		if (this.weightData.disabled) {
+			return html`<span>disabled</span>`;
+		}
+
+		const { weights } = this.weightData;
+
+		if (!weights || Object.keys(weights).length === 0) {
+			return html`<span>-</span>`;
+		}
+
+		const { latest, previous, allSorted } = getLatestVersions(weights);
 
 		if (!latest) {
-			const singleWeight = Object.values(this.weights)[0];
+			const singleWeight = Object.values(weights)[0];
 			return html`<div class="weight-container">
 				<div class="latest-weight"><span>${singleWeight ? formatWeight(singleWeight) : '—'}</span></div>
 			</div>`;
 		}
 
-		const latestWeight = this.weights[latest];
-		const previousWeight = previous ? this.weights[previous] : undefined;
+		const latestWeight = weights[latest];
+		const previousWeight = previous ? weights[previous] : undefined;
 
 		const renderDelta = (): TemplateResult | typeof nothing => {
 			const lWeight = latestWeight ?? 0;
@@ -150,7 +161,7 @@ export class WeightBreakdownElement extends LitElement {
 											version => html`
 												<tr>
 													<td>${version}:</td>
-													<td>${formatWeight(this.weights[version])}</td>
+													<td>${formatWeight(weights[version])}</td>
 												</tr>
 											`
 										)}
