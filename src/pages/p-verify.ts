@@ -26,6 +26,7 @@ import {
 import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { divcord_store } from '../stores/divcord';
 import { use_local_storage } from '../composables/use_local_storage';
+import { formatWeight } from '../elements/weights-table/weights';
 
 declare module '../storage' {
 	interface Registry {
@@ -201,17 +202,6 @@ function weightsTableData(records: DivcordRecord[], poeData: PoeData): RowData[]
 		}));
 }
 
-type GroupBy = <T, Key extends string>(
-	arr: Array<T>,
-	cb: (el: T, index: number, arr: Array<T>) => Key
-) => Record<Key, T[]>;
-
-declare global {
-	interface Object {
-		groupBy: GroupBy;
-	}
-}
-
 const groupBy = <T>(arr: T[], cb: (el: T, index: number, arr: T[]) => string): Record<string, T[]> => {
 	const record: Record<string, T[]> = Object.create({});
 
@@ -247,13 +237,4 @@ function linkLabel(activeView: ActiveView) {
 		case 'weights-table':
 			return 'weights';
 	}
-}
-
-const fmts = {
-	'0': new Intl.NumberFormat('en', { maximumFractionDigits: 0 }),
-	'2': new Intl.NumberFormat('en', { maximumFractionDigits: 2 }),
-};
-function formatWeight(weight: number, formatters: Record<0 | 2, Intl.NumberFormat> = fmts) {
-	const maximumFractionDigits = weight > 5 ? 0 : 2;
-	return formatters[maximumFractionDigits].format(weight);
 }
