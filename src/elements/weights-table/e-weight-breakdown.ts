@@ -108,7 +108,7 @@ export class WeightBreakdownElement extends LitElement {
 			</div>`;
 		}
 
-		const latestWeight = weights[latest];
+		const { latestWeight } = this.weightData;
 		const previousWeight = previous ? weights[previous] : undefined;
 
 		const renderDelta = (): TemplateResult | typeof nothing => {
