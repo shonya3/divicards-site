@@ -10,4 +10,5 @@ export type WeightData = {
 	displayKind: WeightDisplayKind;
 	displayWeight: number;
 	fallbackSourceLeague?: string;
+	delta: number;
 };

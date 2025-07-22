@@ -114,39 +114,18 @@ export class WeightBreakdownElement extends LitElement {
 	private renderWeightDisplay(): TemplateResult {
 		if (!this.weightData) return html``;
 
-		const { weights, displayWeight, displayKind, fallbackSourceLeague } = this.weightData;
+		const { weights, displayWeight, displayKind, fallbackSourceLeague, delta } = this.weightData;
 
 		if (!weights || Object.keys(weights).length === 0) {
 			return html`<span>-</span>`;
 		}
 
-		const { latest, previous, allSorted } = getLatestVersions(weights);
-
-		if (!latest) {
-			const singleWeight = Object.values(weights)[0];
-			return html`<div class="weight-container">
-				<div class="latest-weight">
-					<span>${singleWeight ? formatWeight(singleWeight) : '—'}</span>
-				</div>
-			</div>`;
-		}
-
-		const previousWeight = previous ? weights[previous] : undefined;
+		const { allSorted } = getLatestVersions(weights);
 
 		const renderDelta = (): TemplateResult | typeof nothing => {
 			if (displayKind === 'fallback-to-prerework' || displayKind === 'no-data') {
 				return nothing;
 			}
-
-			const lWeight = displayWeight ?? 0;
-
-			// No previous version to compare to.
-			if (previous == null) {
-				return nothing;
-			}
-
-			const pWeight = previousWeight ?? 0;
-			const delta = lWeight - pWeight;
 
 			// To avoid showing a "+0" or "-0" delta, we check if the rounded delta is zero using the same logic as
 			// the formatWeight() utility. This can happen with very small floating point differences, or with small
@@ -159,7 +138,8 @@ export class WeightBreakdownElement extends LitElement {
 				return nothing;
 			}
 
-			if (pWeight === 0 && lWeight > 0) {
+			// If the delta is the same as the display weight, it means the previous weight was 0, so it's a new card.
+			if (delta > 0 && delta === displayWeight) {
 				return html`<span class="delta delta--new">new</span>`;
 			}
 

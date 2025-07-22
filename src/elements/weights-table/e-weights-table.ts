@@ -25,7 +25,8 @@ export class WeightsTableElement extends LitElement {
 	@property({ type: Array }) rows: WeightData[] = [];
 	@property({ reflect: true, attribute: 'weight-order' }) weightOrder: Order = 'desc';
 	@property({ reflect: true, attribute: 'name-order' }) nameOrder: Order = 'asc';
-	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' = 'weight';
+	@property({ reflect: true, attribute: 'delta-order' }) deltaOrder: Order = 'desc';
+	@property({ reflect: true, attribute: 'ordered-by' }) orderedBy: 'name' | 'weight' | 'delta' = 'weight';
 	@property({ type: Number, reflect: true }) limit: null | number = 5;
 	@property({ type: Boolean, reflect: true, attribute: 'show-cards' })
 	showCards = false;
@@ -44,22 +45,36 @@ export class WeightsTableElement extends LitElement {
 			this.rowsClone = structuredClone(this.rows);
 		}
 
-		if (map.has('weightOrder')) {
-			if (this.orderedBy === 'weight') {
-				this.weightIcon = this.weightOrder === 'desc' ? 'sort-down' : 'sort-up';
-				Sort.byWeight(this.rowsClone, this.weightOrder);
-			}
+		const shouldSort =
+			map.has('rows') ||
+			map.has('orderedBy') ||
+			(this.orderedBy === 'weight' && map.has('weightOrder')) ||
+			(this.orderedBy === 'name' && map.has('nameOrder')) ||
+			(this.orderedBy === 'delta' && map.has('deltaOrder'));
+
+		if (shouldSort) {
+			this.#sortRows();
 		}
 
-		if (map.has('nameOrder')) {
-			if (this.orderedBy === 'name') {
+		if (shouldSort || map.has('limit')) {
+			this.rowsLimitedVisible = this.limit ? this.rowsClone.slice(0, this.limit) : this.rowsClone;
+		}
+	}
+
+	#sortRows() {
+		switch (this.orderedBy) {
+			case 'name':
 				this.nameIcon = this.nameOrder === 'desc' ? 'sort-alpha-down-alt' : 'sort-alpha-down';
 				Sort.byName(this.rowsClone, this.nameOrder);
-			}
-		}
-
-		if (map.has('rows') || map.has('limit') || map.has('nameOrder') || map.has('weightOrder')) {
-			this.rowsLimitedVisible = this.limit ? this.rowsClone.slice(0, this.limit) : this.rowsClone;
+				break;
+			case 'weight':
+				this.weightIcon = this.weightOrder === 'desc' ? 'sort-down' : 'sort-up';
+				Sort.byWeight(this.rowsClone, this.weightOrder);
+				break;
+			case 'delta':
+				this.weightIcon = this.deltaOrder === 'desc' ? 'sort-numeric-down' : 'sort-numeric-up';
+				Sort.byDelta(this.rowsClone, this.deltaOrder);
+				break;
 		}
 	}
 
@@ -90,10 +105,10 @@ export class WeightsTableElement extends LitElement {
 						</th>
 						<th class="th th-weight">
 							<div class="header-with-icon">
-								Weight
+								${this.orderedBy === 'delta' ? 'Change' : 'Weight'}
 								<sl-icon
 									class=${classMap({
-										'ordered-by': this.orderedBy === 'weight',
+										'ordered-by': this.orderedBy === 'weight' || this.orderedBy === 'delta',
 									})}
 									@click=${this.#toggleWeightOrder}
 									.name=${this.weightIcon}
@@ -168,8 +183,28 @@ export class WeightsTableElement extends LitElement {
 	}
 
 	#toggleWeightOrder() {
-		this.weightOrder = this.weightOrder === 'asc' ? 'desc' : 'asc';
-		this.orderedBy = 'weight';
+		const isWeightSort = this.orderedBy === 'weight';
+		const isDeltaSort = this.orderedBy === 'delta';
+
+		if (isWeightSort && this.weightOrder === 'desc') {
+			// State 1: Weight Desc -> State 2: Weight Asc
+			this.weightOrder = 'asc';
+		} else if (isWeightSort && this.weightOrder === 'asc') {
+			// State 2: Weight Asc -> State 3: Delta Desc
+			this.orderedBy = 'delta';
+			this.deltaOrder = 'desc';
+		} else if (isDeltaSort && this.deltaOrder === 'desc') {
+			// State 3: Delta Desc -> State 4: Delta Asc
+			this.deltaOrder = 'asc';
+		} else if (isDeltaSort && this.deltaOrder === 'asc') {
+			// State 4: Delta Asc -> State 1: Weight Desc
+			this.orderedBy = 'weight';
+			this.weightOrder = 'desc';
+		} else {
+			// Fallback: Not sorting by weight or delta, so switch to the default weight sort.
+			this.orderedBy = 'weight';
+			this.weightOrder = 'desc';
+		}
 	}
 
 	#toggleNameOrder() {
