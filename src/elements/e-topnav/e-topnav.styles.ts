@@ -7,21 +7,17 @@ export const styles = css`
 
 	:host {
 		--menu-bg-clr: var(--sl-color-gray-50);
-		--clr: var(--sl-color-gray-700);
 	}
 
 	.navbar {
 		max-width: 1440px;
 		margin-inline: auto;
 		height: 50px;
-		background-color: var(--bg-clr);
-		color: var(--clr);
 
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
 		opacity: 95%;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 	}
 
 	a {
@@ -70,6 +66,7 @@ export const styles = css`
 	}
 
 	.links__item {
+		color: var(--sl-color-neutral-700);
 		border-radius: 1rem;
 		position: relative;
 	}
@@ -99,7 +96,7 @@ export const styles = css`
 		text-decoration: none;
 
 		background-color: rgba(255, 255, 255, 0.3);
-		background-color: var(--sl-color-gray-300);
+		background-color: var(--sl-color-gray-100);
 		border-radius: 1rem;
 	}
 
