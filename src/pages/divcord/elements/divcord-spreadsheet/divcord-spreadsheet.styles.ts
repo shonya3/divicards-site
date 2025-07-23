@@ -4,7 +4,7 @@ export const styles = css`
 	#root {
 		--w-cell-id: 50px;
 		--w-cell-card: 185px;
-		--w-cell-weight: 80px;
+		--w-cell-weight: 200px;
 		--w-cell-confidence: 80px;
 		--w-cell-remaining-work: 80px;
 		--w-cell-sources: 300px;
