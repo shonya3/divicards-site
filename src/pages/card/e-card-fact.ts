@@ -36,7 +36,7 @@ export class CardFactElement extends LitElement {
 
 		.base {
 			display: inline-flex;
-			align-items: center;
+			align-items: baseline;
 			gap: var(--sl-spacing-2x-small);
 			background-color: var(--sl-color-neutral-50);
 			padding: var(--sl-spacing-2x-small) var(--sl-spacing-small);

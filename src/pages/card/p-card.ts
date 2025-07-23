@@ -86,7 +86,7 @@ export class CardPage extends SignalWatcher(LitElement) {
 			display: flex;
 			gap: var(--sl-spacing-medium);
 			flex-wrap: wrap;
-			align-items: center;
+			align-items: baseline;
 		}
 	`;
 }
