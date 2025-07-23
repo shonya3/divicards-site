@@ -166,10 +166,6 @@ export class WeightsTableElement extends LitElement {
 		`;
 	}
 
-	#dispatch_card_transition(card: string) {
-		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'card', value: slug(card) }));
-	}
-
 	#toggleWeightOrder() {
 		const isWeightSort = this.orderedBy === 'weight';
 		const isDeltaSort = this.orderedBy === 'delta';
