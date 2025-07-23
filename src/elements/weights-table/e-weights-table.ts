@@ -139,32 +139,6 @@ export class WeightsTableElement extends LitElement {
 												: undefined
 										)}
 									></e-divination-card>
-
-									<!-- ${this.showCards
-										? html`<e-divination-card
-												size="small"
-												name=${cardRowData.name}
-												part=${ifDefined(
-													card_slug === this.active_divination_card
-														? 'active_divination_card'
-														: undefined
-												)}
-										  ></e-divination-card>`
-										: html`<a
-												class="textual-card-link"
-												@click=${() => this.#dispatch_card_transition(cardRowData.name)}
-												href="/card/${card_slug}"
-										  >
-												<poe-item-card .name=${cardRowData.name}></poe-item-card>
-												<span
-													part=${ifDefined(
-														card_slug === this.active_divination_card
-															? 'active_divination_card'
-															: undefined
-													)}
-													>${cardRowData.name}</span
-												>
-										  </a>`} -->
 								</td>
 								<td class="td td-weight">
 									<e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
@@ -274,17 +248,6 @@ export class WeightsTableElement extends LitElement {
 			position: sticky;
 			z-index: 20000;
 			background-color: rgba(255, 255, 255, 0.3);
-		}
-
-		.textual-card-link {
-			& poe-item-card {
-				--poe-item-size: 30px;
-			}
-
-			font-family: 'fontin';
-			display: flex;
-			align-items: center;
-			gap: 0.4rem;
 		}
 	`;
 }
