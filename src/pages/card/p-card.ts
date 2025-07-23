@@ -82,11 +82,15 @@ export class CardPage extends SignalWatcher(LitElement) {
 			}
 		}
 
+		h2 {
+			margin-bottom: var(--sl-spacing-large);
+		}
+
 		.facts {
 			display: flex;
-			gap: var(--sl-spacing-medium);
+			gap: var(--sl-spacing-3x-large);
 			flex-wrap: wrap;
-			align-items: baseline;
+			align-items: flex-start;
 		}
 	`;
 }

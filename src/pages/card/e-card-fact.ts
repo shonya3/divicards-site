@@ -17,35 +17,28 @@ export class CardFactElement extends LitElement {
 	protected render(): TemplateResult {
 		return html`
 			<div part="base" class="base">
-				<span part="label" class="label">
-					<slot name="label">${this.label}:</slot>
-				</span>
-				<span part="value" class="value">
+				<div part="label" class="label">
+					<slot name="label">${this.label}</slot>
+				</div>
+				<div part="value" class="value">
 					<slot>${this.value}</slot>
-				</span>
+				</div>
 			</div>
 		`;
 	}
 
 	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
-
 		.base {
-			display: inline-flex;
-			align-items: baseline;
-			gap: var(--sl-spacing-2x-small);
-			background-color: var(--sl-color-neutral-50);
-			padding: var(--sl-spacing-2x-small) var(--sl-spacing-small);
-			border-radius: var(--sl-border-radius-medium);
-			border: 1px solid var(--sl-color-neutral-200);
+			display: flex;
+			flex-direction: column;
+			gap: var(--sl-spacing-3x-small);
 		}
 
 		.label {
 			color: var(--sl-color-neutral-600);
+			font-size: var(--sl-font-size-small);
+			text-transform: uppercase;
+			font-weight: var(--sl-font-weight-semibold);
 		}
 
 		.value {
