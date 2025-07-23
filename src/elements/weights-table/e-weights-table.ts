@@ -15,6 +15,7 @@ import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 import 'poe-custom-elements/item-card.js';
 import './e-weight-breakdown.js';
+import { Appearance } from '../divination-card/e-divination-card';
 
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
@@ -79,6 +80,8 @@ export class WeightsTableElement extends LitElement {
 	}
 
 	protected render(): TemplateResult {
+		const cardAppearance: Appearance = this.showCards ? 'image' : 'text';
+
 		return html`
 			<table class="table">
 				<thead>
@@ -126,7 +129,18 @@ export class WeightsTableElement extends LitElement {
 							html`<tr>
 								<td class="td">${index + 1}</td>
 								<td class="td">
-									${this.showCards
+									<e-divination-card
+										.appearance=${cardAppearance}
+										size="small"
+										name=${cardRowData.name}
+										part=${ifDefined(
+											card_slug === this.active_divination_card
+												? 'active_divination_card'
+												: undefined
+										)}
+									></e-divination-card>
+
+									<!-- ${this.showCards
 										? html`<e-divination-card
 												size="small"
 												name=${cardRowData.name}
@@ -150,7 +164,7 @@ export class WeightsTableElement extends LitElement {
 													)}
 													>${cardRowData.name}</span
 												>
-										  </a>`}
+										  </a>`} -->
 								</td>
 								<td class="td td-weight">
 									<e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
@@ -267,6 +281,7 @@ export class WeightsTableElement extends LitElement {
 				--poe-item-size: 30px;
 			}
 
+			font-family: 'fontin';
 			display: flex;
 			align-items: center;
 			gap: 0.4rem;
