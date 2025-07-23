@@ -64,6 +64,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 					<p class="weights-spreadsheet-p">
 						<sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
 						<a
+							target="_blank"
 							href="https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906"
 							>Weights spreadsheet by
 						</a>
