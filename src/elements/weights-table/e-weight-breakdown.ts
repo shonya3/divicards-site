@@ -70,6 +70,9 @@ export class WeightBreakdownElement extends LitElement {
 			font-size: 12px;
 			justify-content: center;
 		}
+		sl-details::part(base) {
+			background-color: inherit;
+		}
 		sl-details::part(summary) {
 			color: var(--sl-color-neutral-600);
 		}
