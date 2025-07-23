@@ -243,6 +243,7 @@ export class WeightsTableElement extends LitElement {
 			position: sticky;
 			z-index: 20000;
 			background-color: rgba(255, 255, 255, 0.3);
+			background-color: color-mix(in srgb, var(--sl-color-neutral-50) 70%, transparent);
 		}
 	`;
 }
