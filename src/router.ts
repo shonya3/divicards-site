@@ -106,21 +106,10 @@ export const router = new Router({
 				return html`<p-useful-resources></p-useful-resources>`;
 			},
 		},
-		// {
-		// 	path: '/source',
-		// 	title: context => decodeURI(context.query!.id),
-		// 	render: context => {
-		// 		const id: string = context.query.id;
-		// 		const type = context.query.type as SourceType;
-		// 		const source: Source = { id, type, kind: 'source-with-member' };
-		// 		return html`<p-source .source=${source}></p-source>`;
-		// 	},
-		// },
 		{
 			path: '/source/:typeSlug/:idSlug',
 			title: context => sources[context.params!.idSlug].id ?? 'Not found',
 			render: context => {
-				context.title = 'hiiiii';
 				const source = sources[context.params.idSlug];
 				if (!source) {
 					return html`<h2>Not Found</h2>`;
