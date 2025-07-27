@@ -102,7 +102,23 @@ function findByFlavourText(query: string): string[] {
 }
 
 function findByReward(query: string): string[] {
-	return cardElementData.filter(({ rewardHtml }) => rewardHtml.toLowerCase().includes(query)).map(({ name }) => name);
+	const queryTerms = query.split(' ').filter(Boolean);
+	if (queryTerms.length === 0) {
+		return [];
+	}
+
+	return cardElementData
+		.filter(({ rewardHtml, unique }) => {
+			const rewardHtmlLower = rewardHtml.toLowerCase();
+
+			return queryTerms.every(
+				term =>
+					rewardHtmlLower.includes(term) ||
+					unique?.name.toLowerCase().includes(term) ||
+					unique?.item_class.toLowerCase().includes(term)
+			);
+		})
+		.map(({ name }) => name);
 }
 
 function findByName(query: string, allCards: Readonly<string[]>): string[] {
