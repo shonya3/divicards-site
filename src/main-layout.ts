@@ -38,6 +38,7 @@ export class MainLayoutElement extends LitElement {
 			position: sticky;
 			top: 0;
 			z-index: 10;
+			background-color: var(--sl-color-neutral-0);
 		}
 
 		#page {
