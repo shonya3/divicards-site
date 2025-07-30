@@ -1,9 +1,9 @@
 import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-import { DiscordUsername } from '../../gen/avatars';
-import { CustomIcon, UsefulResource } from '../elements/usefulResources/types';
-import '../elements/usefulResources/e-useful-resource';
+import { DiscordUsername } from '../../../gen/avatars';
+import { CustomIcon, UsefulResource } from './types';
+import './e-useful-resource';
 
 const RESOURCES_DATA: Record<string, UsefulResource> = {
 	bestDivMapFavourites: {

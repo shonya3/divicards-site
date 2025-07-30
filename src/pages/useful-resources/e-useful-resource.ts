@@ -1,9 +1,9 @@
-import { linkStyles } from './../../linkStyles';
+import { linkStyles } from '../../linkStyles';
 import { LitElement, html, css, TemplateResult, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CustomIcon, UsefulResource } from './types';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import '../e-discord-avatar';
+import '../../elements/e-discord-avatar';
 
 function CustomHeadingIcon(icon: CustomIcon) {
 	switch (icon.kind) {

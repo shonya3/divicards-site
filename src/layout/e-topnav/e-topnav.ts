@@ -1,7 +1,7 @@
 import { LitElement, html, PropertyValueMap, TemplateResult } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { ThemeToggle } from '../theme-toggle/theme-toggle';
+import { ThemeToggle } from '../../elements/theme-toggle/theme-toggle';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { router } from '../../router';
 import { styles } from './e-topnav.styles';
