@@ -97,7 +97,9 @@ export class PageControlsElement extends LitElement {
 		this.page++;
 	}
 	decrease_page(): void {
-		this.page > 1 && this.page--;
+		if (this.page <= 1) return;
+
+		this.page--;
 	}
 
 	last_page_number(): number {
