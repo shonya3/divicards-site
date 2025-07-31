@@ -4,11 +4,16 @@ import tseslint from 'typescript-eslint';
 // import css from '@eslint/css';
 import { defineConfig } from 'eslint/config';
 import { configs as litConfigs } from 'eslint-plugin-lit';
+import { configs as customElementsConfigs } from 'eslint-plugin-wc';
 
 export default defineConfig([
 	{ ignores: ['gen/**/*', 'dist/**/*'] },
 	{
 		...litConfigs['flat/recommended'],
+		files: ['src/**/*.ts'],
+	},
+	{
+		...customElementsConfigs['flat/recommended'],
 		files: ['src/**/*.ts'],
 	},
 	{
