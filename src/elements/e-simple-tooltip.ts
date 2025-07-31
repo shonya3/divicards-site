@@ -131,6 +131,7 @@ class TooltipDirective extends Directive {
 	tooltipContent?: unknown;
 	part?: ElementPart;
 	tooltip?: SimpleTooltip;
+	// eslint-disable-next-line
 	render(_: unknown = ''): void {}
 	update(part: ElementPart, [tooltipContent]: DirectiveParameters<this>): void {
 		this.tooltipContent = tooltipContent;

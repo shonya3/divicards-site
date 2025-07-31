@@ -78,9 +78,9 @@ export class MapsPage extends SignalWatcher(LitElement) {
 	});
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		map.has('page') && this.#page.set(this.page);
-		map.has('per_page') && this.#per_page.set(this.per_page);
-		map.has('filter') && this.#filter.set(this.filter);
+		if (map.has('page')) this.#page.set(this.page);
+		if (map.has('per_page')) this.#per_page.set(this.per_page);
+		if (map.has('filter')) this.#filter.set(this.filter);
 	}
 
 	attributeChangedCallback(name: string, old: string | null, value: string | null): void {

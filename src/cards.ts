@@ -297,7 +297,7 @@ export function _sourcetypesMap(sourcesAndCards: SourceAndCards[]): Map<SourceTy
 	}
 
 	const entries = Array.from(map);
-	entries.sort(([_, aCount], [__, bCount]) => {
+	entries.sort(([, aCount], [, bCount]) => {
 		return bCount - aCount;
 	});
 

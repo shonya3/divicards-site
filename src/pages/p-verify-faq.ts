@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
+import { LitElement, TemplateResult, css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import '../elements/e-discord-avatar';
 
@@ -20,7 +20,7 @@ export class VerifyFaqPage extends LitElement {
 		});
 	}
 
-	protected firstUpdated(_changedProperties: PropertyValueMap<this>): void {
+	protected firstUpdated(): void {
 		const { hash } = new URL(window.location.href);
 		if (hash) {
 			const el = this.shadowRoot?.querySelector(hash);

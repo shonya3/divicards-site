@@ -85,7 +85,7 @@ export class WeightsTableElement extends LitElement {
 			<table class="table">
 				<thead>
 					<tr class="show-cards-row">
-						<td class="td" class="show-cards-row__td" colspan="3">
+						<td class="td" colspan="3">
 							<div>
 								<sl-checkbox .checked=${this.showCards} @sl-input=${this.#onShowCardsToggled}
 									>Show cards</sl-checkbox

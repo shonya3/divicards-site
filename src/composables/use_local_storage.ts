@@ -12,6 +12,7 @@ export function use_local_storage<Key extends keyof Registry>(storage_key: Key, 
 		try {
 			value = JSON.parse(from_storage);
 		} catch (err) {
+			console.error(`Could not parse a value from LocalStorage ${from_storage}. Err: ${err}`);
 			value = default_value;
 		}
 	}

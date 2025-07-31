@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, PropertyValues, TemplateResult, html, nothing } from 'lit';
+import { LitElement, PropertyValueMap, TemplateResult, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { consume } from '@lit/context';
 import { DivcordTable } from '../../DivcordTable';
@@ -102,15 +102,15 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		return paginate(this.filtered.get(), this.#page.get(), this.#per_page.get());
 	});
 
-	protected firstUpdated(_changedProperties: PropertyValues): void {
+	protected firstUpdated(): void {
 		const preset = this.find_preset(this.latest_preset_applied.get());
 		this.#apply_preset(preset);
 	}
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		map.has('page') && this.#page.set(this.page);
-		map.has('per_page') && this.#per_page.set(this.per_page);
-		map.has('filter') && this.#filter.set(this.filter);
+		if (map.has('page')) this.#page.set(this.page);
+		if (map.has('per_page')) this.#per_page.set(this.per_page);
+		if (map.has('filter')) this.#filter.set(this.filter);
 	}
 
 	attributeChangedCallback(name: string, old: string | null, value: string | null): void {
@@ -160,13 +160,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 						'select-filters-section--open': this.should_apply_filters.get(),
 					})}
 				>
-					<!-- <div class="apply-select-filters-control">
-						<sl-checkbox
-							.checked=${this.should_apply_filters.get()}
-							@sl-input=${this.#on_should_apply_select_filters_change}
-							>Apply filters</sl-checkbox
-						>
-					</div> -->
 					${this.should_apply_filters
 						? html`<div class="select-filters">
 								<e-divcord-presets
@@ -273,13 +266,6 @@ export class DivcordPage extends SignalWatcher(LitElement) {
 		const input = e.target as HTMLInputElement;
 		this.#page.set(1);
 		this.#filter.set(input.value);
-	}
-
-	#on_should_apply_select_filters_change(e: InputEvent) {
-		const target = e.composedPath()[0] as EventTarget & { checked: boolean };
-		if (typeof target.checked === 'boolean') {
-			this.should_apply_filters.set(target.checked);
-		}
 	}
 
 	#apply_preset(preset: PresetConfig | null) {

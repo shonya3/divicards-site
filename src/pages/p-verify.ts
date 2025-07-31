@@ -80,7 +80,7 @@ export class VerifyPage extends SignalWatcher(LitElement) {
 		// move sources with solo Rebirth cards to the end
 		// to make it less spammy
 		const rebirth: SourceAndCards[] = [];
-		let cards: SourceAndCards[] = sourcesAndCards.filter(c => {
+		const cards: SourceAndCards[] = sourcesAndCards.filter(c => {
 			if (c.cards.length === 1 && c.cards.map(c => c.card).includes('Rebirth')) {
 				rebirth.push(c);
 				return false;
@@ -108,7 +108,7 @@ export class VerifyPage extends SignalWatcher(LitElement) {
 	});
 
 	protected willUpdate(map: PropertyValueMap<this>): void {
-		map.has('activeView') && this.#active_view.set(this.activeView);
+		if (map.has('activeView')) this.#active_view.set(this.activeView);
 	}
 
 	protected render(): TemplateResult {

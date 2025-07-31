@@ -11,6 +11,7 @@
  * }
  * ```
  */
+// eslint-disable-next-line
 export interface Registry {}
 
 /** Storage that uses browser's LocalStorage. Declare key-type pair in Registry. */

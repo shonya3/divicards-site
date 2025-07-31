@@ -35,7 +35,7 @@ export class MapBossElement extends LitElement {
 				[`rendermode--${this.renderMode}`]: true,
 			})}
 		>
-			<ul class="maplist" style="" class="maps">
+			<ul class="maplist">
 				${this.maps.map(
 					m =>
 						html`<e-map

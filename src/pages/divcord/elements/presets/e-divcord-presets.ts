@@ -214,8 +214,9 @@ export class DivcordPresetsElement extends LitElement {
 	#onPresetChecked(e: Event) {
 		const target = e.target as EventTarget & { checked: boolean; value: string };
 		const name = target.value;
-		const checked = target.checked;
-		checked ? this.presetsForDelete.add(name) : this.presetsForDelete.delete(name);
+		if (target.checked) {
+			this.presetsForDelete.add(name);
+		} else this.presetsForDelete.delete(name);
 		this.presetsForDelete = new Set(this.presetsForDelete);
 	}
 

@@ -67,12 +67,12 @@ export class HomePage extends SignalWatcher(LitElement) {
 	});
 
 	protected willUpdate(map: PropertyValues<this>): void {
-		map.has('page') && this.#page.set(this.page);
-		map.has('per_page') && this.#per_page.set(this.per_page);
-		map.has('filter') && this.#filter.set(this.filter);
-		map.has('card_size') && this.#card_size.set(this.card_size);
-		map.has('source_size') && this.#source_size.set(this.source_size);
-		map.has('search_criterias') && this.#search_criterias.set(this.search_criterias);
+		if (map.has('page')) this.#page.set(this.page);
+		if (map.has('per_page')) this.#per_page.set(this.per_page);
+		if (map.has('filter')) this.#filter.set(this.filter);
+		if (map.has('card_size')) this.#card_size.set(this.card_size);
+		if (map.has('source_size')) this.#source_size.set(this.source_size);
+		if (map.has('search_criterias')) this.#search_criterias.set(this.search_criterias);
 	}
 
 	protected firstUpdated(): void {

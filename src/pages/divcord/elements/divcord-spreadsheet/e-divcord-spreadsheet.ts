@@ -246,16 +246,7 @@ export class DivcordSpreadsheetElement extends LitElement {
 										verification-status="verify"
 									></e-sources>
 								</td>
-								<td class="td cell-notes">
-									<!-- ${notes
-										? html`<details>
-												<summary>Details</summary>
-												${formattedNotes(record)}
-										  </details>`
-										: null} -->
-
-									${notes}
-								</td>
+								<td class="td cell-notes">${notes}</td>
 							</tr>`;
 						},
 					})}
