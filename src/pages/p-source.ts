@@ -3,7 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import { consume } from '@lit/context';
-import '../elements/e-source-with-cards';
+import '../elements/source-with-cards/e-source-with-cards';
 import { CardBySource, cardsBySource, sort_by_weight } from '../cards';
 import { poeData } from '../PoeData';
 import type { Source } from '../../gen/Source';

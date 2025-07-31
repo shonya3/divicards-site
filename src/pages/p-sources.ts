@@ -7,7 +7,7 @@ import { poeData } from '../PoeData';
 import { SourceAndCards, cardsBySourceTypes, sort_by_weight, sourcetypesMap } from '../cards';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
-import '../elements/e-source-with-cards';
+import '../elements/source-with-cards/e-source-with-cards';
 import { SlConverter } from '../utils';
 import { SourceType } from '../../gen/Source';
 import { computed, signal, SignalWatcher } from '@lit-labs/signals';

@@ -4,7 +4,7 @@ import { consume } from '@lit/context';
 import { SourceAndCards, cardsBySourceTypes, sort_by_weight } from '../cards';
 import { PoeData, poeData } from '../PoeData';
 import { SOURCE_TYPE_VARIANTS, Source } from '../../gen/Source';
-import '../elements/e-source-with-cards';
+import '../elements/source-with-cards/e-source-with-cards';
 import '../elements/e-verify-faq-alert';
 import '../elements/e-need-to-verify';
 import type { CardSize } from '../elements/divination-card/e-divination-card';

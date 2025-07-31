@@ -4,7 +4,6 @@ import type { CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
 import '../elements/e-pagination';
-import '../elements/e-cards-by-source';
 import { poeData } from '../PoeData';
 import { cardsBySourceTypes, sort_by_weight, SourceAndCards } from '../cards';
 import { consume } from '@lit/context';
