@@ -2,7 +2,7 @@ import { LitElement, html, css, TemplateResult } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import '../elements/divination-card/e-divination-card';
 import '../elements/e-source/e-source';
-import '../elements/e-source-type';
+import '../elements/e-source/e-source-type';
 import { poeData } from '../PoeData';
 import { SourceAndCards, cardsBySourceTypes, sort_by_weight, sourcetypesMap } from '../cards';
 import '@shoelace-style/shoelace/dist/components/select/select.js';

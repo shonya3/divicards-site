@@ -1,6 +1,6 @@
 import { customElement, property } from 'lit/decorators.js';
 import { LitElement, TemplateResult, css, html } from 'lit';
-import type { SourceType } from '../../gen/Source';
+import type { SourceType } from '../../../gen/Source';
 
 @customElement('e-source-type')
 export class SourceTypeElement extends LitElement {

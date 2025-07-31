@@ -7,7 +7,7 @@ import './e-act-area';
 import './e-map';
 import './e-mapboss';
 import './e-actboss';
-import '../e-source-type';
+import './e-source-type';
 import { poeData } from '../../PoeData';
 import { sourceHref } from '../../utils';
 import type { RenderMode } from '../types';
