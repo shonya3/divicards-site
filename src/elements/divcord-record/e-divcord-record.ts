@@ -83,7 +83,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 			border-radius: var(--sl-border-radius-medium);
 			box-shadow: var(--sl-shadow-small);
 
-			padding: 2rem;
+			padding: 4rem 3rem;
 		}
 
 		.cardName {
