@@ -14,7 +14,9 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 import 'poe-custom-elements/item-card.js';
 import './e-weight-breakdown.js';
-import { Appearance } from '../divination-card/e-divination-card';
+import { Appearance, CardSize } from '../divination-card/e-divination-card';
+import { divcord_store } from '../../stores/divcord.js';
+import { Sources } from '../../DivcordTable.js';
 
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
@@ -80,6 +82,9 @@ export class WeightsTableElement extends LitElement {
 
 	protected render(): TemplateResult {
 		const cardAppearance: Appearance = this.showCards ? 'card' : 'link';
+		const cardSize: CardSize = this.showCards ? 'small' : 'medium';
+		const getCardSources = (card: string): Sources | undefined =>
+			this.showCards ? undefined : divcord_store.get_card_sources(card);
 
 		return html`
 			<table class="table">
@@ -133,8 +138,9 @@ export class WeightsTableElement extends LitElement {
 										? html`<span class="card-name-sizer">${cardRowData.name}</span>`
 										: nothing}
 									<e-divination-card
+										.sources=${getCardSources(cardRowData.name)}
 										.appearance=${cardAppearance}
-										size="small"
+										size=${cardSize}
 										name=${cardRowData.name}
 										part=${ifDefined(
 											card_slug === this.active_divination_card

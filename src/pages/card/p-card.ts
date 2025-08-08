@@ -1,6 +1,5 @@
 import { LitElement, TemplateResult, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import '../../elements/e-card-with-sources';
 import '../../elements/e-card-with-divcord-records';
 import { consume } from '@lit/context';
 import { poeData } from '../../PoeData';
@@ -15,6 +14,7 @@ import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 import './e-card-fact.js';
 import '../../elements/weights-table/e-weight-breakdown.js';
 import { prepare_weight_data } from '../../elements/weights-table/lib.js';
+import '../../elements/divination-card/e-divination-card.js';
 
 /**
  * A card fact chip used for displaying a label and a value.
@@ -45,16 +45,16 @@ export class CardPage extends SignalWatcher(LitElement) {
 		return html`<div class="page">
 			<h2>${this.card}</h2>
 			<e-card-with-divcord-records .card=${this.card} .records=${records}>
-				<e-card-with-sources
-					exportparts="divination_card,active_drop_source"
+				<e-divination-card
 					slot="card"
 					.name=${this.card}
-					card_size="large"
+					.sources=${divcord_store.get_card_sources(this.card)}
+					exportparts="divination_card,active_drop_source"
+					size="large"
 					source_size="medium"
 					.active_drop_source=${this.view_transition_names.active_drop_source}
-					.sources=${divcord_store.get_card_sources(this.card)}
 				>
-				</e-card-with-sources>
+				</e-divination-card>
 
 				<div slot="main-start" class="facts">
 					${card.league

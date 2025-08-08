@@ -2,7 +2,7 @@ import { LitElement, PropertyValues, TemplateResult, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { type CardSize } from '../elements/divination-card/e-divination-card';
 import '../elements/e-pagination';
-import '../elements/e-card-with-sources';
+import '../elements/divination-card/e-divination-card.js';
 import { consume } from '@lit/context';
 import { paginate } from '../utils';
 import { poeData } from '../PoeData';
@@ -122,16 +122,17 @@ export class HomePage extends SignalWatcher(LitElement) {
 					this.paginated.get(),
 					card => card,
 					card => html`<li>
-						<e-card-with-sources
+						<e-divination-card
 							.name=${card}
 							.sources=${divcord_store.get_card_sources(card)}
-							.card_size=${this.#card_size.get()}
+							.size=${this.#card_size.get()}
 							.source_size=${this.#source_size.get()}
 							.active_drop_source=${this.view_transition_names.active_drop_source}
 							exportparts=${slug(card) === this.view_transition_names.active_divination_card
 								? 'active_drop_source,divination_card:active_divination_card'
 								: 'active_drop_source'}
-						></e-card-with-sources>
+						>
+						</e-divination-card>
 					</li>`
 				)}
 			</ul>
