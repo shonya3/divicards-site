@@ -1,5 +1,5 @@
 import { css, html, LitElement, nothing, TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import 'poe-custom-elements/divination-card.js';
 import type { CardSize } from 'poe-custom-elements/divination-card.js';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
@@ -41,8 +41,6 @@ export class DivinationCardElement extends LitElement {
 
 	/** Dropsource involved in view transitions */
 	@property({ reflect: true }) active_drop_source?: string;
-
-	@state() transitioning = false;
 
 	get slug() {
 		return slug(this.name);
@@ -106,7 +104,6 @@ export class DivinationCardElement extends LitElement {
 	}
 
 	#dispatch_transition() {
-		this.transitioning = true;
 		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'card', value: this.slug }));
 	}
 
