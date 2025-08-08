@@ -1,12 +1,13 @@
-import { css, html, LitElement, nothing, TemplateResult } from 'lit';
+import { css, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import 'poe-custom-elements/divination-card.js';
 import type { CardSize } from 'poe-custom-elements/divination-card.js';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 export type { CardSize } from 'poe-custom-elements/divination-card.js';
-import '../weights-table/e-simple-tooltip.js';
+import './e-simple-tooltip.js';
 import { linkStyles } from '../../linkStyles.js';
+import { tooltip } from './e-simple-tooltip.js';
 
 export type Appearance = 'card' | 'link';
 
@@ -47,10 +48,15 @@ export class DivinationCardElement extends LitElement {
 		</poe-divination-card>`;
 
 		if (this.appearance === 'link') {
-			return html`<a part="link" class="link" @click=${this.#dispatch_transition} href="/card/${this.slug}">
-					<span>${this.name}</span>
-				</a>
-				${this.transitioning ? nothing : html`<e-simple-tooltip>${cardTemplate}</e-simple-tooltip>`}`;
+			return html`<a
+				${tooltip(cardTemplate)}
+				part="link"
+				class="link"
+				@click=${this.#dispatch_transition}
+				href="/card/${this.slug}"
+			>
+				<span>${this.name}</span>
+			</a> `;
 		}
 
 		return cardTemplate;

@@ -155,7 +155,7 @@ class TooltipDirective extends Directive {
 	}
 }
 
-export const tooltip: () => DirectiveResult<typeof TooltipDirective> = directive(TooltipDirective);
+export const tooltip: (template: unknown) => DirectiveResult<typeof TooltipDirective> = directive(TooltipDirective);
 
 declare global {
 	interface HTMLElementTagNameMap {
