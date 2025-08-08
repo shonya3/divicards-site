@@ -1,5 +1,5 @@
 import { styleMap } from 'lit/directives/style-map.js';
-import { LitElement, TemplateResult, css, html, nothing } from 'lit';
+import { LitElement, TemplateResult, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from './divination-card/e-divination-card';
 import type { RenderMode } from './types';
@@ -31,12 +31,13 @@ export class CardWithSourcesElement extends LitElement {
 			return nothing;
 		}
 
-		const wrapperStyles = styleMap({
-			'--card-width': `var(--card-width-${this.card_size})`,
-		});
-
 		return html`
-			<div style=${wrapperStyles} class="wrapper">
+			<div
+				style=${styleMap({
+					width: `var(--card-width-${this.card_size})`,
+				})}
+				class="wrapper"
+			>
 				<e-divination-card
 					part="divination_card"
 					.name=${this.name}
@@ -61,27 +62,6 @@ export class CardWithSourcesElement extends LitElement {
 			</div>
 		`;
 	}
-
-	static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
-
-		.wrapper {
-			width: var(--card-width);
-		}
-
-		.wrapper {
-			display: flex;
-			flex-direction: column;
-		}
-
-		:host {
-			display: inline-block;
-		}
-	`;
 }
 
 declare global {
