@@ -5,22 +5,24 @@ import type { CardSize } from 'poe-custom-elements/divination-card.js';
 import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
 import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 export type { CardSize } from 'poe-custom-elements/divination-card.js';
-import '../e-simple-tooltip.js';
+import '../weights-table/e-simple-tooltip.js';
 import { linkStyles } from '../../linkStyles.js';
 
-export type Appearance = 'image' | 'text';
+export type Appearance = 'card' | 'link';
 
 /**
  * @summary Divination Card
-
+ *
+ *
+ * @csspart     link - Text link when appearance is "link".
  * @event       navigate-transition Event - Emits on divination card navigation.
  * @cssproperty --padding-inline - The inline padding to use for for element.
  * @cssproperty --padding-block - The block padding to use for for element.
- * 
+ *
  */
 @customElement('e-divination-card')
 export class DivinationCardElement extends LitElement {
-	@property({ reflect: true }) appearance: Appearance = 'image';
+	@property({ reflect: true }) appearance: Appearance = 'card';
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) boss?: string;
@@ -34,7 +36,7 @@ export class DivinationCardElement extends LitElement {
 	protected render(): TemplateResult {
 		const cardTemplate = html`<poe-divination-card
 			.name=${this.name}
-			.size=${this.appearance === 'text' ? 'medium' : this.size}
+			.size=${this.appearance === 'link' ? 'medium' : this.size}
 			.boss=${this.boss}
 			.hrefPattern=${`/card/{{slug}}`}
 			@navigate=${this.#dispatch_transition}
@@ -44,8 +46,8 @@ export class DivinationCardElement extends LitElement {
 			</div>
 		</poe-divination-card>`;
 
-		if (this.appearance === 'text') {
-			return html`<a class="textual-card-link" @click=${this.#dispatch_transition} href="/card/${this.slug}">
+		if (this.appearance === 'link') {
+			return html`<a part="link" class="link" @click=${this.#dispatch_transition} href="/card/${this.slug}">
 					<span>${this.name}</span>
 				</a>
 				${this.transitioning ? nothing : html`<e-simple-tooltip>${cardTemplate}</e-simple-tooltip>`}`;
@@ -61,7 +63,7 @@ export class DivinationCardElement extends LitElement {
 	static styles = [
 		linkStyles,
 		css`
-			.textual-card-link {
+			.link {
 				font-family: 'fontin';
 				display: flex;
 			}

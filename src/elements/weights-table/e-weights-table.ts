@@ -79,7 +79,7 @@ export class WeightsTableElement extends LitElement {
 	}
 
 	protected render(): TemplateResult {
-		const cardAppearance: Appearance = this.showCards ? 'image' : 'text';
+		const cardAppearance: Appearance = this.showCards ? 'card' : 'link';
 
 		return html`
 			<table class="table">
@@ -127,7 +127,11 @@ export class WeightsTableElement extends LitElement {
 							cardRowData.name,
 							html`<tr>
 								<td class="td">${index + 1}</td>
-								<td class="td">
+								<td class="td td-card">
+									<!-- This invisible span is a layout helper that gives the cell its width -->
+									${cardAppearance === 'link'
+										? html`<span class="card-name-sizer">${cardRowData.name}</span>`
+										: nothing}
 									<e-divination-card
 										.appearance=${cardAppearance}
 										size="small"

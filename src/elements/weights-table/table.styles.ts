@@ -6,20 +6,16 @@ export const styles = css`
 
 	.table {
 		border-collapse: collapse;
-		border: 1px solid rgba(140, 140, 140, 0.3);
-	}
-
-	.th {
-		font-size: 1.2rem;
 	}
 
 	.th,
 	.td {
-		padding: 0.5rem;
-		border: 1px solid rgba(160, 160, 160, 0.2);
+		padding: var(--sl-spacing-x-small);
+		border-bottom: 1px solid rgba(160, 160, 160, 0.2);
 		text-align: center;
-		@media (width >=460px) {
-			padding: 1rem;
+
+		@media (width >= 460px) {
+			padding: var(--sl-spacing-medium);
 		}
 	}
 
@@ -27,7 +23,7 @@ export const styles = css`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 0.4rem;
+		gap: var(--sl-spacing-x-small);
 	}
 
 	.td-weight {
@@ -35,6 +31,53 @@ export const styles = css`
 		font-size: 17px;
 		@media (width >=460px) {
 			font-size: 18px;
+		}
+	}
+
+	/*
+	 * This invisible span is a layout helper. It sits in the normal document flow
+	 * to ensure the table cell has enough width to contain the (non-wrapping) card name.
+	 */
+	.card-name-sizer {
+		font-family: 'fontin';
+		visibility: hidden;
+		white-space: nowrap;
+		/* Match horizontal padding of other cells for correct width calculation */
+		padding: var(--sl-spacing-x-small);
+
+		@media (width >= 460px) {
+			padding: var(--sl-spacing-medium);
+		}
+	}
+
+	.td-card {
+		&:hover {
+			background-color: var(--sl-color-teal-50);
+		}
+
+		&:has(e-divination-card[appearance='link']) {
+			position: relative;
+		}
+
+		&:has(e-divination-card[appearance='card']) {
+			padding: 0.5rem;
+
+			@media (width >= 460px) {
+				padding-inline: var(--sl-spacing-medium);
+			}
+		}
+	}
+
+	e-divination-card::part(link) {
+		position: absolute;
+		inset: 0rem;
+
+		display: flex;
+		align-items: center;
+		padding-inline: var(--sl-spacing-x-small);
+
+		@media (width >= 460px) {
+			padding-inline: var(--sl-spacing-medium);
 		}
 	}
 
