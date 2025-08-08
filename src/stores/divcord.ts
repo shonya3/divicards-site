@@ -5,10 +5,10 @@ import { effect } from 'signal-utils/subtle/microtask-effect';
 import { computed, signal } from '@lit-labs/signals';
 import { DivcordRecord } from '../../gen/divcord.js';
 import { use_local_storage } from '../composables/use_local_storage.js';
-import { DivcordTable } from '../DivcordTable.js';
+import { DivcordTable, Sources } from '../DivcordTable.js';
 import { fetch_divcord_records } from '../../gen/divcordWasm/divcord_wasm.js';
 import { sort_by_weight } from '../cards.js';
-import { sortAllSourcesByLevel } from '../utils.js';
+import { sortAllSourcesByLevel, sortSourcesByLevel } from '../utils.js';
 import { poeData } from '../PoeData.js';
 import { toast, warningToast } from '../toast.js';
 
@@ -31,6 +31,22 @@ function create_divcord_store() {
 	const state = signal<State>('idle');
 	const storage = use_local_storage('divcord', null);
 	const table = computed(() => new DivcordTable(records.get()));
+
+	function get_card_sources(card: string): Sources {
+		const t = table.get();
+
+		const done = t.sourcesByCard(card);
+		sortSourcesByLevel(done, poeData);
+
+		const verify = t.verifySourcesByCard(card);
+		sortSourcesByLevel(verify, poeData);
+
+		return {
+			done,
+			verify,
+		};
+	}
+
 	const last_updated_date = computed(() => {
 		const stored = storage.get();
 		if (!stored) {
@@ -124,6 +140,7 @@ function create_divcord_store() {
 		update,
 		table,
 		last_updated_date,
+		get_card_sources,
 	};
 }
 

@@ -1,14 +1,11 @@
 import { styleMap } from 'lit/directives/style-map.js';
-import { LitElement, PropertyValueMap, TemplateResult, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { LitElement, TemplateResult, css, html, nothing } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import type { CardSize } from './divination-card/e-divination-card';
-import { poeData } from '../PoeData';
 import type { RenderMode } from './types';
 import './divination-card/e-divination-card';
 import './e-source/e-source';
-import { DivcordTable } from '../DivcordTable';
-import type { Source } from '../../gen/Source';
-import { sortSourcesByLevel } from '../utils';
+import { type Sources } from '../DivcordTable';
 import type { SourceSize } from './e-source/types';
 import './e-sources';
 
@@ -23,27 +20,17 @@ export class CardWithSourcesElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) card_size: CardSize = 'medium';
 	@property({ reflect: true }) source_size: SourceSize = 'medium';
-	@property({ type: Object }) divcordTable!: DivcordTable;
 	@property() renderMode: RenderMode = 'compact';
 	/** Dropsource involved in view transitions */
 	@property({ reflect: true }) active_drop_source?: string;
+	@property({ type: Object }) sources!: Sources;
 
-	@state() sources: Source[] = [];
-	@state() verifySources: Source[] = [];
-
-	protected willUpdate(map: PropertyValueMap<this>): void {
-		if (map.has('name') || map.has('divcordTable')) {
-			const sources = this.divcordTable.sourcesByCard(this.name);
-			sortSourcesByLevel(sources, poeData);
-			this.sources = sources;
-
-			const verifySources = this.divcordTable.verifySourcesByCard(this.name);
-			sortSourcesByLevel(verifySources, poeData);
-			this.verifySources = verifySources;
+	render(): TemplateResult | typeof nothing {
+		if (!this.sources) {
+			console.error(`<e-card-with-sources> requires "sources" field`);
+			return nothing;
 		}
-	}
 
-	render(): TemplateResult {
 		const wrapperStyles = styleMap({
 			'--card-width': `var(--card-width-${this.card_size})`,
 		});
@@ -56,7 +43,7 @@ export class CardWithSourcesElement extends LitElement {
 					.size=${this.card_size}
 				></e-divination-card>
 				<e-sources
-					.sources=${this.sources}
+					.sources=${this.sources.done}
 					.size=${this.source_size}
 					verification-status="done"
 					.renderMode=${this.renderMode}
@@ -64,7 +51,7 @@ export class CardWithSourcesElement extends LitElement {
 					exportparts="active_drop_source"
 				></e-sources>
 				<e-sources
-					.sources=${this.verifySources}
+					.sources=${this.sources.verify}
 					.size=${this.source_size}
 					verification-status="verify"
 					.renderMode=${this.renderMode}

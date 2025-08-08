@@ -124,7 +124,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 					card => html`<li>
 						<e-card-with-sources
 							.name=${card}
-							.divcordTable=${divcord_store.table.get()}
+							.sources=${divcord_store.get_card_sources(card)}
 							.card_size=${this.#card_size.get()}
 							.source_size=${this.#source_size.get()}
 							.active_drop_source=${this.view_transition_names.active_drop_source}

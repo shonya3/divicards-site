@@ -27,6 +27,7 @@ export class DivinationCardElement extends LitElement {
 	@property({ reflect: true }) name: string = '';
 	@property({ reflect: true }) size: CardSize = 'medium';
 	@property({ reflect: true }) boss?: string;
+	@property({ type: Boolean }) with_sources: boolean = false;
 
 	@state() transitioning = false;
 

@@ -51,8 +51,8 @@ export class CardPage extends SignalWatcher(LitElement) {
 					.name=${this.card}
 					card_size="large"
 					source_size="medium"
-					.divcordTable=${divcord_store.table.get()}
 					.active_drop_source=${this.view_transition_names.active_drop_source}
+					.sources=${divcord_store.get_card_sources(this.card)}
 				>
 				</e-card-with-sources>
 
