@@ -8,22 +8,21 @@ declare module '../storage' {
 	}
 }
 
-const counter = use_local_storage('counter', 0);
-const double = computed(() => counter.get() * 2);
-function increment(step = 1) {
-	counter.set(counter.get() + step);
-}
-function decrement(step = 1) {
-	counter.set(counter.get() - step);
+export function create_counter_store() {
+	const counter = use_local_storage('counter', 0);
+	const double = computed(() => counter.get() * 2);
+	function increment(step = 1) {
+		counter.set(counter.get() + step);
+	}
+	function decrement(step = 1) {
+		counter.set(counter.get() - step);
+	}
+
+	effect(() => {
+		console.log(`New counter value: ${counter.get()}`);
+	});
+
+	return { counter, double, increment, decrement };
 }
 
-effect(() => {
-	console.log(`New counter value: ${counter.get()}`);
-});
-
-export const store = {
-	counter,
-	double,
-	increment,
-	decrement,
-};
+export const counter_store = create_counter_store();
