@@ -1,5 +1,5 @@
-import { LitElement, PropertyValues, TemplateResult, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { LitElement, TemplateResult, css, html, nothing } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import type { Source } from '../../gen/Source';
 import type { SourceSize } from './e-source/types';
 import type { RenderMode } from './types';
@@ -21,27 +21,17 @@ export class SourcesElement extends LitElement {
 	/** Dropsource involved in view transitions */
 	@property({ reflect: true }) active_drop_source?: string;
 
-	/** Only maps sources to render them separately. */
-	@state() sources_maps: Array<Source> = [];
-	/** All sources but maps. Maps are rendered separately. */
-	@state() sources_non_maps: Array<Source> = [];
-
-	protected willUpdate(map: PropertyValues<this>): void {
-		if (map.has('sources')) {
-			this.sources_maps = this.sources.filter(({ type }) => type === 'Map');
-			this.sources_non_maps = this.sources.filter(({ type }) => type !== 'Map');
-		}
-	}
-
 	protected render(): TemplateResult {
-		return html`${this.#list('non_maps')}${this.#list('maps')}`;
+		const maps = this.sources.filter(({ type }) => type === 'Map');
+		const non_maps = this.sources.filter(({ type }) => type !== 'Map');
+
+		return html`${this.#list('non_maps', non_maps)}${this.#list('maps', maps)}`;
 	}
 
 	/** Reusable list of sources for maps and for non_maps */
-	#list(source_types: 'maps' | 'non_maps'): TemplateResult | null {
-		const sources = source_types === 'maps' ? this.sources_maps : this.sources_non_maps;
+	#list(source_types: 'maps' | 'non_maps', sources: Array<Source>): TemplateResult | typeof nothing {
 		if (!sources.length) {
-			return null;
+			return nothing;
 		}
 		return html`<ul class="${source_types === 'maps' ? 'sources-maps' : 'sources'}">
 			${sources.map(source => {
