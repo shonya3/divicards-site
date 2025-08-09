@@ -1,5 +1,5 @@
 import { LitElement, TemplateResult, css, html } from 'lit';
-import { customElement, query } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 
 /**
  * @summary Notifiyng border for e-divination-card and e-source, when it needs to be verified.
@@ -12,6 +12,8 @@ import { customElement, query } from 'lit/decorators.js';
  */
 @customElement('e-need-to-verify')
 export class NeedToVerifyElement extends LitElement {
+	@property({ type: Boolean }) reverify = false;
+
 	@query('.slot-parent') slotParent!: HTMLDivElement;
 
 	protected render(): TemplateResult {
@@ -19,7 +21,7 @@ export class NeedToVerifyElement extends LitElement {
 			<div class="slot-parent">
 				<slot></slot>
 			</div>
-			<e-need-to-verify-border part="border"></e-need-to-verify-border>
+			<e-need-to-verify-border .reverify=${this.reverify} part="border"></e-need-to-verify-border>
 		`;
 	}
 
@@ -58,8 +60,10 @@ export class NeedToVerifyElement extends LitElement {
 
 @customElement('e-need-to-verify-border')
 export class NeedToVerifyBorderElement extends LitElement {
+	@property({ type: Boolean }) reverify = false;
+
 	protected render(): TemplateResult {
-		return html`<a href="/verify/faq">Need to verify</a>`;
+		return html`<a href="/verify/faq">Need to ${this.reverify ? 're' : ''}verify</a>`;
 	}
 
 	static styles = css`
