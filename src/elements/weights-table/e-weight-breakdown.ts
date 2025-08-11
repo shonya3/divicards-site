@@ -14,6 +14,13 @@ export class WeightBreakdownElement extends LitElement {
 
 	static styles = css`
 		:host {
+			--tw-green-700: oklch(52.7% 0.154 150.069);
+			--tw-red-700: oklch(50.5% 0.213 27.518);
+			--tw-sky-700: oklch(50% 0.134 242.749);
+			--color-delta-up: var(--tw-green-700);
+			--color-delta-down: var(--tw-red-700);
+			--color-delta-new: var(--tw-sky-700);
+
 			display: flex;
 			justify-content: center;
 		}
@@ -49,13 +56,13 @@ export class WeightBreakdownElement extends LitElement {
 			font-weight: bold;
 		}
 		.delta--up {
-			background-color: var(--sl-color-success-600);
+			background-color: var(--color-delta-up);
 		}
 		.delta--down {
-			background-color: var(--sl-color-danger-600);
+			background-color: var(--color-delta-down);
 		}
 		.delta--new {
-			background-color: var(--sl-color-primary-600);
+			background-color: var(--tw-sky-700);
 			font-size: 11px;
 		}
 
