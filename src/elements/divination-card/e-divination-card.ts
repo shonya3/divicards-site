@@ -1,4 +1,4 @@
-import { css, html, LitElement, nothing, TemplateResult } from 'lit';
+import { css, html, HTMLTemplateResult, LitElement, nothing, render, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import 'poe-custom-elements/divination-card.js';
 import type { CardSize } from 'poe-custom-elements/divination-card.js';
@@ -7,7 +7,7 @@ import { slug } from '../../../gen/divcordWasm/divcord_wasm';
 export type { CardSize } from 'poe-custom-elements/divination-card.js';
 import './e-simple-tooltip.js';
 import { linkStyles } from '../../linkStyles.js';
-import { tooltip } from './e-simple-tooltip.js';
+import { SimpleTooltip } from './e-simple-tooltip.js';
 import type { SourceSize } from '../e-source/types.js';
 import type { Sources } from '../../DivcordTable.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -41,6 +41,9 @@ export class DivinationCardElement extends LitElement {
 
 	/** Dropsource involved in view transitions */
 	@property({ reflect: true }) active_drop_source?: string;
+
+	tooltip: SimpleTooltip | null = null;
+	tooltipTemplate: HTMLTemplateResult | null = null;
 
 	get slug() {
 		return slug(this.name);
@@ -89,22 +92,45 @@ export class DivinationCardElement extends LitElement {
 						<slot name="boss"></slot>
 					</div>
 			  </poe-divination-card>`;
+		this.tooltipTemplate = cardTemplate;
 
 		return this.appearance === 'link'
-			? html`<a
-					${tooltip(cardTemplate)}
-					part="link"
-					class="link"
-					@click=${this.#dispatch_transition}
-					href="/card/${this.slug}"
-			  >
+			? html`<a part="link" class="link" @click=${this.#dispatch_transition} href="/card/${this.slug}">
 					<span>${this.name}</span>
-			  </a> `
+			  </a>`
 			: cardTemplate;
+	}
+
+	protected firstUpdated(): void {
+		if (this.appearance === 'link') {
+			this.lazyCreateTooltip();
+		}
 	}
 
 	#dispatch_transition() {
 		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'card', value: this.slug }));
+	}
+
+	lazyCreateTooltip() {
+		if (!this.tooltipTemplate) {
+			return;
+		}
+
+		SimpleTooltip.lazy(this, tooltip => {
+			this.tooltip = tooltip;
+			render(this.tooltipTemplate, tooltip);
+		});
+	}
+
+	createTooltip() {
+		if (this.tooltip) {
+			console.error('Card tooltip already exists');
+			return;
+		}
+
+		this.tooltip = document.createElement('e-simple-tooltip');
+		this.shadowRoot!.append(this.tooltip);
+		render(this.tooltipTemplate, this.tooltip);
 	}
 
 	static styles = [
