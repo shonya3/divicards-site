@@ -1,0 +1,5 @@
+/poe-ce-assets/divination-card/cards/*
+  Cache-Control: public, max-age=31556952, immutable
+
+/images/*
+  Cache-Control: public, max-age=31556952, immutable
