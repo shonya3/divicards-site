@@ -14,8 +14,8 @@
 		"lint": "lit-analyzer --strict --rules.no-invalid-css off && tsc --noEmit"
 	},
 	"devDependencies": {
-		"@custom-elements-manifest/analyzer": "0.10.4",
-		"@eslint/css": "^0.10.0",
+		"@custom-elements-manifest/analyzer": "0.10.10",
+		"@eslint/css": "^0.13.0",
 		"@eslint/js": "^9.32.0",
 		"@types/semver": "^7.7.0",
 		"custom-element-vs-code-integration": "1.5.0",
