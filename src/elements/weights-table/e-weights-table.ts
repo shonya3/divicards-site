@@ -130,7 +130,7 @@ export class WeightsTableElement extends LitElement {
 						const card_slug = slug(cardRowData.name);
 						return keyed(
 							cardRowData.name,
-							html`<tr>
+							html`<tr data-card=${cardRowData.name}>
 								<td class="td">${index + 1}</td>
 								<td class="td td-card">
 									<!-- This invisible span is a layout helper that gives the cell its width -->
@@ -205,18 +205,31 @@ export class WeightsTableElement extends LitElement {
 		this.orderedBy = 'name';
 	}
 
-	#onShowMore() {
+	async #dispatchShowLimitChange() {
+		await this.updateComplete;
+		this.dispatchEvent(
+			new ShowLimitChangeEvent(this.limit, Array.from(this.shadowRoot!.querySelectorAll('tbody tr')))
+		);
+	}
+
+	async #onShowMore() {
 		if (this.limit !== null) {
 			this.limit += 20;
+
+			await this.#dispatchShowLimitChange();
 		}
 	}
 
-	#onShowAll() {
+	async #onShowAll() {
 		this.limit = null;
+
+		await this.#dispatchShowLimitChange();
 	}
 
-	#onShowLess() {
+	async #onShowLess() {
 		this.limit = 5;
+
+		await this.#dispatchShowLimitChange();
 	}
 
 	#onShowCardsToggled(e: Event) {
@@ -260,5 +273,19 @@ export class WeightsTableElement extends LitElement {
 declare global {
 	interface HTMLElementTagNameMap {
 		'e-weights-table': WeightsTableElement;
+	}
+}
+
+export class ShowLimitChangeEvent extends Event {
+	static readonly tag = 'e-weights-table__change-limit';
+
+	constructor(public $limit: number | null, public $tableRows: Array<HTMLTableRowElement>) {
+		super(ShowLimitChangeEvent.tag, { bubbles: false, composed: false });
+	}
+}
+
+declare global {
+	interface HTMLElementEventMap {
+		'e-weights-table__change-limit': ShowLimitChangeEvent;
 	}
 }

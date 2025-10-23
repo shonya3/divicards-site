@@ -1,10 +1,10 @@
 import { linkStyles } from './../linkStyles';
-import { LitElement, html, css, TemplateResult } from 'lit';
+import { LitElement, html, css, TemplateResult, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import '../elements/weights-table/e-weights-table';
 import '../elements/e-discord-avatar';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import type { WeightsTableElement } from '../elements/weights-table/e-weights-table';
+import type { ShowLimitChangeEvent, WeightsTableElement } from '../elements/weights-table/e-weights-table';
 import { consume } from '@lit/context';
 import { prepare_rows } from '../elements/weights-table/lib';
 import '@shoelace-style/shoelace/dist/components/details/details.js';
@@ -14,7 +14,10 @@ import {
 	type ViewTransitionNamesContext,
 } from '../context/view-transition-name-provider';
 import { use_local_storage } from '../composables/use_local_storage';
-import { SignalWatcher } from '@lit-labs/signals';
+import { computed, signal, SignalWatcher } from '@lit-labs/signals';
+import { divcord_store } from '../stores/divcord';
+import { Sources } from '../DivcordTable';
+import { calculateRootMargin } from '../elements/weights-table/intersectionUtils';
 
 declare module '../storage' {
 	interface Registry {
@@ -47,16 +50,85 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
+	#intersectedRowObserver: IntersectionObserver | null = null;
+
 	#show_cards = use_local_storage('weightsPageShowCards', false);
 	#rows = prepare_rows();
+
+	#intersected_card = signal<string | null>(null);
+	#intersected_card_sources = computed<Sources | null>(() => {
+		const card = this.#intersected_card.get();
+		if (!card) return null;
+		return divcord_store.get_card_sources(card);
+	});
 
 	#onShowCardsChanged(e: Event) {
 		const target = e.target as WeightsTableElement;
 		this.#show_cards.set(target.showCards);
 	}
 
+	#handleShowLimitChange(e: ShowLimitChangeEvent) {
+		// 0. Do nothing if no table rows.
+		const firstRow = e.$tableRows.at(0);
+		if (!firstRow) {
+			return;
+		}
+
+		// 1. Do not observe if viewport width(or height) is too small.
+		const VIEWPORT_XL_BREAKPOINT = 1280;
+		if (window.innerWidth < VIEWPORT_XL_BREAKPOINT || (e.$limit !== null && e.$limit < 25)) {
+			this.#intersectedRowObserver = null;
+			this.#intersected_card.set(null);
+			return;
+		}
+
+		// 2. Do nothing if already observing.
+		if (this.#intersectedRowObserver) {
+			return;
+		}
+
+		// 3. Set observer.
+		const INTERSECTING_LINE_THICKNESS_PX = 1;
+
+		const { rootMargin, distance } = calculateRootMargin({
+			verticalPositionPx: firstRow.getBoundingClientRect().y + window.scrollY,
+			thicknessPx: INTERSECTING_LINE_THICKNESS_PX,
+		});
+		this.style.setProperty('--intersecting-line-top', `${distance.topPx}px`);
+
+		this.#intersectedRowObserver = new IntersectionObserver(
+			entries => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.part.add('intersecting-row');
+
+						const card = (entry.target as HTMLTableRowElement).dataset.card;
+						if (!card) {
+							console.error(
+								`Intersecting row <tr>. Expected data-card attribute, found nothing`,
+								entry.target
+							);
+							return;
+						}
+						this.#intersected_card.set(card);
+					} else {
+						entry.target.part.remove('intersecting-row');
+					}
+				});
+			},
+			{ rootMargin }
+		);
+
+		e.$tableRows.forEach(row => {
+			this.#intersectedRowObserver?.observe(row);
+		});
+	}
+
 	protected render(): TemplateResult {
+		const intersectingCard = this.#intersected_card.get();
+
 		return html`<div class="page">
+			<div class="intersecting-line">INTERSECTING LINE</div>
 			<h1 class="heading">Weights</h1>
 			<main class="main">
 				<section class="section-table">
@@ -71,6 +143,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 						<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
 					</p>
 					<e-weights-table
+						@e-weights-table__change-limit=${this.#handleShowLimitChange}
 						.active_divination_card=${this.view_transition_names.active_divination_card}
 						exportparts="active_divination_card"
 						@show-cards-changed=${this.#onShowCardsChanged}
@@ -113,6 +186,19 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 							</li>
 						</ul>
 					</article>
+
+					${intersectingCard
+						? html`
+								<div>
+									<e-divination-card
+										class="intersecting-card-presentation"
+										size="large"
+										name=${intersectingCard}
+										.sources=${this.#intersected_card_sources.get()}
+									></e-divination-card>
+								</div>
+						  `
+						: nothing}
 				</div>
 			</main>
 		</div>`;
@@ -148,7 +234,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 			max-width: 60ch;
 			display: flex;
 			flex-direction: column;
-			gap: 6rem;
+			gap: 3rem;
 		}
 
 		.faq {
@@ -179,6 +265,17 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 
 		.spreadsheet-icon {
 			color: var(--sl-color-green-700);
+		}
+
+		/** Intersection */
+		e-weights-table::part(intersecting-row) {
+			background-color: #f1c40f;
+			font-weight: bold;
+			transition: background 0.3s ease-out;
+		}
+		.intersecting-card-presentation {
+			position: fixed;
+			top: calc(var(--intersecting-line-top) - 100px);
 		}
 	`;
 }

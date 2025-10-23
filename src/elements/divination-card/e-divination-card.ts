@@ -35,7 +35,7 @@ export class DivinationCardElement extends LitElement {
 	@property({ reflect: true }) boss?: string;
 
 	/** Card's drop sources. If provided, shows drop sources under the card */
-	@property({ type: Object }) sources?: Sources;
+	@property({ type: Object }) sources?: Sources | null;
 
 	@property({ reflect: true }) source_size: SourceSize = 'medium';
 
