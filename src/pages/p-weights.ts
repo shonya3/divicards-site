@@ -128,7 +128,6 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 		const intersectingCard = this.#intersected_card.get();
 
 		return html`<div class="page">
-			<div class="intersecting-line">INTERSECTING LINE</div>
 			<h1 class="heading">Weights</h1>
 			<main class="main">
 				<section class="section-table">
