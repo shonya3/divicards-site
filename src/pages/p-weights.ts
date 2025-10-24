@@ -271,6 +271,8 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 			background-color: #f1c40f;
 			font-weight: bold;
 			transition: background 0.3s ease-out;
+
+			--td-border-bottom: none;
 		}
 		.intersecting-card-presentation {
 			position: fixed;

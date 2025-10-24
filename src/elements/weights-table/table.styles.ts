@@ -11,7 +11,8 @@ export const styles = css`
 	.th,
 	.td {
 		padding: var(--sl-spacing-x-small);
-		border-bottom: 1px solid rgba(160, 160, 160, 0.2);
+		border-bottom: var(--td-border-bottom, 1px solid rgba(160, 160, 160, 0.2));
+
 		text-align: center;
 
 		@media (width >= 460px) {

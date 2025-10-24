@@ -20,8 +20,11 @@ import { Sources } from '../../DivcordTable.js';
 
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
+ *
  * @event   navigate-transition Emits on card or source navigation
  * @event   e-weights-table__change-limit Emits when limit of visible cards changes
+ *
+ * @cssproperty --td-border-bottom
  */
 @customElement('e-weights-table')
 export class WeightsTableElement extends LitElement {
