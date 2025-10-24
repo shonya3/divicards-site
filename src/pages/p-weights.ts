@@ -50,8 +50,6 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 	@state()
 	view_transition_names!: ViewTransitionNamesContext;
 
-	#intersectedRowObserver: IntersectionObserver | null = null;
-
 	#show_cards = use_local_storage('weightsPageShowCards', false);
 	#rows = prepare_rows();
 
@@ -67,6 +65,8 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 		this.#show_cards.set(target.showCards);
 	}
 
+	private _intersectedRowObserver: IntersectionObserver | null = null;
+	private _observedRows: Array<HTMLTableRowElement> = [];
 	#handleShowLimitChange(e: ShowLimitChangeEvent) {
 		// 0. Do nothing if no table rows.
 		const firstRow = e.$tableRows.at(0);
@@ -77,13 +77,14 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 		// 1. Do not observe if viewport width(or height) is too small.
 		const VIEWPORT_XL_BREAKPOINT = 1280;
 		if (window.innerWidth < VIEWPORT_XL_BREAKPOINT || (e.$limit !== null && e.$limit < 25)) {
-			this.#intersectedRowObserver = null;
+			this._observedRows.forEach(row => this._intersectedRowObserver?.unobserve(row));
+			this._intersectedRowObserver = null;
 			this.#intersected_card.set(null);
 			return;
 		}
 
 		// 2. Do nothing if already observing.
-		if (this.#intersectedRowObserver) {
+		if (this._intersectedRowObserver) {
 			return;
 		}
 
@@ -96,7 +97,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 		});
 		this.style.setProperty('--intersecting-line-top', `${distance.topPx}px`);
 
-		this.#intersectedRowObserver = new IntersectionObserver(
+		this._intersectedRowObserver = new IntersectionObserver(
 			entries => {
 				entries.forEach(entry => {
 					if (entry.isIntersecting) {
@@ -120,8 +121,10 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 		);
 
 		e.$tableRows.forEach(row => {
-			this.#intersectedRowObserver?.observe(row);
+			this._intersectedRowObserver?.observe(row);
 		});
+
+		this._observedRows = Array.from(e.$tableRows);
 	}
 
 	protected render(): TemplateResult {
