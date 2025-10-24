@@ -268,11 +268,8 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 
 		/** Intersection */
 		e-weights-table::part(intersecting-row) {
-			background-color: #f1c40f;
-			font-weight: bold;
-			transition: background 0.3s ease-out;
-
-			--td-border-bottom: none;
+			background-color: var(--sl-color-sky-100);
+			--td-border-bottom: 1px solid var(--sl-color-sky-400);
 		}
 		.intersecting-card-presentation {
 			position: fixed;
