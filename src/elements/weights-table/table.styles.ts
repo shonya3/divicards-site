@@ -16,7 +16,7 @@ export const styles = css`
 		text-align: center;
 
 		@media (width >= 460px) {
-			padding: var(--sl-spacing-medium);
+			padding: var(--sl-spacing-small);
 		}
 
 		&:has(sl-button) {
