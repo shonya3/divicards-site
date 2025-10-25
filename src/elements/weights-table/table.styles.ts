@@ -20,6 +20,10 @@ export const styles = css`
 		}
 	}
 
+	.td:has(sl-button) {
+		border: none;
+	}
+
 	.header-with-icon {
 		display: flex;
 		justify-content: center;

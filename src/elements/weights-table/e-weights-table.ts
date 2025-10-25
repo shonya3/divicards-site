@@ -170,7 +170,7 @@ export class WeightsTableElement extends LitElement {
 					${this.limit === null || this.limit > 20
 						? html`<tr class="sticky">
 								<td class="td" colspan="3">
-									<sl-button @click=${this.#onShowLess} size="large">Show less</sl-button>
+									<sl-button @click=${this.#onShowLess} size="small">Show less</sl-button>
 								</td>
 						  </tr>`
 						: nothing}
