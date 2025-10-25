@@ -5,7 +5,7 @@ import { DISCORD_AVATARS, type DiscordUsername } from '../../gen/avatars';
 @customElement('e-discord-avatar')
 export class DiscordAvatarElement extends LitElement {
 	@property({ reflect: true }) username: DiscordUsername = 'nerdyjoe';
-	@property({ type: Number, reflect: true }) size = 32;
+	@property({ type: Number, reflect: true }) size = 16;
 	@state() src: string = '';
 	@state() color: string = '#fff';
 
