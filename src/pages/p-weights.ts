@@ -139,7 +139,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 							href="https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906"
 							>Weights spreadsheet by
 						</a>
-						<e-discord-avatar size="40" username="nerdyjoe"></e-discord-avatar>
+						<e-discord-avatar username="nerdyjoe"></e-discord-avatar>
 					</p>
 					<e-weights-table
 						@e-weights-table__change-limit=${this.#handleShowLimitChange}
