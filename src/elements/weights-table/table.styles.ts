@@ -18,10 +18,10 @@ export const styles = css`
 		@media (width >= 460px) {
 			padding: var(--sl-spacing-medium);
 		}
-	}
 
-	.td:has(sl-button) {
-		border: none;
+		&:has(sl-button) {
+			border: none;
+		}
 	}
 
 	.header-with-icon {
