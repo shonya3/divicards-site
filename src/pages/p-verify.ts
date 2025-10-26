@@ -44,7 +44,7 @@ export class VerifyPage extends SignalWatcher(LitElement) {
 	@property({ reflect: true }) source_size: SourceSize = 'medium';
 	@property({ reflect: true }) activeView: ActiveView = 'weights-table';
 
-	#minimum_weight = use_local_storage('pVerifyMinimumWeight', 10000);
+	#minimum_weight = use_local_storage('pVerifyMinimumWeight', 5000);
 	#active_view = signal<ActiveView>('weights-table');
 
 	@consume({ context: view_transition_names_context, subscribe: true })
