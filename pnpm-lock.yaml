@@ -36,8 +36,8 @@ importers:
         specifier: 0.3.18
         version: 0.3.18
       semver:
-        specifier: ^7.7.2
-        version: 7.7.2
+        specifier: ^7.7.3
+        version: 7.7.3
       signal-utils:
         specifier: 0.21.1
         version: 0.21.1(signal-polyfill@0.2.1)
@@ -49,8 +49,8 @@ importers:
         specifier: 0.10.10
         version: 0.10.10
       '@eslint/css':
-        specifier: ^0.13.0
-        version: 0.13.0
+        specifier: ^0.14.0
+        version: 0.14.0
       '@eslint/js':
         specifier: ^9.32.0
         version: 9.32.0
@@ -67,8 +67,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1(eslint@9.32.0(jiti@2.5.1))
       eslint-plugin-wc:
-        specifier: ^3.0.1
-        version: 3.0.1(eslint@9.32.0(jiti@2.5.1))
+        specifier: ^3.0.2
+        version: 3.0.2(eslint@9.32.0(jiti@2.5.1))
       globals:
         specifier: ^16.3.0
         version: 16.3.0
@@ -285,8 +285,8 @@ packages:
     resolution: {integrity: sha512-C3YiJMY9OZyZ/3vEMFWJIesdGaRY6DmIYvmtyxMT934CbrOKqRs+Iw7NWSRlJQEaK4dPYy2lZ2y1zkaj8z0p5A==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
 
-  '@eslint/css@0.13.0':
-    resolution: {integrity: sha512-nPUDpWDKq3uXrvvft+wfZmx7jCF/TLMzXassUrSxLTumQ7Cr4F/HTUcibVit2MdbSqfgAkWgLRc6Gns5/PRAEA==}
+  '@eslint/css@0.14.0':
+    resolution: {integrity: sha512-2UDkW1Oolf27KCWI9nceLFrpcDqSlJH1JMiXu8v4S9bYEEPr1KT5cvEjQkITjACR8EkQQYNrMYggvg8bVHp9fA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/eslintrc@3.3.1':
@@ -813,8 +813,8 @@ packages:
     peerDependencies:
       eslint: '>= 8'
 
-  eslint-plugin-wc@3.0.1:
-    resolution: {integrity: sha512-0p1wkSlA2Ue3FA4qW+5LZ+15sy0p1nUyVl1eyBMLq4rtN1LtE9IdI49BXNWMz8N8bM/y7Ulx8SWGAni5f8XO5g==}
+  eslint-plugin-wc@3.0.2:
+    resolution: {integrity: sha512-siwTrxPTw6GU2JmP3faInw8nhi0ZCnKsiSRM3j7EAkZmBTGYdDAToeseLYsvPrc5Urp/vPz+g7Ewh7XcICLxww==}
     peerDependencies:
       eslint: '>=8.40.0'
 
@@ -1193,8 +1193,8 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
-  semver@7.7.2:
-    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+  semver@7.7.3:
+    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -1519,7 +1519,7 @@ snapshots:
       mdn-data: 2.23.0
       source-map-js: 1.2.1
 
-  '@eslint/css@0.13.0':
+  '@eslint/css@0.14.0':
     dependencies:
       '@eslint/core': 0.16.0
       '@eslint/css-tree': 3.6.6
@@ -1801,7 +1801,7 @@ snapshots:
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.7.2
+      semver: 7.7.3
       ts-api-utils: 2.1.0(typescript@5.9.2)
       typescript: 5.9.2
     transitivePeerDependencies:
@@ -1827,7 +1827,7 @@ snapshots:
 
   '@web/config-loader@0.1.3':
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   '@xn-sakina/rml-darwin-arm64@2.6.0':
     optional: true
@@ -2043,7 +2043,7 @@ snapshots:
       parse5: 6.0.1
       parse5-htmlparser2-tree-adapter: 6.0.1
 
-  eslint-plugin-wc@3.0.1(eslint@9.32.0(jiti@2.5.1)):
+  eslint-plugin-wc@3.0.2(eslint@9.32.0(jiti@2.5.1)):
     dependencies:
       eslint: 9.32.0(jiti@2.5.1)
       is-valid-element-name: 1.0.0
@@ -2441,7 +2441,7 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
-  semver@7.7.2: {}
+  semver@7.7.3: {}
 
   shebang-command@2.0.0:
     dependencies:
