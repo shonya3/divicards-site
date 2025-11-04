@@ -198,14 +198,28 @@ function debugString(val) {
     return className;
 }
 /**
- * Fetch spreadsheet and parse.
- * @param {any} poe_data
- * @param {Function} on_error
- * @returns {Promise<any>}
+ * @param {string} types
+ * @param {string} records
+ * @param {string} poe_data
+ * @returns {string}
  */
-export function fetch_divcord_records(poe_data, on_error) {
-    const ret = wasm.fetch_divcord_records(poe_data, on_error);
-    return ret;
+export function find_cards_by_source_types_strings(types, records, poe_data) {
+    let deferred4_0;
+    let deferred4_1;
+    try {
+        const ptr0 = passStringToWasm0(types, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(records, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(poe_data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len2 = WASM_VECTOR_LEN;
+        const ret = wasm.find_cards_by_source_types_strings(ptr0, len0, ptr1, len1, ptr2, len2);
+        deferred4_0 = ret[0];
+        deferred4_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred4_0, deferred4_1, 1);
+    }
 }
 
 /**
@@ -228,6 +242,28 @@ export function slug(s) {
 }
 
 /**
+ * @param {any} types
+ * @param {any} records
+ * @param {any} poe_data
+ * @returns {any}
+ */
+export function find_cards_by_source_types(types, records, poe_data) {
+    const ret = wasm.find_cards_by_source_types(types, records, poe_data);
+    return ret;
+}
+
+/**
+ * Fetch spreadsheet and parse.
+ * @param {any} poe_data
+ * @param {Function} on_error
+ * @returns {Promise<any>}
+ */
+export function fetch_divcord_records(poe_data, on_error) {
+    const ret = wasm.fetch_divcord_records(poe_data, on_error);
+    return ret;
+}
+
+/**
  * @param {string} s
  * @returns {string}
  */
@@ -246,12 +282,12 @@ export function slugify(s) {
     }
 }
 
-function __wbg_adapter_42(arg0, arg1, arg2) {
-    wasm.closure167_externref_shim(arg0, arg1, arg2);
+function __wbg_adapter_50(arg0, arg1, arg2) {
+    wasm.closure217_externref_shim(arg0, arg1, arg2);
 }
 
-function __wbg_adapter_134(arg0, arg1, arg2, arg3) {
-    wasm.closure207_externref_shim(arg0, arg1, arg2, arg3);
+function __wbg_adapter_142(arg0, arg1, arg2, arg3) {
+    wasm.closure259_externref_shim(arg0, arg1, arg2, arg3);
 }
 
 const __wbindgen_enum_RequestCredentials = ["omit", "same-origin", "include"];
@@ -429,7 +465,7 @@ function __wbg_get_imports() {
                 const a = state0.a;
                 state0.a = 0;
                 try {
-                    return __wbg_adapter_134(a, state0.b, arg0, arg1);
+                    return __wbg_adapter_142(a, state0.b, arg0, arg1);
                 } finally {
                     state0.a = a;
                 }
@@ -580,6 +616,12 @@ function __wbg_get_imports() {
         const ret = BigInt.asUintN(64, arg0);
         return ret;
     };
+    imports.wbg.__wbindgen_bigint_get_as_i64 = function(arg0, arg1) {
+        const v = arg1;
+        const ret = typeof(v) === 'bigint' ? v : undefined;
+        getDataViewMemory0().setBigInt64(arg0 + 8 * 1, isLikeNone(ret) ? BigInt(0) : ret, true);
+        getDataViewMemory0().setInt32(arg0 + 4 * 0, !isLikeNone(ret), true);
+    };
     imports.wbg.__wbindgen_boolean_get = function(arg0) {
         const v = arg0;
         const ret = typeof(v) === 'boolean' ? (v ? 1 : 0) : 2;
@@ -594,8 +636,8 @@ function __wbg_get_imports() {
         const ret = false;
         return ret;
     };
-    imports.wbg.__wbindgen_closure_wrapper637 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 168, __wbg_adapter_42);
+    imports.wbg.__wbindgen_closure_wrapper865 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 218, __wbg_adapter_50);
         return ret;
     };
     imports.wbg.__wbindgen_debug_string = function(arg0, arg1) {
@@ -623,6 +665,10 @@ function __wbg_get_imports() {
         table.set(offset + 3, false);
         ;
     };
+    imports.wbg.__wbindgen_is_bigint = function(arg0) {
+        const ret = typeof(arg0) === 'bigint';
+        return ret;
+    };
     imports.wbg.__wbindgen_is_function = function(arg0) {
         const ret = typeof(arg0) === 'function';
         return ret;
@@ -632,8 +678,16 @@ function __wbg_get_imports() {
         const ret = typeof(val) === 'object' && val !== null;
         return ret;
     };
+    imports.wbg.__wbindgen_is_string = function(arg0) {
+        const ret = typeof(arg0) === 'string';
+        return ret;
+    };
     imports.wbg.__wbindgen_is_undefined = function(arg0) {
         const ret = arg0 === undefined;
+        return ret;
+    };
+    imports.wbg.__wbindgen_jsval_eq = function(arg0, arg1) {
+        const ret = arg0 === arg1;
         return ret;
     };
     imports.wbg.__wbindgen_jsval_loose_eq = function(arg0, arg1) {

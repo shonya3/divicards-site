@@ -5,6 +5,7 @@ export const SOURCE_TYPE_VARIANTS = [
 	"Map",
 	"Act Boss",
 	"Map Boss",
+	"Hiveborn monsters",
 	"Stygian Spire",
 	"Breach monsters",
 	"All T3-T4 (boss) Harvest monsters",
