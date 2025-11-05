@@ -21,6 +21,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { computed, signal, SignalWatcher } from '@lit-labs/signals';
 import { effect } from 'signal-utils/subtle/microtask-effect';
 import { divcord_store } from '../stores/divcord';
+import SlInput from '@shoelace-style/shoelace/dist/components/input/input.js';
 
 const DEFAULTS = {
 	page: 1,
@@ -75,7 +76,7 @@ export class HomePage extends SignalWatcher(LitElement) {
 		if (map.has('search_criterias')) this.#search_criterias.set(this.search_criterias);
 	}
 
-	protected firstUpdated(): void {
+	protected async firstUpdated(): Promise<void> {
 		effect(() => {
 			const url = new URL(window.location.href);
 			if (!url.searchParams.get('filter') && !this.#filter.get()) {
@@ -85,13 +86,19 @@ export class HomePage extends SignalWatcher(LitElement) {
 			url.searchParams.set('filter', this.#filter.get());
 			window.history.pushState(null, '', url);
 		});
+
+		const searchInput = this.shadowRoot!.querySelector<SlInput>('#search');
+		if (searchInput) {
+			await searchInput.updateComplete;
+			searchInput.focus();
+		}
 	}
 
 	protected render(): TemplateResult {
 		return html`
 			<div id="search-pagination-controls">
 				<sl-input
-					autofocus
+					id="search"
 					label="Search"
 					.value=${this.#filter.get()}
 					@input="${this.#h_search_change}"
