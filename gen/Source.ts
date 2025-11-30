@@ -63,6 +63,7 @@ export const SOURCE_TYPE_VARIANTS = [
 	"Maelström of Chaos with Barrel Sextant",
 	"Delirium",
 	"Delirium Currency Rewards",
+	"Breach encounters (Keepers)",
 	"Disabled"
 ] as const;
 

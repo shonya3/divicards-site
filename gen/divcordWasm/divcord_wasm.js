@@ -198,31 +198,6 @@ function debugString(val) {
     return className;
 }
 /**
- * @param {string} types
- * @param {string} records
- * @param {string} poe_data
- * @returns {string}
- */
-export function find_cards_by_source_types_strings(types, records, poe_data) {
-    let deferred4_0;
-    let deferred4_1;
-    try {
-        const ptr0 = passStringToWasm0(types, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len0 = WASM_VECTOR_LEN;
-        const ptr1 = passStringToWasm0(records, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len1 = WASM_VECTOR_LEN;
-        const ptr2 = passStringToWasm0(poe_data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len2 = WASM_VECTOR_LEN;
-        const ret = wasm.find_cards_by_source_types_strings(ptr0, len0, ptr1, len1, ptr2, len2);
-        deferred4_0 = ret[0];
-        deferred4_1 = ret[1];
-        return getStringFromWasm0(ret[0], ret[1]);
-    } finally {
-        wasm.__wbindgen_free(deferred4_0, deferred4_1, 1);
-    }
-}
-
-/**
  * @param {string} s
  * @returns {string}
  */
@@ -261,6 +236,31 @@ export function find_cards_by_source_types(types, records, poe_data) {
 export function fetch_divcord_records(poe_data, on_error) {
     const ret = wasm.fetch_divcord_records(poe_data, on_error);
     return ret;
+}
+
+/**
+ * @param {string} types
+ * @param {string} records
+ * @param {string} poe_data
+ * @returns {string}
+ */
+export function find_cards_by_source_types_strings(types, records, poe_data) {
+    let deferred4_0;
+    let deferred4_1;
+    try {
+        const ptr0 = passStringToWasm0(types, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(records, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(poe_data, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len2 = WASM_VECTOR_LEN;
+        const ret = wasm.find_cards_by_source_types_strings(ptr0, len0, ptr1, len1, ptr2, len2);
+        deferred4_0 = ret[0];
+        deferred4_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred4_0, deferred4_1, 1);
+    }
 }
 
 /**
