@@ -69,7 +69,7 @@ export class MapsPage extends SignalWatcher(LitElement) {
 	});
 
 	#filtered = computed<Array<SourceAndCards>>(() => {
-		const query = this.filter.trim().toLocaleLowerCase();
+		const query = this.#filter.get().trim().toLocaleLowerCase();
 		return this.#sources_and_cards.get().filter(({ source }) => source.id.toLowerCase().includes(query));
 	});
 
@@ -131,7 +131,7 @@ export class MapsPage extends SignalWatcher(LitElement) {
 
 	#h_search_change(e: InputEvent) {
 		const input = e.target as HTMLInputElement;
-		this.filter = input.value;
+		this.#filter.set(input.value);
 	}
 
 	static styles = css`
