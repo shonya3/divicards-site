@@ -1,7 +1,7 @@
-import { cardsByMapboss, cardsByActboss, sort_by_weight, cardsBySourceTypes } from './cards';
+import { cardsByMapboss, cardsByActboss, sort_by_weight, cardsBySourceTypes, createSource } from './cards';
 import { poeData, PoeData } from './PoeData';
 import { DivcordTable } from './DivcordTable';
-import { SOURCE_TYPE_VARIANTS } from '../gen/Source';
+import { Source, SOURCE_TYPE_VARIANTS } from '../gen/Source';
 import type { DivcordRecord } from '../gen/divcord';
 import type { ActArea } from '../gen/poeData';
 import { cardElementDataFromJson as cardElementData } from '../gen/cardElementData';
@@ -18,17 +18,13 @@ export const SEARCH_CRITERIA_VARIANTS = [
 ] as const;
 export type SearchCardsCriteria = (typeof SEARCH_CRITERIA_VARIANTS)[number];
 
-let allCards: string[] = [];
+const allCards: string[] = getAllCards();
+sort_by_weight(allCards, poeData);
 export function search_cards_by_query(
 	query: string,
 	criterias: SearchCardsCriteria[],
-	divcordTable: DivcordTable
+	divcordTable: DivcordTable,
 ): string[] {
-	if (!allCards.length) {
-		allCards = divcordTable.cards();
-		sort_by_weight(allCards, poeData);
-	}
-
 	if (!query && criterias.length === SEARCH_CRITERIA_VARIANTS.length) {
 		return allCards;
 	}
@@ -115,7 +111,7 @@ function findByReward(query: string): string[] {
 				term =>
 					rewardHtmlLower.includes(term) ||
 					unique?.name.toLowerCase().includes(term) ||
-					unique?.item_class.toLowerCase().includes(term)
+					unique?.item_class.toLowerCase().includes(term),
 			);
 		})
 		.map(({ name }) => name);
@@ -151,7 +147,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 		}
 	}
 
-	for (const [card, sources] of divcordTable.cardSourcesAndVerifySourcesMap()) {
+	for (const [card, sources] of cardSourcesAndVerifySourcesMap(divcordTable)) {
 		for (const source of sources) {
 			if (source.id.toLowerCase().includes(query)) {
 				cards.push(card);
@@ -212,7 +208,7 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 			actArea =>
 				actArea.id === query ||
 				actArea.name.toLowerCase().includes(query) ||
-				(query.includes('a') && actNumber === actArea.act)
+				(query.includes('a') && actNumber === actArea.act),
 		)
 		.flatMap(({ bossfights }) => bossfights)
 		.flatMap(({ name }) => cardsByActboss(name, divcordTable.records))
@@ -230,4 +226,33 @@ function findBySourceId(query: string, divcordTable: DivcordTable): string[] {
 function findBySourceType(query: string, records: DivcordRecord[], poeData: PoeData): string[] {
 	const types = SOURCE_TYPE_VARIANTS.filter(type => type.toLowerCase().includes(query));
 	return cardsBySourceTypes(types, records, poeData).flatMap(({ cards }) => cards.map(({ card }) => card));
+}
+
+/** Returns Array of all card names */
+function getAllCards(): string[] {
+	return Object.keys(poeData.cards);
+}
+
+/** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card.
+ *  AND from atlas maps.
+ */
+function cardSourcesAndVerifySourcesMap(divcordTable: DivcordTable): Map<string, Source[]> {
+	const map: Map<string, Source[]> = new Map();
+
+	for (const record of divcordTable.records) {
+		const entry = map.get(record.card) ?? [];
+		record.sources.forEach(s => entry.push(s));
+		record.verifySources.forEach(s => entry.push(s));
+		map.set(record.card, entry);
+	}
+
+	// Populate atlas maps
+	Object.values(poeData.cards).forEach(c => {
+		const entry = map.get(c.name) ?? [];
+		c.atlasMaps.forEach(m => {
+			entry.push(createSource({ type: 'Map', id: m }));
+		});
+	});
+
+	return map;
 }

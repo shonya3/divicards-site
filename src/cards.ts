@@ -11,7 +11,9 @@ export type SourceAndCards = {
 	/** Array of cards with verification status and possible transitive source   */
 	cards: CardBySource[];
 };
-/** Is the drop source of card needs to be verified or already done */
+/** Is the drop source of card needs to be verified or already done.
+ *  OR if it goes from in-game atlas.
+ */
 export type VerificationStatus = 'done' | 'verify';
 /** Card name with verification status and possible transitive source. Being used in context of drop source */
 export type CardBySource = {
@@ -86,10 +88,21 @@ export function cardsByActboss(boss: string, records: DivcordRecord[]): CardBySo
 	return cards;
 }
 
+function getCardsByAtlasMap(mapName: string, poeData: PoeData): CardBySource[] {
+	return poeData.maps
+		.find(m => m.name === mapName)!
+		.atlasCards.map(c => ({
+			card: c,
+			status: 'done',
+		}));
+}
+
 export function cardsBySource(source: Source, records: DivcordRecord[], poeData: PoeData): CardBySource[] {
 	const cards: CardBySource[] = [];
 
 	if (source.type === 'Map') {
+		getCardsByAtlasMap(source.id, poeData).forEach(c => cards.push(c));
+
 		for (const boss of poeData.find.bossesOfMap(source.id)) {
 			for (const card of cardsByMapboss(boss.name, records, poeData)) {
 				cards.push({
@@ -121,7 +134,7 @@ export function cardsBySource(source: Source, records: DivcordRecord[], poeData:
 	for (const record of records) {
 		// for DONE sources
 		const sourcePresentsInRecord = record.sources.some(
-			s => s.id === source.id && s.kind === source.kind && s.type === source.type
+			s => s.id === source.id && s.kind === source.kind && s.type === source.type,
 		);
 
 		if (sourcePresentsInRecord) {
@@ -131,7 +144,7 @@ export function cardsBySource(source: Source, records: DivcordRecord[], poeData:
 
 		// for VERIFY sources
 		const verifySourcePresentsInRecord = record.verifySources.some(
-			s => s.id === source.id && s.kind === source.kind && s.type === source.type
+			s => s.id === source.id && s.kind === source.kind && s.type === source.type,
 		);
 
 		if (verifySourcePresentsInRecord) {
@@ -146,7 +159,7 @@ export function cardsBySource(source: Source, records: DivcordRecord[], poeData:
 export function cardsBySourceTypes(
 	sourceTypes: SourceType[],
 	records: DivcordRecord[],
-	poeData: PoeData
+	poeData: PoeData,
 ): SourceAndCards[] {
 	const map: Map<string, CardBySource[]> = new Map();
 	const sourceMap: Map<string, Source> = new Map();
@@ -228,8 +241,8 @@ export function cardsBySourceTypes(
 		}
 	}
 
-	// If map area directly drops no cards, but some of it's bosses can
 	if (sourceTypes.includes('Map')) {
+		// If map area directly drops no cards, but some of it's bosses can
 		for (const boss of poeData.mapbosses) {
 			for (const atlasMapName of boss.maps) {
 				if (!map.has(atlasMapName)) {
@@ -248,6 +261,16 @@ export function cardsBySourceTypes(
 				}
 			}
 		}
+
+		// add cards from atlas maps
+		poeData.maps.forEach(m => {
+			const mapAsSource = createSource({ id: m.name, type: 'Map' });
+			const cards = map.get(m.name) ?? [];
+
+			m.atlasCards.map((c): CardBySource => ({ card: c, status: 'done' })).forEach(c => cards.push(c));
+			map.set(m.name, cards);
+			sourceMap.set(m.name, mapAsSource);
+		});
 	}
 
 	const sourcesAndCards = Array.from(map.entries()).map(([sourceId, cards]) => {

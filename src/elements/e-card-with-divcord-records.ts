@@ -21,6 +21,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 	render(): TemplateResult {
 		const allRecordsHaveNoSources = this.records.every(s => s.sources.length === 0);
 		const hasReverifySource = this.records.some(record => record.remainingWork === 'reverify');
+		const someRecordGreen = this.records.some(r => r.confidence === 'done' || r.confidence === 'ok');
 
 		return html`
 			<slot name="card">
@@ -30,8 +31,8 @@ export class CardWithDivcordRecordsElement extends LitElement {
 				<slot name="main-start"></slot>
 
 				${when(
-					allRecordsHaveNoSources && !hasReverifySource,
-					() => html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`
+					allRecordsHaveNoSources && !hasReverifySource && !someRecordGreen,
+					() => html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`,
 				)}
 
 				<ul class="records">
@@ -39,7 +40,7 @@ export class CardWithDivcordRecordsElement extends LitElement {
 						record =>
 							html`<li>
 								<e-divcord-record .record=${record}></e-divcord-record>
-							</li>`
+							</li>`,
 					)}
 				</ul>
 			</main>

@@ -7,10 +7,11 @@ import { DivcordRecord } from '../../gen/divcord.js';
 import { use_local_storage } from '../composables/use_local_storage.js';
 import { DivcordTable, Sources } from '../DivcordTable.js';
 import { fetch_divcord_records } from '../../gen/divcordWasm/divcord_wasm.js';
-import { sort_by_weight } from '../cards.js';
+import { createSource, sort_by_weight } from '../cards.js';
 import { sortAllSourcesByLevel, sortSourcesByLevel } from '../utils.js';
 import { poeData } from '../PoeData.js';
 import { toast, warningToast } from '../toast.js';
+import { Source } from '../../gen/Source.js';
 
 declare module '../storage' {
 	interface Registry {
@@ -26,6 +27,46 @@ const ONE_DAY_MILLISECONDS = 86_400_000;
 export type CacheValidity = 'valid' | 'stale' | 'not exist';
 export type State = 'idle' | 'updating' | 'updated' | 'error';
 
+/** Returns Array of sources from all records, accociated with given card.
+ *  AND maps from Atlas */
+function sourcesByCard(divcordTable: DivcordTable, card: string): Source[] {
+	const ids: Set<string> = new Set();
+	const fromDivcordTable = divcordTable.records
+		.filter(record => record.card === card)
+		.flatMap(({ sources }) =>
+			sources.filter(source => {
+				if (ids.has(source.id)) {
+					return false;
+				} else {
+					ids.add(source.id);
+					return true;
+				}
+			}),
+		);
+
+	const fromAtlas = poeData.cards[card].atlasMaps.map(m => createSource({ type: 'Map', id: m }));
+
+	return [...fromDivcordTable, ...fromAtlas];
+}
+
+/** Returns Array of need-to-verify sources from all records, accociated with given card */
+function verifySourcesByCard(divcordTable: DivcordTable, card: string): Source[] {
+	const ids: Set<string> = new Set();
+	return divcordTable.records
+		.filter(record => record.card === card)
+		.flatMap(({ verifySources }) =>
+			verifySources.filter(source => {
+				if (ids.has(source.id)) {
+					return false;
+				} else {
+					ids.add(source.id);
+					return true;
+				}
+			}),
+		);
+}
+
+// TODO: Add maps sources from poeData
 function create_divcord_store() {
 	const records = signal<Array<DivcordRecord>>([]);
 	const state = signal<State>('idle');
@@ -35,10 +76,10 @@ function create_divcord_store() {
 	function get_card_sources(card: string): Sources {
 		const t = table.get();
 
-		const done = t.sourcesByCard(card);
+		const done = sourcesByCard(t, card);
 		sortSourcesByLevel(done, poeData);
 
-		const verify = t.verifySourcesByCard(card);
+		const verify = verifySourcesByCard(t, card);
 		sortSourcesByLevel(verify, poeData);
 
 		return {
