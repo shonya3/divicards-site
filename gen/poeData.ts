@@ -34,20 +34,30 @@ export type LeagueReleaseInfo = {
 };
 
 export type Card = {
+	slug: string;
 	name: string;
 	minLevel: number | null;
 	maxLevel?: number;
 	weights: Record<string, number>;
 	league?: LeagueReleaseInfo | null;
 	disabled: boolean;
+	/**
+	 * List of map names, provided by in-game atlas.
+	 */
+	atlasMaps: string[];
 };
 
 export type MapArea = {
 	name: string;
 	tier: number;
-	available: boolean;
 	unique: boolean;
 	icon: string;
+	slug: string;
+	series: string;
+	/**
+	 * List of card names, provided by in-game atlas.
+	 */
+	atlasCards: string[];
 };
 
 export type MapBoss = {

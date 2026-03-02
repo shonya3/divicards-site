@@ -198,25 +198,6 @@ function debugString(val) {
     return className;
 }
 /**
- * @param {string} s
- * @returns {string}
- */
-export function slug(s) {
-    let deferred2_0;
-    let deferred2_1;
-    try {
-        const ptr0 = passStringToWasm0(s, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len0 = WASM_VECTOR_LEN;
-        const ret = wasm.slug(ptr0, len0);
-        deferred2_0 = ret[0];
-        deferred2_1 = ret[1];
-        return getStringFromWasm0(ret[0], ret[1]);
-    } finally {
-        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
-    }
-}
-
-/**
  * @param {any} types
  * @param {any} records
  * @param {any} poe_data
@@ -224,17 +205,6 @@ export function slug(s) {
  */
 export function find_cards_by_source_types(types, records, poe_data) {
     const ret = wasm.find_cards_by_source_types(types, records, poe_data);
-    return ret;
-}
-
-/**
- * Fetch spreadsheet and parse.
- * @param {any} poe_data
- * @param {Function} on_error
- * @returns {Promise<any>}
- */
-export function fetch_divcord_records(poe_data, on_error) {
-    const ret = wasm.fetch_divcord_records(poe_data, on_error);
     return ret;
 }
 
@@ -260,6 +230,36 @@ export function find_cards_by_source_types_strings(types, records, poe_data) {
         return getStringFromWasm0(ret[0], ret[1]);
     } finally {
         wasm.__wbindgen_free(deferred4_0, deferred4_1, 1);
+    }
+}
+
+/**
+ * Fetch spreadsheet and parse.
+ * @param {any} poe_data
+ * @param {Function} on_error
+ * @returns {Promise<any>}
+ */
+export function fetch_divcord_records(poe_data, on_error) {
+    const ret = wasm.fetch_divcord_records(poe_data, on_error);
+    return ret;
+}
+
+/**
+ * @param {string} s
+ * @returns {string}
+ */
+export function slug(s) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(s, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.slug(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
     }
 }
 
@@ -636,7 +636,7 @@ function __wbg_get_imports() {
         const ret = false;
         return ret;
     };
-    imports.wbg.__wbindgen_closure_wrapper865 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbindgen_closure_wrapper868 = function(arg0, arg1, arg2) {
         const ret = makeMutClosure(arg0, arg1, 218, __wbg_adapter_50);
         return ret;
     };

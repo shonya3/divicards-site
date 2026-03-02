@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [],
+  "sortImports": {
+    "customGroups": [
+      {
+        "groupName": "lit",
+        "elementNamePattern": [
+          "lit",
+          "@lit-labs/**",
+          "@lit/**",
+          "lit/**",
+          "lit/directives/repeat.js"
+        ]
+      }
+    ],
+    "groups": [
+      "lit",
+      ["value-builtin", "value-external"],
+      "value-internal",
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ]
+  }
+}
