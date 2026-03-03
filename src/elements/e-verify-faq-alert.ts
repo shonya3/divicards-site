@@ -1,62 +1,64 @@
-import { LitElement, TemplateResult, css, html } from 'lit';
-import '@shoelace-style/shoelace/dist/components/alert/alert.js';
-import { customElement } from 'lit/decorators.js';
+import { LitElement, TemplateResult, css, html } from "lit";
+import { customElement } from "lit/decorators.js";
 
-@customElement('e-verify-faq-alert')
+import "@shoelace-style/shoelace/dist/components/alert/alert.js";
+
+@customElement("e-verify-faq-alert")
 export class VerifyFaqAlertElement extends LitElement {
-	protected render(): TemplateResult {
-		return html`<div class="element">
-			<sl-alert open>
-				<img
-					slot="icon"
-					src="/images/45px-Divcord.png"
-					decoding="async"
-					width="45"
-					height="45"
-					alt="Icon Stacked decks with questionmark"
-				/>
-				<p>
-					Please take a moment to review our <a href="/verify/faq">faq</a> section. This will help you better
-					understand the community rules and expectations. Thank you for your attention and for making a
-					constructive contribution!
-				</p>
-			</sl-alert>
-		</div>`;
-	}
+  protected render(): TemplateResult {
+    return html`
+      <div class="element">
+        <sl-alert open>
+          <img
+            slot="icon"
+            src="/images/45px-Divcord.png"
+            decoding="async"
+            width="45"
+            height="45"
+            alt="Icon Stacked decks with questionmark"
+          />
+          <p>
+            Please take a moment to review our <a href="/verify/faq">faq</a> section. This will help you better understand the
+            community rules and expectations. Thank you for your attention and for making a constructive contribution!
+          </p>
+        </sl-alert>
+      </div>
+    `;
+  }
 
-	static styles = css`
-		:host {
-			display: block;
-			width: fit-content;
-		}
+  static styles = css`
+    :host {
+      display: block;
+      width: fit-content;
+    }
 
-		* {
-			padding: 0;
-			margin: 0;
-			font-family: Geist;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: Geist;
+    }
 
-		a,
-		a:visited {
-			color: var(--source-color, #bbbbbb);
-		}
+    a,
+    a:visited {
+      color: var(--source-color, #bbbbbb);
+    }
 
-		a:hover {
-			color: var(--link-color-hover);
-		}
+    a:hover {
+      color: var(--link-color-hover);
+    }
 
-		.element {
-			max-width: 600px;
-		}
+    .element {
+      max-width: 600px;
+    }
 
-		sl-alert {
-			font-family: Geist;
-		}
-	`;
+    sl-alert {
+      font-family: Geist;
+    }
+  `;
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-verify-faq-alert': VerifyFaqAlertElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-verify-faq-alert": VerifyFaqAlertElement;
+  }
 }

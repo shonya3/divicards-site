@@ -1,13 +1,14 @@
-import { LitElement, TemplateResult, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import '@shoelace-style/shoelace/dist/components/alert/alert.js';
+import { LitElement, TemplateResult, css, html } from "lit";
+import { customElement, property } from "lit/decorators.js";
 
-@customElement('e-divcord-needs-info')
+import "@shoelace-style/shoelace/dist/components/alert/alert.js";
+
+@customElement("e-divcord-needs-info")
 export class DivcordNeedsInfoElement extends LitElement {
-	@property({ reflect: true }) card: string = '';
+  @property({ reflect: true }) card: string = "";
 
-	protected render(): TemplateResult {
-		return html`<div class="element">
+  protected render(): TemplateResult {
+    return html`<div class="element">
 			<sl-alert open>
 				<img slot="icon" src="/images/45px-Divcord.png" decoding="async" width="45" height="45" />
 				<h3 class="title">${this.card} has no confirmed drop sources.</h3>
@@ -23,40 +24,40 @@ export class DivcordNeedsInfoElement extends LitElement {
 				</p>
 			</sl-alert>
 		</div>`;
-	}
+  }
 
-	static styles = css`
-		:host {
-			display: block;
-		}
+  static styles = css`
+    :host {
+      display: block;
+    }
 
-		* {
-			padding: 0;
-			margin: 0;
-			font-family: Geist;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: Geist;
+    }
 
-		a,
-		a:visited {
-			color: var(--source-color, #bbbbbb);
-		}
+    a,
+    a:visited {
+      color: var(--source-color, #bbbbbb);
+    }
 
-		a:hover {
-			color: var(--link-color-hover);
-		}
+    a:hover {
+      color: var(--link-color-hover);
+    }
 
-		.element {
-			max-width: 600px;
-		}
+    .element {
+      max-width: 600px;
+    }
 
-		sl-alert {
-			font-family: Geist;
-		}
-	`;
+    sl-alert {
+      font-family: Geist;
+    }
+  `;
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-divcord-needs-info': DivcordNeedsInfoElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-divcord-needs-info": DivcordNeedsInfoElement;
+  }
 }

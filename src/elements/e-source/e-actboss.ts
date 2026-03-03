@@ -1,53 +1,57 @@
-import { linkStyles } from '../../linkStyles';
-import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, css, nothing, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import './e-act-area';
-import { sourceHref } from '../../utils';
-import type { RenderMode } from '../types';
-import type { ActArea, Bossfight } from '../../../gen/poeData';
-import { createSource } from '../../cards';
-import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
+import { LitElement, html, css, nothing, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+
+import { createSource } from "../../cards";
+import { UpdateViewTransitionNameEvent } from "../../context/view-transition-name-provider";
+import { linkStyles } from "../../linkStyles";
+import { sourceHref } from "../../utils";
+import "./e-act-area";
+
+import type { ActArea, Bossfight } from "../../../gen/poeData";
+import type { RenderMode } from "../types";
 
 /**
  * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
  */
-@customElement('e-actboss')
+@customElement("e-actboss")
 export class ActBossElement extends LitElement {
-	@property({ reflect: true }) slug!: string;
-	@property({ type: Object }) boss!: Bossfight;
-	@property({ type: Object }) actArea!: ActArea;
-	@property({ reflect: true }) href: string = '';
-	@property({ reflect: true }) renderMode: RenderMode = 'normal';
+  @property({ reflect: true }) slug!: string;
+  @property({ type: Object }) boss!: Bossfight;
+  @property({ type: Object }) actArea!: ActArea;
+  @property({ reflect: true }) href: string = "";
+  @property({ reflect: true }) renderMode: RenderMode = "normal";
 
-	protected render(): TemplateResult {
-		return html`<div
+  protected render(): TemplateResult {
+    return html`<div
 			class=${classMap({
-				actboss: true,
-				[`rendermode--${this.renderMode}`]: true,
-			})}
+        actboss: true,
+        [`rendermode--${this.renderMode}`]: true,
+      })}
 		>
-			${this.renderMode === 'normal'
-				? html`<e-act-area
-						.href=${sourceHref(createSource({ type: 'Act', id: this.actArea.id }))}
+			${
+        this.renderMode === "normal"
+          ? html`<e-act-area
+						.href=${sourceHref(createSource({ type: "Act", id: this.actArea.id }))}
 						class="act-area"
 						size="small"
 						.actArea=${this.actArea}
 				  ></e-act-area>`
-				: nothing}
+          : nothing
+      }
 
 			<a href=${this.href} @click=${this.#dispatch_transition} class="bossname"
 				>${this.boss.name}
-				${this.renderMode === 'compact' ? html`<span>(Act ${this.actArea.act})</span>` : nothing}
+				${this.renderMode === "compact" ? html`<span>(Act ${this.actArea.act})</span>` : nothing}
 			</a>
 		</div>`;
-	}
+  }
 
-	#dispatch_transition() {
-		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'source', value: this.slug }));
-	}
+  #dispatch_transition() {
+    this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: "source", value: this.slug }));
+  }
 
-	static styles = css`
+  static styles = css`
 		* {
 			padding: 0;
 			margin: 0;
@@ -71,7 +75,7 @@ export class ActBossElement extends LitElement {
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-actboss': ActBossElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-actboss": ActBossElement;
+  }
 }

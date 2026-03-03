@@ -1,60 +1,60 @@
 :root {
-	font-family: 'Geist', sans-serif;
+  font-family: "Geist", sans-serif;
 
-	--card-width-small: 134px;
-	--card-width-medium: 268px;
-	--card-width-large: 326px;
-	--link-color-hover: var(--sl-color-sky-600, skyblue);
-	--link-color: var(--sl-color-blue-950, skyblue);
-	--top-nav-active-shadow: 0 2px 8px rgb(0 0 0 / 14%);
-	--bg-clr: #fff;
-	--source-color: var(--sl-color-gray-800);
-	--snow-color: skyblue;
+  --card-width-small: 134px;
+  --card-width-medium: 268px;
+  --card-width-large: 326px;
+  --link-color-hover: var(--sl-color-sky-600, skyblue);
+  --link-color: var(--sl-color-blue-950, skyblue);
+  --top-nav-active-shadow: 0 2px 8px rgb(0 0 0 / 14%);
+  --bg-clr: #fff;
+  --source-color: var(--sl-color-gray-800);
+  --snow-color: skyblue;
 }
 
-:root[data-theme='dark'] {
-	color-scheme: dark;
-	--top-nav-active-shadow: 0 1px 6px rgb(255 255 255 / 35%);
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --top-nav-active-shadow: 0 1px 6px rgb(255 255 255 / 35%);
 }
 
 html {
-	height: 100vh;
-	overflow-y: scroll;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	height: 100vh;
-	background-color: var(--sl-color-neutral-0);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: var(--sl-color-neutral-0);
 }
 
 @font-face {
-	font-family: 'Geist';
-	src: url('/Geist-Light.woff2') format('woff2');
+  font-family: "Geist";
+  src: url("/Geist-Light.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: 'fontin';
-	font-weight: normal;
-	font-style: normal;
-	src: url('/fontin.woff') format('woff');
+  font-family: "fontin";
+  font-weight: normal;
+  font-style: normal;
+  src: url("/fontin.woff") format("woff");
 }
 
 .toast-link {
-	color: var(--sl-color-neutral-900);
+  color: var(--sl-color-neutral-900);
 }
 
 .toast-link:hover {
-	color: var(--sl-color-sky-600, skyblue);
+  color: var(--sl-color-sky-600, skyblue);
 }
 
 e-topnav::part(active-link) {
-	view-transition-name: active-link;
+  view-transition-name: active-link;
 }
 ::view-transition-old(active-link),
 ::view-transition-new(active-link) {
-	height: 100%;
+  height: 100%;
 }
 
 p-card::part(divination_card),
@@ -64,7 +64,7 @@ p-source::part(active_divination_card),
 p-weights::part(active_divination_card),
 p-verify::part(active_divination_card),
 p-maps::part(active_divination_card) {
-	view-transition-name: active_divination_card;
+  view-transition-name: active_divination_card;
 }
 
 p-home::part(active_drop_source),
@@ -72,5 +72,5 @@ p-source::part(drop_source),
 p-verify::part(active_drop_source),
 p-card::part(active_drop_source),
 p-maps::part(active_drop_source) {
-	view-transition-name: active_drop_source;
+  view-transition-name: active_drop_source;
 }

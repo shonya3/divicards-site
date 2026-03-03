@@ -1,164 +1,166 @@
-import { html, css, LitElement, TemplateResult, CSSResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { Directive, DirectiveParameters, DirectiveResult, directive } from 'lit/directive.js';
-import { ElementPart, render } from 'lit';
+import { html, css, LitElement, TemplateResult, CSSResult } from "lit";
+import { ElementPart, render } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { Directive, DirectiveParameters, DirectiveResult, directive } from "lit/directive.js";
 
 // Positioning library
-import { computePosition, autoPlacement, offset, shift } from '@floating-ui/dom';
+import { computePosition, autoPlacement, offset, shift } from "@floating-ui/dom";
 
 // Events to turn on/off the tooltip
-const enterEvents = ['pointerenter', 'focus', 'click'];
-const leaveEvents = ['pointerleave', 'blur'];
+const enterEvents = ["pointerenter", "focus", "click"];
+const leaveEvents = ["pointerleave", "blur"];
 
-@customElement('e-simple-tooltip')
+@customElement("e-simple-tooltip")
 export class SimpleTooltip extends LitElement {
-	// Lazy creation
-	static lazy(target: Element, callback: (target: SimpleTooltip) => void): void {
-		const createTooltip = () => {
-			const tooltip = document.createElement('e-simple-tooltip') as SimpleTooltip;
-			callback(tooltip);
-			target.parentNode!.insertBefore(tooltip, target.nextSibling);
-			tooltip.show();
-			// We only need to create the tooltip once, so ignore all future events.
-			enterEvents.forEach(eventName => target.removeEventListener(eventName, createTooltip));
-		};
-		enterEvents.forEach(eventName => target.addEventListener(eventName, createTooltip));
-	}
+  // Lazy creation
+  static lazy(target: Element, callback: (target: SimpleTooltip) => void): void {
+    const createTooltip = () => {
+      const tooltip = document.createElement("e-simple-tooltip") as SimpleTooltip;
+      callback(tooltip);
+      target.parentNode!.insertBefore(tooltip, target.nextSibling);
+      tooltip.show();
+      // We only need to create the tooltip once, so ignore all future events.
+      enterEvents.forEach((eventName) => target.removeEventListener(eventName, createTooltip));
+    };
+    enterEvents.forEach((eventName) => target.addEventListener(eventName, createTooltip));
+  }
 
-	static styles: CSSResult = css`
-		:host {
-			/* Position fixed to help ensure the tooltip is "on top" */
-			position: fixed;
-			/*border: 1px solid darkgray;
-			background-color: rgba(0, 0, 0, 0.8);
-            
-            */
-			padding: 0;
-			display: inline-block;
-			pointer-events: none;
-			z-index: 900;
+  static styles: CSSResult = css`
+    :host {
+      /* Position fixed to help ensure the tooltip is "on top" */
+      position: fixed;
+      /*border: 1px solid darkgray;
+    	background-color: rgba(0, 0, 0, 0.8);
 
-			opacity: 0;
-		}
+              */
+      padding: 0;
+      display: inline-block;
+      pointer-events: none;
+      z-index: 900;
 
-		:host([showing]) {
-			opacity: 1;
-		}
+      opacity: 0;
+    }
 
-		.tooltip-box {
-			text-align: left;
-			min-width: 300px;
-			background-color: transparent;
+    :host([showing]) {
+      opacity: 1;
+    }
 
-			color: var(--e-help-tip-text-color, var(--color, var(--sl-color-neutral-950)));
-			font-size: 1rem;
-			line-height: 1.4;
-		}
-	`;
+    .tooltip-box {
+      text-align: left;
+      min-width: 300px;
+      background-color: transparent;
 
-	// Attribute for styling "showing"
-	@property({ reflect: true, type: Boolean })
-	showing = false;
+      color: var(--e-help-tip-text-color, var(--color, var(--sl-color-neutral-950)));
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+  `;
 
-	// Position offset
-	@property({ type: Number })
-	offset = 4;
+  // Attribute for styling "showing"
+  @property({ reflect: true, type: Boolean })
+  showing = false;
 
-	constructor() {
-		super();
-		// Finish hiding at end of animation
-		this.addEventListener('transitionend', this.finishHide);
-	}
+  // Position offset
+  @property({ type: Number })
+  offset = 4;
 
-	connectedCallback(): void {
-		super.connectedCallback();
-		// Setup target if needed
-		this.target ??= this.previousElementSibling;
-		// Ensure hidden at start
-		this.finishHide();
-	}
+  constructor() {
+    super();
+    // Finish hiding at end of animation
+    this.addEventListener("transitionend", this.finishHide);
+  }
 
-	// Target for which to show tooltip
-	_target: Element | null = null;
-	get target() {
-		return this._target;
-	}
-	set target(target: Element | null) {
-		// Remove events from existing target
-		if (this.target) {
-			enterEvents.forEach(name => this.target!.removeEventListener(name, this.show));
-			leaveEvents.forEach(name => this.target!.removeEventListener(name, this.hide));
-		}
-		if (target) {
-			// Add events to new target
-			enterEvents.forEach(name => target!.addEventListener(name, this.show));
-			leaveEvents.forEach(name => target!.addEventListener(name, this.hide));
-		}
-		this._target = target;
-	}
+  connectedCallback(): void {
+    super.connectedCallback();
+    // Setup target if needed
+    this.target ??= this.previousElementSibling;
+    // Ensure hidden at start
+    this.finishHide();
+  }
 
-	show = async (): Promise<void> => {
-		await new Promise(resolve => setTimeout(resolve));
-		this.style.cssText = '';
-		computePosition(this.target!, this, {
-			strategy: 'fixed',
-			middleware: [offset(this.offset), shift(), autoPlacement({ allowedPlacements: ['right-start'] })],
-		}).then(({ x, y }: { x: number; y: number }) => {
-			this.style.left = `${x + 150}px`;
-			this.style.top = `${y}px`;
-		});
-		this.showing = true;
-	};
+  // Target for which to show tooltip
+  _target: Element | null = null;
+  get target() {
+    return this._target;
+  }
+  set target(target: Element | null) {
+    // Remove events from existing target
+    if (this.target) {
+      enterEvents.forEach((name) => this.target!.removeEventListener(name, this.show));
+      leaveEvents.forEach((name) => this.target!.removeEventListener(name, this.hide));
+    }
+    if (target) {
+      // Add events to new target
+      enterEvents.forEach((name) => target!.addEventListener(name, this.show));
+      leaveEvents.forEach((name) => target!.addEventListener(name, this.hide));
+    }
+    this._target = target;
+  }
 
-	hide = async (): Promise<void> => {
-		await new Promise(resolve => setTimeout(resolve));
-		this.showing = false;
-	};
+  show = async (): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve));
+    this.style.cssText = "";
+    computePosition(this.target!, this, {
+      strategy: "fixed",
+      middleware: [offset(this.offset), shift(), autoPlacement({ allowedPlacements: ["right-start"] })],
+    }).then(({ x, y }: { x: number; y: number }) => {
+      this.style.left = `${x + 150}px`;
+      this.style.top = `${y}px`;
+    });
+    this.showing = true;
+  };
 
-	finishHide = (): void => {
-		if (!this.showing) {
-			this.style.display = 'none';
-		}
-	};
+  hide = async (): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve));
+    this.showing = false;
+  };
 
-	render(): TemplateResult {
-		return html`<div class="tooltip-box"><slot></slot></div>`;
-	}
+  finishHide = (): void => {
+    if (!this.showing) {
+      this.style.display = "none";
+    }
+  };
+
+  render(): TemplateResult {
+    return html`
+      <div class="tooltip-box"><slot></slot></div>
+    `;
+  }
 }
 
 class TooltipDirective extends Directive {
-	didSetupLazy = false;
-	tooltipContent?: unknown;
-	part?: ElementPart;
-	tooltip?: SimpleTooltip;
-	// eslint-disable-next-line
-	render(_: unknown = ''): void {}
-	update(part: ElementPart, [tooltipContent]: DirectiveParameters<this>): void {
-		this.tooltipContent = tooltipContent;
-		this.part = part;
-		if (!this.didSetupLazy) {
-			this.setupLazy();
-		}
-		if (this.tooltip) {
-			this.renderTooltipContent();
-		}
-	}
-	setupLazy(): void {
-		this.didSetupLazy = true;
-		SimpleTooltip.lazy(this.part!.element, (tooltip: SimpleTooltip) => {
-			this.tooltip = tooltip;
-			this.renderTooltipContent();
-		});
-	}
-	renderTooltipContent(): void {
-		render(this.tooltipContent, this.tooltip!, this.part!.options);
-	}
+  didSetupLazy = false;
+  tooltipContent?: unknown;
+  part?: ElementPart;
+  tooltip?: SimpleTooltip;
+  // eslint-disable-next-line
+  render(_: unknown = ""): void {}
+  update(part: ElementPart, [tooltipContent]: DirectiveParameters<this>): void {
+    this.tooltipContent = tooltipContent;
+    this.part = part;
+    if (!this.didSetupLazy) {
+      this.setupLazy();
+    }
+    if (this.tooltip) {
+      this.renderTooltipContent();
+    }
+  }
+  setupLazy(): void {
+    this.didSetupLazy = true;
+    SimpleTooltip.lazy(this.part!.element, (tooltip: SimpleTooltip) => {
+      this.tooltip = tooltip;
+      this.renderTooltipContent();
+    });
+  }
+  renderTooltipContent(): void {
+    render(this.tooltipContent, this.tooltip!, this.part!.options);
+  }
 }
 
 export const tooltip: (template: unknown) => DirectiveResult<typeof TooltipDirective> = directive(TooltipDirective);
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-simple-tooltip': SimpleTooltip;
-	}
+  interface HTMLElementTagNameMap {
+    "e-simple-tooltip": SimpleTooltip;
+  }
 }

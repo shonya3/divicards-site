@@ -1,74 +1,76 @@
-import { linkStyles } from '../../linkStyles';
-import { LitElement, html, nothing, css, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import type { RenderMode } from '../types';
-import type { MapArea } from '../../../gen/poeData';
-import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
+import { LitElement, html, nothing, css, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+
+import { UpdateViewTransitionNameEvent } from "../../context/view-transition-name-provider";
+import { linkStyles } from "../../linkStyles";
+
+import type { MapArea } from "../../../gen/poeData";
+import type { RenderMode } from "../types";
 
 /**
  * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
  */
-@customElement('e-map')
+@customElement("e-map")
 export class MapElement extends LitElement {
-	@property({ reflect: true }) slug!: string;
-	@property({ type: Object }) map!: MapArea;
-	@property({ reflect: true }) size: 'small' | 'medium' = 'medium';
-	@property({ reflect: true }) href = '';
-	@property() renderMode: RenderMode = 'normal';
-	@property({ type: Number, attribute: 'image-size' }) imgSize?: number;
+  @property({ reflect: true }) slug!: string;
+  @property({ type: Object }) map!: MapArea;
+  @property({ reflect: true }) size: "small" | "medium" = "medium";
+  @property({ reflect: true }) href = "";
+  @property() renderMode: RenderMode = "normal";
+  @property({ type: Number, attribute: "image-size" }) imgSize?: number;
 
-	get imageWidth(): number {
-		if (this.imgSize !== undefined) {
-			return this.imgSize;
-		}
-		switch (this.size) {
-			case 'small': {
-				return 40;
-			}
+  get imageWidth(): number {
+    if (this.imgSize !== undefined) {
+      return this.imgSize;
+    }
+    switch (this.size) {
+      case "small": {
+        return 40;
+      }
 
-			case 'medium': {
-				return 60;
-			}
-		}
-	}
+      case "medium": {
+        return 60;
+      }
+    }
+  }
 
-	mapColor(): 'white' | 'yellow' | 'red' | 'special' {
-		if (this.map.tier < 6) {
-			return 'white';
-		} else if (this.map.tier < 11) {
-			return 'yellow';
-		} else {
-			const name = this.map.name;
-			const special = ['Harbinger', 'Phoenix', 'Hydra', 'Chimera', 'Minotaur', 'Vaal Temple'].some(b =>
-				name.includes(b)
-			);
-			if (special) {
-				return 'special';
-			} else {
-				return 'red';
-			}
-		}
-	}
-	protected render(): TemplateResult {
-		return html`<div
+  mapColor(): "white" | "yellow" | "red" | "special" {
+    if (this.map.tier < 6) {
+      return "white";
+    } else if (this.map.tier < 11) {
+      return "yellow";
+    } else {
+      const name = this.map.name;
+      const special = ["Harbinger", "Phoenix", "Hydra", "Chimera", "Minotaur", "Vaal Temple"].some((b) =>
+        name.includes(b),
+      );
+      if (special) {
+        return "special";
+      } else {
+        return "red";
+      }
+    }
+  }
+  protected render(): TemplateResult {
+    return html`<div
 			style="--image-width: ${this.imageWidth}px"
 			class=${classMap({
-				map: true,
-				[`map--${this.mapColor()}`]: !this.map.unique,
-				[`map--${this.size}`]: true,
-			})}
+        map: true,
+        [`map--${this.mapColor()}`]: !this.map.unique,
+        [`map--${this.size}`]: true,
+      })}
 		>
 			${this.renderName()}
 			<div class="img-wrapper">
 				<div
 					class=${classMap({
-						'map-background': !this.map.unique,
-					})}
+            "map-background": !this.map.unique,
+          })}
 				>
 					<a @click=${this.#dispatch_transition} href=${this.href} class="name"
 						><img
-							class=${classMap({ 'img-map-glyph': true })}
+							class=${classMap({ "img-map-glyph": true })}
 							width=${this.imageWidth}
 							height=${this.imageWidth}
 							loading="lazy"
@@ -78,19 +80,19 @@ export class MapElement extends LitElement {
 				</div>
 			</div>
 		</div>`;
-	}
+  }
 
-	protected renderName(): TemplateResult | typeof nothing {
-		return this.renderMode === 'normal'
-			? html` <a @click=${this.#dispatch_transition} href=${this.href} class="name">${this.map.name}</a> `
-			: nothing;
-	}
+  protected renderName(): TemplateResult | typeof nothing {
+    return this.renderMode === "normal"
+      ? html` <a @click=${this.#dispatch_transition} href=${this.href} class="name">${this.map.name}</a> `
+      : nothing;
+  }
 
-	#dispatch_transition() {
-		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'source', value: this.slug }));
-	}
+  #dispatch_transition() {
+    this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: "source", value: this.slug }));
+  }
 
-	static styles = css`
+  static styles = css`
 		:host {
 			display: inline-block;
 			object-fit: contain;
@@ -158,7 +160,7 @@ export class MapElement extends LitElement {
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-map': MapElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-map": MapElement;
+  }
 }

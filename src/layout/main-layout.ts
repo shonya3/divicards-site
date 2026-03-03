@@ -1,10 +1,10 @@
-import { LitElement, html, css, TemplateResult } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { LitElement, html, css, TemplateResult } from "lit";
+import { customElement } from "lit/decorators.js";
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'main-layout': MainLayoutElement;
-	}
+  interface HTMLElementTagNameMap {
+    "main-layout": MainLayoutElement;
+  }
 }
 
 /**
@@ -12,47 +12,47 @@ declare global {
  * @slot header
  * @slot page
  */
-@customElement('main-layout')
+@customElement("main-layout")
 export class MainLayoutElement extends LitElement {
-	render(): TemplateResult {
-		return html`
-			<header id="header">
-				<slot name="header"></slot>
-			</header>
+  render(): TemplateResult {
+    return html`
+      <header id="header">
+        <slot name="header"></slot>
+      </header>
 
-			<div id="page">
-				<slot name="page"></slot>
-			</div>
+      <div id="page">
+        <slot name="page"></slot>
+      </div>
 
-			<footer id="footer"></footer>
-		`;
-	}
+      <footer id="footer"></footer>
+    `;
+  }
 
-	static styles = css`
-		:host {
-			display: block;
-			min-height: 100vh;
-		}
+  static styles = css`
+    :host {
+      display: block;
+      min-height: 100vh;
+    }
 
-		#header {
-			position: sticky;
-			top: 0;
-			z-index: 10;
-			background-color: var(--sl-color-neutral-0);
-		}
+    #header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: var(--sl-color-neutral-0);
+    }
 
-		#page {
-			padding: 1rem;
-			padding-bottom: 0;
+    #page {
+      padding: 1rem;
+      padding-bottom: 0;
 
-			@media (width >= 640px) {
-				padding: 1.5rem;
-				padding-bottom: 0;
-			}
-		}
+      @media (width >= 640px) {
+        padding: 1.5rem;
+        padding-bottom: 0;
+      }
+    }
 
-		#footer {
-			padding: 2rem;
-		}
-	`;
+    #footer {
+      padding: 2rem;
+    }
+  `;
 }

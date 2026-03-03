@@ -1,61 +1,63 @@
-import { linkStyles } from '../../linkStyles';
-import { classMap } from 'lit/directives/class-map.js';
-import { LitElement, html, css, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import './e-map';
-import { sourceHref } from '../../utils';
-import type { RenderMode } from '../types';
-import type { MapArea, MapBoss } from '../../../gen/poeData';
-import { createSource } from '../../cards';
-import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
+import { LitElement, html, css, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+
+import { createSource } from "../../cards";
+import { UpdateViewTransitionNameEvent } from "../../context/view-transition-name-provider";
+import { linkStyles } from "../../linkStyles";
+import { sourceHref } from "../../utils";
+import "./e-map";
+
+import type { MapArea, MapBoss } from "../../../gen/poeData";
+import type { RenderMode } from "../types";
 
 /**
  *  @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
  */
-@customElement('e-mapboss')
+@customElement("e-mapboss")
 export class MapBossElement extends LitElement {
-	@property({ reflect: true }) slug!: string;
-	@property({ type: Object }) boss!: MapBoss;
-	@property({ type: Array }) maps: MapArea[] = [];
-	@property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
-	@property({ reflect: true }) href = '';
-	@property({ reflect: true }) renderMode: RenderMode = 'normal';
+  @property({ reflect: true }) slug!: string;
+  @property({ type: Object }) boss!: MapBoss;
+  @property({ type: Array }) maps: MapArea[] = [];
+  @property({ reflect: true }) size: "small" | "medium" | "large" = "medium";
+  @property({ reflect: true }) href = "";
+  @property({ reflect: true }) renderMode: RenderMode = "normal";
 
-	protected render(): TemplateResult {
-		let imgSize: number | undefined = undefined;
-		if (this.renderMode === 'compact') {
-			imgSize = 25;
-		} else {
-			imgSize = 30;
-		}
+  protected render(): TemplateResult {
+    let imgSize: number | undefined = undefined;
+    if (this.renderMode === "compact") {
+      imgSize = 25;
+    } else {
+      imgSize = 30;
+    }
 
-		return html`<div
+    return html`<div
 			class=${classMap({
-				mapboss: true,
-				[`rendermode--${this.renderMode}`]: true,
-			})}
+        mapboss: true,
+        [`rendermode--${this.renderMode}`]: true,
+      })}
 		>
 			<ul class="maplist">
 				${this.maps.map(
-					m =>
-						html`<e-map
-							.href=${sourceHref(createSource({ type: 'Map', id: m.name }))}
-							.size=${this.size === 'large' ? 'medium' : this.size}
+          (m) =>
+            html`<e-map
+							.href=${sourceHref(createSource({ type: "Map", id: m.name }))}
+							.size=${this.size === "large" ? "medium" : this.size}
 							.map=${m}
 							.renderMode=${this.renderMode}
 							.imgSize=${imgSize}
-						></e-map>`
-				)}
+						></e-map>`,
+        )}
 			</ul>
 			<a @click=${this.#dispatch_transition} href=${this.href} class="name">${this.boss.name}</a>
 		</div>`;
-	}
+  }
 
-	#dispatch_transition() {
-		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'source', value: this.slug }));
-	}
+  #dispatch_transition() {
+    this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: "source", value: this.slug }));
+  }
 
-	static styles = css`
+  static styles = css`
 		* {
 			padding: 0;
 			margin: 0;
@@ -112,7 +114,7 @@ export class MapBossElement extends LitElement {
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-mapboss': MapBossElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-mapboss": MapBossElement;
+  }
 }

@@ -1,34 +1,37 @@
-import { linkStyles } from './../linkStyles';
-import { LitElement, html, css, TemplateResult, nothing } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import '../elements/weights-table/e-weights-table';
-import '../elements/e-discord-avatar';
-import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import type { ShowLimitChangeEvent, WeightsTableElement } from '../elements/weights-table/e-weights-table';
-import { consume } from '@lit/context';
-import { prepare_rows } from '../elements/weights-table/lib';
-import '@shoelace-style/shoelace/dist/components/details/details.js';
-import { formatWithNewlines } from '../utils';
-import {
-	view_transition_names_context,
-	type ViewTransitionNamesContext,
-} from '../context/view-transition-name-provider';
-import { use_local_storage } from '../composables/use_local_storage';
-import { computed, signal, SignalWatcher } from '@lit-labs/signals';
-import { divcord_store } from '../stores/divcord';
-import { Sources } from '../DivcordTable';
-import { calculateRootMargin } from '../elements/weights-table/intersectionUtils';
+import { computed, signal, SignalWatcher } from "@lit-labs/signals";
+import { consume } from "@lit/context";
+import { LitElement, html, css, TemplateResult, nothing } from "lit";
+import { customElement, state } from "lit/decorators.js";
 
-declare module '../storage' {
-	interface Registry {
-		weightsPageShowCards: boolean;
-	}
+import "@shoelace-style/shoelace/dist/components/details/details.js";
+import "@shoelace-style/shoelace/dist/components/icon/icon.js";
+
+import { use_local_storage } from "../composables/use_local_storage";
+import {
+  view_transition_names_context,
+  type ViewTransitionNamesContext,
+} from "../context/view-transition-name-provider";
+import { Sources } from "../DivcordTable";
+import "../elements/e-discord-avatar";
+import "../elements/weights-table/e-weights-table";
+import { calculateRootMargin } from "../elements/weights-table/intersectionUtils";
+import { prepare_rows } from "../elements/weights-table/lib";
+import { divcord_store } from "../stores/divcord";
+import { formatWithNewlines } from "../utils";
+import { linkStyles } from "./../linkStyles";
+
+import type { ShowLimitChangeEvent, WeightsTableElement } from "../elements/weights-table/e-weights-table";
+
+declare module "../storage" {
+  interface Registry {
+    weightsPageShowCards: boolean;
+  }
 }
 
 const faq = [
-	{
-		q: `Do we "know"  that Rain of Chaos "actually" weighs ~121000?`,
-		a: `Yes.
+  {
+    q: `Do we "know"  that Rain of Chaos "actually" weighs ~121000?`,
+    a: `Yes.
         
 The original Rain of Chaos natural weight value estimate was based on tracking index items of known weight (e.g. Active Skill Gems) in large samples. Since we know those index items' exact DropPool weights, the estimate was pretty good.
 
@@ -38,96 +41,93 @@ Sampling indicated that the true value may be slightly lower, but it's quite clo
 
 <a target="_blank" href="https://discord.com/channels/991073626721763429/991092200957952152/1244892691192479795">tikiheme (poorFishwife) — 28/05/2024 08:59</a>
 `,
-	},
+  },
 ];
 
 /**
  * @csspart active_divination_card
  */
-@customElement('p-weights')
+@customElement("p-weights")
 export class WeightsPage extends SignalWatcher(LitElement) {
-	@consume({ context: view_transition_names_context, subscribe: true })
-	@state()
-	view_transition_names!: ViewTransitionNamesContext;
+  @consume({ context: view_transition_names_context, subscribe: true })
+  @state()
+  view_transition_names!: ViewTransitionNamesContext;
 
-	#show_cards = use_local_storage('weightsPageShowCards', false);
-	#rows = prepare_rows();
+  #show_cards = use_local_storage("weightsPageShowCards", false);
+  #rows = prepare_rows();
 
-	#intersected_card = signal<string | null>(null);
-	#intersected_card_sources = computed<Sources | null>(() => {
-		const card = this.#intersected_card.get();
-		if (!card) return null;
-		return divcord_store.get_card_sources(card);
-	});
+  #intersected_card = signal<string | null>(null);
+  #intersected_card_sources = computed<Sources | null>(() => {
+    const card = this.#intersected_card.get();
+    if (!card) return null;
+    return divcord_store.get_card_sources(card);
+  });
 
-	#onShowCardsChanged(e: Event) {
-		const target = e.target as WeightsTableElement;
-		this.#show_cards.set(target.showCards);
-	}
+  #onShowCardsChanged(e: Event) {
+    const target = e.target as WeightsTableElement;
+    this.#show_cards.set(target.showCards);
+  }
 
-	private _intersectedRowObserver: IntersectionObserver | null = null;
-	#handleShowLimitChange(e: ShowLimitChangeEvent) {
-		// 0. Do nothing if no table rows.
-		const firstRow = e.$tableRows.at(0);
-		if (!firstRow) {
-			return;
-		}
+  private _intersectedRowObserver: IntersectionObserver | null = null;
+  #handleShowLimitChange(e: ShowLimitChangeEvent) {
+    // 0. Do nothing if no table rows.
+    const firstRow = e.$tableRows.at(0);
+    if (!firstRow) {
+      return;
+    }
 
-		// 1. Do not observe if viewport width(or height) is too small.
-		const VIEWPORT_XL_BREAKPOINT = 1280;
-		if (window.innerWidth < VIEWPORT_XL_BREAKPOINT || (e.$limit !== null && e.$limit < 25)) {
-			this._intersectedRowObserver?.disconnect();
-			this._intersectedRowObserver = null;
-			this.#intersected_card.set(null);
-			return;
-		}
+    // 1. Do not observe if viewport width(or height) is too small.
+    const VIEWPORT_XL_BREAKPOINT = 1280;
+    if (window.innerWidth < VIEWPORT_XL_BREAKPOINT || (e.$limit !== null && e.$limit < 25)) {
+      this._intersectedRowObserver?.disconnect();
+      this._intersectedRowObserver = null;
+      this.#intersected_card.set(null);
+      return;
+    }
 
-		// 2. Do nothing if already observing.
-		if (this._intersectedRowObserver) {
-			return;
-		}
+    // 2. Do nothing if already observing.
+    if (this._intersectedRowObserver) {
+      return;
+    }
 
-		// 3. Set observer.
-		const INTERSECTING_LINE_THICKNESS_PX = 1;
+    // 3. Set observer.
+    const INTERSECTING_LINE_THICKNESS_PX = 1;
 
-		const { rootMargin, distance } = calculateRootMargin({
-			verticalPositionPx: firstRow.getBoundingClientRect().y + window.scrollY,
-			thicknessPx: INTERSECTING_LINE_THICKNESS_PX,
-		});
-		this.style.setProperty('--intersecting-line-top', `${distance.topPx}px`);
+    const { rootMargin, distance } = calculateRootMargin({
+      verticalPositionPx: firstRow.getBoundingClientRect().y + window.scrollY,
+      thicknessPx: INTERSECTING_LINE_THICKNESS_PX,
+    });
+    this.style.setProperty("--intersecting-line-top", `${distance.topPx}px`);
 
-		this._intersectedRowObserver = new IntersectionObserver(
-			entries => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						entry.target.part.add('intersecting-row');
+    this._intersectedRowObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.part.add("intersecting-row");
 
-						const card = (entry.target as HTMLTableRowElement).dataset.card;
-						if (!card) {
-							console.error(
-								`Intersecting row <tr>. Expected data-card attribute, found nothing`,
-								entry.target
-							);
-							return;
-						}
-						this.#intersected_card.set(card);
-					} else {
-						entry.target.part.remove('intersecting-row');
-					}
-				});
-			},
-			{ rootMargin }
-		);
+            const card = (entry.target as HTMLTableRowElement).dataset.card;
+            if (!card) {
+              console.error(`Intersecting row <tr>. Expected data-card attribute, found nothing`, entry.target);
+              return;
+            }
+            this.#intersected_card.set(card);
+          } else {
+            entry.target.part.remove("intersecting-row");
+          }
+        });
+      },
+      { rootMargin },
+    );
 
-		e.$tableRows.forEach(row => {
-			this._intersectedRowObserver?.observe(row);
-		});
-	}
+    e.$tableRows.forEach((row) => {
+      this._intersectedRowObserver?.observe(row);
+    });
+  }
 
-	protected render(): TemplateResult {
-		const intersectingCard = this.#intersected_card.get();
+  protected render(): TemplateResult {
+    const intersectingCard = this.#intersected_card.get();
 
-		return html`<div class="page">
+    return html`<div class="page">
 			<h1 class="heading">Weights</h1>
 			<main class="main">
 				<section class="section-table">
@@ -156,11 +156,11 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 					<div class="faq">
 						<h2>Questions and answers</h2>
 						${faq.map(
-							el =>
-								html`<sl-details summary=${el.q}
+              (el) =>
+                html`<sl-details summary=${el.q}
 									><p>${formatWithNewlines(el.a, { escape: false })}</p></sl-details
-								>`
-						)}
+								>`,
+            )}
 					</div>
 
 					<article class="section-links">
@@ -186,8 +186,9 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 						</ul>
 					</article>
 
-					${intersectingCard
-						? html`
+					${
+            intersectingCard
+              ? html`
 								<div>
 									<e-divination-card
 										class="intersecting-card-presentation"
@@ -197,13 +198,14 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 									></e-divination-card>
 								</div>
 						  `
-						: nothing}
+              : nothing
+          }
 				</div>
 			</main>
 		</div>`;
-	}
+  }
 
-	static styles = css`
+  static styles = css`
 		* {
 			padding: 0;
 			margin: 0;
@@ -279,46 +281,46 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 }
 
 export function articleCss() {
-	return css`
-		article {
-			max-width: min(60ch, calc(100% - 3rem));
-			font-size: 18px;
-		}
+  return css`
+    article {
+      max-width: min(60ch, calc(100% - 3rem));
+      font-size: 18px;
+    }
 
-		a:link,
-		a:visited {
-			color: var(--sl-color-gray-800);
-		}
+    a:link,
+    a:visited {
+      color: var(--sl-color-gray-800);
+    }
 
-		a:hover {
-			color: var(--link-color-hover, skyblue);
-			text-decoration: underline;
-		}
+    a:hover {
+      color: var(--link-color-hover, skyblue);
+      text-decoration: underline;
+    }
 
-		h2,
-		h3 {
-			margin-bottom: 1.5rem;
-		}
+    h2,
+    h3 {
+      margin-bottom: 1.5rem;
+    }
 
-		ul {
-			margin: 1rem;
-		}
+    ul {
+      margin: 1rem;
+    }
 
-		p,
-		li,
-		em {
-			color: var(--sl-color-gray-700);
-		}
+    p,
+    li,
+    em {
+      color: var(--sl-color-gray-700);
+    }
 
-		em {
-			color: var(--sl-color-gray-950);
-			font-size: 20px;
-		}
-	`;
+    em {
+      color: var(--sl-color-gray-950);
+      font-size: 20px;
+    }
+  `;
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'p-weights': WeightsPage;
-	}
+  interface HTMLElementTagNameMap {
+    "p-weights": WeightsPage;
+  }
 }

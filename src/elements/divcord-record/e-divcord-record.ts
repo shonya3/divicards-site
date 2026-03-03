@@ -1,25 +1,27 @@
-import { LitElement, TemplateResult, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import '../e-source/e-source';
-import '../e-need-to-verify';
-import '../e-verify-faq-alert';
-import './e-divcord-record-notes.js';
-import './e-divcord-record-confidence.js';
-import './e-divcord-record-remaining-work.js';
-import type { DivcordRecord } from '../../../gen/divcord';
-import { divcordRecordHref } from '../../utils';
-import { linkStyles } from '../../linkStyles';
+import { LitElement, TemplateResult, css, html, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
+
+import { linkStyles } from "../../linkStyles";
+import { divcordRecordHref } from "../../utils";
+import "../e-need-to-verify";
+import "../e-source/e-source";
+import "../e-verify-faq-alert";
+import "./e-divcord-record-confidence.js";
+import "./e-divcord-record-notes.js";
+import "./e-divcord-record-remaining-work.js";
+
+import type { DivcordRecord } from "../../../gen/divcord";
 
 /**
  * A block representation of a in divcord spreadsheet row.
  */
-@customElement('e-divcord-record')
+@customElement("e-divcord-record")
 export class SourcefulDivcordRecordElement extends LitElement {
-	@property({ type: Object }) record!: DivcordRecord;
+  @property({ type: Object }) record!: DivcordRecord;
 
-	protected render(): TemplateResult {
-		return html`<div class="record">
-			${this.record.greynote === 'Empty' ? nothing : html`<span class="greynote">${this.record.greynote}</span>`}
+  protected render(): TemplateResult {
+    return html`<div class="record">
+			${this.record.greynote === "Empty" ? nothing : html`<span class="greynote">${this.record.greynote}</span>`}
 
 			<a href=${divcordRecordHref(this.record.id)} target="_blank" class="cardName">
 				#${this.record.id} ${this.record.card}</a
@@ -30,38 +32,42 @@ export class SourcefulDivcordRecordElement extends LitElement {
 				.remainingWork=${this.record.remainingWork}
 			></e-divcord-record-remaining-work>
 
-			${this.record.sources.length > 0
-				? html`
+			${
+        this.record.sources.length > 0
+          ? html`
 						<ul class="sources-list">
 							${this.record.sources.map(
-								source => html`<li>
+                (source) => html`<li>
 									<e-source .source=${source}></e-source>
-								</li>`
-							)}
+								</li>`,
+              )}
 						</ul>
 				  `
-				: nothing}
-			${this.record.verifySources.length
-				? html`<div class="verify-sources">
+          : nothing
+      }
+			${
+        this.record.verifySources.length
+          ? html`<div class="verify-sources">
 						<h3>Need to verify</h3>
 						<e-verify-faq-alert></e-verify-faq-alert>
 						<ul>
 							${this.record.verifySources.map(
-								source => html`<li>
+                (source) => html`<li>
 									<e-need-to-verify>
 										<e-source .source=${source}></e-source>
 									</e-need-to-verify>
-								</li>`
-							)}
+								</li>`,
+              )}
 						</ul>
 				  </div>`
-				: nothing}
+          : nothing
+      }
 
 			<e-divcord-record-notes class="notes" .notes=${this.record.notes}></e-divcord-record-notes>
 		</div>`;
-	}
+  }
 
-	static styles = css`
+  static styles = css`
 		* {
 			padding: 0;
 			margin: 0;
@@ -138,7 +144,7 @@ export class SourcefulDivcordRecordElement extends LitElement {
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-divcord-record': SourcefulDivcordRecordElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-divcord-record": SourcefulDivcordRecordElement;
+  }
 }

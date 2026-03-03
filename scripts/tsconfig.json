@@ -1,26 +1,26 @@
 {
-	"compilerOptions": {
-		"target": "ES2022",
-		"module": "nodenext",
-		"lib": ["ES2022"],
-		"skipLibCheck": true,
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "nodenext",
+    "lib": ["ES2022"],
+    "skipLibCheck": true,
 
-		/* Bundler mode */
-		"moduleResolution": "nodenext",
-		"allowImportingTsExtensions": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"noEmit": true,
+    /* Bundler mode */
+    "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
 
-		/* Linting */
-		"strict": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
 
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
-		"useDefineForClassFields": false
-	},
-	"include": ["build-timeline.ts"]
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false
+  },
+  "include": ["build-timeline.ts"]
 }

@@ -1,47 +1,49 @@
-import { linkStyles } from '../../linkStyles';
-import { classMap } from 'lit/directives/class-map.js';
-import { html, css, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import type { ActArea } from '../../../gen/poeData';
-import type { SourceSize } from './types';
-import { UpdateViewTransitionNameEvent } from '../../context/view-transition-name-provider';
+import { html, css, LitElement, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+
+import { UpdateViewTransitionNameEvent } from "../../context/view-transition-name-provider";
+import { linkStyles } from "../../linkStyles";
+
+import type { ActArea } from "../../../gen/poeData";
+import type { SourceSize } from "./types";
 
 /**
  * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
  */
-@customElement('e-act-area')
+@customElement("e-act-area")
 export class ActAreaElement extends LitElement {
-	static override styles = [styles()];
+  static override styles = [styles()];
 
-	@property({ reflect: true }) slug!: string;
-	@property({ type: Object }) actArea!: ActArea;
-	@property({ reflect: true }) size: SourceSize = 'large';
-	@property({ reflect: true }) href = '';
+  @property({ reflect: true }) slug!: string;
+  @property({ type: Object }) actArea!: ActArea;
+  @property({ reflect: true }) size: SourceSize = "large";
+  @property({ reflect: true }) href = "";
 
-	protected render(): TemplateResult {
-		return html`<div
+  protected render(): TemplateResult {
+    return html`<div
 			style="--act-area-background-image: url(${this.actArea.imageUrl})"
 			class=${classMap({
-				'act-area': true,
-				'act-area--small': this.size === 'small',
-				'act-area--large': this.size === 'large',
-				'act-area--medium': this.size === 'medium',
-			})}
+        "act-area": true,
+        "act-area--small": this.size === "small",
+        "act-area--large": this.size === "large",
+        "act-area--medium": this.size === "medium",
+      })}
 		>
 			<a @click=${this.#dispatch_transition} href=${this.href} class="name"
 				>${this.actArea.name} (Act ${this.actArea.act})</a
 			>
 			<div class="area-level">Monster level: ${this.actArea.areaLevel}</div>
 		</div>`;
-	}
+  }
 
-	#dispatch_transition() {
-		this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: 'source', value: this.slug }));
-	}
+  #dispatch_transition() {
+    this.dispatchEvent(new UpdateViewTransitionNameEvent({ transition_name: "source", value: this.slug }));
+  }
 }
 
 function styles() {
-	return css`
+  return css`
 		:host {
 			display: inline-block;
 			color: #eee;
@@ -127,7 +129,7 @@ function styles() {
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-act-area': ActAreaElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-act-area": ActAreaElement;
+  }
 }

@@ -1,29 +1,32 @@
-import { LitElement, html, css, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { linkStyles } from '../linkStyles';
-import '../elements/e-discord-avatar';
-import type { DiscordUsername } from '../../gen/avatars';
+import { LitElement, html, css, TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+
+import "@shoelace-style/shoelace/dist/components/icon/icon.js";
+
+import "../elements/e-discord-avatar";
+import { linkStyles } from "../linkStyles";
+
+import type { DiscordUsername } from "../../gen/avatars";
 
 /**
  * @slot - default - for link title
  * @slot - icon - for custom icon
  */
-@customElement('e-sheets-link')
+@customElement("e-sheets-link")
 export class SheetsLinkElement extends LitElement {
-	@property({ reflect: true }) href = '';
-	@property({ type: Array }) discordUsers: DiscordUsername[] = [];
+  @property({ reflect: true }) href = "";
+  @property({ type: Array }) discordUsers: DiscordUsername[] = [];
 
-	protected render(): TemplateResult {
-		return html`<div class="el">
+  protected render(): TemplateResult {
+    return html`<div class="el">
 			<slot name="icon">
 				<sl-icon class="icon" name="file-earmark-spreadsheet"></sl-icon>
 			</slot>
 			<a target="_blank" .href=${this.href}><slot></slot> </a>
 		</div> `;
-	}
+  }
 
-	static styles = css`
+  static styles = css`
 		* {
 			padding: 0;
 			margin: 0;
@@ -53,7 +56,7 @@ export class SheetsLinkElement extends LitElement {
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-sheets-link': SheetsLinkElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-sheets-link": SheetsLinkElement;
+  }
 }

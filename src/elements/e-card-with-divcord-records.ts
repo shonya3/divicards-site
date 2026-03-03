@@ -1,11 +1,14 @@
-import { LitElement, TemplateResult, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import './divination-card/e-divination-card';
-import './divcord-record/e-divcord-record';
-import './e-divcord-needs-info';
-import type { DivcordRecord } from '../../gen/divcord';
-import 'poe-custom-elements/divination-card.js';
-import { when } from 'lit/directives/when.js';
+import { LitElement, TemplateResult, css, html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { when } from "lit/directives/when.js";
+
+import "poe-custom-elements/divination-card.js";
+
+import "./divcord-record/e-divcord-record";
+import "./divination-card/e-divination-card";
+import "./e-divcord-needs-info";
+
+import type { DivcordRecord } from "../../gen/divcord";
 
 /**
  * Element for card page and divcord page list
@@ -13,17 +16,17 @@ import { when } from 'lit/directives/when.js';
  * @slot    main-start - The very start of the main section.
  * @csspart card - Divination card.
  */
-@customElement('e-card-with-divcord-records')
+@customElement("e-card-with-divcord-records")
 export class CardWithDivcordRecordsElement extends LitElement {
-	@property({ reflect: true }) card!: string;
-	@property({ type: Array }) records!: DivcordRecord[];
+  @property({ reflect: true }) card!: string;
+  @property({ type: Array }) records!: DivcordRecord[];
 
-	render(): TemplateResult {
-		const allRecordsHaveNoSources = this.records.every(s => s.sources.length === 0);
-		const hasReverifySource = this.records.some(record => record.remainingWork === 'reverify');
-		const someRecordGreen = this.records.some(r => r.confidence === 'done' || r.confidence === 'ok');
+  render(): TemplateResult {
+    const allRecordsHaveNoSources = this.records.every((s) => s.sources.length === 0);
+    const hasReverifySource = this.records.some((record) => record.remainingWork === "reverify");
+    const someRecordGreen = this.records.some((r) => r.confidence === "done" || r.confidence === "ok");
 
-		return html`
+    return html`
 			<slot name="card">
 				<e-divination-card part="card" size="large" .name=${this.card}></e-divination-card>
 			</slot>
@@ -31,61 +34,61 @@ export class CardWithDivcordRecordsElement extends LitElement {
 				<slot name="main-start"></slot>
 
 				${when(
-					allRecordsHaveNoSources && !hasReverifySource && !someRecordGreen,
-					() => html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`,
-				)}
+          allRecordsHaveNoSources && !hasReverifySource && !someRecordGreen,
+          () => html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`,
+        )}
 
 				<ul class="records">
 					${this.records.map(
-						record =>
-							html`<li>
+            (record) =>
+              html`<li>
 								<e-divcord-record .record=${record}></e-divcord-record>
 							</li>`,
-					)}
+          )}
 				</ul>
 			</main>
 		`;
-	}
+  }
 
-	static styles = css`
-		* {
-			padding: 0rem;
-			margin: 0rem;
-			box-sizing: border-box;
-		}
+  static styles = css`
+    * {
+      padding: 0rem;
+      margin: 0rem;
+      box-sizing: border-box;
+    }
 
-		:host {
-			display: flex;
-			align-items: start;
-			flex-direction: column;
-			max-width: max-content;
-			gap: 2rem;
-			@media (width >= 640px) {
-				flex-direction: row;
-			}
-		}
+    :host {
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+      max-width: max-content;
+      gap: 2rem;
+      @media (width >= 640px) {
+        flex-direction: row;
+      }
+    }
 
-		.main {
-			display: flex;
-			flex-direction: column;
-			gap: 2rem;
-		}
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
 
-		.records {
-			list-style: none;
-			display: flex;
-			gap: 2rem;
-			flex-wrap: wrap;
-			flex-direction: column;
-			@media (width >=640px) {
-				flex-direction: row;
-			}
-		}
-	`;
+    .records {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      flex-direction: column;
+      @media (width >=640px) {
+        flex-direction: row;
+      }
+    }
+  `;
 }
 
 declare global {
-	interface HTMLElementTagNameMap {
-		'e-card-with-divcord-records': CardWithDivcordRecordsElement;
-	}
+  interface HTMLElementTagNameMap {
+    "e-card-with-divcord-records": CardWithDivcordRecordsElement;
+  }
 }

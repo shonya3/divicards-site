@@ -8,12 +8,12 @@
  * ```
  */
 
-import { ContextRoot } from '@lit/context';
+import { ContextRoot } from "@lit/context";
 
 export const context_root = new ContextRoot();
 
 let attached = false;
 if (!attached) {
-	context_root.attach(document.body);
-	attached = true;
+  context_root.attach(document.body);
+  attached = true;
 }

@@ -1,1 +1,1 @@
-export type RenderMode = 'compact' | 'normal';
+export type RenderMode = "compact" | "normal";
