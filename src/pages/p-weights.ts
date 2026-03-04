@@ -16,6 +16,7 @@ import "../elements/e-discord-avatar";
 import "../elements/weights-table/e-weights-table";
 import { calculateRootMargin } from "../elements/weights-table/intersectionUtils";
 import { prepare_rows } from "../elements/weights-table/lib";
+import { poeData } from "../PoeData";
 import { divcord_store } from "../stores/divcord";
 import { formatWithNewlines } from "../utils";
 import { linkStyles } from "./../linkStyles";
@@ -131,7 +132,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 			<h1 class="heading">Weights</h1>
 			<main class="main">
 				<section class="section-table">
-					<h2>Weights Table <span class="current-league">3.27</span></h2>
+					<h2>Weights Table</h2>
 					<p class="weights-spreadsheet-p">
 						<sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
 						<a
@@ -151,6 +152,12 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 						.showCards=${this.#show_cards.get()}
 						.rows=${this.#rows}
 					></e-weights-table>
+
+          
+          <p class="based-on">
+						Based on <strong>${poeData.cards.latestWeightsCollected.totalCards.toLocaleString("en-US")}</strong> cards
+            collected in <span class="current-league">${poeData.cards.latestWeightsCollected.version}</span>
+					</p>
 				</section>
 				<div class="links-and-faq">
 					<div class="faq">
@@ -197,9 +204,35 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 										.sources=${this.#intersected_card_sources.get()}
 									></e-divination-card>
 								</div>
-						  `
+							`
               : nothing
           }
+
+					<article>
+						<h2>Contribute</h2>
+						<p>To contribute to the stacked deck weight project, there are a few simple steps.</p>
+						<ol>
+              <li>
+                Clean out the div card tab so no cards remain.
+              </li>
+              <li>
+                Open all the stacked decks, and put every single card into the tab.
+              </li>
+							<li>
+								Extract your divination cards with
+								<a href="https://github.com/shonya3/divicards" target="_blank">the program</a>.
+                <p>
+                   Be sure that the number of cards recorded by the tool matches
+                   the number of stacked decks you opened. It may take some time for GGG to update the card tab, up to around 10 minutes.
+                </p>
+							</li>
+							<li>
+								Upload the resulting <strong>.csv</strong> to <strong>#stacked-decks</strong> channel in the
+								<a href="https://discord.gg/wttfY5pt" target="_blank">Prohibited Library</a>
+								Discord server.
+							</li>
+						</ol>
+					</article>
 				</div>
 			</main>
 		</div>`;
@@ -253,12 +286,6 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 			margin-top: 0.4rem;
 		}
 
-		.current-league {
-			color: var(--sl-color-pink-600);
-			font-weight: var(--sl-font-weight);
-      font-size: var(--sl-font-size-2x-large);
-		}
-
 		.weights-spreadsheet-p {
 			display: flex;
 			align-items: center;
@@ -268,6 +295,23 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 		.spreadsheet-icon {
 			color: var(--sl-color-green-700);
 		}
+
+		.based-on {
+			margin-top: var(--sl-spacing-large);
+			color: var(--sl-color-gray-500);
+
+      & strong {
+        color: var(--sl-color-gray-700)
+      }
+		}
+
+    .current-league {
+			color: var(--sl-color-pink-600);
+			font-weight: var(--sl-font-weight);
+			font-size: var(--sl-font-size-x-large);
+		}
+
+		
 
 		/** Intersection */
 		e-weights-table::part(intersecting-row) {
@@ -303,8 +347,10 @@ export function articleCss() {
       margin-bottom: 1.5rem;
     }
 
-    ul {
+    ul,
+    ol {
       margin: 1rem;
+      padding-left: var(--sl-spacing-small);
     }
 
     p,
