@@ -45,8 +45,7 @@ function sourcesByCard(divcordTable: DivcordTable, card: string): Source[] {
       }),
     );
 
-  const fromAtlas = poeData.cards[card].atlasMaps.map((m) => createSource({ type: "Map", id: m }));
-
+  const fromAtlas = poeData.cards.dict[card].atlasMaps.map((m) => createSource({ type: "Map", id: m }));
   return [...fromDivcordTable, ...fromAtlas];
 }
 

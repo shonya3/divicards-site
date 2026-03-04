@@ -61,7 +61,7 @@ export function prepare_weight_data(card: Card): WeightData {
 
 /** Rows data for weights table */
 export function prepare_rows(): Array<WeightData> {
-  const rows = Object.values(poeData.cards).map(prepare_weight_data);
+  const rows = Object.values(poeData.cards.dict).map(prepare_weight_data);
   rows.sort((a, b) => b.displayWeight - a.displayWeight);
   return rows;
 }

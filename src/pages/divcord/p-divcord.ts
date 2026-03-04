@@ -387,7 +387,7 @@ function someCardRecordHasGreynoteWorkVariant(
 
 function prepareDivcordRecordsAndWeight(records: DivcordRecord[]): DivcordRecordAndWeight[] {
   return records.map((record) => {
-    return { ...record, weightData: prepare_weight_data(poeData.cards[record.card]) };
+    return { ...record, weightData: prepare_weight_data(poeData.cards.dict[record.card]) };
   });
 }
 

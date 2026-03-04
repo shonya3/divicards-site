@@ -1,10 +1,10 @@
 import { poeDataFromJson } from "../gen/poeData";
 
-import type { ActArea, Bossfight, Card, MapArea, MapBoss, IPoeData } from "../gen/poeData";
+import type { ActArea, Bossfight, Card, MapArea, MapBoss, IPoeData, CardsData } from "../gen/poeData";
 
 export class PoeData implements IPoeData {
   acts: ActArea[];
-  cards: Record<string, Card>;
+  cards: CardsData;
   maps: MapArea[];
   mapbosses: MapBoss[];
   find: FindPoeData;
@@ -52,7 +52,7 @@ class FindPoeData {
   }
 
   card(name: string): Card | null {
-    return this.#poe.cards[name] ?? null;
+    return this.#poe.cards.dict[name] ?? null;
   }
 
   actBossAndArea(name: string): { area: ActArea; boss: Bossfight } | null {

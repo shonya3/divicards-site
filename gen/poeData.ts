@@ -3,7 +3,7 @@ export const poeDataFromJson = json as IPoeData;
 
 export type IPoeData = {
 	acts: ActArea[];
-	cards: Record<string, Card>;
+	cards: CardsData;
 	maps: MapArea[];
 	mapbosses: MapBoss[];
 };
@@ -32,6 +32,11 @@ export type LeagueReleaseInfo = {
 	date: string;
 	version: string;
 };
+
+export type CardsData = {
+  dict: Record<string, Card>;
+  latestLeagueCollected: number;
+}
 
 export type Card = {
 	slug: string;

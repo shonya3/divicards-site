@@ -229,7 +229,7 @@ function findBySourceType(query: string, records: DivcordRecord[], poeData: PoeD
 
 /** Returns Array of all card names */
 function getAllCards(): string[] {
-  return Object.keys(poeData.cards);
+  return Object.keys(poeData.cards.dict);
 }
 
 /** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card.
@@ -246,7 +246,7 @@ function cardSourcesAndVerifySourcesMap(divcordTable: DivcordTable): Map<string,
   }
 
   // Populate atlas maps
-  Object.values(poeData.cards).forEach((c) => {
+  Object.values(poeData.cards.dict).forEach((c) => {
     const entry = map.get(c.name) ?? [];
     c.atlasMaps.forEach((m) => {
       entry.push(createSource({ type: "Map", id: m }));
