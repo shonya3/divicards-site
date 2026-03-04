@@ -35,7 +35,17 @@ export type LeagueReleaseInfo = {
 
 export type CardsData = {
   dict: Record<string, Card>;
-  latestLeagueCollected: number;
+  latestWeightsCollected:LeagueCardsCollected;
+}
+export type LeagueCardsCollected = {
+  /**
+   * League version.
+   */
+  version: string;
+   /**
+   * Total number of cards collected during latest league by community.
+   */
+  totalCards: number;
 }
 
 export type Card = {
