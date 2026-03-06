@@ -1,12 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-export function find_cards_by_source_types(types: any, records: any, poe_data: any): any;
-export function find_cards_by_source_types_strings(types: string, records: string, poe_data: string): string;
 /**
  * Fetch spreadsheet and parse.
  */
 export function fetch_divcord_records(poe_data: any, on_error: Function): Promise<any>;
+export function find_cards_by_source_types(types: any, records: any, poe_data: any): any;
 export function slug(s: string): string;
+export function find_cards_by_source_types_strings(types: string, records: string, poe_data: string): string;
 export function slugify(s: string): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -25,8 +25,8 @@ export interface InitOutput {
   readonly __wbindgen_export_4: WebAssembly.Table;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_export_6: WebAssembly.Table;
-  readonly closure220_externref_shim: (a: number, b: number, c: any) => void;
-  readonly closure262_externref_shim: (a: number, b: number, c: any, d: any) => void;
+  readonly closure221_externref_shim: (a: number, b: number, c: any) => void;
+  readonly closure263_externref_shim: (a: number, b: number, c: any, d: any) => void;
   readonly __wbindgen_start: () => void;
 }
 
