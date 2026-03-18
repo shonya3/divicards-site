@@ -1,6 +1,6 @@
 {
   "name": "divicards-site",
-  "version": "0.68.0",
+  "version": "0.69.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -24,7 +24,7 @@
     "@shoelace-style/shoelace": "2.20.1",
     "@thepassle/app-tools": "^0.10",
     "lit": "3.3.2",
-    "poe-custom-elements": "0.3.20",
+    "poe-custom-elements": "^0.4",
     "semver": "^7.7.3",
     "signal-utils": "0.21.1",
     "urlpattern-polyfill": "10.1.0"
