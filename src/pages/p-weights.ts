@@ -229,7 +229,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 							<li>
 								Upload the resulting <strong>.csv</strong> to
                 <a target="_blank" href="https://discord.com/channels/991073626721763429/991092518995251231">stacked-decks</a> channel
-                in the <a href="https://discord.gg/wttfY5pt" target="_blank">Prohibited Library</a>
+                in the <a href="https://discord.gg/raz74M33" target="_blank">Prohibited Library</a>
 								Discord server.
 							</li>
 						</ol>
