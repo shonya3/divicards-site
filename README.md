@@ -16,6 +16,6 @@ You can share your cards sample from stacked decks with [Divicards app](https://
 #### Run website locally
 
 ```bash
-pnpm install
-pnpm dev
+vp install
+vp run dev
 ```

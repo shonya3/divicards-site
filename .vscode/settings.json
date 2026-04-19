@@ -8,5 +8,12 @@
     "**/*.less",
     "node_modules/@shoelace-style/shoelace/dist/themes/dark.css",
     "node_modules/@shoelace-style/shoelace/dist/themes/light.css"
-  ]
+  ],
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "oxc.fmt.configPath": "./vite.config.ts",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  }
 }
