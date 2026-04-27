@@ -19,40 +19,40 @@ export class SheetsLinkElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`<div class="el">
-			<slot name="icon">
-				<sl-icon class="icon" name="file-earmark-spreadsheet"></sl-icon>
-			</slot>
-			<a target="_blank" .href=${this.href}><slot></slot> </a>
-		</div> `;
+      <slot name="icon">
+        <sl-icon class="icon" name="file-earmark-spreadsheet"></sl-icon>
+      </slot>
+      <a target="_blank" .href=${this.href}><slot></slot> </a>
+    </div> `;
   }
 
   static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
 
-		:host {
-			display: block;
-		}
+    :host {
+      display: block;
+    }
 
-		${linkStyles}
-		a {
-			color: var(--link-color);
-			text-decoration: underline;
-		}
+    ${linkStyles}
+    a {
+      color: var(--link-color);
+      text-decoration: underline;
+    }
 
-		.el {
-			display: flex;
-			align-items: center;
-			gap: 0.4rem;
-		}
+    .el {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-		.icon {
-			color: var(--sl-color-green-700);
-		}
-	`;
+    .icon {
+      color: var(--sl-color-green-700);
+    }
+  `;
 }
 
 declare global {

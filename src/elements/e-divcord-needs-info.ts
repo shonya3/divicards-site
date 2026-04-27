@@ -9,21 +9,21 @@ export class DivcordNeedsInfoElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`<div class="element">
-			<sl-alert open>
-				<img slot="icon" src="/images/45px-Divcord.png" decoding="async" width="45" height="45" />
-				<h3 class="title">${this.card} has no confirmed drop sources.</h3>
-				If you find one, consider posting a screenshot to the
-				<p>
-					<a href="https://discord.com/invite/jsN2gsDUyM" target="_blank"
-						>Divination Card Discord🧷, also known as Divcord.</a
-					>
-				</p>
-				<p>
-					<em>DON'T</em> include cards obtained from random divination card sources like Stacked Decks or
-					divination card rewards.
-				</p>
-			</sl-alert>
-		</div>`;
+      <sl-alert open>
+        <img slot="icon" src="/images/45px-Divcord.png" decoding="async" width="45" height="45" />
+        <h3 class="title">${this.card} has no confirmed drop sources.</h3>
+        If you find one, consider posting a screenshot to the
+        <p>
+          <a href="https://discord.com/invite/jsN2gsDUyM" target="_blank"
+            >Divination Card Discord🧷, also known as Divcord.</a
+          >
+        </p>
+        <p>
+          <em>DON'T</em> include cards obtained from random divination card sources like Stacked Decks or divination
+          card rewards.
+        </p>
+      </sl-alert>
+    </div>`;
   }
 
   static styles = css`

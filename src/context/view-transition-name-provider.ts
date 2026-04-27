@@ -62,8 +62,6 @@ export class ViewTransitionNamesProvider extends LitElement {
   };
 
   protected render(): TemplateResult {
-    return html`
-      <slot></slot>
-    `;
+    return html` <slot></slot> `;
   }
 }

@@ -26,23 +26,23 @@ export class SourceWithCardsElement extends LitElement {
 
   render(): TemplateResult {
     return html`<div class="wrapper">
-			<e-source
-				exportparts="source-type"
-				part="drop_source"
-				class="source"
-				size=${this.source_size}
-				.source=${this.source}
-				.showSourceType=${this.showSourceType}
-			></e-source>
-			<e-cards-by-source
-				exportparts="active_divination_card"
-				.card_size=${this.card_size}
-				.source_size=${this.source_size}
-				class="cards"
-				.cards=${this.cards}
-				.active_divination_card=${this.active_divination_card}
-			></e-cards-by-source>
-		</div>`;
+      <e-source
+        exportparts="source-type"
+        part="drop_source"
+        class="source"
+        size=${this.source_size}
+        .source=${this.source}
+        .showSourceType=${this.showSourceType}
+      ></e-source>
+      <e-cards-by-source
+        exportparts="active_divination_card"
+        .card_size=${this.card_size}
+        .source_size=${this.source_size}
+        class="cards"
+        .cards=${this.cards}
+        .active_divination_card=${this.active_divination_card}
+      ></e-cards-by-source>
+    </div>`;
   }
 
   static styles = css`

@@ -15,10 +15,10 @@ export class DivcordRecordNotesElement extends LitElement {
     const notes = this.notes.split("\n").filter((s) => s.length > 0);
 
     return html`<sl-details summary="Notes" class="notes-details">
-			<ul>
-				${notes.map((note) => html`<li>${note}</li>`)}
-			</ul>
-		</sl-details>`;
+      <ul>
+        ${notes.map((note) => html`<li>${note}</li>`)}
+      </ul>
+    </sl-details>`;
   }
 
   static styles = css`

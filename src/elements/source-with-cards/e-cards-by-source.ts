@@ -25,24 +25,22 @@ export class CardsBySourceElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`<ul class="cards">
-			${this.cards.map(({ card, transitiveSource, status }) => {
+      ${this.cards.map(({ card, transitiveSource, status }) => {
         const cardHtml = html`<e-divination-card
-					size=${this.card_size}
-					.name=${card}
-					.boss=${transitiveSource?.id}
-					part=${ifDefined(this.active_divination_card === slug(card) ? "active_divination_card" : undefined)}
-				>
-					${
-            transitiveSource
-              ? html`<e-source
-								.renderMode=${"compact"}
-								.source=${transitiveSource}
-								slot="boss"
-								size=${this.source_size}
-						  ></e-source>`
-              : nothing
-          }
-				</e-divination-card>`;
+          size=${this.card_size}
+          .name=${card}
+          .boss=${transitiveSource?.id}
+          part=${ifDefined(this.active_divination_card === slug(card) ? "active_divination_card" : undefined)}
+        >
+          ${transitiveSource
+            ? html`<e-source
+                .renderMode=${"compact"}
+                .source=${transitiveSource}
+                slot="boss"
+                size=${this.source_size}
+              ></e-source>`
+            : nothing}
+        </e-divination-card>`;
 
         if (status === "done") {
           return html`<li>${cardHtml}</li>`;
@@ -50,7 +48,7 @@ export class CardsBySourceElement extends LitElement {
           return html`<li><e-need-to-verify>${cardHtml}</e-need-to-verify></li>`;
         }
       })}
-		</ul>`;
+    </ul>`;
   }
 
   static styles = css`

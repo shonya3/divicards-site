@@ -99,56 +99,48 @@ export class HomePage extends SignalWatcher(LitElement) {
 
   protected render(): TemplateResult {
     return html`
-			<div id="search-pagination-controls">
-				<sl-input
-					id="search"
-					label="Search"
-					.value=${this.#filter.get()}
-					@input="${this.#h_search_change}"
-					type="text"
-				>
-				</sl-input>
-				<sl-select
-					id="select-by"
-					label="By"
-					.value=${this.#search_criterias.get()}
-					@sl-change=${this.#h_criterias_select}
-					multiple
-					clearable
-				>
-					${Array.from(SEARCH_CRITERIA_VARIANTS).map((value) => {
+      <div id="search-pagination-controls">
+        <sl-input id="search" label="Search" .value=${this.#filter.get()} @input="${this.#h_search_change}" type="text">
+        </sl-input>
+        <sl-select
+          id="select-by"
+          label="By"
+          .value=${this.#search_criterias.get()}
+          @sl-change=${this.#h_criterias_select}
+          multiple
+          clearable
+        >
+          ${Array.from(SEARCH_CRITERIA_VARIANTS).map((value) => {
             return html`<sl-option value=${value}>${value}</sl-option>`;
           })}
-				</sl-select>
-				<e-pagination
-					.n=${this.filtered.get().length}
-					page=${this.#page.get()}
-					per_page=${this.#per_page.get()}
-				></e-pagination>
-			</div>
+        </sl-select>
+        <e-pagination
+          .n=${this.filtered.get().length}
+          page=${this.#page.get()}
+          per_page=${this.#per_page.get()}
+        ></e-pagination>
+      </div>
 
-			<ul id="divination-cards-list">
-				${repeat(
+      <ul id="divination-cards-list">
+        ${repeat(
           this.paginated.get(),
           (card) => card,
           (card) => html`<li>
-						<e-divination-card
-							.name=${card}
-							.sources=${divcord_store.get_card_sources(card)}
-							.size=${this.#card_size.get()}
-							.source_size=${this.#source_size.get()}
-							.active_drop_source=${this.view_transition_names.active_drop_source}
-							exportparts=${
-                slug(card) === this.view_transition_names.active_divination_card
-                  ? "active_drop_source,divination_card:active_divination_card"
-                  : "active_drop_source"
-              }
-						>
-						</e-divination-card>
-					</li>`,
+            <e-divination-card
+              .name=${card}
+              .sources=${divcord_store.get_card_sources(card)}
+              .size=${this.#card_size.get()}
+              .source_size=${this.#source_size.get()}
+              .active_drop_source=${this.view_transition_names.active_drop_source}
+              exportparts=${slug(card) === this.view_transition_names.active_divination_card
+                ? "active_drop_source,divination_card:active_divination_card"
+                : "active_drop_source"}
+            >
+            </e-divination-card>
+          </li>`,
         )}
-			</ul>
-		`;
+      </ul>
+    `;
   }
 
   #h_search_change(e: InputEvent) {

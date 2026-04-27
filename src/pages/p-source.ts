@@ -42,13 +42,13 @@ export class SourcePage extends SignalWatcher(LitElement) {
 
   render(): TemplateResult {
     return html`<div class="page">
-			<e-source-with-cards
-				.active_divination_card=${this.view_transition_names.active_divination_card}
-				exportparts="drop_source,active_divination_card"
-				.source=${this.source}
-				.cards=${this.#cards.get()}
-			></e-source-with-cards>
-		</div>`;
+      <e-source-with-cards
+        .active_divination_card=${this.view_transition_names.active_divination_card}
+        exportparts="drop_source,active_divination_card"
+        .source=${this.source}
+        .cards=${this.#cards.get()}
+      ></e-source-with-cards>
+    </div>`;
   }
 
   static styles = css`

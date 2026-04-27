@@ -36,20 +36,20 @@ export class SourcesElement extends LitElement {
       return nothing;
     }
     return html`<ul class="${source_types === "maps" ? "sources-maps" : "sources"}">
-			${sources.map((source) => {
+      ${sources.map((source) => {
         const source_template = html`
-					<e-source
-						part=${ifDefined(this.active_drop_source === source.idSlug ? "active_drop_source" : undefined)}
-						.renderMode=${this.renderMode}
-						.source=${source}
-						.size=${this.size}
-					></e-source>
-				`;
+          <e-source
+            part=${ifDefined(this.active_drop_source === source.idSlug ? "active_drop_source" : undefined)}
+            .renderMode=${this.renderMode}
+            .source=${source}
+            .size=${this.size}
+          ></e-source>
+        `;
         return this.verificationStatus === "verify"
           ? html`<li><e-need-to-verify>${source_template}</e-need-to-verify></li>`
           : html`<li>${source_template}</li>`;
       })}
-		</ul>`;
+    </ul>`;
   }
 
   static styles = css`

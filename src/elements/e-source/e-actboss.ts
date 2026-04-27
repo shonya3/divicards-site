@@ -24,27 +24,24 @@ export class ActBossElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`<div
-			class=${classMap({
+      class=${classMap({
         actboss: true,
         [`rendermode--${this.renderMode}`]: true,
       })}
-		>
-			${
-        this.renderMode === "normal"
-          ? html`<e-act-area
-						.href=${sourceHref(createSource({ type: "Act", id: this.actArea.id }))}
-						class="act-area"
-						size="small"
-						.actArea=${this.actArea}
-				  ></e-act-area>`
-          : nothing
-      }
+    >
+      ${this.renderMode === "normal"
+        ? html`<e-act-area
+            .href=${sourceHref(createSource({ type: "Act", id: this.actArea.id }))}
+            class="act-area"
+            size="small"
+            .actArea=${this.actArea}
+          ></e-act-area>`
+        : nothing}
 
-			<a href=${this.href} @click=${this.#dispatch_transition} class="bossname"
-				>${this.boss.name}
-				${this.renderMode === "compact" ? html`<span>(Act ${this.actArea.act})</span>` : nothing}
-			</a>
-		</div>`;
+      <a href=${this.href} @click=${this.#dispatch_transition} class="bossname"
+        >${this.boss.name} ${this.renderMode === "compact" ? html`<span>(Act ${this.actArea.act})</span>` : nothing}
+      </a>
+    </div>`;
   }
 
   #dispatch_transition() {
@@ -52,26 +49,26 @@ export class ActBossElement extends LitElement {
   }
 
   static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+    }
 
-		:host {
-			color: var(--source-color, #bbbbbb);
-		}
+    :host {
+      color: var(--source-color, #bbbbbb);
+    }
 
-		${linkStyles}
+    ${linkStyles}
 
-		.bossname {
-			width: fit-content;
-		}
+    .bossname {
+      width: fit-content;
+    }
 
-		.act-area {
-			margin-left: 4rem;
-			transform: translateY(0.4rem);
-		}
-	`;
+    .act-area {
+      margin-left: 4rem;
+      transform: translateY(0.4rem);
+    }
+  `;
 }
 
 declare global {

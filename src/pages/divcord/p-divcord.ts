@@ -132,121 +132,110 @@ export class DivcordPage extends SignalWatcher(LitElement) {
     const last_updated_date = divcord_store.last_updated_date.get();
 
     return html`<div class="page">
-			<header>
-				<div class="join-divcord">
-					<sl-icon name="discord"></sl-icon>
-					<a class="join-divcord" href="https://discord.gg/mpnYHbxHXs">Join Divcord!</a>
-				</div>
-				<e-sheets-link
-					href="https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0"
-					>Divcord Spreadsheet</e-sheets-link
-				>
-				<div class="load">
-					<div class="load_btn-and-status">
-						<sl-button .loading=${divcord_store.state.get() === "updating"} @click=${divcord_store.update}>
-							<p class="reload">Load divcord data</p>
-						</sl-button>
-						${
-              last_updated_date
-                ? html`<e-divcord-records-age .date=${last_updated_date}> </e-divcord-records-age>`
-                : null
-            }
-					</div>
-					<sl-alert class="load_tip" open>
-						<sl-icon slot="icon" name="info-circle"></sl-icon>
-						<p>You don't have to load manually, it loads and caches if older than 24h, but you can.</p>
-					</sl-alert>
-				</div>
+      <header>
+        <div class="join-divcord">
+          <sl-icon name="discord"></sl-icon>
+          <a class="join-divcord" href="https://discord.gg/mpnYHbxHXs">Join Divcord!</a>
+        </div>
+        <e-sheets-link
+          href="https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0"
+          >Divcord Spreadsheet</e-sheets-link
+        >
+        <div class="load">
+          <div class="load_btn-and-status">
+            <sl-button .loading=${divcord_store.state.get() === "updating"} @click=${divcord_store.update}>
+              <p class="reload">Load divcord data</p>
+            </sl-button>
+            ${last_updated_date
+              ? html`<e-divcord-records-age .date=${last_updated_date}> </e-divcord-records-age>`
+              : null}
+          </div>
+          <sl-alert class="load_tip" open>
+            <sl-icon slot="icon" name="info-circle"></sl-icon>
+            <p>You don't have to load manually, it loads and caches if older than 24h, but you can.</p>
+          </sl-alert>
+        </div>
 
-				<section
-					class=${classMap({
+        <section
+          class=${classMap({
             "select-filters-section": true,
             "select-filters-section--open": this.should_apply_filters.get(),
           })}
-				>
-					${
-            this.should_apply_filters
-              ? html`<div class="select-filters">
-								<e-divcord-presets
-									.custom_presets=${this.custom_presets.get()}
-									@preset-applied=${this.#on_preset_apply}
-									@config-updated=${this.#on_config_update}
-									@custom-presets-updated=${this.#on_custom_preset_update}
-								></e-divcord-presets>
-								<sl-checkbox
-									.checked=${this.only_show_cards_with_no_confirmed_sources.get()}
-									@sl-input=${this.#on_only_show_cards_with_no_confirmed_sources_change}
-									>Only show cards with no confirmed sources</sl-checkbox
-								>
-								<sl-checkbox
-									.checked=${this.only_show_cards_with_sources_to_verify.get()}
-									@sl-input=${this.#on_only_show_cards_with_sources_to_verify_change}
-									>Only show cards with sources to verify</sl-checkbox
-								>
-						  </div> `
-              : nothing
-          }
-				</section>
-			</header>
+        >
+          ${this.should_apply_filters
+            ? html`<div class="select-filters">
+                <e-divcord-presets
+                  .custom_presets=${this.custom_presets.get()}
+                  @preset-applied=${this.#on_preset_apply}
+                  @config-updated=${this.#on_config_update}
+                  @custom-presets-updated=${this.#on_custom_preset_update}
+                ></e-divcord-presets>
+                <sl-checkbox
+                  .checked=${this.only_show_cards_with_no_confirmed_sources.get()}
+                  @sl-input=${this.#on_only_show_cards_with_no_confirmed_sources_change}
+                  >Only show cards with no confirmed sources</sl-checkbox
+                >
+                <sl-checkbox
+                  .checked=${this.only_show_cards_with_sources_to_verify.get()}
+                  @sl-input=${this.#on_only_show_cards_with_sources_to_verify_change}
+                  >Only show cards with sources to verify</sl-checkbox
+                >
+              </div> `
+            : nothing}
+        </section>
+      </header>
 
-			<sl-radio-group
-				@sl-change=${this.#on_active_view_change}
-				class="select-view-controls"
-				label="Select the view"
-				name="a"
-				value=${this.active_view.get()}
-			>
-				<sl-radio-button value="list">List</sl-radio-button>
-				<sl-radio-button value="table">Table</sl-radio-button>
-			</sl-radio-group>
+      <sl-radio-group
+        @sl-change=${this.#on_active_view_change}
+        class="select-view-controls"
+        label="Select the view"
+        name="a"
+        value=${this.active_view.get()}
+      >
+        <sl-radio-button value="list">List</sl-radio-button>
+        <sl-radio-button value="table">Table</sl-radio-button>
+      </sl-radio-group>
 
-			<section class="search">
-				<sl-input
-					label="Search by anything"
-					.value=${this.#filter.get()}
-					@input="${this.#h_search}"
-					type="text"
-				>
-				</sl-input>
-			</section>
+      <section class="search">
+        <sl-input label="Search by anything" .value=${this.#filter.get()} @input="${this.#h_search}" type="text">
+        </sl-input>
+      </section>
 
-			<div class="active-view">
-				${
-          this.active_view.get() === "list"
-            ? html`<e-pagination
-								.n=${this.filtered.get().length}
-								page=${this.#page.get()}
-								per_page=${this.#per_page.get()}
-							></e-pagination>
-							<ul>
-								${repeat(
+      <div class="active-view">
+        ${this.active_view.get() === "list"
+          ? html`<e-pagination
+                .n=${this.filtered.get().length}
+                page=${this.#page.get()}
+                per_page=${this.#per_page.get()}
+              ></e-pagination>
+              <ul>
+                ${repeat(
                   this.paginated.get(),
                   (card) => card,
                   (card) => {
                     return html`<li>
-											<e-card-with-divcord-records
-												.card=${card}
-												.records=${divcord_store.table.get().recordsByCard(card)}
-												exportparts=${ifDefined(
+                      <e-card-with-divcord-records
+                        .card=${card}
+                        .records=${divcord_store.table.get().recordsByCard(card)}
+                        exportparts=${ifDefined(
                           this.view_transition_names.active_divination_card === slug(card)
                             ? "card:active_divination_card"
                             : undefined,
                         )}
-											></e-card-with-divcord-records>
-										</li>`;
+                      ></e-card-with-divcord-records>
+                    </li>`;
                   },
                 )}
-							</ul>`
-            : html`<e-divcord-spreadsheet
-							exportparts="active_divination_card"
-							.active_divination_card=${this.view_transition_names.active_divination_card}
-							@show-cards-changed=${this.#on_show_cards_change}
-							.records=${this.records_for_table_view.get()}
-							.showCards=${this.show_cards_images.get()}
-					  ></e-divcord-spreadsheet>`
-        }
-			</div>
-		</div>`;
+              </ul>`
+          : html`<e-divcord-spreadsheet
+              exportparts="active_divination_card"
+              .active_divination_card=${this.view_transition_names.active_divination_card}
+              @show-cards-changed=${this.#on_show_cards_change}
+              .records=${this.records_for_table_view.get()}
+              .showCards=${this.show_cards_images.get()}
+            ></e-divcord-spreadsheet>`}
+      </div>
+    </div>`;
   }
 
   #on_config_update(e: Event) {

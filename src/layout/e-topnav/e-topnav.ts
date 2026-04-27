@@ -39,58 +39,48 @@ export class TopNavElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`<nav class="navbar">
-			<div class="logo"><a @click=${() => this.#change_active_pathname("/")} href="/">Divicards</a></div>
-			<ul class="links">
-				${this.linkItems.map(([pathname, s]) => {
+      <div class="logo"><a @click=${() => this.#change_active_pathname("/")} href="/">Divicards</a></div>
+      <ul class="links">
+        ${this.linkItems.map(([pathname, s]) => {
           return html`<li
-						@click=${() => this.#change_active_pathname(pathname)}
-						class=${classMap({
+            @click=${() => this.#change_active_pathname(pathname)}
+            class=${classMap({
               links__item: true,
               "links__item--active": pathname === this.pathname,
             })}
-					>
-						<a href=${pathname}>${s}</a>
-						${
-              pathname === this.pathname
-                ? html`
-                    <div part="active-link" class="links__active-item-background"></div>
-                  `
-                : null
-            }
-					</li>`;
+          >
+            <a href=${pathname}>${s}</a>
+            ${pathname === this.pathname
+              ? html` <div part="active-link" class="links__active-item-background"></div> `
+              : null}
+          </li>`;
         })}
-			</ul>
-			<div class="icons">
-				<theme-toggle></theme-toggle>
-				<a aria-label="github" target="_blank" href="https://github.com/shonya3/divicards-site">
-					<sl-icon name="github"></sl-icon>
-				</a>
-			</div>
+      </ul>
+      <div class="icons">
+        <theme-toggle></theme-toggle>
+        <a aria-label="github" target="_blank" href="https://github.com/shonya3/divicards-site">
+          <sl-icon name="github"></sl-icon>
+        </a>
+      </div>
 
-			<a class="btn menu-button" type="button" @click=${() => this.menu.showModal()}> Menu </a>
-			<dialog id="menu" class="menu">
-				<ul class="links">
-					${this.linkItems.map(([pathname, s]) => {
+      <a class="btn menu-button" type="button" @click=${() => this.menu.showModal()}> Menu </a>
+      <dialog id="menu" class="menu">
+        <ul class="links">
+          ${this.linkItems.map(([pathname, s]) => {
             return html`<li
-							class=${classMap({
+              class=${classMap({
                 links__item: true,
                 "links__item--active": pathname === this.pathname,
               })}
-						>
-							<a @click=${() => this.#change_active_pathname(pathname)} href="${pathname}">${s}</a>
-							${
-                pathname === this.pathname
-                  ? html`
-                      <div class="links__active-item-background"></div>
-                    `
-                  : null
-              }
-						</li>`;
+            >
+              <a @click=${() => this.#change_active_pathname(pathname)} href="${pathname}">${s}</a>
+              ${pathname === this.pathname ? html` <div class="links__active-item-background"></div> ` : null}
+            </li>`;
           })}
-				</ul>
-				<button @click=${() => this.menu.close()} class="btn menu__close-button">Close</button>
-			</dialog>
-		</nav>`;
+        </ul>
+        <button @click=${() => this.menu.close()} class="btn menu__close-button">Close</button>
+      </dialog>
+    </nav>`;
   }
 
   #change_active_pathname(pathname: string) {

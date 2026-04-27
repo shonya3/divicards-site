@@ -14,16 +14,16 @@ export class DivcordRecordRemaningWorkElement extends LitElement {
     if (this.remainingWork === "n/a") return nothing;
 
     return html`<div
-			class="${classMap({
+      class="${classMap({
         "remaining-work": true,
         "remaining-work--story": this.remainingWork === "story",
         "remaining-work--reverify": this.remainingWork === "reverify",
         "remaining-work--confirm": this.remainingWork === "confirm",
       })}"
-		>
-			<span class="remaining-work-span">Remaining Work</span>
-			<span>${this.remainingWork}</span>
-		</div>`;
+    >
+      <span class="remaining-work-span">Remaining Work</span>
+      <span>${this.remainingWork}</span>
+    </div>`;
   }
 
   static styles = css`

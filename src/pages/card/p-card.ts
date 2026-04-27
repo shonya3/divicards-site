@@ -44,31 +44,29 @@ export class CardPage extends SignalWatcher(LitElement) {
     const records = divcord_store.table.get().recordsByCard(this.card);
 
     return html`<div class="page">
-			<h2>${this.card}</h2>
-			<e-card-with-divcord-records .card=${this.card} .records=${records}>
-				<e-divination-card
-					slot="card"
-					.name=${this.card}
-					.sources=${divcord_store.get_card_sources(this.card)}
-					exportparts="divination_card,active_drop_source"
-					size="large"
-					source_size="medium"
-					.active_drop_source=${this.view_transition_names.active_drop_source}
-				>
-				</e-divination-card>
+      <h2>${this.card}</h2>
+      <e-card-with-divcord-records .card=${this.card} .records=${records}>
+        <e-divination-card
+          slot="card"
+          .name=${this.card}
+          .sources=${divcord_store.get_card_sources(this.card)}
+          exportparts="divination_card,active_drop_source"
+          size="large"
+          source_size="medium"
+          .active_drop_source=${this.view_transition_names.active_drop_source}
+        >
+        </e-divination-card>
 
-				<div slot="main-start" class="facts">
-					${
-            card.league
-              ? html`<e-card-fact label="Release">${card.league.name} ${card.league.version}</e-card-fact>`
-              : nothing
-          }
-					<e-card-fact label="Weight">
-						<e-weight-breakdown .weightData=${prepare_weight_data(card)}></e-weight-breakdown>
-					</e-card-fact>
-				</div>
-			</e-card-with-divcord-records>
-		</div>`;
+        <div slot="main-start" class="facts">
+          ${card.league
+            ? html`<e-card-fact label="Release">${card.league.name} ${card.league.version}</e-card-fact>`
+            : nothing}
+          <e-card-fact label="Weight">
+            <e-weight-breakdown .weightData=${prepare_weight_data(card)}></e-weight-breakdown>
+          </e-card-fact>
+        </div>
+      </e-card-with-divcord-records>
+    </div>`;
   }
 
   static styles = css`

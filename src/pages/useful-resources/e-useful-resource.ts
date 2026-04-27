@@ -23,112 +23,98 @@ export class UsefulResourceElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`<div class="heading">
-				${
-          this.resource.icon
-            ? CustomHeadingIcon(this.resource.icon)
-            : html`
-                <sl-icon class="heading__icon color-green" name="file-earmark-spreadsheet"></sl-icon>
+        ${this.resource.icon
+          ? CustomHeadingIcon(this.resource.icon)
+          : html` <sl-icon class="heading__icon color-green" name="file-earmark-spreadsheet"></sl-icon> `}
+        <h3><a target="_blank" .href=${this.resource.url}>${this.resource.title}</a></h3>
+      </div>
+      <div class="main">
+        <div>
+          ${this.resource.github
+            ? html`
+                <a target="_blank" href=${this.resource.github} class="github"
+                  >Github <sl-icon name="github"></sl-icon
+                ></a>
               `
-        }
-				<h3><a target="_blank" .href=${this.resource.url}>${this.resource.title}</a></h3>
-			</div>
-			<div class="main">
-				<div>
-					${
-            this.resource.github
-              ? html`
-								<a target="_blank" href=${this.resource.github} class="github"
-									>Github <sl-icon name="github"></sl-icon
-								></a>
-						  `
-              : nothing
-          }
-					${
-            this.resource.seeWebsitePage
-              ? html`<p>
-								<a class="see-page" href=${this.resource.seeWebsitePage.relativeUrl}
-									>${this.resource.seeWebsitePage.label}</a
-								>
-						  </p>`
-              : nothing
-          }
-				</div>
-				${
-          this.resource.discordUsers.length
-            ? html`<div class="contributors">
-							${this.resource.discordUsers.map((u) => {
-                return html`<e-discord-avatar
-									part="discord-user"
-									size="24"
-									username=${u}
-								></e-discord-avatar>`;
+            : nothing}
+          ${this.resource.seeWebsitePage
+            ? html`<p>
+                <a class="see-page" href=${this.resource.seeWebsitePage.relativeUrl}
+                  >${this.resource.seeWebsitePage.label}</a
+                >
+              </p>`
+            : nothing}
+        </div>
+        ${this.resource.discordUsers.length
+          ? html`<div class="contributors">
+              ${this.resource.discordUsers.map((u) => {
+                return html`<e-discord-avatar part="discord-user" size="24" username=${u}></e-discord-avatar>`;
               })}
-					  </div>`
-            : nothing
-        }
-			</div>`;
+            </div>`
+          : nothing}
+      </div>`;
   }
 
   static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
 
-		:host {
-			display: flex;
-			flex-direction: column;
-			gap: 0.2rem;
-		}
+    :host {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
 
-		@layer links {
-			${linkStyles}
-		}
+    @layer links {
+      ${linkStyles}
+    }
 
-		.heading {
-			a {
-				font-weight: 500;
-				color: var(--sl-color-gray-900);
-			}
-		}
+    .heading {
+      a {
+        font-weight: 500;
+        color: var(--sl-color-gray-900);
+      }
+    }
 
-		.main {
-			padding-left: 2rem;
-			margin-top: 0.4rem;
-		}
+    .main {
+      padding-left: 2rem;
+      margin-top: 0.4rem;
+    }
 
-		.color-green {
-			color: var(--sl-color-green-700);
-		}
-		.heading {
-			display: flex;
-			align-items: center;
-			gap: 0.4rem;
-			margin-bottom: 0.2rem;
-		}
-		.contributors {
-			display: flex;
-			flex-wrap: wrap;
-			column-gap: 0.8rem;
-			margin-top: 0.4rem;
-		}
-		.heading__icon {
-			min-width: 24px;
-			min-height: 24px;
-			font-size: 24px;
-		}
+    .color-green {
+      color: var(--sl-color-green-700);
+    }
+    .heading {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.2rem;
+    }
+    .contributors {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 0.8rem;
+      margin-top: 0.4rem;
+    }
+    .heading__icon {
+      min-width: 24px;
+      min-height: 24px;
+      font-size: 24px;
+    }
 
-		.github {
-			display: flex;
-			align-items: center;
-			gap: 0.3rem;
+    .github {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
 
-			sl-icon {
-				color: var(--sl-color-gray-800);
-			}
-		}
-	`;
+      sl-icon {
+        color: var(--sl-color-gray-800);
+      }
+    }
+  `;
 }
 
 declare global {

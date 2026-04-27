@@ -101,37 +101,35 @@ export class MapsPage extends SignalWatcher(LitElement) {
 
   protected render(): TemplateResult {
     return html`
-			<div class="page">
-				<header>
-					<form>
-						<sl-input label="Enter map name" @input="${this.#h_search_change}" type="text"></sl-input>
-					</form>
-					<e-pagination
-						.n=${this.#filtered.get().length}
-						page=${this.#page.get()}
-						per_page=${this.#per_page.get()}
-					></e-pagination>
-				</header>
-				<ul>
-					${this.#paginated.get().map(({ source, cards }) => {
+      <div class="page">
+        <header>
+          <form>
+            <sl-input label="Enter map name" @input="${this.#h_search_change}" type="text"></sl-input>
+          </form>
+          <e-pagination
+            .n=${this.#filtered.get().length}
+            page=${this.#page.get()}
+            per_page=${this.#per_page.get()}
+          ></e-pagination>
+        </header>
+        <ul>
+          ${this.#paginated.get().map(({ source, cards }) => {
             return html`<li>
-							<e-source-with-cards
-								.showSourceType=${false}
-								.source=${source}
-								.cards=${cards}
-								.card_size=${`small`}
-								.active_divination_card=${this.view_transition_names.active_divination_card}
-								exportparts=${
-                  this.view_transition_names.active_drop_source === source.idSlug
-                    ? `drop_source:active_drop_source,active_divination_card`
-                    : `active_divination_card`
-                }
-							></e-source-with-cards>
-						</li>`;
+              <e-source-with-cards
+                .showSourceType=${false}
+                .source=${source}
+                .cards=${cards}
+                .card_size=${`small`}
+                .active_divination_card=${this.view_transition_names.active_divination_card}
+                exportparts=${this.view_transition_names.active_drop_source === source.idSlug
+                  ? `drop_source:active_drop_source,active_divination_card`
+                  : `active_divination_card`}
+              ></e-source-with-cards>
+            </li>`;
           })}
-				</ul>
-			</div>
-		`;
+        </ul>
+      </div>
+    `;
   }
 
   #h_search_change(e: InputEvent) {

@@ -37,51 +37,51 @@ export class PageControlsElement extends LitElement {
   protected render(): TemplateResult {
     const range = this.active_items_range();
     return html`
-			<div class="page-controls">
-				<div class="buttons">
-					<sl-icon-button
-						label="previous"
-						name="chevron-left"
-						?disabled=${this.page === 1}
-						@click=${this.decrease_page}
-					></sl-icon-button>
-					<sl-input
-						class="page-input"
-						id="page"
-						type="number"
-						.value=${String(this.page)}
-						@input=${this.#h_page_input}
-						min="1"
-						label="page"
-					></sl-input>
-					<sl-icon-button
-						label="next"
-						.disabled=${this.is_last_page}
-						name="chevron-right"
-						@click=${this.increase_page}
-						role="button"
-					></sl-icon-button>
-					<sl-icon-button
-						label="last page"
-						.disabled=${this.is_last_page}
-						name="chevron-double-right"
-						@click=${this.to_last_page}
-					></sl-icon-button>
-					<sl-input
-						label="per page"
-						class="per_page-input"
-						id="per_page"
-						type="number"
-						min="1"
-						.value=${String(this.per_page)}
-						@input=${this.#h_per_page_input}
-					></sl-input>
-				</div>
-				<span class="current-items-label"
-					>${range !== null && this.n > 0 ? html` <p>${range[0]} - ${range[1]} of ${this.n}</p> ` : nothing}</span
-				>
-			</div>
-		`;
+      <div class="page-controls">
+        <div class="buttons">
+          <sl-icon-button
+            label="previous"
+            name="chevron-left"
+            ?disabled=${this.page === 1}
+            @click=${this.decrease_page}
+          ></sl-icon-button>
+          <sl-input
+            class="page-input"
+            id="page"
+            type="number"
+            .value=${String(this.page)}
+            @input=${this.#h_page_input}
+            min="1"
+            label="page"
+          ></sl-input>
+          <sl-icon-button
+            label="next"
+            .disabled=${this.is_last_page}
+            name="chevron-right"
+            @click=${this.increase_page}
+            role="button"
+          ></sl-icon-button>
+          <sl-icon-button
+            label="last page"
+            .disabled=${this.is_last_page}
+            name="chevron-double-right"
+            @click=${this.to_last_page}
+          ></sl-icon-button>
+          <sl-input
+            label="per page"
+            class="per_page-input"
+            id="per_page"
+            type="number"
+            min="1"
+            .value=${String(this.per_page)}
+            @input=${this.#h_per_page_input}
+          ></sl-input>
+        </div>
+        <span class="current-items-label"
+          >${range !== null && this.n > 0 ? html` <p>${range[0]} - ${range[1]} of ${this.n}</p> ` : nothing}</span
+        >
+      </div>
+    `;
   }
 
   #h_page_input(e: InputEvent) {

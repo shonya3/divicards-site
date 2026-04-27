@@ -65,65 +65,65 @@ export class WeightsTableVerifySources extends LitElement {
 
   protected render(): TemplateResult {
     return html` <table class="table">
-			<thead>
-				<tr>
-					<th class="th" scope="col">№</th>
-					<th class="th th-name" scope="col">
-						<div class="header-with-icon">
-							Card
-							<sl-icon
-								class=${classMap({ "ordered-by": this.orderedBy === "name" })}
-								@click=${this.#toggleNameOrder}
-								.name=${this.nameIcon}
-							></sl-icon>
-						</div>
-					</th>
-					<th class="th th-weight">
-						<div class="header-with-icon">
-							Weight
-							<sl-icon
-								class=${classMap({ "ordered-by": this.orderedBy === "weight" })}
-								@click=${this.#toggleWeightOrder}
-								.name=${this.weightIcon}
-							></sl-icon>
-						</div>
-					</th>
-					<th class="th">Sources</th>
-				</tr>
-			</thead>
+      <thead>
+        <tr>
+          <th class="th" scope="col">№</th>
+          <th class="th th-name" scope="col">
+            <div class="header-with-icon">
+              Card
+              <sl-icon
+                class=${classMap({ "ordered-by": this.orderedBy === "name" })}
+                @click=${this.#toggleNameOrder}
+                .name=${this.nameIcon}
+              ></sl-icon>
+            </div>
+          </th>
+          <th class="th th-weight">
+            <div class="header-with-icon">
+              Weight
+              <sl-icon
+                class=${classMap({ "ordered-by": this.orderedBy === "weight" })}
+                @click=${this.#toggleWeightOrder}
+                .name=${this.weightIcon}
+              ></sl-icon>
+            </div>
+          </th>
+          <th class="th">Sources</th>
+        </tr>
+      </thead>
 
-			<tbody>
-				${this.rowsClone.map((cardRowData, index) => {
+      <tbody>
+        ${this.rowsClone.map((cardRowData, index) => {
           return keyed(
             cardRowData.name,
             html`<tr>
-							<td class="td">${index + 1}</td>
-							<td class="td">
-								<e-need-to-verify>
-									<e-divination-card
-										part=${ifDefined(
+              <td class="td">${index + 1}</td>
+              <td class="td">
+                <e-need-to-verify>
+                  <e-divination-card
+                    part=${ifDefined(
                       this.active_divination_card === slug(cardRowData.name) ? "active_divination_card" : undefined,
                     )}
-										size="small"
-										name=${cardRowData.name}
-									></e-divination-card>
-								</e-need-to-verify>
-							</td>
-							<td class="td td-weight">
-								<e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
-							</td>
-							<td class="td sources">
-								<ul class="sources-list">
-									${cardRowData.sources.map(
+                    size="small"
+                    name=${cardRowData.name}
+                  ></e-divination-card>
+                </e-need-to-verify>
+              </td>
+              <td class="td td-weight">
+                <e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
+              </td>
+              <td class="td sources">
+                <ul class="sources-list">
+                  ${cardRowData.sources.map(
                     (source) => html`<li><e-source size="small" .source=${source}></e-source></li>`,
                   )}
-								</ul>
-							</td>
-						</tr>`,
+                </ul>
+              </td>
+            </tr>`,
           );
         })}
-			</tbody>
-		</table>`;
+      </tbody>
+    </table>`;
   }
 
   #toggleWeightOrder() {
@@ -137,30 +137,30 @@ export class WeightsTableVerifySources extends LitElement {
   }
 
   static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-			list-style: none;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      list-style: none;
+    }
 
-		:host {
-			display: block;
-			max-width: 1080px;
-		}
+    :host {
+      display: block;
+      max-width: 1080px;
+    }
 
-		${tableStyles}
+    ${tableStyles}
 
-		.sources-list {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 2rem;
-		}
+    .sources-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
 
-		.sources {
-			vertical-align: top;
-		}
-	`;
+    .sources {
+      vertical-align: top;
+    }
+  `;
 }
 
 export type RowData = WeightData & { sources: Array<Source> };

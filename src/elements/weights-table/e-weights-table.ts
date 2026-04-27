@@ -95,92 +95,86 @@ export class WeightsTableElement extends LitElement {
       this.showCards ? undefined : divcord_store.get_card_sources(card);
 
     return html`
-			<table class="table">
-				<thead>
-					<tr class="show-cards-row">
-						<td class="td" colspan="3">
-							<div>
-								<sl-checkbox .checked=${this.showCards} @sl-input=${this.#onShowCardsToggled}
-									>Show cards</sl-checkbox
-								>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th class="th" scope="col">№</th>
-						<th class="th th-name" scope="col">
-							<div class="header-with-icon">
-								Card
-								<sl-icon
-									class=${classMap({ "ordered-by": this.orderedBy === "name" })}
-									@click=${this.#toggleNameOrder}
-									.name=${this.nameIcon}
-								></sl-icon>
-							</div>
-						</th>
-						<th class="th th-weight">
-							<div class="header-with-icon">
-								${this.orderedBy === "delta" ? "Change" : "Weight"}
-								<sl-icon
-									class=${classMap({
+      <table class="table">
+        <thead>
+          <tr class="show-cards-row">
+            <td class="td" colspan="3">
+              <div>
+                <sl-checkbox .checked=${this.showCards} @sl-input=${this.#onShowCardsToggled}>Show cards</sl-checkbox>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="th" scope="col">№</th>
+            <th class="th th-name" scope="col">
+              <div class="header-with-icon">
+                Card
+                <sl-icon
+                  class=${classMap({ "ordered-by": this.orderedBy === "name" })}
+                  @click=${this.#toggleNameOrder}
+                  .name=${this.nameIcon}
+                ></sl-icon>
+              </div>
+            </th>
+            <th class="th th-weight">
+              <div class="header-with-icon">
+                ${this.orderedBy === "delta" ? "Change" : "Weight"}
+                <sl-icon
+                  class=${classMap({
                     "ordered-by": this.orderedBy === "weight" || this.orderedBy === "delta",
                   })}
-									@click=${this.#toggleWeightOrder}
-									.name=${this.weightIcon}
-								></sl-icon>
-							</div>
-						</th>
-					</tr>
-				</thead>
+                  @click=${this.#toggleWeightOrder}
+                  .name=${this.weightIcon}
+                ></sl-icon>
+              </div>
+            </th>
+          </tr>
+        </thead>
 
-				<tbody>
-					${this.rowsLimitedVisible.map((cardRowData, index) => {
+        <tbody>
+          ${this.rowsLimitedVisible.map((cardRowData, index) => {
             const card_slug = slug(cardRowData.name);
             return keyed(
               cardRowData.name,
               html`<tr data-card=${cardRowData.name}>
-								<td class="td">${index + 1}</td>
-								<td class="td td-card">
-									<!-- This invisible span is a layout helper that gives the cell its width -->
-									${
-                    cardAppearance === "link" ? html`<span class="card-name-sizer">${cardRowData.name}</span>` : nothing
-                  }
-									<e-divination-card
-										.sources=${getCardSources(cardRowData.name)}
-										.appearance=${cardAppearance}
-										size=${cardSize}
-										name=${cardRowData.name}
-										part=${ifDefined(card_slug === this.active_divination_card ? "active_divination_card" : undefined)}
-									></e-divination-card>
-								</td>
-								<td class="td td-weight">
-									<e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
-								</td>
-							</tr>`,
+                <td class="td">${index + 1}</td>
+                <td class="td td-card">
+                  <!-- This invisible span is a layout helper that gives the cell its width -->
+                  ${cardAppearance === "link"
+                    ? html`<span class="card-name-sizer">${cardRowData.name}</span>`
+                    : nothing}
+                  <e-divination-card
+                    .sources=${getCardSources(cardRowData.name)}
+                    .appearance=${cardAppearance}
+                    size=${cardSize}
+                    name=${cardRowData.name}
+                    part=${ifDefined(card_slug === this.active_divination_card ? "active_divination_card" : undefined)}
+                  ></e-divination-card>
+                </td>
+                <td class="td td-weight">
+                  <e-weight-breakdown .weightData=${cardRowData}></e-weight-breakdown>
+                </td>
+              </tr>`,
             );
           })}
-					${
-            this.limit !== null && this.limit < this.rowsClone.length
-              ? html`<tr>
-								<td class="td" colspan="3">
-									<sl-button @click=${this.#onShowMore}>Show more</sl-button>
-									<sl-button @click=${this.#onShowAll}>Show All</sl-button>
-								</td>
-						  </tr>`
-              : nothing
-          }
-					${
-            this.limit === null || this.limit > 20
-              ? html`<tr class="sticky">
-								<td class="td" colspan="3">
-									<sl-button @click=${this.#onShowLess} size="small">Show less</sl-button>
-								</td>
-						  </tr>`
-              : nothing
-          }
-				</tbody>
-			</table>
-		`;
+          ${this.limit !== null && this.limit < this.rowsClone.length
+            ? html`<tr>
+                <td class="td" colspan="3">
+                  <sl-button @click=${this.#onShowMore}>Show more</sl-button>
+                  <sl-button @click=${this.#onShowAll}>Show All</sl-button>
+                </td>
+              </tr>`
+            : nothing}
+          ${this.limit === null || this.limit > 20
+            ? html`<tr class="sticky">
+                <td class="td" colspan="3">
+                  <sl-button @click=${this.#onShowLess} size="small">Show less</sl-button>
+                </td>
+              </tr>`
+            : nothing}
+        </tbody>
+      </table>
+    `;
   }
 
   #toggleWeightOrder() {
@@ -247,33 +241,33 @@ export class WeightsTableElement extends LitElement {
   }
 
   static styles = css`
-		:host {
-			display: block;
-		}
+    :host {
+      display: block;
+    }
 
-		@layer reset {
-			* {
-				padding: 0;
-				margin: 0;
-				box-sizing: border-box;
-			}
-		}
+    @layer reset {
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+    }
 
-		@layer table-styles {
-			${tableStyles}
-		}
+    @layer table-styles {
+      ${tableStyles}
+    }
 
-		@layer link-styles {
-			${linkStyles}
-		}
+    @layer link-styles {
+      ${linkStyles}
+    }
 
-		.sticky {
-			bottom: 0;
-			position: sticky;
-			z-index: 20000;
-			background-color: color-mix(in srgb, var(--sl-color-neutral-50) 70%, transparent);
-		}
-	`;
+    .sticky {
+      bottom: 0;
+      position: sticky;
+      z-index: 20000;
+      background-color: color-mix(in srgb, var(--sl-color-neutral-50) 70%, transparent);
+    }
+  `;
 }
 
 declare global {

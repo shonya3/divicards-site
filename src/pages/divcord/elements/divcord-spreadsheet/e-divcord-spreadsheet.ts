@@ -114,163 +114,159 @@ export class DivcordSpreadsheetElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`<div id="root">
-			<table class="table">
-				<thead class="thead">
-					<tr class="thead__headings">
-						<th scope="col" class="th cell-id">
-							<div class="header-with-icon">
-								id
-								<sl-icon
-									class=${classMap({ "ordered-by": this.orderedBy === "id" })}
-									@click=${this.#toggleSetOrder.bind(this, "id")}
-									.name=${this.idIcon}
-								></sl-icon>
-							</div>
-						</th>
-						<th scope="col" class="th cell-card">
-							<div class="header-with-icon">
-								Card
-								<sl-icon
-									class=${classMap({ "ordered-by": this.orderedBy === "card" })}
-									@click=${this.#toggleSetOrder.bind(this, "card")}
-									.name=${this.nameIcon}
-								></sl-icon>
-							</div>
-						</th>
-						<th scope="col" class="th cell-weight">
-							<div class="header-with-icon">
-								Weight
-								<sl-icon
-									class=${classMap({ "ordered-by": this.orderedBy === "weight" })}
-									@click=${this.#toggleSetOrder.bind(this, "weight")}
-									.name=${this.weightIcon}
-								></sl-icon>
-							</div>
-						</th>
-						<th scope="col" class="th cell-confidence">Confidence</th>
-						<th scope="col" class="th cell-remaining-work">Remaining Work</th>
-						<th scope="col" class="th cell-sources">Verified sources</th>
-						<th scope="col" class="th cell-verify">
-							<div class="header-with-icon">
-								Need to verify
-								<sl-icon
-									class=${classMap({ "ordered-by": this.orderedBy === "verify" })}
-									@click=${this.#toggleSetOrder.bind(this, "verify")}
-									.name=${this.verifyIcon}
-								></sl-icon>
-							</div>
-						</th>
-						<th class="th cell-notes">Notes</th>
-					</tr>
-					<tr class="show-cards-row">
-						<td class="td"></td>
-						<td class="td show-cards-row__td">
-							<div>
-								<sl-checkbox .checked=${this.showCards} @sl-input=${this.#onShowCardsToggled}
-									>Show cards</sl-checkbox
-								>
-							</div>
-						</td>
-						<td class="td"></td>
-					</tr>
-				</thead>
-				<tbody class="tbody">
-					${virtualize({
+      <table class="table">
+        <thead class="thead">
+          <tr class="thead__headings">
+            <th scope="col" class="th cell-id">
+              <div class="header-with-icon">
+                id
+                <sl-icon
+                  class=${classMap({ "ordered-by": this.orderedBy === "id" })}
+                  @click=${this.#toggleSetOrder.bind(this, "id")}
+                  .name=${this.idIcon}
+                ></sl-icon>
+              </div>
+            </th>
+            <th scope="col" class="th cell-card">
+              <div class="header-with-icon">
+                Card
+                <sl-icon
+                  class=${classMap({ "ordered-by": this.orderedBy === "card" })}
+                  @click=${this.#toggleSetOrder.bind(this, "card")}
+                  .name=${this.nameIcon}
+                ></sl-icon>
+              </div>
+            </th>
+            <th scope="col" class="th cell-weight">
+              <div class="header-with-icon">
+                Weight
+                <sl-icon
+                  class=${classMap({ "ordered-by": this.orderedBy === "weight" })}
+                  @click=${this.#toggleSetOrder.bind(this, "weight")}
+                  .name=${this.weightIcon}
+                ></sl-icon>
+              </div>
+            </th>
+            <th scope="col" class="th cell-confidence">Confidence</th>
+            <th scope="col" class="th cell-remaining-work">Remaining Work</th>
+            <th scope="col" class="th cell-sources">Verified sources</th>
+            <th scope="col" class="th cell-verify">
+              <div class="header-with-icon">
+                Need to verify
+                <sl-icon
+                  class=${classMap({ "ordered-by": this.orderedBy === "verify" })}
+                  @click=${this.#toggleSetOrder.bind(this, "verify")}
+                  .name=${this.verifyIcon}
+                ></sl-icon>
+              </div>
+            </th>
+            <th class="th cell-notes">Notes</th>
+          </tr>
+          <tr class="show-cards-row">
+            <td class="td"></td>
+            <td class="td show-cards-row__td">
+              <div>
+                <sl-checkbox .checked=${this.showCards} @sl-input=${this.#onShowCardsToggled}>Show cards</sl-checkbox>
+              </div>
+            </td>
+            <td class="td"></td>
+          </tr>
+        </thead>
+        <tbody class="tbody">
+          ${virtualize({
             items: this.recordsState,
             renderItem: (record: DivcordRecordAndWeight): TemplateResult => {
               const notes = formattedNotes(record);
 
               return html`<tr>
-								<td class="td cell-id">
-									<a target="_blank" href=${divcordRecordHref(record.id)}>${record.id}</a>
-								</td>
-								<td class="td cell-card">
-									${
-                    this.showCards
-                      ? html`
-												<e-divination-card
-													part=${ifDefined(
+                <td class="td cell-id">
+                  <a target="_blank" href=${divcordRecordHref(record.id)}>${record.id}</a>
+                </td>
+                <td class="td cell-card">
+                  ${this.showCards
+                    ? html`
+                        <e-divination-card
+                          part=${ifDefined(
                             this.active_divination_card === slug(record.card) ? "active_divination_card" : undefined,
                           )}
-													size="small"
-													name=${record.card}
-												></e-divination-card>
-										  `
-                      : html`<a
-												part=${ifDefined(
+                          size="small"
+                          name=${record.card}
+                        ></e-divination-card>
+                      `
+                    : html`<a
+                        part=${ifDefined(
                           this.active_divination_card === slug(record.card) ? "active_divination_card" : undefined,
                         )}
-												@click=${(e: Event) => this.#onAnchorCardNavigation(e, record.card)}
-												href="/card/${slug(record.card)}"
-										  >
-												${record.card}
-										  </a>`
-                  }
-								</td>
-								<td class="td cell-weight">
-									<e-weight-breakdown .weightData=${record.weightData}></e-weight-breakdown>
-								</td>
-								<td
-									class=${classMap({
+                        @click=${(e: Event) => this.#onAnchorCardNavigation(e, record.card)}
+                        href="/card/${slug(record.card)}"
+                      >
+                        ${record.card}
+                      </a>`}
+                </td>
+                <td class="td cell-weight">
+                  <e-weight-breakdown .weightData=${record.weightData}></e-weight-breakdown>
+                </td>
+                <td
+                  class=${classMap({
                     td: true,
                     [`confidence--${record.confidence}`]: true,
                     "cell-confidence": true,
                   })}
-								>
-									${record.confidence}
-								</td>
-								<td
-									class=${classMap({
+                >
+                  ${record.confidence}
+                </td>
+                <td
+                  class=${classMap({
                     td: true,
                     "cell-remaining-work": true,
                     "remaining-work--story": record.remainingWork === "story",
                     "remaining-work--reverify": record.remainingWork === "reverify",
                     "remaining-work--confirm": record.remainingWork === "confirm",
                   })}
-								>
-									${record.remainingWork}
-								</td>
-								<td class="td cell-sources">
-									<e-sources
-										.sources=${record.sources}
-										size="small"
-										render-mode="compact"
-										verification-status="done"
-									></e-sources>
-								</td>
-								<td class="td cell-verify">
-									<e-sources
-										.sources=${record.verifySources}
-										size="small"
-										render-mode="compact"
-										verification-status="verify"
-									></e-sources>
-								</td>
-								<td class="td cell-notes">${notes}</td>
-							</tr>`;
+                >
+                  ${record.remainingWork}
+                </td>
+                <td class="td cell-sources">
+                  <e-sources
+                    .sources=${record.sources}
+                    size="small"
+                    render-mode="compact"
+                    verification-status="done"
+                  ></e-sources>
+                </td>
+                <td class="td cell-verify">
+                  <e-sources
+                    .sources=${record.verifySources}
+                    size="small"
+                    render-mode="compact"
+                    verification-status="verify"
+                  ></e-sources>
+                </td>
+                <td class="td cell-notes">${notes}</td>
+              </tr>`;
             },
           })}
-				</tbody>
-			</table>
-		</div>`;
+        </tbody>
+      </table>
+    </div>`;
   }
 
   static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
 
-		${linkStyles}
+    ${linkStyles}
 
-		:host {
-			width: fit-content;
-			display: block;
-		}
+    :host {
+      width: fit-content;
+      display: block;
+    }
 
-		${styles}
-	`;
+    ${styles}
+  `;
 }
 
 function formattedNotes(record: DivcordRecord): DirectiveResult<typeof UnsafeHTMLDirective> | null {

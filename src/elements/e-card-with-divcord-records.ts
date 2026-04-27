@@ -27,27 +27,27 @@ export class CardWithDivcordRecordsElement extends LitElement {
     const someRecordGreen = this.records.some((r) => r.confidence === "done" || r.confidence === "ok");
 
     return html`
-			<slot name="card">
-				<e-divination-card part="card" size="large" .name=${this.card}></e-divination-card>
-			</slot>
-			<main class="main">
-				<slot name="main-start"></slot>
+      <slot name="card">
+        <e-divination-card part="card" size="large" .name=${this.card}></e-divination-card>
+      </slot>
+      <main class="main">
+        <slot name="main-start"></slot>
 
-				${when(
+        ${when(
           allRecordsHaveNoSources && !hasReverifySource && !someRecordGreen,
           () => html`<e-divcord-needs-info .card=${this.card}></e-divcord-needs-info>`,
         )}
 
-				<ul class="records">
-					${this.records.map(
+        <ul class="records">
+          ${this.records.map(
             (record) =>
               html`<li>
-								<e-divcord-record .record=${record}></e-divcord-record>
-							</li>`,
+                <e-divcord-record .record=${record}></e-divcord-record>
+              </li>`,
           )}
-				</ul>
-			</main>
-		`;
+        </ul>
+      </main>
+    `;
   }
 
   static styles = css`

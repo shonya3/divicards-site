@@ -54,32 +54,32 @@ export class MapElement extends LitElement {
   }
   protected render(): TemplateResult {
     return html`<div
-			style="--image-width: ${this.imageWidth}px"
-			class=${classMap({
+      style="--image-width: ${this.imageWidth}px"
+      class=${classMap({
         map: true,
         [`map--${this.mapColor()}`]: !this.map.unique,
         [`map--${this.size}`]: true,
       })}
-		>
-			${this.renderName()}
-			<div class="img-wrapper">
-				<div
-					class=${classMap({
+    >
+      ${this.renderName()}
+      <div class="img-wrapper">
+        <div
+          class=${classMap({
             "map-background": !this.map.unique,
           })}
-				>
-					<a @click=${this.#dispatch_transition} href=${this.href} class="name"
-						><img
-							class=${classMap({ "img-map-glyph": true })}
-							width=${this.imageWidth}
-							height=${this.imageWidth}
-							loading="lazy"
-							src=${this.map.icon}
-							alt=${this.map.name}
-					/></a>
-				</div>
-			</div>
-		</div>`;
+        >
+          <a @click=${this.#dispatch_transition} href=${this.href} class="name"
+            ><img
+              class=${classMap({ "img-map-glyph": true })}
+              width=${this.imageWidth}
+              height=${this.imageWidth}
+              loading="lazy"
+              src=${this.map.icon}
+              alt=${this.map.name}
+          /></a>
+        </div>
+      </div>
+    </div>`;
   }
 
   protected renderName(): TemplateResult | typeof nothing {
@@ -93,70 +93,70 @@ export class MapElement extends LitElement {
   }
 
   static styles = css`
-		:host {
-			display: inline-block;
-			object-fit: contain;
-			contain: content;
-			color: var(--source-color, #bbbbbb);
-			--image-width: var(--image-width, 10px);
-		}
+    :host {
+      display: inline-block;
+      object-fit: contain;
+      contain: content;
+      color: var(--source-color, #bbbbbb);
+      --image-width: var(--image-width, 10px);
+    }
 
-		@layer reset {
-			${linkStyles}
-		}
+    @layer reset {
+      ${linkStyles}
+    }
 
-		* {
-			padding: 0;
-			margin: 0;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+    }
 
-		a,
-		a:visited {
-			color: var(--source-color, #bbbbbb);
-		}
+    a,
+    a:visited {
+      color: var(--source-color, #bbbbbb);
+    }
 
-		a:hover {
-			color: var(--link-color-hover);
-		}
+    a:hover {
+      color: var(--link-color-hover);
+    }
 
-		.map {
-			font-size: var(--map-font-size, 1rem);
-			width: var(--map-width, fit-content);
-			text-align: center;
-		}
+    .map {
+      font-size: var(--map-font-size, 1rem);
+      width: var(--map-width, fit-content);
+      text-align: center;
+    }
 
-		.name {
-			font-weight: 400;
-		}
+    .name {
+      font-weight: 400;
+    }
 
-		.map--yellow {
-			--filter: contrast(1000%) sepia(100%) saturate(10000%);
-		}
-		.map--red {
-			--filter: contrast(1000%) sepia(100%) saturate(10000%) hue-rotate(300deg) saturate(10000%);
-		}
+    .map--yellow {
+      --filter: contrast(1000%) sepia(100%) saturate(10000%);
+    }
+    .map--red {
+      --filter: contrast(1000%) sepia(100%) saturate(10000%) hue-rotate(300deg) saturate(10000%);
+    }
 
-		.img-wrapper {
-			display: flex;
-			justify-content: center;
-			width: var(--image-width, fit-content);
-			height: var(--image-width, fit-content);
-			margin-inline: auto;
-		}
+    .img-wrapper {
+      display: flex;
+      justify-content: center;
+      width: var(--image-width, fit-content);
+      height: var(--image-width, fit-content);
+      margin-inline: auto;
+    }
 
-		.img-map-glyph {
-			filter: var(--filter, initial);
-		}
+    .img-map-glyph {
+      filter: var(--filter, initial);
+    }
 
-		.map-background {
-			background-image: url(/images/map-background-image.avif);
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: var(--image-width);
-			width: var(--image-width);
-			height: var(--image-width);
-		}
-	`;
+    .map-background {
+      background-image: url(/images/map-background-image.avif);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: var(--image-width);
+      width: var(--image-width);
+      height: var(--image-width);
+    }
+  `;
 }
 
 declare global {

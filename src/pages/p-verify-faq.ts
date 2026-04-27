@@ -63,9 +63,9 @@ export class VerifyFaqPage extends LitElement {
         <section id="section-1">
           <h2>1. What is difficult to accept as drop data?</h2>
           <p>
-            The following sources of divination cards can drop all (or almost all) divination cards and creates increases
-            error during data collection. If you suspect any of these to affect your data, please make sure you clearly state
-            so in order for a verifier to double-check.
+            The following sources of divination cards can drop all (or almost all) divination cards and creates
+            increases error during data collection. If you suspect any of these to affect your data, please make sure
+            you clearly state so in order for a verifier to double-check.
           </p>
 
           <p>Generally these should <em>NOT</em> be submitted as data.</p>
@@ -103,8 +103,8 @@ export class VerifyFaqPage extends LitElement {
           <ul>
             <li>Ritual trade windows</li>
             <li>
-              Thief's Trinket modifier "% chance to receive additional Divination Card items when opening a Reward Chest in a
-              Heist"
+              Thief's Trinket modifier "% chance to receive additional Divination Card items when opening a Reward Chest
+              in a Heist"
             </li>
             <li>Stacked Decks</li>
             <li>Diviner's/Mysterious Incubators</li>
@@ -124,8 +124,8 @@ export class VerifyFaqPage extends LitElement {
           <h2>2. How can I contribute?</h2>
 
           <em
-            >Screenshots or videos showing the map mods are the gold standard! Please get into the habit of screenshotting
-            cards you suspect may be new data.</em
+            >Screenshots or videos showing the map mods are the gold standard! Please get into the habit of
+            screenshotting cards you suspect may be new data.</em
           >
 
           <h3>Software tools</h3>
@@ -152,8 +152,8 @@ export class VerifyFaqPage extends LitElement {
 
           <p>
             When taking screenshots, ensure that you include the
-            <em>full screen as well as map details</em> in order for me or fishwife to verify. For cards that have a specific
-            channel, please post in that channel. All other cards can be posted in
+            <em>full screen as well as map details</em> in order for me or fishwife to verify. For cards that have a
+            specific channel, please post in that channel. All other cards can be posted in
             <a href="https://discord.com/channels/834368692560461846/834368692997455924"># general divcord channel</a>
           </p>
         </section>
@@ -171,7 +171,8 @@ export class VerifyFaqPage extends LitElement {
 
           <p>
             All info is based on
-            <a href="https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0"
+            <a
+              href="https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0"
               >divcord's spreadsheet.</a
             >
             You can also check this out.
@@ -182,19 +183,20 @@ export class VerifyFaqPage extends LitElement {
         <section id="section-4">
           <h2>4. What affects drop rates of boss cards?</h2>
           <p>
-            Unlike regular drop cards, boss cards have their own custom drop rates independent of their random drop weights.
+            Unlike regular drop cards, boss cards have their own custom drop rates independent of their random drop
+            weights.
           </p>
           <p>
-            These drop rates <em>are not affected by item quantity</em>, unless a specific modifier allows it (e.g. Conquerors
-            maps, non-10 way Invitations).
+            These drop rates <em>are not affected by item quantity</em>, unless a specific modifier allows it (e.g.
+            Conquerors maps, non-10 way Invitations).
           </p>
           <p>
-            Because of this, the "only" way to increase boss card drop frequency is to increase the # of maps completed per
-            hour, or to use the "Area contains two Unique Bosses" /Twinned modifier.
+            Because of this, the "only" way to increase boss card drop frequency is to increase the # of maps completed
+            per hour, or to use the "Area contains two Unique Bosses" /Twinned modifier.
           </p>
           <p>
-            Bosses revived in Rituals, spawned by the Maven, or from the 10 way invitation are considered standalone versions
-            and are unable to drop boss-specific cards.
+            Bosses revived in Rituals, spawned by the Maven, or from the 10 way invitation are considered standalone
+            versions and are unable to drop boss-specific cards.
           </p>
           <p>Certain boss cards can drop like regular area cards in Kirac Div Card Missions or Master Memories.</p>
         </section>

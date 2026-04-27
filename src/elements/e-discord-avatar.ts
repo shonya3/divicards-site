@@ -25,11 +25,9 @@ export class DiscordAvatarElement extends LitElement {
   }
 
   protected render(): TemplateResult {
-    return html`${
-      this.src
-        ? html`<img width=${this.size} height=${this.size} src=${this.src} alt="Discord Avatar" /> ${this.username}`
-        : this.username
-    }`;
+    return html`${this.src
+      ? html`<img width=${this.size} height=${this.size} src=${this.src} alt="Discord Avatar" /> ${this.username}`
+      : this.username}`;
   }
 
   static styles = css`

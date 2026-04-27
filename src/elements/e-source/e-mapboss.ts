@@ -32,25 +32,25 @@ export class MapBossElement extends LitElement {
     }
 
     return html`<div
-			class=${classMap({
+      class=${classMap({
         mapboss: true,
         [`rendermode--${this.renderMode}`]: true,
       })}
-		>
-			<ul class="maplist">
-				${this.maps.map(
+    >
+      <ul class="maplist">
+        ${this.maps.map(
           (m) =>
             html`<e-map
-							.href=${sourceHref(createSource({ type: "Map", id: m.name }))}
-							.size=${this.size === "large" ? "medium" : this.size}
-							.map=${m}
-							.renderMode=${this.renderMode}
-							.imgSize=${imgSize}
-						></e-map>`,
+              .href=${sourceHref(createSource({ type: "Map", id: m.name }))}
+              .size=${this.size === "large" ? "medium" : this.size}
+              .map=${m}
+              .renderMode=${this.renderMode}
+              .imgSize=${imgSize}
+            ></e-map>`,
         )}
-			</ul>
-			<a @click=${this.#dispatch_transition} href=${this.href} class="name">${this.boss.name}</a>
-		</div>`;
+      </ul>
+      <a @click=${this.#dispatch_transition} href=${this.href} class="name">${this.boss.name}</a>
+    </div>`;
   }
 
   #dispatch_transition() {
@@ -58,59 +58,59 @@ export class MapBossElement extends LitElement {
   }
 
   static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+    }
 
-		@layer reset {
-			${linkStyles}
-		}
+    @layer reset {
+      ${linkStyles}
+    }
 
-		:host {
-			color: var(--source-color, #bbbbbb);
-			font-size: var(--source-font-size);
-			--map-font-size: 0.75rem;
-		}
+    :host {
+      color: var(--source-color, #bbbbbb);
+      font-size: var(--source-font-size);
+      --map-font-size: 0.75rem;
+    }
 
-		a,
-		a:visited {
-			color: var(--source-color, #bbbbbb);
-		}
+    a,
+    a:visited {
+      color: var(--source-color, #bbbbbb);
+    }
 
-		a:hover {
-			color: var(--link-color-hover);
-		}
+    a:hover {
+      color: var(--link-color-hover);
+    }
 
-		.mapboss {
-			width: fit-content;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-direction: column;
-		}
+    .mapboss {
+      width: fit-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
 
-		.maplist {
-			width: fit-content;
-			margin-left: auto;
-			display: flex;
-			gap: 1rem;
-		}
+    .maplist {
+      width: fit-content;
+      margin-left: auto;
+      display: flex;
+      gap: 1rem;
+    }
 
-		.mapboss.rendermode--compact {
-			flex-direction: row;
-			--map-image-width: 30px;
-			gap: 0.05rem;
-		}
+    .mapboss.rendermode--compact {
+      flex-direction: row;
+      --map-image-width: 30px;
+      gap: 0.05rem;
+    }
 
-		.mapboss.rendermode--compact .maplist {
-			gap: 0;
-		}
+    .mapboss.rendermode--compact .maplist {
+      gap: 0;
+    }
 
-		.mapboss.rendermode--compact .maplist {
-			order: 2;
-		}
-	`;
+    .mapboss.rendermode--compact .maplist {
+      order: 2;
+    }
+  `;
 }
 
 declare global {

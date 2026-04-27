@@ -110,23 +110,23 @@ export class VerifyPage extends SignalWatcher(LitElement) {
 
   protected render(): TemplateResult {
     return html`<div class="page">
-			<header>
-				<h1 class="heading">Need to verify</h1>
-				<div>
-					<nav class="nav">
-						${ACTIVE_VIEW_VARIANTS.map(
+      <header>
+        <h1 class="heading">Need to verify</h1>
+        <div>
+          <nav class="nav">
+            ${ACTIVE_VIEW_VARIANTS.map(
               (variant) =>
                 html`<a class=${classMap({
                   "nav-link--active": variant === this.#active_view.get(),
                 })} href=/verify/${variant}>${linkLabel(variant)}</a>`,
             )}
-					</nav>
-					<e-verify-faq-alert></e-verify-faq-alert>
-				</div>
-			</header>
+          </nav>
+          <e-verify-faq-alert></e-verify-faq-alert>
+        </div>
+      </header>
 
-			<main class="main">
-				${choose(this.#active_view.get(), [
+      <main class="main">
+        ${choose(this.#active_view.get(), [
           ["acts", () => this.#SourceWithCardsList(this.#by_category.get().acts)],
           ["maps", () => this.#SourceWithCardsList(this.#by_category.get().maps)],
           ["others", () => this.#SourceWithCardsList(this.#by_category.get().other)],
@@ -151,31 +151,29 @@ export class VerifyPage extends SignalWatcher(LitElement) {
 						`,
           ],
         ])}
-			</main>
-		</div>`;
+      </main>
+    </div>`;
   }
 
   #SourceWithCardsList(source_and_cards: Array<SourceAndCards>) {
     return html`<ul class="source-with-cards-list">
-			${source_and_cards.map(({ source, cards }: SourceAndCards) => {
+      ${source_and_cards.map(({ source, cards }: SourceAndCards) => {
         return html`
-					<li>
-						<e-source-with-cards
-							.active_divination_card=${this.view_transition_names.active_divination_card}
-							.card_size=${this.card_size}
-							.source_size=${this.source_size}
-							.source=${source}
-							.cards=${cards}
-							exportparts=${
-                this.view_transition_names.active_drop_source === source.idSlug
-                  ? "active_divination_card,drop_source:active_drop_source"
-                  : "active_divination_card"
-              }
-						></e-source-with-cards>
-					</li>
-				`;
+          <li>
+            <e-source-with-cards
+              .active_divination_card=${this.view_transition_names.active_divination_card}
+              .card_size=${this.card_size}
+              .source_size=${this.source_size}
+              .source=${source}
+              .cards=${cards}
+              exportparts=${this.view_transition_names.active_drop_source === source.idSlug
+                ? "active_divination_card,drop_source:active_drop_source"
+                : "active_divination_card"}
+            ></e-source-with-cards>
+          </li>
+        `;
       })}
-		</ul>`;
+    </ul>`;
   }
 
   #change_minimum_weight(e: Event): void {

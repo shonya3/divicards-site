@@ -35,34 +35,34 @@ export class SourcesPage extends SignalWatcher(LitElement) {
 
   protected render(): TemplateResult {
     return html`<div class="page">
-			<sl-select @sl-change=${this.#update_selected_source_types} label="Select types" multiple clearable>
-				${Array.from(this.#source_types_count_map.get()).map(
+      <sl-select @sl-change=${this.#update_selected_source_types} label="Select types" multiple clearable>
+        ${Array.from(this.#source_types_count_map.get()).map(
           ([type, count]) => html`<sl-option value=${SlConverter.toSlValue(type)}> ${type} (${count}) </sl-option>`,
         )}
-			</sl-select>
-			<a class="verify-link" href="/verify">Check Need to verify list!</a>
-			<details open>
-				<summary>List of sourcetypes</summary>
-				<ul id="list-of-source-types">
-					${Array.from(this.#source_types_count_map.get()).map(
+      </sl-select>
+      <a class="verify-link" href="/verify">Check Need to verify list!</a>
+      <details open>
+        <summary>List of sourcetypes</summary>
+        <ul id="list-of-source-types">
+          ${Array.from(this.#source_types_count_map.get()).map(
             ([type, count]) =>
               html`<li>
-								<e-source-type .sourceType=${type}></e-source-type>
-								<span>(${count})</span>
-							</li>`,
+                <e-source-type .sourceType=${type}></e-source-type>
+                <span>(${count})</span>
+              </li>`,
           )}
-				</ul>
-			</details>
+        </ul>
+      </details>
 
-			<ul id="sources-and-cards">
-				${this.#sources_and_cards.get().map(
+      <ul id="sources-and-cards">
+        ${this.#sources_and_cards.get().map(
           ({ source, cards }) =>
             html`<li class="source-with-cards-list__item">
-							<e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
-						</li>`,
+              <e-source-with-cards .source=${source} .cards=${cards}></e-source-with-cards>
+            </li>`,
         )}
-			</ul>
-		</div>`;
+      </ul>
+    </div>`;
   }
 
   #update_selected_source_types(e: Event): void {

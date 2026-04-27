@@ -25,14 +25,14 @@ export class DivcordRecordConfidenceElement extends LitElement {
     if (!this.confidence) throw new Error("<e-divcord-record-confidence> no .confidence provided");
 
     return html`<div
-			title="Confidence"
-			class=${classMap({
+      title="Confidence"
+      class=${classMap({
         confidence: true,
         [`confidence--${this.confidence}`]: true,
       })}
-		>
-			<span class="confidence-span">Confidence</span> ${this.confidence}
-		</div>`;
+    >
+      <span class="confidence-span">Confidence</span> ${this.confidence}
+    </div>`;
   }
 
   static styles = css`

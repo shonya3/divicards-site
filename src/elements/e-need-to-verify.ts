@@ -18,11 +18,11 @@ export class NeedToVerifyElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`
-			<div class="slot-parent">
-				<slot></slot>
-			</div>
-			<e-need-to-verify-border .reverify=${this.reverify} part="border"></e-need-to-verify-border>
-		`;
+      <div class="slot-parent">
+        <slot></slot>
+      </div>
+      <e-need-to-verify-border .reverify=${this.reverify} part="border"></e-need-to-verify-border>
+    `;
   }
 
   static styles = css`

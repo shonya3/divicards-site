@@ -73,53 +73,53 @@ export class SourceElement extends LitElement {
         }
 
         return html`<e-act-area
-					.slug=${this.source.idSlug}
-					.href=${sourceHref(this.source)}
-					.actArea=${area}
-					.size=${size}
-				></e-act-area>`;
+          .slug=${this.source.idSlug}
+          .href=${sourceHref(this.source)}
+          .actArea=${area}
+          .size=${size}
+        ></e-act-area>`;
       }
       case "Act Boss": {
         const res = poeData.find.actBossAndArea(this.source.id);
         if (!res) throw new NoSourceInPoeDataError(this.source);
         return html`<e-actboss
-					.slug=${this.source.idSlug}
-					.href=${sourceHref(this.source)}
-					.boss=${res.boss}
-					.actArea=${res.area}
-					.renderMode=${this.renderMode}
-				></e-actboss>`;
+          .slug=${this.source.idSlug}
+          .href=${sourceHref(this.source)}
+          .boss=${res.boss}
+          .actArea=${res.area}
+          .renderMode=${this.renderMode}
+        ></e-actboss>`;
       }
       case "Map": {
         const map = poeData.find.map(this.source.id);
         if (!map) throw new NoSourceInPoeDataError(this.source);
         return html`<e-map
-					.slug=${this.source.idSlug}
-					.href=${sourceHref(this.source)}
-					.size=${this.size === "large" ? "medium" : this.size}
-					.map=${map}
-					.renderMode=${this.renderMode}
-				></e-map>`;
+          .slug=${this.source.idSlug}
+          .href=${sourceHref(this.source)}
+          .size=${this.size === "large" ? "medium" : this.size}
+          .map=${map}
+          .renderMode=${this.renderMode}
+        ></e-map>`;
       }
       case "Map Boss": {
         const res = poeData.find.mapBossAndMaps(this.source.id);
         if (!res) throw new NoSourceInPoeDataError(this.source);
         return html`<e-mapboss
-					.slug=${this.source.idSlug}
-					.href=${sourceHref(this.source)}
-					.size=${this.size}
-					.boss=${res.boss}
-					.maps=${res.maps}
-					.renderMode=${this.renderMode}
-				></e-mapboss>`;
+          .slug=${this.source.idSlug}
+          .href=${sourceHref(this.source)}
+          .size=${this.size}
+          .boss=${res.boss}
+          .maps=${res.maps}
+          .renderMode=${this.renderMode}
+        ></e-mapboss>`;
       }
 
       default: {
         if (!this.source.id) return nothing;
 
         return html`<a @click=${this.#dispatch_source_transition} href=${sourceHref(this.source)}
-					>${this.source.id}</a
-				>`;
+          >${this.source.id}</a
+        >`;
       }
     }
   }
@@ -128,25 +128,19 @@ export class SourceElement extends LitElement {
     const shouldRenderSourceType = this.renderMode === "normal" || this.source.kind === "category";
 
     return html`
-			<div
-				class=${classMap({
+      <div
+        class=${classMap({
           source: true,
           [`source--${this.size}`]: true,
           "font--larger": !this.sourceHasSpecialElement,
         })}
-			>
-				${
-          this.showSourceType && shouldRenderSourceType && this.source.type !== "Act"
-            ? html`<e-source-type
-							part="source-type"
-							class="source-type"
-							.sourceType=${this.source.type}
-					  ></e-source-type>`
-            : nothing
-        }
-				<div part="source-id" class="source-id">${this.sourceElement()}</div>
-			</div>
-		`;
+      >
+        ${this.showSourceType && shouldRenderSourceType && this.source.type !== "Act"
+          ? html`<e-source-type part="source-type" class="source-type" .sourceType=${this.source.type}></e-source-type>`
+          : nothing}
+        <div part="source-id" class="source-id">${this.sourceElement()}</div>
+      </div>
+    `;
   }
 
   #dispatch_source_transition() {
@@ -154,57 +148,57 @@ export class SourceElement extends LitElement {
   }
 
   static styles = css`
-		* {
-			margin: 0;
-			padding: 0;
-		}
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-		@layer reset {
-			${linkStyles}
-		}
+    @layer reset {
+      ${linkStyles}
+    }
 
-		:host {
-			display: inline-block;
-			object-fit: contain;
-			contain: paint;
-			--source-width: fit-content;
-			max-width: max-content;
-			--source-type-font-size: 0.875rem;
-			--padding-inline: 0;
-			--padding-block: 0;
-			line-height: var(--source-font-size, 1rem);
-		}
+    :host {
+      display: inline-block;
+      object-fit: contain;
+      contain: paint;
+      --source-width: fit-content;
+      max-width: max-content;
+      --source-type-font-size: 0.875rem;
+      --padding-inline: 0;
+      --padding-block: 0;
+      line-height: var(--source-font-size, 1rem);
+    }
 
-		.source {
-			font-size: var(--source-font-size, 1rem);
-			display: flex;
-			width: var(--source-width);
-			object-fit: contain;
-			contain: paint;
-			flex-direction: column;
-			justify-content: center;
-			padding-inline: var(--padding-inline);
-			padding-block: var(--padding-block);
-		}
+    .source {
+      font-size: var(--source-font-size, 1rem);
+      display: flex;
+      width: var(--source-width);
+      object-fit: contain;
+      contain: paint;
+      flex-direction: column;
+      justify-content: center;
+      padding-inline: var(--padding-inline);
+      padding-block: var(--padding-block);
+    }
 
-		e-source-type {
-			margin-inline: auto;
-		}
+    e-source-type {
+      margin-inline: auto;
+    }
 
-		.inner {
-			width: fit-content;
-		}
-	`;
+    .inner {
+      width: fit-content;
+    }
+  `;
 
   protected mapboss(name: string, mapAreas: MapArea[]): TemplateResult {
     return html`
-			<div style="padding: 2rem; position: relative;">
-				<p>${name}</p>
-				<ul style="position: absolute; top: -1.6rem; right: -12px" class="maps">
-					${mapAreas.map((m) => html`<e-map .map=${m}></e-map>`)}
-				</ul>
-			</div>
-		`;
+      <div style="padding: 2rem; position: relative;">
+        <p>${name}</p>
+        <ul style="position: absolute; top: -1.6rem; right: -12px" class="maps">
+          ${mapAreas.map((m) => html`<e-map .map=${m}></e-map>`)}
+        </ul>
+      </div>
+    `;
   }
 }
 

@@ -122,9 +122,7 @@ export class SimpleTooltip extends LitElement {
   };
 
   render(): TemplateResult {
-    return html`
-      <div class="tooltip-box"><slot></slot></div>
-    `;
+    return html` <div class="tooltip-box"><slot></slot></div> `;
   }
 }
 

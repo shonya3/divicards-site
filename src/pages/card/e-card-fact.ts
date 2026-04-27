@@ -16,15 +16,15 @@ export class CardFactElement extends LitElement {
 
   protected render(): TemplateResult {
     return html`
-			<div part="base" class="base">
-				<div part="label" class="label">
-					<slot name="label">${this.label}</slot>
-				</div>
-				<div part="value" class="value">
-					<slot>${this.value}</slot>
-				</div>
-			</div>
-		`;
+      <div part="base" class="base">
+        <div part="label" class="label">
+          <slot name="label">${this.label}</slot>
+        </div>
+        <div part="value" class="value">
+          <slot>${this.value}</slot>
+        </div>
+      </div>
+    `;
   }
 
   static styles = css`

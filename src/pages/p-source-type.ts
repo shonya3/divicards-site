@@ -40,20 +40,20 @@ export class SourceTypePage extends SignalWatcher(LitElement) {
 
   protected render(): TemplateResult {
     return html`<div class="page">
-			<e-source-type .sourceType=${this.sourceType}></e-source-type>
-			<ul id="list">
-				${this.#sources_and_cards_renderer.get().render(({ source, cards }) => {
+      <e-source-type .sourceType=${this.sourceType}></e-source-type>
+      <ul id="list">
+        ${this.#sources_and_cards_renderer.get().render(({ source, cards }) => {
           return html`<li>
-						<e-source-with-cards
-							.showSourceType=${false}
-							.source=${source}
-							.cards=${cards}
-							card_size="small"
-						></e-source-with-cards>
-					</li>`;
+            <e-source-with-cards
+              .showSourceType=${false}
+              .source=${source}
+              .cards=${cards}
+              card_size="small"
+            ></e-source-with-cards>
+          </li>`;
         })}
-			</ul>
-		</div>`;
+      </ul>
+    </div>`;
   }
 
   static styles = css`

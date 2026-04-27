@@ -57,52 +57,52 @@ export class DivinationCardElement extends LitElement {
   protected render(): TemplateResult | typeof nothing {
     const cardTemplate = this.sources
       ? html`
-					<div
-						style=${styleMap({
+          <div
+            style=${styleMap({
               width: `var(--card-width-${this.size})`,
             })}
-					>
-						<poe-divination-card
-							part="divination_card"
-							.name=${this.name}
-							.size=${this.size}
-							.hrefPattern=${`/card/{{slug}}`}
-							@navigate=${this.#dispatch_transition}
-						></poe-divination-card>
-						<e-sources
-							.sources=${this.sources.done}
-							.size=${this.source_size}
-							verification-status="done"
-							.active_drop_source=${this.active_drop_source}
-							exportparts="active_drop_source"
-						></e-sources>
-						<e-sources
-							.sources=${this.sources.verify}
-							.size=${this.source_size}
-							verification-status="verify"
-							.active_drop_source=${this.active_drop_source}
-							exportparts="active_drop_source"
-						></e-sources>
-					</div>
-			  `
+          >
+            <poe-divination-card
+              part="divination_card"
+              .name=${this.name}
+              .size=${this.size}
+              .hrefPattern=${`/card/{{slug}}`}
+              @navigate=${this.#dispatch_transition}
+            ></poe-divination-card>
+            <e-sources
+              .sources=${this.sources.done}
+              .size=${this.source_size}
+              verification-status="done"
+              .active_drop_source=${this.active_drop_source}
+              exportparts="active_drop_source"
+            ></e-sources>
+            <e-sources
+              .sources=${this.sources.verify}
+              .size=${this.source_size}
+              verification-status="verify"
+              .active_drop_source=${this.active_drop_source}
+              exportparts="active_drop_source"
+            ></e-sources>
+          </div>
+        `
       : html`<poe-divination-card
-					part="divination_card"
-					.name=${this.name}
-					.size=${this.appearance === "link" ? "medium" : this.size}
-					.boss=${this.boss}
-					.hrefPattern=${`/card/{{slug}}`}
-					@navigate=${this.#dispatch_transition}
-			  >
-					<div slot="boss">
-						<slot name="boss"></slot>
-					</div>
-			  </poe-divination-card>`;
+          part="divination_card"
+          .name=${this.name}
+          .size=${this.appearance === "link" ? "medium" : this.size}
+          .boss=${this.boss}
+          .hrefPattern=${`/card/{{slug}}`}
+          @navigate=${this.#dispatch_transition}
+        >
+          <div slot="boss">
+            <slot name="boss"></slot>
+          </div>
+        </poe-divination-card>`;
     this.tooltipTemplate = cardTemplate;
 
     return this.appearance === "link"
       ? html`<a part="link" class="link" @click=${this.#dispatch_transition} href="/card/${this.slug}">
-					<span>${this.name}</span>
-			  </a>`
+          <span>${this.name}</span>
+        </a>`
       : cardTemplate;
   }
 

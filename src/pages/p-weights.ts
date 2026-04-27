@@ -129,201 +129,189 @@ export class WeightsPage extends SignalWatcher(LitElement) {
     const intersectingCard = this.#intersected_card.get();
 
     return html`<div class="page">
-			<h1 class="heading">Weights</h1>
-			<main class="main">
-				<section class="section-table">
-					<h2>Weights Table</h2>
-					<p class="weights-spreadsheet-p">
-						<sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
-						<a
-							target="_blank"
-							href="https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906"
-							>Weights spreadsheet by
-						</a>
-						<e-discord-avatar username="nerdyjoe"></e-discord-avatar>
-					</p>
-					<e-weights-table
-						@e-weights-table__change-limit=${this.#handleShowLimitChange}
-						.active_divination_card=${this.view_transition_names.active_divination_card}
-						exportparts="active_divination_card"
-						@show-cards-changed=${this.#onShowCardsChanged}
-						class="section-table__table"
-						ordered-by="weight"
-						.showCards=${this.#show_cards.get()}
-						.rows=${this.#rows}
-					></e-weights-table>
+      <h1 class="heading">Weights</h1>
+      <main class="main">
+        <section class="section-table">
+          <h2>Weights Table</h2>
+          <p class="weights-spreadsheet-p">
+            <sl-icon class="spreadsheet-icon" name="file-earmark-spreadsheet"></sl-icon>
+            <a
+              target="_blank"
+              href="https://docs.google.com/spreadsheets/d/1PmGES_e1on6K7O5ghHuoorEjruAVb7dQ5m7PGrW7t80/edit#gid=272334906"
+              >Weights spreadsheet by
+            </a>
+            <e-discord-avatar username="nerdyjoe"></e-discord-avatar>
+          </p>
+          <e-weights-table
+            @e-weights-table__change-limit=${this.#handleShowLimitChange}
+            .active_divination_card=${this.view_transition_names.active_divination_card}
+            exportparts="active_divination_card"
+            @show-cards-changed=${this.#onShowCardsChanged}
+            class="section-table__table"
+            ordered-by="weight"
+            .showCards=${this.#show_cards.get()}
+            .rows=${this.#rows}
+          ></e-weights-table>
 
-          
           <p class="based-on">
-						Based on <strong>${poeData.cards.latestWeightsCollected.totalCards.toLocaleString("en-US")}</strong> cards
+            Based on <strong>${poeData.cards.latestWeightsCollected.totalCards.toLocaleString("en-US")}</strong> cards
             collected in <span class="current-league">${poeData.cards.latestWeightsCollected.version}</span>
-					</p>
-				</section>
-				<div class="links-and-faq">
-					<div class="faq">
-						<h2>Questions and answers</h2>
-						${faq.map(
+          </p>
+        </section>
+        <div class="links-and-faq">
+          <div class="faq">
+            <h2>Questions and answers</h2>
+            ${faq.map(
               (el) =>
-                html`<sl-details summary=${el.q}
-									><p>${formatWithNewlines(el.a, { escape: false })}</p></sl-details
-								>`,
+                html`<sl-details summary=${el.q}><p>${formatWithNewlines(el.a, { escape: false })}</p></sl-details>`,
             )}
-					</div>
+          </div>
 
-					<article class="section-links">
-						<h2>Deep dive</h2>
-						<p>For better understanding, read <em>poorFishwife's</em> posts in these reddit threads:</p>
-						<ul>
-							<li>
-								<a
-									target="_blank"
-									href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
-									>Hihi reddit! 🐟❤️ What's your favourite Divination Card? Mine is The Vast,
-									because...</a
-								>
-							</li>
-							<li>
-								<a
-									target="_blank"
-									href="https://www.reddit.com/r/pathofexile/comments/wsi0j8/complete_divination_card_dropweight_tables_drop/"
-									>Complete Divination Card Dropweight Tables, Drop Estimates for New 3.19 Cards, and
-									Player IIQ Formula | Prohibited Library Digest</a
-								>
-							</li>
-						</ul>
-					</article>
-
-					${
-            intersectingCard
-              ? html`
-								<div>
-									<e-divination-card
-										class="intersecting-card-presentation"
-										size="large"
-										name=${intersectingCard}
-										.sources=${this.#intersected_card_sources.get()}
-									></e-divination-card>
-								</div>
-							`
-              : nothing
-          }
-
-					<article>
-						<h2>Contribute</h2>
-						<p>To contribute to the stacked deck weight project, there are a few simple steps.</p>
-						<ol>
+          <article class="section-links">
+            <h2>Deep dive</h2>
+            <p>For better understanding, read <em>poorFishwife's</em> posts in these reddit threads:</p>
+            <ul>
               <li>
-                Clean out the div card tab so no cards remain.
+                <a target="_blank" href="https://www.reddit.com/r/pathofexile/comments/vl52b6/comment/idt0ea3/"
+                  >Hihi reddit! 🐟❤️ What's your favourite Divination Card? Mine is The Vast, because...</a
+                >
               </li>
               <li>
-                Open all the stacked decks, and put every single card into the tab.
+                <a
+                  target="_blank"
+                  href="https://www.reddit.com/r/pathofexile/comments/wsi0j8/complete_divination_card_dropweight_tables_drop/"
+                  >Complete Divination Card Dropweight Tables, Drop Estimates for New 3.19 Cards, and Player IIQ Formula
+                  | Prohibited Library Digest</a
+                >
               </li>
-							<li>
-								Extract your divination cards with
-								<a href="https://github.com/shonya3/divicards" target="_blank">the program</a>.
+            </ul>
+          </article>
+
+          ${intersectingCard
+            ? html`
+                <div>
+                  <e-divination-card
+                    class="intersecting-card-presentation"
+                    size="large"
+                    name=${intersectingCard}
+                    .sources=${this.#intersected_card_sources.get()}
+                  ></e-divination-card>
+                </div>
+              `
+            : nothing}
+
+          <article>
+            <h2>Contribute</h2>
+            <p>To contribute to the stacked deck weight project, there are a few simple steps.</p>
+            <ol>
+              <li>Clean out the div card tab so no cards remain.</li>
+              <li>Open all the stacked decks, and put every single card into the tab.</li>
+              <li>
+                Extract your divination cards with
+                <a href="https://github.com/shonya3/divicards" target="_blank">the program</a>.
                 <p>
-                   Be sure that the number of cards recorded by the tool matches
-                   the number of stacked decks you opened. It may take some time for GGG to update the card tab, up to around 10 minutes.
+                  Be sure that the number of cards recorded by the tool matches the number of stacked decks you opened.
+                  It may take some time for GGG to update the card tab, up to around 10 minutes.
                 </p>
-							</li>
-							<li>
-								Upload the resulting <strong>.csv</strong> to
-                <a target="_blank" href="https://discord.com/channels/991073626721763429/991092518995251231">stacked-decks</a> channel
-                in the <a href="https://discord.gg/raz74M33" target="_blank">Prohibited Library</a>
-								Discord server.
-							</li>
-						</ol>
-					</article>
-				</div>
-			</main>
-		</div>`;
+              </li>
+              <li>
+                Upload the resulting <strong>.csv</strong> to
+                <a target="_blank" href="https://discord.com/channels/991073626721763429/991092518995251231"
+                  >stacked-decks</a
+                >
+                channel in the <a href="https://discord.gg/raz74M33" target="_blank">Prohibited Library</a>
+                Discord server.
+              </li>
+            </ol>
+          </article>
+        </div>
+      </main>
+    </div>`;
   }
 
   static styles = css`
-		* {
-			padding: 0;
-			margin: 0;
-			box-sizing: border-box;
-		}
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
 
-		${linkStyles}
-		${articleCss()}
+    ${linkStyles}
+    ${articleCss()}
 		a:link {
-			text-decoration: underline;
-		}
+      text-decoration: underline;
+    }
 
-		.page {
-			margin-inline: auto;
-			max-width: 1400px;
-		}
+    .page {
+      margin-inline: auto;
+      max-width: 1400px;
+    }
 
-		.main {
-			margin-top: 2rem;
-			display: flex;
-			flex-wrap: wrap;
-			gap: 6rem;
-			justify-content: center;
-		}
+    .main {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6rem;
+      justify-content: center;
+    }
 
-		.links-and-faq {
-			max-width: 60ch;
-			display: flex;
-			flex-direction: column;
-			gap: 3rem;
-		}
+    .links-and-faq {
+      max-width: 60ch;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
 
-		.faq {
-			& > h2 {
-				margin-bottom: 2rem;
-			}
-		}
+    .faq {
+      & > h2 {
+        margin-bottom: 2rem;
+      }
+    }
 
-		.heading {
-			text-align: center;
-			margin-bottom: 3rem;
-		}
+    .heading {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
 
-		.section-table__table {
-			margin-top: 0.4rem;
-		}
+    .section-table__table {
+      margin-top: 0.4rem;
+    }
 
-		.weights-spreadsheet-p {
-			display: flex;
-			align-items: center;
-			gap: 0.4rem;
-		}
+    .weights-spreadsheet-p {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-		.spreadsheet-icon {
-			color: var(--sl-color-green-700);
-		}
+    .spreadsheet-icon {
+      color: var(--sl-color-green-700);
+    }
 
-		.based-on {
-			margin-top: var(--sl-spacing-large);
-			color: var(--sl-color-gray-500);
+    .based-on {
+      margin-top: var(--sl-spacing-large);
+      color: var(--sl-color-gray-500);
 
       & strong {
-        color: var(--sl-color-gray-700)
+        color: var(--sl-color-gray-700);
       }
-		}
+    }
 
     .current-league {
-			color: var(--sl-color-pink-600);
-			font-weight: var(--sl-font-weight);
-			font-size: var(--sl-font-size-x-large);
-		}
+      color: var(--sl-color-pink-600);
+      font-weight: var(--sl-font-weight);
+      font-size: var(--sl-font-size-x-large);
+    }
 
-		
-
-		/** Intersection */
-		e-weights-table::part(intersecting-row) {
-			background-color: var(--sl-color-sky-100);
-			--td-border-bottom: 1px solid var(--sl-color-sky-400);
-		}
-		.intersecting-card-presentation {
-			position: fixed;
-			top: calc(var(--intersecting-line-top) - 100px);
-		}
-	`;
+    /** Intersection */
+    e-weights-table::part(intersecting-row) {
+      background-color: var(--sl-color-sky-100);
+      --td-border-bottom: 1px solid var(--sl-color-sky-400);
+    }
+    .intersecting-card-presentation {
+      position: fixed;
+      top: calc(var(--intersecting-line-top) - 100px);
+    }
+  `;
 }
 
 export function articleCss() {

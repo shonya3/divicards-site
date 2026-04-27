@@ -60,18 +60,18 @@ const RESOURCES_DATA: Record<string, UsefulResource> = {
 export class UsefulResourcesPage extends LitElement {
   protected render(): TemplateResult {
     return html`<article>
-			<h2>Useful resources</h2>
+      <h2>Useful resources</h2>
 
-			<section id="section-spreadsheets">
-				<ul class="list-resources">
-					${Object.values(RESOURCES_DATA).map((data) => {
+      <section id="section-spreadsheets">
+        <ul class="list-resources">
+          ${Object.values(RESOURCES_DATA).map((data) => {
             return html`<li>
-							<e-useful-resource .resource=${data}></e-useful-resource>
-						</li>`;
+              <e-useful-resource .resource=${data}></e-useful-resource>
+            </li>`;
           })}
-				</ul>
-			</section>
-		</article>`;
+        </ul>
+      </section>
+    </article>`;
   }
 
   CustomIcon(icon: CustomIcon) {

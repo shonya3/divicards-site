@@ -110,24 +110,17 @@ export class WeightBreakdownElement extends LitElement {
   `;
 
   render() {
-    if (!this.weightData)
-      return html`
-        <span>-</span>
-      `;
+    if (!this.weightData) return html` <span>-</span> `;
 
     switch (this.weightData.displayKind) {
       case "disabled":
-        return html`
-          <span>disabled</span>
-        `;
+        return html` <span>disabled</span> `;
       case "no-data":
       case "normal":
       case "fallback-to-prerework":
         return this.renderWeightDisplay();
       default:
-        return html`
-          <span>-</span>
-        `;
+        return html` <span>-</span> `;
     }
   }
 
@@ -137,9 +130,7 @@ export class WeightBreakdownElement extends LitElement {
     const { weights, displayWeight, displayKind, fallbackSourceLeague, delta } = this.weightData;
 
     if (!weights || Object.keys(weights).length === 0) {
-      return html`
-        <span>-</span>
-      `;
+      return html` <span>-</span> `;
     }
 
     const { allSorted } = getLatestVersions(weights);
@@ -162,16 +153,14 @@ export class WeightBreakdownElement extends LitElement {
 
       // If the delta is the same as the display weight, it means the previous weight was 0, so it's a new card.
       if (delta > 0 && delta === displayWeight) {
-        return html`
-          <span class="delta delta--new">new</span>
-        `;
+        return html` <span class="delta delta--new">new</span> `;
       }
 
       const direction = delta > 0 ? "up" : "down";
       return html`<span
-				class=${classMap({ delta: true, "delta--up": direction === "up", "delta--down": direction === "down" })}
-				>${formatWeight(delta, { signDisplay: "always" })}</span
-			>`;
+        class=${classMap({ delta: true, "delta--up": direction === "up", "delta--down": direction === "down" })}
+        >${formatWeight(delta, { signDisplay: "always" })}</span
+      >`;
     };
 
     const renderFallbackIcon = () => {
@@ -180,48 +169,44 @@ export class WeightBreakdownElement extends LitElement {
       }
       const content = `Pre-rework weight from patch ${fallbackSourceLeague} is shown.`;
       return html`
-				<sl-tooltip .content=${content}>
-					<sl-icon name="info-circle" class="fallback-icon"></sl-icon>
-				</sl-tooltip>
-			`;
+        <sl-tooltip .content=${content}>
+          <sl-icon name="info-circle" class="fallback-icon"></sl-icon>
+        </sl-tooltip>
+      `;
     };
 
     return html`
-			<div class="weight-container">
-				<div class="latest-weight">
-					${
-            displayKind === "no-data"
-              ? html`
-                  <sl-tooltip
-                    content="The card has a weight of 0 in the current league. To avoid showing potentially outdated information, no fallback weight from a previous league is displayed."
-                    ><span class="no-data-span">no data</span></sl-tooltip
-                  >
-                `
-              : html`<span>${formatWeight(displayWeight)}</span> ${renderFallbackIcon()} ${renderDelta()}`
-          }
-				</div>
-				${
-          allSorted.length > 1
+      <div class="weight-container">
+        <div class="latest-weight">
+          ${displayKind === "no-data"
             ? html`
-							<sl-details summary="History">
-								<table class="history-table">
-									<tbody>
-										${allSorted.map(
+                <sl-tooltip
+                  content="The card has a weight of 0 in the current league. To avoid showing potentially outdated information, no fallback weight from a previous league is displayed."
+                  ><span class="no-data-span">no data</span></sl-tooltip
+                >
+              `
+            : html`<span>${formatWeight(displayWeight)}</span> ${renderFallbackIcon()} ${renderDelta()}`}
+        </div>
+        ${allSorted.length > 1
+          ? html`
+              <sl-details summary="History">
+                <table class="history-table">
+                  <tbody>
+                    ${allSorted.map(
                       (league) => html`
-												<tr>
-													<td>${league}:</td>
-													<td>${formatWeight(weights[league])}</td>
-												</tr>
-											`,
+                        <tr>
+                          <td>${league}:</td>
+                          <td>${formatWeight(weights[league])}</td>
+                        </tr>
+                      `,
                     )}
-									</tbody>
-								</table>
-							</sl-details>
-					  `
-            : nothing
-        }
-			</div>
-		`;
+                  </tbody>
+                </table>
+              </sl-details>
+            `
+          : nothing}
+      </div>
+    `;
   }
 }
 
