@@ -121,25 +121,27 @@ export class HomePage extends SignalWatcher(LitElement) {
         ></e-pagination>
       </div>
 
-      <ul id="divination-cards-list">
-        ${repeat(
-          this.paginated.get(),
-          (card) => card,
-          (card) => html`<li>
-            <e-divination-card
-              .name=${card}
-              .sources=${divcord_store.get_card_sources(card)}
-              .size=${this.#card_size.get()}
-              .source_size=${this.#source_size.get()}
-              .active_drop_source=${this.view_transition_names.active_drop_source}
-              exportparts=${slug(card) === this.view_transition_names.active_divination_card
-                ? "active_drop_source,divination_card:active_divination_card"
-                : "active_drop_source"}
-            >
-            </e-divination-card>
-          </li>`,
-        )}
-      </ul>
+      <main>
+        <ul id="divination-cards-list">
+          ${repeat(
+            this.paginated.get(),
+            (card) => card,
+            (card) => html`<li>
+              <e-divination-card
+                .name=${card}
+                .sources=${divcord_store.get_card_sources(card)}
+                .size=${this.#card_size.get()}
+                .source_size=${this.#source_size.get()}
+                .active_drop_source=${this.view_transition_names.active_drop_source}
+                exportparts=${slug(card) === this.view_transition_names.active_divination_card
+                  ? "active_drop_source,divination_card:active_divination_card"
+                  : "active_drop_source"}
+              >
+              </e-divination-card>
+            </li>`,
+          )}
+        </ul>
+      </main>
     `;
   }
 
