@@ -25,7 +25,8 @@ export class NoSourceInPoeDataError extends Error {
 
 /**
  * Any dropsource of divination card: map, act, etc
- * @event       navigate-transition - NavigateTransitionEvent - Emits on clicking on any inner link element.
+ *
+ * @event navigate-transition - NavigateTransitionEvent - Emits on clicking on any inner link element.
  * @cssproperty --source-type-font-size
  * @cssproperty --source-font-size
  * @cssproperty --padding-inline - The inline padding to use for for element.

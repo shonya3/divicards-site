@@ -1,8 +1,6 @@
 import semver from "semver";
 
-/**
- * Sorts weight history keys (versions) and identifies the latest two for delta calculation.
- */
+/** Sorts weight history keys (versions) and identifies the latest two for delta calculation. */
 export function getLatestVersions(weights: Record<string, number>): {
   latest?: string;
   previous?: string;

@@ -7,6 +7,7 @@ export default defineConfig({
     "*": "vp check --fix",
   },
   fmt: {
+    jsdoc: {},
     ignorePatterns: ["dist/**", "gen/**"],
     printWidth: 120,
     sortImports: {

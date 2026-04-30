@@ -6,7 +6,10 @@ export type Sources = {
   verify: Array<Source>;
 };
 
-/** Represents the divcord spreadsheet https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0  */
+/**
+ * Represents the divcord spreadsheet
+ * https://docs.google.com/spreadsheets/d/1Pf2KNuGguZLyf6eu_R0E503U0QNyfMZqaRETsN5g6kU/edit?pli=1#gid=0
+ */
 export class DivcordTable {
   records: DivcordRecord[];
   constructor(records: DivcordRecord[]) {

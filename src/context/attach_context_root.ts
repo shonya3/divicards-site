@@ -1,10 +1,12 @@
 /**
  * Import as effectful module inside each context before context creation.
+ *
  * ## Example
+ *
  * ```js
- *   // 'divcord-provider.ts'
- *   import './attach_context_root'
- *   // then create a context
+ * // 'divcord-provider.ts'
+ * import "./attach_context_root";
+ * // then create a context
  * ```
  */
 

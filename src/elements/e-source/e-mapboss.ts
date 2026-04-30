@@ -11,9 +11,7 @@ import "./e-map";
 import type { MapArea, MapBoss } from "../../../gen/poeData";
 import type { RenderMode } from "../types";
 
-/**
- *  @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
- */
+/** @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element. */
 @customElement("e-mapboss")
 export class MapBossElement extends LitElement {
   @property({ reflect: true }) slug!: string;

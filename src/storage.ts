@@ -2,12 +2,13 @@
  * Registry for Storage keys and types. Use with declaration merging in any file.
  *
  * ## Example
+ *
  * ```ts
  * // DivcordLoader.ts
- * declare module './storage' {
- *     interface Registry {
- *         divcord: DivcordRecord[];
- *     }
+ * declare module "./storage" {
+ *   interface Registry {
+ *     divcord: DivcordRecord[];
+ *   }
  * }
  * ```
  */

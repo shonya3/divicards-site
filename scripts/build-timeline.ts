@@ -67,10 +67,9 @@ export type DivcordRecordDeepDiff = {
 };
 
 /**
- * Diffs two arrays of DivcordRecord based on content changes.
- * It identifies records by a "stable key" (card name + descriptive fields)
- * and then checks for changes in `confidence`, `sources`, and `verifySources`.
- * Records with changed stable keys are treated as additions/removals.
+ * Diffs two arrays of DivcordRecord based on content changes. It identifies records by a "stable key" (card name +
+ * descriptive fields) and then checks for changes in `confidence`, `sources`, and `verifySources`. Records with changed
+ * stable keys are treated as additions/removals.
  */
 export function diffDivcordRecordsDeep(
   oldRecords: DivcordRecord[],

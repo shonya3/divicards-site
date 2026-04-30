@@ -17,9 +17,7 @@ import { styles as tableStyles } from "./table.styles";
 
 import type { Order, WeightData } from "./types";
 
-/**
- * @csspart active_divination_card
- */
+/** @csspart active_divination_card */
 @customElement("e-weights-table-verify-sources")
 export class WeightsTableVerifySources extends LitElement {
   @property({ type: Array }) rows: RowData[] = [];

@@ -8,9 +8,7 @@ import { linkStyles } from "../../linkStyles";
 import type { MapArea } from "../../../gen/poeData";
 import type { RenderMode } from "../types";
 
-/**
- * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
- */
+/** @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element. */
 @customElement("e-map")
 export class MapElement extends LitElement {
   @property({ reflect: true }) slug!: string;

@@ -6,9 +6,7 @@ import "./attach_context_root";
 
 export type TransitionName = "source" | "card" | "source-type";
 
-/**
- * Dispatch this event to update view transition names in provider.
- */
+/** Dispatch this event to update view transition names in provider. */
 export class UpdateViewTransitionNameEvent extends Event {
   transition_name: TransitionName;
   value?: string;

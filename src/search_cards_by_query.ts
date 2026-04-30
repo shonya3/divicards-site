@@ -232,8 +232,9 @@ function getAllCards(): string[] {
   return Object.keys(poeData.cards.dict);
 }
 
-/** Returns Map, where key is card name and value is Array of sources from all records, accociated with given card.
- *  AND from atlas maps.
+/**
+ * Returns Map, where key is card name and value is Array of sources from all records, accociated with given card. AND
+ * from atlas maps.
  */
 function cardSourcesAndVerifySourcesMap(divcordTable: DivcordTable): Map<string, Source[]> {
   const map: Map<string, Source[]> = new Map();

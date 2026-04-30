@@ -11,9 +11,7 @@ import "./e-act-area";
 import type { ActArea, Bossfight } from "../../../gen/poeData";
 import type { RenderMode } from "../types";
 
-/**
- * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
- */
+/** @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element. */
 @customElement("e-actboss")
 export class ActBossElement extends LitElement {
   @property({ reflect: true }) slug!: string;

@@ -12,8 +12,9 @@ import type { DivcordRecord } from "../../gen/divcord";
 
 /**
  * Element for card page and divcord page list
- * @slot    card - Divination card slot.
- * @slot    main-start - The very start of the main section.
+ *
+ * @slot card - Divination card slot.
+ * @slot main-start - The very start of the main section.
  * @csspart card - Divination card.
  */
 @customElement("e-card-with-divcord-records")

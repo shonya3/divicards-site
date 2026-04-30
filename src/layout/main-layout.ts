@@ -9,6 +9,7 @@ declare global {
 
 /**
  * Main Layout for index.html
+ *
  * @slot header
  * @slot page
  */

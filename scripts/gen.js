@@ -8,10 +8,7 @@ const result = execa("cargo run", [], {
   stdio: "pipe",
 });
 
-/**
- *
- * @param {unknown} data
- */
+/** @param {unknown} data */
 const onData = (data) => {
   String(data)
     .split("\n")

@@ -23,14 +23,12 @@ export type Appearance = "card" | "link";
 /**
  * @summary Divination Card
  *
- *
  * @csspart divination_card - Divination card element
  * @csspart active_drop_source - Dropsource involved in view transitions.
- * @csspart     link - Text link when appearance is "link".
- * @event       navigate-transition Event - Emits on divination card navigation.
+ * @csspart link - Text link when appearance is "link".
+ * @event navigate-transition Event - Emits on divination card navigation.
  * @cssproperty --padding-inline - The inline padding to use for for element.
  * @cssproperty --padding-block - The block padding to use for for element.
- *
  */
 @customElement("e-divination-card")
 export class DivinationCardElement extends LitElement {

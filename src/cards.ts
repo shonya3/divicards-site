@@ -8,24 +8,28 @@ import { PoeData, poeData } from "./PoeData";
 export type SourceAndCards = {
   /** Drop source */
   source: Source;
-  /** Array of cards with verification status and possible transitive source   */
+  /** Array of cards with verification status and possible transitive source */
   cards: CardBySource[];
 };
-/** Is the drop source of card needs to be verified or already done.
- *  OR if it goes from in-game atlas.
- */
+/** Is the drop source of card needs to be verified or already done. OR if it goes from in-game atlas. */
 export type VerificationStatus = "done" | "verify";
 /** Card name with verification status and possible transitive source. Being used in context of drop source */
 export type CardBySource = {
-  /** card name */
+  /** Card name */
   card: string;
-  /** Source associated with another source. For example, if we search cards by maps, map boss will be a transitive source */
+  /**
+   * Source associated with another source. For example, if we search cards by maps, map boss will be a transitive
+   * source
+   */
   transitiveSource?: Source;
-  /** Verification status for card drop from this source: is it done or need to be verified  */
+  /** Verification status for card drop from this source: is it done or need to be verified */
   status: VerificationStatus;
 };
 
-/** Returns Record, where key - name of map, value - card name, it's verification status in context of given map and maybe mapboss, if card drops from mapboss  */
+/**
+ * Returns Record, where key - name of map, value - card name, it's verification status in context of given map and
+ * maybe mapboss, if card drops from mapboss
+ */
 export function cardsByMaps(records: DivcordRecord[]): Record<string, CardBySource[]> {
   const sourcesAndCards = cardsBySourceTypes(["Map"], records, poeData);
   const entries = sourcesAndCards.map(({ source, cards }) => [source.id, cards]);
@@ -294,8 +298,9 @@ function dedupeCards(cards: Array<CardBySource>): Array<CardBySource> {
 }
 
 /**
- * Creates a map with key: SourceType and value: number of sources of this type.
- * For Example, key: "Map", and it's value: 177 mean, that there are 177 maps overall
+ * Creates a map with key: SourceType and value: number of sources of this type. For Example, key: "Map", and it's
+ * value: 177 mean, that there are 177 maps overall
+ *
  * @param records Records from divcord table
  * @param poeData
  * @returns
@@ -306,8 +311,9 @@ export function sourcetypesMap(records: DivcordRecord[], poeData: PoeData): Map<
 }
 
 /**
- * Creates a map with key: SourceType and value: number of sources of this type.
- * For Example, key: "Map", and it's value: 177 mean, that there are 177 maps overall
+ * Creates a map with key: SourceType and value: number of sources of this type. For Example, key: "Map", and it's
+ * value: 177 mean, that there are 177 maps overall
+ *
  * @param sourcesAndCards
  */
 export function _sourcetypesMap(sourcesAndCards: SourceAndCards[]): Map<SourceType, number> {

@@ -6,16 +6,17 @@ import type { Confidence } from "../../../gen/divcord";
 
 /**
  * A confidence of divcord record sources.
+ *
  * @cssproperty --greynote-color - The text color of greynote.
  * @cssproperty --paragraph-color - The text color of notes and wiki disagreements.
- * @cssproperty	--confidence--done-bg-color - The background color for Done confidence.
+ * @cssproperty --confidence--done-bg-color - The background color for Done confidence.
  * @cssproperty --confidence--ok-bg-color - The background color for OK confidence.
- * @cssproperty	--confidence--low-bg-color - The background color for Low confidence.
- * @cssproperty	--confidence--none-bg-color - The background color for None confidence.
- * @cssproperty	--confidence--done-color - The text color for Done confidence.
+ * @cssproperty --confidence--low-bg-color - The background color for Low confidence.
+ * @cssproperty --confidence--none-bg-color - The background color for None confidence.
+ * @cssproperty --confidence--done-color - The text color for Done confidence.
  * @cssproperty --confidence--ok-color - The ok color for OK confidence.
- * @cssproperty	--confidence--low-color - The text color for Low confidence.
- * @cssproperty	--confidence--none-color - The text color for None confidence.
+ * @cssproperty --confidence--low-color - The text color for Low confidence.
+ * @cssproperty --confidence--none-color - The text color for None confidence.
  */
 @customElement("e-divcord-record-confidence")
 export class DivcordRecordConfidenceElement extends LitElement {

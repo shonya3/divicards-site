@@ -45,9 +45,7 @@ Sampling indicated that the true value may be slightly lower, but it's quite clo
   },
 ];
 
-/**
- * @csspart active_divination_card
- */
+/** @csspart active_divination_card */
 @customElement("p-weights")
 export class WeightsPage extends SignalWatcher(LitElement) {
   @consume({ context: view_transition_names_context, subscribe: true })

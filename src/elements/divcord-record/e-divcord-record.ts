@@ -12,9 +12,7 @@ import "./e-divcord-record-remaining-work.js";
 
 import type { DivcordRecord } from "../../../gen/divcord";
 
-/**
- * A block representation of a in divcord spreadsheet row.
- */
+/** A block representation of a in divcord spreadsheet row. */
 @customElement("e-divcord-record")
 export class SourcefulDivcordRecordElement extends LitElement {
   @property({ type: Object }) record!: DivcordRecord;

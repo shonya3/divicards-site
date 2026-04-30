@@ -39,8 +39,8 @@ const themeUtils = Object.freeze({
 
 /**
  * @cssproperty --size
- * @cssproperty	--icon-fill
- * @cssproperty	--icon-fill
+ * @cssproperty --icon-fill
+ * @cssproperty --icon-fill
  */
 export class ThemeToggle extends HTMLElement {
   static define(tag = "theme-toggle") {

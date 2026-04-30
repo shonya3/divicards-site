@@ -13,8 +13,9 @@ import type { SourceSize } from "../e-source/types";
 
 /**
  * Group of cards by dropsource
+ *
  * @csspart active_divination_card - Active for view transition card(Optional).
- * @event   navigate-transition Emits on card or source navigation
+ * @event navigate-transition Emits on card or source navigation
  */
 @customElement("e-cards-by-source")
 export class CardsBySourceElement extends LitElement {

@@ -35,6 +35,7 @@ const DEFAULTS = {
 
 /**
  * Home page with cards, search and pagination.
+ *
  * @csspart active_drop_source Active source for view-transition(optional).
  * @csspart active_divination-card   Active card for view-transition(optional).
  */

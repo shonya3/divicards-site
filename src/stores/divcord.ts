@@ -28,8 +28,7 @@ const ONE_DAY_MILLISECONDS = 86_400_000;
 export type CacheValidity = "valid" | "stale" | "not exist";
 export type State = "idle" | "updating" | "updated" | "error";
 
-/** Returns Array of sources from all records, accociated with given card.
- *  AND maps from Atlas */
+/** Returns Array of sources from all records, accociated with given card. AND maps from Atlas */
 function sourcesByCard(divcordTable: DivcordTable, card: string): Source[] {
   const ids: Set<string> = new Set();
   const fromDivcordTable = divcordTable.records

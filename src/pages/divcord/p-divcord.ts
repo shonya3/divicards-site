@@ -53,9 +53,7 @@ declare module "../../storage" {
   }
 }
 
-/**
- * @csspart active_divination_card
- */
+/** @csspart active_divination_card */
 @customElement("p-divcord")
 export class DivcordPage extends SignalWatcher(LitElement) {
   static styles = styles;

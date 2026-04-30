@@ -8,9 +8,7 @@ import { linkStyles } from "../../linkStyles";
 import type { ActArea } from "../../../gen/poeData";
 import type { SourceSize } from "./types";
 
-/**
- * * @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element.
- */
+/** @event navigate-transition NavigateTransitionEvent - Emits on clicking on any inner link element. */
 @customElement("e-act-area")
 export class ActAreaElement extends LitElement {
   static override styles = [styles()];

@@ -1,17 +1,11 @@
 export const INTERSECTING_LINE_THICKNESS_PX = 1;
 
-/**
- * Vertical distance between corners and intersecting line.
- */
+/** Vertical distance between corners and intersecting line. */
 export type Distance = {
-  /**
-   * Distance between top corner and intersecting line in pixels.
-   */
+  /** Distance between top corner and intersecting line in pixels. */
   topPx: number;
 
-  /**
-   * Distance between bottom corner and intersecting line in pixels.
-   */
+  /** Distance between bottom corner and intersecting line in pixels. */
   bottomPx: number;
 };
 

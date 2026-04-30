@@ -10,15 +10,10 @@ import { SourceType, Source } from "../gen/Source";
 
 declare module "@thepassle/app-tools/router.js" {
   interface Router {
-    /**
-     * Indicates whether the View Transition should be skipped.
-     */
+    /** Indicates whether the View Transition should be skipped. */
     skip_transition?: boolean;
 
-    /**
-     * A callback that runs **inside** the View Transition,
-     * just before rendering the new view.
-     */
+    /** A callback that runs **inside** the View Transition, just before rendering the new view. */
     update_during_transition?: () => void;
   }
 }

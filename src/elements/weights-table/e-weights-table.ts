@@ -25,8 +25,8 @@ import type { Order, WeightData } from "./types";
 /**
  * @csspart active_divination_card - Active for view transition card(Optional).
  *
- * @event   navigate-transition Emits on card or source navigation
- * @event   e-weights-table__change-limit Emits when limit of visible cards changes
+ * @event navigate-transition Emits on card or source navigation
+ * @event e-weights-table**change-limit Emits when limit of visible cards changes
  *
  * @cssproperty --td-border-bottom
  */
@@ -45,9 +45,7 @@ export class WeightsTableElement extends LitElement {
   @state() private rowsClone: WeightData[] = [];
   /** Visible rows by current limit */
   @state() private rowsLimitedVisible: WeightData[] = [];
-  /**
-   * Active card state for page transition
-   */
+  /** Active card state for page transition */
   @property({ reflect: true }) active_divination_card?: string;
 
   protected willUpdate(map: PropertyValueMap<this>): void {

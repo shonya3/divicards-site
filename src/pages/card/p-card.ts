@@ -19,6 +19,7 @@ import "./e-card-fact.js";
 
 /**
  * A card fact chip used for displaying a label and a value.
+ *
  * @csspart active_drop_source
  * @csspart divination_card
  */

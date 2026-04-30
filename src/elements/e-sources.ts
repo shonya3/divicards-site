@@ -12,6 +12,7 @@ import type { RenderMode } from "./types";
 
 /**
  * List of drop sources.
+ *
  * @csspart active_drop_source - Dropsource involved in view transitions.
  */
 @customElement("e-sources")
