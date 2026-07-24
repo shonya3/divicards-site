@@ -35,7 +35,7 @@ importers:
         version: 1.0.3
       '@shoelace-style/shoelace':
         specifier: 2.20.1
-        version: 2.20.1(@floating-ui/utils@0.2.11)(@types/react@18.3.12)
+        version: 2.20.1(@floating-ui/utils@0.2.12)(@types/react@18.3.12)
       '@thepassle/app-tools':
         specifier: ^0.10
         version: 0.10.0
@@ -43,8 +43,8 @@ importers:
         specifier: 3.3.2
         version: 3.3.2
       poe-custom-elements:
-        specifier: ^0.4
-        version: 0.4.0
+        specifier: link:../poe-custom-elements
+        version: link:../poe-custom-elements
       semver:
         specifier: ^7.7.3
         version: 7.7.3
@@ -268,20 +268,14 @@ packages:
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
 
-  '@floating-ui/core@1.7.5':
-    resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
-
   '@floating-ui/dom@1.7.4':
     resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
-
-  '@floating-ui/dom@1.7.6':
-    resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@floating-ui/utils@0.2.11':
-    resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
+  '@floating-ui/utils@0.2.12':
+    resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
   '@github/catalyst@1.6.0':
     resolution: {integrity: sha512-u8A+DameixqpeyHzvnJWTGj+wfiskQOYHzSiJscCWVfMkIT3rxnbHMtGh3lMthaRY21nbUOK71WcsCnCrXhBJQ==}
@@ -1338,9 +1332,6 @@ packages:
     resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
     engines: {node: '>=14.19.0'}
 
-  poe-custom-elements@0.4.0:
-    resolution: {integrity: sha512-UhkCMFIEnCuAKRg2ZmmYxV6xl4dOtgdHaTyW//E/2zOO2ufnsrkBCpvKXP8pU91E3Um7Pgsk4cGl5oaq4jDrlQ==}
-
   postcss@8.5.8:
     resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1659,23 +1650,14 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/core@1.7.5':
-    dependencies:
-      '@floating-ui/utils': 0.2.11
-
   '@floating-ui/dom@1.7.4':
     dependencies:
       '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/dom@1.7.6':
-    dependencies:
-      '@floating-ui/core': 1.7.5
-      '@floating-ui/utils': 0.2.11
-
   '@floating-ui/utils@0.2.10': {}
 
-  '@floating-ui/utils@0.2.11': {}
+  '@floating-ui/utils@0.2.12': {}
 
   '@github/catalyst@1.6.0': {}
 
@@ -1935,14 +1917,14 @@ snapshots:
 
   '@shoelace-style/localize@3.2.1': {}
 
-  '@shoelace-style/shoelace@2.20.1(@floating-ui/utils@0.2.11)(@types/react@18.3.12)':
+  '@shoelace-style/shoelace@2.20.1(@floating-ui/utils@0.2.12)(@types/react@18.3.12)':
     dependencies:
       '@ctrl/tinycolor': 4.1.0
       '@floating-ui/dom': 1.7.4
       '@lit/react': 1.0.6(@types/react@18.3.12)
       '@shoelace-style/animations': 1.2.0
       '@shoelace-style/localize': 3.2.1
-      composed-offset-position: 0.0.6(@floating-ui/utils@0.2.11)
+      composed-offset-position: 0.0.6(@floating-ui/utils@0.2.12)
       lit: 3.3.2
       qr-creator: 1.0.0
     transitivePeerDependencies:
@@ -2165,9 +2147,9 @@ snapshots:
 
   comment-parser@1.2.4: {}
 
-  composed-offset-position@0.0.6(@floating-ui/utils@0.2.11):
+  composed-offset-position@0.0.6(@floating-ui/utils@0.2.12):
     dependencies:
-      '@floating-ui/utils': 0.2.11
+      '@floating-ui/utils': 0.2.12
 
   csstype@3.1.3: {}
 
@@ -2494,11 +2476,6 @@ snapshots:
       pngjs: 7.0.0
 
   pngjs@7.0.0: {}
-
-  poe-custom-elements@0.4.0:
-    dependencies:
-      '@floating-ui/dom': 1.7.6
-      lit: 3.3.2
 
   postcss@8.5.8:
     dependencies:
