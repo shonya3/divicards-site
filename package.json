@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev",
-    "build": "tsc && vp build",
+    "build": "pnpm --filter poe-custom-elements build && tsc && vp build",
     "check": "tsc --noEmit",
     "checklit": "lit-analyzer --rules.no-invalid-css off",
     "preview": "vp preview",
@@ -25,7 +25,7 @@
     "@shoelace-style/shoelace": "2.20.1",
     "@thepassle/app-tools": "^0.10",
     "lit": "3.3.2",
-    "poe-custom-elements": "link:../poe-custom-elements",
+    "poe-custom-elements": "workspace:^",
     "semver": "^7.7.3",
     "signal-utils": "0.21.1",
     "urlpattern-polyfill": "10.1.0"
@@ -39,7 +39,8 @@
     "lit-analyzer": "2.0.3",
     "typescript": "^6.0",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "wrangler": "^4.114.0"
   },
   "packageManager": "pnpm@10.33.0"
 }

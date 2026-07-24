@@ -33,7 +33,7 @@ export default defineConfig({
     },
   },
   lint: {
-    ignorePatterns: ["dist/**", "gen/**", "scripts/**"],
+    ignorePatterns: ["dist/**", "gen/**", "scripts/**", "packages/**"],
     options: {
       typeAware: true,
       typeCheck: true,
