@@ -18,13 +18,11 @@ export type ActArea = {
 	hasWaypoint: boolean;
 	hasLabyrinthTrial: boolean;
 	isTown: boolean;
-	bossfights: Bossfight[];
-	flavourText: string;
+	bossfights: {name: string}[];
 };
 
 export type Bossfight = {
 	name: string;
-	url: string;
 };
 
 export type LeagueReleaseInfo = {
@@ -52,14 +50,13 @@ export type Card = {
 	slug: string;
 	name: string;
 	minLevel: number | null;
-	maxLevel?: number;
 	weights: Record<string, number>;
 	league?: LeagueReleaseInfo | null;
 	disabled: boolean;
 	/**
 	 * List of map names, provided by in-game atlas.
 	 */
-	atlasMaps: string[];
+  atlasMaps: string[];
 };
 
 export type MapArea = {
@@ -68,7 +65,6 @@ export type MapArea = {
 	unique: boolean;
 	icon: string;
 	slug: string;
-	series: string;
 	/**
 	 * List of card names, provided by in-game atlas.
 	 */
