@@ -2,6 +2,7 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: npm:@voidzero-dev/vite-plus-test@latest
   vite-plus: latest
+  poe-custom-elements: latest
 overrides:
   vite: "catalog:"
   vitest: "catalog:"
@@ -12,8 +13,3 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
-packages:
-  # specify a package in a direct subdir of the root
-  - "divicards-site"
-  # all packages in direct subdirs of packages/
-  - "packages/*"
