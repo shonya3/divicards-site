@@ -14,7 +14,6 @@ export type ActArea = {
 	act: number;
 	areaLevel: number;
 	imageUrl: string;
-	poedbImageUrl: string;
 	hasWaypoint: boolean;
 	hasLabyrinthTrial: boolean;
 	isTown: boolean;
