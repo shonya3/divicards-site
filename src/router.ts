@@ -139,6 +139,12 @@ export const router = new Router({
       render: () => html` <p-weights></p-weights> `,
     },
     {
+      path: "/poe-data",
+      title: "PoeData Model",
+      plugins: [lazy(() => import("./pages/p-poe-data"))],
+      render: () => html` <p-poe-data></p-poe-data> `,
+    },
+    {
       path: "/source-type/:id",
       title: (context) => decodeURI(context.params!.id),
       render: ({ params }) => {

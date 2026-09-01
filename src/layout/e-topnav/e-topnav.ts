@@ -21,6 +21,7 @@ export class TopNavElement extends LitElement {
     ["/useful-resources", "Useful Resources"],
     ["/sources", "Sources"],
     ["/maps", "Maps"],
+    ["/poe-data", "PoeData"],
   ];
 
   @state() pathname = new URL(window.location.href).pathname || "/";
