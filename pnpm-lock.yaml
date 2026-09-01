@@ -7,8 +7,8 @@ settings:
 catalogs:
   default:
     poe-custom-elements:
-      specifier: latest
-      version: 0.5.0
+      specifier: ^0.6
+      version: 0.6.0
     vite-plus:
       specifier: latest
       version: 0.1.18
@@ -47,7 +47,7 @@ importers:
         version: 3.3.2
       poe-custom-elements:
         specifier: 'catalog:'
-        version: 0.5.0
+        version: 0.6.0
       semver:
         specifier: ^7.7.3
         version: 7.7.3
@@ -1768,8 +1768,8 @@ packages:
     resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
     engines: {node: '>=14.19.0'}
 
-  poe-custom-elements@0.5.0:
-    resolution: {integrity: sha512-mZD2q+JvHpJWawauWZq7tbRdf2LgdxLFhORayZn8nZRgPqDeFFJrupVcgHIa2fYEC3CGVofFVfHWxAla3+mUUQ==}
+  poe-custom-elements@0.6.0:
+    resolution: {integrity: sha512-sgESGZpBGGdrL5r1XiN+sQyJbc6iB3VXmZ6XxpV+RZPnQ0JcrZwTIB9lJZH7SbiXb+ObjsRxGinMWGuQNipwxg==}
 
   postcss@8.5.8:
     resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
@@ -3272,7 +3272,7 @@ snapshots:
 
   pngjs@7.0.0: {}
 
-  poe-custom-elements@0.5.0:
+  poe-custom-elements@0.6.0:
     dependencies:
       '@floating-ui/dom': 1.7.6
       lit: 3.3.2
