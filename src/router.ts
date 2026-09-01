@@ -135,7 +135,7 @@ export const router = new Router({
     {
       path: "/weights",
       title: "Weights",
-      plugins: [lazy(() => import("./pages/p-weights"))],
+      plugins: [lazy(() => import("./pages/weights/p-weights"))],
       render: () => html` <p-weights></p-weights> `,
     },
     {

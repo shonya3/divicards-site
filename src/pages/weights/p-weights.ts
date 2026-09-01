@@ -6,24 +6,25 @@ import { customElement, state } from "lit/decorators.js";
 import "@shoelace-style/shoelace/dist/components/details/details.js";
 import "@shoelace-style/shoelace/dist/components/icon/icon.js";
 
-import { use_local_storage } from "../composables/use_local_storage";
+import { use_local_storage } from "../../composables/use_local_storage";
 import {
   view_transition_names_context,
   type ViewTransitionNamesContext,
-} from "../context/view-transition-name-provider";
-import { Sources } from "../DivcordTable";
-import "../elements/e-discord-avatar";
-import "../elements/weights-table/e-weights-table";
-import { calculateRootMargin } from "../elements/weights-table/intersectionUtils";
-import { prepare_rows } from "../elements/weights-table/lib";
-import { poeData } from "../PoeData";
-import { divcord_store } from "../stores/divcord";
-import { formatWithNewlines } from "../utils";
-import { linkStyles } from "./../linkStyles";
+} from "../../context/view-transition-name-provider";
+import { Sources } from "../../DivcordTable";
+import "../../elements/e-discord-avatar";
+import "../../elements/weights-table/e-weights-table";
+import { calculateRootMargin } from "../../elements/weights-table/intersectionUtils";
+import { prepare_rows } from "../../elements/weights-table/lib";
+import { poeData } from "../../PoeData";
+import { divcord_store } from "../../stores/divcord";
+import { formatWithNewlines } from "../../utils";
+import { linkStyles } from "./../../linkStyles";
+import "./e-contributors-list";
 
-import type { ShowLimitChangeEvent, WeightsTableElement } from "../elements/weights-table/e-weights-table";
+import type { ShowLimitChangeEvent, WeightsTableElement } from "../../elements/weights-table/e-weights-table";
 
-declare module "../storage" {
+declare module "../../storage" {
   interface Registry {
     weightsPageShowCards: boolean;
   }
@@ -151,10 +152,17 @@ export class WeightsPage extends SignalWatcher(LitElement) {
             .rows=${this.#rows}
           ></e-weights-table>
 
-          <p class="based-on">
-            Based on <strong>${poeData.cards.latestWeightsCollected.totalCards.toLocaleString("en-US")}</strong> cards
-            collected in <span class="current-league">${poeData.cards.latestWeightsCollected.version}</span>
-          </p>
+          <div class="weights-info">
+            <p class="based-on">
+              Based on
+              <strong>${poeData.cards.latestWeightsCollected.totalCards.toLocaleString("en-US")}</strong>
+              cards collected in
+              <span class="current-league">${poeData.cards.latestWeightsCollected.version}</span>
+            </p>
+            <e-contributors-list
+              .contributors=${poeData.cards.latestWeightsCollected.contributors}
+            ></e-contributors-list>
+          </div>
         </section>
         <div class="links-and-faq">
           <div class="faq">
@@ -217,7 +225,8 @@ export class WeightsPage extends SignalWatcher(LitElement) {
                 <a target="_blank" href="https://discord.com/channels/991073626721763429/991092518995251231"
                   >stacked-decks</a
                 >
-                channel in the <a href="https://discord.gg/raz74M33" target="_blank">Prohibited Library</a>
+                channel in the
+                <a href="https://discord.gg/raz74M33" target="_blank">Prohibited Library</a>
                 Discord server.
               </li>
             </ol>
@@ -236,7 +245,7 @@ export class WeightsPage extends SignalWatcher(LitElement) {
 
     ${linkStyles}
     ${articleCss()}
-		a:link {
+    a:link {
       text-decoration: underline;
     }
 
@@ -292,6 +301,10 @@ export class WeightsPage extends SignalWatcher(LitElement) {
       & strong {
         color: var(--sl-color-gray-700);
       }
+    }
+
+    .weights-info {
+      width: fit-content;
     }
 
     .current-league {

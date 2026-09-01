@@ -43,6 +43,12 @@ export type LeagueCardsCollected = {
    * Total number of cards collected during latest league by community.
    */
   totalCards: number;
+  contributors: Contributor[];
+}
+
+export type Contributor = {
+  name: string;
+  totalCards: number;
 }
 
 export type Card = {
