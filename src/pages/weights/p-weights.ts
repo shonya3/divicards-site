@@ -213,8 +213,17 @@ export class WeightsPage extends SignalWatcher(LitElement) {
               <li>Clean out the div card tab so no cards remain.</li>
               <li>Open all the stacked decks, and put every single card into the tab.</li>
               <li>
-                Extract your divination cards with
-                <a href="https://github.com/shonya3/divicards" target="_blank">the program</a>.
+                Extract your divination cards with one of these tools:
+                <ul class="tools-list">
+                  <li><a href="https://github.com/shonya3/divicards" target="_blank">divicards</a> — one-off export</li>
+                  <li>
+                    <a href="https://github.com/navali-creations/soothsayer" target="_blank">soothsayer</a> — live
+                    opening sessions
+                  </li>
+                </ul>
+                <p class="releases-note">
+                  Check the <strong>latest releases</strong> on their respective GitHub pages.
+                </p>
                 <p>
                   Be sure that the number of cards recorded by the tool matches the number of stacked decks you opened.
                   It may take some time for GGG to update the card tab, up to around 10 minutes.
@@ -321,6 +330,17 @@ export class WeightsPage extends SignalWatcher(LitElement) {
     .intersecting-card-presentation {
       position: fixed;
       top: calc(var(--intersecting-line-top) - 100px);
+    }
+
+    .tools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      margin-block: 0.8rem;
+    }
+
+    .releases-note {
+      margin-bottom: 1rem;
     }
   `;
 }
